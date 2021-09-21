@@ -1,6 +1,6 @@
 # ElevenClock
-A clock for windows 11 secondary displays, because microsoft removed-it.<br>
-<img src=https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp width=500>
+A clock for windows 11 secondary displays, because microsoft removed-it.<br><br>
+<img style="border-radius: 5px;" src=https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp width=500>
 
 
 ## Features:
@@ -11,10 +11,17 @@ A clock for windows 11 secondary displays, because microsoft removed-it.<br>
  - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
  - Correct alignment and size on Different-scaled monitors (Display1: 100%, Display2: 150%, Display3: 225%, etc.)*
  - The clock updates the time each second, so you won't see different times across all your taskbars
- - Automatically starts at login
+ - Automatically starts at login<br>
 **Sign-out and sign-in required to apply some changes*<br>
 
-TIP: Clicking four times on the clock will show the main webpage<br>
+## How-to
+ 1. Download the lastest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
+ 2. Open the installer and bypass Windows Defender SmartScreen: Click on more info and then on run:<br><br>
+     2.1.  Click on "More info":  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <img src="https://github.com/martinet101/ElevenClock/blob/main/media/smartscreen1.jpg?raw=true" width=300><br><br>      2.2. Click on "Run anyway": &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/martinet101/ElevenClock/blob/main/media/smartscreen2.jpg?raw=true" width=300><br><br>
+ 3. Install the program as normal: &nbsp;    ![Installer](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_7.png?raw=true)<br><br>
+ 4. The clock should start automatically when the installation is finished.
+
+TIP: Clicking four times on the clock will show this webpage<br>
 
 ## Screenshots:
 Elevenclock on 100% DPI: ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_1.png?raw=true)
