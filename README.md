@@ -17,8 +17,8 @@ A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers
  - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
  - Correct alignment and size on Different-scaled monitors (Display1: 100%, Display2: 150%, Display3: 225%, etc.)*
  - The clock updates the time each second, so you won't see different times across all your taskbars
+ - The clock also adjusts himself automatically when (dis)connecting monitors
  - Automatically starts at login<br>
-**Sign-out and sign-in required to apply some changes*<br>
 
 <p id="how-to"></p><br>
 
