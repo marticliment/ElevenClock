@@ -8,6 +8,7 @@ import winreg, locale
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
+version = 1.1
 lastTheme = 0
 seconddoubleclick = False
 
@@ -44,21 +45,29 @@ timeMode = timeMode.replace("HH", "%H").replace("H", "%H").replace("mm", "%M").r
 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%H:%M", timeMode)
 
 
-
+class RestartSignal(QObject):
+    
+    restartSignal = Signal()
+    
+    def __init__(self) -> None:
+        super().__init__()
 
 class Clock(QMainWindow):
+    
     refresh = Signal()
-    def __init__(self, w, h, dpix, dpiy):
+    def __init__(self, w, h, dpix, dpiy, fontSizeMultiplier):
         super().__init__()
+        self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
         self.keyboard = Controller()
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
+        self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
         self.move(w-(86*dpix), h-(48*dpiy))
         self.resize(72*dpix, 48*dpiy)
-        self.setStyleSheet("background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px;")
+        self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.001);margin: 5px; border-radius: 5px; font-size: {int(12*fontSizeMultiplier)}px;")
         self.label = Label(datetime.datetime.now().strftime(dateTimeFormat))
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
@@ -66,7 +75,7 @@ class Clock(QMainWindow):
             self.label.setStyleSheet("padding: 1px; color: white; font-family: \"Segoe UI Variable\"; font-weight: bold;")
         else:
             lastTheme = 1
-            self.label.setStyleSheet("padding: 1px; color: black; font-family: \"Segoe UI Variable\"; font-weight: bold;")
+            self.label.setStyleSheet("padding: 1px; color: black; font-family: \"Segoe UI Variable\"; font-weight: lighter;")
         self.label.clicked.connect(lambda: self.showCalendar())
         self.setCentralWidget(self.label)
         threading.Thread(target=self.fivesecsloop, daemon=True).start()
@@ -87,22 +96,23 @@ class Clock(QMainWindow):
         
     def refreshandShow(self):
         global lastTheme
-        self.show()
-        self.raise_()
-        theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
-        if(theme != lastTheme):
-            if(theme == 0):
-                lastTheme = 0
-                self.label.setStyleSheet("padding: 1px; color: white; font-family: \"Segoe UI Variable\"; font-weight: bold;")
-            else:
-                lastTheme = 1
-                self.label.setStyleSheet("padding: 1px; color: black; font-family: \"Segoe UI Variable\"; font-weight: bold;")
-            
-        self.label.setText(datetime.datetime.now().strftime(dateTimeFormat))
+        if(self.shouldBeVisible):
+            self.show()
+            self.raise_()
+            theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
+            if(theme != lastTheme):
+                if(theme == 0):
+                    lastTheme = 0
+                    self.label.setStyleSheet("padding: 1px; color: white; font-family: \"Segoe UI Variable\"; font-weight: bold;")
+                else:
+                    lastTheme = 1
+                    self.label.setStyleSheet("padding: 1px; color: black; font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+                
+            self.label.setText(datetime.datetime.now().strftime(dateTimeFormat))
         
     
     def closeEvent(self, event: QCloseEvent) -> None:
-        sys.exit()
+        self.shouldBeVisible = False
         return super().closeEvent(event)
         
 class Label(QLabel):
@@ -132,13 +142,60 @@ class Label(QLabel):
 
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
 
+
 app = QApplication()
-wins = []
-firstWinSkipped = False
-for screen in app.screens():
-    if(firstWinSkipped):
-        wins.append(Clock(screen.geometry().x()+screen.geometry().width(), screen.geometry().y()+screen.geometry().height(), screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96))
-    else: # Skip the primary display, as it has already the clock
-        firstWinSkipped = True
+
+signal = RestartSignal()
+
+clocks = []
+oldScreens = []
+firstWinSkipped = False # This value should be set to false to hide first monitor clock
+
+
+def loadClocks():
+    global clocks, oldScreens, firstWinSkipped
+    oldScreens = []
+    for screen in app.screens():
+        oldScreens.append(getGeometry(screen))
+        screen: QScreen
+        fontSizeMultiplier = screen.logicalDotsPerInchX()/96
+        if(firstWinSkipped):
+            clocks.append(Clock(screen.geometry().x()+screen.geometry().width(), screen.geometry().y()+screen.geometry().height(), screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, fontSizeMultiplier))
+        else: # Skip the primary display, as it has already the clock
+            firstWinSkipped = True
+
+def getGeometry(screen: QScreen):
+    return (screen.geometry().width(), screen.geometry().height(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
+
+def theyMatch(oldscreens, newscreens):
+    if(len(oldscreens) != len(newscreens)):
+        return False # If there are display changes
+        
+    for i in range(len(oldscreens)):
+        old, new = oldscreens[i], newscreens[i]
+        if(old != getGeometry(new)): # Check if screen dimensions or dpi have changed
+            return False # They have changed (screens are not equal)
+    return True # they have not changed (screens still the same)
+            
+def screenCheckThread():
+    while theyMatch(oldScreens, app.screens()):
+        time.sleep(1)
+    signal.restartSignal.emit()
+    
+def restartClocks():
+    global clocks
+    for clock in clocks:
+        clock.hide()
+        clock.close()
+    loadClocks()
+    threading.Thread(target=screenCheckThread, daemon=True).start()
+
+
+signal.restartSignal.connect(restartClocks)
+    
+
+loadClocks()
+threading.Thread(target=screenCheckThread, daemon=True).start()
+
 app.exec_()
 sys.exit(0)
