@@ -154,6 +154,7 @@ firstWinSkipped = False # This value should be set to false to hide first monito
 
 def loadClocks():
     global clocks, oldScreens, firstWinSkipped
+    firstWinSkipped = False
     oldScreens = []
     for screen in app.screens():
         oldScreens.append(getGeometry(screen))
