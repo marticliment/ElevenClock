@@ -1,6 +1,9 @@
 # ElevenClock
 A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.<br><br>
 
+For more info, make sure to check out this article written by [@Sumitdhiman](https://github.com/Sumitdhiman):<br>
+    https://answers.microsoft.com/en-us/windows/forum/all/add-clock-to-the-second-display-in-windows-11/14ed24f5-b203-4bd7-a4e7-c4eb3539b042
+
 ## Table of contents
    - [ElevenClock Features](#features)<br>
    - [Installation and usage manual](#how-to)<br>
