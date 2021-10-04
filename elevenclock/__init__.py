@@ -8,7 +8,7 @@ import winreg, locale
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.1
+version = 1.2
 lastTheme = 0
 seconddoubleclick = False
 

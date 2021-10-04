@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['__init__.py'],
-             pathex=['Y:\\ElevenClock\\elevenclock\\elevenclock'],
+             pathex=['Y:\\ElevenClock\\elevenclock'],
              binaries=[],
              datas=[],
              hiddenimports=[],
