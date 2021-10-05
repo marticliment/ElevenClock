@@ -8,7 +8,7 @@ import winreg, locale
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.2
+version = 1.3
 lastTheme = 0
 seconddoubleclick = False
 
@@ -41,7 +41,7 @@ print(dateMode)
 dateMode = dateMode.replace("dd", "%#").replace("d", "%d").replace("#", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%m").replace("yyyy", "%Y").replace("yy", "%y")
 
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-timeMode = timeMode.replace("HH", "%H").replace("H", "%H").replace("hh", "%I").replace("h", "%I").replace("mm", "%M").replace("m", "%M").replace("tt", "%p").replace("t", "%p")
+timeMode = timeMode.replace("HH", "%$").replace("H", "%H").replace("$", "%H").replace("hh", "%I").replace("h", "%I").replace("mm", "%M").replace("m", "%M").replace("tt", "%p").replace("t", "%p")
 
 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%H:%M", timeMode)
 print(dateTimeFormat)
@@ -67,6 +67,7 @@ class Clock(QMainWindow):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
+        #if(r"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", )
         self.move(w-(86*dpix), h-(48*dpiy))
         self.resize(72*dpix, 48*dpiy)
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.001);margin: 5px; border-radius: 5px; font-size: {int(12*fontSizeMultiplier)}px;")
