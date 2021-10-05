@@ -10,7 +10,7 @@ tempDir = tdir.name
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.3
+version = 1.4
 lastTheme = 0
 seconddoubleclick = False
 
@@ -43,7 +43,9 @@ print(dateMode)
 dateMode = dateMode.replace("dd", "%#").replace("d", "%d").replace("#", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%m").replace("yyyy", "%Y").replace("yy", "%y")
 
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-timeMode = timeMode.replace("HH", "%$").replace("H", "%H").replace("$", "%H").replace("hh", "%I").replace("h", "%I").replace("mm", "%M").replace("m", "%M").replace("tt", "%p").replace("t", "%p")
+print(timeMode)
+timeMode = timeMode.replace("HH", "%$").replace("H", "%H").replace("$", "H").replace("hh", "%I").replace("h", "%I").replace("mm", "%M").replace("m", "%M").replace("tt", "%p").replace("t", "%p")
+print(timeMode)
 
 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%H:%M", timeMode)
 print(dateTimeFormat)
