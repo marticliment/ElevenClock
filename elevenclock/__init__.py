@@ -10,7 +10,7 @@ tempDir = tdir.name
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.3
+version = 1.2
 lastTheme = 0
 seconddoubleclick = False
 
@@ -69,7 +69,11 @@ class Clock(QMainWindow):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
-        #if(r"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", )
+        try:
+            if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
+                h = 48*dpiy
+        except:
+            pass
         self.move(w-(86*dpix), h-(48*dpiy))
         self.resize(72*dpix, 48*dpiy)
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.001);margin: 5px; border-radius: 5px; font-size: {int(12*fontSizeMultiplier)}px;")
@@ -115,7 +119,6 @@ class Clock(QMainWindow):
                 
             self.label.setText(datetime.datetime.now().strftime(dateTimeFormat))
         
-    
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
         return super().closeEvent(event)
