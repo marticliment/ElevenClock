@@ -40,11 +40,11 @@ dateTimeFormat = "%H:%M\n%d/%m/%Y"
 
 dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
 print(dateMode)
-dateMode = dateMode.replace("dd", "%#").replace("d", "%d").replace("#", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%m").replace("yyyy", "%Y").replace("yy", "%y")
+dateMode = dateMode.replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
 
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
 print(timeMode)
-timeMode = timeMode.replace("HH", "%$").replace("H", "%H").replace("$", "H").replace("hh", "%I").replace("h", "%I").replace("mm", "%M").replace("m", "%M").replace("tt", "%p").replace("t", "%p")
+timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p")
 print(timeMode)
 
 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%H:%M", timeMode)
@@ -63,6 +63,7 @@ class Clock(QMainWindow):
     refresh = Signal()
     def __init__(self, w, h, dpix, dpiy, fontSizeMultiplier):
         super().__init__()
+        global lastTheme
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
         self.keyboard = Controller()
@@ -76,17 +77,27 @@ class Clock(QMainWindow):
                 h = 48*dpiy
         except:
             pass
-        self.move(w-(86*dpix), h-(48*dpiy))
+        self.move(w-(82*dpix), h-(48*dpiy))
         self.resize(72*dpix, 48*dpiy)
-        self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.001);margin: 5px; border-radius: 5px; font-size: {int(12*fontSizeMultiplier)}px;")
+        self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
+        self.font: QFont = QFont("Segoe UI Variable")
+        self.font.setPointSizeF(9)
+        self.font.setStyleStrategy(QFont.PreferOutline)
+        self.font.setLetterSpacing(QFont.PercentageSpacing, 105)
+        self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label = Label(datetime.datetime.now().strftime(dateTimeFormat))
+        self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
             lastTheme = 0
-            self.label.setStyleSheet("padding: 1px; color: white; font-family: \"Segoe UI Variable\"; font-weight: bold;")
+            self.label.setStyleSheet("padding: 1px; color: white;")# font-family: \"Segoe UI Variable\"; font-weight: bold;")
+            self.font.setWeight(500)
+            self.label.setFont(self.font)
         else:
             lastTheme = 1
-            self.label.setStyleSheet("padding: 1px; color: black; font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+            self.label.setStyleSheet("padding: 1px; color: black;")# font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+            self.font.setWeight(400)
+            self.label.setFont(self.font)
         self.label.clicked.connect(lambda: self.showCalendar())
         self.setCentralWidget(self.label)
         threading.Thread(target=self.fivesecsloop, daemon=True).start()
@@ -96,7 +107,7 @@ class Clock(QMainWindow):
         
     def fivesecsloop(self):
         while True:
-            time.sleep(1)
+            time.sleep(0.1)
             self.refresh.emit()
         
     def showCalendar(self):
@@ -114,10 +125,14 @@ class Clock(QMainWindow):
             if(theme != lastTheme):
                 if(theme == 0):
                     lastTheme = 0
-                    self.label.setStyleSheet("padding: 1px; color: white; font-family: \"Segoe UI Variable\"; font-weight: bold;")
+                    self.label.setStyleSheet("padding: 1px; color: white;")# font-family: \"Segoe UI Variable\"; font-weight: bold;")
+                    self.font.setWeight(500)
+                    self.label.setFont(self.font)
                 else:
                     lastTheme = 1
-                    self.label.setStyleSheet("padding: 1px; color: black; font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+                    self.label.setStyleSheet("padding: 1px; color: black;")# font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+                    self.font.setWeight(400)
+                    self.label.setFont(self.font)
                 
             self.label.setText(datetime.datetime.now().strftime(dateTimeFormat))
         
