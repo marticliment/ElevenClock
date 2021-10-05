@@ -1,9 +1,11 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-import winreg, locale
+import winreg, locale, os, tempfile, subprocess
+from urllib.request import urlopen
 
-
+tdir = tempfile.TemporaryDirectory()
+tempDir = tdir.name
 
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
@@ -154,6 +156,31 @@ clocks = []
 oldScreens = []
 firstWinSkipped = False # This value should be set to false to hide first monitor clock
 
+
+def updateIfPossible():
+    try:
+        print("Starting update check")
+        response = urlopen("http://www.somepythonthings.tk/versions/elevenclock.ver")
+        response = response.read().decode("utf8")
+        if float(response.split("///")[0]) > version:
+            print("Updates found!")
+            url = response.split("///")[1].replace('\n', '')
+            print(url)
+            filedata = urlopen(url)
+            datatowrite = filedata.read()
+            filename = ""
+            with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
+                f.write(datatowrite)
+                filename = f.name
+            print(filename)
+            subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+        else:
+            print("updates not found")
+
+    except Exception as e:
+        print(f"Exception: {e}")
+
+threading.Thread(target=updateIfPossible, daemon=True).start()
 
 def loadClocks():
     global clocks, oldScreens, firstWinSkipped
