@@ -45,7 +45,7 @@ dateMode = dateMode.replace("dd", "%$").replace("d", "%#d").replace("$", "d").re
 
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
 print(timeMode)
-timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p")
+timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
 print(timeMode)
 
 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
