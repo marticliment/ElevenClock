@@ -17,6 +17,7 @@ For more info, make sure to check out this article written by [@Sumitdhiman](htt
  - It shows in all displays except in the primary one (Because you have the default system clock)
  - It supports dark and light theme
  - It supports taskbars on the top of the screen
+ - It supports seconds (windows 11's default clock can't that)
  - ElevenClock downloads and installs updates automatically, so you don't have to
  - Clicking the clock shows/hides the notifications and calendar panel
  - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
