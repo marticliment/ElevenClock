@@ -31,6 +31,13 @@ For more info, make sure to check out this article written by [@Sumitdhiman](htt
  - The clock also adjusts itself automatically when (dis)connecting monitors
  - Automatically starts at login<br>
 
+## Download from:
+MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)<br>
+SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)<br>
+Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)<br>
+SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)<br>
+
+
 <p id="how-to"></p><br>
 
 ## How-to
