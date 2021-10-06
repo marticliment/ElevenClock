@@ -36,7 +36,7 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
 #get system locale and formats and setting them up
 
 locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-dateTimeFormat = "%H:%M\n%d/%m/%Y"
+dateTimeFormat = "%HH:%M\n%d/%m/%Y"
 
 dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
 print(dateMode)
@@ -47,7 +47,7 @@ print(timeMode)
 timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p")
 print(timeMode)
 
-dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%H:%M", timeMode)
+dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
 print(dateTimeFormat)
 
 
