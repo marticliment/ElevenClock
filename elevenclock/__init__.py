@@ -3,6 +3,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 import winreg, locale, os, tempfile, subprocess
 from urllib.request import urlopen
+import hashlib
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
@@ -180,7 +181,7 @@ firstWinSkipped = False # This value should be set to false to hide first monito
 def updateIfPossible():
     try:
         print("Starting update check")
-        response = urlopen("http://www.somepythonthings.tk/versions/elevenclock.ver")
+        response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
         response = response.read().decode("utf8")
         if float(response.split("///")[0]) > version:
             print("Updates found!")
@@ -193,7 +194,14 @@ def updateIfPossible():
                 f.write(datatowrite)
                 filename = f.name
             print(filename)
-            subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+            if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
+                print("Hash: ", response.split("///")[2].replace("\n", "").lower())
+                print("Hash ok, starting update")
+                subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+            else:
+                print("Hash not ok")
+                print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
         else:
             print("updates not found")
 
