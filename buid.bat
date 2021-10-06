@@ -8,6 +8,7 @@ cd ..
 rmdir /Q /S build
 rmdir /Q /S dist
 cd ..
+taskkill /im ElevenClock.exe /f
 rename __init__.exe ElevenClock.exe
 ElevenClock.exe
 pause
