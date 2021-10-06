@@ -1,5 +1,8 @@
-[![Github All Releases](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=flat-square)]()
-[![Github All Releases](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=flat-square)]()
+[![Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=flat-square)]()
+[![Badge](https://img.shields.io/github/downloads-pre/martinet101/ElevenClock/latest/total?style=flat-square)]()
+[![Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=flat-square)]()
+[![Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?style=flat-square)]()
+[![Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=flat-square)]()
 # ElevenClock
 A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.<br><br>
 
