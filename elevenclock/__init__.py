@@ -78,8 +78,8 @@ class Clock(QMainWindow):
                 h = 48*dpiy
         except:
             pass
-        self.move(w-(80*dpix), h-(48*dpiy))
-        self.resize(72*dpix, 48*dpiy)
+        self.move(w-(88*dpix), h-(48*dpiy))
+        self.resize(80*dpix, 48*dpiy)
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
         self.font.setPointSizeF(9)
