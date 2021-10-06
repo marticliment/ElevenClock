@@ -11,7 +11,7 @@ tempDir = tdir.name
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.4
+version = 1.6
 lastTheme = 0
 seconddoubleclick = False
 
@@ -78,13 +78,13 @@ class Clock(QMainWindow):
                 h = 48*dpiy
         except:
             pass
-        self.move(w-(82*dpix), h-(48*dpiy))
+        self.move(w-(80*dpix), h-(48*dpiy))
         self.resize(72*dpix, 48*dpiy)
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
         self.font.setPointSizeF(9)
         self.font.setStyleStrategy(QFont.PreferOutline)
-        self.font.setLetterSpacing(QFont.PercentageSpacing, 105)
+        self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label = Label(datetime.datetime.now().strftime(dateTimeFormat))
         self.label.setFont(self.font)
