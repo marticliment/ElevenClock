@@ -111,7 +111,7 @@ class Clock(QMainWindow):
         
     def fivesecsloop(self):
         while True:
-            time.sleep(0.1)
+            time.sleep(0.05)
             self.refresh.emit()
         
     def showCalendar(self):
@@ -119,6 +119,9 @@ class Clock(QMainWindow):
         self.keyboard.press('n')
         self.keyboard.release('n')
         self.keyboard.release(Key.cmd)
+        
+    def focusOutEvent(self, event: QFocusEvent) -> None:
+        self.refresh.emit()
         
     def refreshandShow(self):
         global lastTheme
