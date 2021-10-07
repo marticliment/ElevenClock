@@ -1,3 +1,4 @@
+from PySide2 import QtCore
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
@@ -11,7 +12,7 @@ tempDir = tdir.name
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.6
+version = 1.7
 lastTheme = 0
 seconddoubleclick = False
 
@@ -91,12 +92,14 @@ class Clock(QMainWindow):
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
             lastTheme = 0
-            self.label.setStyleSheet("padding: 1px; color: white;")# font-family: \"Segoe UI Variable\"; font-weight: bold;")
+            self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
+            self.label.bgopacity = .1
             self.font.setWeight(500)
             self.label.setFont(self.font)
         else:
             lastTheme = 1
-            self.label.setStyleSheet("padding: 1px; color: black;")# font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+            self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
+            self.label.bgopacity = .5
             self.font.setWeight(400)
             self.label.setFont(self.font)
         self.label.clicked.connect(lambda: self.showCalendar())
@@ -126,12 +129,14 @@ class Clock(QMainWindow):
             if(theme != lastTheme):
                 if(theme == 0):
                     lastTheme = 0
-                    self.label.setStyleSheet("padding: 1px; color: white;")# font-family: \"Segoe UI Variable\"; font-weight: bold;")
+                    self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
+                    self.label.bgopacity = 0.1
                     self.font.setWeight(500)
                     self.label.setFont(self.font)
                 else:
                     lastTheme = 1
-                    self.label.setStyleSheet("padding: 1px; color: black;")# font-family: \"Segoe UI Variable\"; font-weight: lighter;")
+                    self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
+                    self.label.bgopacity = .5
                     self.font.setWeight(400)
                     self.label.setFont(self.font)
                 
@@ -145,6 +150,91 @@ class Label(QLabel):
     clicked = Signal()
     def __init__(self, text):
         super().__init__(text)
+        self.setMouseTracking(True)
+        self.backgroundwidget = QWidget(self)
+        self.color = "255, 255, 255"
+        self.bgopacity = 0.1
+        self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, 0);border-top: 1px solid rgba({self.color},0);")
+        self.backgroundwidget.show()
+        self.showBackground = QVariantAnimation()
+        self.showBackground.setStartValue(.001) # Not 0 to prevent white flashing on the border
+        self.showBackground.setEndValue(self.bgopacity)
+        self.showBackground.setDuration(100)
+        self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
+        self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity});"))
+        self.hideBackground = QVariantAnimation()
+        self.hideBackground.setStartValue(self.bgopacity)
+        self.hideBackground.setEndValue(.001) # Not 0 to prevent white flashing on the border
+        self.hideBackground.setDuration(100)
+        self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
+        self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity});"))
+        
+        
+    def enterEvent(self, event: QEvent) -> None:
+        print("enter")
+        geometry: QRect = self.getTextUsedSpaceRect()
+        self.showBackground.setStartValue(.001)
+        self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
+        self.backgroundwidget.resize(geometry.width(), self.height())
+        self.backgroundwidget.move(geometry.x(), 0)
+        self.showBackground.start()
+        
+        
+        
+        return super().enterEvent(event)
+    
+    def leaveEvent(self, event: QEvent) -> None:
+        print("exit")
+        self.hideBackground.setStartValue(self.bgopacity)
+        self.hideBackground.setEndValue(.001) # Not 0 to prevent white flashing on the border
+        self.hideBackground.start()
+        return super().leaveEvent(event)
+    
+    def getTextUsedSpaceRect(self):
+        effectiveIndent = self.indent()
+        trueMargin = self.margin()
+        if(effectiveIndent < 0):
+            if(self.frameWidth() == 0 or self.margin() > 0):
+                effectiveIndent = 0
+            elif(self.frameWidth() > 0):
+                fm = QFontMetrics(self.font())
+                effectiveIndent = fm.horizontalAdvance("x")
+            if(self.frameWidth() > 0 and self.margin() < 0):
+                trueMargin = 0
+
+        fm = QFontMetrics(self.font())
+        bRect: QRect = fm.boundingRect(self.text())
+        bRect.setWidth(fm.horizontalAdvance(self.text()))
+
+        indentOffset = effectiveIndent + trueMargin + self.frameWidth()
+        offsetX = 0
+        offsetY = 0
+        if(self.alignment() and Qt.AlignHCenter):
+            offsetX = self.rect().width() / 2 - bRect.width() / 2
+        elif(self.alignment() and Qt.AlignRight):
+            offsetX = self.rect().width() - bRect.width() - indentOffset
+        elif(self.alignment() and Qt.AlignJustify):
+            offsetX = trueMargin + self.frameWidth()
+        elif(self.alignment() and Qt.AlignLeft):
+            offsetX = indentOffset
+        
+        if(self.alignment() and Qt.AlignVCenter):
+            offsetY = self.rect().height() / 2 - bRect.height() / 2
+        elif(self.alignment() and Qt.AlignBottom):
+            offsetY = self.rect().height() - bRect.height() - indentOffset
+        elif(self.alignment() and Qt.AlignTop):
+            offsetY = indentOffset
+        
+
+        bRect.moveTopLeft(self.rect().topLeft())
+        bRect.setX(bRect.x() + offsetX)
+        bRect.setWidth(bRect.width() + offsetX)
+        bRect.setY(bRect.y() + offsetY)
+        bRect.setHeight(bRect.height() + offsetY)
+
+        return bRect
+
+
         
     def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
         self.clicked.emit()
