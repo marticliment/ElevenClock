@@ -15,7 +15,13 @@ from pynput.keyboard import Controller, Key
 version = 1.7
 lastTheme = 0
 seconddoubleclick = False
+showSeconds = 0
 
+if hasattr(sys, 'frozen'):
+    realpath = sys._MEIPASS
+else:
+    realpath = '/'.join(sys.argv[0].replace("\\", "/").split("/")[:-1])
+    
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
     registry = winreg.ConnectRegistry(None, storage)
     reg_keypath = aKey
@@ -37,6 +43,8 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
 
 #get system locale and formats and setting them up
 
+
+showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0)
 locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
 dateTimeFormat = "%HH:%M\n%d/%m/%Y"
 
@@ -47,6 +55,14 @@ dateMode = dateMode.replace("dd", "%$").replace("d", "%#d").replace("$", "d").re
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
 print(timeMode)
 timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+if not("s" in timeMode) and len(timeMode.split(" "))==1 and showSeconds==1:
+    for separator in ":.-/_":
+        if(separator in timeMode):
+            if("#" in timeMode):
+                timeMode += f"{separator}%#S"
+            else:
+                timeMode += f"{separator}%S"
+        
 print(timeMode)
 
 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
@@ -258,14 +274,47 @@ class Label(QLabel):
             threading.Thread(target=toggleSeconddoubleclick).start()
         return super().mouseDoubleClickEvent(event)
         
+class TaskbarIconTray(QSystemTrayIcon):
+    def __init__(self, app=None):
+        super().__init__(app)
+        self.setIcon(QIcon(os.path.join(realpath, "icon.ico")))
+        self.show()
+        menu = QMenu("ElevenClock")
+        reloadAction = QAction(f"Reload ElevenClock", app)
+        reloadAction.triggered.connect(lambda: restartClocks())
+        menu.addAction(reloadAction)
+        hideAction = QAction(f"Hide ElevenClock", app)
+        hideAction.triggered.connect(lambda: closeClocks())
+        menu.addAction(hideAction)
+        quitAction = QAction(f"Quit ElevenClock", app)
+        quitAction.triggered.connect(lambda: sys.exit())
+        menu.addAction(quitAction)
+        menu.addSeparator()
+        quitAction = QAction(f"Enable/Disable Seconds", app)
+        quitAction.triggered.connect(lambda: os.startfile("https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/"))
+        menu.addAction(quitAction)
+        menu.addSeparator()
+        nameAction = QAction(f"ElevenClock v{version}", app)
+        nameAction.setEnabled(False)
+        menu.addAction(nameAction)
+        reportAction = QAction(f"Report a bug", app)
+        reportAction.triggered.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
+        menu.addAction(reportAction)
+        
+        self.setContextMenu(menu)
+        
+        self.activated.connect(lambda: restartClocks())
+        
+        
+        
 
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
 
 
+
 app = QApplication()
-
 signal = RestartSignal()
-
+i = TaskbarIconTray(app)
 clocks = []
 oldScreens = []
 firstWinSkipped = False # This value should be set to false to hide first monitor clock
@@ -301,8 +350,6 @@ def updateIfPossible():
     except Exception as e:
         print(f"Exception: {e}")
 
-threading.Thread(target=updateIfPossible, daemon=True).start()
-
 def loadClocks():
     global clocks, oldScreens, firstWinSkipped
     firstWinSkipped = False
@@ -334,18 +381,49 @@ def screenCheckThread():
         time.sleep(1)
     signal.restartSignal.emit()
     
+def closeClocks():
+    for clock in clocks:
+        clock.hide()
+        clock.close()
+
 def restartClocks():
-    global clocks
+    global clocks, dateTimeFormat, dateMode, timeMode, showSeconds
+    
+    
+    showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0)
+    locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
+    dateTimeFormat = "%HH:%M\n%d/%m/%Y"
+
+    dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+    print(dateMode)
+    dateMode = dateMode.replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+
+    timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+    print(timeMode)
+    timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+    if not("s" in timeMode) and len(timeMode.split(" "))==1 and showSeconds==1:
+        for separator in ":.-/_":
+            if(separator in timeMode):
+                if("#" in timeMode):
+                    timeMode += f"{separator}%#S"
+                else:
+                    timeMode += f"{separator}%S"
+            
+    print(timeMode)
+
+    dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+    print(dateTimeFormat)
+    
+    
+    print(timeMode)
     for clock in clocks:
         clock.hide()
         clock.close()
     loadClocks()
     threading.Thread(target=screenCheckThread, daemon=True).start()
 
-
+threading.Thread(target=updateIfPossible, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
-    
-
 loadClocks()
 threading.Thread(target=screenCheckThread, daemon=True).start()
 
