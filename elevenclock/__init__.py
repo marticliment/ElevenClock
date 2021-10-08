@@ -216,7 +216,7 @@ class Label(QLabel):
         self.showBackground.setStartValue(.001)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
         self.backgroundwidget.resize(geometry.width(), self.height())
-        self.backgroundwidget.move(geometry.x()+self.width()-geometry.width()-5, 0)
+        self.backgroundwidget.move(geometry.x()+(self.width()-geometry.width()-10), 0)
         self.showBackground.start()
         
         
@@ -340,6 +340,10 @@ clocks = []
 oldScreens = []
 firstWinSkipped = False # This value should be set to false to hide first monitor clock
 
+def updateChecker():
+    while True:
+        updateIfPossible()
+        time.sleep(7200)
 
 def updateIfPossible():
     try:
@@ -443,7 +447,7 @@ def restartClocks():
     loadClocks()
     threading.Thread(target=screenCheckThread, daemon=True).start()
 
-threading.Thread(target=updateIfPossible, daemon=True).start()
+threading.Thread(target=updateChecker, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
 loadClocks()
 threading.Thread(target=screenCheckThread, daemon=True).start()
