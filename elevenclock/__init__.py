@@ -211,7 +211,6 @@ class Label(QLabel):
         
         
     def enterEvent(self, event: QEvent) -> None:
-        print("enter")
         geometry: QRect = self.getTextUsedSpaceRect()
         self.showBackground.setStartValue(.001)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
@@ -224,7 +223,6 @@ class Label(QLabel):
         return super().enterEvent(event)
     
     def leaveEvent(self, event: QEvent) -> None:
-        print("exit")
         self.hideBackground.setStartValue(self.bgopacity)
         self.hideBackground.setEndValue(.001) # Not 0 to prevent white flashing on the border
         self.hideBackground.start()
