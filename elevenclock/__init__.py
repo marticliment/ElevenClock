@@ -14,7 +14,7 @@ tempDir = tdir.name
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.8
+version = 1.9
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
@@ -57,13 +57,17 @@ dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d")
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
 print(timeMode)
 timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-if not("s" in timeMode) and len(timeMode.split(" "))==1 and showSeconds==1:
+if not("s" in timeMode) and showSeconds==1:
     for separator in ":.-/_":
         if(separator in timeMode):
             if("#" in timeMode):
                 timeMode += f"{separator}%#S"
             else:
                 timeMode += f"{separator}%S"
+
+for separator in ":.-/_":
+    timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
+    timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
         
 print(timeMode)
 
@@ -424,15 +428,22 @@ def restartClocks():
     timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
     print(timeMode)
     timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-    if not("s" in timeMode) and len(timeMode.split(" "))==1 and showSeconds==1:
+    if not("s" in timeMode) and showSeconds==1:
         for separator in ":.-/_":
             if(separator in timeMode):
                 if("#" in timeMode):
                     timeMode += f"{separator}%#S"
                 else:
                     timeMode += f"{separator}%S"
+
+    for separator in ":.-/_":
+        timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
+        timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
             
     print(timeMode)
+
+    dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+    print(dateTimeFormat)
 
     dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
     print(dateTimeFormat)
