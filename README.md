@@ -1,13 +1,14 @@
-[![](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=flat-square)](https://github.com/martinet101/ElevenClock/releases)
-[![](https://img.shields.io/github/downloads-pre/martinet101/ElevenClock/latest/total?style=flat-square)](https://github.com/martinet101/ElevenClock/releases/latest)
-[![](https://img.shields.io/github/issues/martinet101/ElevenClock?style=flat-square)](https://github.com/martinet101/ElevenClock/issues)
-[![](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?style=flat-square)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
-[![](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=flat-square)](https://github.com/martinet101/ElevenClock/releases/latest)
+[![](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
+[![](https://img.shields.io/github/downloads-pre/martinet101/ElevenClock/latest/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest)
+[![](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
+[![](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
+[![](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest)
 # ElevenClock
 A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.<br><br>
 
-For more info, make sure to check out this article written by [@Sumitdhiman](https://github.com/Sumitdhiman):<br>
-    https://answers.microsoft.com/en-us/windows/forum/all/add-clock-to-the-second-display-in-windows-11/14ed24f5-b203-4bd7-a4e7-c4eb3539b042<br><br>
+For more info, make sure to check out those articles:<br>
+ - written by [@Sumitdhiman](https://github.com/Sumitdhiman): [Microsoft Answers Forum](https://answers.microsoft.com/en-us/windows/forum/all/add-clock-to-the-second-display-in-windows-11/14ed24f5-b203-4bd7-a4e7-c4eb3539b042)<br>
+ - written by an unknown author: [Windows Elevenforums](https://www.elevenforum.com/t/show-clock-on-all-taskbars-on-all-displays-in-windows-11.1731/)
 
 ## Table of contents
    - [ElevenClock Features](#features)<br>
@@ -22,8 +23,10 @@ For more info, make sure to check out this article written by [@Sumitdhiman](htt
  - It supports all system locales and time formats (they are pulled from the OS)*
  - It shows in all displays except in the primary one (Because you have the default system clock)
  - It supports dark and light theme
+ - It has a hide button to prevent annoying on full-screen
+ - It imitates Windows 11's taskbar clock animation on hover
  - It supports taskbars on the top of the screen
- - It supports seconds (windows 11's default clock can't that)
+ - It supports seconds enabling via locale or regedit (windows 11's default clock can't do that)
  - ElevenClock downloads and installs updates automatically, so you don't have to
  - Clicking the clock shows/hides the notifications and calendar panel
  - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
@@ -34,6 +37,7 @@ For more info, make sure to check out this article written by [@Sumitdhiman](htt
 
 ## Download from:
 MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)<br>
+OlderGeeks: [https://www.oldergeeks.com/downloads/file.php?id=3802](https://www.oldergeeks.com/downloads/file.php?id=3802)<br>
 SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)<br>
 Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)<br>
 SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)<br>
