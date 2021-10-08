@@ -14,7 +14,7 @@ tempDir = tdir.name
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 
-version = 1.7
+version = 1.8
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
