@@ -52,7 +52,7 @@ dateTimeFormat = "%HH:%M\n%d/%m/%Y"
 
 dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
 print(dateMode)
-dateMode = dateMode.replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
 
 timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
 print(timeMode)
@@ -99,8 +99,8 @@ class Clock(QMainWindow):
                 h = 48*dpiy
         except:
             pass
-        self.move(w-(88*dpix), h-(48*dpiy))
-        self.resize(80*dpix, 48*dpiy)
+        self.move(w-(108*dpix), h-(48*dpiy))
+        self.resize(100*dpix, 48*dpiy)
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
         self.font.setPointSizeF(9)
@@ -216,7 +216,7 @@ class Label(QLabel):
         self.showBackground.setStartValue(.001)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
         self.backgroundwidget.resize(geometry.width(), self.height())
-        self.backgroundwidget.move(geometry.x(), 0)
+        self.backgroundwidget.move(geometry.x()+self.width()-geometry.width()-5, 0)
         self.showBackground.start()
         
         
@@ -417,7 +417,7 @@ def restartClocks():
 
     dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
     print(dateMode)
-    dateMode = dateMode.replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+    dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
 
     timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
     print(timeMode)
