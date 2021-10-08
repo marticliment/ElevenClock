@@ -5,6 +5,8 @@ from PySide2.QtWidgets import *
 import winreg, locale, os, tempfile, subprocess
 from urllib.request import urlopen
 import hashlib
+from ctypes import windll
+import win32gui
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
@@ -79,11 +81,13 @@ class RestartSignal(QObject):
 class Clock(QMainWindow):
     
     refresh = Signal()
+    hideSignal = Signal()
     def __init__(self, w, h, dpix, dpiy, fontSizeMultiplier):
         super().__init__()
         global lastTheme
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
+        self.hideSignal.connect(self.hide)
         self.keyboard = Controller()
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -125,10 +129,27 @@ class Clock(QMainWindow):
         self.raise_()
         self.setFocus()
         
+        self.user32 = windll.user32
+        self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+
+        self.full_screen_rect = (self.user32.GetSystemMetrics(0), 0, w, self.user32.GetSystemMetrics(1))
+        print(self.full_screen_rect)
+
+    def theresFullScreenWin(self):
+        try:
+            hWnd = self.user32.GetForegroundWindow()
+            rect = win32gui.GetWindowRect(hWnd)
+            return rect == self.full_screen_rect
+        except:
+            return False
+            
     def fivesecsloop(self):
         while True:
             time.sleep(0.05)
-            self.refresh.emit()
+            if not(self.theresFullScreenWin()):
+                self.refresh.emit()
+            else:
+                self.hideSignal.emit()
         
     def showCalendar(self):
         self.keyboard.press(Key.cmd)
