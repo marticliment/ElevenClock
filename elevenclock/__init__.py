@@ -104,6 +104,7 @@ class Clock(QMainWindow):
         except:
             pass
         self.move(w-(108*dpix), h-(48*dpiy))
+        print(self.geometry())
         self.resize(100*dpix, 48*dpiy)
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
@@ -128,23 +129,24 @@ class Clock(QMainWindow):
             self.label.setFont(self.font)
         self.label.clicked.connect(lambda: self.showCalendar())
         self.setCentralWidget(self.label)
-        threading.Thread(target=self.fivesecsloop, daemon=True).start()
         self.show()
         self.raise_()
         self.setFocus()
         
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+        threading.Thread(target=self.fivesecsloop, daemon=True).start()
 
         self.full_screen_rect = (self.user32.GetSystemMetrics(0), 0, w, self.user32.GetSystemMetrics(1))
-        print(self.full_screen_rect)
+        print("Full screen rect: ", self.full_screen_rect)
 
     def theresFullScreenWin(self):
         try:
             hWnd = self.user32.GetForegroundWindow()
             rect = win32gui.GetWindowRect(hWnd)
             return rect == self.full_screen_rect
-        except:
+        except Exception as e:
+            print(e)
             return False
             
     def fivesecsloop(self):
@@ -218,8 +220,13 @@ class Label(QLabel):
         geometry: QRect = self.getTextUsedSpaceRect()
         self.showBackground.setStartValue(.001)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
-        self.backgroundwidget.resize(geometry.width(), self.height())
-        self.backgroundwidget.move(geometry.x()+(self.width()-geometry.width()-10), 0)
+        if(self.width() > geometry.width()):
+            self.backgroundwidget.move(self.width()-geometry.width(), 0)
+            self.backgroundwidget.resize(geometry.width(), self.height())
+        else:
+            print("Background widget is bigger than parent!")
+            self.backgroundwidget.move(0, 0)
+            self.backgroundwidget.resize(100, self.height())
         self.showBackground.start()
         
         
@@ -383,11 +390,13 @@ def loadClocks():
     oldScreens = []
     for screen in app.screens():
         oldScreens.append(getGeometry(screen))
+        print(screen, screen.geometry(), getGeometry(screen))
         screen: QScreen
         fontSizeMultiplier = screen.logicalDotsPerInchX()/96
         if(firstWinSkipped):
             clocks.append(Clock(screen.geometry().x()+screen.geometry().width(), screen.geometry().y()+screen.geometry().height(), screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, fontSizeMultiplier))
         else: # Skip the primary display, as it has already the clock
+            print("This is primay screen")
             firstWinSkipped = True
 
 def getGeometry(screen: QScreen):
