@@ -13,11 +13,18 @@ tempDir = tdir.name
 
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
+from pynput.mouse import Controller as MouseController
 
 version = 1.9
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
+
+mController = MouseController()
+
+def getMousePos():
+    return QPoint(mController.position[0], mController.position[1])
+
 
 if hasattr(sys, 'frozen'):
     realpath = sys._MEIPASS
@@ -86,9 +93,10 @@ class Clock(QMainWindow):
     
     refresh = Signal()
     hideSignal = Signal()
-    def __init__(self, w, h, dpix, dpiy, fontSizeMultiplier):
+    def __init__(self, w, h, dpix, dpiy, screen):
         super().__init__()
         global lastTheme
+        self.screen: QScreen = screen
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
         self.hideSignal.connect(self.hide)
@@ -97,6 +105,7 @@ class Clock(QMainWindow):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
+        self.autoHide = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[8]==123
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
@@ -153,7 +162,15 @@ class Clock(QMainWindow):
         while True:
             time.sleep(0.05)
             if not(self.theresFullScreenWin()):
-                self.refresh.emit()
+                if self.autoHide:
+                    print(getMousePos().y())
+                    print(self.screen.geometry().y()+self.screen.geometry().height())
+                    if(getMousePos().y()+2 >= self.screen.geometry().y()+self.screen.geometry().height()):
+                        self.refresh.emit()
+                    else:
+                        self.hideSignal.emit()
+                else:
+                    self.refresh.emit()
             else:
                 self.hideSignal.emit()
         
@@ -394,7 +411,7 @@ def loadClocks():
         screen: QScreen
         fontSizeMultiplier = screen.logicalDotsPerInchX()/96
         if(firstWinSkipped):
-            clocks.append(Clock(screen.geometry().x()+screen.geometry().width(), screen.geometry().y()+screen.geometry().height(), screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, fontSizeMultiplier))
+            clocks.append(Clock(screen.geometry().x()+screen.geometry().width(), screen.geometry().y()+screen.geometry().height(), screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
         else: # Skip the primary display, as it has already the clock
             print("This is primay screen")
             firstWinSkipped = True
