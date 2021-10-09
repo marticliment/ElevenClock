@@ -113,8 +113,8 @@ class Clock(QMainWindow):
         except:
             pass
         self.move(w-(108*dpix), h-(48*dpiy))
-        print(self.geometry())
         self.resize(100*dpix, 48*dpiy)
+        print("Clock geometry:", self.geometry())
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
         self.font.setPointSizeF(9)
@@ -146,14 +146,25 @@ class Clock(QMainWindow):
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         threading.Thread(target=self.fivesecsloop, daemon=True).start()
 
-        self.full_screen_rect = (self.user32.GetSystemMetrics(0), 0, w, self.user32.GetSystemMetrics(1))
+        self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
+
 
     def theresFullScreenWin(self):
         try:
-            hWnd = self.user32.GetForegroundWindow()
-            rect = win32gui.GetWindowRect(hWnd)
-            return rect == self.full_screen_rect
+            fullscreen = False
+            
+            def absoluteValuesAreEqual(a, b):
+                return abs(a[0]) == abs(b[0]) and abs(a[1]) == abs(b[1]) and abs(a[2]) == abs(b[2]) and abs(a[3]) == abs(b[3])
+            
+            def winEnumHandler( hwnd, ctx ):
+                nonlocal fullscreen
+                if win32gui.IsWindowVisible( hwnd ):
+                    if(absoluteValuesAreEqual(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
+                        fullscreen = True
+
+            win32gui.EnumWindows( winEnumHandler, None )
+            return fullscreen
         except Exception as e:
             print(e)
             return False
