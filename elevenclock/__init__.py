@@ -109,10 +109,10 @@ class Clock(QMainWindow):
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
-                h = 48*dpiy
+                h = self.screen.geometry().y()+(48*dpiy)
         except:
             pass
-        self.move(w-(108*dpix), h-(48*dpiy))
+        self.move(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix), self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy))
         self.resize(100*dpix, 48*dpiy)
         print("Clock geometry:", self.geometry())
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
