@@ -15,7 +15,7 @@ import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-version = 1.95
+version = 1.9
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
