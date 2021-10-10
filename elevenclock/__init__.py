@@ -15,10 +15,12 @@ import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-version = 1.9
+version = 1.95
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
+useSystemPosSystem = os.path.exists(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"))
+print("useSystemPosSystem:", useSystemPosSystem)
 
 mController = MouseController()
 
@@ -89,11 +91,11 @@ class RestartSignal(QObject):
     def __init__(self) -> None:
         super().__init__()
 
-class Clock(QMainWindow):
+class Clock(QWidget):
     
     refresh = Signal()
     hideSignal = Signal()
-    def __init__(self, w, h, dpix, dpiy, screen):
+    def __init__(self, dpix, dpiy, screen):
         super().__init__()
         global lastTheme
         self.screen: QScreen = screen
@@ -112,8 +114,16 @@ class Clock(QMainWindow):
                 h = self.screen.geometry().y()+(48*dpiy)
         except:
             pass
-        self.move(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix), self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy))
-        self.resize(100*dpix, 48*dpiy)
+        
+        if not(useSystemPosSystem):
+            self.move(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix), self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy))
+            self.resize(100*dpix, 48*dpiy)
+            print("Using qt's default positioning system")
+        else:
+            print("Using win32 API positioning system")
+            self.user32 = windll.user32
+            self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+            win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix)), int(self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy)), int(100*dpix), int(48*dpiy), False)
         print("Clock geometry:", self.geometry())
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
@@ -121,7 +131,7 @@ class Clock(QMainWindow):
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
-        self.label = Label(datetime.datetime.now().strftime(dateTimeFormat))
+        self.label = Label(datetime.datetime.now().strftime(dateTimeFormat), self)
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
@@ -137,7 +147,10 @@ class Clock(QMainWindow):
             self.font.setWeight(400)
             self.label.setFont(self.font)
         self.label.clicked.connect(lambda: self.showCalendar())
-        self.setCentralWidget(self.label)
+        self.label.move(0, 0)
+        self.label.setFixedHeight(self.height())
+        self.label.setFixedWidth(self.width())
+        self.label.show()
         self.show()
         self.raise_()
         self.setFocus()
@@ -149,6 +162,9 @@ class Clock(QMainWindow):
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
 
+    def closeEvent(self, event: QCloseEvent) -> None:
+        print("closing")
+        return super().closeEvent(event)
 
     def theresFullScreenWin(self):
         try:
@@ -174,8 +190,6 @@ class Clock(QMainWindow):
             time.sleep(0.05)
             if not(self.theresFullScreenWin()):
                 if self.autoHide:
-                    print(getMousePos().y())
-                    print(self.screen.geometry().y()+self.screen.geometry().height())
                     if(getMousePos().y()+2 >= self.screen.geometry().y()+self.screen.geometry().height()):
                         self.refresh.emit()
                     else:
@@ -222,8 +236,8 @@ class Clock(QMainWindow):
         
 class Label(QLabel):
     clicked = Signal()
-    def __init__(self, text):
-        super().__init__(text)
+    def __init__(self, text, parent):
+        super().__init__(text, parent=parent)
         self.setMouseTracking(True)
         self.backgroundwidget = QWidget(self)
         self.color = "255, 255, 255"
@@ -348,6 +362,31 @@ class TaskbarIconTray(QSystemTrayIcon):
         quitAction.triggered.connect(lambda: sys.exit())
         menu.addAction(quitAction)
         menu.addSeparator()
+        
+        if not(useSystemPosSystem):
+        
+            def fixclock():
+                global useSystemPosSystem
+                useSystemPosSystem = True
+                open(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"), "w").close()
+                print("fixing clocks")
+                restartClocks()
+            
+            fixAction = QAction(f"Fix clock alignment", app)
+            fixAction.triggered.connect(lambda: fixclock())
+            menu.addAction(fixAction)
+        else:
+        
+            def unfixclock():
+                global useSystemPosSystem
+                useSystemPosSystem = True
+                os.remove(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"))
+                print("unfixing clocks")
+                restartClocks()
+            
+            fixAction = QAction(f"Restore clock alignment", app)
+            fixAction.triggered.connect(lambda: unfixclock())
+            menu.addAction(fixAction)
         quitAction = QAction(f"Enable/Disable Seconds", app)
         quitAction.triggered.connect(lambda: os.startfile("https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/"))
         menu.addAction(quitAction)
@@ -422,7 +461,7 @@ def loadClocks():
         screen: QScreen
         fontSizeMultiplier = screen.logicalDotsPerInchX()/96
         if(firstWinSkipped):
-            clocks.append(Clock(screen.geometry().x()+screen.geometry().width(), screen.geometry().y()+screen.geometry().height(), screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
+            clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
         else: # Skip the primary display, as it has already the clock
             print("This is primay screen")
             firstWinSkipped = True
