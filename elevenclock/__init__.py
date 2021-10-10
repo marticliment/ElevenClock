@@ -401,7 +401,7 @@ def updateIfPossible():
             if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
                 print("Hash: ", response.split("///")[2].replace("\n", "").lower())
                 print("Hash ok, starting update")
-                subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+                subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
             else:
                 print("Hash not ok")
                 print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
