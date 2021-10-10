@@ -11,9 +11,9 @@ For more info, make sure to check out those articles:<br>
  - Published on ElevenForum: [https://www.elevenforum.com/t/show-clock-on-all-taskbars-on...](https://www.elevenforum.com/t/show-clock-on-all-taskbars-on-all-displays-in-windows-11.1731/)
  - Published on PythonAwesome: [https://pythonawesome.com/elevenclock-a-secondary-clock-for...](https://pythonawesome.com/elevenclock-a-secondary-clock-for-secondary-taskbars-on-windows-11/)
 
-## Warning:
+<b><h1 color=red>Warning:</h1>
  For issues with the clock appearing at the middle of the screen, read [Issue #40 (comment)](https://github.com/martinet101/ElevenClock/issues/40#issuecomment-939523493)<br>
-
+</b>
 ## Table of contents
    - [ElevenClock Features](#features)<br>
    - [3rd party download mirrors](#download)<br>
