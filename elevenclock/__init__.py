@@ -15,7 +15,7 @@ import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-version = 2.0
+version = 1.8
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
@@ -59,6 +59,13 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
 class RestartSignal(QObject):
     
     restartSignal = Signal()
+    
+    def __init__(self) -> None:
+        super().__init__()
+
+class InfoSignal(QObject):
+    
+    infoSignal = Signal(str, str)
     
     def __init__(self) -> None:
         super().__init__()
@@ -446,9 +453,17 @@ class SettingsWindow(QWidget):
         layout.addSpacing(10)
         self.setWindowFlags(Qt.Window | Qt.WindowTitleHint)
         layout.addWidget(QLabel("<b>General Settings:</b>"))
+        self.updateButton = QPushButton("Update to the lastest version!")
+        self.updateButton.clicked.connect(lambda: threading.Thread(target=updateIfPossible, args=((True,))).start())
+        self.updateButton.hide()
+        layout.addWidget(self.updateButton)
         self.updatesChBx = QCheckBox("Automatically check for updates")
         self.updatesChBx.setChecked(not(getSettings("DisableAutoCheckForUpdates")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i))))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Automatically install available updates")
+        self.updatesChBx.setChecked(not(getSettings("DisableAutoInstallUpdates")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Enable really silent updates")
         self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
@@ -502,48 +517,61 @@ class SettingsWindow(QWidget):
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
 
 
+def showMessage(a, b):
+    lastState = i.isVisible()
+    i.show()
+    i.showMessage(a, b)
+    sw.updateButton.show()
+    i.setVisible(lastState)
 
 app = QApplication()
 signal = RestartSignal()
+showNotif = InfoSignal()
+sw = SettingsWindow()
+showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
+    
 i = TaskbarIconTray(app)
 clocks = []
 oldScreens = []
 
-sw = SettingsWindow()
 
 def updateChecker():
     while True:
         updateIfPossible()
         time.sleep(7200)
 
-def updateIfPossible():
+def updateIfPossible(force = False):
     try:
-        if(not(getSettings("DisableAutoCheckForUpdates"))):
+        if(not(getSettings("DisableAutoCheckForUpdates")) or force):
             print("Starting update check")
             response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
                 print("Updates found!")
-                url = response.split("///")[1].replace('\n', '')
-                print(url)
-                filedata = urlopen(url)
-                datatowrite = filedata.read()
-                filename = ""
-                with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
-                    f.write(datatowrite)
-                    filename = f.name
-                print(filename)
-                if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                    print("Hash: ", response.split("///")[2].replace("\n", "").lower())
-                    print("Hash ok, starting update")
-                    if(getSettings("EnableSilentUpdates")):
-                        subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                if(not(getSettings("DisableAutoInstallUpdates")) or force):
+                    url = response.split("///")[1].replace('\n', '')
+                    print(url)
+                    filedata = urlopen(url)
+                    datatowrite = filedata.read()
+                    filename = ""
+                    with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
+                        f.write(datatowrite)
+                        filename = f.name
+                    print(filename)
+                    if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
+                        print("Hash: ", response.split("///")[2].replace("\n", "").lower())
+                        print("Hash ok, starting update")
+                        if(getSettings("EnableSilentUpdates") and not(force)):
+                            subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                        else:
+                            subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
                     else:
-                        subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+                        print("Hash not ok")
+                        print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                        print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
                 else:
-                    print("Hash not ok")
-                    print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                    print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
+                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
+                    
             else:
                 print("updates not found")
         else:
