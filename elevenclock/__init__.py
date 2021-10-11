@@ -373,6 +373,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         quitAction.triggered.connect(lambda: sys.exit())
         menu.addAction(quitAction)
         menu.addSeparator()
+        fixAction = QAction(f"Fix clock alignment", app)
         
         if not(useSystemPosSystem):
         
@@ -382,22 +383,30 @@ class TaskbarIconTray(QSystemTrayIcon):
                 open(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"), "w").close()
                 print("fixing clocks")
                 restartClocks()
-            
-            fixAction = QAction(f"Fix clock alignment", app)
+                fixAction.setText(f"Restore clock alignment")
+                fixAction.triggered.connect(lambda: unfixclock())
+                
+            fixAction.setText(f"Fix clock alignment")
             fixAction.triggered.connect(lambda: fixclock())
             menu.addAction(fixAction)
         else:
         
             def unfixclock():
                 global useSystemPosSystem
-                useSystemPosSystem = True
+                useSystemPosSystem = False
                 os.remove(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"))
                 print("unfixing clocks")
                 restartClocks()
+                fixAction.setText(f"Fix clock alignment")
+                fixAction.triggered.connect(lambda: fixclock())
             
-            fixAction = QAction(f"Restore clock alignment", app)
+            fixAction.setText(f"Restore clock alignment")
             fixAction.triggered.connect(lambda: unfixclock())
             menu.addAction(fixAction)
+            
+        if not(useSystemPosSystem):
+            fixAction.triggered.connect(lambda: fixclock())
+            
         quitAction = QAction(f"Enable/Disable Seconds", app)
         quitAction.triggered.connect(lambda: os.startfile("https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/"))
         menu.addAction(quitAction)
@@ -508,7 +517,7 @@ def restartClocks():
 
 threading.Thread(target=updateChecker, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
-loadClocks()
+restartClocks()
 threading.Thread(target=screenCheckThread, daemon=True).start()
 
 app.exec_()
