@@ -72,11 +72,9 @@ class Clock(QWidget):
         dateTimeFormat = "%HH:%M\n%d/%m/%Y"
 
         dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-        print(dateMode)
         dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
 
         timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-        print(timeMode)
         timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
         if not("s" in timeMode) and showSeconds==1:
             for separator in ":.-/_":
@@ -85,15 +83,27 @@ class Clock(QWidget):
                         timeMode += f"{separator}%#S"
                     else:
                         timeMode += f"{separator}%S"
+                        
+
+        self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+        print(self.dateTimeFormat)
+        
+        self.preferedwidth = 100
+        self.preferedHeight = 48
 
         for separator in ":.-/_":
             timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
             timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+            
+        try:
+            if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
+                print("Small taskbar")
+                self.dateTimeFormat = self.dateTimeFormat.replace("\n", "   ")
+                self.preferedHeight = 32
+                self.preferedwidth = 200
+        except Exception as e:
+            print(e)
                 
-        print(timeMode)
-
-        self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-        print(self.dateTimeFormat)
         self.screen: QScreen = screen
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
@@ -107,21 +117,24 @@ class Clock(QWidget):
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
-                h = self.screen.geometry().y()+(48*dpiy)
+                h = self.screen.geometry().y()+(self.preferedHeight*dpiy)
+                print("taskbar at top")
             else:
-                h = self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy)
+                h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
+                print("taskbar at bottom")
         except:
-            h = self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy)
+            h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
+            print("taskbar at bottom")
         
         if not(useSystemPosSystem):
-            self.move(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix), h)
-            self.resize(100*dpix, 48*dpiy)
             print("Using qt's default positioning system")
+            self.move(self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth+8)*dpix), h)
+            self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
         else:
             print("Using win32 API positioning system")
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-            win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix)), int(h), int(100*dpix), int(48*dpiy), False)
+            win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(self.preferedwidth+8*dpix)), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
@@ -177,10 +190,10 @@ class Clock(QWidget):
                     if(absoluteValuesAreEqual(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
                         fullscreen = True
 
-            win32gui.EnumWindows( winEnumHandler, None )
+            win32gui.EnumWindows(winEnumHandler, 0)
             return fullscreen
         except Exception as e:
-            print(e)
+            raise e
             return False
             
     def fivesecsloop(self):
@@ -266,7 +279,7 @@ class Label(QLabel):
         else:
             print("Background widget is bigger than parent!")
             self.backgroundwidget.move(0, 0)
-            self.backgroundwidget.resize(100, self.height())
+            self.backgroundwidget.resize(self.width(), self.height())
         self.showBackground.start()
         
         
@@ -412,7 +425,6 @@ signal = RestartSignal()
 i = TaskbarIconTray(app)
 clocks = []
 oldScreens = []
-firstWinSkipped = False # This value should be set to false to hide first monitor clock
 
 def updateChecker():
     while True:
@@ -450,14 +462,13 @@ def updateIfPossible():
         print(f"Exception: {e}")
 
 def loadClocks():
-    global clocks, oldScreens, firstWinSkipped
+    global clocks, oldScreens
     firstWinSkipped = False
     oldScreens = []
     for screen in app.screens():
         oldScreens.append(getGeometry(screen))
         print(screen, screen.geometry(), getGeometry(screen))
         screen: QScreen
-        fontSizeMultiplier = screen.logicalDotsPerInchX()/96
         if(firstWinSkipped):
             clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
         else: # Skip the primary display, as it has already the clock
