@@ -104,6 +104,7 @@ class Clock(QWidget):
         except Exception as e:
             print(e)
                 
+                
         self.screen: QScreen = screen
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
@@ -149,13 +150,13 @@ class Clock(QWidget):
             lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
-            self.font.setWeight(500)
+            self.font.setWeight(QFont.Weight.Medium)
             self.label.setFont(self.font)
         else:
             lastTheme = 1
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
             self.label.bgopacity = .5
-            self.font.setWeight(400)
+            self.font.setWeight(QFont.Weight.Normal)
             self.label.setFont(self.font)
         self.label.clicked.connect(lambda: self.showCalendar())
         self.label.move(0, 0)
@@ -172,10 +173,7 @@ class Clock(QWidget):
 
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
-
-    def closeEvent(self, event: QCloseEvent) -> None:
-        print("closing")
-        return super().closeEvent(event)
+        
 
     def theresFullScreenWin(self):
         try:
@@ -223,6 +221,7 @@ class Clock(QWidget):
         global lastTheme
         if(self.shouldBeVisible):
             self.show()
+            self.setVisible(True)
             self.raise_()
             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
             if(theme != lastTheme):
@@ -230,19 +229,20 @@ class Clock(QWidget):
                     lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
-                    self.font.setWeight(500)
+                    self.font.setWeight(QFont.Weight.Medium)
                     self.label.setFont(self.font)
                 else:
                     lastTheme = 1
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
                     self.label.bgopacity = .5
-                    self.font.setWeight(400)
+                    self.font.setWeight(QFont.Weight.Normal)
                     self.label.setFont(self.font)
                 
             self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat))
         
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
+        print("close")
         return super().closeEvent(event)
         
 class Label(QLabel):
