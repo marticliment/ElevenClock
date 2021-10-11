@@ -52,37 +52,6 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             return default
 
 
-#get system locale and formats and setting them up
-
-
-showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0)
-locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-dateTimeFormat = "%HH:%M\n%d/%m/%Y"
-
-dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-print(dateMode)
-dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-
-timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-print(timeMode)
-timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-if not("s" in timeMode) and showSeconds==1:
-    for separator in ":.-/_":
-        if(separator in timeMode):
-            if("#" in timeMode):
-                timeMode += f"{separator}%#S"
-            else:
-                timeMode += f"{separator}%S"
-
-for separator in ":.-/_":
-    timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
-    timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-        
-print(timeMode)
-
-dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-print(dateTimeFormat)
-
 
 class RestartSignal(QObject):
     
@@ -98,6 +67,33 @@ class Clock(QWidget):
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         global lastTheme
+        showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0)
+        locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
+        dateTimeFormat = "%HH:%M\n%d/%m/%Y"
+
+        dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+        print(dateMode)
+        dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+
+        timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+        print(timeMode)
+        timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+        if not("s" in timeMode) and showSeconds==1:
+            for separator in ":.-/_":
+                if(separator in timeMode):
+                    if("#" in timeMode):
+                        timeMode += f"{separator}%#S"
+                    else:
+                        timeMode += f"{separator}%S"
+
+        for separator in ":.-/_":
+            timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
+            timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+                
+        print(timeMode)
+
+        self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+        print(self.dateTimeFormat)
         self.screen: QScreen = screen
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
@@ -133,7 +129,7 @@ class Clock(QWidget):
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
-        self.label = Label(datetime.datetime.now().strftime(dateTimeFormat), self)
+        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat), self)
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
@@ -230,7 +226,7 @@ class Clock(QWidget):
                     self.font.setWeight(400)
                     self.label.setFont(self.font)
                 
-            self.label.setText(datetime.datetime.now().strftime(dateTimeFormat))
+            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat))
         
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
@@ -492,42 +488,7 @@ def closeClocks():
         clock.close()
 
 def restartClocks():
-    global clocks, dateTimeFormat, dateMode, timeMode, showSeconds
-    
-    
-    showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0)
-    locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-    dateTimeFormat = "%HH:%M\n%d/%m/%Y"
-
-    dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-    print(dateMode)
-    dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-
-    timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-    print(timeMode)
-    timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-    if not("s" in timeMode) and showSeconds==1:
-        for separator in ":.-/_":
-            if(separator in timeMode):
-                if("#" in timeMode):
-                    timeMode += f"{separator}%#S"
-                else:
-                    timeMode += f"{separator}%S"
-
-    for separator in ":.-/_":
-        timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
-        timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-            
-    print(timeMode)
-
-    dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-    print(dateTimeFormat)
-
-    dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-    print(dateTimeFormat)
-    
-    
-    print(timeMode)
+    global clocks
     for clock in clocks:
         clock.hide()
         clock.close()

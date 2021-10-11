@@ -1,1 +1,2 @@
 pynput==1.6.8
+win32gui
