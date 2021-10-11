@@ -15,17 +15,20 @@ import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-version = 1.9
+version = 2.0
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
-useSystemPosSystem = os.path.exists(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"))
-print("useSystemPosSystem:", useSystemPosSystem)
-
 mController = MouseController()
 
 def getMousePos():
     return QPoint(mController.position[0], mController.position[1])
+
+try:
+    os.chdir(os.path.expanduser("~"))
+    os.chdir(".elevenclock")
+except FileNotFoundError:
+    os.mkdir(".elevenclock")
 
 
 if hasattr(sys, 'frozen'):
@@ -67,9 +70,15 @@ class Clock(QWidget):
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         global lastTheme
-        showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0)
+        showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
         locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
         dateTimeFormat = "%HH:%M\n%d/%m/%Y"
+        
+        if(getSettings("DisableTime")):
+            dateTimeFormat = dateTimeFormat.replace("%HH:%M", "").replace("\n", "")
+            
+        if(getSettings("DisableDate")):
+            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "").replace("\n", "")
 
         dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
         dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
@@ -127,7 +136,7 @@ class Clock(QWidget):
             h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
             print("taskbar at bottom")
         
-        if not(useSystemPosSystem):
+        if not(getSettings("EnableWin32API")):
             print("Using qt's default positioning system")
             self.move(self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth+8)*dpix), h)
             self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
@@ -345,7 +354,10 @@ class Label(QLabel):
 
         
     def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
-        self.clicked.emit()
+        if(ev.button() == Qt.RightButton):
+            i.contextMenu().exec_(getMousePos())
+        else:
+            self.clicked.emit()
         return super().mouseReleaseEvent(ev)
     
     def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
@@ -379,42 +391,8 @@ class TaskbarIconTray(QSystemTrayIcon):
         quitAction.triggered.connect(lambda: sys.exit())
         menu.addAction(quitAction)
         menu.addSeparator()
-        fixAction = QAction(f"Fix clock alignment", app)
-        
-        if not(useSystemPosSystem):
-        
-            def fixclock():
-                global useSystemPosSystem
-                useSystemPosSystem = True
-                open(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"), "w").close()
-                print("fixing clocks")
-                restartClocks()
-                fixAction.setText(f"Restore clock alignment")
-                fixAction.triggered.connect(lambda: unfixclock())
-                
-            fixAction.setText(f"Fix clock alignment")
-            fixAction.triggered.connect(lambda: fixclock())
-            menu.addAction(fixAction)
-        else:
-        
-            def unfixclock():
-                global useSystemPosSystem
-                useSystemPosSystem = False
-                os.remove(os.path.join(os.path.expanduser("~"), "11clockUseSystemPosSystem"))
-                print("unfixing clocks")
-                restartClocks()
-                fixAction.setText(f"Fix clock alignment")
-                fixAction.triggered.connect(lambda: fixclock())
-            
-            fixAction.setText(f"Restore clock alignment")
-            fixAction.triggered.connect(lambda: unfixclock())
-            menu.addAction(fixAction)
-            
-        if not(useSystemPosSystem):
-            fixAction.triggered.connect(lambda: fixclock())
-            
-        quitAction = QAction(f"Enable/Disable Seconds", app)
-        quitAction.triggered.connect(lambda: os.startfile("https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/"))
+        quitAction = QAction(f"Settings...", app)
+        quitAction.triggered.connect(lambda: sw.show())
         menu.addAction(quitAction)
         menu.addSeparator()
         nameAction = QAction(f"ElevenClock v{version}", app)
@@ -428,8 +406,98 @@ class TaskbarIconTray(QSystemTrayIcon):
         
         self.activated.connect(lambda: restartClocks())
         
-        
-        
+        if(getSettings("DisableSystemTray")):
+            self.hide()
+            print("system tray icon disabled")
+
+
+def getSettings(s: str):
+    try:
+        return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+    except Exception as e:
+        print(e)
+
+def setSettings(s: str, v: bool):
+    try:
+        if(v):
+            open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w").close()
+        else:
+            try:
+                os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+            except FileNotFoundError:
+                pass
+        restartClocks()
+        if(getSettings("DisableSystemTray")):
+            i.hide()
+        else:
+            i.show()
+    except Exception as e:
+        print(e)
+
+class SettingsWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
+        title = QLabel(f"ElevenClock v{version} Settings:")
+        title.setStyleSheet("font-size: 25pt;")
+        layout.addWidget(title)
+        layout.addStretch()
+        layout.addSpacing(10)
+        self.setWindowFlags(Qt.Window | Qt.WindowTitleHint)
+        layout.addWidget(QLabel("<b>General Settings:</b>"))
+        self.updatesChBx = QCheckBox("Automatically check for updates")
+        self.updatesChBx.setChecked(not(getSettings("DisableAutoCheckForUpdates")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i))))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Enable really silent updates")
+        self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Show ElevenClock on system tray")
+        self.updatesChBx.setChecked(not(getSettings("DisableSystemTray")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i))))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Alternative clock alignment (may not work)")
+        self.updatesChBx.setChecked((getSettings("EnableWin32API")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        btn = QPushButton("Change startup behaviour")
+        btn.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
+        layout.addWidget(btn)
+        layout.addSpacing(10)
+        layout.addWidget(QLabel("<b>Clock Settings:</b>"))
+        self.updatesChBx = QCheckBox("Show seconds on the clock")
+        self.updatesChBx.setChecked((getSettings("EnableSeconds")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Show date on the clock")
+        self.updatesChBx.setChecked(not(getSettings("DisableDate")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not(bool(i))))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Show time on the clock")
+        self.updatesChBx.setChecked(not(getSettings("DisableTime")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
+        layout.addWidget(self.updatesChBx)
+        layout.addSpacing(10)
+        layout.addWidget(QLabel("<b>About ElevenClock:</b>"))
+        btn = QPushButton("View ElevenClock's homepage")
+        btn.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
+        layout.addWidget(btn)
+        btn = QPushButton("Report an issue/request a feature")
+        btn.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
+        layout.addWidget(btn)
+        layout.addStretch()
+        layout.addSpacing(10)
+        btn = QPushButton("Close settings")
+        btn.clicked.connect(lambda: self.hide())
+        layout.addWidget(btn)
+        self.setLayout(layout)
+        self.setFixedSize(500, 500)
+        self.setWindowTitle(f"ElevenClock Version {version} settings")
+    
+    def closeEvent(self, event: QCloseEvent) -> None:
+        event.ignore()
 
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
 
@@ -441,6 +509,8 @@ i = TaskbarIconTray(app)
 clocks = []
 oldScreens = []
 
+sw = SettingsWindow()
+
 def updateChecker():
     while True:
         updateIfPossible()
@@ -448,30 +518,36 @@ def updateChecker():
 
 def updateIfPossible():
     try:
-        print("Starting update check")
-        response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
-        response = response.read().decode("utf8")
-        if float(response.split("///")[0]) > version:
-            print("Updates found!")
-            url = response.split("///")[1].replace('\n', '')
-            print(url)
-            filedata = urlopen(url)
-            datatowrite = filedata.read()
-            filename = ""
-            with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
-                f.write(datatowrite)
-                filename = f.name
-            print(filename)
-            if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                print("Hash: ", response.split("///")[2].replace("\n", "").lower())
-                print("Hash ok, starting update")
-                subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+        if(not(getSettings("DisableAutoCheckForUpdates"))):
+            print("Starting update check")
+            response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
+            response = response.read().decode("utf8")
+            if float(response.split("///")[0]) > version:
+                print("Updates found!")
+                url = response.split("///")[1].replace('\n', '')
+                print(url)
+                filedata = urlopen(url)
+                datatowrite = filedata.read()
+                filename = ""
+                with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
+                    f.write(datatowrite)
+                    filename = f.name
+                print(filename)
+                if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
+                    print("Hash: ", response.split("///")[2].replace("\n", "").lower())
+                    print("Hash ok, starting update")
+                    if(getSettings("EnableSilentUpdates")):
+                        subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                    else:
+                        subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+                else:
+                    print("Hash not ok")
+                    print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                    print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
             else:
-                print("Hash not ok")
-                print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
+                print("updates not found")
         else:
-            print("updates not found")
+            print("update checking disabled")
 
     except Exception as e:
         print(f"Exception: {e}")
