@@ -15,7 +15,7 @@ import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-version = 1.8
+version = 2.0
 lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
@@ -358,9 +358,14 @@ class Label(QLabel):
 
         return bRect
 
-
+    def mousePressEvent(self, ev: QMouseEvent) -> None:
+        self.setWindowOpacity(0.7)
+        self.window().setWindowOpacity(0.7)
+        return super().mousePressEvent(ev)
         
     def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
+        self.setWindowOpacity(1)
+        self.window().setWindowOpacity(1)
         if(ev.button() == Qt.RightButton):
             i.contextMenu().exec_(getMousePos())
         else:
