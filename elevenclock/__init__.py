@@ -112,18 +112,20 @@ class Clock(QWidget):
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
                 h = self.screen.geometry().y()+(48*dpiy)
+            else:
+                h = self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy)
         except:
-            pass
+            h = self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy)
         
         if not(useSystemPosSystem):
-            self.move(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix), self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy))
+            self.move(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix), h)
             self.resize(100*dpix, 48*dpiy)
             print("Using qt's default positioning system")
         else:
             print("Using win32 API positioning system")
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-            win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix)), int(self.screen.geometry().y()+self.screen.geometry().height()-(48*dpiy)), int(100*dpix), int(48*dpiy), False)
+            win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(108*dpix)), int(h), int(100*dpix), int(48*dpiy), False)
         print("Clock geometry:", self.geometry())
         self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
