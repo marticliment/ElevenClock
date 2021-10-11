@@ -199,9 +199,10 @@ class Clock(QWidget):
             time.sleep(0.05)
             if not(self.theresFullScreenWin()):
                 if self.autoHide:
-                    if(getMousePos().y()+2 >= self.screen.geometry().y()+self.screen.geometry().height()):
+                    mousePos = getMousePos()
+                    if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
                         self.refresh.emit()
-                    else:
+                    elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
                         self.hideSignal.emit()
                 else:
                     self.refresh.emit()
