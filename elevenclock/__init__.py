@@ -218,7 +218,7 @@ class Clock(QWidget):
     def fivesecsloop(self):
         while True:
             time.sleep(0.05)
-            if not(self.theresFullScreenWin()):
+            if not(self.theresFullScreenWin()) or not(getSettings("EnableHideOnFullScreen")):
                 if self.autoHide:
                     mousePos = getMousePos()
                     if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
@@ -456,7 +456,7 @@ class SettingsWindow(QWidget):
         layout.addWidget(title)
         layout.addStretch()
         layout.addSpacing(10)
-        self.setWindowFlags(Qt.Window | Qt.WindowTitleHint)
+        self.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
         layout.addWidget(QLabel("<b>General Settings:</b>"))
         self.updateButton = QPushButton("Update to the lastest version!")
         self.updateButton.clicked.connect(lambda: threading.Thread(target=updateIfPossible, args=((True,))).start())
@@ -487,6 +487,10 @@ class SettingsWindow(QWidget):
         layout.addWidget(btn)
         layout.addSpacing(10)
         layout.addWidget(QLabel("<b>Clock Settings:</b>"))
+        self.updatesChBx = QCheckBox("Hide the clock in fullscreen mode")
+        self.updatesChBx.setChecked((getSettings("EnableHideOnFullScreen")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnFullScreen", bool(i)))
+        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Show seconds on the clock")
         self.updatesChBx.setChecked((getSettings("EnableSeconds")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i)))
@@ -517,6 +521,7 @@ class SettingsWindow(QWidget):
         self.setWindowTitle(f"ElevenClock Version {version} settings")
     
     def closeEvent(self, event: QCloseEvent) -> None:
+        self.hide()
         event.ignore()
 
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
@@ -634,6 +639,13 @@ threading.Thread(target=updateChecker, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
 restartClocks()
 threading.Thread(target=screenCheckThread, daemon=True).start()
+
+
+if not(getSettings("Updated2.0Already")):
+    print("Show2.0Welcome")
+    sw.show()
+    setSettings("Updated2.0Already", True)
+    QMessageBox.information(sw, "Elevenclock updated!", "ElevenClock has updated and now has a settings window where you can costomize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings right-clicking on the icon tray or on any ElevenClock -> Settings")
 
 app.exec_()
 sys.exit(0)
