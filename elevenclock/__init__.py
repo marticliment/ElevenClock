@@ -174,6 +174,11 @@ class Clock(QWidget):
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
         
+        if bool(windll.user32.GetSystemMetrics(0x1000)):
+            self.shouldBeVisible = False
+            print("IS RDP, closing...")
+            self.close()
+        
 
     def theresFullScreenWin(self):
         try:
