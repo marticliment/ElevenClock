@@ -557,6 +557,8 @@ i = TaskbarIconTray(app)
 clocks = []
 oldScreens = []
 
+if("--settings" in sys.argv):
+    sw.show()
 
 def updateChecker():
     while True:
