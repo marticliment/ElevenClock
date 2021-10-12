@@ -450,6 +450,7 @@ class SettingsWindow(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
+        self.updateSize = True
         self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
         title = QLabel(f"ElevenClock v{version} Settings:")
         title.setStyleSheet("font-size: 25pt;")
@@ -517,8 +518,22 @@ class SettingsWindow(QWidget):
         btn.clicked.connect(lambda: self.hide())
         layout.addWidget(btn)
         self.setLayout(layout)
-        self.setFixedSize(500, 500)
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
+    
+    def moveEvent(self, event: QMoveEvent) -> None:
+        if(self.updateSize):
+            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
+        else:
+            def enableUpdateSize(self: SettingsWindow):
+                time.sleep(1)
+                self.updateSize = True
+                
+            self.updateSize = False
+            threading.Thread(target=enableUpdateSize, args=(self,)).start()
+        
+    def showEvent(self, event: QShowEvent) -> None:
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
