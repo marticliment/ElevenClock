@@ -159,7 +159,7 @@ class Clock(QWidget):
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
-        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr"), self)
+        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""), self)
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
@@ -260,7 +260,7 @@ class Clock(QWidget):
                     self.font.setWeight(QFont.Weight.Normal)
                     self.label.setFont(self.font)
                 
-            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr"))
+            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""))
         
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
@@ -450,6 +450,7 @@ class SettingsWindow(QWidget):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
+        self.updateSize = True
         self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
         title = QLabel(f"ElevenClock v{version} Settings:")
         title.setStyleSheet("font-size: 25pt;")
@@ -517,8 +518,22 @@ class SettingsWindow(QWidget):
         btn.clicked.connect(lambda: self.hide())
         layout.addWidget(btn)
         self.setLayout(layout)
-        self.setFixedSize(500, 500)
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
+    
+    def moveEvent(self, event: QMoveEvent) -> None:
+        if(self.updateSize):
+            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
+        else:
+            def enableUpdateSize(self: SettingsWindow):
+                time.sleep(1)
+                self.updateSize = True
+                
+            self.updateSize = False
+            threading.Thread(target=enableUpdateSize, args=(self,)).start()
+        
+    def showEvent(self, event: QShowEvent) -> None:
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
@@ -645,7 +660,7 @@ if not(getSettings("Updated2.0Already")):
     print("Show2.0Welcome")
     sw.show()
     setSettings("Updated2.0Already", True)
-    QMessageBox.information(sw, "Elevenclock updated!", "ElevenClock has updated and now has a settings window where you can costomize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings right-clicking on the icon tray or on any ElevenClock -> Settings")
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and now has a settings window where you can customize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings by right-clicking on the icon tray or on any ElevenClock -> Settings")
 
 app.exec_()
 sys.exit(0)

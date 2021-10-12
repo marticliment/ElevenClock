@@ -1,10 +1,10 @@
 # ElevenClock
-
 [![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
 [![Downloads@Latest Badge](https://img.shields.io/github/downloads-pre/martinet101/ElevenClock/latest/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest)
 [![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
 [![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
 [![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest)
+
 
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
 
@@ -16,6 +16,9 @@ For more info, make sure to check out those articles:
 - Published on ElevenForum: [https://www.elevenforum.com/t/show-clock-on-all-taskbars-on...](https://www.elevenforum.com/t/show-clock-on-all-taskbars-on-all-displays-in-windows-11.1731/)
 - Published on PythonAwesome: [https://pythonawesome.com/elevenclock-a-secondary-clock-for...](https://pythonawesome.com/elevenclock-a-secondary-clock-for-secondary-taskbars-on-windows-11/)
 
+<!--
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/martinet101)
+<br><br>-->
 ## Table of contents
 
 - [ElevenClock](#elevenclock)
