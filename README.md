@@ -6,6 +6,8 @@
 [![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
 [![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest)
 
+![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
+
 A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
 
 For more info, make sure to check out those articles:
@@ -14,22 +16,15 @@ For more info, make sure to check out those articles:
 - Published on ElevenForum: [https://www.elevenforum.com/t/show-clock-on-all-taskbars-on...](https://www.elevenforum.com/t/show-clock-on-all-taskbars-on-all-displays-in-windows-11.1731/)
 - Published on PythonAwesome: [https://pythonawesome.com/elevenclock-a-secondary-clock-for...](https://pythonawesome.com/elevenclock-a-secondary-clock-for-secondary-taskbars-on-windows-11/)
 
-## Known Issues
-
-- For issues with the clock appearing at the middle of the screen, read [Issue #40 (comment)](https://github.com/martinet101/ElevenClock/issues/40#issuecomment-939523493)
-- For issues with the clock missing on a third monitor, i'm aware of that and i'm working on it. Please DO NOT submit more issues about this
-
 ## Table of contents
 
 - [ElevenClock](#elevenclock)
-  - [Known Issues](#known-issues)
   - [Table of contents](#table-of-contents)
   - [Features](#features)
+  - [Installation](#installation)
   - [Download from](#download-from)
-  - [How-to](#how-to)
+  - [Known Issues](#known-issues)
   - [Screenshots](#screenshots)
-
-![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
 
 ## Features
 
@@ -48,15 +43,7 @@ For more info, make sure to check out those articles:
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
 
-## Download from
-
-MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)
-OlderGeeks: [https://www.oldergeeks.com/downloads/file.php?id=3802](https://www.oldergeeks.com/downloads/file.php?id=3802)
-SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)
-Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)
-SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)
-
-## How-to
+## Installation
 
  1. Download the lastest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
  2. Open the installer and bypass Windows Defender SmartScreen: Click on more info and then on run:
@@ -68,6 +55,19 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
  4. The clock should start automatically when the installation is finished.
 
    **TIP: Clicking four times on the clock will show this webpage*
+
+## Download from
+
+MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)
+OlderGeeks: [https://www.oldergeeks.com/downloads/file.php?id=3802](https://www.oldergeeks.com/downloads/file.php?id=3802)
+SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)
+Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)
+SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)
+
+## Known Issues
+
+- For issues with the clock appearing at the middle of the screen, read [Issue #40 (comment)](https://github.com/martinet101/ElevenClock/issues/40#issuecomment-939523493)
+- For issues with the clock missing on a third monitor, i'm aware of that and i'm working on it. Please DO NOT submit more issues about this
 
 ## Screenshots
 
