@@ -365,7 +365,13 @@ class Label(QLabel):
         self.setWindowOpacity(1)
         self.window().setWindowOpacity(1)
         if(ev.button() == Qt.RightButton):
-            i.contextMenu().exec_(getMousePos())
+            mousePos = getMousePos()
+            print(i.contextMenu().height())
+            if(i.contextMenu().height() != 480):
+                mousePos.setY(self.window().y()-i.contextMenu().height())
+            else:
+                mousePos.setY(self.window().y()-156)
+            i.contextMenu().exec_(mousePos)
         else:
             self.clicked.emit()
         return super().mouseReleaseEvent(ev)
@@ -391,6 +397,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.setIcon(QIcon(os.path.join(realpath, "icon.ico")))
         self.show()
         menu = QMenu("ElevenClock")
+        menu.setWindowFlag(Qt.WindowStaysOnTopHint)
         reloadAction = QAction(f"Reload ElevenClock", app)
         reloadAction.triggered.connect(lambda: restartClocks())
         menu.addAction(reloadAction)
