@@ -91,7 +91,7 @@ class Clock(QWidget):
         dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
 
         timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-        timeMode = timeMode.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+        timeMode = timeMode.replace("Uhr", "~").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
         if not("s" in timeMode) and showSeconds==1:
             for separator in ":.-/_":
                 if(separator in timeMode):
@@ -159,7 +159,7 @@ class Clock(QWidget):
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
-        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat), self)
+        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr"), self)
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
@@ -260,7 +260,7 @@ class Clock(QWidget):
                     self.font.setWeight(QFont.Weight.Normal)
                     self.label.setFont(self.font)
                 
-            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat))
+            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr"))
         
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
