@@ -16,7 +16,6 @@ from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
 version = 2.0
-lastTheme = 0
 seconddoubleclick = False
 showSeconds = 0
 mController = MouseController()
@@ -76,7 +75,7 @@ class Clock(QWidget):
     hideSignal = Signal()
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
-        global lastTheme
+        self.lastTheme = 0
         showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
         locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
         dateTimeFormat = "%HH:%M\n%d/%m/%Y"
@@ -163,13 +162,13 @@ class Clock(QWidget):
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
-            lastTheme = 0
+            self.lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
             self.font.setWeight(QFont.Weight.Medium)
             self.label.setFont(self.font)
         else:
-            lastTheme = 1
+            self.lastTheme = 1
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
             self.label.bgopacity = .5
             self.font.setWeight(QFont.Weight.Normal)
@@ -240,21 +239,20 @@ class Clock(QWidget):
         self.refresh.emit()
         
     def refreshandShow(self):
-        global lastTheme
         if(self.shouldBeVisible):
             self.show()
             self.setVisible(True)
             self.raise_()
             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
-            if(theme != lastTheme):
+            if(theme != self.lastTheme):
                 if(theme == 0):
-                    lastTheme = 0
+                    self.lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
                     self.font.setWeight(QFont.Weight.Medium)
                     self.label.setFont(self.font)
                 else:
-                    lastTheme = 1
+                    self.lastTheme = 1
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
                     self.label.bgopacity = .5
                     self.font.setWeight(QFont.Weight.Normal)
