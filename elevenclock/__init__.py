@@ -53,6 +53,30 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             print(e)
             return default
 
+class KillableThread(threading.Thread): 
+    def __init__(self, *args, **keywords): 
+        threading.Thread.__init__(self, *args, **keywords) 
+        self.shouldBeRuning = True
+
+    def start(self): 
+        self._run = self.run 
+        self.run = self.settrace_and_run
+        threading.Thread.start(self) 
+
+    def settrace_and_run(self): 
+        sys.settrace(self.globaltrace) 
+        self._run()
+
+    def globaltrace(self, frame, event, arg): 
+        return self.localtrace if event == 'call' else None
+        
+    def localtrace(self, frame, event, arg): 
+        if not(self.shouldBeRuning) and event == 'line': 
+            raise SystemExit() 
+        return self.localtrace
+    
+    def kill(self):
+        self.shouldBeRuning = False
 
 
 class RestartSignal(QObject):
@@ -184,7 +208,8 @@ class Clock(QWidget):
         
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-        threading.Thread(target=self.fivesecsloop, daemon=True).start()
+        self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
+        self.loop.start()
 
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
@@ -263,6 +288,8 @@ class Clock(QWidget):
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
         print("close")
+        self.loop.kill()
+        event.accept()
         return super().closeEvent(event)
         
 class Label(QLabel):
@@ -388,7 +415,7 @@ class Label(QLabel):
             webbrowser.open("http://www.somepythonthings.tk/redirect/?elevenclock")
         else:
             seconddoubleclick = True
-            threading.Thread(target=toggleSeconddoubleclick).start()
+            KillableThread(target=toggleSeconddoubleclick).start()
         return super().mouseDoubleClickEvent(event)
         
 class TaskbarIconTray(QSystemTrayIcon):
@@ -465,7 +492,7 @@ class SettingsWindow(QWidget):
         self.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
         layout.addWidget(QLabel("<b>General Settings:</b>"))
         self.updateButton = QPushButton("Update to the lastest version!")
-        self.updateButton.clicked.connect(lambda: threading.Thread(target=updateIfPossible, args=((True,))).start())
+        self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
         self.updatesChBx = QCheckBox("Automatically check for updates")
@@ -535,7 +562,7 @@ class SettingsWindow(QWidget):
                 self.updateSize = True
                 
             self.updateSize = False
-            threading.Thread(target=enableUpdateSize, args=(self,)).start()
+            KillableThread(target=enableUpdateSize, args=(self,)).start()
         
     def showEvent(self, event: QShowEvent) -> None:
         self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
@@ -649,18 +676,25 @@ def closeClocks():
         clock.hide()
         clock.close()
 
+st = KillableThread(target=screenCheckThread, daemon=True)
+st.start()
+
 def restartClocks():
-    global clocks
+    global clocks, st
     for clock in clocks:
         clock.hide()
         clock.close()
     loadClocks()
-    threading.Thread(target=screenCheckThread, daemon=True).start()
+    try:
+        st.kill()
+    except AttributeError:
+        pass
+    st = KillableThread(target=screenCheckThread, daemon=True)
+    st.start()
 
-threading.Thread(target=updateChecker, daemon=True).start()
+KillableThread(target=updateChecker, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
 restartClocks()
-threading.Thread(target=screenCheckThread, daemon=True).start()
 
 
 if not(getSettings("Updated2.0Already")):
