@@ -159,7 +159,7 @@ class Clock(QWidget):
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
-        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr"), self)
+        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""), self)
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
@@ -260,7 +260,7 @@ class Clock(QWidget):
                     self.font.setWeight(QFont.Weight.Normal)
                     self.label.setFont(self.font)
                 
-            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr"))
+            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""))
         
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
