@@ -660,7 +660,7 @@ if not(getSettings("Updated2.0Already")):
     print("Show2.0Welcome")
     sw.show()
     setSettings("Updated2.0Already", True)
-    QMessageBox.information(sw, "Elevenclock updated!", "ElevenClock has updated and now has a settings window where you can costomize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings right-clicking on the icon tray or on any ElevenClock -> Settings")
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and now has a settings window where you can customize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings by right-clicking on the icon tray or on any ElevenClock -> Settings")
 
 app.exec_()
 sys.exit(0)
