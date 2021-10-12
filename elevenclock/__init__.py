@@ -7,14 +7,12 @@ from urllib.request import urlopen
 import hashlib
 from ctypes import windll
 import win32gui
-
-tdir = tempfile.TemporaryDirectory()
-tempDir = tdir.name
-
 import time, sys, threading, datetime, webbrowser
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
+tdir = tempfile.TemporaryDirectory()
+tempDir = tdir.name
 version = 2.0
 seconddoubleclick = False
 showSeconds = 0
@@ -22,19 +20,7 @@ mController = MouseController()
 
 def getMousePos():
     return QPoint(mController.position[0], mController.position[1])
-
-try:
-    os.chdir(os.path.expanduser("~"))
-    os.chdir(".elevenclock")
-except FileNotFoundError:
-    os.mkdir(".elevenclock")
-
-
-if hasattr(sys, 'frozen'):
-    realpath = sys._MEIPASS
-else:
-    realpath = '/'.join(sys.argv[0].replace("\\", "/").split("/")[:-1])
-    
+  
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
     registry = winreg.ConnectRegistry(None, storage)
     reg_keypath = aKey
@@ -52,6 +38,131 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
         except OSError as e:
             print(e)
             return default
+
+def getSettings(s: str):
+    try:
+        return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+    except Exception as e:
+        print(e)
+
+def setSettings(s: str, v: bool):
+    try:
+        if(v):
+            open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w").close()
+        else:
+            try:
+                os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+            except FileNotFoundError:
+                pass
+        restartClocks()
+        if(getSettings("DisableSystemTray")):
+            i.hide()
+        else:
+            i.show()
+    except Exception as e:
+        print(e)
+
+def updateChecker():
+    while True:
+        updateIfPossible()
+        time.sleep(7200)
+
+def updateIfPossible(force = False):
+    try:
+        if(not(getSettings("DisableAutoCheckForUpdates")) or force):
+            print("Starting update check")
+            response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
+            response = response.read().decode("utf8")
+            if float(response.split("///")[0]) > version:
+                print("Updates found!")
+                if(not(getSettings("DisableAutoInstallUpdates")) or force):
+                    url = response.split("///")[1].replace('\n', '')
+                    print(url)
+                    filedata = urlopen(url)
+                    datatowrite = filedata.read()
+                    filename = ""
+                    with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
+                        f.write(datatowrite)
+                        filename = f.name
+                    print(filename)
+                    if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
+                        print("Hash: ", response.split("///")[2].replace("\n", "").lower())
+                        print("Hash ok, starting update")
+                        if(getSettings("EnableSilentUpdates") and not(force)):
+                            subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                        else:
+                            subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+                    else:
+                        print("Hash not ok")
+                        print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                        print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
+                else:
+                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
+                    
+            else:
+                print("updates not found")
+        else:
+            print("update checking disabled")
+
+    except Exception as e:
+        print(f"Exception: {e}")
+
+def loadClocks():
+    global clocks, oldScreens
+    firstWinSkipped = False
+    oldScreens = []
+    for screen in app.screens():
+        oldScreens.append(getGeometry(screen))
+        print(screen, screen.geometry(), getGeometry(screen))
+        screen: QScreen
+        if(firstWinSkipped):
+            clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
+        else: # Skip the primary display, as it has already the clock
+            print("This is primay screen")
+            firstWinSkipped = True
+
+def getGeometry(screen: QScreen):
+    return (screen.geometry().width(), screen.geometry().height(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
+
+def theyMatch(oldscreens, newscreens):
+    if(len(oldscreens) != len(newscreens)):
+        return False # If there are display changes
+        
+    for i in range(len(oldscreens)):
+        old, new = oldscreens[i], newscreens[i]
+        if(old != getGeometry(new)): # Check if screen dimensions or dpi have changed
+            return False # They have changed (screens are not equal)
+    return True # they have not changed (screens still the same)
+            
+def screenCheckThread():
+    while theyMatch(oldScreens, app.screens()):
+        time.sleep(1)
+    signal.restartSignal.emit()
+    
+def closeClocks():
+    for clock in clocks:
+        clock.hide()
+        clock.close()
+
+def showMessage(a, b):
+    lastState = i.isVisible()
+    i.show()
+    i.showMessage(a, b)
+    sw.updateButton.show()
+    i.setVisible(lastState)
+
+def restartClocks():
+    global clocks, st
+    for clock in clocks:
+        clock.hide()
+        clock.close()
+    loadClocks()
+    try:
+        st.kill()
+    except AttributeError:
+        pass
+    st = KillableThread(target=screenCheckThread, daemon=True)
+    st.start()
 
 class KillableThread(threading.Thread): 
     def __init__(self, *args, **keywords): 
@@ -77,7 +188,6 @@ class KillableThread(threading.Thread):
     
     def kill(self):
         self.shouldBeRuning = False
-
 
 class RestartSignal(QObject):
     
@@ -454,30 +564,6 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.hide()
             print("system tray icon disabled")
 
-
-def getSettings(s: str):
-    try:
-        return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
-    except Exception as e:
-        print(e)
-
-def setSettings(s: str, v: bool):
-    try:
-        if(v):
-            open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w").close()
-        else:
-            try:
-                os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
-            except FileNotFoundError:
-                pass
-        restartClocks()
-        if(getSettings("DisableSystemTray")):
-            i.hide()
-        else:
-            i.show()
-    except Exception as e:
-        print(e)
-
 class SettingsWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -571,131 +657,37 @@ class SettingsWindow(QWidget):
         self.hide()
         event.ignore()
 
+
+try:
+    os.chdir(os.path.expanduser("~"))
+    os.chdir(".elevenclock")
+except FileNotFoundError:
+    os.mkdir(".elevenclock")
+
+
+if hasattr(sys, 'frozen'):
+    realpath = sys._MEIPASS
+else:
+    realpath = '/'.join(sys.argv[0].replace("\\", "/").split("/")[:-1])
+  
+clocks = []
+oldScreens = []
+
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
-
-
-def showMessage(a, b):
-    lastState = i.isVisible()
-    i.show()
-    i.showMessage(a, b)
-    sw.updateButton.show()
-    i.setVisible(lastState)
 
 app = QApplication()
 signal = RestartSignal()
 showNotif = InfoSignal()
 sw = SettingsWindow()
-showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
-    
 i = TaskbarIconTray(app)
-clocks = []
-oldScreens = []
-
-if("--settings" in sys.argv):
-    sw.show()
-
-def updateChecker():
-    while True:
-        updateIfPossible()
-        time.sleep(7200)
-
-def updateIfPossible(force = False):
-    try:
-        if(not(getSettings("DisableAutoCheckForUpdates")) or force):
-            print("Starting update check")
-            response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
-            response = response.read().decode("utf8")
-            if float(response.split("///")[0]) > version:
-                print("Updates found!")
-                if(not(getSettings("DisableAutoInstallUpdates")) or force):
-                    url = response.split("///")[1].replace('\n', '')
-                    print(url)
-                    filedata = urlopen(url)
-                    datatowrite = filedata.read()
-                    filename = ""
-                    with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
-                        f.write(datatowrite)
-                        filename = f.name
-                    print(filename)
-                    if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                        print("Hash: ", response.split("///")[2].replace("\n", "").lower())
-                        print("Hash ok, starting update")
-                        if(getSettings("EnableSilentUpdates") and not(force)):
-                            subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
-                        else:
-                            subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
-                    else:
-                        print("Hash not ok")
-                        print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                        print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
-                else:
-                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
-                    
-            else:
-                print("updates not found")
-        else:
-            print("update checking disabled")
-
-    except Exception as e:
-        print(f"Exception: {e}")
-
-def loadClocks():
-    global clocks, oldScreens
-    firstWinSkipped = False
-    oldScreens = []
-    for screen in app.screens():
-        oldScreens.append(getGeometry(screen))
-        print(screen, screen.geometry(), getGeometry(screen))
-        screen: QScreen
-        if(firstWinSkipped):
-            clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
-        else: # Skip the primary display, as it has already the clock
-            print("This is primay screen")
-            firstWinSkipped = True
-
-def getGeometry(screen: QScreen):
-    return (screen.geometry().width(), screen.geometry().height(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
-
-def theyMatch(oldscreens, newscreens):
-    if(len(oldscreens) != len(newscreens)):
-        return False # If there are display changes
-        
-    for i in range(len(oldscreens)):
-        old, new = oldscreens[i], newscreens[i]
-        if(old != getGeometry(new)): # Check if screen dimensions or dpi have changed
-            return False # They have changed (screens are not equal)
-    return True # they have not changed (screens still the same)
-            
-def screenCheckThread():
-    while theyMatch(oldScreens, app.screens()):
-        time.sleep(1)
-    signal.restartSignal.emit()
-    
-def closeClocks():
-    for clock in clocks:
-        clock.hide()
-        clock.close()
+showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
 
-def restartClocks():
-    global clocks, st
-    for clock in clocks:
-        clock.hide()
-        clock.close()
-    loadClocks()
-    try:
-        st.kill()
-    except AttributeError:
-        pass
-    st = KillableThread(target=screenCheckThread, daemon=True)
-    st.start()
-
 KillableThread(target=updateChecker, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
 restartClocks()
-
 
 if not(getSettings("Updated2.0Already")):
     print("Show2.0Welcome")
@@ -703,5 +695,8 @@ if not(getSettings("Updated2.0Already")):
     setSettings("Updated2.0Already", True)
     QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and now has a settings window where you can customize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings by right-clicking on the icon tray or on any ElevenClock -> Settings")
 
+if("--settings" in sys.argv):
+    sw.show()
+    
 app.exec_()
 sys.exit(0)
