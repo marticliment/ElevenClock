@@ -2,7 +2,7 @@ from PySide2 import QtCore
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-import winreg, locale, os, tempfile, subprocess
+import winreg, locale, os, tempfile, subprocess, socket
 from urllib.request import urlopen
 import hashlib
 from ctypes import windll
@@ -13,7 +13,7 @@ from pynput.mouse import Controller as MouseController
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
-version = 2.0
+version = 2.1
 seconddoubleclick = False
 showSeconds = 0
 mController = MouseController()
@@ -67,11 +67,13 @@ def updateChecker():
         updateIfPossible()
         time.sleep(7200)
 
+
+import ipaddress
 def updateIfPossible(force = False):
     try:
         if(not(getSettings("DisableAutoCheckForUpdates")) or force):
             print("Starting update check")
-            response = urlopen("https://www.somepythonthings.tk/versions/elevenclock.ver")
+            response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver")
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
                 print("Updates found!")
@@ -84,18 +86,23 @@ def updateIfPossible(force = False):
                     with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
                         f.write(datatowrite)
                         filename = f.name
-                    print(filename)
-                    if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                        print("Hash: ", response.split("///")[2].replace("\n", "").lower())
-                        print("Hash ok, starting update")
-                        if(getSettings("EnableSilentUpdates") and not(force)):
-                            subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                        print(filename)
+                    dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
+                    print(dmname)
+                    if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
+                        if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
+                            print("Hash: ", response.split("///")[2].replace("\n", "").lower())
+                            print("Hash ok, starting update")
+                            if(getSettings("EnableSilentUpdates") and not(force)):
+                                subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                            else:
+                                subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
                         else:
-                            subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+                            print("Hash not ok")
+                            print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                            print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
                     else:
-                        print("Hash not ok")
-                        print("File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                        print("Provided hash: ", response.split("///")[2].replace("\n", "").lower())
+                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                 else:
                     showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
                     
@@ -596,6 +603,10 @@ class SettingsWindow(QWidget):
         self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i)))
         layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)")
+        self.updatesChBx.setChecked((getSettings("BypassDomainAuthCheck")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i)))
+        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Show ElevenClock on system tray")
         self.updatesChBx.setChecked(not(getSettings("DisableSystemTray")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i))))
@@ -639,6 +650,7 @@ class SettingsWindow(QWidget):
         layout.addWidget(self.updatesChBx)
         btn = QPushButton("Change date & time system (Regional settings)")
         btn.clicked.connect(lambda: os.startfile("intl.cpl"))
+        layout.addWidget(btn)
         layout.addSpacing(10)
         
         layout.addWidget(QLabel("<b>About ElevenClock:</b>"))
@@ -654,12 +666,12 @@ class SettingsWindow(QWidget):
         btn.clicked.connect(lambda: self.hide())
         layout.addWidget(btn)
         self.setLayout(layout)
-        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(600*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
     
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
-            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
+            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(600*(self.screen().logicalDotsPerInch()/96)))
         else:
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
@@ -669,7 +681,7 @@ class SettingsWindow(QWidget):
             KillableThread(target=enableUpdateSize, args=(self,)).start()
         
     def showEvent(self, event: QShowEvent) -> None:
-        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(500*(self.screen().logicalDotsPerInch()/96)))
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(600*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
@@ -694,11 +706,20 @@ oldScreens = []
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
 
 app = QApplication()
+app.setQuitOnLastWindowClosed(False)
 signal = RestartSignal()
 showNotif = InfoSignal()
+showWarn = InfoSignal()
 sw = SettingsWindow()
 i = TaskbarIconTray(app)
 showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
+showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
+
+def wanrUserAboutUpdates(a, b):
+    if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
+        os.startfile("https://github.com/martinet101/ElevenClock/releases/tag/2.0")
+
+    
 
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
@@ -713,7 +734,7 @@ if not(getSettings("Updated2.0Already")):
     setSettings("Updated2.0Already", True)
     QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and now has a settings window where you can customize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings by right-clicking on the icon tray or on any ElevenClock -> Settings")
 
-if("--settings" in sys.argv or True):
+if("--settings" in sys.argv):
     sw.show()
     
 app.exec_()
