@@ -237,7 +237,7 @@ class Clock(QWidget):
         self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
         print(self.dateTimeFormat)
         
-        self.preferedwidth = 100
+        self.preferedwidth = 150
         self.preferedHeight = 48
 
         for separator in ":.-/_":
@@ -286,7 +286,7 @@ class Clock(QWidget):
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
             win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(self.preferedwidth+8*dpix)), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
-        self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
+        self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
         self.font.setPointSizeF(9)
         self.font.setStyleStrategy(QFont.PreferOutline)
