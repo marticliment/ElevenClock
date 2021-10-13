@@ -67,29 +67,30 @@ def updateChecker():
         updateIfPossible()
         time.sleep(7200)
 
-
-import ipaddress
 def updateIfPossible(force = False):
     try:
         if(not(getSettings("DisableAutoCheckForUpdates")) or force):
             print("Starting update check")
+            integrityPass = False
+            dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
+            if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
+                integrityPass = True
             response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver")
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
                 print("Updates found!")
-                if(not(getSettings("DisableAutoInstallUpdates")) or force):
-                    url = response.split("///")[1].replace('\n', '')
-                    print(url)
-                    filedata = urlopen(url)
-                    datatowrite = filedata.read()
-                    filename = ""
-                    with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
-                        f.write(datatowrite)
-                        filename = f.name
-                        print(filename)
-                    dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
-                    print(dmname)
-                    if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
+                if(not(getSettings("EnableAutoInstallUpdates")) or force):
+                    if(integrityPass):
+                        url = response.split("///")[1].replace('\n', '')
+                        print(url)
+                        filedata = urlopen(url)
+                        datatowrite = filedata.read()
+                        filename = ""
+                        with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
+                            f.write(datatowrite)
+                            filename = f.name
+                            print(filename)
+                        print(dmname)
                         if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
                             print("Hash: ", response.split("///")[2].replace("\n", "").lower())
                             print("Hash ok, starting update")
@@ -598,8 +599,8 @@ class SettingsWindow(QWidget):
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Automatically install available updates")
-        self.updatesChBx.setChecked(not(getSettings("DisableAutoInstallUpdates")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not(bool(i))))
+        self.updatesChBx.setChecked(getSettings("EnableAutoInstallUpdates"))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableAutoInstallUpdates", bool(i)))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Enable really silent updates")
         self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
@@ -730,11 +731,11 @@ KillableThread(target=updateChecker, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
 restartClocks()
 
-if not(getSettings("Updated2.0Already")):
-    print("Show2.0Welcome")
+if not(getSettings("Updated2.1Already")):
+    print("Show2.1Welcome")
     sw.show()
-    setSettings("Updated2.0Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and now has a settings window where you can customize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings by right-clicking on the icon tray or on any ElevenClock -> Settings")
+    setSettings("Updated2.1Already", True)
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update is now disabled by default. to re-enable auto update AT YOUR OWN RISK, go to settings -> Enable auto-updates.")
 
 if("--settings" in sys.argv):
     sw.show()
