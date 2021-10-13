@@ -241,16 +241,18 @@ class Clock(QWidget):
                         timeMode += f"{separator}%S"
                         
 
-        self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-        print(self.dateTimeFormat)
         
         self.preferedwidth = 150
         self.preferedHeight = 48
 
         for separator in ":.-/_":
+            print(timeMode)
             timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
             timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+            print(timeMode)
             
+        self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+        print(self.dateTimeFormat)
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
