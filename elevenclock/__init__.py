@@ -277,7 +277,7 @@ class Clock(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
         self.autoHide = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[8]==123
-        self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
+        self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))):
                 h = self.screen.geometry().y()
@@ -358,7 +358,6 @@ class Clock(QWidget):
             win32gui.EnumWindows(winEnumHandler, 0)
             return fullscreen
         except Exception as e:
-            raise e
             return False
             
     def fivesecsloop(self):
@@ -525,20 +524,6 @@ class Label(QLabel):
             self.clicked.emit()
         return super().mouseReleaseEvent(ev)
     
-    def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
-
-        def toggleSeconddoubleclick():
-            global seconddoubleclick
-            time.sleep(1)
-            seconddoubleclick = False
-            
-        global seconddoubleclick
-        if(seconddoubleclick):
-            webbrowser.open("http://www.somepythonthings.tk/redirect/?elevenclock")
-        else:
-            seconddoubleclick = True
-            KillableThread(target=toggleSeconddoubleclick).start()
-        return super().mouseDoubleClickEvent(event)
         
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
