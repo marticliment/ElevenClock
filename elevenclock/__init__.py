@@ -267,7 +267,7 @@ class Clock(QWidget):
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
-                h = self.screen.geometry().y()+(self.preferedHeight*dpiy)
+                h = self.screen.geometry().y()
                 print("taskbar at top")
             else:
                 h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
