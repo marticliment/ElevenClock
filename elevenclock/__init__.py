@@ -246,16 +246,15 @@ class Clock(QWidget):
             
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
-                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")#font-size: {int(12*fontSizeMultiplier)}px;")
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
                 print("Small taskbar")
-                #self.dateTimeFormat = self.dateTimeFormat.replace("\n", "   ")
                 self.preferedHeight = 32
                 self.preferedwidth = 200
             else: 
-                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
         except Exception as e:
             print(e)
-            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
+            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
                 
                 
         self.screen: QScreen = screen
