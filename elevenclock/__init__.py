@@ -247,7 +247,7 @@ class Clock(QWidget):
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
                 print("Small taskbar")
-                self.dateTimeFormat = self.dateTimeFormat.replace("\n", "   ")
+                #self.dateTimeFormat = self.dateTimeFormat.replace("\n", "   ")
                 self.preferedHeight = 32
                 self.preferedwidth = 200
         except Exception as e:
