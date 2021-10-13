@@ -269,7 +269,7 @@ class Clock(QWidget):
         self.autoHide = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[8]==123
         self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications\nClick 4 times to show help")
         try:
-            if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1):
+            if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))):
                 h = self.screen.geometry().y()
                 print("taskbar at top")
             else:
@@ -578,6 +578,7 @@ class SettingsWindow(QWidget):
         layout.addStretch()
         layout.addSpacing(10)
         self.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
+        
         layout.addWidget(QLabel("<b>General Settings:</b>"))
         self.updateButton = QPushButton("Update to the lastest version!")
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
@@ -607,11 +608,23 @@ class SettingsWindow(QWidget):
         btn.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
         layout.addWidget(btn)
         layout.addSpacing(10)
+        
         layout.addWidget(QLabel("<b>Clock Settings:</b>"))
         self.updatesChBx = QCheckBox("Hide the clock in fullscreen mode")
         self.updatesChBx.setChecked((getSettings("EnableHideOnFullScreen")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnFullScreen", bool(i)))
         layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Hide the clock when RDP client is active")
+        self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Force the clock to be at the bottom of the screen")
+        self.updatesChBx.setChecked((getSettings("ForceOnBottom")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        layout.addSpacing(10)
+        
+        layout.addWidget(QLabel("<b>Date & Time Settings:</b>"))
         self.updatesChBx = QCheckBox("Show seconds on the clock")
         self.updatesChBx.setChecked((getSettings("EnableSeconds")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i)))
@@ -624,7 +637,10 @@ class SettingsWindow(QWidget):
         self.updatesChBx.setChecked(not(getSettings("DisableTime")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
         layout.addWidget(self.updatesChBx)
+        btn = QPushButton("Change date & time system (Regional settings)")
+        btn.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addSpacing(10)
+        
         layout.addWidget(QLabel("<b>About ElevenClock:</b>"))
         btn = QPushButton("View ElevenClock's homepage")
         btn.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
@@ -697,7 +713,7 @@ if not(getSettings("Updated2.0Already")):
     setSettings("Updated2.0Already", True)
     QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and now has a settings window where you can customize ElevenClock's behaviour, such as hiding or not in full screen mode, etc.\n\nAccess those settings by right-clicking on the icon tray or on any ElevenClock -> Settings")
 
-if("--settings" in sys.argv):
+if("--settings" in sys.argv or True):
     sw.show()
     
 app.exec_()
