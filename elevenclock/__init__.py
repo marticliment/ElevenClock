@@ -246,12 +246,16 @@ class Clock(QWidget):
             
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")#font-size: {int(12*fontSizeMultiplier)}px;")
                 print("Small taskbar")
                 #self.dateTimeFormat = self.dateTimeFormat.replace("\n", "   ")
                 self.preferedHeight = 32
                 self.preferedwidth = 200
+            else: 
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         except Exception as e:
             print(e)
+            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
                 
                 
         self.screen: QScreen = screen
@@ -286,7 +290,6 @@ class Clock(QWidget):
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
             win32gui.SetWindowPos(self.winId(), 0, int(self.screen.geometry().x()+self.screen.geometry().width()-(self.preferedwidth+8*dpix)), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
-        self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px; ")#font-size: {int(12*fontSizeMultiplier)}px;")
         self.font: QFont = QFont("Segoe UI Variable")
         self.font.setPointSizeF(9)
         self.font.setStyleStrategy(QFont.PreferOutline)
