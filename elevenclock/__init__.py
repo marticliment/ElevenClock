@@ -82,7 +82,7 @@ def updateIfPossible(force = False):
                 print("Updates found!")
                 if(not(getSettings("EnableAutoInstallUpdates")) or force):
                     if(integrityPass):
-                        url = response.split("///")[1].replace('\n', '')
+                        url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
                         print(url)
                         filedata = urlopen(url)
                         datatowrite = filedata.read()
