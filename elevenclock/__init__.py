@@ -45,7 +45,7 @@ def getSettings(s: str):
     except Exception as e:
         print(e)
 
-def setSettings(s: str, v: bool):
+def setSettings(s: str, v: bool, r: bool = True):
     try:
         if(v):
             open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w").close()
@@ -54,11 +54,12 @@ def setSettings(s: str, v: bool):
                 os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
             except FileNotFoundError:
                 pass
-        restartClocks()
-        if(getSettings("DisableSystemTray")):
-            i.hide()
-        else:
-            i.show()
+        if(r):
+            restartClocks()
+            if(getSettings("DisableSystemTray")):
+                i.hide()
+            else:
+                i.show()
     except Exception as e:
         print(e)
 
@@ -175,7 +176,7 @@ def restartClocks():
 def isElevenClockRunning():
     nowTime = time.time()
     name = f"ElevenClockRunning{nowTime}"
-    setSettings(name, True)
+    setSettings(name, True, False)
     while True:
         try:
             for file in glob.glob(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning*")):
@@ -187,7 +188,6 @@ def isElevenClockRunning():
             if not(getSettings(name)):
                 print("KILLING, NEWER VERSION RUNNING")
                 killSignal.infoSignal.emit("", "")
-                sys.exit()
         except Exception as e:
             print(e)
         time.sleep(2)
@@ -265,10 +265,8 @@ class Clock(QWidget):
         self.preferedHeight = 48
 
         for separator in ":.-/_":
-            print(timeMode)
             timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
             timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-            print(timeMode)
             
         self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
         print(self.dateTimeFormat)
@@ -740,8 +738,8 @@ st.start()
 
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
-signal.restartSignal.connect(restartClocks)
-restartClocks()
+signal.restartSignal.connect(lambda: restartClocks())
+loadClocks()
 
 if not(getSettings("Updated2.1Already")):
     print("Show2.1Welcome")
