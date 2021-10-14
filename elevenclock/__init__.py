@@ -13,7 +13,7 @@ from pynput.mouse import Controller as MouseController
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
-version = 2.1
+version = 2.11
 seconddoubleclick = False
 showSeconds = 0
 mController = MouseController()
@@ -354,14 +354,15 @@ class Clock(QWidget):
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
         self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
-        self.loop2.start()
+        if(getSettings("EnableHideOnRDP")):
+            self.loop2.start()
 
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
         
     def refreshProcesses(self):
         while True:
-            time.sleep(1)
+            time.sleep(10)
             self.processes = [p.name() for p in psutil.process_iter()]
             
 
