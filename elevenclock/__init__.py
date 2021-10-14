@@ -2,7 +2,7 @@ from PySide2 import QtCore
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-import winreg, locale, os, tempfile, subprocess, socket, psutil
+import winreg, locale, os, tempfile, subprocess, socket, psutil, glob
 from urllib.request import urlopen
 import hashlib
 from ctypes import windll
@@ -171,6 +171,26 @@ def restartClocks():
         pass
     st = KillableThread(target=screenCheckThread, daemon=True)
     st.start()
+
+def isElevenClockRunning():
+    nowTime = time.time()
+    name = f"ElevenClockRunning{nowTime}"
+    setSettings(name, True)
+    while True:
+        try:
+            for file in glob.glob(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning*")):
+                if(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), name) == file):
+                    pass
+                else:
+                    if(float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
+                        os.remove(file)
+            if not(getSettings(name)):
+                print("KILLING, NEWER VERSION RUNNING")
+                killSignal.infoSignal.emit("", "")
+                sys.exit()
+        except Exception as e:
+            print(e)
+        time.sleep(2)
 
 class KillableThread(threading.Thread): 
     def __init__(self, *args, **keywords): 
@@ -527,8 +547,7 @@ class Label(QLabel):
             i.contextMenu().exec_(mousePos)
         else:
             self.clicked.emit()
-        return super().mouseReleaseEvent(ev)
-    
+        return super().mouseReleaseEvent(ev)  
         
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -703,10 +722,12 @@ app.setQuitOnLastWindowClosed(False)
 signal = RestartSignal()
 showNotif = InfoSignal()
 showWarn = InfoSignal()
+killSignal = InfoSignal()
 sw = SettingsWindow()
 i = TaskbarIconTray(app)
 showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
+killSignal.infoSignal.connect(lambda: sys.exit())
 
 def wanrUserAboutUpdates(a, b):
     if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
@@ -718,6 +739,7 @@ st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
 
 KillableThread(target=updateChecker, daemon=True).start()
+KillableThread(target=isElevenClockRunning, daemon=True).start()
 signal.restartSignal.connect(restartClocks)
 restartClocks()
 
