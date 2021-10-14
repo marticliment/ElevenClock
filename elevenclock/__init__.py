@@ -2,7 +2,7 @@ from PySide2 import QtCore
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-import winreg, locale, os, tempfile, subprocess, socket
+import winreg, locale, os, tempfile, subprocess, socket, psutil
 from urllib.request import urlopen
 import hashlib
 from ctypes import windll
@@ -240,8 +240,6 @@ class Clock(QWidget):
                         timeMode += f"{separator}%#S"
                     else:
                         timeMode += f"{separator}%S"
-                        
-
         
         self.preferedwidth = 150
         self.preferedHeight = 48
@@ -265,8 +263,7 @@ class Clock(QWidget):
         except Exception as e:
             print(e)
             self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
-                
-                
+       
         self.screen: QScreen = screen
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
@@ -328,19 +325,23 @@ class Clock(QWidget):
         self.raise_()
         self.setFocus()
         
+        self.processes = [p.name() for p in psutil.process_iter()]
+        
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
+        self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
+        self.loop2.start()
 
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
         
-        if bool(windll.user32.GetSystemMetrics(0x1000)):
-            self.shouldBeVisible = False
-            print("IS RDP, closing...")
-            self.close()
-        
+    def refreshProcesses(self):
+        while True:
+            time.sleep(1)
+            self.processes = [p.name() for p in psutil.process_iter()]
+            
 
     def theresFullScreenWin(self):
         try:
@@ -371,7 +372,10 @@ class Clock(QWidget):
                     elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
                         self.hideSignal.emit()
                 else:
-                    self.refresh.emit()
+                    if("mstsc.exe" in self.processes and getSettings("EnableHideOnRDP")):
+                        self.hideSignal.emit()
+                    else:
+                        self.refresh.emit()
             else:
                 self.hideSignal.emit()
         
@@ -410,6 +414,7 @@ class Clock(QWidget):
         self.shouldBeVisible = False
         print("close")
         self.loop.kill()
+        self.loop2.kill()
         event.accept()
         return super().closeEvent(event)
         
