@@ -80,7 +80,7 @@ def updateIfPossible(force = False):
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
                 print("Updates found!")
-                if(not(getSettings("EnableAutoInstallUpdates")) or force):
+                if(not(getSettings("DisableAutoInstallUpdates")) or force):
                     if(integrityPass):
                         url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
                         print(url)
@@ -606,8 +606,8 @@ class SettingsWindow(QWidget):
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Automatically install available updates")
-        self.updatesChBx.setChecked(getSettings("EnableAutoInstallUpdates"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableAutoInstallUpdates", bool(i)))
+        self.updatesChBx.setChecked(not(getSettings("DisableAutoInstallUpdates")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QCheckBox("Enable really silent updates")
         self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
@@ -676,12 +676,12 @@ class SettingsWindow(QWidget):
         btn.clicked.connect(lambda: self.hide())
         layout.addWidget(btn)
         self.setLayout(layout)
-        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(600*(self.screen().logicalDotsPerInch()/96)))
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(650*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
     
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
-            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(600*(self.screen().logicalDotsPerInch()/96)))
+            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(650*(self.screen().logicalDotsPerInch()/96)))
         else:
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
@@ -691,7 +691,7 @@ class SettingsWindow(QWidget):
             KillableThread(target=enableUpdateSize, args=(self,)).start()
         
     def showEvent(self, event: QShowEvent) -> None:
-        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(600*(self.screen().logicalDotsPerInch()/96)))
+        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(650*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
@@ -745,7 +745,7 @@ if not(getSettings("Updated2.1Already")):
     print("Show2.1Welcome")
     sw.show()
     setSettings("Updated2.1Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update is now disabled by default. to re-enable auto update AT YOUR OWN RISK, go to settings -> Enable auto-updates.")
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update can be disabled. to disable auto update, go to settings -> Uncheck Automatically install available updates.")
 
 if("--settings" in sys.argv):
     sw.show()
