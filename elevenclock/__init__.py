@@ -192,6 +192,10 @@ def isElevenClockRunning():
             print(e)
         time.sleep(2)
 
+def wanrUserAboutUpdates(a, b):
+    if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
+        os.startfile("https://github.com/martinet101/ElevenClock/releases/tag/2.0")
+    
 class KillableThread(threading.Thread): 
     def __init__(self, *args, **keywords): 
         threading.Thread.__init__(self, *args, **keywords) 
@@ -588,11 +592,12 @@ class SettingsWindow(QWidget):
         super().__init__()
         layout = QVBoxLayout()
         self.updateSize = True
+        self.scrollWidget = QScrollArea()
+        self.resizewidget = QWidget()
         self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
         title = QLabel(f"ElevenClock v{version} Settings:")
         title.setStyleSheet("font-size: 25pt;")
         layout.addWidget(title)
-        layout.addStretch()
         layout.addSpacing(10)
         self.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
         
@@ -658,7 +663,7 @@ class SettingsWindow(QWidget):
         self.updatesChBx.setChecked(not(getSettings("DisableTime")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        btn = QPushButton("Change date & time system (Regional settings)")
+        btn = QPushButton("Change date and time format (Regional settings)")
         btn.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addWidget(btn)
         layout.addSpacing(10)
@@ -670,18 +675,29 @@ class SettingsWindow(QWidget):
         btn = QPushButton("Report an issue/request a feature")
         btn.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
         layout.addWidget(btn)
-        layout.addStretch()
-        layout.addSpacing(10)
+        btn = QPushButton("Support the dev: Give me a coffee☕")
+        btn.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
+        layout.addWidget(btn)
+        self.resizewidget.setLayout(layout)
+        self.resizewidget.setFixedHeight(700)
+        self.scrollWidget.setWidget(self.resizewidget)
+        self.scrollWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scrollWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(self.scrollWidget)
         btn = QPushButton("Close settings")
         btn.clicked.connect(lambda: self.hide())
-        layout.addWidget(btn)
-        self.setLayout(layout)
-        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(650*(self.screen().logicalDotsPerInch()/96)))
+        self.layout().addWidget(btn)
+        self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)
         self.setWindowTitle(f"ElevenClock Version {version} settings")
     
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
-            self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(650*(self.screen().logicalDotsPerInch()/96)))
+            self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
+            self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+            self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)
         else:
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
@@ -691,7 +707,9 @@ class SettingsWindow(QWidget):
             KillableThread(target=enableUpdateSize, args=(self,)).start()
         
     def showEvent(self, event: QShowEvent) -> None:
-        self.setFixedSize(int(500*(self.screen().logicalDotsPerInch()/96)), int(650*(self.screen().logicalDotsPerInch()/96)))
+        self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
@@ -727,11 +745,6 @@ showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
 
-def wanrUserAboutUpdates(a, b):
-    if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
-        os.startfile("https://github.com/martinet101/ElevenClock/releases/tag/2.0")
-
-    
 
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
@@ -745,7 +758,7 @@ if not(getSettings("Updated2.1Already")):
     print("Show2.1Welcome")
     sw.show()
     setSettings("Updated2.1Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update can be disabled. to disable auto update, go to settings -> Uncheck Automatically install available updates.")
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update can be disabled. to disable auto update, go to settings -> Uncheck Automatically install available updates.\n\nAlso, with this version you can set ElevenClock to hide automatically when running a Remote Desktop connection")
 
 if("--settings" in sys.argv):
     sw.show()
