@@ -2,18 +2,18 @@ from PySide2 import QtCore
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-import winreg, locale, os, tempfile, subprocess, socket, psutil, glob
+import winreg, locale, os, tempfile, subprocess, socket, glob
 from urllib.request import urlopen
 import hashlib
 from ctypes import windll
 import win32gui
-import time, sys, threading, datetime, webbrowser
+import time, sys, threading, datetime
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
-version = 2.11
+version = 2.2
 seconddoubleclick = False
 showSeconds = 0
 mController = MouseController()
@@ -347,7 +347,7 @@ class Clock(QWidget):
         self.raise_()
         self.setFocus()
         
-        self.processes = [p.name() for p in psutil.process_iter()]
+        self.isRDPRunning = True
         
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
@@ -362,8 +362,18 @@ class Clock(QWidget):
         
     def refreshProcesses(self):
         while True:
-            time.sleep(10)
-            self.processes = [p.name() for p in psutil.process_iter()]
+            self.isRDPRunning = False
+            p = subprocess.Popen("tasklist", shell=True, stdout=subprocess.PIPE)
+            while True:
+                out = p.stdout.read()
+                if out == b'' and p.poll() != None:
+                    break
+                if out != b'':
+                    if(b"mstsc.exe" in out):
+                        print("RDP running")
+                        self.isRDPRunning = True
+                        break        
+            time.sleep(7)
             
 
     def theresFullScreenWin(self):
@@ -395,7 +405,7 @@ class Clock(QWidget):
                     elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
                         self.hideSignal.emit()
                 else:
-                    if("mstsc.exe" in self.processes and getSettings("EnableHideOnRDP")):
+                    if(self.isRDPRunning and getSettings("EnableHideOnRDP")):
                         self.hideSignal.emit()
                     else:
                         self.refresh.emit()
@@ -551,7 +561,7 @@ class Label(QLabel):
         else:
             self.clicked.emit()
         return super().mouseReleaseEvent(ev)  
-        
+
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
         super().__init__(app)
@@ -559,8 +569,17 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.show()
         menu = QMenu("ElevenClock")
         menu.setWindowFlag(Qt.WindowStaysOnTopHint)
-        reloadAction = QAction(f"Reload ElevenClock", app)
-        reloadAction.triggered.connect(lambda: restartClocks())
+        menu.addSeparator()
+        quitAction = QAction(f"ElevenClock Settings", app)
+        quitAction.triggered.connect(lambda: sw.show())
+        menu.addAction(quitAction)
+        menu.addSeparator()
+        nameAction = QAction(f"ElevenClock v{version}", app)
+        nameAction.setEnabled(False)
+        menu.addAction(nameAction)
+        menu.addSeparator()
+        reloadAction = QAction(f"Restart ElevenClock", app)
+        reloadAction.triggered.connect(lambda: os.startfile(sys.executable))
         menu.addAction(reloadAction)
         hideAction = QAction(f"Hide ElevenClock", app)
         hideAction.triggered.connect(lambda: closeClocks())
@@ -568,32 +587,25 @@ class TaskbarIconTray(QSystemTrayIcon):
         quitAction = QAction(f"Quit ElevenClock", app)
         quitAction.triggered.connect(lambda: sys.exit())
         menu.addAction(quitAction)
-        menu.addSeparator()
-        quitAction = QAction(f"Settings...", app)
-        quitAction.triggered.connect(lambda: sw.show())
-        menu.addAction(quitAction)
-        menu.addSeparator()
-        nameAction = QAction(f"ElevenClock v{version}", app)
-        nameAction.setEnabled(False)
-        menu.addAction(nameAction)
-        reportAction = QAction(f"Report a bug", app)
-        reportAction.triggered.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
-        menu.addAction(reportAction)
         
         self.setContextMenu(menu)
         
-        self.activated.connect(lambda: restartClocks())
+        def reloadClocksIfRequired(reason: QSystemTrayIcon.ActivationReason) -> None:
+            if(reason != QSystemTrayIcon.ActivationReason.Context):
+                restartClocks()
+        
+        self.activated.connect(lambda r: reloadClocksIfRequired(r))
         
         if(getSettings("DisableSystemTray")):
             self.hide()
             print("system tray icon disabled")
 
-class SettingsWindow(QWidget):
+class SettingsWindow(QScrollArea):
     def __init__(self):
         super().__init__()
         layout = QVBoxLayout()
         self.updateSize = True
-        self.scrollWidget = QScrollArea()
+        #self.scrollWidget = QScrollArea()
         self.resizewidget = QWidget()
         self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
         title = QLabel(f"ElevenClock v{version} Settings:")
@@ -679,16 +691,15 @@ class SettingsWindow(QWidget):
         btn = QPushButton("Support the dev: Give me a coffee☕")
         btn.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
         layout.addWidget(btn)
-        self.resizewidget.setLayout(layout)
-        self.resizewidget.setFixedHeight(700)
-        self.scrollWidget.setWidget(self.resizewidget)
-        self.scrollWidget.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollWidget.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.setLayout(QVBoxLayout())
-        self.layout().addWidget(self.scrollWidget)
         btn = QPushButton("Close settings")
         btn.clicked.connect(lambda: self.hide())
-        self.layout().addWidget(btn)
+        layout.addWidget(btn)
+        self.resizewidget.setLayout(layout)
+        self.resizewidget.setFixedHeight(700)
+        self.setWidget(self.resizewidget)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.setLayout(QVBoxLayout())
         self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
         self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)

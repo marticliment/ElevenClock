@@ -2,4 +2,3 @@ pynput==1.6.8
 pywin32
 PySide2
 PyInstaller==4.1
-psutil
