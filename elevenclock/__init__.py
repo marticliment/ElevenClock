@@ -605,6 +605,7 @@ class SettingsWindow(QScrollArea):
         layout = QVBoxLayout()
         self.updateSize = True
         self.resizewidget = QWidget()
+        self.resizewidget.setObjectName("background")
         self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
         title = QLabel(f"ElevenClock v{version} Settings:")
         title.setStyleSheet("font-size: 25pt;")
@@ -702,13 +703,37 @@ class SettingsWindow(QScrollArea):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.setLayout(QVBoxLayout())
-        self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
         self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
     
     def moveEvent(self, event: QMoveEvent) -> None:
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesDarkTheme", 1)):
+            self.setStyleSheet("""
+                               #background {
+                                   background-color: #222222;
+                                   color: white;
+                               }
+                               * {
+                                   font-family: "Segoe UI Small Semibold";
+                                   color: #dddddd;
+                               }
+                               QPushButton {
+                                   background-color: #252525;
+                                   border-radius: 6px;
+                                   border: 1px solid #282828;
+                                   height: 25px;
+                                   border-top: 1px solid #333333;
+                               }
+                               QPushButton:hover {
+                                   background-color: #282828;
+                                   border-radius: 6px;
+                                   border: 1px solid #303030;
+                                   height: 25px;
+                                   border-top: 1px solid #393939;
+                               }
+                               """)
         if(self.updateSize):
-            self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
+            self.resizewidget.resize(self.width()-20, self.resizewidget.height())
             self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         else:
             def enableUpdateSize(self: SettingsWindow):
@@ -719,7 +744,6 @@ class SettingsWindow(QScrollArea):
             KillableThread(target=enableUpdateSize, args=(self,)).start()
         
     def showEvent(self, event: QShowEvent) -> None:
-        self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
         self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -771,7 +795,8 @@ if not(getSettings("Updated2.1Already")):
     setSettings("Updated2.1Already", True)
     QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update can be disabled. to disable auto update, go to settings -> Uncheck Automatically install available updates.\n\nAlso, with this version you can set ElevenClock to hide automatically when running a Remote Desktop connection")
 
-if("--settings" in sys.argv):
+showSettings = False
+if("--settings" in sys.argv or showSettings):
     sw.show()
     
 app.exec_()
