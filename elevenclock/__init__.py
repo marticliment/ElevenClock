@@ -326,7 +326,7 @@ class Clock(QWidget):
         self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""), self)
         self.label.setFont(self.font)
         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")):
             self.lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
@@ -370,7 +370,6 @@ class Clock(QWidget):
                     break
                 if out != b'':
                     if(b"mstsc.exe" in out):
-                        print("RDP running")
                         self.isRDPRunning = True
                         break        
             time.sleep(7)
@@ -428,7 +427,7 @@ class Clock(QWidget):
             self.raise_()
             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
             if(theme != self.lastTheme):
-                if(theme == 0):
+                if(theme == 0 or getSettings("ForceDarkTheme")):
                     self.lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
@@ -605,7 +604,6 @@ class SettingsWindow(QScrollArea):
         super().__init__()
         layout = QVBoxLayout()
         self.updateSize = True
-        #self.scrollWidget = QScrollArea()
         self.resizewidget = QWidget()
         self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
         title = QLabel(f"ElevenClock v{version} Settings:")
@@ -661,6 +659,10 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("ForceOnBottom")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
         layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QCheckBox("Force the clock to have white text")
+        self.updatesChBx.setChecked((getSettings("ForceDarkTheme")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
+        layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
         
         layout.addWidget(QLabel("<b>Date & Time Settings:</b>"))
@@ -702,14 +704,12 @@ class SettingsWindow(QScrollArea):
         self.setLayout(QVBoxLayout())
         self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
         self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
-        self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)
         self.setWindowTitle(f"ElevenClock Version {version} settings")
     
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
             self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
             self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
-            self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)
         else:
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
@@ -721,7 +721,6 @@ class SettingsWindow(QScrollArea):
     def showEvent(self, event: QShowEvent) -> None:
         self.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96)))
         self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
-        self.resizewidget.setFixedWidth(int(500*(self.screen().logicalDotsPerInch()/96))-40)
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
