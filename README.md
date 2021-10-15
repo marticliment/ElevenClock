@@ -25,6 +25,7 @@ For more info, make sure to check out those articles:
 - [ElevenClock](#elevenclock)
   - [Table of contents](#table-of-contents)
   - [Features](#features)
+  - [Planned Features](#planned-features)
   - [Installation](#installation)
   - [Download from](#download-from)
   - [Known Issues](#known-issues)
@@ -46,6 +47,12 @@ For more info, make sure to check out those articles:
 - The clock updates the time each second, so you won't see different times across all your taskbars
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
+
+## Planned features
+ - [ ] Style the right-click menu to give it a Windows 11 like style
+ - [ ] Add other location clocks on ElevenClock's ToolTip ([Issue #5](https://github.com/martinet101/ElevenClock/issues/5))
+ - [ ] Multi-language support ([Issue #111](https://github.com/martinet101/ElevenClock/issues/111))
+ - [ ] Any other ideas you have
 
 ## Installation
 
