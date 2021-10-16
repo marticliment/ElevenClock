@@ -260,10 +260,7 @@ class Clock(QWidget):
         if not("S" in timeMode) and showSeconds==1:
             for separator in ":.-/_":
                 if(separator in timeMode):
-                    if("#" in timeMode):
-                        timeMode += f"{separator}%#S"
-                    else:
-                        timeMode += f"{separator}%S"
+                    timeMode += f"{separator}%S"
         
         self.preferedwidth = 150
         self.preferedHeight = 48
