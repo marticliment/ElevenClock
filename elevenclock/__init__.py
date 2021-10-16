@@ -698,16 +698,13 @@ class SettingsWindow(QScrollArea):
         btn.clicked.connect(lambda: self.hide())
         layout.addWidget(btn)
         self.resizewidget.setLayout(layout)
-        self.resizewidget.setFixedHeight(700)
         self.setWidget(self.resizewidget)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.setLayout(QVBoxLayout())
-        self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
-    
-    def moveEvent(self, event: QMoveEvent) -> None:
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesDarkTheme", 1)):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0):
             self.setStyleSheet("""
                                #background {
                                    background-color: #222222;
@@ -732,9 +729,11 @@ class SettingsWindow(QScrollArea):
                                    border-top: 1px solid #393939;
                                }
                                """)
+    
+    def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
             self.resizewidget.resize(self.width()-20, self.resizewidget.height())
-            self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+            self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         else:
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
@@ -742,9 +741,13 @@ class SettingsWindow(QScrollArea):
                 
             self.updateSize = False
             KillableThread(target=enableUpdateSize, args=(self,)).start()
-        
+            
+    def resizeEvent(self, event: QMoveEvent) -> None:
+        self.resizewidget.resize(self.width()-20, self.resizewidget.height())
+        self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+                
     def showEvent(self, event: QShowEvent) -> None:
-        self.resizewidget.setFixedHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
