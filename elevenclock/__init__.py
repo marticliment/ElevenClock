@@ -596,6 +596,26 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.hide()
             print("system tray icon disabled")
 
+class QSettingsButton(QWidget):
+    clicked = Signal()
+    def __init__(self, text="", btntext="", parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.button = QPushButton(btntext, self)
+        self.setObjectName("stBtn")
+        self.setFixedHeight(50)
+        self.button.setFixedHeight(30)
+        self.button.setFixedWidth(120)
+        self.label = QLabel(text, self)
+        self.label.setFixedHeight(30)
+        self.button.clicked.connect(self.clicked.emit)
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.button.move(self.width()-140, 10)
+        self.label.move(30, 10)
+        return super().resizeEvent(event)
+    
+
 class SettingsWindow(QScrollArea):
     def __init__(self):
         super().__init__()
@@ -607,11 +627,13 @@ class SettingsWindow(QScrollArea):
         title = QLabel(f"ElevenClock v{version} Settings:")
         title.setStyleSheet("font-size: 25pt;")
         layout.addWidget(title)
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.addSpacing(10)
         self.setWindowFlags(Qt.Window | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
         
         layout.addWidget(QLabel("<b>General Settings:</b>"))
-        self.updateButton = QPushButton("Update to the lastest version!")
+        self.updateButton = QSettingsButton("Update to the lastest version!", "Install update")
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
@@ -639,7 +661,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("EnableWin32API")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
         layout.addWidget(self.updatesChBx)
-        btn = QPushButton("Change startup behaviour")
+        btn = QSettingsButton("Change startup behaviour", "Change")
         btn.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
         layout.addWidget(btn)
         layout.addSpacing(10)
@@ -676,55 +698,104 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked(not(getSettings("DisableTime")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        btn = QPushButton("Change date and time format (Regional settings)")
+        btn = QSettingsButton("Change date and time format (Regional settings)", "Open regional settings")
         btn.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addWidget(btn)
         layout.addSpacing(10)
         
         layout.addWidget(QLabel("<b>About ElevenClock:</b>"))
-        btn = QPushButton("View ElevenClock's homepage")
+        btn = QSettingsButton("View ElevenClock's homepage", "Open")
         btn.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
         layout.addWidget(btn)
-        btn = QPushButton("Report an issue/request a feature")
+        btn = QSettingsButton("Report an issue/request a feature", "Report")
         btn.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
         layout.addWidget(btn)
-        btn = QPushButton("Support the dev: Give me a coffee☕")
+        btn = QSettingsButton("Support the dev: Give me a coffee☕", "Open page")
         btn.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
         layout.addWidget(btn)
-        btn = QPushButton("Close settings")
+        btn = QSettingsButton("Close settings", "Close")
         btn.clicked.connect(lambda: self.hide())
         layout.addWidget(btn)
         self.resizewidget.setLayout(layout)
         self.setWidget(self.resizewidget)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.setLayout(QVBoxLayout())
         self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Version {version} settings")
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0):
-            self.setStyleSheet("""
-                               #background {
-                                   background-color: #222222;
+        colors = []
+        string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
+        for color in string.split(b"\x00"):
+            if(len(color)>1):
+                colors.append(f"{color[0]},{color[1]},{color[2]}")
+        print(colors)
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0 or True):
+            self.setStyleSheet(f"""
+                               #background {{
+                                   background-color: #212121;
                                    color: white;
-                               }
-                               * {
+                               }}
+                               * {{
                                    font-family: "Segoe UI Small Semibold";
                                    color: #dddddd;
-                               }
-                               QPushButton {
-                                   background-color: #252525;
+                               }}
+                               QPushButton {{
+                                   background-color: #363636;
                                    border-radius: 6px;
-                                   border: 1px solid #282828;
+                                   border: 1px solid #393939;
                                    height: 25px;
-                                   border-top: 1px solid #333333;
-                               }
-                               QPushButton:hover {
-                                   background-color: #282828;
+                                   border-top: 1px solid #404040;
+                               }}
+                               QPushButton:hover {{
+                                   background-color: #393939;
                                    border-radius: 6px;
-                                   border: 1px solid #303030;
+                                   border: 1px solid #414141;
                                    height: 25px;
-                                   border-top: 1px solid #393939;
-                               }
+                                   border-top: 1px solid #454545;
+                               }}
+                               #stBtn{{
+                                   background-color: #303030;
+                                   margin: 10px;
+                                   margin-bottom: 0px;
+                                   margin-top: 0px;
+                                   border: 1px solid #1c1c1c;
+                                   border-bottom: 0px;
+                               }}
+                               QCheckBox{{
+                                   padding: 15px;
+                                   background-color: #303030;
+                                   margin: 10px;
+                                   margin-bottom: 0px;
+                                   margin-top: 0px;
+                                   border: 1px solid #1c1c1c;
+                                   border-bottom: 0px;
+                               }}
+                               QCheckBox::indicator{{
+                                   height: 20px;
+                                   width: 20px;
+                               }}
+                               QCheckBox::indicator:unchecked {{
+                                    background-color: #252525;
+                                    border: 1px solid #444444;
+                                    border-radius: 6px;
+                               }}
+                               QCheckBox::indicator:unchecked:hover {{
+                                    background-color: #2a2a2a;
+                                    border: 1px solid #444444;
+                                    border-radius: 6px;
+                               }}
+                               QCheckBox::indicator:checked {{
+                                    border: 1px solid #444444;
+                                    background-color: rgb({colors[1]});
+                                    border-radius: 6px;
+                               }}
+                               QCheckBox::indicator:checked:hover {{
+                                    border: 1px solid #444444;
+                                    background-color: rgb({colors[2]});
+                                    border-radius: 6px;
+                               }}
+                               QSCrollArea{{
+                                   border: none;
+                               }}
                                """)
     
     def moveEvent(self, event: QMoveEvent) -> None:
@@ -741,10 +812,10 @@ class SettingsWindow(QScrollArea):
             
     def resizeEvent(self, event: QMoveEvent) -> None:
         self.resizewidget.resize(self.width()-20, self.resizewidget.height())
-        self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setMinimumHeight(int(1500*(self.screen().logicalDotsPerInch()/96)))
                 
     def showEvent(self, event: QShowEvent) -> None:
-        self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
+        self.resizewidget.setMinimumHeight(int(1500*(self.screen().logicalDotsPerInch()/96)))
     
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
@@ -795,7 +866,7 @@ if not(getSettings("Updated2.1Already")):
     setSettings("Updated2.1Already", True)
     QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update can be disabled. to disable auto update, go to settings -> Uncheck Automatically install available updates.\n\nAlso, with this version you can set ElevenClock to hide automatically when running a Remote Desktop connection")
 
-showSettings = False
+showSettings = True
 if("--settings" in sys.argv or showSettings):
     sw.show()
     
