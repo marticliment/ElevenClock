@@ -257,7 +257,7 @@ class Clock(QWidget):
 
         timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
         timeMode = timeMode.replace("Uhr", "~").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-        if not("s" in timeMode) and showSeconds==1:
+        if not("S" in timeMode) and showSeconds==1:
             for separator in ":.-/_":
                 if(separator in timeMode):
                     if("#" in timeMode):
