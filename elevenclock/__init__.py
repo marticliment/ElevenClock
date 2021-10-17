@@ -353,6 +353,7 @@ class Clock(QWidget):
         self.show()
         self.raise_()
         self.setFocus()
+        self.screen.logicalDotsPerInchChanged.connect(restartClocks)
         
         self.isRDPRunning = True
         
@@ -381,18 +382,18 @@ class Clock(QWidget):
                         break        
             time.sleep(7)
             
-
     def theresFullScreenWin(self):
         try:
             fullscreen = False
             
             def absoluteValuesAreEqual(a, b):
-                return abs(a[0]) == abs(b[0]) and abs(a[1]) == abs(b[1]) and abs(a[2]) == abs(b[2]) and abs(a[3]) == abs(b[3])
+                return (a[0]) == (b[0]) and (a[1]) == (b[1]) and (a[2]) == (b[2]) and (a[3]) == (b[3])
             
             def winEnumHandler( hwnd, ctx ):
                 nonlocal fullscreen
                 if win32gui.IsWindowVisible( hwnd ):
                     if(absoluteValuesAreEqual(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
+                        print(hwnd, self.full_screen_rect, win32gui.GetWindowRect(hwnd))
                         fullscreen = True
 
             win32gui.EnumWindows(winEnumHandler, 0)
@@ -579,6 +580,9 @@ class TaskbarIconTray(QSystemTrayIcon):
         quitAction = QAction(f"ElevenClock Settings", app)
         quitAction.triggered.connect(lambda: sw.show())
         menu.addAction(quitAction)
+        reloadAction = QAction(f"Reload Clocks", app)
+        reloadAction.triggered.connect(lambda: restartClocks())
+        menu.addAction(reloadAction)
         menu.addSeparator()
         nameAction = QAction(f"ElevenClock v{version}", app)
         nameAction.setEnabled(False)
@@ -687,8 +691,6 @@ class QSettingsCheckBox(QWidget):
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
     
-  
-   
 class SettingsWindow(QScrollArea):
     def __init__(self):
         super().__init__()
