@@ -78,7 +78,7 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
 ## Known Issues
 
 - For issues with the clock appearing at the middle of the screen, read [Issue #40 (comment)](https://github.com/martinet101/ElevenClock/issues/40#issuecomment-939523493)
-- For issues with the clock missing on a third monitor, i'm aware of that and i'm working on it. Please DO NOT submit more issues about this
+- For issues with the clock missing on a third monitor, i'm aware of that and i'm working on it. Please DO NOT submit more issues about this <b>EDIT: Fix coming in 2.2</b>
 
 ## Screenshots
 
