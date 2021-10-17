@@ -627,6 +627,7 @@ class QIconLabel(QWidget):
         self.image.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(70))
         self.image.setFixedHeight(self.getPx(30))
+        self.label.setFixedWidth(self.width()-self.getPx(70))
         self.image.setFixedWidth(self.getPx(30))
         return super().resizeEvent(event)
 
@@ -649,6 +650,7 @@ class QSettingsButton(QWidget):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(140), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
+        self.label.setFixedWidth(self.width()-self.getPx(150))
         self.label.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.button.setFixedHeight(self.getPx(30))
@@ -657,8 +659,36 @@ class QSettingsButton(QWidget):
     
     def setIcon(self, icon: QIcon) -> None:
         self.button.setIcon(icon)
-    
 
+class QSettingsCheckBox(QWidget):
+    stateChanged = Signal(bool)
+    def __init__(self, text="", parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.setObjectName("stChkBg")
+        self.checkbox = QCheckBox(text, self)
+        self.checkbox.setStyleSheet(f"font-size: 8pt;background: none;")
+        self.checkbox.setObjectName("stChk")
+        self.checkbox.stateChanged.connect(self.stateChanged.emit)
+        
+    def setChecked(self, checked: bool) -> None:
+        self.checkbox.setChecked(checked)
+        
+    def isChecked(self) -> bool:
+        return self.checkbox.isChecked()
+    
+    def getPx(self, original) -> int:
+        return int(original*(self.screen().logicalDotsPerInchX()/96))
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.checkbox.move(self.getPx(60), self.getPx(10))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(70))
+        self.setFixedHeight(self.getPx(50))
+        return super().resizeEvent(event)
+    
+  
+   
 class SettingsWindow(QScrollArea):
     def __init__(self):
         super().__init__()
@@ -678,33 +708,34 @@ class SettingsWindow(QScrollArea):
         layout.addSpacing(10)
         self.resize(900, 600)
         layout.addSpacing(20)
+        self.setFrameShape(QFrame.NoFrame)
         
         layout.addWidget(QIconLabel("General Settings:", getPath("settings_white.png")))
         self.updateButton = QSettingsButton("Update to the lastest version!", "Install update")
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
-        self.updatesChBx = QCheckBox("Automatically check for updates")
+        self.updatesChBx = QSettingsCheckBox("Automatically check for updates")
         self.updatesChBx.setChecked(not(getSettings("DisableAutoCheckForUpdates")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Automatically install available updates")
+        self.updatesChBx = QSettingsCheckBox("Automatically install available updates")
         self.updatesChBx.setChecked(not(getSettings("DisableAutoInstallUpdates")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Enable really silent updates")
+        self.updatesChBx = QSettingsCheckBox("Enable really silent updates")
         self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)")
+        self.updatesChBx = QSettingsCheckBox("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)")
         self.updatesChBx.setChecked((getSettings("BypassDomainAuthCheck")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Show ElevenClock on system tray")
+        self.updatesChBx = QSettingsCheckBox("Show ElevenClock on system tray")
         self.updatesChBx.setChecked(not(getSettings("DisableSystemTray")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Alternative clock alignment (may not work)")
+        self.updatesChBx = QSettingsCheckBox("Alternative clock alignment (may not work)")
         self.updatesChBx.setChecked((getSettings("EnableWin32API")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
         layout.addWidget(self.updatesChBx)
@@ -715,35 +746,35 @@ class SettingsWindow(QScrollArea):
         layout.addSpacing(10)
         
         layout.addWidget(QIconLabel("Clock Settings:", getPath("clock_white.png")))
-        self.updatesChBx = QCheckBox("Hide the clock in fullscreen mode")
+        self.updatesChBx = QSettingsCheckBox("Hide the clock in fullscreen mode")
         self.updatesChBx.setChecked((getSettings("EnableHideOnFullScreen")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnFullScreen", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Hide the clock when RDP client is active")
+        self.updatesChBx = QSettingsCheckBox("Hide the clock when RDP client is active")
         self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Force the clock to be at the bottom of the screen")
+        self.updatesChBx = QSettingsCheckBox("Force the clock to be at the bottom of the screen")
         self.updatesChBx.setChecked((getSettings("ForceOnBottom")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Force the clock to have white text")
+        self.updatesChBx = QSettingsCheckBox("Force the clock to have white text")
+        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
         self.updatesChBx.setChecked((getSettings("ForceDarkTheme")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
-        self.updatesChBx.setObjectName("lastWidget")
         layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
         
         layout.addWidget(QIconLabel("Date & Time Settings:", getPath("datetime_white.png")))
-        self.updatesChBx = QCheckBox("Show seconds on the clock")
+        self.updatesChBx = QSettingsCheckBox("Show seconds on the clock")
         self.updatesChBx.setChecked((getSettings("EnableSeconds")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Show date on the clock")
+        self.updatesChBx = QSettingsCheckBox("Show date on the clock")
         self.updatesChBx.setChecked(not(getSettings("DisableDate")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QCheckBox("Show time on the clock")
+        self.updatesChBx = QSettingsCheckBox("Show time on the clock")
         self.updatesChBx.setChecked(not(getSettings("DisableTime")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
         layout.addWidget(self.updatesChBx)
@@ -783,7 +814,6 @@ class SettingsWindow(QScrollArea):
         self.setWidget(self.resizewidget)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        self.resizewidget.setMinimumHeight(int(700*(self.screen().logicalDotsPerInch()/96)))
         self.setWindowTitle(f"ElevenClock Settings")
         self.applyStyleSheet()
         self.setMinimumWidth(400)
@@ -866,7 +896,7 @@ class SettingsWindow(QScrollArea):
                                    border-bottom-left-radius: {self.getPx(6)}px;
                                    border-bottom-right-radius: {self.getPx(6)}px;
                                 }}
-                                QCheckBox{{
+                                #stChkBg{{
                                    padding: {self.getPx(15)}px;
                                    padding-left: {self.getPx(45)}px;
                                    background-color: #303030;
@@ -876,27 +906,27 @@ class SettingsWindow(QScrollArea):
                                    border: {self.getPx(1)}px solid #1c1c1c;
                                    border-bottom: 0px;
                                 }}
-                                QCheckBox::indicator{{
+                                #stChk::indicator{{
                                    height: {self.getPx(20)}px;
                                    width: {self.getPx(20)}px;
                                 }}
-                                QCheckBox::indicator:unchecked {{
+                                #stChk::indicator:unchecked {{
                                     background-color: #252525;
                                     border: {self.getPx(1)}px solid #444444;
                                     border-radius: {self.getPx(6)}px;
                                 }}
-                                QCheckBox::indicator:unchecked:hover {{
+                                #stChk::indicator:unchecked:hover {{
                                     background-color: #2a2a2a;
                                     border: {self.getPx(1)}px solid #444444;
                                     border-radius: {self.getPx(6)}px;
                                 }}
-                                QCheckBox::indicator:checked {{
+                                #stChk::indicator:checked {{
                                     border: {self.getPx(1)}px solid #444444;
                                     background-color: rgb({colors[1]});
                                     border-radius: {self.getPx(6)}px;
                                     image: url({getPath("tick_grey.png")});
                                 }}
-                                QCheckBox::indicator:checked:hover {{
+                                #stChk::indicator:checked:hover {{
                                     border: {self.getPx(1)}px solid #444444;
                                     background-color: rgb({colors[2]});
                                     border-radius: {self.getPx(6)}px;
@@ -970,7 +1000,6 @@ class SettingsWindow(QScrollArea):
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
         
-
 try:
     os.chdir(os.path.expanduser("~"))
     os.chdir(".elevenclock")
