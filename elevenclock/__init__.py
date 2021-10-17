@@ -840,11 +840,20 @@ class SettingsWindow(QScrollArea):
         self.setMinimumWidth(400)
         
     def applyStyleSheet(self):
-        colors = []
+        colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
         string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
+        i  =  0
         for color in string.split(b"\x00"):
-            if(len(color)>1):
-                colors.append(f"{color[0]},{color[1]},{color[2]}")
+                try:
+                    if(color != ""):
+                        colors[i] = f"{color[0]},{color[1]},{color[2]}"
+                    else:
+                        print("NullColor")
+                except IndexError:
+                    pass
+                finally:
+                    i += 1
+        print(colors)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
