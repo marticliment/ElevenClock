@@ -161,6 +161,7 @@ def showMessage(a, b):
     i.show()
     i.showMessage(a, b)
     sw.updateButton.show()
+    sw.resizewidget.setMinimumHeight(sw.resizewidget.sizeHint().height())
     i.setVisible(lastState)
 
 def restartClocks():
@@ -730,7 +731,8 @@ class SettingsWindow(QScrollArea):
         
         self.generalSettingsTitle = QIconLabel("General Settings:", getPath(f"settings_{self.iconMode}.png"))
         layout.addWidget(self.generalSettingsTitle)
-        self.updateButton = QSettingsButton("Update to the lastest version!", "Install update")
+        self.updateButton = QSettingsButton("<b>Update to the lastest version!</b>", "Install update")
+        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
@@ -867,6 +869,7 @@ class SettingsWindow(QScrollArea):
                                    font-size: 8pt;
                                 }}
                                 QPushButton {{
+                                   width: 100px;
                                    background-color: #363636;
                                    border-radius: {self.getPx(6)}px;
                                    border: {self.getPx(1)}px solid #393939;
@@ -1026,6 +1029,7 @@ class SettingsWindow(QScrollArea):
                                    font-size: 8pt;
                                 }}
                                 QPushButton {{
+                                   width: 100px;
                                    background-color: #ffffff;
                                    border-radius: {self.getPx(6)}px;
                                    border: {self.getPx(1)}px solid #dddddd;
@@ -1233,13 +1237,13 @@ KillableThread(target=checkIfWokeUp, daemon=True).start()
 signal.restartSignal.connect(lambda: restartClocks())
 loadClocks()
 
-if not(getSettings("Updated2.1Already")):
-    print("Show2.1Welcome")
+if not(getSettings("Updated2.2Already")):
+    print("Show2.2Welcome")
     sw.show()
-    setSettings("Updated2.1Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated and, due to security reasons, auto-update can be disabled. to disable auto update, go to settings -> Uncheck Automatically install available updates.\n\nAlso, with this version you can set ElevenClock to hide automatically when running a Remote Desktop connection")
+    setSettings("Updated2.2Already", True)
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.2 sucessfully. On this version, the Three monitors issue has been fixed!\n\nAdditionally, ElevenClock can now show the clock on the left side of the screen, Has fixed doubled seconds, has (hopefully) solved an issue where ElevenClock was shown over the default clock, and has a completely redesigned Settings Window\n\nTo see the full changelog, see release 2.2 on GitHub")
 
-showSettings = True
+showSettings = False
 if("--settings" in sys.argv or showSettings):
     sw.show()
     
