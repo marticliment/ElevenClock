@@ -39,6 +39,10 @@ For more info, make sure to check out those articles:
 - It has a hide button to prevent annoying on full-screen
 - It imitates Windows 11's taskbar clock animation on hover
 - It supports taskbars on the top of the screen
+- It supports moving the clock to the left of the screen
+- It supports different system integrations, like hiding when RDP is active
+- It is compatible with small taskbars
+- It supports taskbar customizations like Start11
 - It supports seconds enabling via locale or regedit (windows 11's default clock can't do that)
 - ElevenClock downloads and installs updates automatically, so you don't have to
 - Clicking the clock shows/hides the notifications and calendar panel
@@ -77,16 +81,15 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
 
 ## Known Issues
 
-- For issues with the clock appearing at the middle of the screen, read [Issue #40 (comment)](https://github.com/martinet101/ElevenClock/issues/40#issuecomment-939523493)
-- For issues with the clock missing on a third monitor, i'm aware of that and i'm working on it. Please DO NOT submit more issues about this <b>EDIT: Fix coming in 2.2</b>
-
+ - No known issues, please report
+ -
 ## Screenshots
 
 Elevenclock on 100% DPI: ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_1.png?raw=true)
 Elevenclock on 125% DPI: ![125%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_2.png?raw=true)
 Elevenclock on 150% DPI: ![150%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_3.png?raw=true)
 Elevenclock on 175% DPI: ![175%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_4.png?raw=true)
-ElevenClock settings: (New design coming in v2.2)![Settings](https://user-images.githubusercontent.com/53119851/137625716-e0d9e5b2-d188-4a76-8146-77061970b78f.png)
+ElevenClock settings: <br>![Settings](https://user-images.githubusercontent.com/53119851/137625716-e0d9e5b2-d188-4a76-8146-77061970b78f.png)
 ![Settings2](https://user-images.githubusercontent.com/53119851/137625725-08bd6408-abcc-4c87-9be6-bbb1dad5ed75.png)
 ![Settings3](https://user-images.githubusercontent.com/53119851/137625731-08594ba7-9d66-4add-82d1-2a64400293df.png)
 
