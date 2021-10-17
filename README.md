@@ -39,6 +39,10 @@ For more info, make sure to check out those articles:
 - It has a hide button to prevent annoying on full-screen
 - It imitates Windows 11's taskbar clock animation on hover
 - It supports taskbars on the top of the screen
+- It supports moving the clock to the left of the screen
+- It supports different system integrations, like hiding when RDP is active
+- It is compatible with small taskbars
+- It supports taskbar customizations like Start11
 - It supports seconds enabling via locale or regedit (windows 11's default clock can't do that)
 - ElevenClock downloads and installs updates automatically, so you don't have to
 - Clicking the clock shows/hides the notifications and calendar panel
