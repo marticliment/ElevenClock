@@ -198,7 +198,14 @@ def isElevenClockRunning():
 def wanrUserAboutUpdates(a, b):
     if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
         os.startfile("https://github.com/martinet101/ElevenClock/releases/tag/2.0")
-    
+
+def checkIfWokeUp():
+    while True:
+        lastTime = time.time()
+        time.sleep(3)
+        if((lastTime+6) < time.time()):
+            os.startfile(sys.executable)
+
 class KillableThread(threading.Thread): 
     def __init__(self, *args, **keywords): 
         threading.Thread.__init__(self, *args, **keywords) 
@@ -999,6 +1006,7 @@ st.start()
 
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
+KillableThread(target=checkIfWokeUp, daemon=True).start()
 signal.restartSignal.connect(lambda: restartClocks())
 loadClocks()
 
