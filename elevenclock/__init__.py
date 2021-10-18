@@ -6,6 +6,7 @@ import winreg, locale, os, tempfile, subprocess, socket, glob
 from urllib.request import urlopen
 import hashlib
 from ctypes import windll
+import psutil    
 import win32gui
 import time, sys, threading, datetime
 from pynput.keyboard import Controller, Key
@@ -377,18 +378,11 @@ class Clock(QWidget):
         
     def refreshProcesses(self):
         while True:
-            self.isRDPRunning = False
-            p = subprocess.Popen("tasklist", shell=True, stdout=subprocess.PIPE)
-            while True:
-                out = p.stdout.read()
-                if out == b'' and p.poll() != None:
-                    break
-                if out != b'':
-                    if(b"mstsc.exe" in out):
-                        self.isRDPRunning = True
-                        break        
-            time.sleep(7)
-            
+            isRDPRunning = False
+            isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
+            self.isRDPRunning = isRDPRunning      
+            time.sleep(10)
+
     def theresFullScreenWin(self):
         try:
             fullscreen = False
