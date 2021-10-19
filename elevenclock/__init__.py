@@ -1261,7 +1261,7 @@ i = TaskbarIconTray(app)
 showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
-callInMain.connect(lambda f: f())
+callInMain.signal.connect(lambda f: f())
 
 
 st = KillableThread(target=screenCheckThread, daemon=True)
@@ -1277,10 +1277,10 @@ def checkIfRDPRunning():
         isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
         if(isRDPRunning):
             for clock in clocks:
-                callInMain.emit(clock.hide)
+                callInMain.signal.emit(clock.hide)
         else:
             for clock in clocks:
-                callInMain.emit(clock.show)
+                callInMain.signal.emit(clock.show)
         time.sleep(10)
 
 loop2 = KillableThread(target=checkIfRDPRunning, daemon=True)
