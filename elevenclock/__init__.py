@@ -257,6 +257,13 @@ class InfoSignal(QObject):
     def __init__(self) -> None:
         super().__init__()
 
+class FunSignal(QObject):
+    
+    signal = Signal(any)
+    
+    def __init__(self) -> None:
+        super().__init__()
+
 class Clock(QWidget):
     
     refresh = Signal()
@@ -290,6 +297,10 @@ class Clock(QWidget):
         for separator in ":.-/_":
             timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
             timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+            
+        if(getSettings("EnableHyphenFix")):
+            print("Hyphen fix")
+            dateMode = dateMode.replace("-", " \u2011")#"")
             
         self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
         print(self.dateTimeFormat)
@@ -378,20 +389,10 @@ class Clock(QWidget):
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
-        self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
-        if(getSettings("EnableHideOnRDP")):
-            self.loop2.start()
-
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
         
-    def refreshProcesses(self):
-        while True:
-            isRDPRunning = False
-            isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
-            self.isRDPRunning = isRDPRunning      
-            time.sleep(10)
 
     def theresFullScreenWin(self):
         try:
@@ -414,7 +415,7 @@ class Clock(QWidget):
             
     def fivesecsloop(self):
         while True:
-            time.sleep(0.05)
+            time.sleep(0.15)
             if not(self.theresFullScreenWin()) or not(getSettings("EnableHideOnFullScreen")):
                 if self.autoHide:
                     mousePos = getMousePos()
@@ -1253,12 +1254,14 @@ app.setQuitOnLastWindowClosed(False)
 signal = RestartSignal()
 showNotif = InfoSignal()
 showWarn = InfoSignal()
+callInMain = FunSignal()
 killSignal = InfoSignal()
 sw = SettingsWindow()
 i = TaskbarIconTray(app)
 showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
+callInMain.connect(lambda f: f())
 
 
 st = KillableThread(target=screenCheckThread, daemon=True)
@@ -1267,6 +1270,25 @@ st.start()
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
 KillableThread(target=checkIfWokeUp, daemon=True).start()
+        
+def checkIfRDPRunning():
+    while True:
+        isRDPRunning = False
+        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
+        if(isRDPRunning):
+            for clock in clocks:
+                callInMain.emit(clock.hide)
+        else:
+            for clock in clocks:
+                callInMain.emit(clock.show)
+        time.sleep(10)
+
+loop2 = KillableThread(target=checkIfRDPRunning, daemon=True)
+if(getSettings("EnableHideOnRDP")):
+    loop2.start()
+
+
+
 signal.restartSignal.connect(lambda: restartClocks())
 loadClocks()
 
