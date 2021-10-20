@@ -416,7 +416,7 @@ class Clock(QWidget):
         while True:
             time.sleep(0.05)
             if not(self.theresFullScreenWin()) or not(getSettings("EnableHideOnFullScreen")):
-                if self.autoHide:
+                if self.autoHide and not(getSettings("DisableHideWithTaskbar")):
                     mousePos = getMousePos()
                     if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
                         self.refresh.emit()
@@ -779,6 +779,10 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP client is active"))
         self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
+        self.updatesChBx.setChecked((getSettings("DisableHideWithTaskbar")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Force the clock to be at the bottom of the screen"))
         self.updatesChBx.setChecked((getSettings("ForceOnBottom")))
