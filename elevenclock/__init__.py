@@ -413,17 +413,20 @@ class Clock(QWidget):
             return False
             
     def fivesecsloop(self):
+        EnableHideOnFullScreen = getSettings("EnableHideOnFullScreen")
+        DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
+        EnableHideOnRDP = getSettings("EnableHideOnRDP")
         while True:
             time.sleep(0.05)
-            if not(self.theresFullScreenWin()) or not(getSettings("EnableHideOnFullScreen")):
-                if self.autoHide and not(getSettings("DisableHideWithTaskbar")):
+            if not(self.theresFullScreenWin()) or not(EnableHideOnFullScreen):
+                if self.autoHide and not(DisableHideWithTaskbar):
                     mousePos = getMousePos()
                     if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
                         self.refresh.emit()
                     elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
                         self.hideSignal.emit()
                 else:
-                    if(self.isRDPRunning and getSettings("EnableHideOnRDP")):
+                    if(self.isRDPRunning and EnableHideOnRDP):
                         self.hideSignal.emit()
                     else:
                         self.refresh.emit()
