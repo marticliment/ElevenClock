@@ -19,7 +19,11 @@ version = 2.3
 seconddoubleclick = False
 isRDPRunning = False
 showSeconds = 0
+timeStr = ""
 mController = MouseController()
+
+
+
 
 #lang = lang_es
 
@@ -187,7 +191,10 @@ def showMessage(a, b):
     i.setVisible(lastState)
 
 def restartClocks():
-    global clocks, st, rdpThread
+    global clocks, st, rdpThread, timethread
+    
+    
+    
     for clock in clocks:
         clock.hide()
         clock.close()
@@ -196,6 +203,7 @@ def restartClocks():
     try:
         st.kill()
         rdpThread.kill()
+        timethread.kill()
     except AttributeError:
         pass
     st = KillableThread(target=screenCheckThread, daemon=True)
@@ -203,6 +211,9 @@ def restartClocks():
     rdpThread = KillableThread(target=checkRDP, daemon=True)
     if(getSettings("EnableHideOnRDP")):
         rdpThread.start()
+    
+    timethread = KillableThread(target=timeStrThread, daemon=True)
+    timethread.start()
 
 def isElevenClockRunning():
     nowTime = time.time()
@@ -233,6 +244,42 @@ def checkIfWokeUp():
         time.sleep(3)
         if((lastTime+6) < time.time()):
             os.startfile(sys.executable)
+
+def loadTimeFormat():
+    showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
+    locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
+    dateTimeFormat = "%HH:%M\n%d/%m/%Y"
+
+    if(getSettings("DisableTime")):
+        dateTimeFormat = dateTimeFormat.replace("%HH:%M", "").replace("\n", "")
+        
+    if(getSettings("DisableDate")):
+        dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "").replace("\n", "")
+
+    dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+    dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+
+    timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+    timeMode = timeMode.replace("Uhr", "~").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+    if not("S" in timeMode) and showSeconds==1:
+        for separator in ":.-/_":
+            if(separator in timeMode):
+                timeMode += f"{separator}%S"
+
+    for separator in ":.-/_":
+        timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
+        timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+        
+    dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+    return dateTimeFormat
+
+def timeStrThread():
+    global timeStr
+    while True:
+        dateTimeFormat = loadTimeFormat()
+        for _ in range(36000):
+            timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "")
+            time.sleep(0.1)
 
 class KillableThread(threading.Thread): 
     def __init__(self, *args, **keywords): 
@@ -280,35 +327,11 @@ class Clock(QWidget):
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         self.lastTheme = 0
-        showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
-        locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-        dateTimeFormat = "%HH:%M\n%d/%m/%Y"
         
-        if(getSettings("DisableTime")):
-            dateTimeFormat = dateTimeFormat.replace("%HH:%M", "").replace("\n", "")
-            
-        if(getSettings("DisableDate")):
-            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "").replace("\n", "")
-
-        dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-        dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-
-        timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-        timeMode = timeMode.replace("Uhr", "~").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-        if not("S" in timeMode) and showSeconds==1:
-            for separator in ":.-/_":
-                if(separator in timeMode):
-                    timeMode += f"{separator}%S"
         
         self.preferedwidth = 150
         self.preferedHeight = 48
 
-        for separator in ":.-/_":
-            timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
-            timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-            
-        self.dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-        print(self.dateTimeFormat)
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
@@ -343,7 +366,7 @@ class Clock(QWidget):
             h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
             print("taskbar at bottom")
             
-        self.label = Label(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""), self)
+        self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
             w = self.screen.geometry().x()+8*dpix
             self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
@@ -476,8 +499,7 @@ class Clock(QWidget):
                     self.label.bgopacity = .5
                     self.font.setWeight(QFont.Weight.Normal)
                     self.label.setFont(self.font)
-                
-            self.label.setText(datetime.datetime.now().strftime(self.dateTimeFormat).replace("~", "Uhr").replace("'", ""))
+            self.label.setText(timeStr)
         
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
@@ -1283,12 +1305,19 @@ showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
 
 
+
+
+
+
+
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
 
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
 KillableThread(target=checkIfWokeUp, daemon=True).start()
+timethread = KillableThread(target=timeStrThread, daemon=True)
+timethread.start()
 rdpThread = KillableThread(target=checkRDP, daemon=True)
 if(getSettings("EnableHideOnRDP")):
     rdpThread.start()
