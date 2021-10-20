@@ -29,13 +29,14 @@ lang2_3 = {
     "Install update"                                                                    :"Instal·lar actualització",
     
     #Clock settings
-    "Clock Settings:"                                       :"Configuració del rellotge:",
-    "Hide the clock in fullscreen mode"                     :"Oculta el rellotge en mode de pantalla completa",
-    "Hide the clock when RDP client is active"              :"Oculta el rellotge si s'està fent servir el client d'Escriptori Remot",
-    "Force the clock to be at the bottom of the screen"     :"Força el rellotge a mostrar-se a la part de sota de la pantalla",
-    "Fix the hyphen/dash showing over the month"            :"Arregla el guió mostrant-se sobre el mes (format de la data)",
-    "Force the clock to have white text"                    :"Força el rellotge a tenir text blanc",
-    "Show the clock at the left of the screen"              :"Mostra el rellotge a l'esquerra de la pantalla",
+    "Clock Settings:"                                               :"Configuració del rellotge:",
+    "Hide the clock in fullscreen mode"                             :"Oculta el rellotge en mode de pantalla completa",
+    "Hide the clock when RDP client is active"                      :"Oculta el rellotge si s'està fent servir el client d'Escriptori Remot",
+    "Show the clock when the taskbar is set to hide automatically"  :"Mostra el rellotge quan la barra de tasques estigui configurada per a amagar-se",
+    "Force the clock to be at the bottom of the screen"             :"Força el rellotge a mostrar-se a la part de sota de la pantalla",
+    "Fix the hyphen/dash showing over the month"                    :"Arregla el guió mostrant-se sobre el mes (format de la data)",
+    "Force the clock to have white text"                            :"Força el rellotge a tenir text blanc",
+    "Show the clock at the left of the screen"                      :"Mostra el rellotge a l'esquerra de la pantalla",
     
     #Date & time settings
     "Date & Time Settings:"                             :"Configuració de data i hora:",
