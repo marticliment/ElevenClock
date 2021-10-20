@@ -275,11 +275,17 @@ def loadTimeFormat():
 
 def timeStrThread():
     global timeStr
+    fixHyphen = getSettings("EnableHyphenFix")
     while True:
         dateTimeFormat = loadTimeFormat()
-        for _ in range(36000):
-            timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "")
-            time.sleep(0.1)
+        if(fixHyphen):
+            for _ in range(36000):
+                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "").replace("-", " - ")
+                time.sleep(0.1)
+        else:
+            for _ in range(36000):
+                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "")
+                time.sleep(0.1)
 
 class KillableThread(threading.Thread): 
     def __init__(self, *args, **keywords): 
