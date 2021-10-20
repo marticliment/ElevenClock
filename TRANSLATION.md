@@ -22,7 +22,7 @@ Since ElevenClock is an app that wants to reach every single person in the world
 This is the translation program. The language packs will be .py files containing a dictionary with the translated sentences. 
 
 ## Adding a new language
-To translate ElevenClock to a language, download [this]() file, translate every sentence and submit a pull request. If you don't know how to, just email me the file at [marticlilop@gmail.com](mailto:marticlilop@gmail.com). I'll review it and publish it with the new version.
+To translate ElevenClock to a language, download [this](https://github.com/martinet101/ElevenClock/blob/main/elevenclock/lang/lang_sample.py) file, translate every sentence and submit a pull request. If you don't know how to, just email me the file at [marticlilop@gmail.com](mailto:marticlilop@gmail.com). I'll review it and publish it with the new version.
 
 ## Updating/improving a language translation
 Open a pull request with the suggested changes. I'll review it and publish the update with the next version.
