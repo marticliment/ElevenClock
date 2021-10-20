@@ -629,7 +629,7 @@ class QIconLabel(QWidget):
         super().__init__()
         self.setObjectName("subtitleLabel")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet(f"font-size: 13pt;background: none;")
+        self.label.setStyleSheet(f"font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
         self.image = QLabel(self)
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
         self.image.setStyleSheet("padding: 3px;background: none;")
@@ -661,7 +661,8 @@ class QSettingsButton(QWidget):
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet(f"font-size: 8pt;background: none;")
+        self.label.setStyleSheet(f"font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.button.setStyleSheet(f"font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
     
@@ -688,7 +689,7 @@ class QSettingsCheckBox(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
         self.checkbox = QCheckBox(text, self)
-        self.checkbox.setStyleSheet(f"font-size: 8pt;background: none;")
+        self.checkbox.setStyleSheet(f"font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.checkbox.setObjectName("stChk")
         self.checkbox.stateChanged.connect(self.stateChanged.emit)
         
@@ -720,7 +721,7 @@ class SettingsWindow(QScrollArea):
         layout.addSpacing(10)
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
-        title.setStyleSheet("font-size: 25pt;")
+        title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         layout.addWidget(title)
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -895,7 +896,6 @@ class SettingsWindow(QScrollArea):
                                 }}
                                 * {{
                                    background-color: #212121;
-                                   font-family: "Segoe UI Display";
                                    color: #dddddd;
                                    font-size: 8pt;
                                 }}
@@ -1057,7 +1057,6 @@ class SettingsWindow(QScrollArea):
                                 }}
                                 * {{
                                    background-color: #eeeeee;
-                                   font-family: "Segoe UI Display";
                                    color: #000000;
                                    font-size: 8pt;
                                 }}
