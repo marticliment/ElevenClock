@@ -865,7 +865,7 @@ class SettingsWindow(QScrollArea):
         i  =  0
         for color in string.split(b"\x00"):
                 try:
-                    if(color != ""):
+                    if(len(color)==3):
                         colors[i] = f"{color[0]},{color[1]},{color[2]}"
                     else:
                         print("NullColor")
@@ -988,7 +988,7 @@ class SettingsWindow(QScrollArea):
                                     border: {self.getPx(1)}px solid #444444;
                                     background-color: rgb({colors[1]});
                                     border-radius: {self.getPx(6)}px;
-                                    image: url({getPath("tick_white.png")});
+                                    image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
                                     border: {self.getPx(1)}px solid #444444;
@@ -1151,7 +1151,7 @@ class SettingsWindow(QScrollArea):
                                     border: {self.getPx(0)}px solid #bbbbbb;
                                     background-color: rgb({colors[4]});
                                     border-radius: {self.getPx(5)}px;
-                                    image: url({getPath("tick_black.png")});
+                                    image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
                                     border: {self.getPx(0)}px solid #bbbbbb;
@@ -1199,6 +1199,7 @@ class SettingsWindow(QScrollArea):
                                     background: none;
                                 }}
                                """)
+
     
     
     def moveEvent(self, event: QMoveEvent) -> None:
