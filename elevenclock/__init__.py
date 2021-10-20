@@ -384,7 +384,8 @@ class Clock(QWidget):
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
             win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
-        self.font: QFont = QFont("Segoe UI Variable")
+        self.font: QFont = QFont()
+        self.font.setFamilies(["Segoe UI Variable", "Gullim"])
         self.font.setPointSizeF(9)
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
