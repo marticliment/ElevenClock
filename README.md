@@ -16,10 +16,6 @@ For more info, make sure to check out those articles:
 - Published on ElevenForum: [https://www.elevenforum.com/t/show-clock-on-all-taskbars-on...](https://www.elevenforum.com/t/show-clock-on-all-taskbars-on-all-displays-in-windows-11.1731/)
 - Published on PythonAwesome: [https://pythonawesome.com/elevenclock-a-secondary-clock-for...](https://pythonawesome.com/elevenclock-a-secondary-clock-for-secondary-taskbars-on-windows-11/)
 
-## Easy installation:
-
-Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, copy and paste `winget install ElevenClock`. Finally press <kbd>Enter</kbd>. ElevenClock will be installed automatically. 
-
 ## Support the dev:
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)
@@ -28,12 +24,20 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 
 - [ElevenClock](#elevenclock)
   - [Table of contents](#table-of-contents)
+  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
   - [Features](#features)
   - [Planned Features](#planned-features)
   - [Installation](#installation)
   - [Download from](#download-from)
   - [Known Issues](#known-issues)
   - [Screenshots](#screenshots)
+
+## Translating ElevenClock to other languages
+See [TRANSLATION.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md)
+
+## Easy installation:
+
+Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, copy and paste `winget install ElevenClock`. Finally press <kbd>Enter</kbd>. ElevenClock will be installed automatically. 
 
 ## Features
 
