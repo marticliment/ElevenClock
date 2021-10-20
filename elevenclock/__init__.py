@@ -11,7 +11,7 @@ import win32gui
 import time, sys, threading, datetime
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
-#from lang import lang_es
+from lang import lang_es
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
@@ -25,13 +25,13 @@ mController = MouseController()
 
 
 
-#lang = lang_es
+lang = lang_es
 
 def _(s): #Translate function
-    #try:
-        #t = lang.lang[s]
-        #return t if t else s
-    #except KeyError:
+    try:
+        t = lang.lang[s]
+        return t if t else s
+    except KeyError:
         return s
 
 def getPath(s):
@@ -146,11 +146,12 @@ def loadClocks():
     global clocks, oldScreens
     firstWinSkipped = False
     oldScreens = []
+    clocks = []
     for screen in app.screens():
-        clocks = []
         oldScreens.append(getGeometry(screen))
         screen.logicalDotsPerInchChanged.connect(restartClocks)
         screen.orientationChanged.connect(restartClocks)
+        screen.virtualGeometryChanged.connect(restartClocks)
         print(screen, screen.geometry(), getGeometry(screen))
         screen: QScreen
         if(firstWinSkipped):
@@ -158,6 +159,8 @@ def loadClocks():
         else: # Skip the primary display, as it has already the clock
             print("This is primay screen")
             firstWinSkipped = True
+    st = KillableThread(target=screenCheckThread, daemon=True)
+    st.start()
 
 def getGeometry(screen: QScreen):
     return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
@@ -172,6 +175,7 @@ def theyMatch(oldscreens, newscreens):
     return True # they have not changed (screens still the same)
             
 def screenCheckThread():
+    print("screenCheckThread")
     while theyMatch(oldScreens, app.screens()):
         time.sleep(1)
     signal.restartSignal.emit()
@@ -206,8 +210,6 @@ def restartClocks():
         timethread.kill()
     except AttributeError:
         pass
-    st = KillableThread(target=screenCheckThread, daemon=True)
-    st.start()
     rdpThread = KillableThread(target=checkRDP, daemon=True)
     if(getSettings("EnableHideOnRDP")):
         rdpThread.start()

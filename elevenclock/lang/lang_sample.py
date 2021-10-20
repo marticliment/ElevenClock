@@ -29,13 +29,14 @@ lang2_3 = {
     "Install update"                                                                    :"",
     
     #Clock settings
-    "Clock Settings:"                                       :"",
-    "Hide the clock in fullscreen mode"                     :"",
-    "Hide the clock when RDP client is active"              :"",
-    "Force the clock to be at the bottom of the screen"     :"",
-    "Fix the hyphen/dash showing over the month"            :"",
-    "Force the clock to have white text"                    :"",
-    "Show the clock at the left of the screen"              :"",
+    "Clock Settings:"                                              :"",
+    "Hide the clock in fullscreen mode"                            :"",
+    "Hide the clock when RDP client is active"                     :"",
+    "Force the clock to be at the bottom of the screen"            :"",
+    "Show the clock when the taskbar is set to hide automatically" :"",
+    "Fix the hyphen/dash showing over the month"                   :"",
+    "Force the clock to have white text"                           :"",
+    "Show the clock at the left of the screen"                     :"",
     
     #Date & time settings
     "Date & Time Settings:"                             :"",
@@ -64,7 +65,5 @@ lang2_3 = {
     "Close settings"                            :"",
     "Close"                                     :"",
 }
-
-
 
 lang = lang2_3
