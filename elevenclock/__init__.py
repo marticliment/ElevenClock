@@ -17,6 +17,7 @@ tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
 version = 2.3
 seconddoubleclick = False
+isRDPRunning = False
 showSeconds = 0
 mController = MouseController()
 
@@ -176,17 +177,22 @@ def showMessage(a, b):
     i.setVisible(lastState)
 
 def restartClocks():
-    global clocks, st
+    global clocks, st, rdpThread
     for clock in clocks:
         clock.hide()
         clock.close()
     loadClocks()
+    
     try:
         st.kill()
+        rdpThread.kill()
     except AttributeError:
         pass
     st = KillableThread(target=screenCheckThread, daemon=True)
     st.start()
+    rdpThread = KillableThread(target=checkRDP, daemon=True)
+    if(getSettings("EnableHideOnRDP")):
+        rdpThread.start()
 
 def isElevenClockRunning():
     nowTime = time.time()
@@ -387,11 +393,10 @@ class Clock(QWidget):
         print("Full screen rect: ", self.full_screen_rect)
         
     def refreshProcesses(self):
+        global isRDPRunning
         while True:
-            isRDPRunning = False
-            isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
             self.isRDPRunning = isRDPRunning      
-            time.sleep(10)
+            time.sleep(1)
 
     def theresFullScreenWin(self):
         try:
@@ -1267,6 +1272,12 @@ showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
 
+def checkRDP():
+    print("start RDP thread")
+    global isRDPRunning
+    while True:
+        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())  
+        time.sleep(10)
 
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
@@ -1274,6 +1285,9 @@ st.start()
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
 KillableThread(target=checkIfWokeUp, daemon=True).start()
+rdpThread = KillableThread(target=checkRDP, daemon=True)
+if(getSettings("EnableHideOnRDP")):
+    rdpThread.start()
 
 
 signal.restartSignal.connect(lambda: restartClocks())
