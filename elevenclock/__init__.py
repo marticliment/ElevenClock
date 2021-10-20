@@ -54,6 +54,13 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             print(e)
             return default
 
+def checkRDP():
+    print("start RDP thread")
+    global isRDPRunning
+    while True:
+        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())  
+        time.sleep(10)
+
 def getSettings(s: str):
     try:
         return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
@@ -136,7 +143,10 @@ def loadClocks():
     firstWinSkipped = False
     oldScreens = []
     for screen in app.screens():
+        clocks = []
         oldScreens.append(getGeometry(screen))
+        screen.logicalDotsPerInchChanged.connect(restartClocks)
+        screen.orientationChanged.connect(restartClocks)
         print(screen, screen.geometry(), getGeometry(screen))
         screen: QScreen
         if(firstWinSkipped):
@@ -146,12 +156,11 @@ def loadClocks():
             firstWinSkipped = True
 
 def getGeometry(screen: QScreen):
-    return (screen.geometry().width(), screen.geometry().height(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
+    return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
 
 def theyMatch(oldscreens, newscreens):
     if(len(oldscreens) != len(newscreens)):
         return False # If there are display changes
-        
     for i in range(len(oldscreens)):
         old, new = oldscreens[i], newscreens[i]
         if(old != getGeometry(new)): # Check if screen dimensions or dpi have changed
@@ -162,6 +171,7 @@ def screenCheckThread():
     while theyMatch(oldScreens, app.screens()):
         time.sleep(1)
     signal.restartSignal.emit()
+    pass
     
 def closeClocks():
     for clock in clocks:
@@ -1272,12 +1282,6 @@ showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
 
-def checkRDP():
-    print("start RDP thread")
-    global isRDPRunning
-    while True:
-        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())  
-        time.sleep(10)
 
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
