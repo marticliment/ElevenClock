@@ -10,7 +10,7 @@ assignees: ''
 ## Before submitting the issue
 PLEASE CHECK that there are no open or close issues about the same bug before.
 
- ✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened
+ ✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the FAQ on README.md for solutions
 ## Describe the bug
 A clear and concise description of what the bug is.
 
