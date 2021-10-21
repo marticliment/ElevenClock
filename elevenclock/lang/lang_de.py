@@ -32,17 +32,17 @@ lang2_3 = {
     "Clock Settings:"                                              :"Uhr Einstellungen:",
     "Hide the clock in fullscreen mode"                            :"Uhr im Vollbildmodus verstecken",
     "Hide the clock when RDP client is active"                     :"Uhr verstecken, wenn der RDP Client aktiviert ist",
-    "Force the clock to be at the bottom of the screen"            :"Erzwingen, dass sich die Uhr auf der Unterseite des Bildschirms befindet",
+    "Force the clock to be at the bottom of the screen"            :"Uhr immer am unteren Bildschirmrand anzeigen",
     "Show the clock when the taskbar is set to hide automatically" :"Uhr zeigen, wenn die Taskleiste auf automatisch Ausblenden eingestellt ist",
     "Fix the hyphen/dash showing over the month"                   :"Korrigieren, dass der Bindestrich über dem Monat angezeigt wird",
-    "Force the clock to have white text"                           :"Erzwingen, dass der Text der Uhr weiß ist",
+    "Force the clock to have white text"                           :"Weißen Text der Uhr erzwingen",
     "Show the clock at the left of the screen"                     :"Uhr auf der linken Seite des Bildschirms anzeigen",
     
     #Date & time settings
     "Date & Time Settings:"                             :"Datum & Uhrzeit Einstellungen:",
-    "Show seconds on the clock"                         :"Sekunden auf der Uhr zeigen",
-    "Show date on the clock"                            :"Datum auf der Uhr zeigen",
-    "Show time on the clock"                            :"Zeit auf der Uhr zeigen",
+    "Show seconds on the clock"                         :"Sekunden anzeigen",
+    "Show date on the clock"                            :"Datum anzeigen",
+    "Show time on the clock"                            :"Uhrzeit anzeigen",
     "Change date and time format (Regional settings)"   :"Datums- und Uhrzeitsformat ändern (Regionale Einstellungen)",
     "Regional settings"                                 :"Regionale Einstellungen",
     
