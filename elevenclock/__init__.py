@@ -11,7 +11,7 @@ import win32gui
 import time, sys, threading, datetime
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
-from lang import lang_es
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
@@ -22,10 +22,22 @@ showSeconds = 0
 timeStr = ""
 mController = MouseController()
 
+langName = "ru"
+
+languages = {
+    "en": lang_en,
+    "ca": lang_ca,
+    "es": lang_es,
+    "ru": lang_ru,
+    "fr": lang_fr,
+    "de": lang_de
+}
 
 
-
-lang = lang_es
+try:
+    lang = languages[langName]
+except KeyError:
+    lang = lang_en
 
 def _(s): #Translate function
     try:
