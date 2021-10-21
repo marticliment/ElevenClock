@@ -30,6 +30,7 @@ For more info, make sure to check out those articles:
   - [Installation](#installation)
   - [Download from](#download-from)
   - [Known Issues](#known-issues)
+  - [Frequently asked questions](#frequently-asked-questions)
   - [Screenshots](#screenshots)
 
 ## Translating ElevenClock to other languages
@@ -89,8 +90,29 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
 
 ## Known Issues
 
- - No known issues, please report
- -
+ - ElevenClock might be reposted as a potential virus or it might be quarentined (Most of the users used Mcafee)
+ 
+## Frequently asked questions
+
+**Q: The clock shpws over fullscreen**<br>
+A: Enable fullscreen hiding in settings<br>
+
+**Q: The clock shows over RDP sessions**<br>
+A: Enable RDP hiding in settings (it may consume more CPU)<br>
+
+**Q: Can ElevenClock be in my language?**<br>
+A: Yes, just take a look to [TRANSLATION.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md)<br>
+
+**Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**<br>
+A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings<br>
+
+**Q: The clock shows seconds when the "Show Seconds" settings is disabled**<br>
+A: Check that yiu don't have seconds set in your regional settings and disable seconds following this [article's instructions](https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/) (Other guides might not work)<br>
+
+**Q: ElevenClock does not show the correct time zone when time zone is changed**<br>
+A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
+
+
 ## Screenshots
 
 Elevenclock on 100% DPI: ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_1.png?raw=true)
