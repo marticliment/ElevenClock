@@ -60,7 +60,7 @@ lang2_3 = {
     "Report"                                    :"Signaler",
     "Support the dev: Give me a coffee☕"       :"Supporter le développeur",
     "Open page"                                 :"Ouvrir la page",
-    "Icons by Icons8"                           :"Icones faites par Icons8", # Here, the word "Icons8" should not be translated
+    "Icons by Icons8"                           :"Icônes faites par Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Page web",
     "Close settings"                            :"Fermer les paramètres",
     "Close"                                     :"Fermer",
