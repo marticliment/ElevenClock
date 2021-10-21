@@ -20,9 +20,10 @@ seconddoubleclick = False
 isRDPRunning = False
 showSeconds = 0
 timeStr = ""
+dateTimeFormat = ""
 mController = MouseController()
 
-langName = "ru"
+langName = "ca"
 
 languages = {
     "en": lang_en,
@@ -92,6 +93,7 @@ def setSettings(s: str, v: bool, r: bool = True):
                 os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
             except FileNotFoundError:
                 pass
+        loadTimeFormat()
         if(r):
             restartClocks()
             if(getSettings("DisableSystemTray")):
@@ -209,8 +211,6 @@ def showMessage(a, b):
 def restartClocks():
     global clocks, st, rdpThread, timethread
     
-    
-    
     for clock in clocks:
         clock.hide()
         clock.close()
@@ -260,6 +260,7 @@ def checkIfWokeUp():
             os.startfile(sys.executable)
 
 def loadTimeFormat():
+    global dateTimeFormat
     showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
     locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
     dateTimeFormat = "%HH:%M\n%d/%m/%Y"
@@ -285,16 +286,14 @@ def loadTimeFormat():
         timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
         
     dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
-    return dateTimeFormat
 
 def timeStrThread():
-    global timeStr
+    global timeStr, dateTimeFormat
     fixHyphen = getSettings("EnableHyphenFix")
     while True:
-        dateTimeFormat = loadTimeFormat()
         if(fixHyphen):
             for _ in range(36000):
-                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "").replace("-", " - ")
+                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "").replace("t-", "t -")
                 time.sleep(0.1)
         else:
             for _ in range(36000):
@@ -804,23 +803,23 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.updateButton)
         self.updatesChBx = QSettingsCheckBox(_("Automatically check for updates"))
         self.updatesChBx.setChecked(not(getSettings("DisableAutoCheckForUpdates")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i))))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i)), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Automatically install available updates"))
         self.updatesChBx.setChecked(not(getSettings("DisableAutoInstallUpdates")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not(bool(i))))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not(bool(i)), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Enable really silent updates"))
         self.updatesChBx.setChecked((getSettings("EnableSilentUpdates")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i)))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"))
         self.updatesChBx.setChecked((getSettings("BypassDomainAuthCheck")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i)))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show ElevenClock on system tray"))
         self.updatesChBx.setChecked(not(getSettings("DisableSystemTray")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i))))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i)), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
         self.updatesChBx.setChecked((getSettings("EnableWin32API")))
@@ -868,15 +867,15 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.dateTimeTitle)
         self.updatesChBx = QSettingsCheckBox(_("Show seconds on the clock"))
         self.updatesChBx.setChecked((getSettings("EnableSeconds")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i)))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show date on the clock"))
         self.updatesChBx.setChecked(not(getSettings("DisableDate")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not(bool(i))))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not(bool(i)), r = False))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show time on the clock"))
         self.updatesChBx.setChecked(not(getSettings("DisableTime")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i)), r = False))
         layout.addWidget(self.updatesChBx)
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))

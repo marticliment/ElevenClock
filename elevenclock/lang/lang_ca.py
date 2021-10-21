@@ -34,7 +34,7 @@ lang2_3 = {
     "Hide the clock when RDP client is active"                      :"Oculta el rellotge si s'està fent servir el client d'Escriptori Remot",
     "Show the clock when the taskbar is set to hide automatically"  :"Mostra el rellotge quan la barra de tasques estigui configurada per a amagar-se",
     "Force the clock to be at the bottom of the screen"             :"Força el rellotge a mostrar-se a la part de sota de la pantalla",
-    "Fix the hyphen/dash showing over the month"                    :"Arregla el guió mostrant-se sobre el mes (format de la data)",
+    "Fix the hyphen/dash showing over the month"                    :"Arregla el guió mostrant -se sobre el mes (format de la data)",
     "Force the clock to have white text"                            :"Força el rellotge a tenir text blanc",
     "Show the clock at the left of the screen"                      :"Mostra el rellotge a l'esquerra de la pantalla",
     
