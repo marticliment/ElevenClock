@@ -10,7 +10,7 @@ import win32gui
 import time, sys, threading, datetime
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
@@ -22,7 +22,7 @@ timeStr = ""
 dateTimeFormat = ""
 mController = MouseController()
 
-langName = "en"
+langName = "pl"
 
 languages = {
     "en": lang_en,
@@ -31,6 +31,7 @@ languages = {
     "ru": lang_ru,
     "fr": lang_fr,
     "de": lang_de,
+    "pl": lang_pl,
     "tr": lang_tr
 }
 
