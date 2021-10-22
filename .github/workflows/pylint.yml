@@ -21,4 +21,5 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         cd elevenclock
-        pylint `ls -R|grep .py$|xargs`
+        FILES=$(find . -iname "*.py")
+        pylint -E $FILES
