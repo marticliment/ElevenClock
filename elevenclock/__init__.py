@@ -732,13 +732,13 @@ class QSettingsButton(QWidget):
         return int(original*(self.screen().logicalDotsPerInchX()/96))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-self.getPx(140), self.getPx(10))
+        self.button.move(self.width()-self.getPx(170), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
         self.label.setFixedWidth(self.width()-self.getPx(200))
         self.label.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.button.setFixedHeight(self.getPx(30))
-        self.button.setFixedWidth(self.getPx(120))
+        self.button.setFixedWidth(self.getPx(150))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -749,26 +749,29 @@ class QSettingsComboBox(QWidget):
     def __init__(self, text="", btntext="", parent=None):
         super().__init__(parent)
         self.setAttribute(Qt.WA_StyledBackground)
-        self.button = QComboBox(self)
-        self.button.setLayoutDirection(Qt.RightToLeft)
+        self.combobox = QComboBox(self)
+        self.combobox.setObjectName("stCmbbx")
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
         self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
-        self.button.clicked.connect(self.clicked.emit)
+        self.combobox.currentTextChanged.connect(self.clicked.emit)
 
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
+    
+    def setItems(self, i: list) -> None:
+        self.combobox.addItems(i)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-self.getPx(140), self.getPx(10))
+        self.combobox.move(self.width()-self.getPx(170), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
         self.label.setFixedWidth(self.width()-self.getPx(200))
         self.label.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
-        self.button.setFixedHeight(self.getPx(30))
-        self.button.setFixedWidth(self.getPx(120))
+        self.combobox.setFixedHeight(self.getPx(30))
+        self.combobox.setFixedWidth(self.getPx(150))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -833,6 +836,10 @@ class SettingsWindow(QScrollArea):
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
+        self.selectedLanguage = QSettingsComboBox("ElevenClock's language", _("Change"))
+        self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.selectedLanguage.setItems(languageReference.keys())
+        layout.addWidget(self.selectedLanguage)
         self.updatesChBx = QSettingsCheckBox(_("Automatically check for updates"))
         self.updatesChBx.setChecked(not(getSettings("DisableAutoCheckForUpdates")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not(bool(i)), r = False))
@@ -1091,6 +1098,38 @@ class SettingsWindow(QScrollArea):
                                     background-color: rgb({colors[2]});
                                     border-radius: {self.getPx(6)}px;
                                     image: url("{getPath("tick_white.png")}");
+                                }}
+                                #stCmbbx {{
+                                   width: 100px;
+                                   background-color: #363636;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #393939;
+                                   height: {self.getPx(25)}px;
+                                   padding-left: {self.getPx(10)}px;
+                                   border-top: {self.getPx(1)}px solid #404040;
+                                }}
+                                #stCmbbx:hover {{
+                                   background-color: #393939;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #414141;
+                                   height: {self.getPx(25)}px;
+                                   padding-left: {self.getPx(10)}px;
+                                   border-top: {self.getPx(1)}px solid #454545;
+                                }}
+                                #stCmbbx::drop-down {{
+                                    subcontrol-origin: padding;
+                                    subcontrol-position: top right;
+                                    border: none;
+                                    width: 30px;
+                                }}
+                                #stCmbbx::down-arrow {{
+                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                                    height: {self.getPx(8)}px;
+                                    width: {self.getPx(8)}px;
+                                }}
+                                #stCmbbx QAbstractItemView {{
+                                    border: {self.getPx(1)}px solid #1c1c1c;
+                                    selection-background-color: rgb({colors[2]});
                                 }}
                                 QSCrollArea,QVBoxLayout{{
                                     border: none;
