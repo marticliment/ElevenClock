@@ -19,4 +19,5 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
+        cd elevenclock
         pylint `ls -R|grep .py$|xargs`
