@@ -691,7 +691,7 @@ class QIconLabel(QWidget):
         super().__init__()
         self.setObjectName("subtitleLabel")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet(f"font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
+        self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
         self.image = QLabel(self)
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
         self.image.setStyleSheet("padding: 3px;background: none;")
@@ -723,8 +723,38 @@ class QSettingsButton(QWidget):
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet(f"font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.button.setStyleSheet(f"font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.label.setObjectName("StLbl")
+        self.button.clicked.connect(self.clicked.emit)
+
+    def getPx(self, original) -> int:
+        return int(original*(self.screen().logicalDotsPerInchX()/96))
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.button.move(self.width()-self.getPx(140), self.getPx(10))
+        self.label.move(self.getPx(60), self.getPx(10))
+        self.label.setFixedWidth(self.width()-self.getPx(200))
+        self.label.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.button.setFixedHeight(self.getPx(30))
+        self.button.setFixedWidth(self.getPx(120))
+        return super().resizeEvent(event)
+
+    def setIcon(self, icon: QIcon) -> None:
+        self.button.setIcon(icon)
+
+class QSettingsComboBox(QWidget):
+    clicked = Signal()
+    def __init__(self, text="", btntext="", parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.button = QComboBox(self)
+        self.button.setLayoutDirection(Qt.RightToLeft)
+        self.setObjectName("stBtn")
+        self.label = QLabel(text, self)
+        self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
 
@@ -751,7 +781,7 @@ class QSettingsCheckBox(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
         self.checkbox = QCheckBox(text, self)
-        self.checkbox.setStyleSheet(f"font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.checkbox.setObjectName("stChk")
         self.checkbox.stateChanged.connect(self.stateChanged.emit)
 
@@ -795,11 +825,11 @@ class SettingsWindow(QScrollArea):
             self.iconMode = "white"
         else:
             self.iconMode = "black"
-
+            
         self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"))
         layout.addWidget(self.generalSettingsTitle)
         self.updateButton = QSettingsButton(_("<b>Update to the lastest version!</b>"), _("Install update"))
-        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
+        self.updateButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
@@ -888,7 +918,7 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.languageSettingsTitle)
         self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
         self.PackInfoButton.button.hide()
-        self.PackInfoButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
+        self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.PackInfoButton)
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
         self.openTranslateButton.clicked.connect(lambda: self.hide())
@@ -899,19 +929,19 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
         self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
-        self.WebPageButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
+        self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.WebPageButton)
         self.IssueButton = QSettingsButton(_("Report an issue/request a feature"), _("Report"))
         self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
-        self.IssueButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
+        self.IssueButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.IssueButton)
         self.CofeeButton = QSettingsButton(_("Support the dev: Give me a coffee☕"), _("Open page"))
         self.CofeeButton.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
-        self.CofeeButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
+        self.CofeeButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.CofeeButton)
         self.PichonButton = QSettingsButton(_("Icons by Icons8"), _("Webpage"))
         self.PichonButton.clicked.connect(lambda: os.startfile("https://icons8.com/"))
-        self.PichonButton.setStyleSheet(f"QWidget#stBtn{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}}")
+        self.PichonButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.PichonButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: os.startfile(""))
