@@ -5,7 +5,7 @@ import winreg, locale, os, tempfile, subprocess, socket, glob
 from urllib.request import urlopen
 import hashlib
 from ctypes import windll
-import psutil    
+import psutil
 import win32gui
 import time, sys, threading, datetime
 from pynput.keyboard import Controller, Key
@@ -52,7 +52,7 @@ def getPath(s):
 
 def getMousePos():
     return QPoint(mController.position[0], mController.position[1])
-  
+
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
     registry = winreg.ConnectRegistry(None, storage)
     reg_keypath = aKey
@@ -75,7 +75,7 @@ def checkRDP():
     print("start RDP thread")
     global isRDPRunning
     while True:
-        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())  
+        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
         time.sleep(10)
 
 def getSettings(s: str):
@@ -147,7 +147,7 @@ def updateIfPossible(force = False):
                         showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                 else:
                     showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
-                    
+
             else:
                 print("updates not found")
         else:
@@ -187,14 +187,14 @@ def theyMatch(oldscreens, newscreens):
         if(old != getGeometry(new)): # Check if screen dimensions or dpi have changed
             return False # They have changed (screens are not equal)
     return True # they have not changed (screens still the same)
-            
+
 def screenCheckThread():
     print("screenCheckThread")
     while theyMatch(oldScreens, app.screens()):
         time.sleep(1)
     signal.restartSignal.emit()
     pass
-    
+
 def closeClocks():
     for clock in clocks:
         clock.hide()
@@ -210,12 +210,12 @@ def showMessage(a, b):
 
 def restartClocks():
     global clocks, st, rdpThread, timethread
-    
+
     for clock in clocks:
         clock.hide()
         clock.close()
     loadClocks()
-    
+
     try:
         st.kill()
         rdpThread.kill()
@@ -225,7 +225,7 @@ def restartClocks():
     rdpThread = KillableThread(target=checkRDP, daemon=True)
     if(getSettings("EnableHideOnRDP")):
         rdpThread.start()
-    
+
     timethread = KillableThread(target=timeStrThread, daemon=True)
     timethread.start()
 
@@ -267,7 +267,7 @@ def loadTimeFormat():
 
     if(getSettings("DisableTime")):
         dateTimeFormat = dateTimeFormat.replace("%HH:%M", "").replace("\n", "")
-        
+
     if(getSettings("DisableDate")):
         dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "").replace("\n", "")
 
@@ -284,7 +284,7 @@ def loadTimeFormat():
     for separator in ":.-/_":
         timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
         timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-        
+
     dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
 
 def timeStrThread():
@@ -300,54 +300,54 @@ def timeStrThread():
                 timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "")
                 time.sleep(0.1)
 
-class KillableThread(threading.Thread): 
-    def __init__(self, *args, **keywords): 
-        threading.Thread.__init__(self, *args, **keywords) 
+class KillableThread(threading.Thread):
+    def __init__(self, *args, **keywords):
+        threading.Thread.__init__(self, *args, **keywords)
         self.shouldBeRuning = True
 
-    def start(self): 
-        self._run = self.run 
+    def start(self):
+        self._run = self.run
         self.run = self.settrace_and_run
-        threading.Thread.start(self) 
+        threading.Thread.start(self)
 
-    def settrace_and_run(self): 
-        sys.settrace(self.globaltrace) 
+    def settrace_and_run(self):
+        sys.settrace(self.globaltrace)
         self._run()
 
-    def globaltrace(self, frame, event, arg): 
+    def globaltrace(self, frame, event, arg):
         return self.localtrace if event == 'call' else None
-        
-    def localtrace(self, frame, event, arg): 
-        if not(self.shouldBeRuning) and event == 'line': 
-            raise SystemExit() 
+
+    def localtrace(self, frame, event, arg):
+        if not(self.shouldBeRuning) and event == 'line':
+            raise SystemExit()
         return self.localtrace
-    
+
     def kill(self):
         self.shouldBeRuning = False
 
 class RestartSignal(QObject):
-    
+
     restartSignal = Signal()
-    
+
     def __init__(self) -> None:
         super().__init__()
 
 class InfoSignal(QObject):
-    
+
     infoSignal = Signal(str, str)
-    
+
     def __init__(self) -> None:
         super().__init__()
 
 class Clock(QWidget):
-    
+
     refresh = Signal()
     hideSignal = Signal()
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         self.lastTheme = 0
-        
-        
+
+
         self.preferedwidth = 150
         self.preferedHeight = 48
 
@@ -357,12 +357,12 @@ class Clock(QWidget):
                 print("Small taskbar")
                 self.preferedHeight = 32
                 self.preferedwidth = 200
-            else: 
+            else:
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
         except Exception as e:
             print(e)
             self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
-       
+
         self.screen: QScreen = screen
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
@@ -384,7 +384,7 @@ class Clock(QWidget):
         except:
             h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
             print("taskbar at bottom")
-            
+
         self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
             w = self.screen.geometry().x()+8*dpix
@@ -392,7 +392,7 @@ class Clock(QWidget):
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             w = self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth+8)*dpix)
-        
+
         if not(getSettings("EnableWin32API")):
             print("Using qt's default positioning system")
             self.move(w, h)
@@ -431,9 +431,9 @@ class Clock(QWidget):
         self.raise_()
         self.setFocus()
         self.screen.logicalDotsPerInchChanged.connect(restartClocks)
-        
+
         self.isRDPRunning = True
-        
+
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
@@ -444,20 +444,20 @@ class Clock(QWidget):
 
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
-        
+
     def refreshProcesses(self):
         global isRDPRunning
         while True:
-            self.isRDPRunning = isRDPRunning      
+            self.isRDPRunning = isRDPRunning
             time.sleep(1)
 
     def theresFullScreenWin(self):
         try:
             fullscreen = False
-            
+
             def absoluteValuesAreEqual(a, b):
                 return (a[0]) == (b[0]) and (a[1]) == (b[1]) and (a[2]) == (b[2]) and (a[3]) == (b[3])
-            
+
             def winEnumHandler( hwnd, ctx ):
                 nonlocal fullscreen
                 if win32gui.IsWindowVisible( hwnd ):
@@ -469,7 +469,7 @@ class Clock(QWidget):
             return fullscreen
         except Exception as e:
             return False
-            
+
     def fivesecsloop(self):
         EnableHideOnFullScreen = getSettings("EnableHideOnFullScreen")
         DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
@@ -490,16 +490,16 @@ class Clock(QWidget):
                         self.refresh.emit()
             else:
                 self.hideSignal.emit()
-        
+
     def showCalendar(self):
         self.keyboard.press(Key.cmd)
         self.keyboard.press('n')
         self.keyboard.release('n')
         self.keyboard.release(Key.cmd)
-        
+
     def focusOutEvent(self, event: QFocusEvent) -> None:
         self.refresh.emit()
-        
+
     def refreshandShow(self):
         if(self.shouldBeVisible):
             self.show()
@@ -520,7 +520,7 @@ class Clock(QWidget):
                     self.font.setWeight(QFont.Weight.Normal)
                     self.label.setFont(self.font)
             self.label.setText(timeStr)
-        
+
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
         print("close")
@@ -528,7 +528,7 @@ class Clock(QWidget):
         self.loop2.kill()
         event.accept()
         return super().closeEvent(event)
-        
+
 class Label(QLabel):
     clicked = Signal()
     def __init__(self, text, parent):
@@ -551,8 +551,8 @@ class Label(QLabel):
         self.hideBackground.setDuration(100)
         self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
         self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity});"))
-        
-        
+
+
     def enterEvent(self, event: QEvent) -> None:
         geometry: QRect = self.getTextUsedSpaceRect()
         self.showBackground.setStartValue(.001)
@@ -568,17 +568,17 @@ class Label(QLabel):
             self.backgroundwidget.move(0, 0)
             self.backgroundwidget.resize(self.width(), self.height())
         self.showBackground.start()
-        
-        
-        
+
+
+
         return super().enterEvent(event)
-    
+
     def leaveEvent(self, event: QEvent) -> None:
         self.hideBackground.setStartValue(self.bgopacity)
         self.hideBackground.setEndValue(.001) # Not 0 to prevent white flashing on the border
         self.hideBackground.start()
         return super().leaveEvent(event)
-    
+
     def getTextUsedSpaceRect(self):
         effectiveIndent = self.indent()
         trueMargin = self.margin()
@@ -606,14 +606,14 @@ class Label(QLabel):
             offsetX = trueMargin + self.frameWidth()
         elif(self.alignment() and Qt.AlignLeft):
             offsetX = indentOffset
-        
+
         if(self.alignment() and Qt.AlignVCenter):
             offsetY = self.rect().height() / 2 - bRect.height() / 2
         elif(self.alignment() and Qt.AlignBottom):
             offsetY = self.rect().height() - bRect.height() - indentOffset
         elif(self.alignment() and Qt.AlignTop):
             offsetY = indentOffset
-        
+
 
         bRect.moveTopLeft(self.rect().topLeft())
         bRect.setX(bRect.x() + offsetX)
@@ -627,7 +627,7 @@ class Label(QLabel):
         self.setWindowOpacity(0.7)
         self.window().setWindowOpacity(0.7)
         return super().mousePressEvent(ev)
-        
+
     def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
         self.setWindowOpacity(1)
         self.window().setWindowOpacity(1)
@@ -641,7 +641,7 @@ class Label(QLabel):
             i.contextMenu().exec_(mousePos)
         else:
             self.clicked.emit()
-        return super().mouseReleaseEvent(ev)  
+        return super().mouseReleaseEvent(ev)
 
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -671,15 +671,15 @@ class TaskbarIconTray(QSystemTrayIcon):
         quitAction = QAction(_("Quit ElevenClock"), app)
         quitAction.triggered.connect(lambda: sys.exit())
         menu.addAction(quitAction)
-        
+
         self.setContextMenu(menu)
-        
+
         def reloadClocksIfRequired(reason: QSystemTrayIcon.ActivationReason) -> None:
             if(reason != QSystemTrayIcon.ActivationReason.Context):
                 restartClocks()
-        
+
         self.activated.connect(lambda r: reloadClocksIfRequired(r))
-        
+
         if(getSettings("DisableSystemTray")):
             self.hide()
             print("system tray icon disabled")
@@ -694,13 +694,13 @@ class QIconLabel(QWidget):
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
         self.image.setStyleSheet("padding: 3px;background: none;")
         self.setAttribute(Qt.WA_StyledBackground)
-        
+
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
-    
+
     def setIcon(self, icon: str) -> None:
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.label.move(self.getPx(60), self.getPx(25))
         self.label.setFixedHeight(self.getPx(30))
@@ -725,10 +725,10 @@ class QSettingsButton(QWidget):
         self.button.setStyleSheet(f"font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
-    
+
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(140), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
@@ -738,7 +738,7 @@ class QSettingsButton(QWidget):
         self.button.setFixedHeight(self.getPx(30))
         self.button.setFixedWidth(self.getPx(120))
         return super().resizeEvent(event)
-    
+
     def setIcon(self, icon: QIcon) -> None:
         self.button.setIcon(icon)
 
@@ -752,23 +752,23 @@ class QSettingsCheckBox(QWidget):
         self.checkbox.setStyleSheet(f"font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.checkbox.setObjectName("stChk")
         self.checkbox.stateChanged.connect(self.stateChanged.emit)
-        
+
     def setChecked(self, checked: bool) -> None:
         self.checkbox.setChecked(checked)
-        
+
     def isChecked(self) -> bool:
         return self.checkbox.isChecked()
-    
+
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.checkbox.move(self.getPx(60), self.getPx(10))
         self.checkbox.setFixedHeight(self.getPx(30))
         self.checkbox.setFixedWidth(self.width()-self.getPx(70))
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
-    
+
 class SettingsWindow(QScrollArea):
     def __init__(self):
         super().__init__()
@@ -793,7 +793,7 @@ class SettingsWindow(QScrollArea):
             self.iconMode = "white"
         else:
             self.iconMode = "black"
-        
+
         self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"))
         layout.addWidget(self.generalSettingsTitle)
         self.updateButton = QSettingsButton(_("<b>Update to the lastest version!</b>"), _("Install update"))
@@ -829,7 +829,7 @@ class SettingsWindow(QScrollArea):
         self.startupButton.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
         layout.addWidget(self.startupButton)
         layout.addSpacing(10)
-        
+
         self.clockSettingsTitle = QIconLabel(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"))
         layout.addWidget(self.clockSettingsTitle)
         self.updatesChBx = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
@@ -862,7 +862,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
         layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
-        
+
         self.dateTimeTitle = QIconLabel(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"))
         layout.addWidget(self.dateTimeTitle)
         self.updatesChBx = QSettingsCheckBox(_("Show seconds on the clock"))
@@ -881,7 +881,7 @@ class SettingsWindow(QScrollArea):
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addWidget(self.RegionButton)
         layout.addSpacing(10)
-        
+
         self.languageSettingsTitle = QIconLabel(_("About the language pack:").format(version), getPath(f"lang_{self.iconMode}.png"))
         layout.addWidget(self.languageSettingsTitle)
         self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
@@ -892,7 +892,7 @@ class SettingsWindow(QScrollArea):
         self.openTranslateButton.clicked.connect(lambda: self.hide())
         layout.addWidget(self.openTranslateButton)
         layout.addSpacing(10)
-        
+
         self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(version), getPath(f"about_{self.iconMode}.png"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
@@ -915,7 +915,7 @@ class SettingsWindow(QScrollArea):
         self.closeButton.clicked.connect(lambda: os.startfile(""))
         layout.addWidget(self.closeButton)
         layout.addSpacing(10)
-        
+
         self.resizewidget.setLayout(layout)
         self.setWidget(self.resizewidget)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -923,21 +923,21 @@ class SettingsWindow(QScrollArea):
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
         self.setMinimumWidth(400)
-        
+
     def applyStyleSheet(self):
         colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
         string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
         i  =  0
         for color in string.split(b"\x00"):
-                try:
-                    if(len(color)==3):
-                        colors[i] = f"{color[0]},{color[1]},{color[2]}"
-                    else:
-                        print("NullColor")
-                except IndexError:
-                    pass
-                finally:
-                    i += 1
+            try:
+                if(len(color)==3):
+                    colors[i] = f"{color[0]},{color[1]},{color[2]}"
+                else:
+                    print("NullColor")
+            except IndexError:
+                pass
+            finally:
+                i += 1
         print(colors)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
@@ -1263,8 +1263,8 @@ class SettingsWindow(QScrollArea):
                                 }}
                                """)
 
-    
-    
+
+
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
             self.resizewidget.resize(self.width()-self.getPx(17), self.resizewidget.height())
@@ -1273,18 +1273,18 @@ class SettingsWindow(QScrollArea):
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
                 self.updateSize = True
-                
+
             self.updateSize = False
             KillableThread(target=enableUpdateSize, args=(self,)).start()
-            
+
     def resizeEvent(self, event: QMoveEvent) -> None:
         self.resizewidget.resize(self.width()-self.getPx(17), self.resizewidget.height())
         self.resizewidget.setMinimumHeight(self.resizewidget.sizeHint().height())
-        
+
     def show(self) -> None:
         self.applyStyleSheet()
         return super().show()
-                
+
     def showEvent(self, event: QShowEvent) -> None:
         self.resizewidget.setMinimumHeight(self.resizewidget.sizeHint().height())
         return super().showEvent(event)
@@ -1292,10 +1292,10 @@ class SettingsWindow(QScrollArea):
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
         event.ignore()
-        
+
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
-        
+
 try:
     os.chdir(os.path.expanduser("~"))
     os.chdir(".elevenclock")
@@ -1306,7 +1306,7 @@ if hasattr(sys, 'frozen'):
     realpath = sys._MEIPASS
 else:
     realpath = '/'.join(sys.argv[0].replace("\\", "/").split("/")[:-1])
-  
+
 clocks = []
 oldScreens = []
 
@@ -1355,6 +1355,6 @@ if not(getSettings("Updated2.2Already")):
 showSettings = False
 if("--settings" in sys.argv or showSettings):
     sw.show()
-    
+
 app.exec_()
 sys.exit(0)
