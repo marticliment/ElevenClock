@@ -26,7 +26,7 @@ For more info, make sure to check out this article published on MS Answers forum
   - [Installation](#installation)
   - [Download from](#download-from)
   - [Known Issues](#known-issues)
-  - [Frequently asked questions](#frequently-asked-questions)
+  - [Frequently Asked Questions](#frequently-asked-questions)
   - [Screenshots](#screenshots)
 
 ## Translating ElevenClock to other languages
@@ -90,7 +90,7 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
  
 ## Frequently asked questions
 
-**Q: The clock shpws over fullscreen**<br>
+**Q: The clock shows over fullscreen**<br>
 A: Enable fullscreen hiding in settings<br>
 
 **Q: The clock shows over RDP sessions**<br>
@@ -108,6 +108,8 @@ A: Check that yiu don't have seconds set in your regional settings and disable s
 **Q: ElevenClock does not show the correct time zone when time zone is changed**<br>
 A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
 
+**Q: The main clock does not get modified when enabling seconds, etc.**<br>
+A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
 
 ## Screenshots
 
