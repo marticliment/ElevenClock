@@ -12,36 +12,8 @@ from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl
 
-tdir = tempfile.TemporaryDirectory()
-tempDir = tdir.name
-version = 2.3
-seconddoubleclick = False
-isRDPRunning = False
-showSeconds = 0
-timeStr = ""
-dateTimeFormat = ""
-mController = MouseController()
-
-langName = "pl"
-
-languages = {
-    "en": lang_en,
-    "ca": lang_ca,
-    "es": lang_es,
-    "ru": lang_ru,
-    "fr": lang_fr,
-    "de": lang_de,
-    "pl": lang_pl,
-    "tr": lang_tr
-}
-
-
-try:
-    lang = languages[langName]
-except KeyError:
-    lang = lang_en
-
 def _(s): #Translate function
+    global lang
     try:
         t = lang.lang[s]
         return t if t else s
@@ -101,6 +73,24 @@ def setSettings(s: str, v: bool, r: bool = True):
                 i.hide()
             else:
                 i.show()
+    except Exception as e:
+        print(e)
+
+def getSettingsValue(s: str):
+    try:
+        with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "r") as sf:
+            return sf.read()
+    except Exception as e:
+        print(e)
+        return ""
+
+def setSettingsValue(s: str, v: str, r: bool = True):
+    try:
+        with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w") as sf:
+            sf.write(v)
+        loadTimeFormat()
+        if(r):
+            restartClocks()
     except Exception as e:
         print(e)
 
@@ -820,7 +810,7 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show ElevenClock on system tray"))
         self.updatesChBx.setChecked(not(getSettings("DisableSystemTray")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i)), r = False))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
         self.updatesChBx.setChecked((getSettings("EnableWin32API")))
@@ -1297,6 +1287,9 @@ class SettingsWindow(QScrollArea):
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
 
+
+# Start of main script
+
 try:
     os.chdir(os.path.expanduser("~"))
     os.chdir(".elevenclock")
@@ -1308,11 +1301,69 @@ if hasattr(sys, 'frozen'):
 else:
     realpath = '/'.join(sys.argv[0].replace("\\", "/").split("/")[:-1])
 
+languages = {
+    "en": lang_en,
+    "ca": lang_ca,
+    "es": lang_es,
+    "ru": lang_ru,
+    "fr": lang_fr,
+    "de": lang_de,
+    "pl": lang_pl,
+    "tr": lang_tr
+}
+
+languageReference = {
+    "System language": "default",
+    "English": "en",
+    "Catalan": "ca",
+    "Spanish": "es",
+    "Russian": "ru",
+    "French" : "fr",
+    "German" : "de",
+    "Polish" : "pl",
+    "Turkish": "tr",
+}
+
+if getSettingsValue("PreferredLanguage") == "":
+    setSettingsValue("PreferredLanguage", "default", False)
+
+if getSettingsValue("PreferredLanguage") == "default":
+    try:
+        print(locale.getdefaultlocale()[0][0:2])
+        lang = languages[locale.getdefaultlocale()[0][0:2]]
+    except KeyError:
+        lang = lang_en
+        print("unknown language")
+    except Exception as e:
+        print(e)
+        lang = lang_en
+else:
+    try:
+        print(getSettingsValue("PreferredLanguage")[0:2])
+        lang = languages[getSettingsValue("PreferredLanguage")[0:2]]
+    except KeyError:
+        lang = lang_en
+        print("unknown language")
+    except Exception as e:
+        print(e)
+        lang = lang_en
+    
+if lang == None:
+    lang = lang_en
+
+tdir = tempfile.TemporaryDirectory()
+tempDir = tdir.name
+version = 2.3
+seconddoubleclick = False
+isRDPRunning = False
+showSeconds = 0
+timeStr = ""
+dateTimeFormat = ""
+mController = MouseController()
 clocks = []
 oldScreens = []
 
 QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
-
 app = QApplication()
 app.setQuitOnLastWindowClosed(False)
 signal = RestartSignal()
@@ -1324,12 +1375,6 @@ i = TaskbarIconTray(app)
 showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
-
-
-
-
-
-
 
 st = KillableThread(target=screenCheckThread, daemon=True)
 st.start()
