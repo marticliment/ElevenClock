@@ -3,22 +3,24 @@ import sys
 import time
 import glob
 import socket
-import psutil
 import winreg
 import locale
 import hashlib
 import tempfile
-import win32gui
 import datetime
 import threading
 import subprocess
 from ctypes import windll
+from urllib.request import urlopen
+
+import psutil
+import win32gui
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
-from urllib.request import urlopen
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
+
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl
 
 def _(s): #Translate function
@@ -1296,7 +1298,6 @@ class SettingsWindow(QScrollArea):
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
 
-
 # Start of main script
 
 try:
@@ -1385,15 +1386,16 @@ showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: sys.exit())
 
-st = KillableThread(target=screenCheckThread, daemon=True)
-st.start()
 
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
 KillableThread(target=checkIfWokeUp, daemon=True).start()
+
+st = KillableThread(target=screenCheckThread, daemon=True)
+rdpThread = KillableThread(target=checkRDP, daemon=True)
 timethread = KillableThread(target=timeStrThread, daemon=True)
 timethread.start()
-rdpThread = KillableThread(target=checkRDP, daemon=True)
+st.start()
 if(getSettings("EnableHideOnRDP")):
     rdpThread.start()
 
