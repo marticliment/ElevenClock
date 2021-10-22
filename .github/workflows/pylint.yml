@@ -21,4 +21,4 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         cd elevenclock
-        pylint elevenclock/__init__.py
+        pylint elevenclock
