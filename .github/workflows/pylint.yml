@@ -21,5 +21,4 @@ jobs:
     - name: Analysing the code with pylint
       run: |
         cd elevenclock
-        FILES=$(find . -iname "*.py")
-        pylint -E $FILES
+        pylint elevenclock/__init__.py
