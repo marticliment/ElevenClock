@@ -1,13 +1,22 @@
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-import winreg, locale, os, tempfile, subprocess, socket, glob
-from urllib.request import urlopen
-import hashlib
-from ctypes import windll
+import os
+import sys
+import time
+import glob
+import socket
 import psutil
+import winreg
+import locale
+import hashlib
+import tempfile
 import win32gui
-import time, sys, threading, datetime
+import datetime
+import threading
+import subprocess
+from ctypes import windll
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
+from urllib.request import urlopen
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl
