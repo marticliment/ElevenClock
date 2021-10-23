@@ -73,6 +73,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Dutch
  - Norwegian
  - Korean
+ - Vietnamese
 
 ## Planned features
  - [ ] Style the right-click menu to give it a Windows 11 like style
