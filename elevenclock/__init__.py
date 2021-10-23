@@ -1618,6 +1618,9 @@ if not(getSettings("Updated2.3Already")):
 showSettings = False
 if("--settings" in sys.argv or showSettings):
     sw.show()
+    
+if("--quit-on-loaded" in sys.argv):
+    app.quit()
 
 app.exec_()
 sys.exit(0)
