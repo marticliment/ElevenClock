@@ -21,7 +21,9 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko
+
+version = 2.4
 
 def _(s): #Translate function
     global lang
@@ -1180,7 +1182,7 @@ class SettingsWindow(QScrollArea):
                                     padding: {self.getPx(4)}px;
                                     outline: 0px;
                                     padding-right: {self.getPx(0)}px;
-                                    background-color: #2a2a2a;
+                                    background-color: #303030;
                                     border-radius: {self.getPx(8)}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
@@ -1516,6 +1518,7 @@ languages = {
     "es": lang_es,
     "it": lang_it,
     "nl": lang_nl,
+    "ko": lang_ko,
     "ru": lang_ru,
     "fr": lang_fr,
     "de": lang_de,
@@ -1532,7 +1535,8 @@ languageReference = {
     "fr": "French" ,
     "de": "German" ,
     "it": "Italian",
-    "nb": "Norwegian Bokmål",
+    "ko": "Korean ",
+    "nb": "Norwegian",
     "es": "Spanish",
     "pl": "Polish" ,
     "ru": "Russian",
@@ -1573,7 +1577,6 @@ if lang == None:
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
-version = 2.4
 seconddoubleclick = False
 isRDPRunning = False
 showSeconds = 0
