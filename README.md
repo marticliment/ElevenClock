@@ -58,10 +58,24 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
 
+## Supported languages
+ - Catalan
+ - English
+ - French
+ - German
+ - Spanish
+ - Polish
+ - Russian
+ - Turkish
+
+### Languages coming in the next version:
+ - Italian
+ - Dutch
+ - Norwegian
+
 ## Planned features
  - [ ] Style the right-click menu to give it a Windows 11 like style
  - [ ] Add other location clocks on ElevenClock's ToolTip ([Issue #5](https://github.com/martinet101/ElevenClock/issues/5))
- - [ ] Multi-language support ([Issue #111](https://github.com/martinet101/ElevenClock/issues/111))
  - [ ] Any other ideas you have
 
 ## Installation
