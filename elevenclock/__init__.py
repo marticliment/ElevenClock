@@ -654,11 +654,16 @@ class Label(QLabel):
             if(i.contextMenu().height() != 480):
                 mousePos.setY(self.window().y()-i.contextMenu().height())
             else:
-                mousePos.setY(self.window().y()-156)
-            i.contextMenu().exec_(mousePos)
+                mousePos.setY(self.window().y()-int(220*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
+            i.execMenu(mousePos)
         else:
             self.clicked.emit()
         return super().mouseReleaseEvent(ev)
+
+class Menu(QMenu):
+    def __init__(self, title: str):
+        self.setAttribute(Qt.WA_StyledBackground)
+        super().__init__(title)
 
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -667,27 +672,29 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.show()
         menu = QMenu(_("ElevenClock"))
         menu.setWindowFlag(Qt.WindowStaysOnTopHint)
+        menu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)
+        menu.setAttribute(Qt.WA_TranslucentBackground)
         menu.addSeparator()
-        quitAction = QAction(_("ElevenClock Settings"), app)
-        quitAction.triggered.connect(lambda: sw.show())
-        menu.addAction(quitAction)
-        reloadAction = QAction(_("Reload Clocks"), app)
-        reloadAction.triggered.connect(lambda: restartClocks())
-        menu.addAction(reloadAction)
+        self.settingsAction = QAction(_("ElevenClock Settings"), app)
+        self.settingsAction.triggered.connect(lambda: sw.show())
+        menu.addAction(self.settingsAction)
+        self.reloadAction = QAction(_("Reload Clocks"), app)
+        self.reloadAction.triggered.connect(lambda: restartClocks())
+        menu.addAction(self.reloadAction)
         menu.addSeparator()
-        nameAction = QAction(_("ElevenClock v{0}").format(version), app)
-        nameAction.setEnabled(False)
-        menu.addAction(nameAction)
+        self.nameAction = QAction(_("ElevenClock v{0}").format(version), app)
+        self.nameAction.setEnabled(False)
+        menu.addAction(self.nameAction)
         menu.addSeparator()
-        reloadAction = QAction(_("Restart ElevenClock"), app)
-        reloadAction.triggered.connect(lambda: os.startfile(sys.executable))
-        menu.addAction(reloadAction)
-        hideAction = QAction(_("Hide ElevenClock"), app)
-        hideAction.triggered.connect(lambda: closeClocks())
-        menu.addAction(hideAction)
-        quitAction = QAction(_("Quit ElevenClock"), app)
-        quitAction.triggered.connect(lambda: app.quit())
-        menu.addAction(quitAction)
+        self.restartAction = QAction(_("Restart ElevenClock"), app)
+        self.restartAction.triggered.connect(lambda: os.startfile(sys.executable))
+        menu.addAction(self.restartAction)
+        self.hideAction = QAction(_("Hide ElevenClock"), app)
+        self.hideAction.triggered.connect(lambda: closeClocks())
+        menu.addAction(self.hideAction)
+        self.quitAction = QAction(_("Quit ElevenClock"), app)
+        self.quitAction.triggered.connect(lambda: app.quit())
+        menu.addAction(self.quitAction)
 
         self.setContextMenu(menu)
 
@@ -700,6 +707,129 @@ class TaskbarIconTray(QSystemTrayIcon):
         if(getSettings("DisableSystemTray")):
             self.hide()
             print("system tray icon disabled")
+            
+        self.applyStyleSheet()
+            
+    def execMenu(self, pos: QPoint):
+        self.applyStyleSheet()
+        self.contextMenu().exec_(pos)
+    
+    def getPx(self, original) -> int:
+        return int(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
+            
+    def applyStyleSheet(self) -> None:
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+            self.iconMode = "white"
+            self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+            self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
+            self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
+            self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
+            self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
+            self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+            self.contextMenu().setStyleSheet(f"""
+                QWidget{{
+                    background-color: transparent;
+                }}  
+                QMenu {{
+                    border: {self.getPx(1)}px solid rgb(60, 60, 60);
+                    padding: {self.getPx(2)}px;
+                    outline: 0px;
+                    color: white;
+                    background: #262626;
+                    border-radius: {self.getPx(8)}px;
+                }}
+                QMenu::separator {{
+                    margin: {self.getPx(2)}px;
+                    height: {self.getPx(1)}px;
+                    background: rgb(60, 60, 60);
+                }}
+                QMenu::icon{{
+                    padding-left: {self.getPx(10)}px;
+                }}
+                QMenu::item{{
+                    height: {self.getPx(30)}px;
+                    border: none;
+                    background: transparent;
+                    padding-right: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
+                    border-radius: {self.getPx(4)}px;
+                    margin: {self.getPx(2)}px;
+                }}
+                QMenu::item:selected{{
+                    background: rgba(255, 255, 255, 10%);
+                    height: {self.getPx(30)}px;
+                    outline: none;
+                    border: none;
+                    padding-right: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
+                    border-radius: {self.getPx(4)}px;
+                }}  
+                QMenu::item:selected:disabled{{
+                    background: transparent;
+                    height: {self.getPx(30)}px;
+                    outline: none;
+                    border: none;
+                    padding-right: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
+                    border-radius: {self.getPx(4)}px;
+                }}            
+                """)
+        else:
+            self.iconMode = "black"
+            self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+            self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
+            self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
+            self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
+            self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
+            self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+            self.contextMenu().setStyleSheet(f"""
+                QWidget{{
+                    background-color: transparent;
+                }}  
+                QMenu {{
+                    border: {self.getPx(1)}px solid rgb(200, 200, 200);
+                    padding: {self.getPx(2)}px;
+                    outline: 0px;
+                    color: black;
+                    background: #eeeeee;
+                    border-radius: {self.getPx(8)}px;
+                }}
+                QMenu::separator {{
+                    margin: {self.getPx(2)}px;
+                    height: {self.getPx(1)}px;
+                    background: rgb(200, 200, 200);
+                }}
+                QMenu::icon{{
+                    padding-left: {self.getPx(10)}px;
+                }}
+                QMenu::item{{
+                    height: {self.getPx(30)}px;
+                    border: none;
+                    background: transparent;
+                    padding-right: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
+                    border-radius: {self.getPx(4)}px;
+                    margin: {self.getPx(2)}px;
+                }}
+                QMenu::item:selected{{
+                    background: rgba(0, 0, 0, 10%);
+                    height: {self.getPx(30)}px;
+                    outline: none;
+                    border: none;
+                    padding-right: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
+                    border-radius: {self.getPx(4)}px;
+                }}  
+                QMenu::item:selected:disabled{{
+                    background: transparent;
+                    height: {self.getPx(30)}px;
+                    outline: none;
+                    border: none;
+                    padding-right: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
+                    border-radius: {self.getPx(4)}px;
+                }}            
+                """)
 
 class QIconLabel(QWidget):
     def __init__(self, text, icon=None):
