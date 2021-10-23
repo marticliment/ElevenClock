@@ -734,7 +734,7 @@ class QSettingsButton(QWidget):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(170), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(200))
+        self.label.setFixedWidth(self.width()-self.getPx(230))
         self.label.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.button.setFixedHeight(self.getPx(30))
@@ -745,37 +745,53 @@ class QSettingsButton(QWidget):
         self.button.setIcon(icon)
 
 class QSettingsComboBox(QWidget):
-    clicked = Signal()
+    textChanged = Signal(str)
     def __init__(self, text="", btntext="", parent=None):
         super().__init__(parent)
         self.setAttribute(Qt.WA_StyledBackground)
         self.combobox = QComboBox(self)
         self.combobox.setObjectName("stCmbbx")
+        self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.setObjectName("stBtn")
+        self.restartButton = QPushButton("Restart ElevenClock", self)
+        self.restartButton.hide()
+        self.restartButton.setObjectName("AccentButton")
         self.label = QLabel(text, self)
         self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
-        self.combobox.currentTextChanged.connect(self.clicked.emit)
 
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
     
-    def setItems(self, i: list) -> None:
-        self.combobox.addItems(i)
+    def setItems(self, items: list, index: int) -> None:
+        self.combobox.addItems(items)
+        try:
+            self.combobox.setCurrentIndex(index)
+        except Exception as e:
+            print(e)
+            self.combobox.setCurrentIndex(0)
+        self.combobox.currentTextChanged.connect(self.textChanged.emit)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.combobox.move(self.width()-self.getPx(170), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(200))
+        self.label.setFixedWidth(self.width()-self.getPx(380))
         self.label.setFixedHeight(self.getPx(30))
+        self.restartButton.move(self.width()-self.getPx(330), self.getPx(10))
+        self.restartButton.setFixedWidth(self.getPx(150))
+        self.restartButton.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.combobox.setFixedHeight(self.getPx(30))
         self.combobox.setFixedWidth(self.getPx(150))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
-        self.button.setIcon(icon)
+        pass
+        #self.button.setIcon(icon)
+
+    def showRestartButton(self) -> None:
+        self.restartButton.show()
 
 class QSettingsCheckBox(QWidget):
     stateChanged = Signal(bool)
@@ -838,7 +854,26 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.updateButton)
         self.selectedLanguage = QSettingsComboBox("ElevenClock's language", _("Change"))
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        self.selectedLanguage.setItems(languageReference.keys())
+        try:
+            self.selectedLanguage.setItems(list(languageReference.values()), list(languageReference.keys()).index(langName))
+        except Exception as e:
+            print(e)
+            self.selectedLanguage.setItems(list(languageReference.values()), 0)
+            
+        def changeLang(text):
+            keys = list(languageReference.keys())
+            values = list(languageReference.values())
+            for i in range(len(values)):
+                if(text == values[i]):
+                    setSettingsValue("PreferredLanguage", str(keys[i]), r=False)
+                    self.selectedLanguage.showRestartButton()
+                    
+        def restartElevenClockByLangChange():
+            subprocess.run(str(sys.executable)+" --settings", shell=True)
+            sys.exit()
+            
+        self.selectedLanguage.restartButton.clicked.connect(restartElevenClockByLangChange)
+        self.selectedLanguage.textChanged.connect(changeLang)
         layout.addWidget(self.selectedLanguage)
         self.updatesChBx = QSettingsCheckBox(_("Automatically check for updates"))
         self.updatesChBx.setChecked(not(getSettings("DisableAutoCheckForUpdates")))
@@ -978,7 +1013,7 @@ class SettingsWindow(QScrollArea):
             finally:
                 i += 1
         print(colors)
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==1):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -1016,6 +1051,16 @@ class SettingsWindow(QScrollArea):
                                    border: {self.getPx(1)}px solid #414141;
                                    height: {self.getPx(25)}px;
                                    border-top: {self.getPx(1)}px solid #454545;
+                                }}
+                                #AccentButton{{
+                                    background-color: rgb({colors[3]});
+                                    border-color: rgb({colors[2]});
+                                    border-color-top: rgb({colors[1]});
+                                }}
+                                #AccentButton:hover{{
+                                    background-color: rgb({colors[2]});
+                                    border-color: rgb({colors[1]});
+                                    border-color-top: rgb({colors[1]});
                                 }}
                                 #title{{
                                    background-color: #303030;
@@ -1119,8 +1164,10 @@ class SettingsWindow(QScrollArea):
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
                                     subcontrol-position: top right;
+                                    padding: {self.getPx(5)}px;
+                                    border-radius: {self.getPx(6)}px;
                                     border: none;
-                                    width: 30px;
+                                    width: {self.getPx(30)}px;
                                 }}
                                 #stCmbbx::down-arrow {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
@@ -1129,7 +1176,24 @@ class SettingsWindow(QScrollArea):
                                 }}
                                 #stCmbbx QAbstractItemView {{
                                     border: {self.getPx(1)}px solid #1c1c1c;
-                                    selection-background-color: rgb({colors[2]});
+                                    padding: {self.getPx(4)}px;
+                                    outline: 0px;
+                                    background-color: #2a2a2a;
+                                    border-radius: {self.getPx(8)}px;
+                                }}
+                                #stCmbbx QAbstractItemView::item{{
+                                    height: {self.getPx(30)}px;
+                                    border: none;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                }}
+                                #stCmbbx QAbstractItemView::item:selected{{
+                                    background-color: #4c4c4c;
+                                    height: {self.getPx(30)}px;
+                                    outline: none;
+                                    border: none;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
                                 }}
                                 QSCrollArea,QVBoxLayout{{
                                     border: none;
@@ -1209,6 +1273,18 @@ class SettingsWindow(QScrollArea):
                                    border: {self.getPx(1)}px solid #dddddd;
                                    height: {self.getPx(25)}px;
                                    border-bottom: {self.getPx(1)}px solid #cccccc;
+                                }}
+                                #AccentButton{{
+                                    background-color: rgb({colors[3]});
+                                    border-color: rgb({colors[4]});
+                                    border-color-bottom: rgb({colors[5]});
+                                    color: white;
+                                }}
+                                #AccentButton:hover{{
+                                    background-color: rgb({colors[2]});
+                                    border-color: rgb({colors[3]});
+                                    color: white;
+                                    border-color-bottom: rgb({colors[3]});
                                 }}
                                 #title{{
                                    background-color: #ffffff;
@@ -1292,6 +1368,58 @@ class SettingsWindow(QScrollArea):
                                     background-color: rgb({colors[3]});
                                     border-radius: {self.getPx(5)}px;
                                     image: url("{getPath("tick_black.png")}");
+                                }}
+                                #stCmbbx {{
+                                   width: 100px;
+                                   background-color: #ffffff;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #dddddd;
+                                   height: {self.getPx(25)}px;
+                                   padding-left: {self.getPx(10)}px;
+                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                }}
+                                #stCmbbx:hover {{
+                                   background-color: #f6f6f6;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #dddddd;
+                                   height: {self.getPx(25)}px;
+                                   padding-left: {self.getPx(10)}px;
+                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                }}
+                                #stCmbbx::drop-down {{
+                                    subcontrol-origin: padding;
+                                    subcontrol-position: top right;
+                                    padding: {self.getPx(5)}px;
+                                    border-radius: {self.getPx(6)}px;
+                                    border: none;
+                                    width: {self.getPx(30)}px;
+                                }}
+                                #stCmbbx::down-arrow {{
+                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                                    height: {self.getPx(8)}px;
+                                    width: {self.getPx(8)}px;
+                                }}
+                                #stCmbbx QAbstractItemView {{
+                                    border: {self.getPx(1)}px solid #dddddd;
+                                    padding: {self.getPx(4)}px;
+                                    outline: 0px;
+                                    background-color: #ffffff;
+                                    border-radius: {self.getPx(8)}px;
+                                }}
+                                #stCmbbx QAbstractItemView::item{{
+                                    height: {self.getPx(30)}px;
+                                    border: none;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                }}
+                                #stCmbbx QAbstractItemView::item:selected{{
+                                    background-color: #eeeeee;
+                                    height: {self.getPx(30)}px;
+                                    outline: none;
+                                    color: black;
+                                    border: none;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
                                 }}
                                 QSCrollArea,QVBoxLayout{{
                                     border: none;
@@ -1392,24 +1520,26 @@ languages = {
 }
 
 languageReference = {
-    "System language": "default",
-    "English": "en",
-    "Catalan": "ca",
-    "Spanish": "es",
-    "Russian": "ru",
-    "French" : "fr",
-    "German" : "de",
-    "Polish" : "pl",
-    "Turkish": "tr",
+    "default": "System language",
+    "en": "English",
+    "ca": "Catalan",
+    "es": "Spanish",
+    "ru": "Russian",
+    "fr": "French" ,
+    "de": "German" ,
+    "pl": "Polish" ,
+    "tr": "Turkish",
 }
 
 if getSettingsValue("PreferredLanguage") == "":
     setSettingsValue("PreferredLanguage", "default", False)
 
 if getSettingsValue("PreferredLanguage") == "default":
+    langName = "default"
     try:
         print(locale.getdefaultlocale()[0][0:2])
         lang = languages[locale.getdefaultlocale()[0][0:2]]
+        langName = locale.getdefaultlocale()[0][0:2]
     except KeyError:
         lang = lang_en
         print("unknown language")
@@ -1420,12 +1550,15 @@ else:
     try:
         print(getSettingsValue("PreferredLanguage")[0:2])
         lang = languages[getSettingsValue("PreferredLanguage")[0:2]]
+        langName = getSettingsValue("PreferredLanguage")[0:2]
     except KeyError:
         lang = lang_en
+        langName = "en"
         print("unknown language")
     except Exception as e:
         print(e)
         lang = lang_en
+        langName = "en"
     
 if lang == None:
     lang = lang_en
