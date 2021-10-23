@@ -1,15 +1,20 @@
 # INSTRUCTIONS
 
 # Translate the text and write it between the "
+# EXAMPLE:      original    ->  "This text is in english: value {0}" 
+#               translation ->  "Aquest text està en anglès: valor {0}"
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
+lang2_4 = {
+    # Added text in version 2.4
+    "Show weekday on the clock"  :"Mostra el dia de la setmana als rellotges",
+}
 
-
-lang2_3 = {
+lang2_3 = lang2_4 | {
     #Context menu
     "ElevenClock Settings"      :"Configuració de l'ElevenClock", # Also settings title
-    "Reload Clocks"             :"Recarregar l'ElevenClock",
+    "Reload Clocks"             :"Recarregar els rellotges",
     "ElevenClock v{0}"          :"ElevenClock v{0}",
     "Restart ElevenClock"       :"Reiniciar l'ElevenClock",
     "Hide ElevenClock"          :"Amagar l'ElevenClock",
