@@ -21,7 +21,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb
 
 def _(s): #Translate function
     global lang
@@ -759,6 +759,7 @@ class QSettingsComboBox(QWidget):
         self.label = QLabel(text, self)
         self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
 
     def getPx(self, original) -> int:
@@ -1029,11 +1030,11 @@ class SettingsWindow(QScrollArea):
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
-                                #background {{
+                                #background,QScrollArea{{
                                    color: white;
+                                   background-color: #212121;
                                 }}
                                 * {{
-                                   background-color: #212121;
                                    color: #dddddd;
                                    font-size: 8pt;
                                 }}
@@ -1178,6 +1179,7 @@ class SettingsWindow(QScrollArea):
                                     border: {self.getPx(1)}px solid #1c1c1c;
                                     padding: {self.getPx(4)}px;
                                     outline: 0px;
+                                    padding-right: {self.getPx(0)}px;
                                     background-color: #2a2a2a;
                                     border-radius: {self.getPx(8)}px;
                                 }}
@@ -1195,7 +1197,7 @@ class SettingsWindow(QScrollArea):
                                     padding-left: {self.getPx(10)}px;
                                     border-radius: {self.getPx(4)}px;
                                 }}
-                                QSCrollArea,QVBoxLayout{{
+                                QSCrollArea, QVBoxLayout{{
                                     border: none;
                                     margin: none;
                                     padding: none;
@@ -1518,7 +1520,8 @@ languages = {
     "fr": lang_fr,
     "de": lang_de,
     "pl": lang_pl,
-    "tr": lang_tr
+    "tr": lang_tr,
+    "nb": lang_nb
 }
 
 languageReference = {
@@ -1529,6 +1532,7 @@ languageReference = {
     "fr": "French" ,
     "de": "German" ,
     "it": "Italian",
+    "nb": "Norwegian Bokmål",
     "es": "Spanish",
     "pl": "Polish" ,
     "ru": "Russian",
