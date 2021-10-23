@@ -1620,7 +1620,7 @@ if("--settings" in sys.argv or showSettings):
     sw.show()
     
 if("--quit-on-loaded" in sys.argv):
-    app.quit()
+    sys.exit(0)
 
 app.exec_()
 sys.exit(0)

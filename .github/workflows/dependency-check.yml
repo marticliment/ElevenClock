@@ -13,11 +13,11 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
-    - name: Install dependencies
+    - name: Installing dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-    - name: Analysing the code with pylint
+    - name: Running the file in test mode
       run: |
         cd elevenclock
         python __init__.py --quit-on-loaded
