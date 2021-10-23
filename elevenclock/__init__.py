@@ -219,6 +219,7 @@ def restartClocks():
         clock.hide()
         clock.close()
     loadClocks()
+    loadTimeFormat()
 
     try:
         st.kill()
@@ -267,13 +268,24 @@ def loadTimeFormat():
     global dateTimeFormat
     showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
     locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-    dateTimeFormat = "%HH:%M\n%d/%m/%Y"
+    dateTimeFormat = "%HH:%M\n%A\n%d/%m/%Y"
+        
 
-    if(getSettings("DisableTime")):
-        dateTimeFormat = dateTimeFormat.replace("%HH:%M", "").replace("\n", "")
+    if getSettings("DisableTime"):
+        dateTimeFormat = dateTimeFormat.replace("%HH:%M\n", "")
 
-    if(getSettings("DisableDate")):
-        dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "").replace("\n", "")
+    if getSettings("DisableDate"):
+        if("\n" in dateTimeFormat):
+            dateTimeFormat = dateTimeFormat.replace("\n%d/%m/%Y", "")
+        else:
+            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "")
+        
+    if not getSettings("EnableWeekDay"):
+        dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
+        if dateTimeFormat[-1] == "\n":
+            dateTimeFormat = dateTimeFormat[0:-1]
+        if dateTimeFormat[0] == "\n":
+            dateTimeFormat = dateTimeFormat[1:]
 
     dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
     dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
@@ -356,16 +368,17 @@ class Clock(QWidget):
         self.preferedHeight = 48
 
         try:
-            if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
+            if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
-                print("Small taskbar")
-                self.preferedHeight = 32
-                self.preferedwidth = 200
+                if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
+                    print("Small taskbar")
+                    self.preferedHeight = 32
+                    self.preferedwidth = 200
             else:
-                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px;")
         except Exception as e:
             print(e)
-            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px; ")
+            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px;")
 
         self.screen: QScreen = screen
         self.shouldBeVisible = True
@@ -948,11 +961,15 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show date on the clock"))
         self.updatesChBx.setChecked(not(getSettings("DisableDate")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not(bool(i)), r = False))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show time on the clock"))
         self.updatesChBx.setChecked(not(getSettings("DisableTime")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i)), r = False))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not(bool(i))))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Show weekday on the clock"))
+        self.updatesChBx.setChecked(getSettings("EnableWeekDay"))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWeekDay", bool(i)))
         layout.addWidget(self.updatesChBx)
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
