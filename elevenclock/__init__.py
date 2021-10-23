@@ -869,8 +869,8 @@ class SettingsWindow(QScrollArea):
                     self.selectedLanguage.showRestartButton()
                     
         def restartElevenClockByLangChange():
-            subprocess.run(str(sys.executable)+" --settings", shell=True)
-            sys.exit()
+            subprocess.run(str("start /B \"\" \""+sys.executable)+"\" --settings", shell=True)
+            app.quit()
             
         self.selectedLanguage.restartButton.clicked.connect(restartElevenClockByLangChange)
         self.selectedLanguage.textChanged.connect(changeLang)
@@ -1013,7 +1013,7 @@ class SettingsWindow(QScrollArea):
             finally:
                 i += 1
         print(colors)
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==1):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))

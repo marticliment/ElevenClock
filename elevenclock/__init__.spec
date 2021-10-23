@@ -6,7 +6,7 @@ block_cipher = None
 a = Analysis(['__init__.py'],
              pathex=['Y:\\ElevenClock\\elevenclock'],
              binaries=[],
-             datas=[('icon.ico', '.')],
+             datas=[('icon.ico', '.'), ('*.png', '.'), ('lang', 'lang')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -30,4 +30,4 @@ exe = EXE(pyz,
           upx=True,
           upx_exclude=[],
           runtime_tmpdir=None,
-          console=True , icon='icon.ico')
+          console=False , icon='icon.ico')
