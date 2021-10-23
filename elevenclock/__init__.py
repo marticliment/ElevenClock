@@ -1055,12 +1055,12 @@ class SettingsWindow(QScrollArea):
                                 #AccentButton{{
                                     background-color: rgb({colors[3]});
                                     border-color: rgb({colors[2]});
-                                    border-color-top: rgb({colors[1]});
+                                    border-top-color: rgb({colors[1]});
                                 }}
                                 #AccentButton:hover{{
                                     background-color: rgb({colors[2]});
                                     border-color: rgb({colors[1]});
-                                    border-color-top: rgb({colors[1]});
+                                    border-top-color: rgb({colors[1]});
                                 }}
                                 #title{{
                                    background-color: #303030;
@@ -1277,14 +1277,14 @@ class SettingsWindow(QScrollArea):
                                 #AccentButton{{
                                     background-color: rgb({colors[3]});
                                     border-color: rgb({colors[4]});
-                                    border-color-bottom: rgb({colors[5]});
+                                    border-bottom-color: rgb({colors[5]});
                                     color: white;
                                 }}
                                 #AccentButton:hover{{
                                     background-color: rgb({colors[2]});
                                     border-color: rgb({colors[3]});
                                     color: white;
-                                    border-color-bottom: rgb({colors[3]});
+                                    border-bottom-color: rgb({colors[3]});
                                 }}
                                 #title{{
                                    background-color: #ffffff;
@@ -1521,13 +1521,13 @@ languages = {
 
 languageReference = {
     "default": "System language",
-    "en": "English",
     "ca": "Catalan",
-    "es": "Spanish",
-    "ru": "Russian",
+    "en": "English",
     "fr": "French" ,
     "de": "German" ,
+    "es": "Spanish",
     "pl": "Polish" ,
+    "ru": "Russian",
     "tr": "Turkish",
 }
 
@@ -1605,11 +1605,11 @@ if(getSettings("EnableHideOnRDP")):
 signal.restartSignal.connect(lambda: restartClocks())
 loadClocks()
 
-if not(getSettings("Updated2.2Already")):
-    print("Show2.2Welcome")
+if not(getSettings("Updated2.3Already")):
+    print("Show2.3Welcome")
     sw.show()
-    setSettings("Updated2.2Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.2 sucessfully. On this version, the Three monitors issue has been fixed!\n\nAdditionally, ElevenClock can now show the clock on the left side of the screen, Has fixed doubled seconds, has (hopefully) solved an issue where ElevenClock was shown over the default clock, and has a completely redesigned Settings Window\n\nTo see the full changelog, see release 2.2 on GitHub")
+    setSettings("Updated2.3Already", True)
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.3 sucessfully. Because the update frequency was insane, I decided to slow down updates, but on every update fix and add more features. In this version, you can now switch languages from the settings UI, fix the issue with the hyphen, added more support for some locales and other stuff. ")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
