@@ -1633,6 +1633,7 @@ class SettingsWindow(QScrollArea):
 
     def show(self) -> None:
         self.applyStyleSheet()
+        self.raise_()
         return super().show()
 
     def showEvent(self, event: QShowEvent) -> None:
