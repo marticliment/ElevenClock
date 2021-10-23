@@ -987,7 +987,7 @@ class SettingsWindow(QScrollArea):
         self.PichonButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.PichonButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
-        self.closeButton.clicked.connect(lambda: os.startfile(""))
+        self.closeButton.clicked.connect(lambda: self.hide())
         layout.addWidget(self.closeButton)
         layout.addSpacing(10)
 
