@@ -21,7 +21,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it
 
 def _(s): #Translate function
     global lang
@@ -671,7 +671,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         hideAction.triggered.connect(lambda: closeClocks())
         menu.addAction(hideAction)
         quitAction = QAction(_("Quit ElevenClock"), app)
-        quitAction.triggered.connect(lambda: sys.exit())
+        quitAction.triggered.connect(lambda: app.quit())
         menu.addAction(quitAction)
 
         self.setContextMenu(menu)
@@ -1512,6 +1512,7 @@ languages = {
     "en": lang_en,
     "ca": lang_ca,
     "es": lang_es,
+    "it": lang_it,
     "ru": lang_ru,
     "fr": lang_fr,
     "de": lang_de,
@@ -1525,6 +1526,7 @@ languageReference = {
     "en": "English",
     "fr": "French" ,
     "de": "German" ,
+    "it": "Italian",
     "es": "Spanish",
     "pl": "Polish" ,
     "ru": "Russian",
@@ -1565,7 +1567,7 @@ if lang == None:
 
 tdir = tempfile.TemporaryDirectory()
 tempDir = tdir.name
-version = 2.3
+version = 2.4
 seconddoubleclick = False
 isRDPRunning = False
 showSeconds = 0
@@ -1586,7 +1588,7 @@ sw = SettingsWindow()
 i = TaskbarIconTray(app)
 showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
-killSignal.infoSignal.connect(lambda: sys.exit())
+killSignal.infoSignal.connect(lambda: app.quit())
 
 
 KillableThread(target=updateChecker, daemon=True).start()
