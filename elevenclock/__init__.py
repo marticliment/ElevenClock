@@ -1818,7 +1818,7 @@ if(getSettings("EnableHideOnRDP")):
 signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 loadClocks()
 
-if not(getSettings("Updated2.4Already")):
+if not(getSettings("Updated2.4Already")) and not(getSettings("EnableSilentUpdates")):
     print("Show2.4Welcome")
     sw.show()
     setSettings("Updated2.4Already", True)
