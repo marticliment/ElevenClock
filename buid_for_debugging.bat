@@ -1,7 +1,7 @@
 cd elevenclock
 rmdir /Q /S build
 rmdir /Q /S dist
-PyInstaller __init__.py --icon icon.ico --add-data "icon.ico;." --onefile --clean
+python39 -m PyInstaller __init__.py --icon icon.ico --add-data "icon.ico;." --add-data "*.png;." --add-data "lang;lang" --onefile --clean
 cd dist
 move __init__.exe ../../
 cd ..
