@@ -67,8 +67,6 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Polish
  - Russian
  - Turkish
-
-### Languages coming in the next version:
  - Italian
  - Dutch
  - Norwegian
@@ -76,10 +74,11 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Vietnamese
  - Greek
 
+### Languages coming in the next version:
+ - None by the moment
+
 ## Planned features
- - [ ] Style the right-click menu to give it a Windows 11 like style
- - [ ] Add other location clocks on ElevenClock's ToolTip ([Issue #5](https://github.com/martinet101/ElevenClock/issues/5))
- - [ ] Any other ideas you have
+ - [ ] You say!
 
 ## Installation
 
