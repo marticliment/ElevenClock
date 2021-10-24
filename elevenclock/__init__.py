@@ -15,6 +15,9 @@ from urllib.request import urlopen
 
 import psutil
 import win32gui
+import pythoncom
+import win32process
+import win32com.client
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
@@ -160,25 +163,48 @@ def updateIfPossible(force = False):
     except Exception as e:
         print(f"Exception: {e}")
 
+restartCount = 0
+
+def resetRestartCount():
+    global restartCount
+    while True:
+        if(restartCount>0):
+            print("Restart loop:", restartCount)
+            restartCount -= 1
+        time.sleep(0.3)
+        
+threading.Thread(target=resetRestartCount, daemon=True).start()
+
 def loadClocks():
-    global clocks, oldScreens
-    firstWinSkipped = False
+    global clocks, oldScreens, st, restartCount
+    try:
+        st.kill()
+    except AttributeError:
+        pass
+    firstWinSkipped = getSettings("ForceClockOnFirstMonitor")
     oldScreens = []
     clocks = []
-    for screen in app.screens():
-        oldScreens.append(getGeometry(screen))
-        screen.logicalDotsPerInchChanged.connect(restartClocks)
-        screen.orientationChanged.connect(restartClocks)
-        screen.virtualGeometryChanged.connect(restartClocks)
-        print(screen, screen.geometry(), getGeometry(screen))
-        screen: QScreen
-        if(firstWinSkipped):
-            clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
-        else: # Skip the primary display, as it has already the clock
-            print("This is primay screen")
-            firstWinSkipped = True
-    st = KillableThread(target=screenCheckThread, daemon=True)
-    st.start()
+    if(restartCount<5):
+        restartCount += 1
+        time.sleep(0.5)
+        for screen in app.screens():
+            oldScreens.append(getGeometry(screen))
+            screen.logicalDotsPerInchChanged.connect(lambda: restartClocks("logDots"))
+            screen.orientationChanged.connect(lambda: restartClocks("orientation"))
+            print(screen, screen.geometry(), getGeometry(screen))
+            screen: QScreen
+            if(firstWinSkipped):
+                clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
+            else: # Skip the primary display, as it has already the clock
+                print("This is primay screen and is set to be skipped")
+                firstWinSkipped = True
+        st = KillableThread(target=screenCheckThread, daemon=True)
+        st.start()
+    else:
+        os.startfile(sys.executable)
+        print("overloading system, killing!")
+        app.quit()
+        sys.exit(1)
 
 def getGeometry(screen: QScreen):
     return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
@@ -212,7 +238,8 @@ def showMessage(a, b):
     sw.resizewidget.setMinimumHeight(sw.resizewidget.sizeHint().height())
     i.setVisible(lastState)
 
-def restartClocks():
+def restartClocks(caller: str = ""):
+    print(caller)
     global clocks, st, rdpThread, timethread
 
     for clock in clocks:
@@ -222,7 +249,6 @@ def restartClocks():
     loadTimeFormat()
 
     try:
-        st.kill()
         rdpThread.kill()
         timethread.kill()
     except AttributeError:
@@ -447,7 +473,6 @@ class Clock(QWidget):
         self.show()
         self.raise_()
         self.setFocus()
-        self.screen.logicalDotsPerInchChanged.connect(restartClocks)
 
         self.isRDPRunning = True
 
@@ -468,7 +493,7 @@ class Clock(QWidget):
             self.isRDPRunning = isRDPRunning
             time.sleep(1)
 
-    def theresFullScreenWin(self):
+    def theresFullScreenWin(self, clockOnFirstMon):
         try:
             fullscreen = False
 
@@ -479,34 +504,57 @@ class Clock(QWidget):
                 nonlocal fullscreen
                 if win32gui.IsWindowVisible( hwnd ):
                     if(absoluteValuesAreEqual(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
-                        print(hwnd, self.full_screen_rect, win32gui.GetWindowRect(hwnd))
-                        fullscreen = True
+                        if(clockOnFirstMon):
+
+
+                            pythoncom.CoInitialize()
+                            _, pid = win32process.GetWindowThreadProcessId(hwnd)
+
+                            _wmi = win32com.client.GetObject('winmgmts:')
+
+                            # collect all the running processes
+                            processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
+                            for p in processes:
+                                if(p.Name != "TextInputHost.exe"):
+                                    fullscreen = True
+                                    print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                        else:
+                            print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                            fullscreen = True
 
             win32gui.EnumWindows(winEnumHandler, 0)
             return fullscreen
         except Exception as e:
+            raise e
             return False
 
     def fivesecsloop(self):
         EnableHideOnFullScreen = getSettings("EnableHideOnFullScreen")
         DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
         EnableHideOnRDP = getSettings("EnableHideOnRDP")
+        clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
+        if clockOnFirstMon:
+            INTLOOPTIME = 15
+        else:
+            INTLOOPTIME = 2
         while True:
-            time.sleep(0.05)
-            if not(self.theresFullScreenWin()) or not(EnableHideOnFullScreen):
-                if self.autoHide and not(DisableHideWithTaskbar):
-                    mousePos = getMousePos()
-                    if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
-                        self.refresh.emit()
-                    elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
-                        self.hideSignal.emit()
-                else:
-                    if(self.isRDPRunning and EnableHideOnRDP):
-                        self.hideSignal.emit()
+            isFullScreen = self.theresFullScreenWin(clockOnFirstMon)
+            for i in range(INTLOOPTIME):
+                if not(isFullScreen) or not(EnableHideOnFullScreen):
+                    if self.autoHide and not(DisableHideWithTaskbar):
+                        mousePos = getMousePos()
+                        if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
+                            self.refresh.emit()
+                        elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
+                            self.hideSignal.emit()
                     else:
-                        self.refresh.emit()
-            else:
-                self.hideSignal.emit()
+                        if(self.isRDPRunning and EnableHideOnRDP):
+                            self.hideSignal.emit()
+                        else:
+                            self.refresh.emit()
+                else:
+                    self.hideSignal.emit()
+                time.sleep(0.1)
 
     def showCalendar(self):
         self.keyboard.press(Key.cmd)
@@ -1077,9 +1125,13 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show the clock at the left of the screen"))
-        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.updatesChBx.setChecked((getSettings("ClockOnTheLeft")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Shw the clock on the primary socreen (Useful if clock is set on the left)"))
+        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.updatesChBx.setChecked((getSettings("ForceClockOnFirstMonitor")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
         layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
 
@@ -1751,7 +1803,6 @@ showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
 showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
 killSignal.infoSignal.connect(lambda: app.quit())
 
-
 KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
 KillableThread(target=checkIfWokeUp, daemon=True).start()
@@ -1764,15 +1815,14 @@ st.start()
 if(getSettings("EnableHideOnRDP")):
     rdpThread.start()
 
-
-signal.restartSignal.connect(lambda: restartClocks())
+signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 loadClocks()
 
-if not(getSettings("Updated2.3Already")):
-    print("Show2.3Welcome")
+if not(getSettings("Updated2.4Already")):
+    print("Show2.4Welcome")
     sw.show()
-    setSettings("Updated2.3Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.3 sucessfully. Because the update frequency was insane, I decided to slow down updates, but on every update fix and add more features. In this version, you can now switch languages from the settings UI, fix the issue with the hyphen, added more support for some locales and other stuff. ")
+    setSettings("Updated2.4Already", True)
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.4 sucessfully. This an urgent bugfix update to hic the High ram usage.\n\nAdditionaly, it includes redesigned context menus and more languages addition")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
