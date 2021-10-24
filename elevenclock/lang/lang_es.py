@@ -8,6 +8,7 @@
 
 lang2_4 = {
     # Added text in version 2.4
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Muestra el reloj en la pantalla principal (Útil si usted tiene el reloj en la parte izquierda de la pantalla)",
     "Show weekday on the clock"  :"Muestra el día de la semana en el reloj",
 }
 

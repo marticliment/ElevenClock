@@ -8,6 +8,7 @@
 
 lang2_4 = {
     # Added text in version 2.4
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
     "Show weekday on the clock"  :"Visualizza il giorno della settimana",
 }
 
