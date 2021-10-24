@@ -1128,7 +1128,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("ClockOnTheLeft")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Shw the clock on the primary socreen (Useful if clock is set on the left)"))
+        self.updatesChBx = QSettingsCheckBox(_("Show the clock on the primary screen (Useful if clock is set on the left)"))
         self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.updatesChBx.setChecked((getSettings("ForceClockOnFirstMonitor")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
@@ -1231,7 +1231,7 @@ class SettingsWindow(QScrollArea):
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
-                                #background,QScrollArea{{
+                                #background,QScrollArea,QMessageBox{{
                                    color: white;
                                    background-color: #212121;
                                 }}
@@ -1822,7 +1822,7 @@ if not(getSettings("Updated2.4Already")):
     print("Show2.4Welcome")
     sw.show()
     setSettings("Updated2.4Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.4 sucessfully. This an urgent bugfix update to hic the High ram usage.\n\nAdditionaly, it includes redesigned context menus and more languages addition")
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.4 sucessfully. This an urgent bugfix update to hic the High ram usage.\n\nAdditionaly, it includes redesigned context menus, more languages addition and the ability to show the clock on the primary monitor if clock is set to be on the left")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
