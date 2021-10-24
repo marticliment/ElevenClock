@@ -21,7 +21,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el
 
 version = 2.4
 
@@ -1661,19 +1661,20 @@ else:
     realpath = '/'.join(sys.argv[0].replace("\\", "/").split("/")[:-1])
 
 languages = {
-    "en": lang_en,
     "ca": lang_ca,
-    "es": lang_es,
-    "it": lang_it,
-    "nl": lang_nl,
-    "ko": lang_ko,
-    "vi": lang_vi,
-    "ru": lang_ru,
-    "fr": lang_fr,
     "de": lang_de,
+    "el": lang_el,
+    "en": lang_en,
+    "es": lang_es,
+    "fr": lang_fr,
+    "it": lang_it,
+    "ko": lang_ko,
+    "nb": lang_nb,
+    "nl": lang_nl,
     "pl": lang_pl,
+    "ru": lang_ru,
     "tr": lang_tr,
-    "nb": lang_nb
+    "vi": lang_vi,
 }
 
 languageReference = {
@@ -1683,6 +1684,7 @@ languageReference = {
     "en": "English",
     "fr": "French" ,
     "de": "German" ,
+    "el": "Greek"  ,
     "it": "Italian",
     "ko": "Korean ",
     "nb": "Norwegian",
