@@ -447,7 +447,10 @@ class Clock(QWidget):
             win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
         self.font: QFont = QFont()
-        self.font.setFamilies(["Segoe UI Variable", "Gullim", "sans-serif"])
+        if lang == lang_ko:
+            self.font.setFamilies(["Malgun Gothic", "sans-serif"])
+        else:
+            self.font.setFamilies(["Segoe UI Variable", "sans-serif"])
         self.font.setPointSizeF(9)
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
@@ -457,7 +460,10 @@ class Clock(QWidget):
             self.lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
-            self.font.setWeight(QFont.Weight.Medium)
+            if lang == lang_ko:
+                self.font.setWeight(QFont.Weight.Normal)
+            else:
+                self.font.setWeight(QFont.Weight.Medium)
             self.label.setFont(self.font)
         else:
             self.lastTheme = 1
