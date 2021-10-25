@@ -1,6 +1,6 @@
 name: Basic health check (Install dependencies and run the script)
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
