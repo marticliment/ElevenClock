@@ -62,7 +62,7 @@ lang2_3 = lang2_4 | {
     "About ElevenClock version {0}:"            :"À propos de ElevenClock {0} :",
     "View ElevenClock's homepage"               :"Page d'accueil d'ElevenClock",
     "Open"                                      :"Ouvrir",
-    "Report an issue/request a feature"         :"Signaler un bug / une fonctionnalité",
+    "Report an issue/request a feature"         :"Signaler un bug / Suggérer une fonctionnalité",
     "Report"                                    :"Signaler",
     "Support the dev: Give me a coffee☕"       :"Supporter le développeur",
     "Open page"                                 :"Ouvrir la page",
