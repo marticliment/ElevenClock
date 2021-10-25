@@ -8,8 +8,8 @@
 
 lang2_4 = {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
-    "Show weekday on the clock"  :"",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "주 화면에 시계 표시 (시계를 왼쪽에 표시할 경우 유용함)",
+    "Show weekday on the clock"  :"시계에 요일 표시",
 }
 
 lang2_3 = lang2_4 | {
