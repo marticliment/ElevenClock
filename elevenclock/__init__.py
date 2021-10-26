@@ -24,7 +24,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
 
 version = 2.4
 
@@ -1733,6 +1733,7 @@ languages = {
     "ru": lang_ru,
     "tr": lang_tr,
     "vi": lang_vi,
+    "zh_TW": lang_zh_TW,
 }
 
 languageReference = {
@@ -1751,6 +1752,7 @@ languageReference = {
     "ru": "Russian",
     "tr": "Turkish",
     "vi": "Vietnamese",
+    "zh_TW": "Chinese Traditional (Taiwan)",
 }
 
 if getSettingsValue("PreferredLanguage") == "":
@@ -1759,9 +1761,14 @@ if getSettingsValue("PreferredLanguage") == "":
 if getSettingsValue("PreferredLanguage") == "default":
     langName = "default"
     try:
-        print(locale.getdefaultlocale()[0][0:2])
-        lang = languages[locale.getdefaultlocale()[0][0:2]]
-        langName = locale.getdefaultlocale()[0][0:2]
+        try:
+            print(locale.getdefaultlocale()[0])
+            lang = languages[locale.getdefaultlocale()[0]]
+            langName = locale.getdefaultlocale()[0]
+        except KeyError:
+            print(locale.getdefaultlocale()[0][0:2])
+            lang = languages[locale.getdefaultlocale()[0][0:2]]
+            langName = locale.getdefaultlocale()[0][0:2]
     except KeyError:
         lang = lang_en
         print("unknown language")
@@ -1770,9 +1777,14 @@ if getSettingsValue("PreferredLanguage") == "default":
         lang = lang_en
 else:
     try:
-        print(getSettingsValue("PreferredLanguage")[0:2])
-        lang = languages[getSettingsValue("PreferredLanguage")[0:2]]
-        langName = getSettingsValue("PreferredLanguage")[0:2]
+        try:
+            print(getSettingsValue("PreferredLanguage"))
+            lang = languages[getSettingsValue("PreferredLanguage")]
+            langName = getSettingsValue("PreferredLanguage")
+        except KeyError:
+            print(getSettingsValue("PreferredLanguage")[0:2])
+            lang = languages[getSettingsValue("PreferredLanguage")[0:2]]
+            langName = getSettingsValue("PreferredLanguage")[0:2]
     except KeyError:
         lang = lang_en
         langName = "en"
