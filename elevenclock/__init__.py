@@ -176,7 +176,7 @@ def resetRestartCount():
 threading.Thread(target=resetRestartCount, daemon=True).start()
 
 def loadClocks():
-    global clocks, oldScreens, st, restartCount
+    global clocks, oldScreens, st, restartCount, st
     try:
         st.kill()
     except AttributeError:
@@ -184,13 +184,12 @@ def loadClocks():
     firstWinSkipped = getSettings("ForceClockOnFirstMonitor")
     oldScreens = []
     clocks = []
-    if(restartCount<5):
+    process = psutil.Process(os.getpid())
+    print(process.memory_info().rss/1048576)
+    if restartCount<20 and (process.memory_info().rss/1048576) <= 150:
         restartCount += 1
-        time.sleep(0.5)
         for screen in app.screens():
             oldScreens.append(getGeometry(screen))
-            screen.logicalDotsPerInchChanged.connect(lambda: restartClocks("logDots"))
-            screen.orientationChanged.connect(lambda: restartClocks("orientation"))
             print(screen, screen.geometry(), getGeometry(screen))
             screen: QScreen
             if(firstWinSkipped):
@@ -222,6 +221,7 @@ def screenCheckThread():
     print("screenCheckThread")
     while theyMatch(oldScreens, app.screens()):
         time.sleep(1)
+    print(app.screens(), oldScreens)
     signal.restartSignal.emit()
     pass
 
@@ -526,11 +526,13 @@ class Clock(QWidget):
                             processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
                             for p in processes:
                                 if(p.Name != "TextInputHost.exe"):
-                                    fullscreen = True
-                                    print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                                    if(win32gui.GetWindowText(hwnd) != ""):
+                                        print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                                        fullscreen = True
                         else:
-                            print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
-                            fullscreen = True
+                            if(win32gui.GetWindowText(hwnd) != ""):
+                                print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                                fullscreen = True
 
             win32gui.EnumWindows(winEnumHandler, 0)
             return fullscreen
@@ -658,13 +660,10 @@ class Label(QLabel):
         text = self.text().strip()
         if len(text.split("\n"))>=3:
             mult = 0.633333333333333333
-            print("width by 0.75")
         elif len(text.split("\n"))==2:
             mult = 1
-            print("width by 1")
         else:
             mult = 1.5
-            print("width by 1.5")
         return self.fontMetrics().boundingRect(text).width()*mult
 
     def mousePressEvent(self, ev: QMouseEvent) -> None:
@@ -1800,11 +1799,10 @@ KillableThread(target=updateChecker, daemon=True).start()
 KillableThread(target=isElevenClockRunning, daemon=True).start()
 KillableThread(target=checkIfWokeUp, daemon=True).start()
 
-st = KillableThread(target=screenCheckThread, daemon=True)
+st: KillableThread = None # Will be defined on loadClocks
 rdpThread = KillableThread(target=checkRDP, daemon=True)
 timethread = KillableThread(target=timeStrThread, daemon=True)
 timethread.start()
-st.start()
 if(getSettings("EnableHideOnRDP")):
     rdpThread.start()
 
