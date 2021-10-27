@@ -632,16 +632,16 @@ class Label(QLabel):
         geometry: QRect = self.getTextUsedSpaceRect()
         self.showBackground.setStartValue(.001)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
-        if(self.width() > geometry.width()):
+        if(self.width() > geometry):
             if(not(getSettings("ClockOnTheLeft"))):
-                self.backgroundwidget.move(self.width()-geometry.width(), 0)
+                self.backgroundwidget.move(self.width()-geometry, 0)
             else:
                 self.backgroundwidget.move(0, 0)
-            self.backgroundwidget.resize(geometry.width(), self.height())
+            self.backgroundwidget.resize(geometry, self.height())
         else:
             print("Background widget is bigger than parent!")
             self.backgroundwidget.move(0, 0)
-            self.backgroundwidget.resize(self.width(), self.height())
+            self.backgroundwidget.resize(geometry, self.height())
         self.showBackground.start()
 
 
@@ -655,7 +655,7 @@ class Label(QLabel):
         return super().leaveEvent(event)
 
     def getTextUsedSpaceRect(self):
-        effectiveIndent = self.indent()
+        """effectiveIndent = self.indent()
         trueMargin = self.margin()
         if(effectiveIndent < 0):
             if(self.frameWidth() == 0 or self.margin() > 0):
@@ -694,9 +694,21 @@ class Label(QLabel):
         bRect.setX(bRect.x() + offsetX)
         bRect.setWidth(bRect.width() + offsetX)
         bRect.setY(bRect.y() + offsetY)
-        bRect.setHeight(bRect.height() + offsetY)
+        bRect.setHeight(bRect.height() + offsetY)"""
+        
+        text = self.text().strip()
+        if len(text.split("\n"))>=3:
+            mult = 0.633333333333333333
+            print("width by 0.75")
+        elif len(text.split("\n"))==2:
+            mult = 1
+            print("width by 1")
+        else:
+            mult = 1.5
+            print("width by 1.5")
+        return self.fontMetrics().boundingRect(text).width()*mult
 
-        return bRect
+        #return bRect
 
     def mousePressEvent(self, ev: QMouseEvent) -> None:
         self.setWindowOpacity(0.7)
