@@ -655,47 +655,6 @@ class Label(QLabel):
         return super().leaveEvent(event)
 
     def getTextUsedSpaceRect(self):
-        """effectiveIndent = self.indent()
-        trueMargin = self.margin()
-        if(effectiveIndent < 0):
-            if(self.frameWidth() == 0 or self.margin() > 0):
-                effectiveIndent = 0
-            elif(self.frameWidth() > 0):
-                fm = QFontMetrics(self.font())
-                effectiveIndent = fm.horizontalAdvance("x")
-            if(self.frameWidth() > 0 and self.margin() < 0):
-                trueMargin = 0
-
-        fm = QFontMetrics(self.font())
-        bRect: QRect = fm.boundingRect(self.text())
-        bRect.setWidth(fm.horizontalAdvance(self.text()))
-
-        indentOffset = effectiveIndent + trueMargin + self.frameWidth()
-        offsetX = 0
-        offsetY = 0
-        if(self.alignment() and Qt.AlignHCenter):
-            offsetX = self.rect().width() / 2 - bRect.width() / 2
-        elif(self.alignment() and Qt.AlignRight):
-            offsetX = self.rect().width() - bRect.width() - indentOffset
-        elif(self.alignment() and Qt.AlignJustify):
-            offsetX = trueMargin + self.frameWidth()
-        elif(self.alignment() and Qt.AlignLeft):
-            offsetX = indentOffset
-
-        if(self.alignment() and Qt.AlignVCenter):
-            offsetY = self.rect().height() / 2 - bRect.height() / 2
-        elif(self.alignment() and Qt.AlignBottom):
-            offsetY = self.rect().height() - bRect.height() - indentOffset
-        elif(self.alignment() and Qt.AlignTop):
-            offsetY = indentOffset
-
-
-        bRect.moveTopLeft(self.rect().topLeft())
-        bRect.setX(bRect.x() + offsetX)
-        bRect.setWidth(bRect.width() + offsetX)
-        bRect.setY(bRect.y() + offsetY)
-        bRect.setHeight(bRect.height() + offsetY)"""
-        
         text = self.text().strip()
         if len(text.split("\n"))>=3:
             mult = 0.633333333333333333
@@ -707,8 +666,6 @@ class Label(QLabel):
             mult = 1.5
             print("width by 1.5")
         return self.fontMetrics().boundingRect(text).width()*mult
-
-        #return bRect
 
     def mousePressEvent(self, ev: QMouseEvent) -> None:
         self.setWindowOpacity(0.7)
