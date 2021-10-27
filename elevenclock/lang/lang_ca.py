@@ -6,7 +6,11 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_4 = {
+lang2_5 = {
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Oculta el rellotge si s'està fent servir el client d'Escriptori Remot o el Citrix Workspace",
+}
+
+lang2_4 = lang2_5 | {
     # Added text in version 2.4
     "Show the clock on the primary screen (Useful if clock is set on the left)": "Mostra el rellotge a la pantalla primària (Útil si tens el rellotge a l'esquerra de la pantalla)",
     "Show weekday on the clock"  :"Mostra el dia de la setmana als rellotges",

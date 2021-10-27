@@ -26,7 +26,9 @@ from pynput.mouse import Controller as MouseController
 
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
 
-version = 2.4
+version = 2.5
+
+appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe"]
 
 def _(s): #Translate function
     global lang
@@ -61,11 +63,27 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             return default
 
 def checkRDP():
-    print("start RDP thread")
+    def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
+        for p in processess:
+            for procName in blacklistedProcess:
+                if procName == p :
+                    return True
+        return False
+    
     global isRDPRunning
+    print("start RDP thread")
     while True:
-        isRDPRunning = "mstsc.exe" in (p.name() for p in psutil.process_iter())
-        time.sleep(10)
+        pythoncom.CoInitialize()
+        _wmi = win32com.client.GetObject('winmgmts:')
+        processes = _wmi.ExecQuery('Select Name from win32_process')
+        procs = []
+        for p in processes:
+            procs.append(p.Name)
+        isRDPRunning = checkIfElevenClockRunning(procs, appsWhereElevenClockShouldClose)
+     
+        time.sleep(5)
+        
+        
 
 def getSettings(s: str):
     try:
@@ -1082,7 +1100,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("EnableHideOnFullScreen")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnFullScreen", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP client is active"))
+        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running"))
         self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
         layout.addWidget(self.updatesChBx)

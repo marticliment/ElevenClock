@@ -6,7 +6,11 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_4 = {
+lang2_5 = {
+    "Hide the clock when RDP Client or Citrix Workspace are running": "",
+}
+
+lang2_4 = lang2_5 | {
     # Added text in version 2.4
     "Show the clock on the primary screen (Useful if clock is set on the left)": "將時鐘顯示於主螢幕上（在你希望把時鐘顯示在左邊時很有用）",
     "Show weekday on the clock"  :"將星期幾顯示於時鐘上",
