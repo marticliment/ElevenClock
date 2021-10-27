@@ -448,7 +448,9 @@ class Clock(QWidget):
         print("Clock geometry:", self.geometry())
         self.font: QFont = QFont()
         if lang == lang_ko:
-            self.font.setFamilies(["Malgun Gothic", "sans-serif"])
+            self.font.setFamilies(["Malgun Gothic", "Segoe UI Variable", "sans-serif"])
+        elif lang == lang_zh_TW:
+            self.font.setFamilies(["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"])
         else:
             self.font.setFamilies(["Segoe UI Variable", "sans-serif"])
         self.font.setPointSizeF(9)
@@ -461,6 +463,8 @@ class Clock(QWidget):
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
             if lang == lang_ko:
+                self.font.setWeight(QFont.Weight.Normal)
+            elif lang == lang_zh_TW:
                 self.font.setWeight(QFont.Weight.Normal)
             else:
                 self.font.setWeight(QFont.Weight.Medium)
