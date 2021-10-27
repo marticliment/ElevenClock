@@ -1761,14 +1761,15 @@ if getSettingsValue("PreferredLanguage") == "":
 if getSettingsValue("PreferredLanguage") == "default":
     langName = "default"
     try:
-        try:
-            print(locale.getdefaultlocale()[0])
-            lang = languages[locale.getdefaultlocale()[0]]
-            langName = locale.getdefaultlocale()[0]
-        except KeyError:
-            print(locale.getdefaultlocale()[0][0:2])
-            lang = languages[locale.getdefaultlocale()[0][0:2]]
-            langName = locale.getdefaultlocale()[0][0:2]
+        print(locale.getdefaultlocale()[0][0:2])
+        langName = locale.getdefaultlocale()[0][0:2]
+        if(langName != "zh"):
+            lang = languages[langName]
+        elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "zh_TW"):
+            langName = "zh_TW"
+            lang = languages["zh_TW"]
+        else:
+            raise KeyError(f"Value not found for {langName}")
     except KeyError:
         lang = lang_en
         print("unknown language")
@@ -1777,14 +1778,15 @@ if getSettingsValue("PreferredLanguage") == "default":
         lang = lang_en
 else:
     try:
-        try:
-            print(getSettingsValue("PreferredLanguage"))
-            lang = languages[getSettingsValue("PreferredLanguage")]
-            langName = getSettingsValue("PreferredLanguage")
-        except KeyError:
-            print(getSettingsValue("PreferredLanguage")[0:2])
-            lang = languages[getSettingsValue("PreferredLanguage")[0:2]]
-            langName = getSettingsValue("PreferredLanguage")[0:2]
+        print(getSettingsValue("PreferredLanguage")[0:2])
+        langName = getSettingsValue("PreferredLanguage")[0:2]
+        if(langName != "zh"):
+            lang = languages[langName]
+        elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "zh_TW"):
+            langName = "zh_TW"
+            lang = languages["zh_TW"]
+        else:
+            raise KeyError(f"Value not found for {langName}")
     except KeyError:
         lang = lang_en
         langName = "en"
