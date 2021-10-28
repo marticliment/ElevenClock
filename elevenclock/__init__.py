@@ -6,6 +6,7 @@ import socket
 import winreg
 import locale
 import hashlib
+import platform
 import tempfile
 import datetime
 import threading
@@ -83,8 +84,6 @@ def checkRDP():
      
         time.sleep(5)
         
-        
-
 def getSettings(s: str):
     try:
         return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
@@ -905,8 +904,9 @@ class QIconLabel(QWidget):
 
 class QSettingsButton(QWidget):
     clicked = Signal()
-    def __init__(self, text="", btntext="", parent=None):
+    def __init__(self, text="", btntext="", parent=None, h = 30):
         super().__init__(parent)
+        self.fh = h
         self.setAttribute(Qt.WA_StyledBackground)
         self.button = QPushButton(btntext+" ", self)
         self.button.setLayoutDirection(Qt.RightToLeft)
@@ -924,9 +924,9 @@ class QSettingsButton(QWidget):
         self.button.move(self.width()-self.getPx(170), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
         self.label.setFixedWidth(self.width()-self.getPx(230))
-        self.label.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.button.setFixedHeight(self.getPx(30))
+        self.label.setFixedHeight(self.getPx(self.fh))
+        self.setFixedHeight(self.getPx(50+(self.fh-30)))
+        self.button.setFixedHeight(self.getPx(self.fh))
         self.button.setFixedWidth(self.getPx(150))
         return super().resizeEvent(event)
 
@@ -1187,6 +1187,17 @@ class SettingsWindow(QScrollArea):
         self.closeButton.clicked.connect(lambda: self.hide())
         layout.addWidget(self.closeButton)
         layout.addSpacing(10)
+        
+        self.aboutTitle = QIconLabel(_("Debbugging information:").format(version), getPath(f"about_{self.iconMode}.png"))
+        layout.addWidget(self.aboutTitle)
+        self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
+        self.logButton.clicked.connect(lambda: self.showDebugInfo())
+        self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        layout.addWidget(self.logButton)
+        self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=130)
+        self.hiddenButton.button.setVisible(False)
+        layout.addWidget(self.hiddenButton)
+        layout.addSpacing(15)
 
         self.resizewidget.setLayout(layout)
         self.setWidget(self.resizewidget)
@@ -1234,6 +1245,10 @@ class SettingsWindow(QScrollArea):
                                 * {{
                                    color: #dddddd;
                                    font-size: 8pt;
+                                }}
+                                QPlainTextEdit{{
+                                    font-family: "Cascadia Mono";
+                                    background-color: #212121;
                                 }}
                                 QPushButton {{
                                    width: 100px;
@@ -1661,7 +1676,21 @@ class SettingsWindow(QScrollArea):
                                 }}
                                """)
 
+    def showDebugInfo(self):
+        win = QMainWindow(self)
+        win.setWindowTitle("ElevenClock's log")
+        textEdit = QPlainTextEdit()
+        textEdit.setReadOnly(True)
+        from contextlib import redirect_stdout
+        import io
 
+        f = io.StringIO()
+        with redirect_stdout(f):
+            help(pow)
+        s = f.getvalue()
+        
+        win.setCentralWidget(textEdit)
+        win.show()
 
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
@@ -1696,7 +1725,6 @@ class SettingsWindow(QScrollArea):
         return int(original*(self.screen().logicalDotsPerInchX()/96))
 
 # Start of main script
-
 try:
     os.chdir(os.path.expanduser("~"))
     os.chdir(".elevenclock")
