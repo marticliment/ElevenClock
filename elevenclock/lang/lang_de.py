@@ -33,7 +33,7 @@ lang2_3 = lang2_4 | {
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Authentizitätsprüfung des Aktualisierungs-Anbieters umgehen (NICHT EMPFOHLEN, AUF EIGENE GEFAHR)",
     "Show ElevenClock on system tray"                                                   :"ElevenClock im System Tray anzeigen",
     "Alternative clock alignment (may not work)"                                        :"Alternative Uhr Ausrichtung (funkioniert möglicherweise nicht)",
-    "Change startup behaviour"                                                          :"Start-Verhalten ändern",
+    "Change startup behaviour"                                                          :"Startverhalten ändern",
     "Change"                                                                            :"Ändern",
     "<b>Update to the lastest version!</b>"                                             :"<b>Auf die neueste Version aktualisieren!</b>",
     "Install update"                                                                    :"Update installieren",

@@ -74,7 +74,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Greek
 
 ### Languages coming in the next version:
- - None by the moment
+ - Traditional chinese (Taiwan)
 
 ## Planned features
  - [ ] You say!
