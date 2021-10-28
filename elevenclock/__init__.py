@@ -879,7 +879,10 @@ class QIconLabel(QWidget):
         super().__init__()
         self.setObjectName("subtitleLabel")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
+        if lang == lang_zh_TW:
+            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Microsoft JhengHei UI\";")
+        else:
+            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
         self.image = QLabel(self)
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
         self.image.setStyleSheet("padding: 3px;background: none;")
@@ -912,9 +915,15 @@ class QSettingsButton(QWidget):
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.label.setObjectName("StLbl")
+        
+        if lang == lang_zh_TW:
+            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.label.setObjectName("StLbl")
+        else:
+            self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
 
     def getPx(self, original) -> int:
@@ -946,9 +955,15 @@ class QSettingsComboBox(QWidget):
         self.restartButton.hide()
         self.restartButton.setObjectName("AccentButton")
         self.label = QLabel(text, self)
-        self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        
+        if lang == lang_zh_TW:
+            self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        else:
+            self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
 
     def getPx(self, original) -> int:
@@ -990,7 +1005,10 @@ class QSettingsCheckBox(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
         self.checkbox = QCheckBox(text, self)
-        self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        if lang == lang_zh_TW:
+            self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        else:
+            self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.checkbox.setObjectName("stChk")
         self.checkbox.stateChanged.connect(self.stateChanged.emit)
 
@@ -1022,7 +1040,10 @@ class SettingsWindow(QScrollArea):
         layout.addSpacing(10)
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
-        title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        if lang == lang_zh_TW:
+            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        else:
+            title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         layout.addWidget(title)
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
