@@ -2034,11 +2034,11 @@ if(getSettings("EnableHideOnRDP")):
 signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 loadClocks()
 
-if not(getSettings("Updated2.4Already")) and not(getSettings("EnableSilentUpdates")):
-    print("Show2.4Welcome")
+if not(getSettings("Updated2.5Already")) and not(getSettings("EnableSilentUpdates")):
+    print("Show2.5Welcome")
     sw.show()
-    setSettings("Updated2.4Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.4 sucessfully. This an urgent bugfix update to hic the High ram usage.\n\nAdditionaly, it includes redesigned context menus, more languages addition and the ability to show the clock on the primary monitor if clock is set to be on the left")
+    setSettings("Updated2.5Already", True)
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.5 sucessfully. On this release:\n\n - Elevenclock can hide when using Cytrix Workspace\n - ElevenClock can be forced to show with black text\n - If silent updates enables, user won't see this popup\n - ElevenClock has an in-app log viewer (can be opened from settings)\n - Hover effect improvements\n - Much more!")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
