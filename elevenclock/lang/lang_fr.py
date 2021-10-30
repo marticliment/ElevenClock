@@ -7,12 +7,12 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_5 = {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Cacher l'horloge quand un client RDP ou Citrix est actif",
+    "Clock Appearance:": "Apparence de l'horloge",
+    "Force the clock to have black text": "Forcer l'horloge en noir",
+    " - It is required that the Dark Text checkbox is disabled": " - L'option Texte noir doit être désactivé",
+    "Debbugging information:": "Info de déboggage",
+    "Open ElevenClock's log": "Ouvrir les logs de ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
