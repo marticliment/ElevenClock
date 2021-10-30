@@ -525,6 +525,9 @@ class Clock(QWidget):
         self.setFocus()
 
         self.isRDPRunning = True
+        
+        self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
+        print("Full screen rect: ", self.full_screen_rect)
 
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
@@ -533,8 +536,6 @@ class Clock(QWidget):
         self.loop.start()
         self.loop2.start()
 
-        self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
-        print("Full screen rect: ", self.full_screen_rect)
 
     def refreshProcesses(self):
         global isRDPRunning
@@ -549,7 +550,10 @@ class Clock(QWidget):
             fullscreen = False
 
             def absoluteValuesAreEqual(a, b):
-                return (a[0]) == (b[0]) and (a[1]) == (b[1]) and (a[2]) == (b[2]) and (a[3]) == (b[3])
+                try:
+                    return (a[0]) == (b[0]) and (a[1]) == (b[1]) and (a[2]) == (b[2]) and (a[3]) == (b[3])
+                except Exception as e:
+                    print(e)
 
             def winEnumHandler( hwnd, ctx ):
                 nonlocal fullscreen
