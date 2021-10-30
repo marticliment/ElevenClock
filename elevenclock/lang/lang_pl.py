@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_5 = {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Ukryj zegar, gdy działa klient RDP lub Citrix Workspace",
 }
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
-    "Show weekday on the clock"  :"",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Pokaż zegar na głównym ekranie (Przydatne, jeśli zegar jest ustawiony po lewej stronie)",
+    "Show weekday on the clock"  :"Pokaż dzień tygodnia na zegarze",
 }
 
 lang2_3 = lang2_4 | {
