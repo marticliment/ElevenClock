@@ -8,6 +8,11 @@
 
 lang2_5 = {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Ukryj zegar, gdy działa klient RDP lub Citrix Workspace",
+    "Clock Appearance:": "",
+    "Force the clock to have black text": "",
+    " - It is required that the Dark Text checkbox is disabled": "",
+    "Debbugging information:": "",
+    "Open ElevenClock's log": "",
 }
 
 lang2_4 = lang2_5 | {

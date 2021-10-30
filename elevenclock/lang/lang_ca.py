@@ -8,6 +8,11 @@
 
 lang2_5 = {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Oculta el rellotge si s'està fent servir el client d'Escriptori Remot o el Citrix Workspace",
+    "Clock Appearance:": "Aparença del rellotge:",
+    "Force the clock to have black text": "Força el rellotge a tenir el text de color negre",
+    " - It is required that the Dark Text checkbox is disabled": " - Es necessita que la opció de Text de Color Negre estigui desactivada",
+    "Debbugging information:": "Informació de depuració",
+    "Open ElevenClock's log": "Obre el registre de l'ElevenClock",
 }
 
 lang2_4 = lang2_5 | {

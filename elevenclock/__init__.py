@@ -26,7 +26,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_pt
 
 old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
@@ -1195,7 +1195,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("ForceLightTheme")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have white text")+" - It is required that the Dark Text checkbox is disabled")
+        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have white text")+_(" - It is required that the Dark Text checkbox is disabled"))
         self.updatesChBx.setChecked((getSettings("ForceDarkTheme")))
         self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
@@ -1925,6 +1925,7 @@ languages = {
     "nb": lang_nb,
     "nl": lang_nl,
     "pl": lang_pl,
+    "pt": lang_pt,
     "ru": lang_ru,
     "tr": lang_tr,
     "vi": lang_vi,
@@ -1944,6 +1945,7 @@ languageReference = {
     "nb": "Norwegian",
     "es": "Spanish",
     "pl": "Polish" ,
+    "pt": "Portuguese",
     "ru": "Russian",
     "tr": "Turkish",
     "vi": "Vietnamese",
