@@ -1311,11 +1311,10 @@ class SettingsWindow(QScrollArea):
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            
             self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
-            
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
@@ -1373,6 +1372,8 @@ class SettingsWindow(QScrollArea):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
+                                    selection-background-color: rgb({colors[4]});
+                                    border: none;
                                 }}
                                 QPushButton {{
                                    width: 100px;
@@ -1586,14 +1587,18 @@ class SettingsWindow(QScrollArea):
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            
             self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
-            
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
+                                QPlainTextEdit{{
+                                    font-family: "Cascadia Mono";
+                                    background-color: #ffffff;
+                                    selection-background-color: rgb({colors[3]});
+                                    border: none;
+                                }}
                                 QMenu {{
                                     border: {self.getPx(1)}px solid rgb(200, 200, 200);
                                     padding: {self.getPx(2)}px;
