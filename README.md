@@ -75,6 +75,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 
 ### Languages coming in the next version:
  - Traditional chinese (Taiwan)
+ - Portuguese
 
 ## Planned features
  - [ ] You say!
