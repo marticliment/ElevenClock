@@ -1,4 +1,5 @@
 import os
+import io
 import sys
 import time
 import glob
@@ -26,6 +27,9 @@ from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
+
+old_stdout = sys.stdout # Memorize the default stdout stream
+sys.stdout = buffer = io.StringIO()
 
 version = 2.5
 
@@ -1259,6 +1263,52 @@ class SettingsWindow(QScrollArea):
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
+                                QWidget{{
+                                    background-color: transparent;
+                                }}  
+                                QMenu {{
+                                    border: {self.getPx(1)}px solid rgb(60, 60, 60);
+                                    padding: {self.getPx(2)}px;
+                                    outline: 0px;
+                                    color: white;
+                                    background: #262626;
+                                    border-radius: {self.getPx(8)}px;
+                                }}
+                                QMenu::separator {{
+                                    margin: {self.getPx(2)}px;
+                                    height: {self.getPx(1)}px;
+                                    background: rgb(60, 60, 60);
+                                }}
+                                QMenu::icon{{
+                                    padding-left: {self.getPx(10)}px;
+                                }}
+                                QMenu::item{{
+                                    height: {self.getPx(30)}px;
+                                    border: none;
+                                    background: transparent;
+                                    padding-right: {self.getPx(10)}px;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                    margin: {self.getPx(2)}px;
+                                }}
+                                QMenu::item:selected{{
+                                    background: rgba(255, 255, 255, 10%);
+                                    height: {self.getPx(30)}px;
+                                    outline: none;
+                                    border: none;
+                                    padding-right: {self.getPx(10)}px;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                }}  
+                                QMenu::item:selected:disabled{{
+                                    background: transparent;
+                                    height: {self.getPx(30)}px;
+                                    outline: none;
+                                    border: none;
+                                    padding-right: {self.getPx(10)}px;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                }}
                                 #background,QScrollArea,QMessageBox{{
                                    color: white;
                                    background-color: #212121;
@@ -1486,6 +1536,52 @@ class SettingsWindow(QScrollArea):
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
+                                QWidget{{
+                                    background-color: transparent;
+                                }}  
+                                QMenu {{
+                                    border: {self.getPx(1)}px solid rgb(200, 200, 200);
+                                    padding: {self.getPx(2)}px;
+                                    outline: 0px;
+                                    color: black;
+                                    background: #eeeeee;
+                                    border-radius: {self.getPx(8)}px;
+                                }}
+                                QMenu::separator {{
+                                    margin: {self.getPx(2)}px;
+                                    height: {self.getPx(1)}px;
+                                    background: rgb(200, 200, 200);
+                                }}
+                                QMenu::icon{{
+                                    padding-left: {self.getPx(10)}px;
+                                }}
+                                QMenu::item{{
+                                    height: {self.getPx(30)}px;
+                                    border: none;
+                                    background: transparent;
+                                    padding-right: {self.getPx(10)}px;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                    margin: {self.getPx(2)}px;
+                                }}
+                                QMenu::item:selected{{
+                                    background: rgba(0, 0, 0, 10%);
+                                    height: {self.getPx(30)}px;
+                                    outline: none;
+                                    border: none;
+                                    padding-right: {self.getPx(10)}px;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                }}  
+                                QMenu::item:selected:disabled{{
+                                    background: transparent;
+                                    height: {self.getPx(30)}px;
+                                    outline: none;
+                                    border: none;
+                                    padding-right: {self.getPx(10)}px;
+                                    padding-left: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(4)}px;
+                                }} 
                                 #background {{
                                    color: white;
                                 }}
@@ -1698,18 +1794,17 @@ class SettingsWindow(QScrollArea):
                                """)
 
     def showDebugInfo(self):
+        global old_stdout, buffer
         win = QMainWindow(self)
         win.setWindowTitle("ElevenClock's log")
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
-        from contextlib import redirect_stdout
-        import io
-
-        f = io.StringIO()
-        with redirect_stdout(f):
-            help(pow)
-        s = f.getvalue()
         
+        sys.stdout = old_stdout # Put the old stream back in place
+        textEdit.setPlainText(buffer.getvalue())
+        old_stdout = sys.stdout # Memorize the default stdout stream
+        sys.stdout = buffer = io.StringIO()
+
         win.setCentralWidget(textEdit)
         win.show()
 
