@@ -35,6 +35,16 @@ version = 2.5
 
 appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe"]
 
+print("---------------------------------------------------------------------------------------------------")
+print("")
+print(f"   ElevenClock's v{version} log: Select all the text and hit Ctrl+C to copy it")
+print("")
+print("---------------------------------------------------------------------------------------------------")
+print("")
+print("")
+print("")
+print("")
+
 def _(s): #Translate function
     global lang
     try:
@@ -212,6 +222,8 @@ def loadClocks():
         for screen in app.screens():
             oldScreens.append(getGeometry(screen))
             print(screen, screen.geometry(), getGeometry(screen))
+            old_stdout.write(buffer.getvalue())
+            old_stdout.flush()
             screen: QScreen
             if(firstWinSkipped):
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
@@ -302,7 +314,7 @@ def isElevenClockRunning():
 
 def wanrUserAboutUpdates(a, b):
     if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
-        os.startfile("https://github.com/martinet101/ElevenClock/releases/tag/2.0")
+        os.startfile("https://github.com/martinet101/ElevenClock/releases/latest")
 
 def checkIfWokeUp():
     while True:
@@ -406,10 +418,12 @@ class Clock(QWidget):
 
     refresh = Signal()
     hideSignal = Signal()
+    callInMainSignal = Signal(object)
+    
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         self.lastTheme = 0
-
+        self.callInMainSignal.connect(lambda f: f())
 
         self.preferedwidth = 150
         self.preferedHeight = 48
@@ -448,7 +462,6 @@ class Clock(QWidget):
         except:
             h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
             print("taskbar at bottom")
-
         self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
             w = self.screen.geometry().x()+8*dpix
@@ -456,6 +469,12 @@ class Clock(QWidget):
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             w = self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth+8)*dpix)
+            
+            
+        self.w = w
+        self.h = h
+        self.dpix = dpix
+        self.dpiy = dpiy
 
         if not(getSettings("EnableWin32API")):
             print("Using qt's default positioning system")
@@ -479,7 +498,7 @@ class Clock(QWidget):
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label.setFont(self.font)
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")):
+        if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
             self.lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
@@ -512,14 +531,15 @@ class Clock(QWidget):
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
         self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
-        if(getSettings("EnableHideOnRDP")):
-            self.loop2.start()
+        self.loop2.start()
 
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
 
     def refreshProcesses(self):
         global isRDPRunning
+        #time.sleep(2)
+        #self.callInMainSignal.emit(self.setToTheMiddle)
         while True:
             self.isRDPRunning = isRDPRunning
             time.sleep(1)
@@ -605,7 +625,7 @@ class Clock(QWidget):
             self.raise_()
             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
             if(theme != self.lastTheme):
-                if(theme == 0 or getSettings("ForceDarkTheme")):
+                if (theme == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
                     self.lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
@@ -626,6 +646,23 @@ class Clock(QWidget):
         self.loop2.kill()
         event.accept()
         return super().closeEvent(event)
+    
+    def setToTheMiddle(self) -> None:
+        if getSettings("CenterAlignment"):
+            self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+            self.setFixedWidth(self.label.getTextUsedSpaceRect()+5)
+            if not(getSettings("EnableWin32API")):
+                print("Using qt's default positioning system")
+                self.move((self.preferedwidth-(self.label.getTextUsedSpaceRect()+5))+self.w, self.h)
+                self.resize(self.label.getTextUsedSpaceRect()+5, self.preferedHeight*self.dpiy)
+            else:
+                print("Using win32 API positioning system")
+                self.user32 = windll.user32
+                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+                win32gui.SetWindowPos(self.winId(), 0, int((self.preferedwidth-self.label.getTextUsedSpaceRect()+5)+self.w), int(self.h), int(self.label.getTextUsedSpaceRect()+5), int(self.preferedHeight*self.dpiy), False)
+            print("Width hint:",self.label.getTextUsedSpaceRect()+5, self.pos())
+        old_stdout.write(buffer.getvalue())
+        old_stdout.flush()
 
 class Label(QLabel):
     clicked = Signal()
@@ -1137,14 +1174,6 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("ForceOnBottom")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
-        self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have white text"))
-        self.updatesChBx.setChecked((getSettings("ForceDarkTheme")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
-        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show the clock at the left of the screen"))
         self.updatesChBx.setChecked((getSettings("ClockOnTheLeft")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
@@ -1154,6 +1183,28 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("ForceClockOnFirstMonitor")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
         layout.addWidget(self.updatesChBx)
+        layout.addSpacing(10)
+        
+        self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"))
+        layout.addWidget(self.clockAppearanceTitle)
+        self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
+        self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have black text"))
+        self.updatesChBx.setChecked((getSettings("ForceLightTheme")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have white text")+" - It is required that the Dark Text checkbox is disabled")
+        self.updatesChBx.setChecked((getSettings("ForceDarkTheme")))
+        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        #self.updatesChBx = QSettingsCheckBox(_("Align the clock text to the center"))
+        #self.updatesChBx.setChecked((getSettings("CenterAlignment")))
+        #self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        #self.updatesChBx.stateChanged.connect(lambda i: setSettings("CenterAlignment", bool(i)))
+        #layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
 
         self.dateTimeTitle = QIconLabel(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"))
@@ -1213,8 +1264,8 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.closeButton)
         layout.addSpacing(10)
         
-        self.aboutTitle = QIconLabel(_("Debbugging information:").format(version), getPath(f"about_{self.iconMode}.png"))
-        layout.addWidget(self.aboutTitle)
+        self.debbuggingTitle = QIconLabel(_("Debbugging information:").format(version), getPath(f"bug_{self.iconMode}.png"))
+        layout.addWidget(self.debbuggingTitle)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.showDebugInfo())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
@@ -1259,13 +1310,15 @@ class SettingsWindow(QScrollArea):
             self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            
+            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
+            
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
-                                QWidget{{
-                                    background-color: transparent;
-                                }}  
                                 QMenu {{
                                     border: {self.getPx(1)}px solid rgb(60, 60, 60);
                                     padding: {self.getPx(2)}px;
@@ -1532,13 +1585,15 @@ class SettingsWindow(QScrollArea):
             self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            
+            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
+            
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
-                                QWidget{{
-                                    background-color: transparent;
-                                }}  
                                 QMenu {{
                                     border: {self.getPx(1)}px solid rgb(200, 200, 200);
                                     padding: {self.getPx(2)}px;
@@ -1796,6 +1851,7 @@ class SettingsWindow(QScrollArea):
     def showDebugInfo(self):
         global old_stdout, buffer
         win = QMainWindow(self)
+        win.resize(800, 600)
         win.setWindowTitle("ElevenClock's log")
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
