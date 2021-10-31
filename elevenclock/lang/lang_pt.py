@@ -8,11 +8,11 @@
 
 lang2_5 = {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Esconder as horas quando o Ambiente de Trabalho Remoto ou o Citrix Workspace estiverem em execução",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Clock Appearance:": "Aspeto do relógio",
+    "Force the clock to have black text": "Forçar a cor do relógio a preto",
+    " - It is required that the Dark Text checkbox is disabled": " - É necessário que a opção acima esteja desativada",
+    "Debbugging information:": "Informação de depuração:",
+    "Open ElevenClock's log": "Abrir registo de eventos do ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
@@ -49,7 +49,7 @@ lang2_3 = lang2_4 | {
     "Hide the clock when RDP client is active"                     :"Esconder o relógio quando o Ambiente de Trabalho Remoto estiver a ser usado",
     "Force the clock to be at the bottom of the screen"            :"Forçar o relógio a ficar na parte de baixo do ecrã",
     "Show the clock when the taskbar is set to hide automatically" :"Mostrar o relógio quando a barra de tarefas estiver definida para se esconder automaticamente",
-    "Fix the hyphen/dash showing over the month"                   :"Corrigir problema de aparecer um símbolo no mês",
+    "Fix the hyphen/dash showing over the month"                   :"Corrigir problema onde aparece um hífen/traço em cima do mês",
     "Force the clock to have white text"                           :"Forçar a cor do relógio a branco",
     "Show the clock at the left of the screen"                     :"Mostrar relógio à esquerda do ecrã",
     
@@ -59,7 +59,7 @@ lang2_3 = lang2_4 | {
     "Show date on the clock"                            :"Mostrar a data no relógio",
     "Show time on the clock"                            :"Mostrar as horas no relógio",
     "Change date and time format (Regional settings)"   :"Mudar formato de data e hora (Formato Regional)",
-    "Regional settings"                                 :"Definições Formato Regional",
+    "Regional settings"                                 :"Definições",
     
     #About the language pack
     "About the language pack:"                  :"Acerca do pacote de idiomas:",
@@ -68,14 +68,14 @@ lang2_3 = lang2_4 | {
     "Get started"                               :"Começar",
     
     #About ElevenClock
-    "About ElevenClock version {0}:"            :"Acerca ElevenClock versão {0}:",
+    "About ElevenClock version {0}:"            :"Acerca de ElevenClock versão {0}:",
     "View ElevenClock's homepage"               :"Ver página inicial do ElevenClock",
     "Open"                                      :"Abrir",
     "Report an issue/request a feature"         :"Reportar um problema/pedir uma funcionalidade",
     "Report"                                    :"Reportar",
-    "Support the dev: Give me a coffee☕"       :"Apoie o desenvolvedor: Compra-me um café☕",
+    "Support the dev: Give me a coffee☕"       :"Apoia o desenvolvedor: Compra-me um café☕",
     "Open page"                                 :"Abrir página",
-    "Icons by Icons8"                           :"Ícones por", # Here, the word "Icons8" should not be translated
+    "Icons by Icons8"                           :"Ícones por Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Website",
     "Close settings"                            :"Fechar definições",
     "Close"                                     :"Fechar",
