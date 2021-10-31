@@ -72,10 +72,11 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Korean
  - Vietnamese
  - Greek
+ - Traditional Chinese (Taiwan)
+ - Portuguese
 
 ### Languages coming in the next version:
- - Traditional chinese (Taiwan)
- - Portuguese
+ - Japanese
 
 ## Planned features
  - [ ] You say!
