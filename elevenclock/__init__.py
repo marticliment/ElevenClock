@@ -1870,10 +1870,7 @@ class SettingsWindow(QScrollArea):
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
         
-        sys.stdout = old_stdout # Put the old stream back in place
         textEdit.setPlainText(buffer.getvalue())
-        old_stdout = sys.stdout # Memorize the default stdout stream
-        sys.stdout = buffer = io.StringIO()
 
         win.setCentralWidget(textEdit)
         win.show()
