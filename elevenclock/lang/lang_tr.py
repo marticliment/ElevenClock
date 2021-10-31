@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_5 = {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "RDP Client veya Citrix Çalışma Alanı aktifken saati gizle",
+    "Clock Appearance:": "Saat Görünümü",
+    "Force the clock to have black text": "Saatin siyah yazı renginde olmasına zorla",
+    " - It is required that the Dark Text checkbox is disabled": "- Siyah Metin onay kutusunun devre dışı bırakılması gerekir",
+    "Debbugging information:": "- Koyu Metin onay kutusunun devre dışı bırakılması gerekir",
+    "Open ElevenClock's log": "ElevenClock kayıtlarını aç",
 }
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
-    "Show weekday on the clock"  :"",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Saati birincil ekranda göster (Saat solda ayarlanmışsa kullanışlıdır)",
+    "Show weekday on the clock"  :"Saatte haftanın gününü göster",
 }
 
 lang2_3 = lang2_4 | {
