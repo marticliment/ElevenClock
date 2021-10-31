@@ -1274,7 +1274,7 @@ class SettingsWindow(QScrollArea):
         self.logButton.clicked.connect(lambda: self.showDebugInfo())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.logButton)
-        self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=130)
+        self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         self.hiddenButton.button.setVisible(False)
         layout.addWidget(self.hiddenButton)
         layout.addSpacing(15)
