@@ -5,14 +5,12 @@
 ![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
 ![Forks](https://img.shields.io/github/forks/martinet101/ElevenClock?color=yellow&style=for-the-badge)
 ![Stars](https://img.shields.io/github/stars/martinet101/ElevenClock?color=yellow&style=for-the-badge)
-![GitHub last commit](https://img.shields.io/github/last-commit/martinet101/Elevenclock?style=for-the-badge)
 <br>
 <br>
 ![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
 ![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
 ![PRs Badge](https://img.shields.io/github/issues-pr/martinet101/ElevenClock?style=for-the-badge)
 ![Closed PRs Badge](https://img.shields.io/github/issues-pr-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
-![GitHub branch checks state](https://img.shields.io/github/checks-status/martinet101/Elevenclock/main?style=for-the-badge)
 <br>
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
 
