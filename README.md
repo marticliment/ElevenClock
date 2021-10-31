@@ -1,11 +1,19 @@
 # ElevenClock
-[![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
-[![Downloads@2.3](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest) 
-[![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
-[![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
-[![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest)
 
-
+![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
+![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
+![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
+![Forks](https://img.shields.io/github/forks/martinet101/ElevenClock?color=yellow&style=for-the-badge)
+![Stars](https://img.shields.io/github/stars/martinet101/ElevenClock?color=yellow&style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/martinet101/Elevenclock?style=for-the-badge)
+<br>
+<br>
+![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
+![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
+![PRs Badge](https://img.shields.io/github/issues-pr/martinet101/ElevenClock?style=for-the-badge)
+![Closed PRs Badge](https://img.shields.io/github/issues-pr-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
+![GitHub branch checks state](https://img.shields.io/github/checks-status/martinet101/Elevenclock/main?style=for-the-badge)
+<br>
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
 
 A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
