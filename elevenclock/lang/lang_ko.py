@@ -7,12 +7,12 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_5 = {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "RDP 클라이언트 또는 Cirtix Workspace 실행 중일 때 시계 숨기기",
+    "Clock Appearance:": "시계 모양",
+    "Force the clock to have black text": "시계를 무조건 검은 색으로 표시하기",
+    " - It is required that the Dark Text checkbox is disabled": " - 검은 색으로 표시하기 옵션과 동시에 사용할 수 없음",
+    "Debbugging information:": "디버그 정보",
+    "Open ElevenClock's log": "ElevenClock 로그 열기",
 }
 
 lang2_4 = lang2_5 | {
