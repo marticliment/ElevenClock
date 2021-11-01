@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_5 = {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "Verstecke die Uhr sobald ein RDP-Client oder Citrix-Workspace läuft",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Uhr ausblenden wenn RDP-Client oder Citrix-Workspace läuft",
     "Clock Appearance:": "Erscheinungsbild der Uhr",
-    "Force the clock to have black text": "Erzwinge schwarzen Text der Uhr",
-    " - It is required that the Dark Text checkbox is disabled": "Es ist notwenden das die Checkbox für schwarzen Test deaktiviert ist",
+    "Force the clock to have black text": "Schwarzen Text der Uhr erzwingen",
+    " - It is required that the Dark Text checkbox is disabled": "Es ist notwendig das die Checkbox für schwarzen Test deaktiviert ist",
     "Debbugging information:": "Debugging Informationen",
     "Open ElevenClock's log": "Öffne Log von ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "Anzeige der Uhr auf dem Hauptmonitor (Sinnvoll, wenn die Uhr ist auf der linken Seite)",
-    "Show weekday on the clock"  :"Anzeige des Wochentages auf der Uhr",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Uhr auf dem Hauptmonitor anzeigen (Sinnvoll, wenn die Uhr auf der linken Seite ist)",
+    "Show weekday on the clock"  :"Wochentag anzeigen",
 }
 
 lang2_3 = lang2_4 | {
