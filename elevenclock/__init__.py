@@ -33,7 +33,7 @@ sys.stdout = buffer = io.StringIO()
 
 version = 2.6
 
-appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe"]
+appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
 
 print("---------------------------------------------------------------------------------------------------")
 print("")
