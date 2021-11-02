@@ -83,6 +83,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 
 ### Languages coming in the next version:
  - Japanese
+ - Simplified Chinese (China)
 
 ## Planned features
  - [ ] You say!
