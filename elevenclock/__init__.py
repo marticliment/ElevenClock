@@ -174,6 +174,12 @@ def updateIfPossible(force = False):
                             print("Hash: ", response.split("///")[2].replace("\n", "").lower())
                             print("Hash ok, starting update")
                             if(getSettings("EnableSilentUpdates") and not(force)):
+                                mousePos = getMousePos()
+                                time.sleep(5)
+                                while mousePos != getMousePos():
+                                    print("User is using the mouse, waiting")
+                                    mousePos = getMousePos()
+                                    time.sleep(5)
                                 subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                             else:
                                 subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
