@@ -36,7 +36,7 @@ lang2_3 = lang2_4 | {
     "Automatically install available updates"                                           :"",
     "Enable really silent updates"                                                      :"",
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"",
-    "Show ElevenClock on system tray"                                                   :"",
+    "Show ElevenClock on system tray"                                                   :"Show ElevenClock icon on system tray",
     "Alternative clock alignment (may not work)"                                        :"",
     "Change startup behaviour"                                                          :"",
     "Change"                                                                            :"",
