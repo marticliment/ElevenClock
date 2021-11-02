@@ -26,7 +26,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_pt, lang_ja
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_zh_CN, lang_pt, lang_ja
 
 old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
@@ -489,7 +489,7 @@ class Clock(QWidget):
         self.font: QFont = QFont()
         if lang == lang_ko:
             self.font.setFamilies(["Malgun Gothic", "Segoe UI Variable", "sans-serif"])
-        elif lang == lang_zh_TW:
+        elif lang == lang_zh_TW or lang == lang_zh_CN:
             self.font.setFamilies(["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"])
         else:
             self.font.setFamilies(["Segoe UI Variable", "sans-serif"])
@@ -504,7 +504,7 @@ class Clock(QWidget):
             self.label.bgopacity = .1
             if lang == lang_ko:
                 self.font.setWeight(QFont.Weight.Normal)
-            elif lang == lang_zh_TW:
+            elif lang == lang_zh_TW or lang == lang_zh_CN:
                 self.font.setWeight(QFont.Weight.Normal)
             else:
                 self.font.setWeight(QFont.Weight.Medium)
@@ -924,7 +924,7 @@ class QIconLabel(QWidget):
         super().__init__()
         self.setObjectName("subtitleLabel")
         self.label = QLabel(text, self)
-        if lang == lang_zh_TW:
+        if lang == lang_zh_TW or lang == lang_zh_CN:
             self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Microsoft JhengHei UI\";")
         else:
             self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
@@ -961,7 +961,7 @@ class QSettingsButton(QWidget):
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
         
-        if lang == lang_zh_TW:
+        if lang == lang_zh_TW or lang == lang_zh_CN:
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.label.setObjectName("StLbl")
@@ -1001,7 +1001,7 @@ class QSettingsComboBox(QWidget):
         self.restartButton.setObjectName("AccentButton")
         self.label = QLabel(text, self)
         
-        if lang == lang_zh_TW:
+        if lang == lang_zh_TW or lang == lang_zh_CN:
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
@@ -1024,16 +1024,16 @@ class QSettingsComboBox(QWidget):
         self.combobox.currentTextChanged.connect(self.textChanged.emit)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-self.getPx(170), self.getPx(10))
+        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
         self.label.move(self.getPx(60), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(380))
+        self.label.setFixedWidth(self.width()-self.getPx(480))
         self.label.setFixedHeight(self.getPx(30))
-        self.restartButton.move(self.width()-self.getPx(330), self.getPx(10))
+        self.restartButton.move(self.width()-self.getPx(430), self.getPx(10))
         self.restartButton.setFixedWidth(self.getPx(150))
         self.restartButton.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.combobox.setFixedHeight(self.getPx(30))
-        self.combobox.setFixedWidth(self.getPx(150))
+        self.combobox.setFixedWidth(self.getPx(250))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -1050,7 +1050,7 @@ class QSettingsCheckBox(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
         self.checkbox = QCheckBox(text, self)
-        if lang == lang_zh_TW:
+        if lang == lang_zh_TW or lang == lang_zh_CN:
             self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
         else:
             self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
@@ -1085,7 +1085,7 @@ class SettingsWindow(QScrollArea):
         layout.addSpacing(10)
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
-        if lang == lang_zh_TW:
+        if lang == lang_zh_TW or lang == lang_zh_CN:
             title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
         else:
             title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
@@ -1937,12 +1937,12 @@ languages = {
     "tr": lang_tr,
     "vi": lang_vi,
     "zh_TW": lang_zh_TW,
+    "zh_CN": lang_zh_CN,
 }
 
 languageReference = {
     "default": "System language",
     "ca": "Catalan",
-    "zh_TW": "Chinese Traditional (Taiwan)",
     "nl": "Dutch"  ,
     "en": "English",
     "fr": "French" ,
@@ -1955,7 +1955,9 @@ languageReference = {
     "pl": "Polish" ,
     "pt": "Portuguese",
     "ru": "Russian",
+    "zh_CN": "Simplified Chinese (China)",
     "es": "Spanish",
+    "zh_TW": "Traditional Chinese (Taiwan)",
     "tr": "Turkish",
     "vi": "Vietnamese",
 }
@@ -1973,6 +1975,9 @@ if getSettingsValue("PreferredLanguage") == "default":
         elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "zh_TW"):
             langName = "zh_TW"
             lang = languages["zh_TW"]
+        elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "zh_CN"):
+            langName = "zh_CN"
+            lang = languages["zh_CN"]
         else:
             raise KeyError(f"Value not found for {langName}")
     except KeyError:
@@ -1990,6 +1995,9 @@ else:
         elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "zh_TW"):
             langName = "zh_TW"
             lang = languages["zh_TW"]
+        elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "zh_CN"):
+            langName = "zh_CN"
+            lang = languages["zh_CN"]
         else:
             raise KeyError(f"Value not found for {langName}")
     except KeyError:
