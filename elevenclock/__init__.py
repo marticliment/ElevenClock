@@ -526,6 +526,7 @@ class Clock(QWidget):
         self.label.setFixedHeight(self.height())
         self.label.setFixedWidth(self.width())
         self.label.show()
+        loadTimeFormat()
         self.show()
         self.raise_()
         self.setFocus()
