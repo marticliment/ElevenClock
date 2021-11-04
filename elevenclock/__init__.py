@@ -26,7 +26,7 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_zh_CN, lang_pt, lang_ja
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_zh_CN, lang_pt, lang_ja, lang_fi
 
 old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
@@ -333,7 +333,7 @@ def loadTimeFormat():
     global dateTimeFormat
     showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
     locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-    dateTimeFormat = "%HH:%M\n%A\n%d/%m/%Y"
+    dateTimeFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
         
 
     if getSettings("DisableTime"):
@@ -341,9 +341,11 @@ def loadTimeFormat():
 
     if getSettings("DisableDate"):
         if("\n" in dateTimeFormat):
-            dateTimeFormat = dateTimeFormat.replace("\n%d/%m/%Y", "")
+            dateTimeFormat = dateTimeFormat.replace("\n(W%W) %d/%m/%Y", "")
         else:
-            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", "")
+            dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
+    elif not getSettings("EnableWeekNumber"):
+        dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
         
     if not getSettings("EnableWeekDay"):
         dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
@@ -1236,6 +1238,10 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked(getSettings("EnableWeekDay"))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWeekDay", bool(i)))
         layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Show week number on the clock"))
+        self.updatesChBx.setChecked(getSettings("EnableWeekNumber"))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWeekNumber", bool(i)))
+        layout.addWidget(self.updatesChBx)
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addWidget(self.RegionButton)
@@ -1932,6 +1938,7 @@ languages = {
     "el": lang_el,
     "en": lang_en,
     "es": lang_es,
+    "fi": lang_fi,
     "fr": lang_fr,
     "it": lang_it,
     "ja": lang_ja,
@@ -1952,6 +1959,7 @@ languageReference = {
     "ca": "Catalan",
     "nl": "Dutch"  ,
     "en": "English",
+    "fi": "Finnish",
     "fr": "French" ,
     "de": "German" ,
     "el": "Greek"  ,
