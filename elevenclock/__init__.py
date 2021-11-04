@@ -20,9 +20,9 @@ import win32gui
 import pythoncom
 import win32process
 import win32com.client
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
@@ -500,8 +500,8 @@ class Clock(QWidget):
         elif lang == lang_zh_TW or lang == lang_zh_CN:
             self.font.setFamilies(["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"])
         else:
-            self.font.setFamilies(["Segoe UI Variable", "sans-serif"])
-        self.font.setPointSizeF(9)
+            self.font.setFamilies(["Segoe UI Variable Display Semib", "sans-serif"])
+        self.font.setPointSizeF(9.3)
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
@@ -515,7 +515,7 @@ class Clock(QWidget):
             elif lang == lang_zh_TW or lang == lang_zh_CN:
                 self.font.setWeight(QFont.Weight.Normal)
             else:
-                self.font.setWeight(QFont.Weight.Medium)
+                self.font.setWeight(QFont.Weight.DemiBold)
             self.label.setFont(self.font)
         else:
             self.lastTheme = 1
@@ -642,7 +642,12 @@ class Clock(QWidget):
                     self.lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
-                    self.font.setWeight(QFont.Weight.Medium)
+                    if lang == lang_ko:
+                        self.font.setWeight(QFont.Weight.Normal)
+                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                        self.font.setWeight(QFont.Weight.Normal)
+                    else:
+                        self.font.setWeight(QFont.Weight.DemiBold)
                     self.label.setFont(self.font)
                 else:
                     self.lastTheme = 1
