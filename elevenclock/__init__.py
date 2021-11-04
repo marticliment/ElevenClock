@@ -595,7 +595,7 @@ class Clock(QWidget):
             return False
 
     def fivesecsloop(self):
-        EnableHideOnFullScreen = getSettings("EnableHideOnFullScreen")
+        EnableHideOnFullScreen = not(getSettings("DisableHideOnFullScreen"))
         DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
         EnableHideOnRDP = getSettings("EnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
@@ -1172,8 +1172,8 @@ class SettingsWindow(QScrollArea):
         self.clockSettingsTitle = QIconLabel(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"))
         layout.addWidget(self.clockSettingsTitle)
         self.updatesChBx = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
-        self.updatesChBx.setChecked((getSettings("EnableHideOnFullScreen")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnFullScreen", bool(i)))
+        self.updatesChBx.setChecked(not(getSettings("DisableHideOnFullScreen")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not(bool(i))))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running"))
         self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
@@ -2059,8 +2059,20 @@ st: KillableThread = None # Will be defined on loadClocks
 rdpThread = KillableThread(target=checkRDP, daemon=True)
 timethread = KillableThread(target=timeStrThread, daemon=True)
 timethread.start()
-if(getSettings("EnableHideOnRDP")):
+if getSettings("EnableHideOnRDP"):
     rdpThread.start()
+    
+if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
+    setSettings("DisableHideOnFullScreen", v=True, r=False)
+    setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
+    setSettings("EnableHideOnFullScreen", v=False, r=False)
+    print("Updating fullscreen setting")
+else:
+    setSettings("DisableHideOnFullScreen", v=False, r=False)
+    setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
+    setSettings("EnableHideOnFullScreen", v=False, r=False)
+    print("Updating fullscreen setting")
+    
 
 signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 loadClocks()
