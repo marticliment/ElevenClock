@@ -814,7 +814,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             
     def execMenu(self, pos: QPoint):
         self.applyStyleSheet()
-        self.contextMenu().exec_(pos)
+        self.contextMenu().exec(pos)
     
     def getPx(self, original) -> int:
         return int(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
@@ -2101,5 +2101,5 @@ if("--settings" in sys.argv or showSettings):
 if("--quit-on-loaded" in sys.argv):
     sys.exit(0)
 
-app.exec_()
+app.exec()
 sys.exit(0)
