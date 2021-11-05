@@ -476,7 +476,7 @@ class Clock(QWidget):
             self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            w = self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth+8)*dpix)
+            w = self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth)*dpix)
             
             
         self.w = w
@@ -526,7 +526,7 @@ class Clock(QWidget):
         self.label.clicked.connect(lambda: self.showCalendar())
         self.label.move(0, 0)
         self.label.setFixedHeight(self.height())
-        self.label.setFixedWidth(self.width())
+        self.label.setFixedWidth(self.width()-self.getPx(8))
         self.label.show()
         loadTimeFormat()
         self.show()
@@ -544,15 +544,55 @@ class Clock(QWidget):
         self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
         self.loop2.start()
-
-
+        
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1):
+            self.desktopButton = QPushButton(self)
+            self.desktopButton.clicked.connect(lambda: self.showDesktop())
+            self.desktopButton.show()
+            self.desktopButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            self.desktopButton.move(self.width()-self.getPx(12), 0)
+            self.desktopButton.resize(self.getPx(12), self.getPx(self.preferedHeight))
+            self.setFixedHeight(self.getPx(self.preferedHeight))
+            self.desktopButton.setStyleSheet(f"""
+                QPushButton{{
+                    background-color: rgba(0, 0, 0, 0.01); 
+                    margin: 0px;
+                    padding: 0px; 
+                    margin-top: {self.getPx(self.preferedHeight//3)}px;
+                    margin-bottom: {self.getPx(self.preferedHeight//3)}px;
+                    border-left: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                    border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                }}
+                QPushButton:hover{{
+                    background-color: rgba(127, 127, 127, 100%); 
+                    margin: 0px;
+                    margin-top: {self.getPx(self.preferedHeight//3)}px;
+                    margin-bottom: {self.getPx(self.preferedHeight//3)}px;
+                    border-left: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                    border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                }}
+                QPushButton:pressed{{
+                    background-color: rgba(127, 127, 127, 50%); 
+                    margin: 0px;
+                    margin-top: {self.getPx(self.preferedHeight//3)}px;
+                    margin-bottom: {self.getPx(self.preferedHeight//3)}px;
+                    border-left: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                    border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                }}
+            """)
+        old_stdout.write(buffer.getvalue())
+        old_stdout.flush()
+        
+    def getPx(self, original) -> int:
+        return int(original*(self.screen.logicalDotsPerInchX()/96))
+    
     def refreshProcesses(self):
         global isRDPRunning
         #time.sleep(2)
         #self.callInMainSignal.emit(self.setToTheMiddle)
         while True:
             self.isRDPRunning = isRDPRunning
-            time.sleep(1)
+            time.sleep(0.5)
 
     def theresFullScreenWin(self, clockOnFirstMon):
         try:
@@ -626,6 +666,12 @@ class Clock(QWidget):
         self.keyboard.press(Key.cmd)
         self.keyboard.press('n')
         self.keyboard.release('n')
+        self.keyboard.release(Key.cmd)
+
+    def showDesktop(self):
+        self.keyboard.press(Key.cmd)
+        self.keyboard.press('d')
+        self.keyboard.release('d')
         self.keyboard.release(Key.cmd)
 
     def focusOutEvent(self, event: QFocusEvent) -> None:
