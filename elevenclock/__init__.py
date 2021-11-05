@@ -196,6 +196,8 @@ def updateIfPossible(force = False):
                 print("updates not found")
         else:
             print("update checking disabled")
+        old_stdout.write(buffer.getvalue())
+        old_stdout.flush()
 
     except Exception as e:
         print(f"Exception: {e}")
@@ -496,11 +498,11 @@ class Clock(QWidget):
         print("Clock geometry:", self.geometry())
         self.font: QFont = QFont()
         if lang == lang_ko:
-            self.font.setFamilies(["Malgun Gothic", "Segoe UI Variable", "sans-serif"])
+            self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
         elif lang == lang_zh_TW or lang == lang_zh_CN:
-            self.font.setFamilies(["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"])
+            self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
         else:
-            self.font.setFamilies(["Segoe UI Variable Display Semib", "sans-serif"])
+            self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
         self.font.setPointSizeF(9.3)
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
@@ -510,6 +512,8 @@ class Clock(QWidget):
             self.lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
+            self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+            self.font.setFamilies(self.fontfamilies)
             if lang == lang_ko:
                 self.font.setWeight(QFont.Weight.Normal)
             elif lang == lang_zh_TW or lang == lang_zh_CN:
@@ -521,7 +525,9 @@ class Clock(QWidget):
             self.lastTheme = 1
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
             self.label.bgopacity = .5
-            self.font.setWeight(QFont.Weight.Normal)
+            self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
+            self.font.setFamilies(self.fontfamilies)
+            self.font.setWeight(QFont.Weight.ExtraLight)
             self.label.setFont(self.font)
         self.label.clicked.connect(lambda: self.showCalendar())
         self.label.move(0, 0)
@@ -688,6 +694,8 @@ class Clock(QWidget):
                     self.lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
+                    self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+                    self.font.setFamilies(self.fontfamilies)
                     if lang == lang_ko:
                         self.font.setWeight(QFont.Weight.Normal)
                     elif lang == lang_zh_TW or lang == lang_zh_CN:
@@ -699,7 +707,9 @@ class Clock(QWidget):
                     self.lastTheme = 1
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
                     self.label.bgopacity = .5
-                    self.font.setWeight(QFont.Weight.Normal)
+                    self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
+                    self.font.setFamilies(self.fontfamilies)
+                    self.font.setWeight(QFont.Weight.ExtraLight)
                     self.label.setFont(self.font)
             self.label.setText(timeStr)
 
