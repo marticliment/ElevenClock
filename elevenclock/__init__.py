@@ -2134,7 +2134,7 @@ if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPref
     setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
     setSettings("EnableHideOnFullScreen", v=False, r=False)
     print("Updating fullscreen setting")
-else:
+elif not getSettings("FullScreenPrefsWereMigrated"):
     setSettings("DisableHideOnFullScreen", v=False, r=False)
     setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
     setSettings("EnableHideOnFullScreen", v=False, r=False)
