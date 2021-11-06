@@ -85,6 +85,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Japanese
  - Simplified Chinese (China)
  - Finnish
+ - Indonesian
 
 ## Planned features
  - [ ] You say!
