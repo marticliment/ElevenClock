@@ -7,12 +7,12 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_5 = {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "在使用 RDP 用戶端或是 Citrix Workspace 時隱藏時鐘",
+    "Clock Appearance:": "時鐘外觀",
+    "Force the clock to have black text": "強制時鐘使用黑色文字",
+    " - It is required that the Dark Text checkbox is disabled": " - 必須關閉「強制時鐘使用黑色文字」",
+    "Debbugging information:": "除錯資訊",
+    "Open ElevenClock's log": "打開 ElevenClock 的日誌",
 }
 
 lang2_4 = lang2_5 | {
@@ -46,7 +46,7 @@ lang2_3 = lang2_4 | {
     #Clock settings
     "Clock Settings:"                                              :"時鐘設定",
     "Hide the clock in fullscreen mode"                            :"在全螢幕模式下隱藏時鐘",
-    "Hide the clock when RDP client is active"                     :"在使用 RDP 客戶端時隱藏時鐘",
+    "Hide the clock when RDP client is active"                     :"在使用 RDP 用戶端時隱藏時鐘",
     "Force the clock to be at the bottom of the screen"            :"強制將時鐘置於螢幕底部",
     "Show the clock when the taskbar is set to hide automatically" :"在使用「自動隱藏工作列」時顯示時鐘",
     "Fix the hyphen/dash showing over the month"                   :"修正連字符以及底線會壓住月份的問題",
