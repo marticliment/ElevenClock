@@ -154,7 +154,8 @@ def updateIfPossible(force = False):
             dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
             if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
                 integrityPass = True
-            response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver")
+            response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "https://www.somepythonthings.tk/versions/elevenclock.ver")
+            print("Version URL:", response.url)
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
                 print("Updates found!")
@@ -201,6 +202,8 @@ def updateIfPossible(force = False):
 
     except Exception as e:
         print(f"Exception: {e}")
+        old_stdout.write(buffer.getvalue())
+        old_stdout.flush()
 
 restartCount = 0
 
@@ -1221,10 +1224,6 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked(not(getSettings("DisableSystemTray")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not(bool(i))))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
-        self.updatesChBx.setChecked((getSettings("EnableWin32API")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
-        layout.addWidget(self.updatesChBx)
         self.startupButton = QSettingsButton(_("Change startup behaviour"), _("Change"))
         self.startupButton.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
         layout.addWidget(self.startupButton)
@@ -1261,10 +1260,6 @@ class SettingsWindow(QScrollArea):
         
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"))
         layout.addWidget(self.clockAppearanceTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
-        self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
-        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Force the clock to have black text"))
         self.updatesChBx.setChecked((getSettings("ForceLightTheme")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
@@ -1307,6 +1302,22 @@ class SettingsWindow(QScrollArea):
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addWidget(self.RegionButton)
         layout.addSpacing(10)
+        
+        self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
+        layout.addWidget(self.experimentalTitle)
+        self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
+        self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Connect to an alternative update server (This could help when Elevenclock does not update automatically)"))
+        self.updatesChBx.setChecked((getSettings("AlternativeUpdateServerProvider")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
+        layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
+        self.updatesChBx.setChecked((getSettings("EnableWin32API")))
+        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
+        layout.addWidget(self.updatesChBx)
 
         self.languageSettingsTitle = QIconLabel(_("About the language pack:").format(version), getPath(f"lang_{self.iconMode}.png"))
         layout.addWidget(self.languageSettingsTitle)
@@ -1392,6 +1403,7 @@ class SettingsWindow(QScrollArea):
             self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
             self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
             self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
+            self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
             self.PichonButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.QtButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
@@ -1668,6 +1680,7 @@ class SettingsWindow(QScrollArea):
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
             self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
             self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
+            self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
             self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
             self.PichonButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.QtButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
