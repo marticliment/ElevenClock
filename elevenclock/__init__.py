@@ -26,7 +26,7 @@ from PySide6.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_zh_CN, lang_pt, lang_ja, lang_fi
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id
 
 old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
@@ -2007,6 +2007,7 @@ languages = {
     "es": lang_es,
     "fi": lang_fi,
     "fr": lang_fr,
+    "id": lang_id,
     "it": lang_it,
     "ja": lang_ja,
     "ko": lang_ko,
@@ -2030,6 +2031,7 @@ languageReference = {
     "fr": "French" ,
     "de": "German" ,
     "el": "Greek"  ,
+    "id": "Indonesian",
     "it": "Italian",
     "ja": "Japanese",
     "ko": "Korean ",
