@@ -154,7 +154,7 @@ def updateIfPossible(force = False):
             dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
             if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
                 integrityPass = True
-            response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "https://www.somepythonthings.tk/versions/elevenclock.ver")
+            response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "http://www.somepythonthings.tk/versions/elevenclock.ver")
             print("Version URL:", response.url)
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
@@ -1309,7 +1309,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Connect to an alternative update server (This could help when Elevenclock does not update automatically)"))
+        self.updatesChBx = QSettingsCheckBox(_("Alternative non-SSL update server (This might help with SSL errors)"))
         self.updatesChBx.setChecked((getSettings("AlternativeUpdateServerProvider")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
         layout.addWidget(self.updatesChBx)
