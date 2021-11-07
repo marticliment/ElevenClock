@@ -496,7 +496,7 @@ class Clock(QWidget):
         else:
             print("Using win32 API positioning system")
             self.user32 = windll.user32
-            self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+            self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
             win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
         self.font: QFont = QFont()
@@ -546,7 +546,11 @@ class Clock(QWidget):
         
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
-
+        
+        
+        self.forceDarkTheme = getSettings("ForceDarkTheme")
+        self.forceLightTheme = getSettings("ForceLightTheme")
+        
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
@@ -607,22 +611,19 @@ class Clock(QWidget):
         try:
             fullscreen = False
 
-            def absoluteValuesAreEqual(a, b):
+            def compareFullScreenRects(window, screen):
                 try:
-                    return (a[0]) == (b[0]) and (a[1]) == (b[1]) and (a[2]) == (b[2]) and (a[3]) == (b[3])
+                    return window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3]
                 except Exception as e:
                     print(e)
 
             def winEnumHandler( hwnd, ctx ):
                 nonlocal fullscreen
                 if win32gui.IsWindowVisible( hwnd ):
-                    if(absoluteValuesAreEqual(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
+                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
                         if(clockOnFirstMon):
-
-
                             pythoncom.CoInitialize()
                             _, pid = win32process.GetWindowThreadProcessId(hwnd)
-
                             _wmi = win32com.client.GetObject('winmgmts:')
 
                             # collect all the running processes
@@ -633,7 +634,7 @@ class Clock(QWidget):
                                         print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
                                         fullscreen = True
                         else:
-                            if(win32gui.GetWindowText(hwnd) != ""):
+                            if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
                                 print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
                                 fullscreen = True
 
@@ -693,7 +694,7 @@ class Clock(QWidget):
             self.raise_()
             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
             if(theme != self.lastTheme):
-                if (theme == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
+                if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
                     self.lastTheme = 0
                     self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
                     self.label.bgopacity = 0.1
