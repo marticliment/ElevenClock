@@ -49,6 +49,7 @@ def _(s): #Translate function
     global lang
     try:
         t = lang.lang[s]
+        return t # Uncomment to debug missing translations
         return t if t else s
     except KeyError:
         return s
@@ -1314,7 +1315,7 @@ class SettingsWindow(QScrollArea):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running (This feature has been disabled because it should work by default. If it is not, please report a bug)"))
+        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+" (This feature has been disabled because it should work by default. If it is not, please report a bug)")
         self.updatesChBx.setChecked((getSettings("ForceEnableHideOnRDP")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceEnableHideOnRDP", bool(i)))
         layout.addWidget(self.updatesChBx)

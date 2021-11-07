@@ -6,7 +6,15 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_5 = {
+lang2_6 = {
+    "About Qt6 (PySide6)": "",
+    "About": "",
+    "Alternative non-SSL update server (This might help with SSL errors)": "",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
+    "Show week number on the clock": "",
+}
+
+lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Ocultar el reloj si se está ejecutando el cliente de Escritorio Remoto o Citrix Workspace",
     "Clock Appearance:": "Apariencia del reloj:",
     "Force the clock to have black text": "Fuerza al reloj a mostrar el texto en negro",
