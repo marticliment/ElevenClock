@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_6 = {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "Sobre Qt6 (PySide6)",
+    "About": "Sobre",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Servidor de actualitzaciones alternativo sin SSL (Puede ayudar a resolver problemas con las actualizaciones)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Características experimentales y solución de errores (Usar solo si hay algo que no funciona)",
+    "Show week number on the clock": "Muestra el número de la semana en el reloj",
 }
 
 lang2_5 = lang2_6 | {

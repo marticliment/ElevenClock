@@ -49,7 +49,7 @@ def _(s): #Translate function
     global lang
     try:
         t = lang.lang[s]
-        return t # Uncomment to debug missing translations
+        #return t # Uncomment to debug missing translations
         return t if t else s
     except KeyError:
         return s
