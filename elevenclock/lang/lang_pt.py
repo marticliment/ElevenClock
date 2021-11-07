@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_6 = {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "Acerca de Qt6 (PySide6)",
+    "About": "Acerca de",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Servidor de atualização alternativo sem SSL (Pode ajudar com erros de SSL)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Correções e funcionalidades experimentais: (Usar APENAS se algo não funcionar corretamente)",
+    "Show week number on the clock": "Mostrar dia da semana no relógio",
 }
 
 lang2_5 = lang2_6 | {
@@ -48,7 +48,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Alinhamento alternativo (pode não funcionar)",
     "Change startup behaviour"                                                          :"Mudar comportamento de arranque",
     "Change"                                                                            :"Definições",
-    "<b>Update to the lastest version!</b>"                                             :"<b>Atualize para a versão mais recente</b>",
+    "<b>Update to the lastest version!</b>"                                             :"<b>Atualize para a versão mais recente!</b>",
     "Install update"                                                                    :"Instalar atualização",
     
     #Clock settings
