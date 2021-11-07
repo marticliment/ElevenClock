@@ -56,6 +56,12 @@ def _(s): #Translate function
 def getPath(s):
     return os.path.join(realpath, s).replace("\\", "/")
 
+def report(exception) -> None: # Exception reporter
+    import traceback
+    for line in traceback.format_exception(*sys.exc_info()):
+        print(line)
+    print("Note this traceback was caught by reporter and has been added to the log")
+
 def getMousePos():
     return QPoint(mController.position[0], mController.position[1])
 
@@ -67,6 +73,9 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
     except FileNotFoundError as e:
         print(e)
         return default
+    except Exception as e:
+        report(e)
+        return default
 
     for i in range(1024):
         try:
@@ -75,6 +84,9 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
                 return value
         except OSError as e:
             print(e)
+            return default
+        except Exception as e:
+            report(e)
             return default
 
 def checkRDP():
@@ -102,7 +114,7 @@ def getSettings(s: str):
     try:
         return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
     except Exception as e:
-        print(e)
+        report(e)
 
 def setSettings(s: str, v: bool, r: bool = True):
     try:
@@ -121,14 +133,14 @@ def setSettings(s: str, v: bool, r: bool = True):
             else:
                 i.show()
     except Exception as e:
-        print(e)
+        report(e)
 
 def getSettingsValue(s: str):
     try:
         with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "r") as sf:
             return sf.read()
     except Exception as e:
-        print(e)
+        report(e)
         return ""
 
 def setSettingsValue(s: str, v: str, r: bool = True):
@@ -139,7 +151,7 @@ def setSettingsValue(s: str, v: str, r: bool = True):
         if(r):
             restartClocks()
     except Exception as e:
-        print(e)
+        report(e)
 
 def updateChecker():
     while True:
@@ -298,7 +310,7 @@ def restartClocks(caller: str = ""):
     except AttributeError:
         pass
     rdpThread = KillableThread(target=checkRDP, daemon=True)
-    if(getSettings("EnableHideOnRDP")):
+    if(getSettings("ForceEnableHideOnRDP")):
         rdpThread.start()
 
     timethread = KillableThread(target=timeStrThread, daemon=True)
@@ -320,7 +332,7 @@ def isElevenClockRunning():
                 print("KILLING, NEWER VERSION RUNNING")
                 killSignal.infoSignal.emit("", "")
         except Exception as e:
-            print(e)
+            report(e)
         time.sleep(2)
 
 def wanrUserAboutUpdates(a, b):
@@ -451,7 +463,7 @@ class Clock(QWidget):
             else:
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px;")
         except Exception as e:
-            print(e)
+            report(e)
             self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px;")
 
         self.screen: QScreen = screen
@@ -615,7 +627,7 @@ class Clock(QWidget):
                 try:
                     return window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3]
                 except Exception as e:
-                    print(e)
+                    report(e)
 
             def winEnumHandler( hwnd, ctx ):
                 nonlocal fullscreen
@@ -647,7 +659,7 @@ class Clock(QWidget):
     def fivesecsloop(self):
         EnableHideOnFullScreen = not(getSettings("DisableHideOnFullScreen"))
         DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
-        EnableHideOnRDP = getSettings("EnableHideOnRDP")
+        ForceEnableHideOnRDP = getSettings("ForceEnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
         if clockOnFirstMon:
             INTLOOPTIME = 15
@@ -664,7 +676,7 @@ class Clock(QWidget):
                         elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
                             self.hideSignal.emit()
                     else:
-                        if(self.isRDPRunning and EnableHideOnRDP):
+                        if(self.isRDPRunning and ForceEnableHideOnRDP):
                             self.hideSignal.emit()
                         else:
                             self.refresh.emit()
@@ -1093,7 +1105,7 @@ class QSettingsComboBox(QWidget):
         try:
             self.combobox.setCurrentIndex(index)
         except Exception as e:
-            print(e)
+            report(e)
             self.combobox.setCurrentIndex(0)
         self.combobox.currentTextChanged.connect(self.textChanged.emit)
 
@@ -1187,7 +1199,7 @@ class SettingsWindow(QScrollArea):
         try:
             self.selectedLanguage.setItems(list(languageReference.values()), list(languageReference.keys()).index(langName))
         except Exception as e:
-            print(e)
+            report(e)
             self.selectedLanguage.setItems(list(languageReference.values()), 0)
             
         def changeLang(text):
@@ -1235,10 +1247,6 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
         self.updatesChBx.setChecked(not(getSettings("DisableHideOnFullScreen")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not(bool(i))))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running"))
-        self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
         layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
         self.updatesChBx.setChecked((getSettings("DisableHideWithTaskbar")))
@@ -1306,6 +1314,10 @@ class SettingsWindow(QScrollArea):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
+        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running (This feature has been disabled because it should work by default. If it is not, please report a bug)"))
+        self.updatesChBx.setChecked((getSettings("ForceEnableHideOnRDP")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceEnableHideOnRDP", bool(i)))
+        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
@@ -1367,7 +1379,7 @@ class SettingsWindow(QScrollArea):
         try:
             self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         except Exception as e:
-            print(e)
+            report(e)
             self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
 
         self.hiddenButton.button.setVisible(False)
@@ -2082,7 +2094,7 @@ if getSettingsValue("PreferredLanguage") == "default":
         lang = lang_en
         print("unknown language")
     except Exception as e:
-        print(e)
+        report(e)
         lang = lang_en
 else:
     try:
@@ -2103,7 +2115,7 @@ else:
         langName = "en"
         print("unknown language")
     except Exception as e:
-        print(e)
+        report(e)
         lang = lang_en
         langName = "en"
     
@@ -2142,7 +2154,7 @@ st: KillableThread = None # Will be defined on loadClocks
 rdpThread = KillableThread(target=checkRDP, daemon=True)
 timethread = KillableThread(target=timeStrThread, daemon=True)
 timethread.start()
-if getSettings("EnableHideOnRDP"):
+if getSettings("ForceEnableHideOnRDP"):
     rdpThread.start()
     
 if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
