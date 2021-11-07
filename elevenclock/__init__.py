@@ -97,7 +97,7 @@ def checkRDP():
                 if procName == p :
                     return True
         return False
-    
+
     global isRDPRunning
     print("start RDP thread")
     while True:
@@ -108,9 +108,9 @@ def checkRDP():
         for p in processes:
             procs.append(p.Name)
         isRDPRunning = checkIfElevenClockRunning(procs, appsWhereElevenClockShouldClose)
-     
+
         time.sleep(5)
-        
+
 def getSettings(s: str):
     try:
         return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
@@ -227,7 +227,7 @@ def resetRestartCount():
             print("Restart loop:", restartCount)
             restartCount -= 1
         time.sleep(0.3)
-        
+
 threading.Thread(target=resetRestartCount, daemon=True).start()
 
 def loadClocks():
@@ -352,7 +352,7 @@ def loadTimeFormat():
     showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
     locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
     dateTimeFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
-        
+
 
     if getSettings("DisableTime"):
         dateTimeFormat = dateTimeFormat.replace("%HH:%M\n", "")
@@ -364,7 +364,7 @@ def loadTimeFormat():
             dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
     elif not getSettings("EnableWeekNumber"):
         dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
-        
+
     if not getSettings("EnableWeekDay"):
         dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
         if dateTimeFormat[-1] == "\n":
@@ -445,7 +445,7 @@ class Clock(QWidget):
     refresh = Signal()
     hideSignal = Signal()
     callInMainSignal = Signal(object)
-    
+
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         self.lastTheme = 0
@@ -495,8 +495,8 @@ class Clock(QWidget):
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             w = self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth)*dpix)
-            
-            
+
+
         self.w = w
         self.h = h
         self.dpix = dpix
@@ -556,21 +556,21 @@ class Clock(QWidget):
         self.setFocus()
 
         self.isRDPRunning = True
-        
+
         self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
         print("Full screen rect: ", self.full_screen_rect)
-        
-        
+
+
         self.forceDarkTheme = getSettings("ForceDarkTheme")
         self.forceLightTheme = getSettings("ForceLightTheme")
-        
+
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
         self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
         self.loop2.start()
-        
+
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1):
             self.desktopButton = QPushButton(self)
             self.desktopButton.clicked.connect(lambda: self.showDesktop())
@@ -608,10 +608,10 @@ class Clock(QWidget):
             """)
         old_stdout.write(buffer.getvalue())
         old_stdout.flush()
-        
+
     def getPx(self, original) -> int:
         return int(original*(self.screen.logicalDotsPerInchX()/96))
-    
+
     def refreshProcesses(self):
         global isRDPRunning
         #time.sleep(2)
@@ -737,7 +737,7 @@ class Clock(QWidget):
         self.loop2.kill()
         event.accept()
         return super().closeEvent(event)
-    
+
     def setToTheMiddle(self) -> None:
         if getSettings("CenterAlignment"):
             self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
@@ -882,16 +882,16 @@ class TaskbarIconTray(QSystemTrayIcon):
         if(getSettings("DisableSystemTray")):
             self.hide()
             print("system tray icon disabled")
-            
+
         self.applyStyleSheet()
-            
+
     def execMenu(self, pos: QPoint):
         self.applyStyleSheet()
         self.contextMenu().exec(pos)
-    
+
     def getPx(self, original) -> int:
         return int(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
-            
+
     def applyStyleSheet(self) -> None:
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
@@ -1047,7 +1047,7 @@ class QSettingsButton(QWidget):
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
-        
+
         if lang == lang_zh_TW or lang == lang_zh_CN:
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
@@ -1087,7 +1087,7 @@ class QSettingsComboBox(QWidget):
         self.restartButton.hide()
         self.restartButton.setObjectName("AccentButton")
         self.label = QLabel(text, self)
-        
+
         if lang == lang_zh_TW or lang == lang_zh_CN:
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
@@ -1100,7 +1100,7 @@ class QSettingsComboBox(QWidget):
 
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
-    
+
     def setItems(self, items: list, index: int) -> None:
         self.combobox.addItems(items)
         try:
@@ -1187,22 +1187,22 @@ class SettingsWindow(QScrollArea):
             self.iconMode = "white"
         else:
             self.iconMode = "black"
-            
+
         self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"))
         layout.addWidget(self.generalSettingsTitle)
-        self.updateButton = QSettingsButton(_("<b>Update to the lastest version!</b>"), _("Install update"))
+        self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.updateButton.clicked.connect(lambda: KillableThread(target=updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
-        self.selectedLanguage = QSettingsComboBox("ElevenClock's language", _("Change"))
+        self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language"), _("Change"))
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         try:
             self.selectedLanguage.setItems(list(languageReference.values()), list(languageReference.keys()).index(langName))
         except Exception as e:
             report(e)
             self.selectedLanguage.setItems(list(languageReference.values()), 0)
-            
+
         def changeLang(text):
             keys = list(languageReference.keys())
             values = list(languageReference.values())
@@ -1210,11 +1210,11 @@ class SettingsWindow(QScrollArea):
                 if(text == values[i]):
                     setSettingsValue("PreferredLanguage", str(keys[i]), r=False)
                     self.selectedLanguage.showRestartButton()
-                    
+
         def restartElevenClockByLangChange():
             subprocess.run(str("start /B \"\" \""+sys.executable)+"\" --settings", shell=True)
             app.quit()
-            
+
         self.selectedLanguage.restartButton.clicked.connect(restartElevenClockByLangChange)
         self.selectedLanguage.textChanged.connect(changeLang)
         layout.addWidget(self.selectedLanguage)
@@ -1267,7 +1267,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
         layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
-        
+
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"))
         layout.addWidget(self.clockAppearanceTitle)
         self.updatesChBx = QSettingsCheckBox(_("Force the clock to have black text"))
@@ -1315,7 +1315,7 @@ class SettingsWindow(QScrollArea):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+" (This feature has been disabled because it should work by default. If it is not, please report a bug)")
+        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+_(" (This feature has been disabled because it should work by default. If it is not, please report a bug)"))
         self.updatesChBx.setChecked((getSettings("ForceEnableHideOnRDP")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceEnableHideOnRDP", bool(i)))
         layout.addWidget(self.updatesChBx)
@@ -1341,7 +1341,7 @@ class SettingsWindow(QScrollArea):
         self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.PackInfoButton)
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
-        self.openTranslateButton.clicked.connect(lambda: self.hide())
+        self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md"))
         layout.addWidget(self.openTranslateButton)
         layout.addSpacing(10)
 
@@ -1371,7 +1371,7 @@ class SettingsWindow(QScrollArea):
         self.closeButton.clicked.connect(lambda: self.hide())
         layout.addWidget(self.closeButton)
         layout.addSpacing(10)
-        
+
         self.debbuggingTitle = QIconLabel(_("Debbugging information:").format(version), getPath(f"bug_{self.iconMode}.png"))
         layout.addWidget(self.debbuggingTitle)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
@@ -1977,7 +1977,7 @@ class SettingsWindow(QScrollArea):
         win.setWindowTitle("ElevenClock's log")
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
-        
+
         textEdit.setPlainText(buffer.getvalue())
 
         win.setCentralWidget(textEdit)
@@ -2120,7 +2120,7 @@ else:
         report(e)
         lang = lang_en
         langName = "en"
-    
+
 if lang == None:
     lang = lang_en
 
@@ -2158,7 +2158,7 @@ timethread = KillableThread(target=timeStrThread, daemon=True)
 timethread.start()
 if getSettings("ForceEnableHideOnRDP"):
     rdpThread.start()
-    
+
 if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
     setSettings("DisableHideOnFullScreen", v=True, r=False)
     setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
@@ -2169,7 +2169,7 @@ elif not getSettings("FullScreenPrefsWereMigrated"):
     setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
     setSettings("EnableHideOnFullScreen", v=False, r=False)
     print("Updating fullscreen setting")
-    
+
 
 signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 loadClocks()
@@ -2183,7 +2183,7 @@ if not(getSettings("Updated2.6Already")) and not(getSettings("EnableSilentUpdate
 showSettings = False
 if("--settings" in sys.argv or showSettings):
     sw.show()
-    
+
 if("--quit-on-loaded" in sys.argv):
     sys.exit(0)
 

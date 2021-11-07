@@ -6,7 +6,12 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_6 = {
+lang2_7 = {
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
+    "ElevenClock's language": ""
+}
+
+lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "",
     "About": "",
     "Alternative non-SSL update server (This might help with SSL errors)": "",
@@ -48,7 +53,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Alternatieve klok uitlijning (werkt mogelijk niet)",
     "Change startup behaviour"                                                          :"Verander automatisch starten gedrag",
     "Change"                                                                            :"Verander",
-    "<b>Update to the lastest version!</b>"                                             :"<b>Update naar de nieuwste versie!</b>",
+    "<b>Update to the latest version!</b>"                                             :"<b>Update naar de nieuwste versie!</b>",
     "Install update"                                                                    :"Installeer update",
     
     #Clock settings

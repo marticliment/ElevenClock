@@ -6,11 +6,16 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_6 = {
+lang2_7 = {
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
+    "ElevenClock's language": ""
+}
+
+lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "O Qt6 (PySide6)",
     "About": "Więcej o",
     "Alternative non-SSL update server (This might help with SSL errors)": "Alternatywny serwer aktualizacji bez SSL (Może pomóc z problemem SSL)",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "Poprawki i inne eksperymentalne funkcje (Używaj TYLKO jeżeli coś nie działa)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
     "Show week number on the clock": "Pokaż numery dni tygodnia na zegarze",
 }
 
@@ -48,7 +53,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Zsynchronizuj zegar z alternatywnym serwerem (może nie działać)",
     "Change startup behaviour"                                                          :"Zmień zachowanie przy uruchamianiu",
     "Change"                                                                            :"Zmień",
-    "<b>Update to the lastest version!</b>"                                             :"Zaktualizuj do najnowszej wersji!",
+    "<b>Update to the latest version!</b>"                                             :"Zaktualizuj do najnowszej wersji!",
     "Install update"                                                                    :"Zainstaluj aktualizację",
     
     #Clock settings
