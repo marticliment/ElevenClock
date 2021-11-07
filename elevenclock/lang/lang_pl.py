@@ -7,20 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_6 = {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "O Qt6 (PySide6)",
+    "About": "Więcej o",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Alternatywny serwer aktualizacji bez SSL (Może pomóc z problemem SSL)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Poprawki i inne eksperymentalne funkcje (Używaj TYLKO jeżeli coś nie działa)",
+    "Show week number on the clock": "Pokaż numery dni tygodnia na zegarze",
 }
 
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Ukryj zegar, gdy działa klient RDP lub Citrix Workspace",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Clock Appearance:": "Wygląd zegara",
+    "Force the clock to have black text": "Wymuś czarny kolor tekstu zegara",
+    " - It is required that the Dark Text checkbox is disabled": " - Wymagane jest odznaczenie opcji czarnego koloru tekstu zegara",
+    "Debbugging information:": "Informacje debugowania:",
+    "Open ElevenClock's log": "Otwórz plik logów ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
@@ -63,11 +63,11 @@ lang2_3 = lang2_4 | {
     
     #Date & time settings
     "Date & Time Settings:"                             :"Ustawienia daty i czasu:",
-    "Show seconds on the clock"                         :"Pokaż sekundy ",
+    "Show seconds on the clock"                         :"Pokaż sekundy",
     "Show date on the clock"                            :"Pokaż datę",
     "Show time on the clock"                            :"Pokaż godzinę",
     "Change date and time format (Regional settings)"   :"Zmień format daty i czasu (ustawienia regionalne)",
-    "Regional settings"                                 :"Ust. regionalne",
+    "Regional settings"                                 :"Ustawienia regionalne",
     
     #About the language pack
     "About the language pack:"                  :"O pakiecie językowym:",
@@ -81,7 +81,7 @@ lang2_3 = lang2_4 | {
     "Open"                                      :"Otwórz",
     "Report an issue/request a feature"         :"Zgłoś problem/prośbę o funkcję",
     "Report"                                    :"Zgłoś",
-    "Support the dev: Give me a coffee☕"       :"Wsparcie dla dewelopera",
+    "Support the dev: Give me a coffee☕"       :"Wsparcie dla dewelopera: Kup mi kawę☕",
     "Open page"                                 :"Otwórz stronę",
     "Icons by Icons8"                           :"Ikony z Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Strona internetowa",
