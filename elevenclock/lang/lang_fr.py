@@ -8,8 +8,8 @@
 
 
 lang2_7 = {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Cette fonctionnalité a été désactivé car elle devrait fonctionner par défaut)",
+    "ElevenClock's language": "Langue de ElevenClock"
 }
 
 lang2_6 = lang2_7 | {
