@@ -1,8 +1,4 @@
-# For people having issues with version 2.6 (Either clock showing on wrong positions or not showing at all):
-1. Search ElevenClock Settings on the start menu, open them and disable updates
-2. Download and install version 2.5 (https://github.com/martinet101/ElevenClock/releases/download/2.5/ElevenClock.Installer.exe)
-3. Stay tuned for a fix
-4. If you want to report, please DO NOT open an issue, just participate on issue #238. Thanks for your collaboration ;)
+# For people having issues with version 2.6 , Version 2.6.1 has been released as a fix!!! Please update!
 
 # ElevenClock
 
