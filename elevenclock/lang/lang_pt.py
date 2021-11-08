@@ -6,12 +6,17 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_6 = {
+lang2_7 = {
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "  (Funcionalidade desativada porque deve funcionar por predefinição. Caso não funcione, reporte o problema",
+    "ElevenClock's language": "Idioma ElevenClock"
+}
+
+lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "Acerca de Qt6 (PySide6)",
     "About": "Acerca de",
     "Alternative non-SSL update server (This might help with SSL errors)": "Servidor de atualização alternativo sem SSL (Pode ajudar com erros de SSL)",
     "Fixes and other experimental features: (Use ONLY if something is not working)": "Correções e funcionalidades experimentais: (Usar APENAS se algo não funcionar corretamente)",
-    "Show week number on the clock": "Mostrar dia da semana no relógio",
+    "Show week number on the clock": "Mostrar dia da semana no relógio"
 }
 
 lang2_5 = lang2_6 | {
@@ -48,7 +53,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Alinhamento alternativo (pode não funcionar)",
     "Change startup behaviour"                                                          :"Mudar comportamento de arranque",
     "Change"                                                                            :"Definições",
-    "<b>Update to the lastest version!</b>"                                             :"<b>Atualize para a versão mais recente!</b>",
+    "<b>Update to the latest version!</b>"                                             :"<b>Atualize para a versão mais recente!</b>",
     "Install update"                                                                    :"Instalar atualização",
     
     #Clock settings
@@ -73,7 +78,7 @@ lang2_3 = lang2_4 | {
     "About the language pack:"                  :"Acerca do pacote de idiomas:",
     "Translated to English by martinet101"      :"Traduzido para Português por jmlcoliveira", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Traduz o ElevenClock para o teu idioma",
-    "Get started"                               :"Começar",
+    "Get started"                               :"Traduzir",
     
     #About ElevenClock
     "About ElevenClock version {0}:"            :"Acerca de ElevenClock versão {0}:",

@@ -1,16 +1,13 @@
 import glob, os
 
-OLDSTR = b"lang2_5 = {"
+OLDSTR = b"lang2_6 = {"
 
-NEWSTR = b"""lang2_6 = {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+NEWSTR = b"""lang2_7 = {
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
+    "ElevenClock's language": ""
 }
 
-lang2_5 = lang2_6 | {"""
+lang2_6 = lang2_7 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()

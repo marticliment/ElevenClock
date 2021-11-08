@@ -60,7 +60,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 - It supports different system integrations, like hiding when RDP is active
 - It is compatible with small taskbars
 - It supports taskbar customizations like Start11
-- It supports seconds enabling via locale or regedit (windows 11's default clock can't do that)
+- It supports seconds enabling via locale or regedit (Windows 11's default clock can't do that)
 - ElevenClock downloads and installs updates automatically, so you don't have to
 - Clicking the clock shows/hides the notifications and calendar panel
 - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
@@ -85,20 +85,20 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Vietnamese
  - Greek
  - Traditional Chinese (Taiwan)
- - Portuguese
-
-### Languages coming in the next version:
+ - Portuguese 
  - Japanese
  - Simplified Chinese (China)
  - Finnish
  - Indonesian
+
+### Languages coming in the next version:
 
 ## Planned features
  - [ ] You say!
 
 ## Installation
 
- 1. Download the lastest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
+ 1. Download the latest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
  2. Open the installer and bypass Windows Defender SmartScreen: Click on more info and then on run:<br>
      2.1.  Click on "More info":<br>
      ![Defender Smart Screen Installation Screen](https://github.com/martinet101/ElevenClock/blob/main/media/smartscreen1.jpg?raw=true)<br><br>
@@ -119,7 +119,7 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
 
 ## Known Issues
 
- - ElevenClock might be reposted as a potential virus or it might be quarentined (Most of the users used Mcafee)
+ - ElevenClock might be reposted as a potential virus or it might be quarantined (Most of the users used Mcafee)
  
 ## Frequently asked questions
 
