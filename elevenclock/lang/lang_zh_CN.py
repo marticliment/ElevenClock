@@ -7,11 +7,12 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_6 = {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "关于Qt6 (PySide6)",
+    "About": "关于",
+    "Alternative non-SSL update server (This might help with SSL errors)": "使用替代的非SSL更新服务器(出现SSL错误时可尝试)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "启用试验性功能: (请仅在出问题时使用)",
+    "Show week number on the clock": "在时钟区显示当前周序号",
+    "This feature has been disabled because it should work by default. If it is not, please report a bug": "由于已开箱即用, 此选项被禁用。如有疑问, 请提交bug反馈",
 }
 
 lang2_5 = lang2_6 | {
