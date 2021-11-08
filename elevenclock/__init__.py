@@ -311,7 +311,7 @@ def restartClocks(caller: str = ""):
     except AttributeError:
         pass
     rdpThread = KillableThread(target=checkRDP, daemon=True)
-    if(getSettings("ForceEnableHideOnRDP")):
+    if(getSettings("EnableHideOnRDP")):
         rdpThread.start()
 
     timethread = KillableThread(target=timeStrThread, daemon=True)
@@ -610,7 +610,7 @@ class Clock(QWidget):
         old_stdout.flush()
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen.logicalDotsPerInchX()/96))
+        return int(original*(self.screen.logicalDotsPerInch()/96))
 
     def refreshProcesses(self):
         global isRDPRunning
@@ -626,7 +626,7 @@ class Clock(QWidget):
 
             def compareFullScreenRects(window, screen):
                 try:
-                    return window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3]
+                    return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
                 except Exception as e:
                     report(e)
 
@@ -644,11 +644,11 @@ class Clock(QWidget):
                             for p in processes:
                                 if(p.Name != "TextInputHost.exe"):
                                     if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
-                                        print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                                        print(hwnd, win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), self.full_screen_rect)
                                         fullscreen = True
                         else:
                             if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
-                                print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
+                                print(hwnd, win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), self.full_screen_rect)
                                 fullscreen = True
 
             win32gui.EnumWindows(winEnumHandler, 0)
@@ -660,7 +660,7 @@ class Clock(QWidget):
     def fivesecsloop(self):
         EnableHideOnFullScreen = not(getSettings("DisableHideOnFullScreen"))
         DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
-        ForceEnableHideOnRDP = getSettings("ForceEnableHideOnRDP")
+        EnableHideOnRDP = getSettings("EnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
         if clockOnFirstMon:
             INTLOOPTIME = 15
@@ -677,7 +677,7 @@ class Clock(QWidget):
                         elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
                             self.hideSignal.emit()
                     else:
-                        if(self.isRDPRunning and ForceEnableHideOnRDP):
+                        if(self.isRDPRunning and EnableHideOnRDP):
                             self.hideSignal.emit()
                         else:
                             self.refresh.emit()
@@ -1249,6 +1249,10 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked(not(getSettings("DisableHideOnFullScreen")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not(bool(i))))
         layout.addWidget(self.updatesChBx)
+        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running"))
+        self.updatesChBx.setChecked((getSettings("EnableHideOnRDP")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
+        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
         self.updatesChBx.setChecked((getSettings("DisableHideWithTaskbar")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
@@ -1315,10 +1319,6 @@ class SettingsWindow(QScrollArea):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+_(" (This feature has been disabled because it should work by default. If it is not, please report a bug)"))
-        self.updatesChBx.setChecked((getSettings("ForceEnableHideOnRDP")))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceEnableHideOnRDP", bool(i)))
-        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
@@ -2156,7 +2156,7 @@ st: KillableThread = None # Will be defined on loadClocks
 rdpThread = KillableThread(target=checkRDP, daemon=True)
 timethread = KillableThread(target=timeStrThread, daemon=True)
 timethread.start()
-if getSettings("ForceEnableHideOnRDP"):
+if getSettings("EnableHideOnRDP"):
     rdpThread.start()
 
 if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
