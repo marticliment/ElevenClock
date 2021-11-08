@@ -643,7 +643,7 @@ class Clock(QWidget):
                             processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
                             for p in processes:
                                 if(p.Name != "TextInputHost.exe"):
-                                    if(win32gui.GetWindowText(hwnd) != ""):
+                                    if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
                                         print(hwnd, win32gui.GetWindowText(hwnd), self.full_screen_rect, win32gui.GetWindowRect(hwnd))
                                         fullscreen = True
                         else:
@@ -654,7 +654,7 @@ class Clock(QWidget):
             win32gui.EnumWindows(winEnumHandler, 0)
             return fullscreen
         except Exception as e:
-            raise e
+            report(e)
             return False
 
     def fivesecsloop(self):
