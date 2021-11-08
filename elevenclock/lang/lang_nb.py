@@ -7,31 +7,31 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7 = {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Denne funksjonen har blitt deaktivert fordi den skal virke som standard. Hvis den ikke virker, kan du sende en feilrapport)",
+    "ElevenClock's language": "Valgt språk:"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "Om Qt6 (PySide6)",
+    "About": "Om",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Alternativ oppdateringsserver uten SSL (kan hjelpe ved SSL-feilmeldinger)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Diverse fikser og eksperimentelle funksjoner: (Bare aktiver hvis det er noe som ikke fungerer)",
+    "Show week number on the clock": "Vis ukenummer på klokken",
 }
 
 lang2_5 = lang2_6 | {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Skjul klokken når RDP Klient eller Citrix Workspace kjører",
+    "Clock Appearance:": "Klokken sitt utseende:",
+    "Force the clock to have black text": "Tving klokken til å bruke svart tekst",
+    " - It is required that the Dark Text checkbox is disabled": " - Krever at 'svart tekst' er deaktivert",
+    "Debbugging information:": "Feilsøkingsinformasjon:",
+    "Open ElevenClock's log": "Åpne ElevenClock sin loggfil",
 }
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
-    "Show weekday on the clock"  :"",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Vis klokken på hovedskjermen (Nyttig hvis klokken er satt på venstre side)",
+    "Show weekday on the clock"  :"Vis ukedag på klokken",
 }
 
 lang2_3 = lang2_4 | {
