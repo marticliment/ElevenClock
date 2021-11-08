@@ -31,7 +31,7 @@ from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, 
 old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
 
-version = 2.6
+version = 2.61
 
 appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
 
@@ -620,20 +620,23 @@ class Clock(QWidget):
             self.isRDPRunning = isRDPRunning
             time.sleep(0.5)
 
-    def theresFullScreenWin(self, clockOnFirstMon):
+    def theresFullScreenWin(self, clockOnFirstMon, newMethod):
         try:
             fullscreen = False
 
-            def compareFullScreenRects(window, screen):
+            def compareFullScreenRects(window, screen, newMethod):
                 try:
-                    return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
+                    if(newMethod):
+                        return  window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3]
+                    else:
+                        return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
                 except Exception as e:
                     report(e)
 
             def winEnumHandler( hwnd, ctx ):
                 nonlocal fullscreen
                 if win32gui.IsWindowVisible( hwnd ):
-                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect)):
+                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod)):
                         if(clockOnFirstMon):
                             pythoncom.CoInitialize()
                             _, pid = win32process.GetWindowThreadProcessId(hwnd)
@@ -662,12 +665,13 @@ class Clock(QWidget):
         DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
         EnableHideOnRDP = getSettings("EnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
+        newMethod = getSettings("NewFullScreenMethod")
         if clockOnFirstMon:
             INTLOOPTIME = 15
         else:
             INTLOOPTIME = 2
         while True:
-            isFullScreen = self.theresFullScreenWin(clockOnFirstMon)
+            isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod)
             for i in range(INTLOOPTIME):
                 if not(isFullScreen) or not(EnableHideOnFullScreen):
                     if self.autoHide and not(DisableHideWithTaskbar):
@@ -1319,6 +1323,10 @@ class SettingsWindow(QScrollArea):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
+        self.updatesChBx = QSettingsCheckBox(_("Enable hide when multi-monitor fullscreen apps are running"))
+        self.updatesChBx.setChecked((getSettings("NewFullScreenMethod")))
+        self.updatesChBx.stateChanged.connect(lambda i: setSettings("NewFullScreenMethod", bool(i)))
+        layout.addWidget(self.updatesChBx)
         self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.updatesChBx.setChecked((getSettings("EnableHyphenFix")))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
