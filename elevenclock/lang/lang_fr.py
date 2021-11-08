@@ -6,25 +6,26 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
+
 lang2_7 = {
     " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
     "ElevenClock's language": ""
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "À propos de Qt6 (PySide6)",
+    "About": "À propos",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Serveur de mise à jour alternatif non-SSL (Peux aider à résoudre les erreurs de SSL)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Corrections et autres fonctions expérimentales (Utiliser SEULEMENT si quelque chose ne fonctionne pas)",
+    "Show week number on the clock": "Afficher le numéro de la semaine sur l'horloge",
 }
 
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Cacher l'horloge quand un client RDP ou Citrix est actif",
     "Clock Appearance:": "Apparence de l'horloge",
     "Force the clock to have black text": "Forcer l'horloge en noir",
-    " - It is required that the Dark Text checkbox is disabled": " - L'option Texte noir doit être désactivé",
-    "Debbugging information:": "Info de déboggage",
+    " - It is required that the Dark Text checkbox is disabled": " - Forcer l'horloge en noir doit être désactivé",
+    "Debbugging information:": "Information de déboggage",
     "Open ElevenClock's log": "Ouvrir les logs de ElevenClock",
 }
 
