@@ -8,7 +8,7 @@
 
 lang2_7 = {
     " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    "ElevenClock's language": "Idioma de ElevenClock"
 }
 
 lang2_6 = lang2_7 | {
