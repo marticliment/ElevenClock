@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7 = {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "Dieses Feature wurde deaktiviert, da es grundsätzlich funktionieren sollte. Ist dies nicht der Fall, bitte erstelle einen Fehlerreport.",
+    "ElevenClock's language": "Sprache von ElevenClock"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "Über Qt6 (PySide6)",
+    "About": "Über",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Alternative nicht-SSL-Updateserver",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Lösungen und andere experimentelle Features:",
+    "Show week number on the clock": "Zeige Wochenanzahl bei der Uhr",
 }
 
 lang2_5 = lang2_6 | {
