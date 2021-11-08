@@ -2182,11 +2182,11 @@ elif not getSettings("FullScreenPrefsWereMigrated"):
 signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 loadClocks()
 
-if not(getSettings("Updated2.6Already")) and not(getSettings("EnableSilentUpdates")):
+if not(getSettings("Updated2.61Already")) and not(getSettings("EnableSilentUpdates")):
     print("Show2.6Welcome")
     sw.show()
-    setSettings("Updated2.6Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.6 sucessfully. On this release:\n\n - Elevenclock will hide on all full-screen software that uses more than one monitor\n - ElevenClock now reports exceptions on the log\n - Updated to Qt6, fixing an issue with clock on wrong positions\n - ElevenClock has a better font\n - ElevenClock has a show desktop button\n - Added Japanese, Simplified Chinese (China), Finnish and Indonesian\n - If silent updates enabled, ElevenClock will only update if user is inactive\n - Lots of performance improvements!")
+    setSettings("Updated2.61Already", True)
+    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.6.1 sucessfully. \n\nThis was an urgent update fixing an issue with clocks not showing or not hiding in fullscreen with people with HiDPi displays")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
