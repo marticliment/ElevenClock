@@ -1371,7 +1371,7 @@ class SettingsWindow(QScrollArea):
         self.PichonButton.clicked.connect(lambda: os.startfile("https://icons8.com/"))
         self.PichonButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.PichonButton)
-        self.QtButton = QSettingsButton(_("About Qt6 (PySide6)"), _("About"))
+        self.QtButton = QSettingsButton(_("About Qt6 (PySide6)").replace("Qt6", "Qt5").replace("PySide6", "PySide2"), _("About"))
         self.QtButton.clicked.connect(lambda: QMessageBox.aboutQt(self, "ElevenClock - About Qt"))
         self.QtButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.QtButton)
