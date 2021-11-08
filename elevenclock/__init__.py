@@ -20,9 +20,9 @@ import win32gui
 import pythoncom
 import win32process
 import win32com.client
-from PySide6.QtGui import *
-from PySide6.QtCore import *
-from PySide6.QtWidgets import *
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
@@ -887,7 +887,7 @@ class TaskbarIconTray(QSystemTrayIcon):
 
     def execMenu(self, pos: QPoint):
         self.applyStyleSheet()
-        self.contextMenu().exec(pos)
+        self.contextMenu().exec_(pos)
 
     def getPx(self, original) -> int:
         return int(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
@@ -2187,5 +2187,5 @@ if("--settings" in sys.argv or showSettings):
 if("--quit-on-loaded" in sys.argv):
     sys.exit(0)
 
-app.exec()
+app.exec_()
 sys.exit(0)
