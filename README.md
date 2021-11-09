@@ -1,4 +1,5 @@
 # For people having issues with version 2.6 , Version 2.6.1 has been released as a fix!!! Please update!
+# If ElevenClock is not updating, install 2.6 or greater manually and enable "Alternative update server" under Experimental Features in the settings window
 
 # ElevenClock
 
