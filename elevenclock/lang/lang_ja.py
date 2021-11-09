@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7 = {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "（この機能はデフォルトで動作するため無効になっています。動作しない場合はバグとして報告してください）",
+    "ElevenClock's language": "ElevenClockの言語"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "Qt6（PySide6）について",
+    "About": "開く",
+    "Alternative non-SSL update server (This might help with SSL errors)": "非SSLの代替サーバーでアップデートする（SSLエラーの対処に役立つ場合があります）",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "修正やその他の試験機能：（上手く動作しない場合のみ使用してください）",
+    "Show week number on the clock": "時計に曜日の番号を表示する",
 }
 
 lang2_5 = lang2_6 | {
@@ -53,7 +53,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"時計を別の配置にする（動作しない場合があります）",
     "Change startup behaviour"                                                          :"起動時の挙動を変更する",
     "Change"                                                                            :"変更",
-    "<b>Update to the latest version!</b>"                                             :"<b>最新のバージョンに更新する</b>",
+    "<b>Update to the latest version!</b>"                                             :"<b>最新のバージョンにアップデートする</b>",
     "Install update"                                                                    :"アップデートをインストールする",
     
     #Clock settings
