@@ -26,7 +26,8 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW, lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id
+from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
+from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt
 
 old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
@@ -2047,11 +2048,13 @@ languages = {
     "it": lang_it,
     "ja": lang_ja,
     "ko": lang_ko,
+    "lt": lang_lt,
     "nb": lang_nb,
     "nl": lang_nl,
     "pl": lang_pl,
     "pt": lang_pt,
     "ru": lang_ru,
+    "sr": lang_sr,
     "tr": lang_tr,
     "vi": lang_vi,
     "zh_TW": lang_zh_TW,
@@ -2071,11 +2074,13 @@ languageReference = {
     "it": "Italian",
     "ja": "Japanese",
     "ko": "Korean ",
+    "lt": "Lithuanian",
     "nb": "Norwegian",
     "pl": "Polish" ,
     "pt": "Portuguese",
     "ru": "Russian",
     "zh_CN": "Simplified Chinese (China)",
+    "sr": "Serbian",
     "es": "Spanish",
     "zh_TW": "Traditional Chinese (Taiwan)",
     "tr": "Turkish",
