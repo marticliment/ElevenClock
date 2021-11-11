@@ -33,12 +33,13 @@ old_stdout = sys.stdout # Memorize the default stdout stream
 sys.stdout = buffer = io.StringIO()
 
 version = 2.61
+versionName = "2.7-beta0"
 
 appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
 
 print("---------------------------------------------------------------------------------------------------")
 print("")
-print(f"   ElevenClock's v{version} log: Select all the text and hit Ctrl+C to copy it")
+print(f"   ElevenClock's {versionName} (v{version}) log: Select all the text and hit Ctrl+C to copy it")
 print("")
 print("---------------------------------------------------------------------------------------------------")
 print("")
@@ -478,7 +479,7 @@ class Clock(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
         self.autoHide = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[8]==123
-        self.setToolTip(f"ElevenClock version {version}\n\nClick once to show notifications")
+        self.setToolTip(f"ElevenClock version {versionName}\n\nClick once to show notifications")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))):
                 h = self.screen.geometry().y()
@@ -862,7 +863,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.reloadAction.triggered.connect(lambda: restartClocks())
         menu.addAction(self.reloadAction)
         menu.addSeparator()
-        self.nameAction = QAction(_("ElevenClock v{0}").format(version), app)
+        self.nameAction = QAction(_("ElevenClock v{0}").format(versionName), app)
         self.nameAction.setEnabled(False)
         menu.addAction(self.nameAction)
         menu.addSeparator()
@@ -1322,7 +1323,7 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.RegionButton)
         layout.addSpacing(10)
         
-        self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)").format(version), getPath(f"experiment_{self.iconMode}.png"))
+        self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
         self.updatesChBx = QSettingsCheckBox(_("Enable hide when multi-monitor fullscreen apps are running"))
         self.updatesChBx.setChecked((getSettings("NewFullScreenMethod")))
@@ -1343,7 +1344,7 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.updatesChBx)
         layout.addSpacing(10)
 
-        self.languageSettingsTitle = QIconLabel(_("About the language pack:").format(version), getPath(f"lang_{self.iconMode}.png"))
+        self.languageSettingsTitle = QIconLabel(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"))
         layout.addWidget(self.languageSettingsTitle)
         self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
         self.PackInfoButton.button.hide()
@@ -1354,7 +1355,7 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.openTranslateButton)
         layout.addSpacing(10)
 
-        self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(version), getPath(f"about_{self.iconMode}.png"))
+        self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
         self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
@@ -1381,17 +1382,17 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.closeButton)
         layout.addSpacing(10)
 
-        self.debbuggingTitle = QIconLabel(_("Debbugging information:").format(version), getPath(f"bug_{self.iconMode}.png"))
+        self.debbuggingTitle = QIconLabel(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"))
         layout.addWidget(self.debbuggingTitle)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.showDebugInfo())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         layout.addWidget(self.logButton)
         try:
-            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
+            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         except Exception as e:
             report(e)
-            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {version} {platform.architecture()[0]}\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
+            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
 
         self.hiddenButton.button.setVisible(False)
         layout.addWidget(self.hiddenButton)
@@ -2191,7 +2192,7 @@ if not(getSettings("Updated2.61Already")) and not(getSettings("EnableSilentUpdat
     print("Show2.6Welcome")
     sw.show()
     setSettings("Updated2.61Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", "ElevenClock has updated to version 2.6.1 sucessfully. \n\nThis was an urgent update fixing an issue with clocks not showing or not hiding in fullscreen with people with HiDPi displays")
+    QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis was an urgent update fixing an issue with clocks not showing or not hiding in fullscreen with people with HiDPi displays")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
