@@ -1,7 +1,8 @@
 cd elevenclock
 rmdir /Q /S build
 rmdir /Q /S dist
-python39 -m PyInstaller __init__.py --icon icon.ico --add-data "icon.ico;." --add-data "*.png;." --add-data "lang;lang" --debug all --clean --version-file ../elevenclock-version-info --add-data "%homedrive%%homepath%\AppData\Local\Programs\Python\Python39\Lib\site-packages\PySide6\plugins;PySide6/plugins"
+python39 -m PyInstaller __init__.py --icon icon.ico --add-data "icon.ico;." --add-data "*.png;." --add-data "lang;lang" --debug all --clean --version-file ../elevenclock-version-info
+rem --add-data "%homedrive%%homepath%\AppData\Local\Programs\Python\Python39\Lib\site-packages\PySide6\plugins;PySide6/plugins"
 cd dist
 move __init__ ../../
 cd ..
