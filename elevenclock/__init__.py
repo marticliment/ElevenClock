@@ -57,13 +57,13 @@ def _(s): #Translate function
         return s
 
 def getPath(s):
-    return os.path.join(realpath, s).replace("\\", "/")
+    return os.path.join(os.path.join(realpath, "resources"), s).replace("\\", "/")
 
 def report(exception) -> None: # Exception reporter
     import traceback
     for line in traceback.format_exception(*sys.exc_info()):
         print(line)
-    print("Note this traceback was caught by reporter and has been added to the log")
+    print(f"Note this traceback was caught by reporter and has been added to the log ({exception})")
 
 def getMousePos():
     return QPoint(mController.position[0], mController.position[1])
