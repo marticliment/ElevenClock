@@ -458,16 +458,16 @@ class Clock(QWidget):
 
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.0);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
                 if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                     print("Small taskbar")
                     self.preferedHeight = 32
                     self.preferedwidth = 200
             else:
-                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px;")
+                self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.0);margin: 5px;border-radius: 5px;")
         except Exception as e:
             report(e)
-            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.01);margin: 5px;border-radius: 5px;")
+            self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.0);margin: 5px;border-radius: 5px;")
 
         self.screen: QScreen = screen
         self.shouldBeVisible = True
@@ -769,25 +769,27 @@ class Label(QLabel):
         self.backgroundwidget = QWidget(self)
         self.color = "255, 255, 255"
         self.bgopacity = 0.1
-        self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, 0);border-top: 1px solid rgba({self.color},0);")
+        self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: 1px solid rgba({self.color},0);")
         self.backgroundwidget.show()
         self.showBackground = QVariantAnimation()
-        self.showBackground.setStartValue(.001) # Not 0 to prevent white flashing on the border
+        self.showBackground.setStartValue(.01) # Not 0 to prevent white flashing on the border
         self.showBackground.setEndValue(self.bgopacity)
         self.showBackground.setDuration(100)
         self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-        self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity});"))
+        self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity-0.01});"))
         self.hideBackground = QVariantAnimation()
         self.hideBackground.setStartValue(self.bgopacity)
-        self.hideBackground.setEndValue(.001) # Not 0 to prevent white flashing on the border
+        self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
         self.hideBackground.setDuration(100)
         self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
         self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity});"))
+        
+        self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
 
 
     def enterEvent(self, event: QEvent) -> None:
         geometry: QRect = self.getTextUsedSpaceRect()
-        self.showBackground.setStartValue(.001)
+        self.showBackground.setStartValue(.01)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
         if(self.width() > geometry):
             if(not(getSettings("ClockOnTheLeft"))):
@@ -807,7 +809,7 @@ class Label(QLabel):
 
     def leaveEvent(self, event: QEvent) -> None:
         self.hideBackground.setStartValue(self.bgopacity)
-        self.hideBackground.setEndValue(.001) # Not 0 to prevent white flashing on the border
+        self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
         self.hideBackground.start()
         return super().leaveEvent(event)
 
