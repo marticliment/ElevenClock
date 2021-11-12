@@ -64,6 +64,7 @@ def checkRDP():
         for p in processess:
             for procName in blacklistedProcess:
                 if procName == p :
+                    print(f"Blacklisted procName {procName} detected, hiding...")
                     return True
         return False
 
@@ -77,7 +78,6 @@ def checkRDP():
         for p in processes:
             procs.append(p.Name)
         isRDPRunning = checkIfElevenClockRunning(procs, appsWhereElevenClockShouldClose)
-
         time.sleep(5)
 
 def getMousePos():
@@ -213,7 +213,6 @@ def theyMatch(oldscreens, newscreens):
     return True # they have not changed (screens still the same)
 
 def screenCheckThread():
-    print("screenCheckThread")
     while theyMatch(oldScreens, app.screens()):
         time.sleep(1)
     print(app.screens(), oldScreens)
@@ -234,7 +233,6 @@ def showMessage(a, b):
     i.setVisible(lastState)
 
 def restartClocks(caller: str = ""):
-    print(caller)
     global clocks, st, rdpThread, timethread
 
     for clock in clocks:
@@ -371,10 +369,11 @@ class Clock(QWidget):
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.0);margin: 5px;margin-top: 2px;margin-bottom: 2px; border-radius: 5px;")
                 if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                    print("Small taskbar")
+                    print("Small sized taskbar")
                     self.preferedHeight = 32
                     self.preferedwidth = 200
             else:
+                print("Regular sized taskbar")
                 self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.0);margin: 5px;border-radius: 5px;")
         except Exception as e:
             report(e)
@@ -575,11 +574,11 @@ class Clock(QWidget):
                             for p in processes:
                                 if(p.Name != "TextInputHost.exe"):
                                     if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
-                                        print(hwnd, win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), self.full_screen_rect)
+                                        print("Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                         fullscreen = True
                         else:
                             if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
-                                print(hwnd, win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), self.full_screen_rect)
+                                print("Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                 fullscreen = True
 
             win32gui.EnumWindows(winEnumHandler, 0)
@@ -664,7 +663,7 @@ class Clock(QWidget):
 
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
-        print("close")
+        print(f"Closing clock on {self.win32screen}")
         self.loop.kill()
         self.loop2.kill()
         event.accept()
@@ -683,7 +682,7 @@ class Clock(QWidget):
                 self.user32 = windll.user32
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
                 win32gui.SetWindowPos(self.winId(), 0, int((self.preferedwidth-self.label.getTextUsedSpaceRect()+5)+self.w), int(self.h), int(self.label.getTextUsedSpaceRect()+5), int(self.preferedHeight*self.dpiy), False)
-            print("Width hint:",self.label.getTextUsedSpaceRect()+5, self.pos())
+            print("Width hint:", self.label.getTextUsedSpaceRect()+5, self.pos())
         old_stdout.write(buffer.getvalue())
         old_stdout.flush()
 
@@ -758,7 +757,6 @@ class Label(QLabel):
         self.window().setWindowOpacity(1)
         if(ev.button() == Qt.RightButton):
             mousePos = getMousePos()
-            print(i.contextMenu().height())
             if(i.contextMenu().height() != 480):
                 mousePos.setY(self.window().y()-i.contextMenu().height())
             else:

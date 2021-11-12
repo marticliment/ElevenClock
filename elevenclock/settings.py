@@ -276,7 +276,6 @@ class SettingsWindow(QScrollArea):
                 pass
             finally:
                 i += 1
-        print(colors)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
