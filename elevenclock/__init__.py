@@ -15,6 +15,7 @@ from urllib.request import urlopen
 
 import psutil
 import win32gui
+import win32api
 import pythoncom
 import win32process
 import win32com.client
@@ -177,11 +178,11 @@ def loadClocks():
     if restartCount<20 and (process.memory_info().rss/1048576) <= 150:
         restartCount += 1
         for screen in app.screens():
+            screen: QScreen
             oldScreens.append(getGeometry(screen))
-            print(screen, screen.geometry(), getGeometry(screen))
+            print(screen, getGeometry(screen))
             old_stdout.write(buffer.getvalue())
             old_stdout.flush()
-            screen: QScreen
             if(firstWinSkipped):
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
             else: # Skip the primary display, as it has already the clock
@@ -196,7 +197,11 @@ def loadClocks():
         sys.exit(1)
 
 def getGeometry(screen: QScreen):
-    return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInchX(), screen.logicalDotsPerInchY())
+    """
+    Returns a tuple containing: (screen_width, screen_height, screen_pos_x, screen_pos_y, screen_DPI, desktopWindowRect)
+    """
+    #win32api.EnumDisplayMonitors() 
+    return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
 
 def theyMatch(oldscreens, newscreens):
     if(len(oldscreens) != len(newscreens)):
@@ -375,7 +380,22 @@ class Clock(QWidget):
             report(e)
             self.setStyleSheet(f"background-color: rgba(0, 0, 0, 0.0);margin: 5px;border-radius: 5px;")
 
-        self.screen: QScreen = screen
+        self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
+        for win32screen in win32api.EnumDisplayMonitors():
+            try:
+                if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
+                    self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
+            except Exception as e:
+                report(e)
+                
+        if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
+            os.startfile(sys.executable) # Restart elevenclock
+            app.quit()
+        
+        print(self.win32screen["Monitor"])
+        self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
+        print(self.screenGeometry)
+        
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
         self.hideSignal.connect(self.hide)
@@ -388,21 +408,21 @@ class Clock(QWidget):
         self.setToolTip(f"ElevenClock version {versionName}\n\nClick once to show notifications")
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))):
-                h = self.screen.geometry().y()
+                h = self.screenGeometry.y()
                 print("taskbar at top")
             else:
-                h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
+                h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
                 print("taskbar at bottom")
         except:
-            h = self.screen.geometry().y()+self.screen.geometry().height()-(self.preferedHeight*dpiy)
+            h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
             print("taskbar at bottom")
         self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
-            w = self.screen.geometry().x()+8*dpix
+            w = self.screenGeometry.x()+8*dpix
             self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            w = self.screen.geometry().x()+self.screen.geometry().width()-((self.preferedwidth)*dpix)
+            w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
 
 
         self.w = w
@@ -465,7 +485,7 @@ class Clock(QWidget):
 
         self.isRDPRunning = True
 
-        self.full_screen_rect = (self.screen.geometry().x(), self.screen.geometry().y(), self.screen.geometry().x()+self.screen.geometry().width(), self.screen.geometry().y()+self.screen.geometry().height())
+        self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
         print("Full screen rect: ", self.full_screen_rect)
 
 
@@ -518,7 +538,7 @@ class Clock(QWidget):
         old_stdout.flush()
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen.logicalDotsPerInch()/96))
+        return int(original*(self.screen().logicalDotsPerInch()/96))
 
     def refreshProcesses(self):
         global isRDPRunning
@@ -584,9 +604,9 @@ class Clock(QWidget):
                 if not(isFullScreen) or not(EnableHideOnFullScreen):
                     if self.autoHide and not(DisableHideWithTaskbar):
                         mousePos = getMousePos()
-                        if (mousePos.y()+1 == self.screen.geometry().y()+self.screen.geometry().height()) and self.screen.geometry().x() < mousePos.x() and self.screen.geometry().x()+self.screen.geometry().width() > mousePos.x():
+                        if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
                             self.refresh.emit()
-                        elif (mousePos.y() <= self.screen.geometry().y()+self.screen.geometry().height()-self.preferedHeight):
+                        elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
                             self.hideSignal.emit()
                     else:
                         if(self.isRDPRunning and EnableHideOnRDP):
@@ -693,7 +713,7 @@ class Label(QLabel):
         self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
 
 
-    def enterEvent(self, event: QEvent) -> None:
+    def enterEvent(self, event: QEvent, r=False) -> None:
         geometry: QRect = self.getTextUsedSpaceRect()
         self.showBackground.setStartValue(.01)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
@@ -708,9 +728,8 @@ class Label(QLabel):
             self.backgroundwidget.move(0, 0)
             self.backgroundwidget.resize(geometry, self.height())
         self.showBackground.start()
-
-
-
+        if not r:
+            self.enterEvent(event, r=True)
         return super().enterEvent(event)
 
     def leaveEvent(self, event: QEvent) -> None:
