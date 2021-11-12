@@ -88,6 +88,8 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Indonesian
 
 ### Languages coming in the next version:
+ - Serbian
+ - Lithuanian
 
 ## Planned features
  - [ ] You say!
