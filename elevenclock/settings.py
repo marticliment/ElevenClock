@@ -24,160 +24,6 @@ def _(s): #Translate function
     except KeyError:
         return s
 
-class QIconLabel(QWidget):
-    def __init__(self, text, icon=None):
-        super().__init__()
-        self.setObjectName("subtitleLabel")
-        self.label = QLabel(text, self)
-        if lang == lang_zh_TW or lang == lang_zh_CN:
-            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Microsoft JhengHei UI\";")
-        else:
-            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
-        self.image = QLabel(self)
-        self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
-        self.image.setStyleSheet("padding: 3px;background: none;")
-        self.setAttribute(Qt.WA_StyledBackground)
-
-    def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
-
-    def setIcon(self, icon: str) -> None:
-        self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.label.move(self.getPx(60), self.getPx(25))
-        self.label.setFixedHeight(self.getPx(30))
-        self.image.move(self.getPx(22), self.getPx(25))
-        self.image.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(70))
-        self.image.setFixedHeight(self.getPx(30))
-        self.label.setFixedWidth(self.width()-self.getPx(70))
-        self.image.setFixedWidth(self.getPx(30))
-        return super().resizeEvent(event)
-
-class QSettingsButton(QWidget):
-    clicked = Signal()
-    def __init__(self, text="", btntext="", parent=None, h = 30):
-        super().__init__(parent)
-        self.fh = h
-        self.setAttribute(Qt.WA_StyledBackground)
-        self.button = QPushButton(btntext+" ", self)
-        self.button.setLayoutDirection(Qt.RightToLeft)
-        self.setObjectName("stBtn")
-        self.label = QLabel(text, self)
-
-        if lang == lang_zh_TW or lang == lang_zh_CN:
-            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-            self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-            self.label.setObjectName("StLbl")
-        else:
-            self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-            self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-            self.label.setObjectName("StLbl")
-        self.button.clicked.connect(self.clicked.emit)
-
-    def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-self.getPx(170), self.getPx(10))
-        self.label.move(self.getPx(60), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(230))
-        self.label.setFixedHeight(self.getPx(self.fh))
-        self.setFixedHeight(self.getPx(50+(self.fh-30)))
-        self.button.setFixedHeight(self.getPx(self.fh))
-        self.button.setFixedWidth(self.getPx(150))
-        return super().resizeEvent(event)
-
-    def setIcon(self, icon: QIcon) -> None:
-        self.button.setIcon(icon)
-
-class QSettingsComboBox(QWidget):
-    textChanged = Signal(str)
-    def __init__(self, text="", btntext="", parent=None):
-        super().__init__(parent)
-        self.setAttribute(Qt.WA_StyledBackground)
-        self.combobox = QComboBox(self)
-        self.combobox.setObjectName("stCmbbx")
-        self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
-        self.setObjectName("stBtn")
-        self.restartButton = QPushButton("Restart ElevenClock", self)
-        self.restartButton.hide()
-        self.restartButton.setObjectName("AccentButton")
-        self.label = QLabel(text, self)
-
-        if lang == lang_zh_TW or lang == lang_zh_CN:
-            self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-            self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-            self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-        else:
-            self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-            self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-            self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.label.setObjectName("StLbl")
-
-    def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
-
-    def setItems(self, items: list, index: int) -> None:
-        self.combobox.addItems(items)
-        try:
-            self.combobox.setCurrentIndex(index)
-        except Exception as e:
-            report(e)
-            self.combobox.setCurrentIndex(0)
-        self.combobox.currentTextChanged.connect(self.textChanged.emit)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
-        self.label.move(self.getPx(60), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(480))
-        self.label.setFixedHeight(self.getPx(30))
-        self.restartButton.move(self.width()-self.getPx(430), self.getPx(10))
-        self.restartButton.setFixedWidth(self.getPx(150))
-        self.restartButton.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.combobox.setFixedHeight(self.getPx(30))
-        self.combobox.setFixedWidth(self.getPx(250))
-        return super().resizeEvent(event)
-
-    def setIcon(self, icon: QIcon) -> None:
-        pass
-        #self.button.setIcon(icon)
-
-    def showRestartButton(self) -> None:
-        self.restartButton.show()
-
-class QSettingsCheckBox(QWidget):
-    stateChanged = Signal(bool)
-    def __init__(self, text="", parent=None):
-        super().__init__(parent)
-        self.setAttribute(Qt.WA_StyledBackground)
-        self.setObjectName("stChkBg")
-        self.checkbox = QCheckBox(text, self)
-        if lang == lang_zh_TW or lang == lang_zh_CN:
-            self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-        else:
-            self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-        self.checkbox.setObjectName("stChk")
-        self.checkbox.stateChanged.connect(self.stateChanged.emit)
-
-    def setChecked(self, checked: bool) -> None:
-        self.checkbox.setChecked(checked)
-
-    def isChecked(self) -> bool:
-        return self.checkbox.isChecked()
-
-    def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.checkbox.move(self.getPx(60), self.getPx(10))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(70))
-        self.setFixedHeight(self.getPx(50))
-        return super().resizeEvent(event)
-
 class SettingsWindow(QScrollArea):
     def __init__(self):
         super().__init__()
@@ -1034,6 +880,161 @@ class SettingsWindow(QScrollArea):
 
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInchX()/96))
+
+
+class QIconLabel(QWidget):
+    def __init__(self, text, icon=None):
+        super().__init__()
+        self.setObjectName("subtitleLabel")
+        self.label = QLabel(text, self)
+        if lang == lang_zh_TW or lang == lang_zh_CN:
+            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Microsoft JhengHei UI\";")
+        else:
+            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
+        self.image = QLabel(self)
+        self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
+        self.image.setStyleSheet("padding: 3px;background: none;")
+        self.setAttribute(Qt.WA_StyledBackground)
+
+    def getPx(self, original) -> int:
+        return int(original*(self.screen().logicalDotsPerInchX()/96))
+
+    def setIcon(self, icon: str) -> None:
+        self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.label.move(self.getPx(60), self.getPx(25))
+        self.label.setFixedHeight(self.getPx(30))
+        self.image.move(self.getPx(22), self.getPx(25))
+        self.image.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(70))
+        self.image.setFixedHeight(self.getPx(30))
+        self.label.setFixedWidth(self.width()-self.getPx(70))
+        self.image.setFixedWidth(self.getPx(30))
+        return super().resizeEvent(event)
+
+class QSettingsButton(QWidget):
+    clicked = Signal()
+    def __init__(self, text="", btntext="", parent=None, h = 30):
+        super().__init__(parent)
+        self.fh = h
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.button = QPushButton(btntext+" ", self)
+        self.button.setLayoutDirection(Qt.RightToLeft)
+        self.setObjectName("stBtn")
+        self.label = QLabel(text, self)
+
+        if lang == lang_zh_TW or lang == lang_zh_CN:
+            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.label.setObjectName("StLbl")
+        else:
+            self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.label.setObjectName("StLbl")
+        self.button.clicked.connect(self.clicked.emit)
+
+    def getPx(self, original) -> int:
+        return int(original*(self.screen().logicalDotsPerInchX()/96))
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.button.move(self.width()-self.getPx(170), self.getPx(10))
+        self.label.move(self.getPx(60), self.getPx(10))
+        self.label.setFixedWidth(self.width()-self.getPx(230))
+        self.label.setFixedHeight(self.getPx(self.fh))
+        self.setFixedHeight(self.getPx(50+(self.fh-30)))
+        self.button.setFixedHeight(self.getPx(self.fh))
+        self.button.setFixedWidth(self.getPx(150))
+        return super().resizeEvent(event)
+
+    def setIcon(self, icon: QIcon) -> None:
+        self.button.setIcon(icon)
+
+class QSettingsComboBox(QWidget):
+    textChanged = Signal(str)
+    def __init__(self, text="", btntext="", parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.combobox = QComboBox(self)
+        self.combobox.setObjectName("stCmbbx")
+        self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
+        self.setObjectName("stBtn")
+        self.restartButton = QPushButton("Restart ElevenClock", self)
+        self.restartButton.hide()
+        self.restartButton.setObjectName("AccentButton")
+        self.label = QLabel(text, self)
+
+        if lang == lang_zh_TW or lang == lang_zh_CN:
+            self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        else:
+            self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.label.setObjectName("StLbl")
+
+    def getPx(self, original) -> int:
+        return int(original*(self.screen().logicalDotsPerInchX()/96))
+
+    def setItems(self, items: list, index: int) -> None:
+        self.combobox.addItems(items)
+        try:
+            self.combobox.setCurrentIndex(index)
+        except Exception as e:
+            report(e)
+            self.combobox.setCurrentIndex(0)
+        self.combobox.currentTextChanged.connect(self.textChanged.emit)
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
+        self.label.move(self.getPx(60), self.getPx(10))
+        self.label.setFixedWidth(self.width()-self.getPx(480))
+        self.label.setFixedHeight(self.getPx(30))
+        self.restartButton.move(self.width()-self.getPx(430), self.getPx(10))
+        self.restartButton.setFixedWidth(self.getPx(150))
+        self.restartButton.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.combobox.setFixedHeight(self.getPx(30))
+        self.combobox.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+
+    def setIcon(self, icon: QIcon) -> None:
+        pass
+        #self.button.setIcon(icon)
+
+    def showRestartButton(self) -> None:
+        self.restartButton.show()
+
+class QSettingsCheckBox(QWidget):
+    stateChanged = Signal(bool)
+    def __init__(self, text="", parent=None):
+        super().__init__(parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.setObjectName("stChkBg")
+        self.checkbox = QCheckBox(text, self)
+        if lang == lang_zh_TW or lang == lang_zh_CN:
+            self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        else:
+            self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+        self.checkbox.setObjectName("stChk")
+        self.checkbox.stateChanged.connect(self.stateChanged.emit)
+
+    def setChecked(self, checked: bool) -> None:
+        self.checkbox.setChecked(checked)
+
+    def isChecked(self) -> bool:
+        return self.checkbox.isChecked()
+
+    def getPx(self, original) -> int:
+        return int(original*(self.screen().logicalDotsPerInchX()/96))
+
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.checkbox.move(self.getPx(60), self.getPx(10))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(70))
+        self.setFixedHeight(self.getPx(50))
+        return super().resizeEvent(event)
 
 
 if __name__ == "__main__":
