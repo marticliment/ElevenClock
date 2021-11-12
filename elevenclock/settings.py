@@ -82,26 +82,26 @@ class SettingsWindow(QScrollArea):
         self.selectedLanguage.restartButton.clicked.connect(restartElevenClockByLangChange)
         self.selectedLanguage.textChanged.connect(changeLang)
         layout.addWidget(self.selectedLanguage)
-        self.updatesChBx = QSettingsCheckBox(_("Automatically check for updates"))
-        self.updatesChBx.setChecked(not getSettings("DisableAutoCheckForUpdates"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Automatically install available updates"))
-        self.updatesChBx.setChecked(not getSettings("DisableAutoInstallUpdates"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Enable really silent updates"))
-        self.updatesChBx.setChecked(getSettings("EnableSilentUpdates"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"))
-        self.updatesChBx.setChecked(getSettings("BypassDomainAuthCheck"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show ElevenClock on system tray"))
-        self.updatesChBx.setChecked(not getSettings("DisableSystemTray"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not bool(i)))
-        layout.addWidget(self.updatesChBx)
+        self.enableUpdates = QSettingsCheckBox(_("Automatically check for updates"))
+        self.enableUpdates.setChecked(not getSettings("DisableAutoCheckForUpdates"))
+        self.enableUpdates.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not bool(i), r = False))
+        layout.addWidget(self.enableUpdates)
+        self.installUpdates = QSettingsCheckBox(_("Automatically install available updates"))
+        self.installUpdates.setChecked(not getSettings("DisableAutoInstallUpdates"))
+        self.installUpdates.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not bool(i), r = False))
+        layout.addWidget(self.installUpdates)
+        self.silentUpdates = QSettingsCheckBox(_("Enable really silent updates"))
+        self.silentUpdates.setChecked(getSettings("EnableSilentUpdates"))
+        self.silentUpdates.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i), r = False))
+        layout.addWidget(self.silentUpdates)
+        self.bypassCNAMECheck = QSettingsCheckBox(_("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"))
+        self.bypassCNAMECheck.setChecked(getSettings("BypassDomainAuthCheck"))
+        self.bypassCNAMECheck.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i), r = False))
+        layout.addWidget(self.bypassCNAMECheck)
+        self.enableSystemTray = QSettingsCheckBox(_("Show ElevenClock on system tray"))
+        self.enableSystemTray.setChecked(not getSettings("DisableSystemTray"))
+        self.enableSystemTray.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not bool(i)))
+        layout.addWidget(self.enableSystemTray)
         self.startupButton = QSettingsButton(_("Change startup behaviour"), _("Change"))
         self.startupButton.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
         layout.addWidget(self.startupButton)
@@ -109,73 +109,73 @@ class SettingsWindow(QScrollArea):
 
         self.clockSettingsTitle = QIconLabel(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"))
         layout.addWidget(self.clockSettingsTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
-        self.updatesChBx.setChecked(not getSettings("DisableHideOnFullScreen"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running").replace("RDP", "RDP, VMWare Horizon"))
-        self.updatesChBx.setChecked(getSettings("EnableHideOnRDP"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
-        self.updatesChBx.setChecked(getSettings("DisableHideWithTaskbar"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Force the clock to be at the bottom of the screen"))
-        self.updatesChBx.setChecked(getSettings("ForceOnBottom"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show the clock at the left of the screen"))
-        self.updatesChBx.setChecked(getSettings("ClockOnTheLeft"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show the clock on the primary screen (Useful if clock is set on the left)"))
-        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
-        self.updatesChBx.setChecked(getSettings("ForceClockOnFirstMonitor"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
-        layout.addWidget(self.updatesChBx)
+        self.legacyHideOnFullScreen = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
+        self.legacyHideOnFullScreen.setChecked(not getSettings("DisableHideOnFullScreen"))
+        self.legacyHideOnFullScreen.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not bool(i)))
+        layout.addWidget(self.legacyHideOnFullScreen)
+        self.legacyRDPHide = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running").replace("RDP", "RDP, VMWare Horizon"))
+        self.legacyRDPHide.setChecked(getSettings("EnableHideOnRDP"))
+        self.legacyRDPHide.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
+        layout.addWidget(self.legacyRDPHide)
+        self.forceClockToShow = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
+        self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
+        self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
+        layout.addWidget(self.forceClockToShow)
+        self.clockAtBottom = QSettingsCheckBox(_("Force the clock to be at the bottom of the screen"))
+        self.clockAtBottom.setChecked(getSettings("ForceOnBottom"))
+        self.clockAtBottom.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
+        layout.addWidget(self.clockAtBottom)
+        self.clockAtLeft = QSettingsCheckBox(_("Show the clock at the left of the screen"))
+        self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
+        self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
+        layout.addWidget(self.clockAtLeft)
+        self.primaryScreen = QSettingsCheckBox(_("Show the clock on the primary screen (Useful if clock is set on the left)"))
+        self.primaryScreen.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
+        self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
+        layout.addWidget(self.primaryScreen)
         layout.addSpacing(10)
 
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"))
         layout.addWidget(self.clockAppearanceTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have black text"))
-        self.updatesChBx.setChecked(getSettings("ForceLightTheme"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Force the clock to have white text")+_(" - It is required that the Dark Text checkbox is disabled"))
-        self.updatesChBx.setChecked(getSettings("ForceDarkTheme"))
-        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        #self.updatesChBx = QSettingsCheckBox(_("Align the clock text to the center"))
-        #self.updatesChBx.setChecked(getSettings("CenterAlignment"))
-        #self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
-        #self.updatesChBx.stateChanged.connect(lambda i: setSettings("CenterAlignment", bool(i)))
-        #layout.addWidget(self.updatesChBx)
+        self.blackText = QSettingsCheckBox(_("Force the clock to have black text"))
+        self.blackText.setChecked(getSettings("ForceLightTheme"))
+        self.blackText.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
+        layout.addWidget(self.blackText)
+        self.lightText = QSettingsCheckBox(_("Force the clock to have white text"))
+        self.lightText.setChecked(getSettings("ForceDarkTheme"))
+        self.lightText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.lightText.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
+        layout.addWidget(self.lightText)
+        #self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
+        #self.centerText.setChecked(getSettings("CenterAlignment"))
+        #self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        #self.centerText.stateChanged.connect(lambda i: setSettings("CenterAlignment", bool(i)))
+        #layout.addWidget(self.centerText)
         layout.addSpacing(10)
 
         self.dateTimeTitle = QIconLabel(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"))
         layout.addWidget(self.dateTimeTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Show seconds on the clock"))
-        self.updatesChBx.setChecked(getSettings("EnableSeconds"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show date on the clock"))
-        self.updatesChBx.setChecked(not getSettings("DisableDate"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableDate", not bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show time on the clock"))
-        self.updatesChBx.setChecked(not getSettings("DisableTime"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableTime", not bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show weekday on the clock"))
-        self.updatesChBx.setChecked(getSettings("EnableWeekDay"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWeekDay", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Show week number on the clock"))
-        self.updatesChBx.setChecked(getSettings("EnableWeekNumber"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWeekNumber", bool(i), r = False))
-        layout.addWidget(self.updatesChBx)
+        self.showTime = QSettingsCheckBox(_("Show time on the clock"))
+        self.showTime.setChecked(not getSettings("DisableTime"))
+        self.showTime.stateChanged.connect(lambda i: setSettings("DisableTime", not bool(i), r = False))
+        layout.addWidget(self.showTime)
+        self.showSeconds = QSettingsCheckBox(_("Show seconds on the clock"))
+        self.showSeconds.setChecked(getSettings("EnableSeconds"))
+        self.showSeconds.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i), r = False))
+        layout.addWidget(self.showSeconds)
+        self.showDate = QSettingsCheckBox(_("Show date on the clock"))
+        self.showDate.setChecked(not getSettings("DisableDate"))
+        self.showDate.stateChanged.connect(lambda i: setSettings("DisableDate", not bool(i), r = False))
+        layout.addWidget(self.showDate)
+        self.showWeekCount = QSettingsCheckBox(_("Show week number on the clock"))
+        self.showWeekCount.setChecked(getSettings("EnableWeekNumber"))
+        self.showWeekCount.stateChanged.connect(lambda i: setSettings("EnableWeekNumber", bool(i), r = False))
+        layout.addWidget(self.showWeekCount)
+        self.showWeekday = QSettingsCheckBox(_("Show weekday on the clock"))
+        self.showWeekday.setChecked(getSettings("EnableWeekDay"))
+        self.showWeekday.stateChanged.connect(lambda i: setSettings("EnableWeekDay", bool(i)))
+        layout.addWidget(self.showWeekday)
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         layout.addWidget(self.RegionButton)
@@ -183,23 +183,23 @@ class SettingsWindow(QScrollArea):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"))
         layout.addWidget(self.experimentalTitle)
-        self.updatesChBx = QSettingsCheckBox(_("Enable hide when multi-monitor fullscreen apps are running"))
-        self.updatesChBx.setChecked(getSettings("NewFullScreenMethod"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("NewFullScreenMethod", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
-        self.updatesChBx.setChecked(getSettings("EnableHyphenFix"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Alternative non-SSL update server (This might help with SSL errors)"))
-        self.updatesChBx.setChecked(getSettings("AlternativeUpdateServerProvider"))
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
-        layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
-        self.updatesChBx.setChecked(getSettings("EnableWin32API"))
-        self.updatesChBx.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
-        self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
-        layout.addWidget(self.updatesChBx)
+        self.newFullScreenHide = QSettingsCheckBox(_("Enable hide when multi-monitor fullscreen apps are running"))
+        self.newFullScreenHide.setChecked(getSettings("NewFullScreenMethod"))
+        self.newFullScreenHide.stateChanged.connect(lambda i: setSettings("NewFullScreenMethod", bool(i)))
+        layout.addWidget(self.newFullScreenHide)
+        self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
+        self.fixDash.setChecked(getSettings("EnableHyphenFix"))
+        self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
+        layout.addWidget(self.fixDash)
+        self.fixSSL = QSettingsCheckBox(_("Alternative non-SSL update server (This might help with SSL errors)"))
+        self.fixSSL.setChecked(getSettings("AlternativeUpdateServerProvider"))
+        self.fixSSL.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
+        layout.addWidget(self.fixSSL)
+        self.win32alignment = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
+        self.win32alignment.setChecked(getSettings("EnableWin32API"))
+        self.win32alignment.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.win32alignment.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
+        layout.addWidget(self.win32alignment)
         layout.addSpacing(10)
 
         self.languageSettingsTitle = QIconLabel(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"))
@@ -263,6 +263,68 @@ class SettingsWindow(QScrollArea):
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
         self.setMinimumWidth(400)
+        self.updateCheckBoxesStatus()
+
+    def updateCheckBoxesStatus(self):
+        
+        # General settings section
+        if not self.enableUpdates.isChecked(): # Check if check for updates enabled
+            for checkbox in [self.installUpdates, self.silentUpdates, self.bypassCNAMECheck]:
+                checkbox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Automatically check for updates")))
+                checkbox.setEnabled(False)
+        else:
+            for checkbox in [self.installUpdates, self.silentUpdates, self.bypassCNAMECheck]:
+                checkbox.setToolTip("")
+                checkbox.setEnabled(True)
+            if not self.installUpdates.isChecked(): # Check if install updates enabled
+                for checkbox in [self.silentUpdates, self.bypassCNAMECheck]:
+                    checkbox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Automatically install available updates")))
+                    checkbox.setEnabled(False)
+            else:
+                for checkbox in [self.silentUpdates, self.bypassCNAMECheck]:
+                    checkbox.setToolTip("")
+                    checkbox.setEnabled(True)
+                    
+        # Clock settings section
+        if not self.clockAtLeft.isChecked(): # Check if clock is on the left
+            self.primaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock at the left of the screen")))
+            self.primaryScreen.setChecked(False)
+            self.primaryScreen.setEnabled(False)
+        else:
+            self.primaryScreen.setToolTip("")
+            self.primaryScreen.setEnabled(True)
+            
+        # Clock appearance
+        if self.blackText.isChecked(): # Check if light mode is enabled
+            self.lightText.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Force the clock to have black text")))
+            self.lightText.setChecked(False)
+            self.lightText.setEnabled(False)
+        else:
+            self.lightText.setToolTip("")
+            self.lightText.setEnabled(True)
+            
+        if self.lightText.isChecked(): # Check if dark mode is enabled
+            self.blackText.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Force the clock to have white text")))
+            self.blackText.setChecked(False)
+            self.blackText.setEnabled(False)
+        else:
+            self.blackText.setToolTip("")
+            self.blackText.setEnabled(True)
+                    
+        # Date & time settings
+        if not self.showTime.isChecked(): # Check if time is shown
+            self.showSeconds.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show time on the clock")))
+            self.showSeconds.setEnabled(False)
+        else:
+            self.showSeconds.setToolTip("")
+            self.showSeconds.setEnabled(True)
+            
+        if not self.showDate.isChecked(): # Check if date is shown
+            self.showWeekCount.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show date on the clock")))
+            self.showWeekCount.setEnabled(False)
+        else:
+            self.showWeekCount.setToolTip("")
+            self.showWeekCount.setEnabled(True)
 
     def applyStyleSheet(self):
         colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
@@ -298,6 +360,12 @@ class SettingsWindow(QScrollArea):
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
+                                QToolTip{{
+                                    border: {self.getPx(1)}px solid #222222;
+                                    padding: {self.getPx(4)}px;
+                                    border-radius: {self.getPx(6)}px;
+                                    background-color: #262626;
+                                }}
                                 QMenu {{
                                     border: {self.getPx(1)}px solid rgb(60, 60, 60);
                                     padding: {self.getPx(2)}px;
@@ -445,6 +513,12 @@ class SettingsWindow(QScrollArea):
                                     border: {self.getPx(1)}px solid #444444;
                                     border-radius: {self.getPx(6)}px;
                                 }}
+                                #stChk::indicator:disabled {{
+                                    background-color: #303030;
+                                    color: #bbbbbb;
+                                    border: {self.getPx(1)}px solid #444444;
+                                    border-radius: {self.getPx(6)}px;
+                                }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #2a2a2a;
                                     border: {self.getPx(1)}px solid #444444;
@@ -455,6 +529,13 @@ class SettingsWindow(QScrollArea):
                                     background-color: rgb({colors[1]});
                                     border-radius: {self.getPx(6)}px;
                                     image: url("{getPath("tick_white.png")}");
+                                }}
+                                #stChk::indicator:checked:disabled {{
+                                    border: {self.getPx(1)}px solid #444444;
+                                    background-color: #303030;
+                                    color: #bbbbbb;
+                                    border-radius: {self.getPx(6)}px;
+                                    image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
                                     border: {self.getPx(1)}px solid #444444;
@@ -575,6 +656,12 @@ class SettingsWindow(QScrollArea):
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.setStyleSheet(f"""
+                                QToolTip{{
+                                    border: {self.getPx(1)}px solid #dddddd;
+                                    padding: {self.getPx(4)}px;
+                                    border-radius: {self.getPx(6)}px;
+                                    background-color: #eeeeee;
+                                }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #ffffff;
@@ -725,6 +812,12 @@ class SettingsWindow(QScrollArea):
                                     border: {self.getPx(1)}px solid #bbbbbb;
                                     border-radius: {self.getPx(6)}px;
                                 }}
+                                #stChk::indicator:disabled {{
+                                    background-color: #eeeeee;
+                                    color: #bbbbbb;
+                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    border-radius: {self.getPx(6)}px;
+                                }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #eeeeee;
                                     border: {self.getPx(1)}px solid #bbbbbb;
@@ -741,6 +834,13 @@ class SettingsWindow(QScrollArea):
                                     background-color: rgb({colors[3]});
                                     border-radius: {self.getPx(5)}px;
                                     image: url("{getPath("tick_black.png")}");
+                                }}
+                                #stChk::indicator:checked:disabled {{
+                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    background-color: #eeeeee;
+                                    color: #bbbbbb;
+                                    border-radius: {self.getPx(6)}px;
+                                    image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
                                    width: 100px;

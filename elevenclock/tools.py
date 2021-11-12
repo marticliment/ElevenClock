@@ -72,7 +72,8 @@ def setSettings(s: str, v: bool, r: bool = True):
                 pass
         try:
             globals.loadTimeFormat()
-        except NotImplementedError:
+            globals.sw.updateCheckBoxesStatus()
+        except (NotImplementedError, AttributeError):
             pass
         if(r):
             globals.restartClocks()
