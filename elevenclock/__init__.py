@@ -364,7 +364,7 @@ class Clock(QWidget):
         self.lastTheme = 0
         self.callInMainSignal.connect(lambda f: f())
 
-        self.preferedwidth = 150
+        self.preferedwidth = 200
         self.preferedHeight = 48
 
         try:
