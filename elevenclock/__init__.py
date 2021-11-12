@@ -308,15 +308,29 @@ def loadTimeFormat():
         if dateTimeFormat[0] == "\n":
             dateTimeFormat = dateTimeFormat[1:]
 
-    dateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-    dateMode = dateMode.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-
-    timeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-    timeMode = timeMode.replace("Uhr", "~").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-    if not("S" in timeMode) and showSeconds==1:
-        for separator in ":.-/_":
-            if(separator in timeMode):
-                timeMode += f"{separator}%S"
+    tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+    dateMode = ""
+    i = 0
+    for ministr in tDateMode.split("'"):
+        if i%2==0:
+            dateMode += ministr.replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+        else:
+            dateMode += ministr
+        i += 1
+        
+    tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+    timeMode = ""
+    i = 0
+    for ministr in tTimeMode.split("'"):
+        if i%2==0:
+            timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+            if not("S" in timeMode) and showSeconds==1:
+                for separator in ":.-/_":
+                    if(separator in timeMode):
+                        timeMode += f"{separator}%S"
+        else:
+            timeMode += ministr
+        i += 1
 
     for separator in ":.-/_":
         timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
@@ -330,11 +344,11 @@ def timeStrThread():
     while True:
         if(fixHyphen):
             for _ in range(36000):
-                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "").replace("t-", "t -")
+                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("t-", "t -")
                 time.sleep(0.1)
         else:
             for _ in range(36000):
-                timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("~", "Uhr").replace("'", "")
+                timeStr = datetime.datetime.now().strftime(dateTimeFormat)
                 time.sleep(0.1)
 
 class RestartSignal(QObject):
