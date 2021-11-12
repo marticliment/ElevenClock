@@ -32,7 +32,7 @@ class SettingsWindow(QScrollArea):
         self.setWidgetResizable(True)
         self.resizewidget = QWidget()
         self.resizewidget.setObjectName("background")
-        self.setWindowIcon(QIcon(os.path.join(realpath, "icon.ico")))
+        self.setWindowIcon(QIcon(getPath("icon.ico")))
         layout.addSpacing(10)
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
