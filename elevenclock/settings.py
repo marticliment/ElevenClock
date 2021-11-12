@@ -267,7 +267,7 @@ class SettingsWindow(QScrollArea):
         self.updatesChBx.setChecked(not getSettings("DisableHideOnFullScreen"))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not bool(i)))
         layout.addWidget(self.updatesChBx)
-        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running"))
+        self.updatesChBx = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running").replace("RDP", "RDP, VMWare Horizon"))
         self.updatesChBx.setChecked(getSettings("EnableHideOnRDP"))
         self.updatesChBx.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
         layout.addWidget(self.updatesChBx)
