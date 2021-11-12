@@ -30,8 +30,7 @@ from languages import *
 import globals
 
 old_stdout = sys.stdout
-buffer = io.StringIO()
-#sys.stdout = buffer = io.StringIO()
+sys.stdout = buffer = io.StringIO()
 
 from settings import *
 from tools import *
@@ -40,8 +39,9 @@ appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wf
 
 print("---------------------------------------------------------------------------------------------------")
 print("")
-print(f"   Loaded all modules and linked all globals correctly, starting main script ")
 print(f"   ElevenClock's {versionName} (v{version}) log: Select all the text and hit Ctrl+C to copy it")
+print(f"   All modules loaded successfully and sys.stdout patched correctly, starting main script")
+print(f"   Translator function set language to \"{langName}\"")
 print("")
 print("---------------------------------------------------------------------------------------------------")
 print("")

@@ -321,7 +321,6 @@ if getSettingsValue("PreferredLanguage") == "":
 if getSettingsValue("PreferredLanguage") == "default":
     langName = "default"
     try:
-        print(locale.getdefaultlocale()[0][0:2])
         langName = locale.getdefaultlocale()[0][0:2]
         if(langName != "zh"):
             lang = languages[langName]
@@ -341,7 +340,6 @@ if getSettingsValue("PreferredLanguage") == "default":
         lang = lang_en
 else:
     try:
-        print(getSettingsValue("PreferredLanguage")[0:2])
         langName = getSettingsValue("PreferredLanguage")[0:2]
         if(langName != "zh"):
             lang = languages[langName]
