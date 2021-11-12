@@ -204,7 +204,7 @@ def getGeometry(screen: QScreen):
     return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
 
 def theyMatch(oldscreens, newscreens):
-    if(len(oldscreens) != len(newscreens)):
+    if len(oldscreens) != len(newscreens) or len(app.screens()) != len(win32api.EnumDisplayMonitors()):
         return False # If there are display changes
     for i in range(len(oldscreens)):
         old, new = oldscreens[i], newscreens[i]
