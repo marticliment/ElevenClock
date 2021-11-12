@@ -95,7 +95,12 @@ def updateIfPossible(force = False):
             dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
             if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
                 integrityPass = True
-            response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "http://www.somepythonthings.tk/versions/elevenclock.ver")
+            try:
+                response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "http://www.somepythonthings.tk/versions/elevenclock.ver")
+            except Exception as e:
+                report(e)
+                response = urlopen("http://www.somepythonthings.tk/versions/elevenclock.ver")
+                integrityPass = True
             print("Version URL:", response.url)
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
