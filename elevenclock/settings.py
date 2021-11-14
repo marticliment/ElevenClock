@@ -346,7 +346,7 @@ class SettingsWindow(QScrollArea):
                 pass
             finally:
                 i += 1
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==1):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -560,6 +560,15 @@ class SettingsWindow(QScrollArea):
                                    padding-left: {self.getPx(10)}px;
                                    border-top: {self.getPx(1)}px solid #404040;
                                 }}
+                                #stCmbbx:disabled {{
+                                   width: 100px;
+                                   background-color: #303030;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #393939;
+                                   height: {self.getPx(25)}px;
+                                   padding-left: {self.getPx(10)}px;
+                                   border-top: {self.getPx(1)}px solid #393939;
+                                }}
                                 #stCmbbx:hover {{
                                    background-color: #393939;
                                    border-radius: {self.getPx(6)}px;
@@ -580,6 +589,11 @@ class SettingsWindow(QScrollArea):
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
                                     height: {self.getPx(8)}px;
                                     width: {self.getPx(8)}px;
+                                }}
+                                #stCmbbx::down-arrow:disabled {{
+                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                                    height: {self.getPx(2)}px;
+                                    width: {self.getPx(2)}px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
                                     border: {self.getPx(1)}px solid #1c1c1c;
@@ -859,6 +873,15 @@ class SettingsWindow(QScrollArea):
                                    padding-left: {self.getPx(10)}px;
                                    border-bottom: {self.getPx(1)}px solid #cccccc;
                                 }}
+                                #stCmbbx:disabled {{
+                                   width: 100px;
+                                   background-color: #eeeeee;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #dddddd;
+                                   height: {self.getPx(25)}px;
+                                   padding-left: {self.getPx(10)}px;
+                                   border-top: {self.getPx(1)}px solid #dddddd;
+                                }}
                                 #stCmbbx:hover {{
                                    background-color: #f6f6f6;
                                    border-radius: {self.getPx(6)}px;
@@ -879,6 +902,11 @@ class SettingsWindow(QScrollArea):
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
                                     height: {self.getPx(8)}px;
                                     width: {self.getPx(8)}px;
+                                }}
+                                #stCmbbx::down-arrow:disabled {{
+                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                                    height: {self.getPx(2)}px;
+                                    width: {self.getPx(2)}px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
                                     border: {self.getPx(1)}px solid #dddddd;
