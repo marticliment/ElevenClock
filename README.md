@@ -1,7 +1,3 @@
-# If ElevenClock is not updating, install 2.6 or greater manually and enable "Alternative update server" under Experimental Features in the settings window
-
-### Announcement: This week's update is going to be delayed, since i didn't have time to finish it with the planned features. It will come anytime soon
-
 # ElevenClock
 
 ![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
@@ -18,7 +14,7 @@
 <br>
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
 
-A taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
+A customizable taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
 
 For more info, make sure to check out this article published on MS Answers forum and written by [@Sumitdhiman](https://github.com/Sumitdhiman): [https://answers.microsoft.com/en-us/windows/...](https://answers.microsoft.com/en-us/windows/forum/all/add-clock-to-the-second-display-in-windows-11/14ed24f5-b203-4bd7-a4e7-c4eb3539b042)
 
@@ -51,14 +47,18 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 - It supports all system locales and time formats (they are pulled from the OS)*
 - It shows in all displays except in the primary one (Because you have the default system clock)
 - It supports dark and light theme
-- It has a hide button to prevent annoying on full-screen
+- It hides automatically when using a full-screen app (this function can be disabled)
 - It imitates Windows 11's taskbar clock animation on hover
 - It supports taskbars on the top of the screen
-- It supports moving the clock to the left of the screen
+- It supports moving the clock to the left of the screen (And showing in also on the main monitor):<br>
+![image](https://user-images.githubusercontent.com/53119851/141693704-93629e47-f3de-47ea-b35e-25509da6408f.png)
 - It supports different system integrations, like hiding when RDP is active
 - It is compatible with small taskbars
 - It supports taskbar customizations like Start11
-- It supports seconds enabling via locale or regedit (Windows 11's default clock can't do that)
+- It supports seconds (Windows 11's default clock can't do that):<br>
+![image](https://user-images.githubusercontent.com/53119851/141693616-b8179600-bef4-4a54-82ac-409ed6c3e425.png)
+- It supports also showing the week day:<br>
+![image](https://user-images.githubusercontent.com/53119851/141693589-9aac85ad-38d0-4d89-9418-4364f9dcdbb7.png)
 - ElevenClock downloads and installs updates automatically, so you don't have to
 - Clicking the clock shows/hides the notifications and calendar panel
 - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
@@ -66,6 +66,9 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 - The clock updates the time each second, so you won't see different times across all your taskbars
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
+- It supports font and size customization (color and background will come soon):<br>
+![image](https://user-images.githubusercontent.com/53119851/141693519-920480ba-62e9-4ac8-a65d-e83651709d15.png)
+
 
 ## Supported languages
  - Catalan
@@ -88,10 +91,10 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Simplified Chinese (China)
  - Finnish
  - Indonesian
-
-### Languages coming in the next version:
  - Serbian
  - Lithuanian
+
+### Languages coming in the next version:
 
 ## Planned features
  - [ ] You say!
