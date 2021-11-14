@@ -87,6 +87,8 @@ def getSettingsValue(s: str):
     try:
         with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "r") as sf:
             return sf.read()
+    except FileNotFoundError:
+        return ""
     except Exception as e:
         report(e)
         return ""

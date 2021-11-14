@@ -136,9 +136,25 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.blackText)
         self.lightText = QSettingsCheckBox(_("Force the clock to have white text"))
         self.lightText.setChecked(getSettings("ForceDarkTheme"))
-        self.lightText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
-        self.lightText.stateChanged.connect(lambda i: setSettings("ForceDarkTheme", bool(i)))
         layout.addWidget(self.lightText)
+        self.fontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
+        self.fontPrefs.setChecked(getSettings("UseCustomFont"))
+        self.fontPrefs.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
+        self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
+        if self.fontPrefs.isChecked():
+            customFont = getSettingsValue("UseCustomFont")
+            if customFont:
+                self.fontPrefs.combobox.setCurrentText(customFont)
+                self.fontPrefs.combobox.lineEdit().setFont(QFont(customFont))
+        else:
+            if lang == lang_ko:
+                self.fontPrefs.combobox.setCurrentText("Malgun Gothic")
+            elif lang == lang_zh_TW or lang == lang_zh_CN:
+                self.fontPrefs.combobox.setCurrentText("Microsoft JhengHei UI")
+            else:
+                self.fontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
+        layout.addWidget(self.fontPrefs)
         #self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         #self.centerText.setChecked(getSettings("CenterAlignment"))
         #self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
@@ -1127,6 +1143,49 @@ class QSettingsCheckBox(QWidget):
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
 
+class QSettingsFontBoxComboBox(QSettingsCheckBox):
+    stateChanged = Signal(bool)
+    valueChanged = Signal(str)
+    
+    def __init__(self, text: str, parent=None):
+        super().__init__(text=text, parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.combobox = QFontComboBox(self)
+        self.combobox.setObjectName("stCmbbx")
+        self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
+        self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.stateChangedEvent(self.checkbox.isChecked())
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
+        self.checkbox.move(self.getPx(60), self.getPx(10))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.combobox.setFixedHeight(self.getPx(30))
+        self.combobox.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+    
+    def valuechangedEvent(self, i: int):
+        self.valueChanged.emit(self.combobox.itemText(i))
+        self.combobox.lineEdit().setFont(self.combobox.itemText(i))
+    
+    def stateChangedEvent(self, v: bool):
+        self.combobox.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.combobox.setEnabled(False)
+            self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+        else:
+            self.combobox.setEnabled(True)
+            self.combobox.setToolTip("")
+        self.stateChanged.emit(v)
+        
+    def setItems(self, items: list):
+        self.combobox.clear()
+        self.combobox.addItems(items)
+
+    
 
 if __name__ == "__main__":
     import __init__
+    globals.sw.show()

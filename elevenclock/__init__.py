@@ -445,12 +445,16 @@ class Clock(QWidget):
             win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
         print("Clock geometry:", self.geometry())
         self.font: QFont = QFont()
-        if lang == lang_ko:
-            self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
-        elif lang == lang_zh_TW or lang == lang_zh_CN:
-            self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
+        customFont = getSettingsValue("UseCustomFont")
+        if customFont == "":
+            if lang == lang_ko:
+                self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
+            elif lang == lang_zh_TW or lang == lang_zh_CN:
+                self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
+            else:
+                self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
         else:
-            self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
+            self.fontfamilies = [customFont]
         self.font.setPointSizeF(9.3)
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
