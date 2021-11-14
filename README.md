@@ -1,5 +1,7 @@
 # If ElevenClock is not updating, install 2.6 or greater manually and enable "Alternative update server" under Experimental Features in the settings window
 
+### Announcement: This week's update is going to be delayed, since i didn't have time to finish it with the planned features. It will come anytime soon
+
 # ElevenClock
 
 ![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
