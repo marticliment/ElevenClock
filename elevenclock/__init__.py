@@ -859,7 +859,7 @@ if not(getSettings("Updated2.61Already")) and not(getSettings("EnableSilentUpdat
     print("Show2.6Welcome")
     sw.show()
     setSettings("Updated2.61Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis was an urgent update fixing an issue with clocks not showing or not hiding in fullscreen with people with HiDPi displays")
+    QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - The ability to change font and size (color will come soon)\n - Unavailable settings are now disabled and a tooltip explains the reason\n - Improved printable output on the log (better debugging)\n - Added Serbian and Lithuanian\n - Bugfixes and other improvements")
 
 showSettings = False
 if("--settings" in sys.argv or showSettings):
