@@ -7,8 +7,8 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7 = {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (이 옵션은 기본적으로 작동할 것이므로 비활성화되어 있습니다. 작동하지 않는다면 버그 제보해 주세요)",
+    "ElevenClock's language": "ElevenClock 언어"
 }
 
 lang2_6 = lang2_7 | {
