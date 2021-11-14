@@ -139,9 +139,6 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.lightText)
         self.fontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
         self.fontPrefs.setChecked(getSettings("UseCustomFont"))
-        self.fontPrefs.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
-        self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
-        self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
         if self.fontPrefs.isChecked():
             customFont = getSettingsValue("UseCustomFont")
             if customFont:
@@ -154,7 +151,24 @@ class SettingsWindow(QScrollArea):
                 self.fontPrefs.combobox.setCurrentText("Microsoft JhengHei UI")
             else:
                 self.fontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
+        self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
+        self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
         layout.addWidget(self.fontPrefs)
+        
+        self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
+        self.fontSize.setChecked(getSettings("UseCustomFontSize"))
+        self.fontSize.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.fontSize.loadItems()
+        if self.fontSize.isChecked():
+            customFontSize = getSettingsValue("UseCustomFontSize")
+            print(customFontSize)
+            if customFontSize:
+                self.fontSize.combobox.setCurrentText(customFontSize)
+        else:
+                self.fontSize.combobox.setCurrentText("9")
+        self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
+        self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
+        layout.addWidget(self.fontSize)
         #self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         #self.centerText.setChecked(getSettings("CenterAlignment"))
         #self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
@@ -346,7 +360,7 @@ class SettingsWindow(QScrollArea):
                 pass
             finally:
                 i += 1
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==1):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -1171,6 +1185,48 @@ class QSettingsCheckBox(QWidget):
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
 
+class QSettingsSizeBoxComboBox(QSettingsCheckBox):
+    stateChanged = Signal(bool)
+    valueChanged = Signal(str)
+    
+    def __init__(self, text: str, parent=None):
+        super().__init__(text=text, parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.combobox = QComboBox(self)
+        self.combobox.setObjectName("stCmbbx")
+        self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
+        self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.stateChangedEvent(self.checkbox.isChecked())
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
+        self.checkbox.move(self.getPx(60), self.getPx(10))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.combobox.setFixedHeight(self.getPx(30))
+        self.combobox.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+    
+    def valuechangedEvent(self, i: int):
+        self.valueChanged.emit(self.combobox.itemText(i))
+    
+    def stateChangedEvent(self, v: bool):
+        self.combobox.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.combobox.setEnabled(False)
+            self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+        else:
+            self.combobox.setEnabled(True)
+            self.combobox.setToolTip("")
+            self.valueChanged.emit(self.combobox.currentText())
+        self.stateChanged.emit(v)
+        
+    def loadItems(self):
+        self.combobox.clear()
+        self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16])
+
+
 class QSettingsFontBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
@@ -1206,6 +1262,8 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         else:
             self.combobox.setEnabled(True)
             self.combobox.setToolTip("")
+            self.valueChanged.emit(self.combobox.currentText())
+            self.combobox.lineEdit().setFont(self.combobox.currentText())
         self.stateChanged.emit(v)
         
     def setItems(self, items: list):

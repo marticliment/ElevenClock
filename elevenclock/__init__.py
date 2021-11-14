@@ -135,13 +135,13 @@ def updateIfPossible(force = False):
                 print("updates not found")
         else:
             print("update checking disabled")
-        old_stdout.write(buffer.getvalue())
-        old_stdout.flush()
+        #old_stdout.write(buffer.getvalue())
+        #old_stdout.flush()
 
     except Exception as e:
         print(f"Exception: {e}")
-        old_stdout.write(buffer.getvalue())
-        old_stdout.flush()
+        #old_stdout.write(buffer.getvalue())
+        #old_stdout.flush()
 
 restartCount = 0
 
@@ -172,8 +172,8 @@ def loadClocks():
             screen: QScreen
             oldScreens.append(getGeometry(screen))
             print(screen, getGeometry(screen))
-            old_stdout.write(buffer.getvalue())
-            old_stdout.flush()
+            #old_stdout.write(buffer.getvalue())
+            #old_stdout.flush()
             if(firstWinSkipped):
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
             else: # Skip the primary display, as it has already the clock
@@ -455,7 +455,17 @@ class Clock(QWidget):
                 self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
         else:
             self.fontfamilies = [customFont]
-        self.font.setPointSizeF(9.3)
+        print(f"Font families: {self.fontfamilies}")
+        customSize = getSettingsValue("UseCustomFontSize")
+        if customSize == "":
+            self.font.setPointSizeF(9.3)
+        else:
+            try:
+                self.font.setPointSizeF(float(customSize))
+            except Exception as e:
+                self.font.setPointSizeF(9.3)
+                report(e)
+        print(f"Font size: {self.font.pointSizeF()}")
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
@@ -542,8 +552,8 @@ class Clock(QWidget):
                     border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
                 }}
             """)
-        old_stdout.write(buffer.getvalue())
-        old_stdout.flush()
+        #old_stdout.write(buffer.getvalue())
+        #old_stdout.flush()
 
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInch()/96))
@@ -693,8 +703,8 @@ class Clock(QWidget):
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
                 win32gui.SetWindowPos(self.winId(), 0, int((self.preferedwidth-self.label.getTextUsedSpaceRect()+5)+self.w), int(self.h), int(self.label.getTextUsedSpaceRect()+5), int(self.preferedHeight*self.dpiy), False)
             print("Width hint:", self.label.getTextUsedSpaceRect()+5, self.pos())
-        old_stdout.write(buffer.getvalue())
-        old_stdout.flush()
+        #old_stdout.write(buffer.getvalue())
+        #old_stdout.flush()
 
 class Label(QLabel):
     clicked = Signal()
