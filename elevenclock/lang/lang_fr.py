@@ -7,7 +7,15 @@
 # Meke special attention to elements like ":", etc.
 
 
-lang2_7 = {
+lang2_7_bis = {
+    "Use a custom font": "",
+    "Use a custom font size": "",
+    "Enable hide when multi-monitor fullscreen apps are running": "",
+    "<b>{0}</b> needs to be enabled to change this setting": "",
+    "<b>{0}</b> needs to be disabled to change this setting": "",
+}
+
+lang2_7 = lang2_7_bis | {
     " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Cette fonctionnalité a été désactivé car elle devrait fonctionner par défaut)",
     "ElevenClock's language": "Langue de ElevenClock"
 }

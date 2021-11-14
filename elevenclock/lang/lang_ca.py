@@ -6,7 +6,15 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_7 = {
+lang2_7_bis = {
+    "Use a custom font": "Utilitza un tipus de lletra concret",
+    "Use a custom font size": "Utilitza una mida de lletra concreta",
+    "Enable hide when multi-monitor fullscreen apps are running": "Amaga el rellotge quan una pantalla s'executi en mode de pantalla completa multi-monitor",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> ha d'estar activat per a canviar aquesta configuració",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> ha d'estar desactivat per a canviar aquesta configuració",
+}
+
+lang2_7 = lang2_7_bis | {
     " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
     "ElevenClock's language": "Idioma de l'ElevenClock"
 }

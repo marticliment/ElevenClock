@@ -1,13 +1,19 @@
 import glob, os
 
-OLDSTR = b"lang2_6 = {"
 
-NEWSTR = b"""lang2_7 = {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+
+
+OLDSTR = b"lang2_7 = {"
+
+NEWSTR = b"""lang2_7_bis = {
+    "Use a custom font": "",
+    "Use a custom font size": "",
+    "Enable hide when multi-monitor fullscreen apps are running": "",
+    "<b>{0}</b> needs to be enabled to change this setting": "",
+    "<b>{0}</b> needs to be disabled to change this setting": "",
 }
 
-lang2_6 = lang2_7 | {"""
+lang2_7 = lang2_7_bis | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()
@@ -38,4 +44,4 @@ for file in glob.glob("lang_*.py"):
     except:
         print("🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥", file, "has been updated successfully")
         
-input("Finishes, press [INTRO] to close")
+input("Finished, press [INTRO] to close")
