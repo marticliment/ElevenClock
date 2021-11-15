@@ -11,7 +11,7 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7_bis = {
-    "Use a custom font": "Використовувати спецільний шрифт",
+    "Use a custom font": "Використовувати спеціальний шрифт",
     "Use a custom font size": "Використовувати спеціальний розмір шрифту",
     "Enable hide when multi-monitor fullscreen apps are running": "Приховати коли мультимоніторні повноекранні програми запущені",
     "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> мусить бути увімкненим щоб змінювати це налаштування",
@@ -57,10 +57,10 @@ lang2_3 = lang2_4 | {
 
     # General settings section
     "General Settings:": "Загальні налаштування",
-    "Automatically check for updates": "Автоматично перевіряти на оновлення",
+    "Automatically check for updates": "Автоматично перевіряти оновлення",
     "Automatically install available updates": "Автоматично встановлювати оновлення",
     "Enable really silent updates": "Увімкнути справді тихі оновлення",
-    "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)": "Перевірка автентичності постачальника Bypass онвлень (НЕ РЕКОМЕНДОВАНО, РОБІТЬ НА ВЛАСНИЙ РИЗИК)",
+    "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)": "Обходити перевірку автентичності постачальника онвлень (НЕ РЕКОМЕНДОВАНО, РОБІТЬ НА ВЛАСНИЙ РИЗИК)",
     "Show ElevenClock on system tray": "Показувати ElevenClock у системному треї",
     "Alternative clock alignment (may not work)": "Альтернативне розташування годинника (Може не працювати)",
     "Change startup behaviour": "Змінити поведінку при запуску",
