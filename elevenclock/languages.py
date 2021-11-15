@@ -1,5 +1,5 @@
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
-from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt
+from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv
 
 lang = None
 
@@ -22,6 +22,7 @@ languages = {
     "pt": lang_pt,
     "ru": lang_ru,
     "sr": lang_sr,
+    "sv": lang_sv,
     "tr": lang_tr,
     "vi": lang_vi,
     "zh_TW": lang_zh_TW,
@@ -49,6 +50,7 @@ languageReference = {
     "zh_CN": "Simplified Chinese (China)",
     "sr": "Serbian",
     "es": "Spanish",
+    "sv": "Swedish",
     "zh_TW": "Traditional Chinese (Taiwan)",
     "tr": "Turkish",
     "vi": "Vietnamese",
