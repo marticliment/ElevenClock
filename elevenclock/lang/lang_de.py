@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7_bis = {
-    "Use a custom font": "Benutze eine eigene Schriftart ",
-    "Use a custom font size": "Benutze deine eigene Schriftgröße",
-    "Enable hide when multi-monitor fullscreen apps are running": "Aktiviere verstecken, wenn ein Multi-Monitorvollbildprogramm läuft",
-    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> muss aktiviert werden, um diese Einstellung zu ändern",
-    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> muss deaktiviert werden, um diese Einstellung zu ändern",
+    "Use a custom font": "Benutzerdefinierte Schriftart verwenden",
+    "Use a custom font size": "Benutzerdefinierte Schriftgröße verwenden",
+    "Enable hide when multi-monitor fullscreen apps are running": "Verstecken, wenn Multi-Monitor-Vollbild-Apps laufen, aktivieren",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> muss aktiviert sein, um diese Einstellung zu ändern",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> muss deaktiviert sein, um diese Einstellung zu ändern",
 }
 
 lang2_7 = lang2_7_bis | {

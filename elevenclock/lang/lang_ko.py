@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7_bis = {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Use a custom font": "사용자 정의 폰트",
+    "Use a custom font size": "사용자 정의 폰트 크기",
+    "Enable hide when multi-monitor fullscreen apps are running": "다중 모니터 전체 화면 앱이 실행 중일 때 숨기기",
+    "<b>{0}</b> needs to be enabled to change this setting": "이 설정을 변경하려면 <b>{0}</b>이(가) 활성화되어야 합니다",
+    "<b>{0}</b> needs to be disabled to change this setting": "이 설정을 변경하려면 <b>{0}</b>이(가) 비활성화되어야 합니다",
 }
 
 lang2_7 = lang2_7_bis | {
