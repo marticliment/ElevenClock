@@ -8,11 +8,11 @@
 
 
 lang2_7_bis = {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Use a custom font": "Utiliser une police personnalisée",
+    "Use a custom font size": "Utiliser une taille de police personnalisée",
+    "Enable hide when multi-monitor fullscreen apps are running": "Cacher l'horloge quand une application multi-écran en plein écran est active",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> a besoin d'être activer pour changer ce paramètre",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> a besoin d'être désactiver pour changer ce paramètre",
 }
 
 lang2_7 = lang2_7_bis | {
@@ -31,8 +31,8 @@ lang2_6 = lang2_7 | {
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Cacher l'horloge quand un client RDP ou Citrix est actif",
     "Clock Appearance:": "Apparence de l'horloge",
-    "Force the clock to have black text": "Forcer l'horloge en noir",
-    " - It is required that the Dark Text checkbox is disabled": " - Forcer l'horloge en noir doit être désactivé",
+    "Force the clock to have black text": "Forcer le texte de l'horloge en noir",
+    " - It is required that the Dark Text checkbox is disabled": " - Forcer le texte de l'horloge en noir doit être désactivé",
     "Debbugging information:": "Information de déboggage",
     "Open ElevenClock's log": "Ouvrir les logs de ElevenClock",
 }
@@ -96,7 +96,7 @@ lang2_3 = lang2_4 | {
     "Report an issue/request a feature"         :"Signaler un bug / Suggérer une fonctionnalité",
     "Report"                                    :"Signaler",
     "Support the dev: Give me a coffee☕"       :"Supporter le développeur",
-    "Open page"                                 :"Ouvrir la page",
+    "Open page"                                 :"Supporter",
     "Icons by Icons8"                           :"Icônes faites par Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Page web",
     "Close settings"                            :"Fermer les paramètres",
