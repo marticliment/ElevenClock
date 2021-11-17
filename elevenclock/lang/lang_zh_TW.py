@@ -7,24 +7,24 @@
 # Meke special attention to elements like ":", etc.
 
 lang2_7_bis = {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Use a custom font": "使用自訂字型",
+    "Use a custom font size": "使用自訂字型大小",
+    "Enable hide when multi-monitor fullscreen apps are running": "在多螢幕全螢幕應用程式執行時隱藏時鐘",
+    "<b>{0}</b> needs to be enabled to change this setting": "你需要啟用 <b>{0}</b> 以使用此選項",
+    "<b>{0}</b> needs to be disabled to change this setting": "你需要停用 <b>{0}</b> 以使用此選項",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "（這個功能因為預設情況下就能正確運作所以被停用了，如果它實際上不能正確運作，請回報錯誤）",
+    "ElevenClock's language": "ElevenClock 的語言"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "關於 Qt6 (PySide6)",
+    "About": "關於",
+    "Alternative non-SSL update server (This might help with SSL errors)": "選用的無 SSL 更新伺服器（可能對 SSL 錯誤的情況有用）",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "錯誤修正以及其他實驗性更新（請「只」在有東西無法正常運作時使用）",
+    "Show week number on the clock": "顯示週數",
 }
 
 lang2_5 = lang2_6 | {
