@@ -1,7 +1,14 @@
+![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
+<br>
+![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
+![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
+![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
+![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
+![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
 # ElevenClock
 
-### For the next weekend we aren't going to have an update, because i'm busy :').
 
+<!--
 ![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
 ![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
 ![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
@@ -11,12 +18,14 @@
 ![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
 ![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
 ![PRs Badge](https://img.shields.io/github/issues-pr/martinet101/ElevenClock?style=for-the-badge)
-![Closed PRs Badge](https://img.shields.io/github/issues-pr-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
-<br><br>
+![Closed PRs Badge]( https://img.shields.io/github/issues-pr-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
 
-![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
+-->
 
 Have a customizable clock on your secondary displays. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
+
+### ⚠️⚠️⚠️For the next weekend we aren't going to have an update, because i'm busy⚠️⚠️⚠️
+
 
 ## Table of contents
 
@@ -24,23 +33,19 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
   - [Table of contents](#table-of-contents)
   - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
   - [Features](#features)
-  - [Installation](#installation)
+  - [Installation](#microsoft-store-installation)
   - [Download from](#download-from)
   - [Frequently Asked Questions](#frequently-asked-questions)
   - [Screenshots](#screenshots)
+
+## Microsoft store installation:
+
+[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)
 
 ## Support the dev:
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)
 <br>
-
-## Installation:
-
-Click on the following link: <br>
-[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)
-
-Then click on Install<br>
-![image](https://user-images.githubusercontent.com/53119851/142484631-5f803907-3b42-499d-86fe-0b27db702e8f.png)
 
 
 
@@ -68,7 +73,40 @@ Then click on Install<br>
 - It supports font and size customization (color and background will come soon):<br>
 
 ## Translating ElevenClock to other languages
+ Please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
 
+## Screenshots
+
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img1.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img2.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img3.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img4.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img5.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img6.png?raw=true)
+
+
+## Frequently asked questions
+
+**Q: The clock shows over fullscreen**<br>
+A: Enable fullscreen hiding in settings<br>
+
+**Q: The clock shows over RDP sessions**<br>
+A: Enable RDP hiding in settings (it may consume more CPU)<br>
+
+**Q: Can ElevenClock be in my language?**<br>
+A: Yes, just take a look to [TRANSLATION.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md)<br>
+
+**Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**<br>
+A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings<br>
+
+**Q: The clock shows seconds when the "Show Seconds" settings is disabled**<br>
+A: Check that yiu don't have seconds set in your regional settings and disable seconds following this [article's instructions](https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/) (Other guides might not work)<br>
+
+**Q: ElevenClock does not show the correct time zone when time zone is changed**<br>
+A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
+
+**Q: The main clock does not get modified when enabling seconds, etc.**<br>
+A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
 
 ## Supported languages
  - Catalan
@@ -115,41 +153,9 @@ SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Manag
 Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)<br>
 SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)<br>
 
-## Known Issues
 
- - ElevenClock might be reposted as a potential virus or it might be quarantined (Most of the users used Mcafee)
- 
-## Frequently asked questions
+# More screenshots
 
-**Q: The clock shows over fullscreen**<br>
-A: Enable fullscreen hiding in settings<br>
-
-**Q: The clock shows over RDP sessions**<br>
-A: Enable RDP hiding in settings (it may consume more CPU)<br>
-
-**Q: Can ElevenClock be in my language?**<br>
-A: Yes, just take a look to [TRANSLATION.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md)<br>
-
-**Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**<br>
-A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings<br>
-
-**Q: The clock shows seconds when the "Show Seconds" settings is disabled**<br>
-A: Check that yiu don't have seconds set in your regional settings and disable seconds following this [article's instructions](https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/) (Other guides might not work)<br>
-
-**Q: ElevenClock does not show the correct time zone when time zone is changed**<br>
-A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
-
-**Q: The main clock does not get modified when enabling seconds, etc.**<br>
-A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
-
-## Screenshots
-
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img1.png?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img2.png?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img3.png?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img4.png?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img5.png?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img6.png?raw=true)
 ElevenClock settings: <br>![Settings](https://user-images.githubusercontent.com/53119851/137625716-e0d9e5b2-d188-4a76-8146-77061970b78f.png)
 ![Settings2](https://user-images.githubusercontent.com/53119851/137625725-08bd6408-abcc-4c87-9be6-bbb1dad5ed75.png)
 ![Settings3](https://user-images.githubusercontent.com/53119851/137625731-08594ba7-9d66-4add-82d1-2a64400293df.png)
