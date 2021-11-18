@@ -20,10 +20,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 For more info, make sure to check out this article published on MS Answers forum and written by [@Sumitdhiman](https://github.com/Sumitdhiman): [https://answers.microsoft.com/en-us/windows/...](https://answers.microsoft.com/en-us/windows/forum/all/add-clock-to-the-second-display-in-windows-11/14ed24f5-b203-4bd7-a4e7-c4eb3539b042)
 
-## Support the dev:
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)
-<br>
 ## Table of contents
 
 - [ElevenClock](#elevenclock)
@@ -35,12 +32,20 @@ For more info, make sure to check out this article published on MS Answers forum
   - [Frequently Asked Questions](#frequently-asked-questions)
   - [Screenshots](#screenshots)
 
-## Translating ElevenClock to other languages
-See [TRANSLATION.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md)
+## Support the dev:
 
-## Easy installation:
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)
+<br>
 
-Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, copy and paste `winget install ElevenClock`. Finally press <kbd>Enter</kbd>. ElevenClock will be installed automatically. 
+## Installation:
+
+Click on the following link: <br>
+[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)
+
+Then click on Install<br>
+![image](https://user-images.githubusercontent.com/53119851/142484631-5f803907-3b42-499d-86fe-0b27db702e8f.png)
+
+
 
 ## Features
 
@@ -51,14 +56,11 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 - It imitates Windows 11's taskbar clock animation on hover
 - It supports taskbars on the top of the screen
 - It supports moving the clock to the left of the screen (And showing in also on the main monitor):<br>
-![image](https://user-images.githubusercontent.com/53119851/141693704-93629e47-f3de-47ea-b35e-25509da6408f.png)
 - It supports different system integrations, like hiding when RDP is active
 - It is compatible with small taskbars
 - It supports taskbar customizations like Start11
 - It supports seconds (Windows 11's default clock can't do that):<br>
-![image](https://user-images.githubusercontent.com/53119851/141693616-b8179600-bef4-4a54-82ac-409ed6c3e425.png)
 - It supports also showing the week day:<br>
-![image](https://user-images.githubusercontent.com/53119851/141693589-9aac85ad-38d0-4d89-9418-4364f9dcdbb7.png)
 - ElevenClock downloads and installs updates automatically, so you don't have to
 - Clicking the clock shows/hides the notifications and calendar panel
 - Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
@@ -67,7 +69,8 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
 - It supports font and size customization (color and background will come soon):<br>
-![image](https://user-images.githubusercontent.com/53119851/141693519-920480ba-62e9-4ac8-a65d-e83651709d15.png)
+
+## Translating ElevenClock to other languages
 
 
 ## Supported languages
@@ -94,7 +97,7 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Serbian
  - Lithuanian
 
-## Installation
+## Legacy Installation
 
  1. Download the latest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
  2. Open the installer and bypass Windows Defender SmartScreen: Click on more info and then on run:<br>
