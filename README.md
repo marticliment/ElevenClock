@@ -8,15 +8,15 @@
 ![Forks](https://img.shields.io/github/forks/martinet101/ElevenClock?color=yellow&style=for-the-badge)
 ![Stars](https://img.shields.io/github/stars/martinet101/ElevenClock?color=yellow&style=for-the-badge)
 <br>
-<br>
 ![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
 ![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
 ![PRs Badge](https://img.shields.io/github/issues-pr/martinet101/ElevenClock?style=for-the-badge)
 ![Closed PRs Badge](https://img.shields.io/github/issues-pr-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
-<br>
-![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/SomePythonThings-Media/master/elevenclock/main.webp)
+<br><br>
 
-A customizable taskbar clock for secondary taskbars on Windows 11. When microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
+![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
+
+Have a customizable clock on your secondary displays. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
 
 For more info, make sure to check out this article published on MS Answers forum and written by [@Sumitdhiman](https://github.com/Sumitdhiman): [https://answers.microsoft.com/en-us/windows/...](https://answers.microsoft.com/en-us/windows/forum/all/add-clock-to-the-second-display-in-windows-11/14ed24f5-b203-4bd7-a4e7-c4eb3539b042)
 
@@ -30,10 +30,8 @@ For more info, make sure to check out this article published on MS Answers forum
   - [Table of contents](#table-of-contents)
   - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
   - [Features](#features)
-  - [Planned Features](#planned-features)
   - [Installation](#installation)
   - [Download from](#download-from)
-  - [Known Issues](#known-issues)
   - [Frequently Asked Questions](#frequently-asked-questions)
   - [Screenshots](#screenshots)
 
@@ -96,11 +94,6 @@ Press <kbd>Win</kbd>+<kbd>R</kbd> type `cmd` and press <kbd>Enter</kbd>. Then, c
  - Serbian
  - Lithuanian
 
-### Languages coming in the next version:
-
-## Planned features
- - [ ] You say!
-
 ## Installation
 
  1. Download the latest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
@@ -151,10 +144,12 @@ A: ElevenClock can't modify or update  the main clock due to Windows 11's restri
 
 ## Screenshots
 
-Elevenclock on 100% DPI: ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_1.png?raw=true)
-Elevenclock on 125% DPI: ![125%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_2.png?raw=true)
-Elevenclock on 150% DPI: ![150%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_3.png?raw=true)
-Elevenclock on 175% DPI: ![175%](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_4.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img1.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img2.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img3.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img4.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img5.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img6.png?raw=true)
 ElevenClock settings: <br>![Settings](https://user-images.githubusercontent.com/53119851/137625716-e0d9e5b2-d188-4a76-8146-77061970b78f.png)
 ![Settings2](https://user-images.githubusercontent.com/53119851/137625725-08bd6408-abcc-4c87-9be6-bbb1dad5ed75.png)
 ![Settings3](https://user-images.githubusercontent.com/53119851/137625731-08594ba7-9d66-4add-82d1-2a64400293df.png)
