@@ -14,8 +14,8 @@ lang2_7_bis = {
     "Use a custom font": "Použijte vlastní styl písma",
     "Use a custom font size": "Použijte vlastní velikost písma",
     "Enable hide when multi-monitor fullscreen apps are running": "Umožnist skrytí když beží celoobrazovkové aplikace pro více monitorů",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> pro změnu tohoto nastavení je třeba povolit",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> pro změnu tohoto nastavení je třeba deaktivovat",
 }
 
 lang2_7 = lang2_7_bis | {
@@ -65,7 +65,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Alternativní zarovnání hodin (nemusí fungovat)",
     "Change startup behaviour"                                                          :"Změňit chování při spouštění",
     "Change"                                                                            :"Změna",
-    "<b>Update to the latest version!</b>"                                             :"Aktualizujte na nejnovější verzi!",
+    "<b>Update to the latest version!</b>"                                             :"<b>Aktualizujte na nejnovější verzi!</b>",
     "Install update"                                                                    :"Instalovat aktualizaci",
     
     #Clock settings

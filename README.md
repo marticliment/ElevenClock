@@ -1,5 +1,7 @@
 # ElevenClock
 
+### For the next weekend we aren't going to have an update but i'll work on a new wiki and on the media pictures, which are outdated. Also, i'm working on publishing ElevenClock to the MS Store
+
 ![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
 ![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
 ![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
