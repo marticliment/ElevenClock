@@ -161,11 +161,12 @@ def loadClocks():
         st.kill()
     except AttributeError:
         pass
-    firstWinSkipped = getSettings("ForceClockOnFirstMonitor")
+    showOnFirstMon = getSettings("ForceClockOnFirstMonitor")
     oldScreens = []
     clocks = []
     process = psutil.Process(os.getpid())
     print(process.memory_info().rss/1048576)
+    
     if restartCount<20 and (process.memory_info().rss/1048576) <= 150:
         restartCount += 1
         for screen in app.screens():
@@ -174,11 +175,10 @@ def loadClocks():
             print(screen, getGeometry(screen))
             #old_stdout.write(buffer.getvalue())
             #old_stdout.flush()
-            if(firstWinSkipped):
+            if not screen == QGuiApplication.primaryScreen() or showOnFirstMon: #Check if we are not on the primary screen
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
             else: # Skip the primary display, as it has already the clock
                 print("This is primay screen and is set to be skipped")
-                firstWinSkipped = True
         st = KillableThread(target=screenCheckThread, daemon=True)
         st.start()
     else:
@@ -191,8 +191,9 @@ def getGeometry(screen: QScreen):
     """
     Returns a tuple containing: (screen_width, screen_height, screen_pos_x, screen_pos_y, screen_DPI, desktopWindowRect)
     """
-    #win32api.EnumDisplayMonitors() 
-    return (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+    #win32api.EnumDisplayMonitors()
+    g = (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+    return g
 
 def theyMatch(oldscreens, newscreens):
     if len(oldscreens) != len(newscreens) or len(app.screens()) != len(win32api.EnumDisplayMonitors()):
@@ -554,6 +555,7 @@ class Clock(QWidget):
             """)
         #old_stdout.write(buffer.getvalue())
         #old_stdout.flush()
+        
 
     def getPx(self, original) -> int:
         return int(original*(self.screen().logicalDotsPerInch()/96))
@@ -811,6 +813,9 @@ i = TaskbarIconTray(app)
 
 
 app.setQuitOnLastWindowClosed(False)
+app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
+app.screenAdded.connect(lambda: os.startfile(sys.executable))
+app.screenRemoved.connect(lambda: os.startfile(sys.executable))
 signal = RestartSignal()
 showNotif = InfoSignal()
 showWarn = InfoSignal()
