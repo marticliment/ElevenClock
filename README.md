@@ -30,9 +30,11 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
  - [Support the dev](#support-the-dev)
  - [Features](#features)
  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
+   - [Currently supported languages](#currently-supported-languages)
  - [Screenshots](#screenshots)
  - [Frequently Asked Questions](#frequently-asked-questions)
- - [Download from](#download-from)
+ - [Download standalone installers](#download-standalone-installer)
+ - [Legacy installation](#legacy-installation)
 
 ## Microsoft store installation:
 
@@ -71,6 +73,31 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 ## Translating ElevenClock to other languages
  Please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
 
+
+### Currently Supported languages
+ - Catalan
+ - English
+ - French
+ - German
+ - Spanish
+ - Polish
+ - Russian
+ - Turkish
+ - Italian
+ - Dutch
+ - Norwegian
+ - Korean
+ - Vietnamese
+ - Greek
+ - Traditional Chinese (Taiwan)
+ - Portuguese 
+ - Japanese
+ - Simplified Chinese (China)
+ - Finnish
+ - Indonesian
+ - Serbian
+ - Lithuanian
+
 ## Screenshots
 
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img1.png?raw=true)
@@ -104,29 +131,13 @@ A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
 **Q: The main clock does not get modified when enabling seconds, etc.**<br>
 A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
 
-## Supported languages
- - Catalan
- - English
- - French
- - German
- - Spanish
- - Polish
- - Russian
- - Turkish
- - Italian
- - Dutch
- - Norwegian
- - Korean
- - Vietnamese
- - Greek
- - Traditional Chinese (Taiwan)
- - Portuguese 
- - Japanese
- - Simplified Chinese (China)
- - Finnish
- - Indonesian
- - Serbian
- - Lithuanian
+
+## Download standalone installer
+
+MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)<br>
+SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)<br>
+Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)<br>
+SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)<br>
 
 ## Legacy Installation
 
@@ -141,13 +152,6 @@ A: ElevenClock can't modify or update  the main clock due to Windows 11's restri
 
    **TIP: Clicking four times on the clock will show this webpage*
 
-## Download from
-
-MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)<br>
-OlderGeeks: [https://www.oldergeeks.com/downloads/file.php?id=3802](https://www.oldergeeks.com/downloads/file.php?id=3802)<br>
-SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)<br>
-Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)<br>
-SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)<br>
 
 
 # More screenshots
