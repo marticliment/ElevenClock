@@ -25,16 +25,14 @@
 Have a customizable clock on your secondary displays. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
 
 ## Table of contents
-
-- [ElevenClock](#elevenclock)
-  - [Table of contents](#table-of-contents)
-  - [Installation](#microsoft-store-installation)
-  - [Support the dev](#support-the-dev)
-  - [Features](#features)
-  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
-  - [Screenshots](#screenshots)
-  - [Frequently Asked Questions](#frequently-asked-questions)
-  - [Download from](#download-from)
+ - [Table of contents](#table-of-contents)
+ - [Installation](#microsoft-store-installation)
+ - [Support the dev](#support-the-dev)
+ - [Features](#features)
+ - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
+ - [Screenshots](#screenshots)
+ - [Frequently Asked Questions](#frequently-asked-questions)
+ - [Download from](#download-from)
 
 ## Microsoft store installation:
 
