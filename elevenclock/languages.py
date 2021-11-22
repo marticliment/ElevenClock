@@ -1,10 +1,11 @@
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
-from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv, lang_ua
+from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv, lang_ua, lang_da
 
 lang = None
 
 languages = {
     "ca": lang_ca,
+    "da": lang_da,
     "de": lang_de,
     "el": lang_el,
     "en": lang_en,
@@ -33,6 +34,7 @@ languages = {
 languageReference = {
     "default": "System language",
     "ca": "Catalan",
+    "da": "Danish",
     "nl": "Dutch"  ,
     "en": "English",
     "fi": "Finnish",
