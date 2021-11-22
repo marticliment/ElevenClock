@@ -27,7 +27,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 ## Table of contents
  - [Table of contents](#table-of-contents)
  - [Installation](#microsoft-store-installation)
- - [Support the dev](#support-the-dev)
+ - [Support the developer](#support-the-developer)
  - [Features](#features)
  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
    - [Currently supported languages](#currently-supported-languages)
