@@ -98,6 +98,11 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
  - Serbian
  - Lithuanian
 
+#### New laguanges that will come with next version:
+ - Danish
+ - Swedish
+ - Ukranian
+
 ## Screenshots
 
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img1.png?raw=true)
