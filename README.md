@@ -28,12 +28,13 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 - [ElevenClock](#elevenclock)
   - [Table of contents](#table-of-contents)
-  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
-  - [Features](#features)
   - [Installation](#microsoft-store-installation)
-  - [Download from](#download-from)
-  - [Frequently Asked Questions](#frequently-asked-questions)
+  - [Support the dev](#support-the-dev)
+  - [Features](#features)
+  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
   - [Screenshots](#screenshots)
+  - [Frequently Asked Questions](#frequently-asked-questions)
+  - [Download from](#download-from)
 
 ## Microsoft store installation:
 
