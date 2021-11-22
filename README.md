@@ -22,7 +22,7 @@
 
 -->
 
-Have a customizable clock on your secondary displays. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app which provides the same functionality as in windows 10 secondary taskbar clock.
+Have a customizable clock on your secondary displays. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app that provides the same functionality as in windows 10 secondary taskbar clock.
 
 ## Table of contents
  - [Table of contents](#table-of-contents)
@@ -40,7 +40,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 [<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)
 
-## Support the dev:
+## Support the developer:
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)
 <br>
@@ -49,26 +49,26 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 ## Features
 
-- It supports all system locales and time formats (they are pulled from the OS)*
-- It shows in all displays except in the primary one (Because you have the default system clock)
-- It supports dark and light theme
-- It hides automatically when using a full-screen app (this function can be disabled)
-- It imitates Windows 11's taskbar clock animation on hover
-- It supports taskbars on the top of the screen
-- It supports moving the clock to the left of the screen (And showing in also on the main monitor):<br>
-- It supports different system integrations, like hiding when RDP is active
-- It is compatible with small taskbars
-- It supports taskbar customizations like Start11
-- It supports seconds (Windows 11's default clock can't do that):<br>
-- It supports also showing the week day:<br>
-- ElevenClock downloads and installs updates automatically, so you don't have to
+- Supports all system locales and time formats (they are pulled from the OS)*
+- Shows in all displays except in the primary one (because you have the default system clock)
+- Supports the dark and the light theme both
+- Hides automatically when using a full-screen app (this function can be disabled)
+- Imitates Windows 11's taskbar clock animation on hover
+- Supports taskbars on the top of the screen
+- Supports moving the clock to the left of the screen (and showing in also on the main monitor)
+- Supports different system integrations, like hiding when RDP is active
+- Is compatible with the small taskbars
+- Supports taskbar customizations like Start11
+- Supports seconds (not available in Windows11 by default)
+- Supports also showing the week day
+- ElevenClock downloads and installs updates automatically, so you don't have to worry about keeping yourself updatd with that
 - Clicking the clock shows/hides the notifications and calendar panel
-- Correct alignment and size on HiDPi displays (100%, 200%, 300%) AND on fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
-- Correct alignment and size on Different-scaled monitors (Display1: 100%, Display2: 150%, Display3: 225%, etc.)*
-- The clock updates the time each second, so you won't see different times across all your taskbars
+- Ability to correct the alignment and size on the HiDPi displays (100%, 200%, 300%) and on the fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
+- Ability to correct the alignment and the size on Different-scaled monitors (Display1: 100%, Display2: 150%, Display3: 225%, etc.)*
+- The clock updates the time each second, so you will not see different times across all your taskbars
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
-- It supports font and size customization (color and background will come soon):<br>
+- Supports font and size customization (color and background will come soon)
 
 ## Translating ElevenClock to other languages
  Please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
