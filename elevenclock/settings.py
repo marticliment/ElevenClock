@@ -4,6 +4,7 @@ import os
 import sys
 import locale
 import time
+from PySide2 import QtGui
 
 import psutil
 from PySide2.QtGui import *
@@ -16,14 +17,21 @@ from languages import *
 from tools import *
 from tools import _
 
-class SettingsWindow(QScrollArea):
+from FramelessWindow import QFramelessWindow
+
+class SettingsWindow(QFramelessWindow):
     def __init__(self):
         super().__init__()
+        self.scrollArea = QScrollArea()
+        vlayout = QVBoxLayout()
+        vlayout.setContentsMargins(0, 0, 0, 0)
+        vlayout.setMargin(0)
+        vlayout.setSpacing(0)
         layout = QVBoxLayout()
         self.updateSize = True
-        self.setWidgetResizable(True)
-        self.resizewidget = QWidget()
-        self.resizewidget.setObjectName("background")
+        self.scrollArea.setWidgetResizable(True)
+        self.settingsWidget = QWidget()
+        self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
         layout.addSpacing(10)
         title = QLabel(_("ElevenClock Settings"))
@@ -35,11 +43,11 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(title)
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
+        layout.setMargin(2)
         layout.addSpacing(10)
         self.resize(900, 600)
         layout.addSpacing(20)
-        self.setFrameShape(QFrame.NoFrame)
-        self.setWindowFlags(Qt.Window | Qt.CustomizeWindowHint)
+        self.scrollArea.setFrameShape(QFrame.NoFrame)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
         else:
@@ -158,7 +166,6 @@ class SettingsWindow(QScrollArea):
         
         self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
         self.fontSize.setChecked(getSettings("UseCustomFontSize"))
-        self.fontSize.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.fontSize.loadItems()
         if self.fontSize.isChecked():
             customFontSize = getSettingsValue("UseCustomFontSize")
@@ -279,14 +286,24 @@ class SettingsWindow(QScrollArea):
         layout.addWidget(self.hiddenButton)
         layout.addSpacing(15)
 
-        self.resizewidget.setLayout(layout)
-        self.setWidget(self.resizewidget)
-        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.settingsWidget.setLayout(layout)
+        self.scrollArea.setWidget(self.settingsWidget)
+        self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.titlebar = QTitleBarWidget(self)
+        vlayout.addWidget(self.titlebar)
+        vlayout.addWidget(self.scrollArea)
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
         self.setMinimumWidth(400)
         self.updateCheckBoxesStatus()
+        w = QWidget()
+        w.setLayout(vlayout)
+        self.setCentralWidget(w)
+        self.setMouseTracking(True)
+        
+        
+        
 
     def updateCheckBoxesStatus(self):
         
@@ -353,14 +370,27 @@ class SettingsWindow(QScrollArea):
         colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
         string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
         i  =  0
+        acc = False
         for color in string.split(b"\x00"):
+            add = True
             try:
-                if(len(color)==3):
+                if len(color) == 3:
                     colors[i] = f"{color[0]},{color[1]},{color[2]}"
+                elif len(color) == 0:
+                    acc = True   
+                    add = False
+                elif len(color) == 2 and acc:
+                    acc = False
+                    colors[i] = f"0,{color[0]},{color[1]}"
+                else:
+                    pass
             except IndexError:
                 pass
             finally:
-                i += 1
+                if add:
+                    i += 1
+        print(colors)
+        self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
@@ -382,8 +412,42 @@ class SettingsWindow(QScrollArea):
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            self.titlebar.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
+            self.titlebar.closeButton.setFixedHeight(self.getPx(32))
+            self.titlebar.closeButton.setFixedWidth(self.getPx(46))
+            self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
+            self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            self.titlebar.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
+            self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
+            self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
+            self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
+            self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
+            self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
+            
             self.setStyleSheet(f"""
-                                QToolTip{{
+                               #QFramelessWindow {{
+                                   border: 5px solid white;
+                               }}
+                               #titlebarButton {{
+                                   border-radius: 0px;
+                                   border:none;
+                                   background-color: rgba(0, 0, 0, 0.01);
+                               }}
+                               #titlebarButton:hover {{
+                                   border-radius: 0px;
+                                   background-color: rgba({colors[2]}, 1);
+                               }}
+                               #closeButton {{
+                                   border-radius: 0px;
+                                   border:none;
+                                   background-color: rgba(0, 0, 0, 0.01);
+                               }}
+                               #closeButton:hover {{
+                                   border-radius: 0px;
+                                   background-color: rgba(196, 43, 28, 1);
+                               }}
+                                QToolTip {{
                                     border: {self.getPx(1)}px solid #222222;
                                     padding: {self.getPx(4)}px;
                                     border-radius: {self.getPx(6)}px;
@@ -432,9 +496,17 @@ class SettingsWindow(QScrollArea):
                                     padding-left: {self.getPx(10)}px;
                                     border-radius: {self.getPx(4)}px;
                                 }}
-                                #background,QScrollArea,QMessageBox{{
+                                QColorDialog {{
+                                    background-color: transparent;
+                                    border: none;
+                                }}
+                                #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
                                    background-color: #212121;
+                                }}
+                                QLabel {{
+                                    font-family: "Segoe UI Variable Display Semib";
+                                    font-weight: medium;
                                 }}
                                 * {{
                                    color: #dddddd;
@@ -692,7 +764,40 @@ class SettingsWindow(QScrollArea):
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            self.titlebar.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
+            self.titlebar.closeButton.setFixedHeight(self.getPx(32))
+            self.titlebar.closeButton.setFixedWidth(self.getPx(46))
+            self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
+            self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            self.titlebar.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
+            self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
+            self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
+            self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
+            self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
+            self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             self.setStyleSheet(f"""
+                                #QFramelessWindow {{
+                                   border: 5px solid white;
+                               }}
+                               #titlebarButton {{
+                                   border-radius: 0px;
+                                   border:none;
+                                   background-color: rgba(0, 0, 0, 0.01);
+                               }}
+                               #titlebarButton:hover {{
+                                   border-radius: 0px;
+                                   background-color: rgba({colors[2]}, 1);
+                               }}
+                               #closeButton {{
+                                   border-radius: 0px;
+                                   border:none;
+                                   background-color: rgba(0, 0, 0, 0.01);
+                               }}
+                               #closeButton:hover {{
+                                   border-radius: 0px;
+                                   background-color: rgba(196, 43, 28, 1);
+                               }}
                                 QToolTip{{
                                     border: {self.getPx(1)}px solid #dddddd;
                                     padding: {self.getPx(4)}px;
@@ -747,8 +852,12 @@ class SettingsWindow(QScrollArea):
                                     padding-right: {self.getPx(10)}px;
                                     padding-left: {self.getPx(10)}px;
                                     border-radius: {self.getPx(4)}px;
-                                }} 
-                                #background {{
+                                }}
+                                QColorDialog {{
+                                    background-color: transparent;
+                                    border: none;
+                                }}
+                                #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
                                 }}
                                 * {{
@@ -1001,8 +1110,7 @@ class SettingsWindow(QScrollArea):
 
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
-            self.resizewidget.resize(self.width()-self.getPx(17), self.resizewidget.height())
-            self.resizewidget.setMinimumHeight(self.resizewidget.sizeHint().height())
+            pass
         else:
             def enableUpdateSize(self: SettingsWindow):
                 time.sleep(1)
@@ -1010,10 +1118,19 @@ class SettingsWindow(QScrollArea):
 
             self.updateSize = False
             KillableThread(target=enableUpdateSize, args=(self,)).start()
+            
+    def mouseReleaseEvent(self, event) -> None:
+        print(event)
+        if(self.updateSize):
+            self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
+            self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
+            self.applyStyleSheet()
+            self.updateSize = False
+        return super().mouseReleaseEvent(event)
 
     def resizeEvent(self, event: QMoveEvent) -> None:
-        self.resizewidget.resize(self.width()-self.getPx(17), self.resizewidget.height())
-        self.resizewidget.setMinimumHeight(self.resizewidget.sizeHint().height())
+        self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
+        self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
 
     def show(self) -> None:
         self.applyStyleSheet()
@@ -1021,7 +1138,7 @@ class SettingsWindow(QScrollArea):
         return super().show()
 
     def showEvent(self, event: QShowEvent) -> None:
-        self.resizewidget.setMinimumHeight(self.resizewidget.sizeHint().height())
+        self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
         return super().showEvent(event)
 
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -1227,6 +1344,58 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.combobox.clear()
         self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16])
 
+class QCustomColorDialog(QColorDialog):
+    def __init__(self, parent = ...) -> None:
+        super().__init__(parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+
+
+class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
+    stateChanged = Signal(bool)
+    valueChanged = Signal(str)
+    
+    def __init__(self, text: str, parent=None):
+        super().__init__(text=text, parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.colorDialog = QColorDialog(self)
+        self.colorDialog.setOptions(QColorDialog.DontUseNativeDialog)
+        self.button = QPushButton(self)
+        self.button.setObjectName("stCmbbx")
+        self.button.setText("Select custom color")
+        self.button.clicked.connect(self.colorDialog.show)
+        self.colorDialog.colorSelected.connect(self.valuechangedEvent)
+        self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.stateChangedEvent(self.checkbox.isChecked())
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.button.move(self.width()-self.getPx(270), self.getPx(10))
+        self.checkbox.move(self.getPx(60), self.getPx(10))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.button.setFixedHeight(self.getPx(30))
+        self.button.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+    
+    def valuechangedEvent(self, c: QColor):
+        r = c.red()
+        g = c.green()
+        b = c.blue()
+        color = f"{r},{g},{b}"
+        self.valueChanged.emit(color)
+        self.button.setStyleSheet(f"color: rgb({color})")
+    
+    def stateChangedEvent(self, v: bool):
+        self.button.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.button.setEnabled(False)
+            self.button.setStyleSheet("")
+            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+        else:
+            self.button.setEnabled(True)
+            self.button.setToolTip("")
+        self.stateChanged.emit(v)
+        
 
 class QSettingsFontBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
@@ -1271,7 +1440,49 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.combobox.clear()
         self.combobox.addItems(items)
 
+class QTitleBarWidget(QWidget):
+    def __init__(self, parent: QMainWindow = ...) -> None:
+        super().__init__(parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.setObjectName("ControlWidget")
+        self.oldPos = QPoint(0, 0)
+        self.setFixedHeight(parent.getPx(32))
+        
+        self.iconMode = "white"
+        
+        self.closeButton = QPushButton()
+        self.closeButton.setObjectName("closeButton")
+        self.closeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
+        self.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
+        self.closeButton.setFixedHeight(parent.getPx(32))
+        self.closeButton.setFixedWidth(parent.getPx(46))
+        self.closeButton.clicked.connect(parent.close)
+        
+        self.maximizeButton = QPushButton()
+        self.maximizeButton.setObjectName("titlebarButton")
+        self.maximizeButton.setFixedHeight(parent.getPx(32))
+        self.maximizeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
+        self.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
+        self.maximizeButton.setFixedWidth(parent.getPx(46))
+        self.maximizeButton.clicked.connect(lambda: parent.showNormal() if parent.isMaximized() else parent.showMaximized())
+        
+        self.minimizeButton = QPushButton()
+        self.minimizeButton.setObjectName("titlebarButton")
+        self.minimizeButton.setFixedHeight(parent.getPx(32))
+        self.minimizeButton.setIconSize(QSize(parent.getPx(12), parent.getPx(12)))
+        self.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
+        self.minimizeButton.setFixedWidth(parent.getPx(46))
+        self.minimizeButton.clicked.connect(parent.showMinimized)
+        
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(QLabel(_("ElevenClock Settings")))
+        self.layout().addStretch()
+        self.layout().setContentsMargins(16, 0, 0, 0)
+        self.layout().setSpacing(0)
+        self.layout().addWidget(self.minimizeButton)
+        self.layout().addWidget(self.maximizeButton)
+        self.layout().addWidget(self.closeButton)
+        
     
-
 if __name__ == "__main__":
     import __init__
