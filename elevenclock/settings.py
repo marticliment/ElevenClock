@@ -39,6 +39,7 @@ class SettingsWindow(QScrollArea):
         self.resize(900, 600)
         layout.addSpacing(20)
         self.setFrameShape(QFrame.NoFrame)
+        self.setWindowFlags(Qt.Window | Qt.CustomizeWindowHint)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
         else:
@@ -1274,4 +1275,3 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
 
 if __name__ == "__main__":
     import __init__
-    globals.sw.show()
