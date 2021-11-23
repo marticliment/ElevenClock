@@ -471,7 +471,22 @@ class Clock(QWidget):
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label.setFont(self.font)
-        if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
+        if getSettings("UseCustomFontColor"):
+            print("Using custom text color:", getSettingsValue('UseCustomFontColor'))
+            self.lastTheme = -1
+            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px; color: rgb({getSettingsValue('UseCustomFontColor')});")
+            self.label.bgopacity = .1
+            self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+            self.font.setFamilies(self.fontfamilies)
+            if lang == lang_ko:
+                self.font.setWeight(QFont.Weight.Normal)
+            elif lang == lang_zh_TW or lang == lang_zh_CN:
+                self.font.setWeight(QFont.Weight.Normal)
+            else:
+                self.font.setWeight(QFont.Weight.DemiBold)
+            self.label.setFont(self.font)        
+        elif (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
+            print("Using white text (dark mode)")
             self.lastTheme = 0
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
             self.label.bgopacity = .1
@@ -485,6 +500,7 @@ class Clock(QWidget):
                 self.font.setWeight(QFont.Weight.DemiBold)
             self.label.setFont(self.font)
         else:
+            print("Using black text (light mode)")
             self.lastTheme = 1
             self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
             self.label.bgopacity = .5
@@ -658,29 +674,30 @@ class Clock(QWidget):
             self.show()
             self.setVisible(True)
             self.raise_()
-            theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
-            if(theme != self.lastTheme):
-                if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
-                    self.lastTheme = 0
-                    self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
-                    self.label.bgopacity = 0.1
-                    self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                    self.font.setFamilies(self.fontfamilies)
-                    if lang == lang_ko:
-                        self.font.setWeight(QFont.Weight.Normal)
-                    elif lang == lang_zh_TW or lang == lang_zh_CN:
-                        self.font.setWeight(QFont.Weight.Normal)
+            if(self.lastTheme >= 0): # If tet color is not customized
+                theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
+                if(theme != self.lastTheme):
+                    if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
+                        self.lastTheme = 0
+                        self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
+                        self.label.bgopacity = 0.1
+                        self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+                        self.font.setFamilies(self.fontfamilies)
+                        if lang == lang_ko:
+                            self.font.setWeight(QFont.Weight.Normal)
+                        elif lang == lang_zh_TW or lang == lang_zh_CN:
+                            self.font.setWeight(QFont.Weight.Normal)
+                        else:
+                            self.font.setWeight(QFont.Weight.DemiBold)
+                        self.label.setFont(self.font)
                     else:
-                        self.font.setWeight(QFont.Weight.DemiBold)
-                    self.label.setFont(self.font)
-                else:
-                    self.lastTheme = 1
-                    self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
-                    self.label.bgopacity = .5
-                    self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                    self.font.setFamilies(self.fontfamilies)
-                    self.font.setWeight(QFont.Weight.ExtraLight)
-                    self.label.setFont(self.font)
+                        self.lastTheme = 1
+                        self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
+                        self.label.bgopacity = .5
+                        self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
+                        self.font.setFamilies(self.fontfamilies)
+                        self.font.setWeight(QFont.Weight.ExtraLight)
+                        self.label.setFont(self.font)
             self.label.setText(timeStr)
 
     def closeEvent(self, event: QCloseEvent) -> None:

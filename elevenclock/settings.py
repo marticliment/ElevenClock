@@ -177,6 +177,15 @@ class SettingsWindow(QFramelessWindow):
         self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
         self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
         layout.addWidget(self.fontSize)
+        
+        self.fontColor = QSettingsSizeBoxColorDialog(_("Use a custom font color"))
+        self.fontColor.setChecked(getSettings("UseCustomFontColor"))
+        if self.fontColor.isChecked():
+            self.fontColor.button.setStyleSheet(f"color: rgb({getSettingsValue('UseCustomFontColor')})")
+        self.fontColor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.fontColor.stateChanged.connect(lambda i: setSettings("UseCustomFontColor", bool(i)))
+        self.fontColor.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontColor", v))
+        layout.addWidget(self.fontColor)
         #self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         #self.centerText.setChecked(getSettings("CenterAlignment"))
         #self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
@@ -301,6 +310,7 @@ class SettingsWindow(QFramelessWindow):
         w.setLayout(vlayout)
         self.setCentralWidget(w)
         self.setMouseTracking(True)
+        self.resize(900, 600)
         
         
         
@@ -500,6 +510,12 @@ class SettingsWindow(QFramelessWindow):
                                     background-color: transparent;
                                     border: none;
                                 }}
+                                QLineEdit {{
+                                    background-color: #1d1d1d;
+                                    padding: 5px;
+                                    border-radius: {self.getPx(6)}px;
+                                    border: 1px solid #262626;
+                                }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
                                    background-color: #212121;
@@ -517,6 +533,13 @@ class SettingsWindow(QFramelessWindow):
                                     background-color: #212121;
                                     selection-background-color: rgb({colors[4]});
                                     border: none;
+                                }}
+                                QSpinBox {{
+                                   background-color: #363636;
+                                   border-radius: {self.getPx(6)}px;
+                                   border: {self.getPx(1)}px solid #393939;
+                                   height: {self.getPx(25)}px;
+                                   border-top: {self.getPx(1)}px solid #404040;
                                 }}
                                 QPushButton {{
                                    width: 100px;
