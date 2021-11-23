@@ -142,10 +142,10 @@ class SettingsWindow(QFramelessWindow):
         self.blackText = QSettingsCheckBox(_("Force the clock to have black text"))
         self.blackText.setChecked(getSettings("ForceLightTheme"))
         self.blackText.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
-        layout.addWidget(self.blackText)
+        #layout.addWidget(self.blackText)
         self.lightText = QSettingsCheckBox(_("Force the clock to have white text"))
         self.lightText.setChecked(getSettings("ForceDarkTheme"))
-        layout.addWidget(self.lightText)
+        #layout.addWidget(self.lightText)
         self.fontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
         self.fontPrefs.setChecked(getSettings("UseCustomFont"))
         if self.fontPrefs.isChecked():
@@ -1161,6 +1161,7 @@ class SettingsWindow(QFramelessWindow):
         return super().show()
 
     def showEvent(self, event: QShowEvent) -> None:
+        self.resize(900, 600)
         self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
         return super().showEvent(event)
 
