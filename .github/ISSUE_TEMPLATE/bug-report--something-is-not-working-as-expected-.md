@@ -8,9 +8,12 @@ assignees: ''
 ---
 
 ## Before submitting the issue
- - [ ] I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the FAQ on README.md for solutions
- - [ ] I have checked the settings window for an option to toggle/fix what is happening
- - [ ] I have installed the lastest version and the issue still happens
+
+<b>
+✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the FAQ on README.md for solutions<br>
+✅ I have checked the settings window for an option to toggle/fix what is happening<br>
+✅ I have installed the lastest version and the issue still happens<br>
+</b>
 
 ## Describe the bug
 A clear and concise description of what the bug is.
