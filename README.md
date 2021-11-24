@@ -32,6 +32,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
  - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
    - [Currently supported languages](#currently-supported-languages)
  - [Screenshots](#screenshots)
+   - [Settings window screenshots](#settings-window-screenshots)
  - [Frequently Asked Questions](#frequently-asked-questions)
  - [Download standalone installers](#download-standalone-installer)
  - [Legacy installation](#legacy-installation)
@@ -112,6 +113,12 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img5.png?raw=true)
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img6.png?raw=true)
 
+### Settings window screenshots
+![image](https://user-images.githubusercontent.com/53119851/143274707-f7bc549c-de11-4745-b3b5-2e7b4b4b98a5.png)
+![image](https://user-images.githubusercontent.com/53119851/143274793-25718b30-5e0a-4d5e-b81c-f13e9187db0c.png)
+![image](https://user-images.githubusercontent.com/53119851/143274997-eb13bac7-e2fc-4521-a6bd-e56a7f19426e.png)
+![image](https://user-images.githubusercontent.com/53119851/143275189-cdfa92aa-7d57-441e-8cc5-3805bc5d2b63.png)
+
 
 ## Frequently asked questions
 
@@ -154,16 +161,5 @@ SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https:
      ![Defender Smart Screen Run Anyway Screen](https://github.com/martinet101/ElevenClock/blob/main/media/smartscreen2.jpg?raw=true)<br><br>
  3. Install the program as normal:<br>![Installer](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_7.png?raw=true)<br><br>
  4. The clock should start automatically when the installation is finished.
-
-   **TIP: Clicking four times on the clock will show this webpage*
-
-
-
-# More screenshots
-
-ElevenClock settings: <br>![Settings](https://user-images.githubusercontent.com/53119851/137625716-e0d9e5b2-d188-4a76-8146-77061970b78f.png)
-![Settings2](https://user-images.githubusercontent.com/53119851/137625725-08bd6408-abcc-4c87-9be6-bbb1dad5ed75.png)
-![Settings3](https://user-images.githubusercontent.com/53119851/137625731-08594ba7-9d66-4add-82d1-2a64400293df.png)
-
 
 
