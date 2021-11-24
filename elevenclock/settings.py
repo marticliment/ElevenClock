@@ -808,7 +808,7 @@ class SettingsWindow(QFramelessWindow):
             self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             self.setStyleSheet(f"""
                                #backgroundWindow {{
-                                   background-color: rgba({colors[3]}, 1);
+                                   background-color: rgba({colors[4]}, 1);
                                }}
                                #titlebarButton {{
                                    border-radius: 0px;
@@ -817,7 +817,7 @@ class SettingsWindow(QFramelessWindow):
                                }}
                                #titlebarButton:hover {{
                                    border-radius: 0px;
-                                   background-color: rgba({colors[3]}, 1);
+                                   background-color: rgba({colors[4]}, 1);
                                }}
                                #closeButton {{
                                    border-radius: 0px;
