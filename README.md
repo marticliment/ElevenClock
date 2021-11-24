@@ -103,6 +103,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
  - Danish
  - Swedish
  - Ukranian
+ - Latvian
 
 ## Screenshots
 
