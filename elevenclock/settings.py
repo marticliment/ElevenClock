@@ -170,7 +170,6 @@ class SettingsWindow(QFramelessWindow):
         self.fontSize.loadItems()
         if self.fontSize.isChecked():
             customFontSize = getSettingsValue("UseCustomFontSize")
-            print(customFontSize)
             if customFontSize:
                 self.fontSize.combobox.setCurrentText(customFontSize)
         else:
@@ -1151,7 +1150,6 @@ class SettingsWindow(QFramelessWindow):
             KillableThread(target=enableUpdateSize, args=(self,)).start()
             
     def mouseReleaseEvent(self, event) -> None:
-        print(event)
         if(self.updateSize):
             self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
             self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
