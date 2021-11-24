@@ -23,13 +23,14 @@ class SettingsWindow(QFramelessWindow):
     def __init__(self):
         super().__init__()
         self.scrollArea = QScrollArea()
-        vlayout = QVBoxLayout()
-        vlayout.setContentsMargins(0, 0, 0, 0)
-        vlayout.setMargin(0)
-        vlayout.setSpacing(0)
+        self.vlayout = QVBoxLayout()
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
+        self.vlayout.setMargin(0)
+        self.vlayout.setSpacing(0)
         layout = QVBoxLayout()
         self.updateSize = True
         self.scrollArea.setWidgetResizable(True)
+        self.setObjectName("backgroundWindow")
         self.settingsWidget = QWidget()
         self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
@@ -300,17 +301,21 @@ class SettingsWindow(QFramelessWindow):
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.titlebar = QTitleBarWidget(self)
-        vlayout.addWidget(self.titlebar)
-        vlayout.addWidget(self.scrollArea)
+        self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
+        self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+        self.vlayout.addWidget(self.titlebar)
+        self.vlayout.addWidget(self.scrollArea)
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
         self.setMinimumWidth(400)
         self.updateCheckBoxesStatus()
         w = QWidget()
-        w.setLayout(vlayout)
+        w.setObjectName("borderBackground")
+        w.setLayout(self.vlayout)
         self.setCentralWidget(w)
         self.setMouseTracking(True)
         self.resize(900, 600)
+        self.installEventFilter(self)
         
         
         
@@ -399,7 +404,6 @@ class SettingsWindow(QFramelessWindow):
             finally:
                 if add:
                     i += 1
-        print(colors)
         self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
@@ -436,8 +440,8 @@ class SettingsWindow(QFramelessWindow):
             self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             
             self.setStyleSheet(f"""
-                               #QFramelessWindow {{
-                                   border: 5px solid white;
+                               #backgroundWindow {{
+                                   background-color: rgba({colors[3]}, 1);
                                }}
                                #titlebarButton {{
                                    border-radius: 0px;
@@ -446,7 +450,7 @@ class SettingsWindow(QFramelessWindow):
                                }}
                                #titlebarButton:hover {{
                                    border-radius: 0px;
-                                   background-color: rgba({colors[2]}, 1);
+                                   background-color: rgba({colors[3]}, 1);
                                }}
                                #closeButton {{
                                    border-radius: 0px;
@@ -516,7 +520,11 @@ class SettingsWindow(QFramelessWindow):
                                     border-radius: {self.getPx(6)}px;
                                     border: 1px solid #262626;
                                 }}
-                                #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
+                                #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
+                                   color: white;
+                                   background-color: #212121;
+                                }}
+                                QScrollArea {{
                                    color: white;
                                    background-color: #212121;
                                 }}
@@ -800,8 +808,8 @@ class SettingsWindow(QFramelessWindow):
             self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
             self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             self.setStyleSheet(f"""
-                                #QFramelessWindow {{
-                                   border: 5px solid white;
+                               #backgroundWindow {{
+                                   background-color: rgba({colors[3]}, 1);
                                }}
                                #titlebarButton {{
                                    border-radius: 0px;
@@ -810,7 +818,7 @@ class SettingsWindow(QFramelessWindow):
                                }}
                                #titlebarButton:hover {{
                                    border-radius: 0px;
-                                   background-color: rgba({colors[2]}, 1);
+                                   background-color: rgba({colors[3]}, 1);
                                }}
                                #closeButton {{
                                    border-radius: 0px;
@@ -1148,6 +1156,10 @@ class SettingsWindow(QFramelessWindow):
             self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
             self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
             self.applyStyleSheet()
+            self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
+            self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+            self.vlayout.setContentsMargins(2, 2, 2, 2)
+
             self.updateSize = False
         return super().mouseReleaseEvent(event)
 
@@ -1158,7 +1170,21 @@ class SettingsWindow(QFramelessWindow):
     def show(self) -> None:
         self.applyStyleSheet()
         self.raise_()
+        self.vlayout.setContentsMargins(2, 2, 2, 2)
         return super().show()
+    
+    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+        if event.type() == event.WindowStateChange:
+            if self.isMaximized():
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
+                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: 0px;border-top-right-radius: 0px;}}#closeButton{{border-top-right-radius: 0px;}}")
+                self.vlayout.setContentsMargins(0, 0, 0, 0)
+            else:
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
+                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+                self.vlayout.setContentsMargins(2, 2, 2, 2)
+        return super().eventFilter(watched, event)
+
 
     def showEvent(self, event: QShowEvent) -> None:
         self.resize(900, 600)
@@ -1499,7 +1525,9 @@ class QTitleBarWidget(QWidget):
         self.minimizeButton.clicked.connect(parent.showMinimized)
         
         self.setLayout(QHBoxLayout())
-        self.layout().addWidget(QLabel(_("ElevenClock Settings")))
+        l = QLabel(_("ElevenClock Settings"))
+        l.setStyleSheet("background-color: transparent;")
+        self.layout().addWidget(l)
         self.layout().addStretch()
         self.layout().setContentsMargins(16, 0, 0, 0)
         self.layout().setSpacing(0)
