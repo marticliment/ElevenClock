@@ -632,7 +632,7 @@ class Clock(QWidget):
         EnableHideOnRDP = getSettings("EnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
         newMethod = getSettings("NewFullScreenMethod")
-        print(f"🟦 Show or hide loop started with following parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
+        print(f"🟦 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
         if clockOnFirstMon:
             INTLOOPTIME = 15
         else:
