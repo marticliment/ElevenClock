@@ -426,10 +426,15 @@ class Clock(QWidget):
         self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
             w = self.screenGeometry.x()+8*dpix
+            print("🟩 Clock on the right")
             self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            print("🟨 Clock on the left")
             w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
+            
+        if getSettings("CenterAlignment"):
+            self.label.setAlignment(Qt.AlignCenter)
 
 
         self.w = w
@@ -476,7 +481,7 @@ class Clock(QWidget):
         if getSettings("UseCustomFontColor"):
             print("🟨 Using custom text color:", getSettingsValue('UseCustomFontColor'))
             self.lastTheme = -1
-            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px; color: rgb({getSettingsValue('UseCustomFontColor')});")
+            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px;padding-left: 5px; color: rgb({getSettingsValue('UseCustomFontColor')});")
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -490,7 +495,7 @@ class Clock(QWidget):
         elif (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
             print("🟩 Using white text (dark mode)")
             self.lastTheme = 0
-            self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
+            self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: white;")
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -504,7 +509,7 @@ class Clock(QWidget):
         else:
             print("🟩 Using black text (light mode)")
             self.lastTheme = 1
-            self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
+            self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: black;")
             self.label.bgopacity = .5
             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -513,7 +518,7 @@ class Clock(QWidget):
         self.label.clicked.connect(lambda: self.showCalendar())
         self.label.move(0, 0)
         self.label.setFixedHeight(self.height())
-        self.label.setFixedWidth(self.width()-self.getPx(8))
+        self.label.resize(self.width()-self.getPx(8), self.height())
         self.label.show()
         loadTimeFormat()
         self.show()
@@ -681,7 +686,7 @@ class Clock(QWidget):
                 if(theme != self.lastTheme):
                     if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
                         self.lastTheme = 0
-                        self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: white;")
+                        self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: white;")
                         self.label.bgopacity = 0.1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                         self.font.setFamilies(self.fontfamilies)
@@ -694,7 +699,7 @@ class Clock(QWidget):
                         self.label.setFont(self.font)
                     else:
                         self.lastTheme = 1
-                        self.label.setStyleSheet("padding: 1px;padding-right: 5px; color: black;")
+                        self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: black;")
                         self.label.bgopacity = .5
                         self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
                         self.font.setFamilies(self.fontfamilies)
@@ -734,6 +739,7 @@ class Label(QLabel):
         self.setMouseTracking(True)
         self.backgroundwidget = QWidget(self)
         self.color = "255, 255, 255"
+        self.installEventFilter(self)
         self.bgopacity = 0.1
         self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: 1px solid rgba({self.color},0);")
         self.backgroundwidget.show()
@@ -754,17 +760,13 @@ class Label(QLabel):
 
 
     def enterEvent(self, event: QEvent, r=False) -> None:
-        geometry: QRect = self.getTextUsedSpaceRect()
+        geometry: QRect = self.width()
         self.showBackground.setStartValue(.01)
         self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
-        if(self.width() > geometry):
-            if(not(getSettings("ClockOnTheLeft"))):
-                self.backgroundwidget.move(self.width()-geometry, 0)
-            else:
-                self.backgroundwidget.move(0, 0)
+        if(not(getSettings("ClockOnTheLeft"))):
+            self.backgroundwidget.move(0, 0)
             self.backgroundwidget.resize(geometry, self.height())
         else:
-            print("🟨 Background widget is bigger than parent!")
             self.backgroundwidget.move(0, 0)
             self.backgroundwidget.resize(geometry, self.height())
         self.showBackground.start()
@@ -806,6 +808,19 @@ class Label(QLabel):
         else:
             self.clicked.emit()
         return super().mouseReleaseEvent(ev)
+    
+    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
+        if event.type() == event.Paint:
+            print(self.minimumSizeHint().width())
+            w = self.minimumSizeHint().width()
+            if w<self.window().getPx(self.window().preferedwidth) and not getSettings("ClockOnTheLeft"):
+                self.move(self.window().getPx(self.window().preferedwidth)-self.minimumSizeHint().width(), 0)
+                self.resize(self.minimumSizeHint().width(), self.height())
+            else:
+                self.move(0, 0)
+                self.resize(w, self.height())
+            
+        return super().eventFilter(watched, event)
 
 # Start of main script
 
