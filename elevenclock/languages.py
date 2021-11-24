@@ -1,5 +1,5 @@
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_ko, lang_vi, lang_el, lang_zh_TW
-from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv, lang_ua, lang_da
+from lang import lang_zh_CN, lang_pt, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv, lang_ua, lang_da, lang_lv
 
 lang = None
 
@@ -17,6 +17,7 @@ languages = {
     "ja": lang_ja,
     "ko": lang_ko,
     "lt": lang_lt,
+    "lv": lang_lv,
     "nb": lang_nb,
     "nl": lang_nl,
     "pl": lang_pl,
@@ -45,6 +46,7 @@ languageReference = {
     "it": "Italian",
     "ja": "Japanese",
     "ko": "Korean ",
+    "lv": "Latvian",
     "lt": "Lithuanian",
     "nb": "Norwegian",
     "pl": "Polish" ,
