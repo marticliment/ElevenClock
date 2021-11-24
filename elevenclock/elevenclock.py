@@ -477,11 +477,13 @@ class Clock(QWidget):
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
+        self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettings("UseCustomBgColor") else "0, 0, 0, 0"
+        print("🟦 Using bg color:", self.bgcolor)
         self.label.setFont(self.font)
         if getSettings("UseCustomFontColor"):
             print("🟨 Using custom text color:", getSettingsValue('UseCustomFontColor'))
             self.lastTheme = -1
-            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px;padding-left: 5px; color: rgb({getSettingsValue('UseCustomFontColor')});")
+            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px;padding-left: 5px; color: rgb({getSettingsValue('UseCustomFontColor')});background-color: rgba({self.bgcolor})")
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -495,7 +497,7 @@ class Clock(QWidget):
         elif (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
             print("🟩 Using white text (dark mode)")
             self.lastTheme = 0
-            self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: white;")
+            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px;padding-left: 5px; color: white;background-color: rgba({self.bgcolor})")
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -509,7 +511,7 @@ class Clock(QWidget):
         else:
             print("🟩 Using black text (light mode)")
             self.lastTheme = 1
-            self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: black;")
+            self.label.setStyleSheet(f"padding: 1px;padding-right: 5px;padding-left: 5px; color: black;background-color: rgba({self.bgcolor})")
             self.label.bgopacity = .5
             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)

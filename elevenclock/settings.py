@@ -182,10 +182,17 @@ class SettingsWindow(QFramelessWindow):
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
             self.fontColor.button.setStyleSheet(f"color: rgb({getSettingsValue('UseCustomFontColor')})")
-        self.fontColor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.fontColor.stateChanged.connect(lambda i: setSettings("UseCustomFontColor", bool(i)))
         self.fontColor.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontColor", v))
         layout.addWidget(self.fontColor)
+        self.backgroundcolor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
+        self.backgroundcolor.setChecked(getSettings("UseCustomBgColor"))
+        self.backgroundcolor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
+        if self.backgroundcolor.isChecked():
+            self.backgroundcolor.button.setStyleSheet(f"background-color: rgba({getSettingsValue('UseCustomBgColor')})")
+        self.backgroundcolor.stateChanged.connect(lambda i: setSettings("UseCustomBgColor", bool(i)))
+        self.backgroundcolor.valueChanged.connect(lambda v: setSettingsValue("UseCustomBgColor", v))
+        layout.addWidget(self.backgroundcolor)
         self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         self.centerText.setChecked(getSettings("CenterAlignment"))
         self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
@@ -1397,7 +1404,6 @@ class QCustomColorDialog(QColorDialog):
         super().__init__(parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
 
-
 class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
@@ -1444,6 +1450,16 @@ class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
             self.button.setToolTip("")
         self.stateChanged.emit(v)
         
+class QSettingsBgBoxColorDialog(QSettingsSizeBoxColorDialog):
+ 
+    def valuechangedEvent(self, c: QColor):
+        r = c.red()
+        g = c.green()
+        b = c.blue()
+        a = c.alpha()
+        color = f"{r},{g},{b},{a}"
+        self.valueChanged.emit(color)
+        self.button.setStyleSheet(f"background-color: rgba({color})")    
 
 class QSettingsFontBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
