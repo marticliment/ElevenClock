@@ -140,13 +140,6 @@ class SettingsWindow(QFramelessWindow):
 
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"))
         layout.addWidget(self.clockAppearanceTitle)
-        self.blackText = QSettingsCheckBox(_("Force the clock to have black text"))
-        self.blackText.setChecked(getSettings("ForceLightTheme"))
-        self.blackText.stateChanged.connect(lambda i: setSettings("ForceLightTheme", bool(i)))
-        #layout.addWidget(self.blackText)
-        self.lightText = QSettingsCheckBox(_("Force the clock to have white text"))
-        self.lightText.setChecked(getSettings("ForceDarkTheme"))
-        #layout.addWidget(self.lightText)
         self.fontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
         self.fontPrefs.setChecked(getSettings("UseCustomFont"))
         if self.fontPrefs.isChecked():
@@ -345,32 +338,7 @@ class SettingsWindow(QFramelessWindow):
                 for checkbox in [self.silentUpdates, self.bypassCNAMECheck]:
                     checkbox.setToolTip("")
                     checkbox.setEnabled(True)
-                    
-        # Clock settings section
-        if not self.clockAtLeft.isChecked(): # Check if clock is on the left
-            self.primaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock at the left of the screen")))
-            self.primaryScreen.setChecked(False)
-            self.primaryScreen.setEnabled(False)
-        else:
-            self.primaryScreen.setToolTip("")
-            self.primaryScreen.setEnabled(True)
-            
-        # Clock appearance
-        if self.blackText.isChecked(): # Check if light mode is enabled
-            self.lightText.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Force the clock to have black text")))
-            self.lightText.setChecked(False)
-            self.lightText.setEnabled(False)
-        else:
-            self.lightText.setToolTip("")
-            self.lightText.setEnabled(True)
-            
-        if self.lightText.isChecked(): # Check if dark mode is enabled
-            self.blackText.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Force the clock to have white text")))
-            self.blackText.setChecked(False)
-            self.blackText.setEnabled(False)
-        else:
-            self.blackText.setToolTip("")
-            self.blackText.setEnabled(True)
+        
                     
         # Date & time settings
         if not self.showTime.isChecked(): # Check if time is shown
@@ -1457,7 +1425,7 @@ class QSettingsBgBoxColorDialog(QSettingsSizeBoxColorDialog):
         g = c.green()
         b = c.blue()
         a = c.alpha()
-        color = f"{r},{g},{b},{a}"
+        color = f"{r},{g},{b},{a/255*100}"
         self.valueChanged.emit(color)
         self.button.setStyleSheet(f"background-color: rgba({color})")    
 
