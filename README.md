@@ -69,7 +69,12 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 - The clock updates the time each second, so you will not see different times across all your taskbars
 - The clock also adjusts itself automatically when (dis)connecting monitors
 - Automatically starts at login
-- Supports font and size customization (color and background will come soon)
+- Supports font and size customization
+
+## Coming features 
+- Supports custom font color
+- Supports custom background color
+- SUPPORTS DEFAULT CLOCK REPLACEMENT (Will come with 2.8)
 
 ## Translating ElevenClock to other languages
  Please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
