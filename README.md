@@ -113,12 +113,14 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 ## Screenshots
 
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img1.png?raw=true)
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img2.png?raw=true)
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img3.png?raw=true)
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img4.png?raw=true)
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img5.png?raw=true)
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img6.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img7.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img8.png?raw=true)
+![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img9.png?raw=true)
 
 ### Settings window screenshots
 ![image](https://user-images.githubusercontent.com/53119851/143274707-f7bc549c-de11-4745-b3b5-2e7b4b4b98a5.png)
