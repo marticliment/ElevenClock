@@ -12,6 +12,7 @@ del __init__.spec
 cd ..
 taskkill /im ElevenClock.exe /f
 rmdir /Q /S Debug_EXE_Files
+cd __init__
 rename __init__ Debug_EXE_Files
 cd Debug_EXE_Files
 __init__.exe
