@@ -3,17 +3,19 @@ import glob, os
 
 
 
-OLDSTR = b"lang2_7 = {"
+OLDSTR = b"lang2_7_bis = {"
 
-NEWSTR = b"""lang2_7_bis = {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+NEWSTR = b"""lang_2_8 = {
+    "Force the clock to be at the top of the screen": "",
+    "Show the clock on the primary screen": "",
+    "Use a custom font color": "",
+    "Use a custom background color": "",
+    "Align the clock text to the center": "",
+    "Select custom color": "",
+    "Hide the clock when a program occupies all screens": "",
 }
 
-lang2_7 = lang2_7_bis | {"""
+lang2_7_bis = lang_2_8 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()

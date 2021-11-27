@@ -823,7 +823,6 @@ class Label(QLabel):
     
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.Paint:
-            print(self.minimumSizeHint().width())
             w = self.minimumSizeHint().width()
             if w<self.window().getPx(self.window().preferedwidth) and not getSettings("ClockOnTheLeft"):
                 self.move(self.window().getPx(self.window().preferedwidth)-self.minimumSizeHint().width(), 0)
