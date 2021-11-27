@@ -82,6 +82,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 ### Currently Supported languages
  - Catalan
+ - Danish
  - Dutch
  - English
  - Finnish
@@ -92,6 +93,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
  - Italian
  - Japanese
  - Korean
+ - Latvian
  - Lithuanian
  - Norwegian
  - Polish
@@ -100,15 +102,13 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
  - Simplified Chinese (China)
  - Serbian
  - Spanish
+ - Swedish
  - Traditional Chinese (Taiwan)
  - Turkish
+ - Ukranian
  - Vietnamese
 
 #### New laguanges that will come with next version:
- - Danish
- - Swedish
- - Ukranian
- - Latvian
 
 ## Screenshots
 
