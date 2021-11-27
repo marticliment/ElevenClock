@@ -82,27 +82,27 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 ### Currently Supported languages
  - Catalan
+ - Dutch
  - English
+ - Finnish
  - French
  - German
- - Spanish
- - Polish
- - Russian
- - Turkish
- - Italian
- - Dutch
- - Norwegian
- - Korean
- - Vietnamese
  - Greek
- - Traditional Chinese (Taiwan)
- - Portuguese 
- - Japanese
- - Simplified Chinese (China)
- - Finnish
  - Indonesian
- - Serbian
+ - Italian
+ - Japanese
+ - Korean
  - Lithuanian
+ - Norwegian
+ - Polish
+ - Portuguese 
+ - Russian
+ - Simplified Chinese (China)
+ - Serbian
+ - Spanish
+ - Traditional Chinese (Taiwan)
+ - Turkish
+ - Vietnamese
 
 #### New laguanges that will come with next version:
  - Danish
