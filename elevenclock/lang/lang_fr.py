@@ -8,13 +8,13 @@
 
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "Forcer l'horloge à être en haut de l'écran",
+    "Show the clock on the primary screen": "Afficher l'horloge sur l'écran principal",
+    "Use a custom font color": "Utiliser une couleur de police personnalisée",
+    "Use a custom background color": "Utiliser un couleur de fond personnalisée",
+    "Align the clock text to the center": "Aligner le texte de l'horloge au centre",
+    "Select custom color": "Sélectionner la couleur",
+    "Hide the clock when a program occupies all screens": "Cacher l'horloge lorsqu'une application utilise l'écran complet",
 }
 
 lang2_7_bis = lang_2_8 | {
