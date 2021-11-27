@@ -7,7 +7,17 @@
 # Meke special attention to elements like ":", etc.
 
 
-lang2_7_bis = {
+lang_2_8 = {
+    "Force the clock to be at the top of the screen": "",
+    "Show the clock on the primary screen": "",
+    "Use a custom font color": "",
+    "Use a custom background color": "",
+    "Align the clock text to the center": "",
+    "Select custom color": "",
+    "Hide the clock when a program occupies all screens": "",
+}
+
+lang2_7_bis = lang_2_8 | {
     "Use a custom font": "Utiliser une police personnalisée",
     "Use a custom font size": "Utiliser une taille de police personnalisée",
     "Enable hide when multi-monitor fullscreen apps are running": "Cacher l'horloge quand une application multi-écran en plein écran est active",

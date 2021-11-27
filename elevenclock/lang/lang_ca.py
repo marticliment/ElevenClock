@@ -6,7 +6,17 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang2_7_bis = {
+lang_2_8 = {
+    "Force the clock to be at the top of the screen": "Força el rellotge a mostrar-se a la part de dalt de la pantalla",
+    "Show the clock on the primary screen": "Mostra el rellotge a la pantalla principal",
+    "Use a custom font color": "Utilitza un color de lletra concret",
+    "Use a custom background color": "Utilitza un color de fons concret",
+    "Align the clock text to the center": "Alinea el text del rellotge al centre",
+    "Select custom color": "Selecciona un color",
+    "Hide the clock when a program occupies all screens": "Amaga el rellotge quan una aplicació es mostri a totes les pantalles",
+}
+
+lang2_7_bis = lang_2_8 | {
     "Use a custom font": "Utilitza un tipus de lletra concret",
     "Use a custom font size": "Utilitza una mida de lletra concreta",
     "Enable hide when multi-monitor fullscreen apps are running": "Amaga el rellotge quan una pantalla s'executi en mode de pantalla completa multi-monitor",
