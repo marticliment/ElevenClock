@@ -11,13 +11,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "Piespiest rādīt pulksteni ekrāna augšpusē",
+    "Show the clock on the primary screen": "Rādīt pulksteni uz primārā ekrāna",
+    "Use a custom font color": "Izmantot pielāgotu fonta krāsu",
+    "Use a custom background color": "Izmantot pielāgotu fona krāsu",
+    "Align the clock text to the center": "Centrēt pulksteņa tekstu",
+    "Select custom color": "Izvēlēties pielāgotu krāsu",
+    "Hide the clock when a program occupies all screens": "Paslēpt pulksteni, kad kāda programma aizņem visus ekrānus",
 }
 
 lang2_7_bis = lang_2_8 | {
@@ -46,7 +46,7 @@ lang2_5 = lang2_6 | {
     "Clock Appearance:": "Pulksteņa izskats:",
     "Force the clock to have black text": "Rādīt pulksteni ar melnu tekstu",
     " - It is required that the Dark Text checkbox is disabled": " - ir nepieciešams, lai tumšā teksta opcija būtu atspējota",
-    "Debbugging information:": "Atkļūdošanas infromācija",
+    "Debbugging information:": "Atkļūdošanas informācija",
     "Open ElevenClock's log": "Atvērt ElevenClock žurnālu",
 }
 
@@ -73,7 +73,7 @@ lang2_3 = lang2_4 | {
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Apiet atjauninājumu piegādātāja autentifikācijas pārbaudi (NAV IETEICAMS, UZ PAŠA ATBILDĪBU)",
     "Show ElevenClock on system tray"                                                   :"Rādīt ElevenClock sistēmas ikonjoslā",
     "Alternative clock alignment (may not work)"                                        :"Alternatīvi pulksteņa novietojumi (iespējams, var nedarboties)",
-    "Change startup behaviour"                                                          :"Mainīt uzsākšanas uzvedību",
+    "Change startup behaviour"                                                          :"Mainīt startēšanas uzvedību",
     "Change"                                                                            :"Mainīt",
     "<b>Update to the latest version!</b>"                                             :"<b>Atjaunināt uz jaunāko versiju!</b>",
     "Install update"                                                                    :"Instalēt atjauninājumu",
@@ -82,7 +82,7 @@ lang2_3 = lang2_4 | {
     "Clock Settings:"                                              :"Pulksteņa iestatījumi",
     "Hide the clock in fullscreen mode"                            :"Paslēpt pulksteni pilnekrāna režīmā",
     "Hide the clock when RDP client is active"                     :"Paslēpt pulksteni kad ir aktīvs RDP klients",
-    "Force the clock to be at the bottom of the screen"            :"Piespiest pulksteni būt ekrāna apakšpusē",
+    "Force the clock to be at the bottom of the screen"            :"Piespiest rādīt pulksteni ekrāna apakšpusē",
     "Show the clock when the taskbar is set to hide automatically" :"Rādīt pulksteni kad ir iespējota uzdevumjoslas automātiskā paslēpšana",
     "Fix the hyphen/dash showing over the month"                   :"Izlabot domuzīmes rādīšanu pāri mēnesim",
     "Force the clock to have white text"                           :"Rādīt pulksteni ar baltu tekstu",
