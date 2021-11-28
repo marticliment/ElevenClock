@@ -77,7 +77,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 
 ## Translating ElevenClock to other languages
- Please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
+In order to translate ElevenClock to other languages or to update an old translation, please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
 
 
 ### Currently Supported languages
