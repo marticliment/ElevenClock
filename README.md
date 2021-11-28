@@ -1,3 +1,5 @@
+# To replace system clock, see HERE: https://github.com/martinet101/ElevenClock/issues/321
+
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 <br>
 <!--![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)-->
