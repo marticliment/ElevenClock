@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "시계를 무조건 화면 상단에 표시하기",
+    "Show the clock on the primary screen": "주 화면에 시계 표시",
+    "Use a custom font color": "사용자 정의 폰트 색상",
+    "Use a custom background color": "사용자 정의 배경 색상",
+    "Align the clock text to the center": "시계 텍스트 가운데 정렬",
+    "Select custom color": "색상 선택",
+    "Hide the clock when a program occupies all screens": "한 프로그램이 모든 화면을 채울 경우 시계 숨기기",
 }
 
 lang2_7_bis = lang_2_8 | {
