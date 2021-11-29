@@ -11,7 +11,7 @@ lang_2_8 = {
     "Show the clock on the primary screen"                      : "Uhr auf dem Hauptbildschirm angezeigen",
     "Use a custom font color"                                   : "Eine benutzerdefinierte Schriftfarbe verwenden",
     "Use a custom background color"                             : "Eine benutzerdefinierte Hintergrundfarbe verwenden",
-    "Align the clock text to the center"                        : "Ausrichten des Uhrentextes in der Mitte",
+    "Align the clock text to the center"                        : "Uhrzeit mittig ausrichten",
     "Select custom color"                                       : "Benutzerdefinierte Farbe auswählen",
     "Hide the clock when a program occupies all screens"        : "Die Uhr ausblenden, wenn ein Programm alle Bildschirme belegt",
 }
