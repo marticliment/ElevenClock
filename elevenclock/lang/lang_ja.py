@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "画面の最前面に時計の表示を強制する",
+    "Show the clock on the primary screen": "プライマリー画面に時計を表示する",
+    "Use a custom font color": "カスタムフォント色を使用する",
+    "Use a custom background color": "カスタム背景色を使用する",
+    "Align the clock text to the center": "時計のテキストを中央寄せにする",
+    "Select custom color": "カスタム色の選択",
+    "Hide the clock when a program occupies all screens": "全画面アプリケーション使用時に時計を非表示にする",
 }
 
 lang2_7_bis = lang_2_8 | {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Use a custom font": "カスタムフォントを使用する",
+    "Use a custom font size": "カスタムフォントサイズを使用する",
+    "Enable hide when multi-monitor fullscreen apps are running": "マルチモニターの全画面アプリを実行中は時計を非表示にする",
+    "<b>{0}</b> needs to be enabled to change this setting": "この設定を変更するには<b>{0}</b>を有効にする必要があります",
+    "<b>{0}</b> needs to be disabled to change this setting": "この設定を変更するには<b>{0}</b>を無効にする必要があります",
 }
 
 lang2_7 = lang2_7_bis | {
@@ -34,7 +34,7 @@ lang2_6 = lang2_7 | {
     "About": "開く",
     "Alternative non-SSL update server (This might help with SSL errors)": "非SSLの代替サーバーでアップデートする（SSLエラーの対処に役立つ場合があります）",
     "Fixes and other experimental features: (Use ONLY if something is not working)": "修正やその他の試験機能：（上手く動作しない場合のみ使用してください）",
-    "Show week number on the clock": "時計に曜日の番号を表示する",
+    "Show week number on the clock": "時計に週番号を表示する",
 }
 
 lang2_5 = lang2_6 | {
@@ -68,7 +68,7 @@ lang2_3 = lang2_4 | {
     "Enable really silent updates"                                                      :"とても静かなアップデートを有効にする",
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"アップデートプロバイダーの認証をバイパスする（非推奨。自己責任で有効化してください）",
     "Show ElevenClock on system tray"                                                   :"ElevenClockをシステムトレイに表示",
-    "Alternative clock alignment (may not work)"                                        :"時計を別の配置にする（動作しない場合があります）",
+    "Alternative clock alignment (may not work)"                                        :"時計の配置方法を代替の方法にする（動作しない場合があります）",
     "Change startup behaviour"                                                          :"起動時の挙動を変更する",
     "Change"                                                                            :"変更",
     "<b>Update to the latest version!</b>"                                             :"<b>最新のバージョンにアップデートする</b>",
@@ -89,12 +89,12 @@ lang2_3 = lang2_4 | {
     "Show seconds on the clock"                         :"時計に秒を表示する",
     "Show date on the clock"                            :"時計に日付を表示する",
     "Show time on the clock"                            :"時計に時刻を表示する",
-    "Change date and time format (Regional settings)"   :"日付と時刻のフォーマットを変更する（地域設定）",
+    "Change date and time format (Regional settings)"   :"日付と時刻の形式を変更する（地域設定）",
     "Regional settings"                                 :"地域設定",
     
     #About the language pack
     "About the language pack:"                  :"言語パックについて",
-    "Translated to English by martinet101"      :"Robot-Inventorによって日本語に翻訳されました", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Robot-Inventor, ShintakuNobuhiro によって日本語に翻訳されました", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"ElevenClockをあなたの言語に翻訳する",
     "Get started"                               :"はじめる",
     
