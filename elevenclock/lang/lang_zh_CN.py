@@ -26,7 +26,7 @@ lang2_7_bis = lang_2_8 | {
 
 lang2_7 = lang2_7_bis | {
     " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "此功能已被禁用，因为它应该在默认情况下工作。 如果不是，请报告错误",
-    "ElevenClock's language": "ElevenClock's 语言"
+    "ElevenClock's language": "ElevenClock 语言"
 }
 
 lang2_6 = lang2_7 | {
