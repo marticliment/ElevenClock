@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "强制时钟位于屏幕顶部",
-    "Show the clock on the primary screen": "在主屏幕上显示时钟",
+    "Force the clock to be at the top of the screen": "强制时钟区位于屏幕顶部",
+    "Show the clock on the primary screen": "在主屏幕上时钟区显示本程序的时钟样式",
     "Use a custom font color": "使用自定义字体颜色",
     "Use a custom background color": "使用自定义背景颜色",
-    "Align the clock text to the center": "将时钟文本与中心对齐",
+    "Align the clock text to the center": "将时钟区文本与中心对齐",
     "Select custom color": "选择自定义颜色",
-    "Hide the clock when a program occupies all screens": "当其它程序占据所有屏幕时隐藏时钟",
+    "Hide the clock when a program occupies all screens": "当其它程序占据所有屏幕时隐藏时钟区",
 }
 
 lang2_7_bis = lang_2_8 | {
