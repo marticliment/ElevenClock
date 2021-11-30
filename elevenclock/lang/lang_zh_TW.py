@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "強制時鐘位於屏幕頂部",
+    "Show the clock on the primary screen": "在主屏幕上顯示時鐘",
+    "Use a custom font color": "使用自訂字型顏色",
+    "Use a custom background color": "使用自訂背景顏色",
+    "Align the clock text to the center": "將時鍾文本與中心對齊",
+    "Select custom color": "選擇自訂顏色",
+    "Hide the clock when a program occupies all screens": "當程序佔據所有屏幕時隱藏時鐘",
 }
 
 lang2_7_bis = lang_2_8 | {
@@ -26,7 +26,7 @@ lang2_7_bis = lang_2_8 | {
 
 lang2_7 = lang2_7_bis | {
     " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "（這個功能因為預設情況下就能正確運作所以被停用了，如果它實際上不能正確運作，請回報錯誤）",
-    "ElevenClock's language": "ElevenClock 的語言"
+    "ElevenClock's language": "ElevenClock 語言"
 }
 
 lang2_6 = lang2_7 | {
@@ -94,7 +94,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"關於此語言包",
-    "Translated to English by martinet101"      :"由 mmis1000 翻譯為正體中文（台灣）", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"由 mmis1000、BoyceLig 翻譯為正體中文（台灣）", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"將 ElevenClock 翻譯成你的語言",
     "Get started"                               :"立刻開始",
     
