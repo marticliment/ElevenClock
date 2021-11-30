@@ -95,7 +95,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"关于语言包",
-    "Translated to English by martinet101"      :"简体中文翻译由 hlgsdx、Boyce Lig 贡献", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"简体中文翻译由 martinet101、hlgsdx、jmlcoliveira、BoyceLig 贡献", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"把 ElevenClock 翻译成您的语言",
     "Get started"                               :"开始",
     
