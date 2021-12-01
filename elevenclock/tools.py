@@ -11,8 +11,8 @@ from PySide2.QtWidgets import *
 import globals
 from languages import *
 
-version = 2.8
-versionName = "2.8.0"
+version = 2.89
+versionName = "2.9.0-beta"
 
 def _(s): #Translate function
     global lang

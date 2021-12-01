@@ -5,6 +5,7 @@ import sys
 import locale
 import time
 from PySide2 import QtGui
+from PySide2 import QtCore
 
 import psutil
 from PySide2.QtGui import *
@@ -139,7 +140,7 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
         self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
         layout.addWidget(self.clockAtLeft)
-        self.primaryScreen = QSettingsCheckBox(_("Show the clock on the primary screen"))
+        self.primaryScreen = QSettingsCheckBoxWithWarning(_("Show the clock on the primary screen"), "You might need to set a custom background color for this to work.&nbsp;More info <a href=\"{0}\" style=\"color:DodgerBlue\">HERE</a>".format("https://github.com/martinet101/ElevenClock/discussions/333#discussioncomment-1726960"))
         self.primaryScreen.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
         self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
@@ -514,6 +515,9 @@ class SettingsWindow(QFramelessWindow):
                                    color: #dddddd;
                                    font-size: 8pt;
                                 }}
+                                #warningLabel {{
+                                    color: #bdba00;
+                                }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
@@ -874,6 +878,10 @@ class SettingsWindow(QFramelessWindow):
                                    background-color: #eeeeee;
                                    color: #000000;
                                    font-size: 8pt;
+                                }}
+                                #warningLabel {{
+                                    color: #bd0000;
+                                    background-color: transparent;
                                 }}
                                 QPushButton {{
                                    width: 100px;
@@ -1331,6 +1339,35 @@ class QSettingsCheckBox(QWidget):
         self.checkbox.setFixedWidth(self.width()-self.getPx(70))
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
+
+class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
+    def __init__(self, text = "", infotext = "", parent=None):
+        super().__init__(text=text, parent=parent)
+        self.infolabel = QLabel(infotext, self)
+        self.infolabel.setTextFormat(Qt.RichText)
+        self.infolabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.infolabel.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        self.infolabel.setOpenExternalLinks(True)
+        self.infolabel.setObjectName("warningLabel")
+        self.infolabel.setVisible(self.checkbox.isChecked())
+        self.checkbox.stateChanged.connect(self.stateChangedFun)
+        
+    def stateChangedFun(self, checked: bool) -> bool:
+        self.infolabel.setVisible(checked)
+        self.stateChanged.emit(checked)
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.checkbox.move(self.getPx(60), self.getPx(10))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(70))
+        self.infolabel.move(self.getPx(150), self.getPx(10))
+        self.infolabel.setFixedHeight(self.getPx(30))
+        self.infolabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(150))
+        self.setFixedHeight(self.getPx(50))
+        return super().resizeEvent(event)
+
+
+    
 
 class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
