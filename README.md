@@ -112,6 +112,9 @@ In order to translate ElevenClock to other languages or to update an old transla
 
 #### New laguanges that will come with next version:
 
+## The icon:
+ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
+
 ## Screenshots
 
 ![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img2.webp?raw=true)
