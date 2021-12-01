@@ -377,18 +377,18 @@ class Clock(QWidget):
 
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                self.setStyleSheet(f"background-color: rgba({self.bgcolor}%); margin: 5px;margin-top: 0px;margin-bottom: 0px; border-radius: 5px;")
+                self.setStyleSheet(f"background-color: rgba({self.bgcolor}%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;")
                 if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                     print("🟨 Small sized taskbar")
                     self.preferedHeight = 32
                     self.preferedwidth = 200
             else:
                 print("🟩 Regular sized taskbar")
-                self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: 3px;border-radius: 5px;padding: 2px;")
+                self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;")
         except Exception as e:
             print("🟨 Regular sized taskbar")
             report(e)
-            self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: 3px;border-radius: 5px;;padding: 2px;")
+            self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;")
 
         self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
         for win32screen in win32api.EnumDisplayMonitors():
@@ -484,7 +484,7 @@ class Clock(QWidget):
         if getSettings("UseCustomFontColor"):
             print("🟨 Using custom text color:", getSettingsValue('UseCustomFontColor'))
             self.lastTheme = -1
-            self.label.setStyleSheet(f"padding: 1px;padding-right: 3px;margin-right: 5px;padding-left: 5px; color: rgb({getSettingsValue('UseCustomFontColor')});")#background-color: rgba({self.bgcolor}%)")
+            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: rgb({getSettingsValue('UseCustomFontColor')});")#background-color: rgba({self.bgcolor}%)")
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -495,10 +495,10 @@ class Clock(QWidget):
             else:
                 self.font.setWeight(QFont.Weight.DemiBold)
             self.label.setFont(self.font)        
-        elif (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0 or getSettings("ForceDarkTheme")) and not getSettings("ForceLightTheme"):
+        elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
             print("🟩 Using white text (dark mode)")
             self.lastTheme = 0
-            self.label.setStyleSheet(f"padding: 1px;padding-right: 3px;margin-right: 12px;padding-left: 5px; color: white;")#background-color: rgba({self.bgcolor}%)")
+            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -512,7 +512,7 @@ class Clock(QWidget):
         else:
             print("🟩 Using black text (light mode)")
             self.lastTheme = 1
-            self.label.setStyleSheet(f"padding: 1px;padding-right: 3px;margin-right: 5px;padding-left: 5px; color: black;")#background-color: rgba({self.bgcolor}%)")
+            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right:  {self.getPx(12)}px;padding-left:  {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
             self.label.bgopacity = .5
             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -584,7 +584,7 @@ class Clock(QWidget):
         
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInch()/96))
+        return round(original*(self.screen().logicalDotsPerInch()/96))
 
     def refreshProcesses(self):
         global isRDPRunning
@@ -725,26 +725,29 @@ class Label(QLabel):
         self.color = "255, 255, 255"
         self.installEventFilter(self)
         self.bgopacity = 0.1
-        self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: 1px solid rgba({self.color},0);margin-top: 2px; margin-bottom: 2px;")
+        self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.getPx(2)}px; margin-bottom: {self.getPx(2)};")
         self.backgroundwidget.show()
         self.showBackground = QVariantAnimation()
         self.showBackground.setStartValue(.01) # Not 0 to prevent white flashing on the border
         self.showBackground.setEndValue(self.bgopacity)
         self.showBackground.setDuration(100)
         self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-        self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity-0.01});"))
+        self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity-0.01});"))
         self.hideBackground = QVariantAnimation()
         self.hideBackground.setStartValue(self.bgopacity)
         self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
         self.hideBackground.setDuration(100)
         self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-        self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: 1px solid rgba({self.color}, {opacity});"))
+        self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity});"))
         self.setAutoFillBackground(True)
         self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
         
         self.opacity=QGraphicsOpacityEffect(self)
         self.opacity.setOpacity(1.00)
         self.setGraphicsEffect(self.opacity)
+        
+    def getPx(self, i: int) -> int:
+        return self.window().getPx(i)
 
 
 

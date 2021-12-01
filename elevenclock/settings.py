@@ -728,6 +728,7 @@ class SettingsWindow(QFramelessWindow):
                                 }}
                                 QScrollBar::handle:vertical {{
                                     margin: {self.getPx(3)}px;
+                                    min-height: 20px;
                                     border-radius: {self.getPx(3)}px;
                                     background: #505050;
                                 }}
@@ -1079,6 +1080,7 @@ class SettingsWindow(QFramelessWindow):
                                 QScrollBar::handle:vertical {{
                                     margin: {self.getPx(3)}px;
                                     border-radius: {self.getPx(3)}px;
+                                    min-height: 20px;
                                     background: #dddddd;
                                 }}
                                 QScrollBar::handle:vertical:hover {{
@@ -1173,7 +1175,7 @@ class SettingsWindow(QFramelessWindow):
         event.ignore()
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
+        return round(original*(self.screen().logicalDotsPerInch()/96))
 
 
 class QIconLabel(QWidget):
@@ -1191,7 +1193,7 @@ class QIconLabel(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
+        return round(original*(self.screen().logicalDotsPerInchX()/96))
 
     def setIcon(self, icon: str) -> None:
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
@@ -1229,7 +1231,7 @@ class QSettingsButton(QWidget):
         self.button.clicked.connect(self.clicked.emit)
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
+        return round(original*(self.screen().logicalDotsPerInchX()/96))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(170), self.getPx(10))
@@ -1269,7 +1271,7 @@ class QSettingsComboBox(QWidget):
         self.label.setObjectName("StLbl")
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
+        return round(original*(self.screen().logicalDotsPerInchX()/96))
 
     def setItems(self, items: list, index: int) -> None:
         self.combobox.addItems(items)
@@ -1321,7 +1323,7 @@ class QSettingsCheckBox(QWidget):
         return self.checkbox.isChecked()
 
     def getPx(self, original) -> int:
-        return int(original*(self.screen().logicalDotsPerInchX()/96))
+        return round(original*(self.screen().logicalDotsPerInchX()/96))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.checkbox.move(self.getPx(60), self.getPx(10))

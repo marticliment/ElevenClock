@@ -186,7 +186,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.contextMenu().exec_(pos)
 
     def getPx(self, original) -> int:
-        return int(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
+        return round(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
 
     def applyStyleSheet(self) -> None:
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
