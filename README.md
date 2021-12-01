@@ -1,4 +1,4 @@
-# To replace system clock, see HERE: https://github.com/martinet101/ElevenClock/issues/321
+## To replace system clock, see HERE: <p>https://github.com/martinet101/ElevenClock/discussions/333</p>
 
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 <br>
@@ -111,6 +111,9 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Vietnamese
 
 #### New laguanges that will come with next version:
+
+## The icon:
+ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
 
 ## Screenshots
 
