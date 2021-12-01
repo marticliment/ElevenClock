@@ -1,3 +1,4 @@
+rmdir /Q /S __init__
 cd elevenclock
 rmdir /Q /S build
 rmdir /Q /S dist
@@ -11,9 +12,6 @@ rmdir /Q /S dist
 del __init__.spec
 cd ..
 taskkill /im ElevenClock.exe /f
-rmdir /Q /S Debug_EXE_Files
 cd __init__
-rename __init__ Debug_EXE_Files
-cd Debug_EXE_Files
 __init__.exe
 pause
