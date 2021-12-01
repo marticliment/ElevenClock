@@ -75,7 +75,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 - Supports font and size customization
 - Supports custom font color
 - Supports custom background color
-- SUPPORTS DEFAULT CLOCK REPLACEMENT (Will come with 2.8)
+- SUPPORTS FIRST MONITOR CLOCK REPLACEMENT
 
 
 ## Translating ElevenClock to other languages
