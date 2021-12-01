@@ -834,87 +834,106 @@ class Label(QLabel):
         return super().eventFilter(watched, event)
 
 # Start of main script
+try:
+    tdir = tempfile.TemporaryDirectory()
+    tempDir = tdir.name
+    seconddoubleclick = False
+    isRDPRunning = False
+    showSeconds = 0
+    timeStr = ""
+    dateTimeFormat = ""
+    mController = MouseController()
+    clocks = []
+    oldScreens = []
+    QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
+    app = QApplication()
 
-tdir = tempfile.TemporaryDirectory()
-tempDir = tdir.name
-seconddoubleclick = False
-isRDPRunning = False
-showSeconds = 0
-timeStr = ""
-dateTimeFormat = ""
-mController = MouseController()
-clocks = []
-oldScreens = []
-QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
-app = QApplication()
+    sw = SettingsWindow() # Declare setitngs window
 
-sw = SettingsWindow() # Declare setitngs window
+    i = TaskbarIconTray(app)
 
-i = TaskbarIconTray(app)
+    app.setQuitOnLastWindowClosed(False)
+    app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
+    app.screenAdded.connect(lambda: os.startfile(sys.executable))
+    app.screenRemoved.connect(lambda: os.startfile(sys.executable))
+    signal = RestartSignal()
+    showNotif = InfoSignal()
+    showWarn = InfoSignal()
+    killSignal = InfoSignal()
+    showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
+    showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
+    killSignal.infoSignal.connect(lambda: app.quit())
 
+    KillableThread(target=updateChecker, daemon=True).start()
+    KillableThread(target=isElevenClockRunning, daemon=True).start()
+    KillableThread(target=checkIfWokeUp, daemon=True).start()
 
+    st: KillableThread = None # Will be defined on loadClocks
+    rdpThread = KillableThread(target=checkRDP, daemon=True)
+    timethread = KillableThread(target=timeStrThread, daemon=True)
+    timethread.start()
+    if getSettings("EnableHideOnRDP"):
+        rdpThread.start()
+        
+        
+    if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
+        setSettings("DisableHideOnFullScreen", v=True, r=False)
+        setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
+        setSettings("EnableHideOnFullScreen", v=False, r=False)
+        print("🟨 Updating fullscreen setting")
+    elif not getSettings("FullScreenPrefsWereMigrated"):
+        setSettings("DisableHideOnFullScreen", v=False, r=False)
+        setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
+        setSettings("EnableHideOnFullScreen", v=False, r=False)
+        print("🟨 Updating fullscreen setting")
 
-app.setQuitOnLastWindowClosed(False)
-app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
-app.screenAdded.connect(lambda: os.startfile(sys.executable))
-app.screenRemoved.connect(lambda: os.startfile(sys.executable))
-signal = RestartSignal()
-showNotif = InfoSignal()
-showWarn = InfoSignal()
-killSignal = InfoSignal()
-showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
-showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
-killSignal.infoSignal.connect(lambda: app.quit())
+    signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
+    loadClocks()
 
-KillableThread(target=updateChecker, daemon=True).start()
-KillableThread(target=isElevenClockRunning, daemon=True).start()
-KillableThread(target=checkIfWokeUp, daemon=True).start()
+    globals.app = app
+    globals.buffer = buffer # Register them
+    globals.loadTimeFormat = loadTimeFormat # Register them
+    globals.updateIfPossible = updateIfPossible # Register them
+    globals.restartClocks = restartClocks # Register them
+    globals.closeClocks = closeClocks # Register them
+    globals.sw = sw
+    globals.trayIcon = i
 
-st: KillableThread = None # Will be defined on loadClocks
-rdpThread = KillableThread(target=checkRDP, daemon=True)
-timethread = KillableThread(target=timeStrThread, daemon=True)
-timethread.start()
-if getSettings("EnableHideOnRDP"):
-    rdpThread.start()
-    
-    
-if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
-    setSettings("DisableHideOnFullScreen", v=True, r=False)
-    setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
-    setSettings("EnableHideOnFullScreen", v=False, r=False)
-    print("🟨 Updating fullscreen setting")
-elif not getSettings("FullScreenPrefsWereMigrated"):
-    setSettings("DisableHideOnFullScreen", v=False, r=False)
-    setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
-    setSettings("EnableHideOnFullScreen", v=False, r=False)
-    print("🟨 Updating fullscreen setting")
+    if not(getSettings("Updated2.8Already")) and not(getSettings("EnableSilentUpdates")):
+        print("Show2.8Welcome")
+        sw.show()
+        setSettings("Updated2.8Already", True)
+        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - The ability to change font and background color\n - Added the ability to replace system clock\n - Added color code on log\n - Added more languages\n - Added an option to show the clock at the top\n - Better settings UI\n - Lots of other bugfixes and other improvements")
 
+    showSettings = False
+    if("--settings" in sys.argv or showSettings):
+        sw.show()
 
-signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
-loadClocks()
+    if("--quit-on-loaded" in sys.argv):
+        sys.exit(0)
 
-
-globals.app = app
-globals.buffer = buffer # Register them
-globals.loadTimeFormat = loadTimeFormat # Register them
-globals.updateIfPossible = updateIfPossible # Register them
-globals.restartClocks = restartClocks # Register them
-globals.closeClocks = closeClocks # Register them
-globals.sw = sw
-globals.trayIcon = i
-
-if not(getSettings("Updated2.8Already")) and not(getSettings("EnableSilentUpdates")):
-    print("Show2.8Welcome")
-    sw.show()
-    setSettings("Updated2.8Already", True)
-    QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - The ability to change font and background color\n - Added the ability to replace system clock\n - Added color code on log\n - Added more languages\n - Added an option to show the clock at the top\n - Better settings UI\n - Lots of other bugfixes and other improvements")
-
-showSettings = False
-if("--settings" in sys.argv or showSettings):
-    sw.show()
-
-if("--quit-on-loaded" in sys.argv):
+    app.exec_()
     sys.exit(0)
 
-app.exec_()
-sys.exit(0)
+except Exception as e:
+    import webbrowser, traceback, platform
+    os_info = f"" + \
+        f"                        OS: {platform.system()}\n"+\
+        f"                   Release: {platform.release()}\n"+\
+        f"           OS Architecture: {platform.machine()}\n"+\
+        f"          APP Architecture: {platform.architecture()[0]}\n"+\
+        f"                   Program: ElevenClock"+\
+        "\n\n-----------------------------------------------------------------------------------------"
+    traceback_info = "Traceback (most recent call last):\n"
+    try:
+        for line in traceback.extract_tb(e.__traceback__).format():
+            traceback_info += line
+        traceback_info += f"\n{type(e).__name__}: {str(e)}"
+    except:
+        traceback_info += "\nUnable to get traceback"
+    traceback_info += str(type(e))
+    traceback_info += ": "
+    traceback_info += str(e)
+    webbrowser.open("https://www.somepythonthings.tk/error-report/?appName=ElevenClock&errorBody="+os_info.replace('\n', '{l}').replace(' ', '{s}')+"{l}{l}{l}{l}ElevenClock Log:{l}"+str("\n\n\n\n"+traceback_info).replace('\n', '{l}').replace(' ', '{s}'))
+    print(traceback_info)
+    sys.exit(1)
