@@ -71,7 +71,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"時計の配置方法を代替の方法にする（動作しない場合があります）",
     "Change startup behaviour"                                                          :"起動時の挙動を変更する",
     "Change"                                                                            :"変更",
-    "<b>Update to the latest version!</b>"                                             :"<b>最新のバージョンにアップデートする</b>",
+    "<b>Update to the latest version!</b>"                                             :"<b>最新のバージョンにアップデートしてください！</b>",
     "Install update"                                                                    :"アップデートをインストールする",
     
     #Clock settings
@@ -79,7 +79,7 @@ lang2_3 = lang2_4 | {
     "Hide the clock in fullscreen mode"                            :"全画面モードで時計を非表示にする",
     "Hide the clock when RDP client is active"                     :"RDPクライアントの動作中に時計を非表示にする",
     "Force the clock to be at the bottom of the screen"            :"時計を強制的に画面下部に配置する",
-    "Show the clock when the taskbar is set to hide automatically" :"タスクバーを自動で非表示にする設定の場合に時計を表示する",
+    "Show the clock when the taskbar is set to hide automatically" :"タスクバーを自動で非表示にする設定の場合にも時計を表示する",
     "Fix the hyphen/dash showing over the month"                   :"月の上に表示されるハイフンやダッシュを修正する",
     "Force the clock to have white text"                           :"時計の文字色を強制的に白にする",
     "Show the clock at the left of the screen"                     :"時計を画面の左側に表示する",
@@ -101,7 +101,7 @@ lang2_3 = lang2_4 | {
     #About ElevenClock
     "About ElevenClock version {0}:"            :"ElevenClockバージョン{0}について:",
     "View ElevenClock's homepage"               :"ElevenClockのホームページを表示する",
-    "Open"                                      :"表示",
+    "Open"                                      :"開く",
     "Report an issue/request a feature"         :"問題の報告や機能のリクエストをする",
     "Report"                                    :"報告",
     "Support the dev: Give me a coffee☕"       :"開発を支援する: コーヒーをください☕",
