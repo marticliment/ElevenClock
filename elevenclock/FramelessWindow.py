@@ -22,8 +22,6 @@ from PySide2.QtWinExtras import QtWin
 
 
 
-
-
 class QFramelessWindow(QMainWindow):
     BORDER_WIDTH = 10
 
