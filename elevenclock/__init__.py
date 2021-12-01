@@ -588,8 +588,6 @@ class Clock(QWidget):
 
     def refreshProcesses(self):
         global isRDPRunning
-        #time.sleep(2)
-        #self.callInMainSignal.emit(self.setToTheMiddle)
         while True:
             self.isRDPRunning = isRDPRunning
             time.sleep(0.5)
@@ -717,23 +715,6 @@ class Clock(QWidget):
         self.loop2.kill()
         event.accept()
         return super().closeEvent(event)
-
-    def setToTheMiddle(self) -> None:
-        if getSettings("CenterAlignment"):
-            self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-            self.setFixedWidth(self.label.getTextUsedSpaceRect()+5)
-            if not(getSettings("EnableWin32API")):
-                print("🟩 Using qt's default positioning system")
-                self.move((self.preferedwidth-(self.label.getTextUsedSpaceRect()+5))+self.w, self.h)
-                self.resize(self.label.getTextUsedSpaceRect()+5, self.preferedHeight*self.dpiy)
-            else:
-                print("🟨 Using win32 API positioning system")
-                self.user32 = windll.user32
-                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-                win32gui.SetWindowPos(self.winId(), 0, int((self.preferedwidth-self.label.getTextUsedSpaceRect()+5)+self.w), int(self.h), int(self.label.getTextUsedSpaceRect()+5), int(self.preferedHeight*self.dpiy), False)
-            print("Width hint:", self.label.getTextUsedSpaceRect()+5, self.pos())
-        #old_stdout.write(buffer.getvalue())
-        #old_stdout.flush()
 
 class Label(QLabel):
     clicked = Signal()
