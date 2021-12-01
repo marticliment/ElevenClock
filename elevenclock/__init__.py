@@ -687,7 +687,7 @@ class Clock(QWidget):
                 if(theme != self.lastTheme):
                     if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
                         self.lastTheme = 0
-                        self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: white;")
+                        self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
                         self.label.bgopacity = 0.1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                         self.font.setFamilies(self.fontfamilies)
@@ -700,7 +700,7 @@ class Clock(QWidget):
                         self.label.setFont(self.font)
                     else:
                         self.lastTheme = 1
-                        self.label.setStyleSheet("padding: 1px;padding-right: 5px;padding-left: 5px; color: black;")
+                        self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
                         self.label.bgopacity = .5
                         self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
                         self.font.setFamilies(self.fontfamilies)
