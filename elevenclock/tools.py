@@ -29,8 +29,8 @@ def getPath(s):
 def report(exception) -> None: # Exception reporter
     import traceback
     for line in traceback.format_exception(*sys.exc_info()):
-        print("🟥 "+line)
-    print(f"🟥 Note this traceback was caught by reporter and has been added to the log ({exception})")
+        print("🔴 "+line)
+    print(f"🔴 Note this traceback was caught by reporter and has been added to the log ({exception})")
 
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
     registry = winreg.ConnectRegistry(None, storage)
@@ -175,10 +175,10 @@ class TaskbarIconTray(QSystemTrayIcon):
 
         if(getSettings("DisableSystemTray")):
             self.hide()
-            print("🟨 System tray icon disabled")
+            print("🟡 System tray icon disabled")
         else:
             self.show()
-            print("🟦 System tray icon enabled")
+            print("🔵 System tray icon enabled")
         self.applyStyleSheet()
 
     def execMenu(self, pos: QPoint):
@@ -356,7 +356,7 @@ else:
     except KeyError:
         lang = lang_en
         langName = "en"
-        print("🟥 Unknown language")
+        print("🔴 Unknown language")
     except Exception as e:
         report(e)
         lang = lang_en

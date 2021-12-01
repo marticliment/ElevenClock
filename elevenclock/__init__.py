@@ -46,11 +46,11 @@ print("")
 print("---------------------------------------------------------------------------------------------------")
 print("")
 print(" Log legend:")
-print(" 🟦: Information")
-print(" 🟩: Task completed successfully")
-print(" 🟨: Expected warning")
-print(" 🟧: Unexpected warning")
-print(" 🟥: Error")
+print(" 🔵: Verbose")
+print(" 🟢: Information")
+print(" 🟡: Expected warning")
+print(" 🟠: Unexpected warning")
+print(" 🔴: Error")
 print("")
 
 
@@ -59,12 +59,12 @@ def checkRDP():
         for p in processess:
             for procName in blacklistedProcess:
                 if procName == p :
-                    print(f"🟨 Blacklisted procName {procName} detected, hiding...")
+                    print(f"🟡 Blacklisted procName {procName} detected, hiding...")
                     return True
         return False
 
     global isRDPRunning
-    print("🟦 Starting RDP thread")
+    print("🔵 Starting RDP thread")
     while True:
         pythoncom.CoInitialize()
         _wmi = win32com.client.GetObject('winmgmts:')
@@ -86,7 +86,7 @@ def updateChecker():
 def updateIfPossible(force = False):
     try:
         if(not(getSettings("DisableAutoCheckForUpdates")) or force):
-            print("🟦 Starting update check")
+            print("🔵 Starting update check")
             integrityPass = False
             dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
             if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
@@ -97,10 +97,10 @@ def updateIfPossible(force = False):
                 report(e)
                 response = urlopen("http://www.somepythonthings.tk/versions/elevenclock.ver")
                 integrityPass = True
-            print("🟦 Version URL:", response.url)
+            print("🔵 Version URL:", response.url)
             response = response.read().decode("utf8")
             if float(response.split("///")[0]) > version:
-                print("🟩 Updates found!")
+                print("🟢 Updates found!")
                 if(not(getSettings("DisableAutoInstallUpdates")) or force):
                     if(integrityPass):
                         url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
@@ -111,34 +111,34 @@ def updateIfPossible(force = False):
                             f.write(datatowrite)
                             filename = f.name
                         if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                            print("🟦 Hash: ", response.split("///")[2].replace("\n", "").lower())
-                            print("🟩 Hash ok, starting update")
+                            print("🔵 Hash: ", response.split("///")[2].replace("\n", "").lower())
+                            print("🟢 Hash ok, starting update")
                             if(getSettings("EnableSilentUpdates") and not(force)):
                                 mousePos = getMousePos()
                                 time.sleep(5)
                                 while mousePos != getMousePos():
-                                    print("🟨 User is using the mouse, waiting")
+                                    print("🟡 User is using the mouse, waiting")
                                     mousePos = getMousePos()
                                     time.sleep(5)
                                 subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                             else:
                                 subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
                         else:
-                            print("🟥 Hash not ok")
-                            print("🟥 File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                            print("🟥 Provided hash: ", response.split("///")[2].replace("\n", "").lower())
+                            print("🔴 Hash not ok")
+                            print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                            print("🔴 Provided hash: ", response.split("///")[2].replace("\n", "").lower())
                             showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                     else:
-                        print("🟥 Can't verify update server authenticity, aborting")
+                        print("🔴 Can't verify update server authenticity, aborting")
                         showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                 else:
                     showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
 
             else:
-                print("🟩 Updates not found")
+                print("🟢 Updates not found")
         else:
-            print("🟧 Update checking disabled")
+            print("🟠 Update checking disabled")
         #old_stdout.write(buffer.getvalue())
         #old_stdout.flush()
 
@@ -153,7 +153,7 @@ def resetRestartCount():
     global restartCount
     while True:
         if(restartCount>0):
-            print("🟦 Restart loop:", restartCount)
+            print("🔵 Restart loop:", restartCount)
             restartCount -= 1
         time.sleep(0.3)
 
@@ -180,12 +180,12 @@ def loadClocks():
             if not screen == QGuiApplication.primaryScreen() or showOnFirstMon: #Check if we are not on the primary screen
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
             else: # Skip the primary display, as it has already the clock
-                print("🟨 This is primay screen and is set to be skipped")
+                print("🟡 This is primay screen and is set to be skipped")
         st = KillableThread(target=screenCheckThread, daemon=True)
         st.start()
     else:
         os.startfile(sys.executable)
-        print("🟥 Overloading system, killing!")
+        print("🔴 Overloading system, killing!")
         app.quit()
         sys.exit(1)
 
@@ -259,7 +259,7 @@ def isElevenClockRunning():
                     if(float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
                         os.remove(file)
             if not(getSettings(name)):
-                print("🟥 KILLING, NEWER VERSION RUNNING")
+                print("🔴 KILLING, NEWER VERSION RUNNING")
                 killSignal.infoSignal.emit("", "")
         except Exception as e:
             report(e)
@@ -373,20 +373,20 @@ class Clock(QWidget):
         self.preferedHeight = 48
         
         self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettings("UseCustomBgColor") else "0, 0, 0, 0"
-        print("🟦 Using bg color:", self.bgcolor)
+        print("🔵 Using bg color:", self.bgcolor)
 
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                 self.setStyleSheet(f"background-color: rgba({self.bgcolor}%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;")
                 if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                    print("🟨 Small sized taskbar")
+                    print("🟡 Small sized taskbar")
                     self.preferedHeight = 32
                     self.preferedwidth = 200
             else:
-                print("🟩 Regular sized taskbar")
+                print("🟢 Regular sized taskbar")
                 self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;")
         except Exception as e:
-            print("🟨 Regular sized taskbar")
+            print("🟡 Regular sized taskbar")
             report(e)
             self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;")
 
@@ -403,7 +403,7 @@ class Clock(QWidget):
             app.quit()
         
         self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
-        print("🟦 Monitor geometry:", self.screenGeometry)
+        print("🔵 Monitor geometry:", self.screenGeometry)
         
         self.shouldBeVisible = True
         self.refresh.connect(self.refreshandShow)
@@ -418,22 +418,22 @@ class Clock(QWidget):
         try:
             if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))) or getSettings("ForceOnTop"):
                 h = self.screenGeometry.y()
-                print("🟩 Taskbar at top")
+                print("🟢 Taskbar at top")
             else:
                 h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                print("🟩 Taskbar at bottom")
+                print("🟢 Taskbar at bottom")
         except Exception as e:
             report(e)
             h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-            print("🟨 Taskbar at bottom")
+            print("🟡 Taskbar at bottom")
         self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
             w = self.screenGeometry.x()+8*dpix
-            print("🟩 Clock on the right")
+            print("🟢 Clock on the right")
             self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            print("🟨 Clock on the left")
+            print("🟡 Clock on the left")
             w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
             
         if getSettings("CenterAlignment"):
@@ -446,15 +446,15 @@ class Clock(QWidget):
         self.dpiy = dpiy
 
         if not(getSettings("EnableWin32API")):
-            print("🟩 Using qt's default positioning system")
+            print("🟢 Using qt's default positioning system")
             self.move(w, h)
             self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
         else:
-            print("🟨 Using win32 API positioning system")
+            print("🟡 Using win32 API positioning system")
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
             win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
-        print("🟦 Clock geometry:", self.geometry())
+        print("🔵 Clock geometry:", self.geometry())
         self.font: QFont = QFont()
         customFont = getSettingsValue("UseCustomFont")
         if customFont == "":
@@ -466,7 +466,7 @@ class Clock(QWidget):
                 self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
         else:
             self.fontfamilies = [customFont]
-        print(f"🟦 Font families: {self.fontfamilies}")
+        print(f"🔵 Font families: {self.fontfamilies}")
         customSize = getSettingsValue("UseCustomFontSize")
         if customSize == "":
             self.font.setPointSizeF(9.3)
@@ -476,13 +476,13 @@ class Clock(QWidget):
             except Exception as e:
                 self.font.setPointSizeF(9.3)
                 report(e)
-        print(f"🟦 Font size: {self.font.pointSizeF()}")
+        print(f"🔵 Font size: {self.font.pointSizeF()}")
         self.font.setStyleStrategy(QFont.PreferOutline)
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label.setFont(self.font)
         if getSettings("UseCustomFontColor"):
-            print("🟨 Using custom text color:", getSettingsValue('UseCustomFontColor'))
+            print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
             self.lastTheme = -1
             self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: rgb({getSettingsValue('UseCustomFontColor')});")#background-color: rgba({self.bgcolor}%)")
             self.label.bgopacity = .1
@@ -496,7 +496,7 @@ class Clock(QWidget):
                 self.font.setWeight(QFont.Weight.DemiBold)
             self.label.setFont(self.font)        
         elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
-            print("🟩 Using white text (dark mode)")
+            print("🟢 Using white text (dark mode)")
             self.lastTheme = 0
             self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
             self.label.bgopacity = .1
@@ -510,7 +510,7 @@ class Clock(QWidget):
                 self.font.setWeight(QFont.Weight.DemiBold)
             self.label.setFont(self.font)
         else:
-            print("🟩 Using black text (light mode)")
+            print("🟢 Using black text (light mode)")
             self.lastTheme = 1
             self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right:  {self.getPx(12)}px;padding-left:  {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
             self.label.bgopacity = .5
@@ -531,7 +531,7 @@ class Clock(QWidget):
         self.isRDPRunning = True
 
         self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
-        print("🟦 Full screen rect: ", self.full_screen_rect)
+        print("🔵 Full screen rect: ", self.full_screen_rect)
 
 
         self.forceDarkTheme = getSettings("ForceDarkTheme")
@@ -619,11 +619,11 @@ class Clock(QWidget):
                             for p in processes:
                                 if(p.Name != "TextInputHost.exe"):
                                     if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
-                                        print("🟨 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                        print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                         fullscreen = True
                         else:
                             if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
-                                print("🟨 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                 fullscreen = True
 
             win32gui.EnumWindows(winEnumHandler, 0)
@@ -638,7 +638,7 @@ class Clock(QWidget):
         EnableHideOnRDP = getSettings("EnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
         newMethod = getSettings("NewFullScreenMethod")
-        print(f"🟦 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
+        print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
         if clockOnFirstMon:
             INTLOOPTIME = 15
         else:
@@ -710,7 +710,7 @@ class Clock(QWidget):
 
     def closeEvent(self, event: QCloseEvent) -> None:
         self.shouldBeVisible = False
-        print(f"🟨 Closing clock on {self.win32screen}")
+        print(f"🟡 Closing clock on {self.win32screen}")
         self.loop.kill()
         self.loop2.kill()
         event.accept()
@@ -864,12 +864,12 @@ try:
         setSettings("DisableHideOnFullScreen", v=True, r=False)
         setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
         setSettings("EnableHideOnFullScreen", v=False, r=False)
-        print("🟨 Updating fullscreen setting")
+        print("🟡 Updating fullscreen setting")
     elif not getSettings("FullScreenPrefsWereMigrated"):
         setSettings("DisableHideOnFullScreen", v=False, r=False)
         setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
         setSettings("EnableHideOnFullScreen", v=False, r=False)
-        print("🟨 Updating fullscreen setting")
+        print("🟡 Updating fullscreen setting")
 
     signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
     loadClocks()
