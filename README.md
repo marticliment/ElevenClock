@@ -1,4 +1,4 @@
-## To replace system clock, see HERE: <p>https://github.com/martinet101/ElevenClock/discussions/333</p>
+## To replace system clock, see discussion [#333](https://github.com/martinet101/ElevenClock/discussions/333#discussioncomment-1726960)
 
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 <br>
