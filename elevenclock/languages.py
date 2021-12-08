@@ -55,7 +55,7 @@ languageReference = {
     "nb": "Norwegian",
     "pl": "Polish" ,
     "pt_PT": "Portuguese (Portugal)",
-    "pt_BR": "Brazilian Portuguese",
+    "pt_BR": "Portuguese (Brazil)",
     "ru": "Russian",
     "zh_CN": "Simplified Chinese (China)",
     "sr": "Serbian",
