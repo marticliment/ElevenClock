@@ -7,48 +7,48 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_8 = {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "Forza l'orologio ad essere nella parte superiore dello schermo",
+    "Show the clock on the primary screen": "Mostra l'orologio sullo schermo principale",
+    "Use a custom font color": "Usa un colore personalizzato per il font",
+    "Use a custom background color": "Usa un colore personalizzato per lo sfondo",
+    "Align the clock text to the center": "Allinea il testo dell'orologio al centro",
+    "Select custom color": "Seleziona un colore personalizzato",
+    "Hide the clock when a program occupies all screens": "Nascondi l'orologio quando un programma occupa tutte le schermate",
 }
 
 lang2_7_bis = lang_2_8 | {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Use a custom font": "Usa un font personalizzato",
+    "Use a custom font size": "Usa una dimensione del font personalizzata",
+    "Enable hide when multi-monitor fullscreen apps are running": "Abilita Nascondi quando sono in esecuzione app a schermo intero multi-monitor",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> deve essere abilitato per modificare questa impostazione",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> deve essere disabilitato per modificare questa impostazione",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "(Questa funzionalità è stata disabilitata perchè dovrebbe funzionare di default. Se non funziona, segnala un bug)",
+    "ElevenClock's language": "Lingua di ElevenClock"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "Circa Qt6 (PySide6)",
+    "About": "Circa",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Server di aggiornamento non SSL alternativo (potrebbe aiutare con gli errori SSL)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Correzioni e altre funzionalità sperimentali: (Usale SOLO se qualcosa non funziona)",
+    "Show week number on the clock": "Mostra il numero della settimana",
 }
 
 lang2_5 = lang2_6 | {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Nascondi l'orologio quando RDP Client o Citrix Workspace sono in esecuzione",
+    "Clock Appearance:": "Aspetto dell'orlogio",
+    "Force the clock to have black text": "Forza l'orologio ad avere il testo scuro",
+    " - It is required that the Dark Text checkbox is disabled": "È richiesto che la casella Testo Scuro sia disabilitata",
+    "Debbugging information:": "Informazioni di debug",
+    "Open ElevenClock's log": "Apri i log di ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Mostra l'orologio sullo schermo principale (Utile se l'orologio è impostato a sinistra)",
     "Show weekday on the clock"  :"Visualizza il giorno della settimana",
 }
 
@@ -94,7 +94,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"Informazioni sulla traduzione",
-    "Translated to English by martinet101"      :"Tradotto in Italiano da Parapongo", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Tradotto in Italiano da Parapongo, zuidstroopwafel", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Traduci ElevenClock nella tua lingua",
     "Get started"                               :"Inizia",
     
