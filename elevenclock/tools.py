@@ -324,8 +324,14 @@ if getSettingsValue("PreferredLanguage") == "default":
     langName = "default"
     try:
         langName = locale.getdefaultlocale()[0][0:2]
-        if(langName != "zh"):
+        if(langName != "zh" and langName != "pt"):
             lang = languages[langName]
+        elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "pt_PT"):
+            langName = "pt_PT"
+            lang = languages["pt_PT"]
+        elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "pt_BR"):
+            langName = "pt_BR"
+            lang = languages["pt_BR"]
         elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "zh_TW"):
             langName = "zh_TW"
             lang = languages["zh_TW"]
@@ -343,8 +349,14 @@ if getSettingsValue("PreferredLanguage") == "default":
 else:
     try:
         langName = getSettingsValue("PreferredLanguage")[0:2]
-        if(langName != "zh"):
+        if(langName != "zh" and langName != "pt"):
             lang = languages[langName]
+        elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "pt_PT"):
+            langName = "pt_PT"
+            lang = languages["pt_PT"]
+        elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "pt_BR"):
+            langName = "pt_BR"
+            lang = languages["pt_BR"]
         elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "zh_TW"):
             langName = "zh_TW"
             lang = languages["zh_TW"]
