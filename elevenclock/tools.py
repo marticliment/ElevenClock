@@ -202,7 +202,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     background-color: transparent;
                 }}  
                 QMenu {{
-                    border: {self.getPx(1)}px solid rgb(60, 60, 60);
+                    border: {self.getPx(1)}px solid #111111;
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: white;
@@ -212,12 +212,12 @@ class TaskbarIconTray(QSystemTrayIcon):
                 QMenu::separator {{
                     margin: {self.getPx(2)}px;
                     height: {self.getPx(1)}px;
-                    background: rgb(60, 60, 60);
+                    background: #111111;
                 }}
-                QMenu::icon{{
+                QMenu::icon {{
                     padding-left: {self.getPx(10)}px;
                 }}
-                QMenu::item{{
+                QMenu::item {{
                     height: {self.getPx(30)}px;
                     border: none;
                     background: transparent;
@@ -226,8 +226,8 @@ class TaskbarIconTray(QSystemTrayIcon):
                     border-radius: {self.getPx(4)}px;
                     margin: {self.getPx(2)}px;
                 }}
-                QMenu::item:selected{{
-                    background: rgba(255, 255, 255, 10%);
+                QMenu::item:selected {{
+                    background: rgba(255, 255, 255, 6%);
                     height: {self.getPx(30)}px;
                     outline: none;
                     border: none;
@@ -235,7 +235,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding-left: {self.getPx(10)}px;
                     border-radius: {self.getPx(4)}px;
                 }}  
-                QMenu::item:selected:disabled{{
+                QMenu::item:selected:disabled {{
                     background: transparent;
                     height: {self.getPx(30)}px;
                     outline: none;
