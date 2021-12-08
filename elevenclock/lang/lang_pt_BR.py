@@ -17,7 +17,7 @@ lang_2_8 = {
 }
 
 lang2_7_bis = lang_2_8 | {
-    "Use a custom font": Alterar o tipo da fonte",
+    "Use a custom font": "Alterar o tipo da fonte",
     "Use a custom font size": "Alterar o tamanho da fonter",
     "Enable hide when multi-monitor fullscreen apps are running": "Esconder relógio quando aplicações multi-monitor estiverem em execução",
     "<b>{0}</b> needs to be enabled to change this setting": "A opção <b>{0}</b> precisa de estar ativada para mudar esta definição",
@@ -31,7 +31,7 @@ lang2_7 = lang2_7_bis | {
 
 lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "Acerca de Qt6 (PySide6)",
-    "About": "Sobre,
+    "About": "Sobre",
     "Alternative non-SSL update server (This might help with SSL errors)": "Servidor de atualização alternativo sem SSL (Pode ajudar com erros de SSL)",
     "Fixes and other experimental features: (Use ONLY if something is not working)": "Correções e funcionalidades experimentais: (Usar APENAS se algo não funcionar corretamente)",
     "Show week number on the clock": "Mostrar dia da semana no relógio"
