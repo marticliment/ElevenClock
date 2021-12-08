@@ -79,7 +79,7 @@ lang2_3 = lang2_4 | {
     "Hide the clock in fullscreen mode"                             :"Ocultar el reloj en modo de pantalla completa",
     "Hide the clock when RDP client is active"                      :"Ocultar el reloj si se está ejecutando el cliente de Escritorio Remoto",
     "Force the clock to be at the bottom of the screen"             :"Fuerza al reloj a mostrarse a la parte inferior de la pantalla",
-    "Show the clock when the taskbar is set to hide automatically"  :"Muestra el rellotge cuando la barra de tareas esté configurada para ocultarse",
+    "Show the clock when the taskbar is set to hide automatically"  :"Muestra el reloj cuando la barra de tareas esté configurada para ocultarse",
     "Fix the hyphen/dash showing over the month"                    :"Arregla el guión mostrandose sobre el mes (formato de la fecha)",
     "Force the clock to have white text"                            :"Fuerza el reloj a tenir el texto blanco",
     "Show the clock at the left of the screen"                      :"Muestra el reloj a la parte izquierda de la pantalla",
