@@ -544,7 +544,7 @@ class Clock(QWidget):
         self.loop.start()
         self.loop2.start()
 
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
             self.desktopButton = QPushButton(self)
             self.desktopButton.clicked.connect(lambda: self.showDesktop())
             self.desktopButton.show()
