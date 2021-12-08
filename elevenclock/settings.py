@@ -1549,6 +1549,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
+        self.setStyleSheet("*{border-radius: 5px;}  QColorLuminancePicker {background-color: transparent; border: 5px solid black;margin: none; border: none; padding: none;} ")
         self.setAttribute(Qt.WA_StyledBackground)
 
 class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
@@ -1558,7 +1559,7 @@ class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
     def __init__(self, text: str, parent=None):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
-        self.colorDialog = QColorDialog(self)
+        self.colorDialog = QCustomColorDialog(self)
         self.colorDialog.setOptions(QColorDialog.DontUseNativeDialog)
         self.button = QPushButton(self)
         self.button.setObjectName("stCmbbx")
