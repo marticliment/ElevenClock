@@ -18,10 +18,9 @@ def _(s): #Translate function
     global lang
     try:
         t = lang.lang[s]
-        #return t # Uncomment to debug missing translations
-        return t if t else s
+        return t if t else f"⚠️{s}⚠️" if debugLang else s
     except KeyError:
-        return s
+        return f"⚠️{s}⚠️" if debugLang else s
 
 def getPath(s):
     return os.path.join(os.path.join(realpath, "resources"), s).replace("\\", "/")

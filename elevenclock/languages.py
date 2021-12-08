@@ -67,3 +67,5 @@ languageReference = {
     "ua": "Ukranian",
     "vi": "Vietnamese",
 }
+
+debugLang = True
