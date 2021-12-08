@@ -372,7 +372,7 @@ class Clock(QWidget):
         self.preferedwidth = 200
         self.preferedHeight = 48
         
-        self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettings("UseCustomBgColor") else "0, 0, 0, 0"
+        self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
         print("🔵 Using bg color:", self.bgcolor)
 
         try:
@@ -877,7 +877,7 @@ try:
         setSettings("Updated2.8Already", True)
         QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - The ability to change font and background color\n - Added the ability to replace system clock\n - Added color code on log\n - Added more languages\n - Added an option to show the clock at the top\n - Better settings UI\n - Lots of other bugfixes and other improvements")
 
-    showSettings = False
+    showSettings = True
     if("--settings" in sys.argv or showSettings):
         sw.show()
 
