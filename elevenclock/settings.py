@@ -35,7 +35,7 @@ class SettingsWindow(QFramelessWindow):
         self.settingsWidget = QWidget()
         self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
-        layout.addSpacing(10)
+        layout.addSpacing(0)
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
         if lang == lang_zh_TW or lang == lang_zh_CN:
@@ -43,25 +43,25 @@ class SettingsWindow(QFramelessWindow):
         else:
             title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         layout.addWidget(title)
-        layout.setSpacing(0)
+        layout.setSpacing(5)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setMargin(2)
-        layout.addSpacing(10)
+        layout.addSpacing(0)
         self.resize(900, 600)
-        layout.addSpacing(20)
+        layout.addSpacing(0)
         self.scrollArea.setFrameShape(QFrame.NoFrame)
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
         else:
             self.iconMode = "black"
 
-        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"))
+        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
         layout.addWidget(self.generalSettingsTitle)
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
-        layout.addWidget(self.updateButton)
+        self.generalSettingsTitle.addWidget(self.updateButton)
         self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) #The non-translated (Language) string is there to know what the language option is if you accidentaly change the language
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         try:
@@ -84,58 +84,58 @@ class SettingsWindow(QFramelessWindow):
 
         self.selectedLanguage.restartButton.clicked.connect(restartElevenClockByLangChange)
         self.selectedLanguage.textChanged.connect(changeLang)
-        layout.addWidget(self.selectedLanguage)
+        self.generalSettingsTitle.addWidget(self.selectedLanguage)
         self.enableUpdates = QSettingsCheckBox(_("Automatically check for updates"))
         self.enableUpdates.setChecked(not getSettings("DisableAutoCheckForUpdates"))
         self.enableUpdates.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not bool(i), r = False))
-        layout.addWidget(self.enableUpdates)
+        self.generalSettingsTitle.addWidget(self.enableUpdates)
         self.installUpdates = QSettingsCheckBox(_("Automatically install available updates"))
         self.installUpdates.setChecked(not getSettings("DisableAutoInstallUpdates"))
         self.installUpdates.stateChanged.connect(lambda i: setSettings("DisableAutoInstallUpdates", not bool(i), r = False))
-        layout.addWidget(self.installUpdates)
+        self.generalSettingsTitle.addWidget(self.installUpdates)
         self.silentUpdates = QSettingsCheckBox(_("Enable really silent updates"))
         self.silentUpdates.setChecked(getSettings("EnableSilentUpdates"))
         self.silentUpdates.stateChanged.connect(lambda i: setSettings("EnableSilentUpdates", bool(i), r = False))
-        layout.addWidget(self.silentUpdates)
+        self.generalSettingsTitle.addWidget(self.silentUpdates)
         self.bypassCNAMECheck = QSettingsCheckBox(_("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"))
         self.bypassCNAMECheck.setChecked(getSettings("BypassDomainAuthCheck"))
         self.bypassCNAMECheck.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i), r = False))
-        layout.addWidget(self.bypassCNAMECheck)
+        self.generalSettingsTitle.addWidget(self.bypassCNAMECheck)
         self.enableSystemTray = QSettingsCheckBox(_("Show ElevenClock on system tray"))
         self.enableSystemTray.setChecked(not getSettings("DisableSystemTray"))
         self.enableSystemTray.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not bool(i)))
-        layout.addWidget(self.enableSystemTray)
+        self.generalSettingsTitle.addWidget(self.enableSystemTray)
         self.startupButton = QSettingsButton(_("Change startup behaviour"), _("Change"))
         self.startupButton.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
-        layout.addWidget(self.startupButton)
-        layout.addSpacing(10)
+        self.generalSettingsTitle.addWidget(self.startupButton)
 
-        self.clockSettingsTitle = QIconLabel(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"))
+
+        self.clockSettingsTitle = QIconLabel(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"), _("Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"))
         layout.addWidget(self.clockSettingsTitle)
         self.legacyHideOnFullScreen = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
         self.legacyHideOnFullScreen.setChecked(not getSettings("DisableHideOnFullScreen"))
         self.legacyHideOnFullScreen.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not bool(i)))
-        layout.addWidget(self.legacyHideOnFullScreen)
+        self.clockSettingsTitle.addWidget(self.legacyHideOnFullScreen)
         self.newFullScreenHide = QSettingsCheckBox(_("Hide the clock when a program occupies all screens"))
         self.newFullScreenHide.setChecked(getSettings("NewFullScreenMethod"))
         self.newFullScreenHide.stateChanged.connect(lambda i: setSettings("NewFullScreenMethod", bool(i)))
-        layout.addWidget(self.newFullScreenHide)
+        self.clockSettingsTitle.addWidget(self.newFullScreenHide)
         self.legacyRDPHide = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+" (Old method)".replace("RDP", "RDP, VMWare Horizon"))
         self.legacyRDPHide.setChecked(getSettings("EnableHideOnRDP"))
         self.legacyRDPHide.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
-        layout.addWidget(self.legacyRDPHide)
+        self.clockSettingsTitle.addWidget(self.legacyRDPHide)
         self.forceClockToShow = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
         self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
-        layout.addWidget(self.forceClockToShow)
+        self.clockSettingsTitle.addWidget(self.forceClockToShow)
         self.clockAtBottom = QSettingsCheckBox(_("Force the clock to be at the bottom of the screen"))
         self.clockAtBottom.setChecked(getSettings("ForceOnBottom"))
         self.clockAtBottom.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
-        layout.addWidget(self.clockAtBottom)
+        self.clockSettingsTitle.addWidget(self.clockAtBottom)
         self.clockAtTop = QSettingsCheckBox(_("Force the clock to be at the top of the screen"))
         self.clockAtTop.setChecked(getSettings("ForceOnTop"))
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
-        layout.addWidget(self.clockAtTop)
+        self.clockSettingsTitle.addWidget(self.clockAtTop)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
@@ -143,15 +143,15 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtLeft = QSettingsCheckBox(_("Show the clock at the left of the screen"))
         self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
         self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
-        layout.addWidget(self.clockAtLeft)
+        self.clockSettingsTitle.addWidget(self.clockAtLeft)
         self.primaryScreen = QSettingsCheckBoxWithWarning(_("Show the clock on the primary screen"), "You might need to set a custom background color for this to work.&nbsp;More info <a href=\"{0}\" style=\"color:DodgerBlue\">HERE</a>".format("https://github.com/martinet101/ElevenClock/discussions/333#discussioncomment-1726960"))
         self.primaryScreen.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
         self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
-        layout.addWidget(self.primaryScreen)
-        layout.addSpacing(10)
+        self.clockSettingsTitle.addWidget(self.primaryScreen)
 
-        self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"))
+
+        self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
         layout.addWidget(self.clockAppearanceTitle)
         self.fontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
         self.fontPrefs.setChecked(getSettings("UseCustomFont"))
@@ -169,7 +169,7 @@ class SettingsWindow(QFramelessWindow):
                 self.fontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
         self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
         self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
-        layout.addWidget(self.fontPrefs)
+        self.clockAppearanceTitle.addWidget(self.fontPrefs)
         
         self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
         self.fontSize.setChecked(getSettings("UseCustomFontSize"))
@@ -182,7 +182,7 @@ class SettingsWindow(QFramelessWindow):
                 self.fontSize.combobox.setCurrentText("9")
         self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
         self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
-        layout.addWidget(self.fontSize)
+        self.clockAppearanceTitle.addWidget(self.fontSize)
         
         self.fontColor = QSettingsSizeBoxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
@@ -190,7 +190,7 @@ class SettingsWindow(QFramelessWindow):
             self.fontColor.button.setStyleSheet(f"color: rgb({getSettingsValue('UseCustomFontColor')})")
         self.fontColor.stateChanged.connect(lambda i: setSettings("UseCustomFontColor", bool(i)))
         self.fontColor.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontColor", v))
-        layout.addWidget(self.fontColor)
+        self.clockAppearanceTitle.addWidget(self.fontColor)
         self.backgroundcolor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
         self.backgroundcolor.setChecked(getSettings("UseCustomBgColor"))
         self.backgroundcolor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
@@ -198,102 +198,102 @@ class SettingsWindow(QFramelessWindow):
             self.backgroundcolor.button.setStyleSheet(f"background-color: rgba({getSettingsValue('UseCustomBgColor')})")
         self.backgroundcolor.stateChanged.connect(lambda i: setSettings("UseCustomBgColor", bool(i)))
         self.backgroundcolor.valueChanged.connect(lambda v: setSettingsValue("UseCustomBgColor", v))
-        layout.addWidget(self.backgroundcolor)
+        self.clockAppearanceTitle.addWidget(self.backgroundcolor)
         self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         self.centerText.setChecked(getSettings("CenterAlignment"))
         self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.centerText.stateChanged.connect(lambda i: setSettings("CenterAlignment", bool(i)))
-        layout.addWidget(self.centerText)
-        layout.addSpacing(10)
+        self.clockAppearanceTitle.addWidget(self.centerText)
 
-        self.dateTimeTitle = QIconLabel(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"))
+
+        self.dateTimeTitle = QIconLabel(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"), _("Date format, Time format, seconds,weekday, weeknumber, regional settings"))
         layout.addWidget(self.dateTimeTitle)
         self.showTime = QSettingsCheckBox(_("Show time on the clock"))
         self.showTime.setChecked(not getSettings("DisableTime"))
         self.showTime.stateChanged.connect(lambda i: setSettings("DisableTime", not bool(i), r = False))
-        layout.addWidget(self.showTime)
+        self.dateTimeTitle.addWidget(self.showTime)
         self.showSeconds = QSettingsCheckBox(_("Show seconds on the clock"))
         self.showSeconds.setChecked(getSettings("EnableSeconds"))
         self.showSeconds.stateChanged.connect(lambda i: setSettings("EnableSeconds", bool(i), r = False))
-        layout.addWidget(self.showSeconds)
+        self.dateTimeTitle.addWidget(self.showSeconds)
         self.showDate = QSettingsCheckBox(_("Show date on the clock"))
         self.showDate.setChecked(not getSettings("DisableDate"))
         self.showDate.stateChanged.connect(lambda i: setSettings("DisableDate", not bool(i), r = False))
-        layout.addWidget(self.showDate)
+        self.dateTimeTitle.addWidget(self.showDate)
         self.showWeekCount = QSettingsCheckBox(_("Show week number on the clock"))
         self.showWeekCount.setChecked(getSettings("EnableWeekNumber"))
         self.showWeekCount.stateChanged.connect(lambda i: setSettings("EnableWeekNumber", bool(i), r = False))
-        layout.addWidget(self.showWeekCount)
+        self.dateTimeTitle.addWidget(self.showWeekCount)
         self.showWeekday = QSettingsCheckBox(_("Show weekday on the clock"))
         self.showWeekday.setChecked(getSettings("EnableWeekDay"))
         self.showWeekday.stateChanged.connect(lambda i: setSettings("EnableWeekDay", bool(i)))
-        layout.addWidget(self.showWeekday)
+        self.dateTimeTitle.addWidget(self.showWeekday)
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
-        layout.addWidget(self.RegionButton)
-        layout.addSpacing(10)
+        self.dateTimeTitle.addWidget(self.RegionButton)
+
         
-        self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"))
+        self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
         self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.fixDash.setChecked(getSettings("EnableHyphenFix"))
         self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
-        layout.addWidget(self.fixDash)
+        self.experimentalTitle.addWidget(self.fixDash)
         self.fixSSL = QSettingsCheckBox(_("Alternative non-SSL update server (This might help with SSL errors)"))
         self.fixSSL.setChecked(getSettings("AlternativeUpdateServerProvider"))
         self.fixSSL.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
-        layout.addWidget(self.fixSSL)
+        self.experimentalTitle.addWidget(self.fixSSL)
         self.win32alignment = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
         self.win32alignment.setChecked(getSettings("EnableWin32API"))
         self.win32alignment.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.win32alignment.stateChanged.connect(lambda i: setSettings("EnableWin32API", bool(i)))
-        layout.addWidget(self.win32alignment)
-        layout.addSpacing(10)
+        self.experimentalTitle.addWidget(self.win32alignment)
 
-        self.languageSettingsTitle = QIconLabel(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"))
+
+        self.languageSettingsTitle = QIconLabel(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"), _("Language pack author(s), help translating ElevenClock"))
         layout.addWidget(self.languageSettingsTitle)
         self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
         self.PackInfoButton.button.hide()
         self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.PackInfoButton)
+        self.languageSettingsTitle.addWidget(self.PackInfoButton)
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
         self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md"))
-        layout.addWidget(self.openTranslateButton)
-        layout.addSpacing(10)
+        self.languageSettingsTitle.addWidget(self.openTranslateButton)
 
-        self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"))
+
+        self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
         self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
         self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.WebPageButton)
+        self.aboutTitle.addWidget(self.WebPageButton)
         self.IssueButton = QSettingsButton(_("Report an issue/request a feature"), _("Report"))
         self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
         self.IssueButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.IssueButton)
+        self.aboutTitle.addWidget(self.IssueButton)
         self.CofeeButton = QSettingsButton(_("Support the dev: Give me a coffee☕"), _("Open page"))
         self.CofeeButton.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
         self.CofeeButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.CofeeButton)
+        self.aboutTitle.addWidget(self.CofeeButton)
         self.PichonButton = QSettingsButton(_("Icons by Icons8"), _("Webpage"))
         self.PichonButton.clicked.connect(lambda: os.startfile("https://icons8.com/"))
         self.PichonButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.PichonButton)
+        self.aboutTitle.addWidget(self.PichonButton)
         self.QtButton = QSettingsButton(_("About Qt6 (PySide6)").replace("Qt6", "Qt5").replace("PySide6", "PySide2"), _("About"))
         self.QtButton.clicked.connect(lambda: QMessageBox.aboutQt(self, "ElevenClock - About Qt"))
         self.QtButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.QtButton)
+        self.aboutTitle.addWidget(self.QtButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: self.hide())
-        layout.addWidget(self.closeButton)
-        layout.addSpacing(10)
+        self.aboutTitle.addWidget(self.closeButton)
 
-        self.debbuggingTitle = QIconLabel(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"))
+
+        self.debbuggingTitle = QIconLabel(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"), _("Log, debugging information"))
         layout.addWidget(self.debbuggingTitle)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.showDebugInfo())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        layout.addWidget(self.logButton)
+        self.debbuggingTitle.addWidget(self.logButton)
         try:
             self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         except Exception as e:
@@ -301,8 +301,9 @@ class SettingsWindow(QFramelessWindow):
             self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {psutil.virtual_memory().total/(1000.**3)}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
 
         self.hiddenButton.button.setVisible(False)
-        layout.addWidget(self.hiddenButton)
+        self.debbuggingTitle.addWidget(self.hiddenButton)
         layout.addSpacing(15)
+        layout.addStretch()
 
         self.settingsWidget.setLayout(layout)
         self.scrollArea.setWidget(self.settingsWidget)
@@ -519,6 +520,9 @@ class SettingsWindow(QFramelessWindow):
                                    color: #dddddd;
                                    font-size: 8pt;
                                 }}
+                                #greyishLabel {{
+                                    color: #aaaaaa;
+                                }}
                                 #warningLabel {{
                                     color: #bdba00;
                                 }}
@@ -561,26 +565,49 @@ class SettingsWindow(QFramelessWindow):
                                     border-top-color: rgb({colors[1]});
                                 }}
                                 #title{{
-                                   background-color: #303030;
-                                   margin: {self.getPx(10)}px;
+                                   /*background-color: #303030;
+                                   */margin: {self.getPx(2)}px;
                                    margin-bottom: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid #1c1c1c;
+                                   /*border: {self.getPx(1)}px solid #1c1c1c;
                                    border-bottom: 0px;
-                                   font-size: 13pt;
-                                   border-radius: {self.getPx(6)}px;
+                                   */font-size: 13pt;
+                                   border-radius: {self.getPx(4)}px;
                                 }}
                                 #subtitleLabel{{
                                    background-color: #303030;
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
+                                   margin-top: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    border: {self.getPx(1)}px solid #1c1c1c;
-                                   border-bottom: 0px;
+                                   font-size: 13pt;
+                                   border-top-left-radius: {self.getPx(4)}px;
+                                   border-top-right-radius: {self.getPx(4)}px;
+                                }}
+                                #subtitleLableHover {{
+                                   background-color: rgba(255, 255, 255, 1%);
+                                   margin: {self.getPx(10)}px;
+                                   margin-top: 0px;
+                                   margin-bottom: 0px;
+                                   border-radius: {self.getPx(4)}px;
+                                   border-top-left-radius: {self.getPx(4)}px;
+                                   border-top-right-radius: {self.getPx(4)}px;
+                                   border: 1px solid transparent;
+                                }}
+                                #subtitleLableHover:hover{{
+                                   background-color: rgba(255, 255, 255, 6%);
+                                   margin: {self.getPx(10)}px;
+                                   margin-top: 0px;
+                                   margin-bottom: 0px;
+                                   padding-left: {self.getPx(20)}px;
+                                   padding-top: {self.getPx(15)}px;
+                                   padding-bottom: {self.getPx(15)}px;
+                                   border: {self.getPx(1)}px solid #404040;
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
@@ -598,7 +625,6 @@ class SettingsWindow(QFramelessWindow):
                                    margin-bottom: 0px;
                                    margin-top: 0px;
                                    border: {self.getPx(1)}px solid #1c1c1c;
-                                   border-bottom: 0px;
                                    border-bottom-left-radius: {self.getPx(6)}px;
                                    border-bottom-right-radius: {self.getPx(6)}px;
                                 }}
@@ -915,15 +941,15 @@ class SettingsWindow(QFramelessWindow):
                                     border-bottom-color: rgb({colors[3]});
                                 }}
                                 #title{{
-                                   background-color: #ffffff;
-                                   margin: {self.getPx(10)}px;
+                                   /*background-color: #ffffff;
+                                   */margin: {self.getPx(2)}px;
                                    margin-bottom: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   /*border: {self.getPx(1)}px solid #dddddd;
                                    border-bottom: 1px;
-                                   font-size: 13pt;
+                                   */font-size: 13pt;
                                    border-radius: {self.getPx(6)}px;
                                 }}
                                 #subtitleLabel{{
@@ -934,7 +960,18 @@ class SettingsWindow(QFramelessWindow):
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    border: {self.getPx(1)}px solid #dddddd;
-                                   border-bottom: 0px;
+                                   font-size: 13pt;
+                                   border-top-left-radius: {self.getPx(6)}px;
+                                   border-top-right-radius: {self.getPx(6)}px;
+                                }}
+                                #subtitleLableHover:hover{{
+                                   /*background-color: #ffffff;
+                                   */margin: {self.getPx(10)}px;
+                                   margin-bottom: 0px;
+                                   padding-left: {self.getPx(20)}px;
+                                   padding-top: {self.getPx(15)}px;
+                                   padding-bottom: {self.getPx(15)}px;
+                                   border: {self.getPx(1)}px solid #dddddd;
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
@@ -953,8 +990,8 @@ class SettingsWindow(QFramelessWindow):
                                    margin-top: 0px;
                                    border: {self.getPx(1)}px solid #dddddd;
                                    border-bottom: 0px;
-                                   border-bottom-left-radius: {self.getPx(6)}px;
-                                   border-bottom-right-radius: {self.getPx(6)}px;
+                                   border-bottom-left-radius: {self.getPx(0)}px;
+                                   border-bottom-right-radius: {self.getPx(0)}px;
                                 }}
                                 #lastWidget{{
                                    border-bottom-left-radius: {self.getPx(6)}px;
@@ -1145,7 +1182,7 @@ class SettingsWindow(QFramelessWindow):
     def mouseReleaseEvent(self, event) -> None:
         if(self.updateSize):
             self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
-            self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
+            #self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
             self.applyStyleSheet()
             self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
             self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
@@ -1156,7 +1193,6 @@ class SettingsWindow(QFramelessWindow):
 
     def resizeEvent(self, event: QMoveEvent) -> None:
         self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
-        self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
 
     def show(self) -> None:
         self.applyStyleSheet()
@@ -1176,10 +1212,8 @@ class SettingsWindow(QFramelessWindow):
                 self.vlayout.setContentsMargins(2, 2, 2, 2)
         return super().eventFilter(watched, event)
 
-
     def showEvent(self, event: QShowEvent) -> None:
         self.resize(900, 600)
-        self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
         return super().showEvent(event)
 
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -1191,19 +1225,103 @@ class SettingsWindow(QFramelessWindow):
 
 
 class QIconLabel(QWidget):
-    def __init__(self, text, icon=None):
+    def __init__(self, text: str, icon: str, descText: str = "No description provided"):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+            self.iconMode = "white"
+        else:
+            self.iconMode = "black"
         super().__init__()
         self.setObjectName("subtitleLabel")
         self.label = QLabel(text, self)
+        self.descLabel = QLabel(descText, self)
+        self.descLabel.setObjectName("greyishLabel")
         if lang == lang_zh_TW or lang == lang_zh_CN:
-            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Microsoft JhengHei UI\";")
+            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";")
+            self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft JhengHei UI\";")
+
         else:
-            self.label.setStyleSheet("font-size: 13pt;background: none;font-family: \"Segoe UI Variable Display\";")
+            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Segoe UI Variable Display Semib\";")
+            self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display Semib\";")
+
         self.image = QLabel(self)
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
         self.image.setStyleSheet("padding: 3px;background: none;")
         self.setAttribute(Qt.WA_StyledBackground)
+        self.compressibleWidget = QWidget(self)
+        self.compressibleWidget.show()
+        self.childOpacity=QGraphicsOpacityEffect(self)
+        self.childOpacity.setOpacity(1.0)
+        self.compressibleWidget.setGraphicsEffect(self.childOpacity)
+        self.compressibleWidget.setAutoFillBackground(True)
+        self.compressibleWidget.setObjectName("compressibleWidget")
+        self.compressibleWidget.setStyleSheet("#compressibleWidget{background-color: transparent;}")
 
+        self.showHideButton = QPushButton("", self)
+        self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
+        self.showHideButton.setIconSize(QSize(12, 12))
+        self.showHideButton.setStyleSheet("border: none; background-color:none;")
+        self.showHideButton.clicked.connect(self.toggleChilds)
+        l = QVBoxLayout()
+        l.setSpacing(0)
+        l.setContentsMargins(0, 0, 0, 0)
+        self.childsVisible = True
+        self.compressibleWidget.setLayout(l)
+
+        self.seventyPx = self.getPx(60)
+        self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;border-bottom: 1px;}}")
+
+        self.showAnim = QVariantAnimation(self.compressibleWidget)
+        self.showAnim.setEasingCurve(QEasingCurve.InOutQuart)
+        self.showAnim.setStartValue(0)
+        self.showAnim.setEndValue(1000)
+        self.showAnim.valueChanged.connect(lambda v: self.setChildFixedHeight(v, v/self.compressibleWidget.sizeHint().height()))
+        self.showAnim.setDuration(300)
+        self.showAnim.finished.connect(self.invertNotAnimated)
+        self.hideAnim = QVariantAnimation(self.compressibleWidget)
+        self.hideAnim.setEndValue(0)
+        self.hideAnim.setEasingCurve(QEasingCurve.InOutQuart)
+        self.hideAnim.valueChanged.connect(lambda v: self.setChildFixedHeight(v, v/self.compressibleWidget.sizeHint().height()))
+        self.hideAnim.setDuration(300)
+        self.hideAnim.finished.connect(self.invertNotAnimated)
+        self.NotAnimated = True
+
+        self.button = QPushButton("", self)
+        self.button.setObjectName("subtitleLableHover")
+        self.button.clicked.connect(self.toggleChilds)
+        self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
+
+        
+    def setChildFixedHeight(self, h: int, o:float = 1.0) -> None:
+        self.compressibleWidget.setFixedHeight(h)
+        self.setFixedHeight(h+self.seventyPx)
+        self.childOpacity.setOpacity(o)
+        self.compressibleWidget.setGraphicsEffect(self.childOpacity)
+
+    def invertNotAnimated(self):
+        self.NotAnimated = not self.NotAnimated
+
+    def toggleChilds(self):
+        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+            self.iconMode = "white"
+        else:
+            self.iconMode = "black"
+        if self.childsVisible:
+            self.childsVisible = False
+            self.hideAnim.setStartValue(self.compressibleWidget.sizeHint().height())
+            self.hideAnim.setEndValue(0)
+            self.invertNotAnimated()
+            self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
+            self.hideAnim.finished.connect(lambda: self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;"))
+            self.hideAnim.start()
+        else:
+            self.showAnim.setStartValue(0)
+            self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
+            self.showAnim.setEndValue(self.compressibleWidget.sizeHint().height())
+            self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
+            self.showAnim.start()
+            self.invertNotAnimated()
+            self.childsVisible = True
+        
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInchX()/96))
 
@@ -1211,16 +1329,33 @@ class QIconLabel(QWidget):
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.label.move(self.getPx(60), self.getPx(25))
-        self.label.setFixedHeight(self.getPx(30))
-        self.image.move(self.getPx(22), self.getPx(25))
+        self.button.move(0, 0)
+        self.button.resize(self.width(), self.getPx(60))
+        self.showHideButton.setFixedSize(self.getPx(30), self.getPx(30))
+        self.showHideButton.move(self.width()-self.getPx(55), self.getPx(15))
+        
+        self.label.move(self.getPx(60), self.getPx(12))
+        self.label.setFixedHeight(self.getPx(20))
+        self.descLabel.move(self.getPx(60), self.getPx(32))
+        self.descLabel.setFixedHeight(self.getPx(15))
+
+        self.image.move(self.getPx(22), self.getPx(15))
         self.image.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(70))
+        if self.childsVisible and self.NotAnimated:
+            self.setFixedHeight(self.compressibleWidget.sizeHint().height()+self.getPx(60))
+            self.compressibleWidget.setFixedHeight(self.compressibleWidget.sizeHint().height())
+        elif self.NotAnimated:
+            self.setFixedHeight(self.getPx(60))
+        self.compressibleWidget.move(0, self.getPx(60))
+        self.compressibleWidget.setFixedWidth(self.width())
         self.image.setFixedHeight(self.getPx(30))
-        self.label.setFixedWidth(self.width()-self.getPx(70))
+        self.label.setFixedWidth(self.width()-self.getPx(60))
         self.image.setFixedWidth(self.getPx(30))
         return super().resizeEvent(event)
-
+    
+    def addWidget(self, widget: QWidget) -> None:
+        self.compressibleWidget.layout().addWidget(widget)
+        
 class QSettingsButton(QWidget):
     clicked = Signal()
     def __init__(self, text="", btntext="", parent=None, h = 30):
@@ -1369,9 +1504,6 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
         self.infolabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(150))
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
-
-
-    
 
 class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
