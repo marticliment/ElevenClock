@@ -799,7 +799,10 @@ class Label(QLabel):
             if(i.contextMenu().height() != 480):
                 mousePos.setY(self.window().y()-i.contextMenu().height())
             else:
-                mousePos.setY(self.window().y()-int(220*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
+                if getSettings("HideTaskManagerButton"):
+                    mousePos.setY(self.window().y()-int(220*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
+                else:
+                    mousePos.setY(self.window().y()-int(330*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
             i.execMenu(mousePos)
         else:
             self.clicked.emit()
@@ -877,7 +880,7 @@ try:
         setSettings("Updated2.8Already", True)
         QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - The ability to change font and background color\n - Added the ability to replace system clock\n - Added color code on log\n - Added more languages\n - Added an option to show the clock at the top\n - Better settings UI\n - Lots of other bugfixes and other improvements")
 
-    showSettings = True
+    showSettings = False
     if("--settings" in sys.argv or showSettings):
         sw.show()
 

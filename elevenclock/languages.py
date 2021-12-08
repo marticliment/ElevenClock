@@ -68,4 +68,4 @@ languageReference = {
     "vi": "Vietnamese",
 }
 
-debugLang = True
+debugLang = False

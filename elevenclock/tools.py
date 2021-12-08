@@ -133,12 +133,16 @@ class Menu(QMenu):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
 
+        
+from BlurWindow.blurWindow import GlobalBlur
+        
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
         super().__init__(app)
         self.setIcon(QIcon(getPath("icon.ico")))
         self.show()
         menu = QMenu(_("ElevenClock"))
+
         menu.setWindowFlag(Qt.WindowStaysOnTopHint)
         menu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)
         menu.setAttribute(Qt.WA_TranslucentBackground)
@@ -163,6 +167,19 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.quitAction = QAction(_("Quit ElevenClock"), app)
         self.quitAction.triggered.connect(lambda: globals.app.quit())
         menu.addAction(self.quitAction)
+        menu.addSeparator()
+        self.takmgr = QAction(_("Task Manager"), app)
+        self.takmgr.triggered.connect(lambda: os.startfile('taskmgr'))
+        if not getSettings("HideTaskManagerButton"):
+            menu.addAction(self.takmgr)
+        self.datetimeprefs = QAction(_("Change date and time"), app)
+        self.datetimeprefs.triggered.connect(lambda: os.startfile('ms-settings:dateandtime'))
+        if not getSettings("HideTaskManagerButton"):
+            menu.addAction(self.datetimeprefs)
+        self.notifprefs = QAction(_("Notification settings"), app)
+        self.notifprefs.triggered.connect(lambda: os.startfile('ms-settings:notifications'))
+        if not getSettings("HideTaskManagerButton"):
+            menu.addAction(self.notifprefs)
 
         self.setContextMenu(menu)
 
@@ -190,28 +207,35 @@ class TaskbarIconTray(QSystemTrayIcon):
     def applyStyleSheet(self) -> None:
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
+            self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+            self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+            self.takmgr.setIcon(QIcon(getPath(f"taskmgr_{self.iconMode}.png")))
             self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
             self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
             self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
             self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121", QWidget=self.contextMenu())
             self.contextMenu().setStyleSheet(f"""
                 QWidget{{
                     background-color: transparent;
+                    border-radius: {self.getPx(8)}px;
                 }}  
                 QMenu {{
                     border: {self.getPx(1)}px solid #111111;
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: white;
-                    background: #262626;
+                    background: rgba(50, 50, 50, 1%)/*#262626*/;
                     border-radius: {self.getPx(8)}px;
                 }}
                 QMenu::separator {{
-                    margin: {self.getPx(2)}px;
+                    margin: {self.getPx(-2)}px;
+                    margin-top: {self.getPx(2)}px;
+                    margin-bottom: {self.getPx(2)}px;
                     height: {self.getPx(1)}px;
-                    background: #111111;
+                    background-color: rgba(255, 255, 255, 20%);
                 }}
                 QMenu::icon {{
                     padding-left: {self.getPx(10)}px;
@@ -246,12 +270,16 @@ class TaskbarIconTray(QSystemTrayIcon):
                 """)
         else:
             self.iconMode = "black"
+            self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+            self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+            self.takmgr.setIcon(QIcon(getPath(f"taskmgr_{self.iconMode}.png")))
             self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
             self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
             self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
             self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, Dark=False, hexColor="#ffffff", QWidget=self.contextMenu())
             self.contextMenu().setStyleSheet(f"""
                 QWidget{{
                     background-color: transparent;
@@ -261,13 +289,15 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: black;
-                    background: #eeeeee;
+                    background: rgba(220, 220, 220, 1%)/*#262626*/;
                     border-radius: {self.getPx(8)}px;
                 }}
                 QMenu::separator {{
-                    margin: {self.getPx(2)}px;
+                    margin: {self.getPx(-2)}px;
+                    margin-top: {self.getPx(2)}px;
+                    margin-bottom: {self.getPx(2)}px;
                     height: {self.getPx(1)}px;
-                    background: rgb(200, 200, 200);
+                    background-color: rgba(0, 0, 0, 20%);
                 }}
                 QMenu::icon{{
                     padding-left: {self.getPx(10)}px;
