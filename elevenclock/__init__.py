@@ -858,19 +858,7 @@ try:
     timethread.start()
     if getSettings("EnableHideOnRDP"):
         rdpThread.start()
-        
-        
-    if not getSettings("EnableHideOnFullScreen") and not getSettings("FullScreenPrefsWereMigrated"): # This is to migrate the old settings to the new one. it will be eventually removed.
-        setSettings("DisableHideOnFullScreen", v=True, r=False)
-        setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
-        setSettings("EnableHideOnFullScreen", v=False, r=False)
-        print("🟡 Updating fullscreen setting")
-    elif not getSettings("FullScreenPrefsWereMigrated"):
-        setSettings("DisableHideOnFullScreen", v=False, r=False)
-        setSettings("FullScreenPrefsWereMigrated", v=True, r=False)
-        setSettings("EnableHideOnFullScreen", v=False, r=False)
-        print("🟡 Updating fullscreen setting")
-
+    
     signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
     loadClocks()
 
