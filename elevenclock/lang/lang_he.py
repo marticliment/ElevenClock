@@ -24,8 +24,8 @@ lang2_7_bis = lang_2_8 | {
     "Use a custom font": "בחר סוג גופן",
     "Use a custom font size": "בחר גודל גופן",
     "Enable hide when multi-monitor fullscreen apps are running": "הפעל הסתרת שעון, כאשר אפליקציות מסך מלא בריבוי מסכים פועלת",
-    "<b>{0}</b> needs to be enabled to change this setting": "חייב להיות פעיל, על מנת לשנות הגדרה זאת",
-    "<b>{0}</b> needs to be disabled to change this setting": "חייב להיות כבוי, על מנת לשנות הגדרה זאת",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> חייב להיות פעיל, על מנת לשנות הגדרה זאת",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> חייב להיות כבוי, על מנת לשנות הגדרה זאת",
 }
 
 lang2_7 = lang2_7_bis | {
@@ -60,7 +60,7 @@ lang2_3 = lang2_4 | {
     #Context menu
     "ElevenClock Settings"      :"ElevenClock הגדרות", # Also settings title
     "Reload Clocks"             :"טען שעונים",
-    "ElevenClock v{0}"          :"",
+    "ElevenClock v{0}"          :"ElevenClock v{0}",
     "Restart ElevenClock"       :"ElevenClock הפעל מחדש",
     "Hide ElevenClock"          :"ElevenClock הסתר",
     "Quit ElevenClock"          :"ElevenClock יציאה",
