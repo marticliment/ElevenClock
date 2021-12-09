@@ -3,7 +3,7 @@
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 <br>
 <!--![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)-->
-[![](https://img.shields.io/github/downloads/martinet101/ElevenClock/2.7/total?style=for-the-badge)]() 
+<!--[![](https://img.shields.io/github/downloads/martinet101/ElevenClock/2.8/total?style=for-the-badge)]()--> 
 ![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
 ![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
 ![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
@@ -115,6 +115,7 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Slovak
  - Brazilian Portuguese
  - Hungarian
+ - Hebrew
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
