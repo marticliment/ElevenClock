@@ -19,7 +19,7 @@ lang_2_9 = {
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Format de data i hora, segons, dia de la setmana i setmana de l'any, configuració regional",
     "Testing features and error-fixing tools": "Característiques experimentals i altres configuracions per a la solució d'errors",
     "Language pack author(s), help translating ElevenClock": "Autor(s) del paquet d'idioma, ajudeu a traduir l'ElevenClock",
-    "Info, report a bug, submit a feature request, donate, about": "Informació, reporteu un problema, suggeriu una característica, feu una donació, sobre l'ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Informació, reportar un problema, suggerir una característica, fer una donació, informació sobre l'ElevenClock",
     "Log, debugging information": "Registre, informació de depuració",
 }
 

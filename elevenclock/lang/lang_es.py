@@ -7,20 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Administrador de tareas",
+    "Change date and time": "Ajusta la fecha y la hora",
+    "Notification settings": "Configuración de las notificaciones",
+    "Updates, icon tray, language": "Actualizaciones, bandeja del sistema, idioma",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Oculta las funciones extras del menú de clic derecho del relo (Se necessita un reinicio para aplicar)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportamiento de pantalla completa, posición del reloj, reloj de la pantalla principal, otros parametros misceláneos",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Añade el botón de "Mostrar el escritorio" en el borde derecho de cada reloj',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Puede ser que necesite establecer un color de fondo para el reloj.&nbsp;Más información <a href="{0}" style="color:DodgerBlue">AQUÍ</a>',
+    "Clock's font, font size, font color and background, text alignment": "Tipo y tamaño de fuente, color del texto y de fondo, alineación del texto del reloj",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Formato de fecha y hora, segundos, día de la semana y semana del año, configuración regional",
+    "Testing features and error-fixing tools": "Características experimentales y otras configuraciones para la solución de errores",
+    "Language pack author(s), help translating ElevenClock": "Autor(es) del paquete de idioma, ayudad a traducir ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Información, reportar un problema, suggerir una característica, hacer una donación, información sobre ElevenClock",
+    "Log, debugging information": "Registro, información de depuración",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -83,7 +83,7 @@ lang2_3 = lang2_4 | {
     "Automatically check for updates"                                                   :"Buscar actualizaciones automáticamente",
     "Automatically install available updates"                                           :"Instalar automáticamente las actualizaciones",
     "Enable really silent updates"                                                      :"Activar actualizaciones silenciosas",
-    "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"No comprobar la autenticidad de las actualizaciones (NO RECOMENDADO, BAJO VUESTRA RESPONSABILIDAD)",
+    "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"No comprobar la autenticidad de las actualizaciones (NO RECOMENDADO, BAJO SU RESPONSABILIDAD)",
     "Show ElevenClock on system tray"                                                   :"Mostrar ElevenClock en la bandeja del sistema",
     "Alternative clock alignment (may not work)"                                        :"Alineación alternativa (puede no funcionar)",
     "Change startup behaviour"                                                          :"Cambiar el comportamiento al inicio",
