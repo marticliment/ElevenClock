@@ -1235,6 +1235,7 @@ class QIconLabel(QWidget):
         else:
             self.iconMode = "black"
         super().__init__()
+        self.icon = icon
         self.setObjectName("subtitleLabel")
         self.label = QLabel(text, self)
         self.descLabel = QLabel(descText, self)
@@ -1248,7 +1249,6 @@ class QIconLabel(QWidget):
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display Semib\";")
 
         self.image = QLabel(self)
-        self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
         self.image.setStyleSheet("padding: 3px;background: none;")
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
@@ -1262,7 +1262,6 @@ class QIconLabel(QWidget):
 
         self.showHideButton = QPushButton("", self)
         self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
-        self.showHideButton.setIconSize(QSize(12, 12))
         self.showHideButton.setStyleSheet("border: none; background-color:none;")
         self.showHideButton.clicked.connect(self.toggleChilds)
         l = QVBoxLayout()
@@ -1271,7 +1270,6 @@ class QIconLabel(QWidget):
         self.childsVisible = True
         self.compressibleWidget.setLayout(l)
 
-        self.seventyPx = self.getPx(60)
         self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;border-bottom: 1px;}}")
 
         self.showAnim = QVariantAnimation(self.compressibleWidget)
@@ -1297,8 +1295,8 @@ class QIconLabel(QWidget):
         
     def setChildFixedHeight(self, h: int, o:float = 1.0) -> None:
         self.compressibleWidget.setFixedHeight(h)
-        self.setFixedHeight(h+self.seventyPx)
-        self.childOpacity.setOpacity(o)
+        self.setFixedHeight(h+self.getPx(60))
+        self.childOpacity.setOpacity((o-(0.5))*2 if (o-(0.5))*2>0 else 0)
         self.compressibleWidget.setGraphicsEffect(self.childOpacity)
 
     def invertNotAnimated(self):
@@ -1333,6 +1331,8 @@ class QIconLabel(QWidget):
         self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
+        self.image.setPixmap(QIcon(self.icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
+        self.showHideButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
         self.button.move(0, 0)
         self.button.resize(self.width(), self.getPx(60))
         self.showHideButton.setFixedSize(self.getPx(30), self.getPx(30))
