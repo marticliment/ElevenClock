@@ -148,7 +148,7 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
         self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
         self.clockSettingsTitle.addWidget(self.clockAtLeft)
-        self.primaryScreen = QSettingsCheckBoxWithWarning(_("Show the clock on the primary screen"), _("You might need to set a custom background color for this to work.&nbsp;More info <a href=\"{0}\" style=\"color:DodgerBlue\">HERE</a>").format("https://github.com/martinet101/ElevenClock/discussions/333#discussioncomment-1726960"))
+        self.primaryScreen = QSettingsCheckBoxWithWarning(_("Show the clock on the primary screen"), _("You might need to set a custom background color for this to work.&nbsp;More info <a href=\"{0}\" style=\"color:DodgerBlue\">HERE</a>").format("http://www.somepythonthings.tk/redirect?elevenclock_clockon1monitor"))
         self.primaryScreen.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
         self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))

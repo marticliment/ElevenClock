@@ -6,7 +6,24 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_2_8 = {
+lang_2_9 = {
+    "Task Manager": "Administrador de tasques",
+    "Change date and time": "Ajusta la data i l'hora",
+    "Notification settings": "Configuració de les notificacions",
+    "Updates, icon tray, language": "Actualitzacions, safata del sistema, idioma",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Amaga les funcions extres del menú de clic dret del rellotge (Es necessita un reinici per a aplicar)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportament de pantalla completa, posició del rellotge, rellotge de la pantalla principal, altres paràmetres miscel·lanis",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Afegeix el botó de "Mostrar l\'escriptori" a la cantonada dreta de cada rellotge',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Pot ser que necessiteu establir un color de fons concret.&nbsp;Més informació <a href="{0}" style="color:DodgerBlue">AQUÍ</a>',
+    "Clock's font, font size, font color and background, text alignment": "Tipus i mida de font, color de text i de fons, alineació del text del rellotge",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Format de data i hora, segons, dia de la setmana i setmana de l'any, configuració regional",
+    "Testing features and error-fixing tools": "Característiques experimentals i altres configuracions per a la solució d'errors",
+    "Language pack author(s), help translating ElevenClock": "Autor(s) del paquet d'idioma, ajudeu a traduir l'ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Informació, reporteu un problema, suggeriu una característica, feu una donació, sobre l'ElevenClock",
+    "Log, debugging information": "Registre, informació de depuració",
+}
+
+lang_2_8 = lang_2_9 | {
     "Force the clock to be at the top of the screen": "Força el rellotge a mostrar-se a la part de dalt de la pantalla",
     "Show the clock on the primary screen": "Mostra el rellotge a la pantalla principal",
     "Use a custom font color": "Utilitza un color de lletra concret",
