@@ -960,22 +960,35 @@ class SettingsWindow(QFramelessWindow):
                                    background-color: #ffffff;
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
+                                   margin-top: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
+                                   border-radius: {self.getPx(4)}px;
                                    border: {self.getPx(1)}px solid #dddddd;
                                    font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(6)}px;
-                                   border-top-right-radius: {self.getPx(6)}px;
+                                   border-top-left-radius: {self.getPx(4)}px;
+                                   border-top-right-radius: {self.getPx(4)}px;
+                                }}
+                                #subtitleLableHover {{
+                                   background-color: rgba(0, 0, 0, 1%);
+                                   margin: {self.getPx(10)}px;
+                                   margin-top: 0px;
+                                   margin-bottom: 0px;
+                                   border-radius: {self.getPx(4)}px;
+                                   border-top-left-radius: {self.getPx(4)}px;
+                                   border-top-right-radius: {self.getPx(4)}px;
+                                   border: 1px solid transparent;
                                 }}
                                 #subtitleLableHover:hover{{
-                                   /*background-color: #ffffff;
-                                   */margin: {self.getPx(10)}px;
+                                   background-color: rgba(0, 0, 0, 6%);
+                                   margin: {self.getPx(10)}px;
+                                   margin-top: 0px;
                                    margin-bottom: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid #cccccc;
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
@@ -1157,6 +1170,9 @@ class SettingsWindow(QFramelessWindow):
                                 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
                                     background: none;
                                 }}
+                                #greyishLabel {{
+                                    color: #888888;
+                                }}
                                """)
 
     def showDebugInfo(self):
@@ -1232,8 +1248,10 @@ class QIconLabel(QWidget):
     def __init__(self, text: str, icon: str, descText: str = "No description provided"):
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
+            semib = "Semib"
         else:
             self.iconMode = "black"
+            semib = ""
         super().__init__()
         self.icon = icon
         self.setObjectName("subtitleLabel")
@@ -1245,8 +1263,8 @@ class QIconLabel(QWidget):
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft JhengHei UI\";")
 
         else:
-            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Segoe UI Variable Display Semib\";")
-            self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display Semib\";")
+            self.label.setStyleSheet(f"font-size: 10pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
+            self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
 
         self.image = QLabel(self)
         self.image.setStyleSheet("padding: 3px;background: none;")
