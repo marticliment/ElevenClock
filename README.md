@@ -115,6 +115,7 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Slovak
  - Brazilian Portuguese
  - Hungarian
+ - Hebrew
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
