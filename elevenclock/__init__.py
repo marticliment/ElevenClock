@@ -543,40 +543,57 @@ class Clock(QWidget):
         self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
         self.loop.start()
         self.loop2.start()
-
+        
+        class QHoverButton(QPushButton):
+            hovered = Signal()
+            unhovered = Signal()
+            
+            def __init__(self, text: str = "", parent: QObject = None) -> None:
+                super().__init__(text=text, parent=parent)
+            
+            def enterEvent(self, event: QtCore.QEvent) -> None:
+                self.hovered.emit()
+                return super().enterEvent(event)
+            
+            def leaveEvent(self, event: QtCore.QEvent) -> None:
+                self.unhovered.emit()
+                return super().leaveEvent(event)
+            
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
-            self.desktopButton = QPushButton(self)
+            self.desktopButton = QHoverButton(parent=self)
             self.desktopButton.clicked.connect(lambda: self.showDesktop())
             self.desktopButton.show()
             self.desktopButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             self.desktopButton.move(self.width()-self.getPx(12), 0)
             self.desktopButton.resize(self.getPx(12), self.getPx(self.preferedHeight))
+            self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath("showdesktop.png"))))
+            self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
             self.setFixedHeight(self.getPx(self.preferedHeight))
             self.desktopButton.setStyleSheet(f"""
                 QPushButton{{
                     background-color: rgba(0, 0, 0, 0.01); 
                     margin: 0px;
                     padding: 0px; 
-                    margin-top: {self.getPx(self.preferedHeight//3)}px;
-                    margin-bottom: {self.getPx(self.preferedHeight//3)}px;
-                    border-left: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
-                    border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    border-left: 0px solid rgba(0, 0, 0, 0.05);
+                    border-right: 0px solid rgba(0, 0, 0, 0.05);
                 }}
                 QPushButton:hover{{
-                    background-color: rgba(127, 127, 127, 100%); 
+                    background-color: rgba(127, 127, 127, 1%); 
                     margin: 0px;
-                    margin-top: {self.getPx(self.preferedHeight//3)}px;
-                    margin-bottom: {self.getPx(self.preferedHeight//3)}px;
-                    border-left: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
-                    border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    border-left: 0px solid rgba(0, 0, 0, 0.05);
+                    border-right: 0px solid rgba(0, 0, 0, 0.05);
                 }}
                 QPushButton:pressed{{
-                    background-color: rgba(127, 127, 127, 50%); 
+                    background-color: rgba(127, 127, 127, 1%); 
                     margin: 0px;
-                    margin-top: {self.getPx(self.preferedHeight//3)}px;
-                    margin-bottom: {self.getPx(self.preferedHeight//3)}px;
-                    border-left: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
-                    border-right: {self.getPx(10)}px solid rgba(0, 0, 0, 0.05);
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    border-left: 0px solid rgba(0, 0, 0, 0.05);
+                    border-right: 0px solid rgba(0, 0, 0, 0.05);
                 }}
             """)
         #old_stdout.write(buffer.getvalue())
