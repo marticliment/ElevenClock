@@ -218,6 +218,10 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121", QWidget=self.contextMenu())
             self.contextMenu().setStyleSheet(f"""
+                * {{
+                    border-radius: {self.getPx(8)}px;
+                    background-color: transparent;
+                }}
                 QWidget{{
                     background-color: transparent;
                     border-radius: {self.getPx(8)}px;
