@@ -7,20 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "작업 관리자",
+    "Change date and time": "날짜 및 시간 조정",
+    "Notification settings": "알림 설정",
+    "Updates, icon tray, language": "업데이트, 트레이 아이콘, 언어",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "시계 우클릭 메뉴에서 추가 옵션 숨기기 (재시작 필요)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "전체화면 시 행동, 시계 위치, 주 모니터 시계, 기타 등",
+    'Add the "Show Desktop" button on the left corner of every clock': '모든 시계 왼쪽에 "바탕 화면 보기" 버튼 추가',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '이 설정은 배경 색상을 설정해야 정상 작동할 수 있습니다.&nbsp;<a href="{0}" style="color:DodgerBlue">자세한 정보</a>',
+    "Clock's font, font size, font color and background, text alignment": "시계 폰트, 폰트 크기, 폰트 및 배경 색상, 정렬",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "날짜 형식, 시간 형식, 초, 요일, 주 번호 표시, 지역 설정",
+    "Testing features and error-fixing tools": "테스트 기능 및 문제 해결 도구",
+    "Language pack author(s), help translating ElevenClock": "언어 팩 작성자(들), ElevenClock 번역 돕기",
+    "Info, report a bug, submit a feature request, donate, about": "문제 제보, 기능 요청, 기부, 정보",
+    "Log, debugging information": "로그, 디버깅 정보",
 }
 
 lang_2_8 = lang_2_9 | {
