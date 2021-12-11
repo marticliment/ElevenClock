@@ -895,7 +895,7 @@ try:
         print("Show2.8Welcome")
         sw.show()
         setSettings("Updated2.9Already", True)
-        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements")
+        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
 
     showSettings = False
     if("--settings" in sys.argv or showSettings):
