@@ -903,6 +903,7 @@ try:
 
     if("--quit-on-loaded" in sys.argv):
         sys.exit(0)
+        
 
     app.exec_()
     sys.exit(0)
@@ -911,7 +912,7 @@ except Exception as e:
     import webbrowser, traceback, platform
     os_info = f"" + \
         f"                        OS: {platform.system()}\n"+\
-        f"                   Release: {platform.release()}\n"+\
+        f"                   Version: {platform.win32_ver()}\n"+\
         f"           OS Architecture: {platform.machine()}\n"+\
         f"          APP Architecture: {platform.architecture()[0]}\n"+\
         f"                   Program: ElevenClock"+\
