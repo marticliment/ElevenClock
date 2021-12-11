@@ -11,20 +11,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Uzdevumu pārvaldnieks",
+    "Change date and time": "Mainīt datumu un laiku",
+    "Notification settings": "Paziņojumu iestatījumi",
+    "Updates, icon tray, language": "Atjauninājumi, ikonjosla, valoda",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Paslēpt paplašinātās opcijas no labā-klikšķa izvēlnes (nepieciešama pārstartēšana)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Pilnekrāna uzvedība, pulksteņa novietojums, primārā monitora pulkstenis, citi iestatījumi",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Pievienot pogu "Rādīt darbvirsmu" katra pulksteņa kreisajā stūrī',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Jums iespējams jauzstāda pielāgota fona krāsa, lai tas strādātu.&nbsp;Vairāk info <a href="{0}" style="color:DodgerBlue">ŠEIT</a>',
+    "Clock's font, font size, font color and background, text alignment": "Pulksteņa fonts, fonta izmērs, fonta krāsa un fons, teksta novietojums",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Datuma formāts, laika formāts, sekundes, nedēļas diena, nedēļas numurs, reģionālie iestatījumi",
+    "Testing features and error-fixing tools": "Testēšana un kļūdu labošanas rīki",
+    "Language pack author(s), help translating ElevenClock": "Valodas pakas autors(i), palīdzēt iztulkot ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Informācija, ziņot par kļūdu, nosūtīt ieteikumu, ziedot, par",
+    "Log, debugging information": "Žurnāls, atkļūdošanas informācija",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -54,7 +54,7 @@ lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "Par Qt6 (PySide6)",
     "About": "Par",
     "Alternative non-SSL update server (This might help with SSL errors)": "Alternatīvs ne-SSL atjauninājumu serveris (tas varētu palīdzēt ar SSL kļūdām)",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "Labojuni un citas eksperimentālas opcijas: (Lietot TIKAI tad, ja kaut kas nedarbojas)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Labojumi un citas eksperimentālas opcijas: (Lietot TIKAI tad, ja kaut kas nedarbojas)",
     "Show week number on the clock": "Rādīt nedēļas numuru"
 }
 
@@ -116,7 +116,7 @@ lang2_3 = lang2_4 | {
     #About the language pack
     "About the language pack:"                  :"Par valodu paku",
     "Translated to English by martinet101"      :"Uz Latviešu valodu tulkoja shadow118", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
-    "Translate ElevenClock to your language"    :"Iztulko ElevenClock uz savu valodu",
+    "Translate ElevenClock to your language"    :"Iztulko ElevenClock savā valodā",
     "Get started"                               :"Aiziet",
     
     #About ElevenClock
