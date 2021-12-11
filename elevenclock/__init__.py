@@ -575,6 +575,7 @@ class Clock(QWidget):
                     margin: 0px;
                     padding: 0px; 
                     margin-top: 0px;
+                    border-radius: 0px;
                     margin-bottom: 0px;
                     border-left: 0px solid rgba(0, 0, 0, 0.05);
                     border-right: 0px solid rgba(0, 0, 0, 0.05);
@@ -583,6 +584,7 @@ class Clock(QWidget):
                     background-color: rgba(127, 127, 127, 1%); 
                     margin: 0px;
                     margin-top: 0px;
+                    border-radius: 0px;
                     margin-bottom: 0px;
                     border-left: 0px solid rgba(0, 0, 0, 0.05);
                     border-right: 0px solid rgba(0, 0, 0, 0.05);
@@ -591,6 +593,7 @@ class Clock(QWidget):
                     background-color: rgba(127, 127, 127, 1%); 
                     margin: 0px;
                     margin-top: 0px;
+                    border-radius: 0px;
                     margin-bottom: 0px;
                     border-left: 0px solid rgba(0, 0, 0, 0.05);
                     border-right: 0px solid rgba(0, 0, 0, 0.05);
