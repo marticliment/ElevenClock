@@ -16,7 +16,7 @@ lang_2_9 = {
     'Add the "Show Desktop" button on the left corner of every clock': '',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
     "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Date format, Time format, seconds, weekday, weeknumber, regional settings",
     "Testing features and error-fixing tools": "",
     "Language pack author(s), help translating ElevenClock": "",
     "Info, report a bug, submit a feature request, donate, about": "",
