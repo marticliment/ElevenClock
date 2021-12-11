@@ -9,7 +9,7 @@
 
 lang_2_9 = {
     "Task Manager": "Gestionnaire des tâches",
-    "Change date and time": "Changer la date & heure",
+    "Change date and time": "Changer la date et l'heure",
     "Notification settings": "Paramètre de notification",
     "Updates, icon tray, language": "Mise à jour, icône système, langue",
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
@@ -25,10 +25,10 @@ lang_2_9 = {
 }
 
 lang_2_8 = lang_2_9 | {
-    "Force the clock to be at the top of the screen": "Forcer l'horloge à être en haut de l'écran",
+    "Force the clock to be at the top of the screen": "Forcer l'affichage de l'horloge en haut de l'écran",
     "Show the clock on the primary screen": "Afficher l'horloge sur l'écran principal",
     "Use a custom font color": "Utiliser une couleur de police personnalisée",
-    "Use a custom background color": "Utiliser un couleur de fond personnalisée",
+    "Use a custom background color": "Utiliser une couleur de fond personnalisée",
     "Align the clock text to the center": "Aligner le texte de l'horloge au centre",
     "Select custom color": "Sélectionner la couleur",
     "Hide the clock when a program occupies all screens": "Cacher l'horloge lorsqu'une application utilise l'écran complet",
@@ -96,7 +96,7 @@ lang2_3 = lang2_4 | {
     "Clock Settings:"                                              :"Paramètre de l'horloge :",
     "Hide the clock in fullscreen mode"                            :"Cacher l'horloge en pleine écran",
     "Hide the clock when RDP client is active"                     :"Cacher l'horloge quand un client RDP est actif",
-    "Force the clock to be at the bottom of the screen"            :"Forcer l'alignement de l'horloge en bas de l'écran",
+    "Force the clock to be at the bottom of the screen"            :"Forcer l'affichage de l'horloge en bas de l'écran",
     "Show the clock when the taskbar is set to hide automatically" :"Afficher l'horloge lorsque la barre des tâches est masquée automatiquement",
     "Fix the hyphen/dash showing over the month"                   :"Corriger le trait d'union affiché au-dessus du mois",
     "Force the clock to have white text"                           :"Forcer le texte de l'horloge en blanc",
@@ -120,7 +120,7 @@ lang2_3 = lang2_4 | {
     "About ElevenClock version {0}:"            :"À propos de ElevenClock {0} :",
     "View ElevenClock's homepage"               :"Page d'accueil d'ElevenClock",
     "Open"                                      :"Ouvrir",
-    "Report an issue/request a feature"         :"Signaler un bug / Suggérer une fonctionnalité",
+    "Report an issue/request a feature"         :"Signaler un bug / proposer une fonctionnalité",
     "Report"                                    :"Signaler",
     "Support the dev: Give me a coffee☕"       :"Supporter le développeur",
     "Open page"                                 :"Supporter",
