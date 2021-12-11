@@ -8,20 +8,20 @@
 
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Gestionnaire des tâches",
+    "Change date and time": "Changer la date & heure",
+    "Notification settings": "Paramètre de notification",
+    "Updates, icon tray, language": "Mise à jour, icône système, langue",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Pleine écran, position de l'horloge, horloge sur écran principal, autres paramètres",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Ajouter le bouton "Afficher le bureau" à gauche de toutes les horloges',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Vous devrez peut-être sélectionner un fond d\'écran personnalisé pour que cela fonctionne.&nbsp;Plus d\'information <a href="{0}" style="color:DodgerBlue">ICI</a>',
+    "Clock's font, font size, font color and background, text alignment": "Police de l'horloge, taille de la police, couleur et arrière-plan, position du texte",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Format de la date & heure, affichage des secondes, jour de la semaine, numéro de la semaine et paramètres régionaux",
+    "Testing features and error-fixing tools": "Fonctions expérimentales et outil de débogage",
+    "Language pack author(s), help translating ElevenClock": "Auteur(s) du pack de langue aidant à traduite ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Informations, signaler un bug, proposer une fonctionnalité, faire un don, à propos",
+    "Log, debugging information": "Logs, information de débogage",
 }
 
 lang_2_8 = lang_2_9 | {
