@@ -191,20 +191,19 @@ def loadClocks():
 
 def getGeometry(screen: QScreen):
     """
-    Returns a tuple containing: (screen_width, screen_height, screen_pos_x, screen_pos_y, screen_DPI, desktopWindowRect)
+    Return a tuple containing: (screen_width, screen_height, screen_pos_x, screen_pos_y, screen_DPI, desktopWindowRect)
     """
     #win32api.EnumDisplayMonitors()
-    g = (screen.geometry().width(), screen.geometry().height(), screen.geometry().x(), screen.geometry().y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+    geometry = screen.geometry()
+    g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
     return g
 
 def theyMatch(oldscreens, newscreens):
     if len(oldscreens) != len(newscreens) or len(app.screens()) != len(win32api.EnumDisplayMonitors()):
-        return False # If there are display changes
-    for i in range(len(oldscreens)):
-        old, new = oldscreens[i], newscreens[i]
-        if(old != getGeometry(new)): # Check if screen dimensions or dpi have changed
-            return False # They have changed (screens are not equal)
-    return True # they have not changed (screens still the same)
+        return False  # The number of displays has changed
+
+    # Check that all screen dimensions and dpi are the same as before
+    return all(old == getGeometry(new) for old, new in zip(oldscreens, newscreens))
 
 def screenCheckThread():
     while theyMatch(oldScreens, app.screens()):
@@ -228,9 +227,7 @@ def showMessage(a, b):
 def restartClocks(caller: str = ""):
     global clocks, st, rdpThread, timethread
 
-    for clock in clocks:
-        clock.hide()
-        clock.close()
+    closeClocks()
     loadClocks()
     loadTimeFormat()
 
