@@ -9,11 +9,11 @@
 
 lang_2_9 = {
     "Task Manager": "Gestionnaire des tâches",
-    "Change date and time": "Changer la date et l'heure",
-    "Notification settings": "Paramètre de notification",
-    "Updates, icon tray, language": "Mise à jour, icône système, langue",
+    "Change date and time": "Régler la date et l'heure",
+    "Notification settings": "Paramètres des notifications",
+    "Updates, icon tray, language": "Mise à jour, icône de barre d'état, langue",
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Pleine écran, position de l'horloge, horloge sur écran principal, autres paramètres",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportement lors du pleine écran, position de l'horloge, horloge sur l'écran principal, autres paramètres",
     'Add the "Show Desktop" button on the left corner of every clock': 'Ajouter le bouton "Afficher le bureau" à gauche de toutes les horloges',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Vous devrez peut-être sélectionner un fond d\'écran personnalisé pour que cela fonctionne.&nbsp;Plus d\'information <a href="{0}" style="color:DodgerBlue">ICI</a>',
     "Clock's font, font size, font color and background, text alignment": "Police de l'horloge, taille de la police, couleur et arrière-plan, position du texte",
@@ -94,7 +94,7 @@ lang2_3 = lang2_4 | {
     
     #Clock settings
     "Clock Settings:"                                              :"Paramètre de l'horloge :",
-    "Hide the clock in fullscreen mode"                            :"Cacher l'horloge en pleine écran",
+    "Hide the clock in fullscreen mode"                            :"Cacher l'horloge en mode pleine écran",
     "Hide the clock when RDP client is active"                     :"Cacher l'horloge quand un client RDP est actif",
     "Force the clock to be at the bottom of the screen"            :"Forcer l'affichage de l'horloge en bas de l'écran",
     "Show the clock when the taskbar is set to hide automatically" :"Afficher l'horloge lorsque la barre des tâches est masquée automatiquement",
