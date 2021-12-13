@@ -7,20 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "任务管理器",
+    "Change date and time": "更改日期和时间",
+    "Notification settings": "通知设置",
+    "Updates, icon tray, language": "更新, 托盘图标, 语言",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "隐藏时钟右键菜单中的扩展选项（需要重新启动才能应用）",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全屏行为, 时钟位置, 第一个监视器时钟, 其他杂项设置",
+    'Add the "Show Desktop" button on the left corner of every clock': '在每个时钟的左上角添加“显示桌面”按钮',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '您可能需要为此设置自定义背景颜色。&nbsp;更多信息 <a href="{0}" style="color:DodgerBlue">HERE</a>',
+    "Clock's font, font size, font color and background, text alignment": "时钟的字体, 字体大小, 字体颜色和背景, 文本对齐",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "日期格式, 时间格式, 秒,工作日, 周数, 区域设置",
+    "Testing features and error-fixing tools": "测试功能和错误修复工具",
+    "Language pack author(s), help translating ElevenClock": "ElevenClock 语言包由 hlgsdx、jmlcoliveira、BoyceLig 帮助翻译",
+    "Info, report a bug, submit a feature request, donate, about": "信息, 报告错误, 提交功能请求, 捐赠, 关于",
+    "Log, debugging information": "日志, 调试信息",
 }
 
 lang_2_8 = lang_2_9 | {
