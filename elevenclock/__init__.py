@@ -96,7 +96,9 @@ def updateIfPossible(force = False):
                 integrityPass = True
             print("🔵 Version URL:", response.url)
             response = response.read().decode("utf8")
-            if float(response.split("///")[0]) > version:
+            new_version_number = response.split("///")[0]
+            provided_hash = response.split("///")[2].replace("\n", "").lower()
+            if float(new_version_number) > version:
                 print("🟢 Updates found!")
                 if(not(getSettings("DisableAutoInstallUpdates")) or force):
                     if(integrityPass):
@@ -107,8 +109,8 @@ def updateIfPossible(force = False):
                         with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
                             f.write(datatowrite)
                             filename = f.name
-                        if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                            print("🔵 Hash: ", response.split("///")[2].replace("\n", "").lower())
+                        if(hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash):
+                            print("🔵 Hash: ", provided_hash)
                             print("🟢 Hash ok, starting update")
                             if(getSettings("EnableSilentUpdates") and not(force)):
                                 mousePos = getMousePos()
@@ -123,14 +125,14 @@ def updateIfPossible(force = False):
                         else:
                             print("🔴 Hash not ok")
                             print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                            print("🔴 Provided hash: ", response.split("///")[2].replace("\n", "").lower())
-                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                            print("🔴 Provided hash: ", provided_hash)
+                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                     else:
                         print("🔴 Can't verify update server authenticity, aborting")
-                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the autenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                 else:
-                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
+                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
 
             else:
                 print("🟢 Updates not found")
