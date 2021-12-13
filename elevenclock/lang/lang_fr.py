@@ -10,7 +10,7 @@
 lang_2_9 = {
     "Task Manager": "Gestionnaire des tâches",
     "Change date and time": "Régler la date et l'heure",
-    "Notification settings": "Paramètre des notifications",
+    "Notification settings": "Paramètres des notifications",
     "Updates, icon tray, language": "Mise à jour, icône de barre d'état, langue",
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportement lors du pleine écran, position de l'horloge, horloge sur l'écran principal, autres paramètres",
