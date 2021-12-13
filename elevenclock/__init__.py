@@ -56,11 +56,10 @@ print("")
 
 def checkRDP():
     def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
-        for p in processess:
-            for procName in blacklistedProcess:
-                if procName == p :
-                    print(f"🟡 Blacklisted procName {procName} detected, hiding...")
-                    return True
+        for p_name in processess:
+            if p_name in blacklistedProcess:
+                print(f"🟡 Blacklisted procName {p_name} detected, hiding...")
+                return True
         return False
 
     global isRDPRunning
@@ -69,9 +68,7 @@ def checkRDP():
         pythoncom.CoInitialize()
         _wmi = win32com.client.GetObject('winmgmts:')
         processes = _wmi.ExecQuery('Select Name from win32_process')
-        procs = []
-        for p in processes:
-            procs.append(p.Name)
+        procs = [p.Name for p in processes]
         isRDPRunning = checkIfElevenClockRunning(procs, appsWhereElevenClockShouldClose)
         time.sleep(5)
 
