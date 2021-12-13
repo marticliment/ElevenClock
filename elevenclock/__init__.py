@@ -126,11 +126,11 @@ def updateIfPossible(force = False):
                             print("🔴 Hash not ok")
                             print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
                             print("🔴 Provided hash: ", provided_hash)
-                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                     else:
                         print("🔴 Can't verify update server authenticity, aborting")
-                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the autenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                 else:
                     showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
 
@@ -179,7 +179,7 @@ def loadClocks():
             if not screen == QGuiApplication.primaryScreen() or showOnFirstMon: #Check if we are not on the primary screen
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
             else: # Skip the primary display, as it has already the clock
-                print("🟡 This is primay screen and is set to be skipped")
+                print("🟡 This is the primary screen and is set to be skipped")
         st = KillableThread(target=screenCheckThread, daemon=True)
         st.start()
     else:
@@ -857,7 +857,7 @@ try:
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication()
 
-    sw = SettingsWindow() # Declare setitngs window
+    sw = SettingsWindow() # Declare settings window
 
     i = TaskbarIconTray(app)
 
@@ -900,7 +900,7 @@ try:
         print("Show2.8Welcome")
         sw.show()
         setSettings("Updated2.9Already", True)
-        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
+        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
 
     showSettings = False
     if("--settings" in sys.argv or showSettings):
