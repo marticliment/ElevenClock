@@ -12,7 +12,7 @@ lang_2_9 = {
     "Notification settings": "通知设置",
     "Updates, icon tray, language": "更新, 托盘图标, 语言",
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "隐藏时钟右键菜单中的扩展选项（需要重新启动才能应用）",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全屏行为, 时钟位置, 第一个监视器时钟, 其他杂项设置",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全屏行为, 时钟位置, 主监视器时钟, 其他杂项设置",
     'Add the "Show Desktop" button on the left corner of every clock': '在每个时钟的左上角添加“显示桌面”按钮',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '您可能需要为此设置自定义背景颜色。&nbsp;更多信息 <a href="{0}" style="color:DodgerBlue">HERE</a>',
     "Clock's font, font size, font color and background, text alignment": "时钟的字体, 字体大小, 字体颜色和背景, 文本对齐",
