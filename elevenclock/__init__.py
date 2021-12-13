@@ -56,11 +56,10 @@ print("")
 
 def checkRDP():
     def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
-        for p in processess:
-            for procName in blacklistedProcess:
-                if procName == p :
-                    print(f"🟡 Blacklisted procName {procName} detected, hiding...")
-                    return True
+        for p_name in processess:
+            if p_name in blacklistedProcess:
+                print(f"🟡 Blacklisted procName {p_name} detected, hiding...")
+                return True
         return False
 
     global isRDPRunning
@@ -69,9 +68,7 @@ def checkRDP():
         pythoncom.CoInitialize()
         _wmi = win32com.client.GetObject('winmgmts:')
         processes = _wmi.ExecQuery('Select Name from win32_process')
-        procs = []
-        for p in processes:
-            procs.append(p.Name)
+        procs = [p.Name for p in processes]
         isRDPRunning = checkIfElevenClockRunning(procs, appsWhereElevenClockShouldClose)
         time.sleep(5)
 
@@ -99,7 +96,9 @@ def updateIfPossible(force = False):
                 integrityPass = True
             print("🔵 Version URL:", response.url)
             response = response.read().decode("utf8")
-            if float(response.split("///")[0]) > version:
+            new_version_number = response.split("///")[0]
+            provided_hash = response.split("///")[2].replace("\n", "").lower()
+            if float(new_version_number) > version:
                 print("🟢 Updates found!")
                 if(not(getSettings("DisableAutoInstallUpdates")) or force):
                     if(integrityPass):
@@ -110,8 +109,8 @@ def updateIfPossible(force = False):
                         with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
                             f.write(datatowrite)
                             filename = f.name
-                        if(hashlib.sha256(datatowrite).hexdigest().lower() == response.split("///")[2].replace("\n", "").lower()):
-                            print("🔵 Hash: ", response.split("///")[2].replace("\n", "").lower())
+                        if(hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash):
+                            print("🔵 Hash: ", provided_hash)
                             print("🟢 Hash ok, starting update")
                             if(getSettings("EnableSilentUpdates") and not(force)):
                                 mousePos = getMousePos()
@@ -126,14 +125,14 @@ def updateIfPossible(force = False):
                         else:
                             print("🔴 Hash not ok")
                             print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                            print("🔴 Provided hash: ", response.split("///")[2].replace("\n", "").lower())
-                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                            print("🔴 Provided hash: ", provided_hash)
+                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                     else:
                         print("🔴 Can't verify update server authenticity, aborting")
-                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available, but ElevenClock can't verify the autenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                        showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                 else:
-                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {response.split('///')[0]} is available. Go to ElevenClock's Settings to update")
+                    showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
 
             else:
                 print("🟢 Updates not found")
@@ -180,7 +179,7 @@ def loadClocks():
             if not screen == QGuiApplication.primaryScreen() or showOnFirstMon: #Check if we are not on the primary screen
                 clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
             else: # Skip the primary display, as it has already the clock
-                print("🟡 This is primay screen and is set to be skipped")
+                print("🟡 This is the primary screen and is set to be skipped")
         st = KillableThread(target=screenCheckThread, daemon=True)
         st.start()
     else:
@@ -300,18 +299,16 @@ def loadTimeFormat():
 
     tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
     dateMode = ""
-    i = 0
-    for ministr in tDateMode.split("'"):
+    for i, ministr in enumerate(tDateMode.split("'")):
         if i%2==0:
             dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
         else:
             dateMode += ministr
-        i += 1
         
     tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
     timeMode = ""
-    i = 0
-    for ministr in tTimeMode.split("'"):
+
+    for i, ministr in enumerate(tTimeMode.split("'")):
         if i%2==0:
             timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
             if not("S" in timeMode) and showSeconds==1:
@@ -320,7 +317,6 @@ def loadTimeFormat():
                         timeMode += f"{separator}%S"
         else:
             timeMode += ministr
-        i += 1
 
     for separator in ":.-/_":
         timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
@@ -410,10 +406,12 @@ class Clock(QWidget):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
-        self.autoHide = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[8]==123
+        hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
+        registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
+        self.autoHide = registry_read_result[8] == 123
         self.setToolTip(f"ElevenClock version {versionName}\n\nClick once to show notifications")
         try:
-            if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))) or getSettings("ForceOnTop"):
+            if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
                 h = self.screenGeometry.y()
                 print("🟢 Taskbar at top")
             else:
@@ -478,10 +476,15 @@ class Clock(QWidget):
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label.setFont(self.font)
+
+        def make_style_sheet(a, b, c, d, color):
+            return f"padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};"
+
         if getSettings("UseCustomFontColor"):
             print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
             self.lastTheme = -1
-            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: rgb({getSettingsValue('UseCustomFontColor')});")#background-color: rgba({self.bgcolor}%)")
+            style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+            self.label.setStyleSheet(style_sheet_string)
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -495,7 +498,8 @@ class Clock(QWidget):
         elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
             print("🟢 Using white text (dark mode)")
             self.lastTheme = 0
-            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
+            style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
+            self.label.setStyleSheet(style_sheet_string)
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -509,7 +513,8 @@ class Clock(QWidget):
         else:
             print("🟢 Using black text (light mode)")
             self.lastTheme = 1
-            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right:  {self.getPx(12)}px;padding-left:  {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
+            style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
+            self.label.setStyleSheet(style_sheet_string)
             self.label.bgopacity = .5
             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -852,7 +857,7 @@ try:
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication()
 
-    sw = SettingsWindow() # Declare setitngs window
+    sw = SettingsWindow() # Declare settings window
 
     i = TaskbarIconTray(app)
 
@@ -895,7 +900,7 @@ try:
         print("Show2.8Welcome")
         sw.show()
         setSettings("Updated2.9Already", True)
-        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} sucessfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
+        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
 
     showSettings = False
     if("--settings" in sys.argv or showSettings):
