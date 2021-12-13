@@ -7,20 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "タスク マネージャー",
+    "Change date and time": "日付と時刻の変更",
+    "Notification settings": "通知設定",
+    "Updates, icon tray, language": "更新、トレイ アイコン、言語",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "時計を右クリックメニューから拡張オプションを隠す (適用のために再起動が必要)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全画面時の動作、時計の位置、プライマリー画面の時計、その他の設定",
+    'Add the "Show Desktop" button on the left corner of every clock': 'すべての時計の左端に「デスクトップを表示」ボタンを追加する',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'これを正しく機能させるためにカスタム背景色を設定する必要がある場合があります。&nbsp;詳細情報は<a href="{0}" style="color:DodgerBlue">こちら</a>',
+    "Clock's font, font size, font color and background, text alignment": "時計のフォント、フォント サイズ、フォントの色と背景、テキストの配置",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "日付の形式、時刻の形式、秒、曜日、週番号、地域の設定",
+    "Testing features and error-fixing tools": "テスト中の機能とエラー修正用のツール",
+    "Language pack author(s), help translating ElevenClock": "言語パックの編集者、ElevenClock の翻訳を手伝う",
+    "Info, report a bug, submit a feature request, donate, about": "情報、バグの報告、機能リクエストの投稿、寄付、その他に関して",
+    "Log, debugging information": "ログ、デバッグ情報",
 }
 
 lang_2_8 = lang_2_9 | {
