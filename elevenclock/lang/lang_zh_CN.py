@@ -56,7 +56,7 @@ lang2_6 = lang2_7 | {
 }
 
 lang2_5 = lang2_6 | {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "当使用远程桌面或运行Citrix Workspace时隐藏时钟区",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "当使用远程桌面或运行 Citrix Workspace 时隐藏时钟区",
     "Clock Appearance:": "时钟区外观:",
     "Force the clock to have black text": "强制时钟区使用深色文本",
     " - It is required that the Dark Text checkbox is disabled": " - 当启用深色文本时不要使用",
