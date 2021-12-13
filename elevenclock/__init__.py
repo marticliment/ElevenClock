@@ -476,10 +476,15 @@ class Clock(QWidget):
         self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
         self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
         self.label.setFont(self.font)
+
+        def make_style_sheet(a, b, c, d, color):
+            return f"padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};"
+
         if getSettings("UseCustomFontColor"):
             print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
             self.lastTheme = -1
-            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: rgb({getSettingsValue('UseCustomFontColor')});")#background-color: rgba({self.bgcolor}%)")
+            style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+            self.label.setStyleSheet(style_sheet_string)
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -493,7 +498,8 @@ class Clock(QWidget):
         elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
             print("🟢 Using white text (dark mode)")
             self.lastTheme = 0
-            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
+            style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
+            self.label.setStyleSheet(style_sheet_string)
             self.label.bgopacity = .1
             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
@@ -507,7 +513,8 @@ class Clock(QWidget):
         else:
             print("🟢 Using black text (light mode)")
             self.lastTheme = 1
-            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right:  {self.getPx(12)}px;padding-left:  {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
+            style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
+            self.label.setStyleSheet(style_sheet_string)
             self.label.bgopacity = .5
             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
             self.font.setFamilies(self.fontfamilies)
