@@ -297,18 +297,16 @@ def loadTimeFormat():
 
     tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
     dateMode = ""
-    i = 0
-    for ministr in tDateMode.split("'"):
+    for i, ministr in enumerate(tDateMode.split("'")):
         if i%2==0:
             dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
         else:
             dateMode += ministr
-        i += 1
         
     tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
     timeMode = ""
-    i = 0
-    for ministr in tTimeMode.split("'"):
+
+    for i, ministr in enumerate(tTimeMode.split("'")):
         if i%2==0:
             timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
             if not("S" in timeMode) and showSeconds==1:
@@ -317,7 +315,6 @@ def loadTimeFormat():
                         timeMode += f"{separator}%S"
         else:
             timeMode += ministr
-        i += 1
 
     for separator in ":.-/_":
         timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
@@ -407,10 +404,12 @@ class Clock(QWidget):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlag(Qt.Tool)
-        self.autoHide = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[8]==123
+        hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
+        registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
+        self.autoHide = registry_read_result[8] == 123
         self.setToolTip(f"ElevenClock version {versionName}\n\nClick once to show notifications")
         try:
-            if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00')[12] == 1 and not(getSettings("ForceOnBottom"))) or getSettings("ForceOnTop"):
+            if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
                 h = self.screenGeometry.y()
                 print("🟢 Taskbar at top")
             else:
