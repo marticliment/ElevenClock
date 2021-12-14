@@ -7,20 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Gerenciador de Tarefas",
+    "Change date and time": "Alterar Data e Hora",
+    "Notification settings": "Configurações de Notificação",
+    "Updates, icon tray, language": "Atualizações, bandeja de ícones, idioma",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Ocultar opções avançadas do menu ao clicar com o botão direito do mouse (é necessário reiniciar para ser aplicado)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportamento em tela cheia, posição do relógio, relógio do monitor principal, outras configurações",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Adicione o botão "Mostrar área de trabalho" no canto esquerdo de cada relógio',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Pode ser necessário definir uma cor de fundo personalizada para que isso funcione. &nbsp;Mais informações <a href="{0}" style="color:DodgerBlue">CLIQUE AQUI</a>',
+    "Clock's font, font size, font color and background, text alignment": "Fonte do relógio, tamanho da fonte, cor e fundo da fonte, alinhamento do texto",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Formato de data, formato de hora, segundos, dia da semana, número da semana, configurações regionais",
+    "Testing features and error-fixing tools": "Recursos de teste e ferramentas de correção de erros",
+    "Language pack author(s), help translating ElevenClock": "Autor(es) do pacote de idiomas, ajuda na tradução do ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Informações, relatar bugs, enviar uma solicitação de recurso, doar, sobre",
+    "Log, debugging information": "Registro, informações de depuração",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -35,14 +35,14 @@ lang_2_8 = lang_2_9 | {
 
 lang2_7_bis = lang_2_8 | {
     "Use a custom font": "Alterar o tipo da fonte",
-    "Use a custom font size": "Alterar o tamanho da fonter",
-    "Enable hide when multi-monitor fullscreen apps are running": "Esconder relógio quando aplicações multi-monitor estiverem em execução",
+    "Use a custom font size": "Alterar o tamanho da fonte",
+    "Enable hide when multi-monitor fullscreen apps are running": "Esconder o relógio quando aplicações multi-telas estiverem em execução",
     "<b>{0}</b> needs to be enabled to change this setting": "A opção <b>{0}</b> precisa de estar ativada para mudar esta definição",
     "<b>{0}</b> needs to be disabled to change this setting": "A opção <b>{0}</b> precisa de estar desativada para mudar esta definição",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "  (Funcionalidade desativada porque deve funcionar por predefinição. Caso não funcione, reporte o problema",
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Funcionalidade desativada porque deve funcionar por predefinição. Caso não funcione, reporte o problema",
     "ElevenClock's language": "Idioma ElevenClock"
 }
 
@@ -93,8 +93,8 @@ lang2_3 = lang2_4 | {
     
     #Clock settings
     "Clock Settings:"                                              :"Definições do relógio:",
-    "Hide the clock in fullscreen mode"                            :"Esconder o relógio quando tela cheia",
-    "Hide the clock when RDP client is active"                     :"Esconder o relógio quando o Ambiente de Trabalho Remoto estiver a ser usado",
+    "Hide the clock in fullscreen mode"                            :"Esconder o relógio quando estiver em tela cheia",
+    "Hide the clock when RDP client is active"                     :"Esconder o relógio quando o Ambiente de Trabalho Remoto estiver sendo usado",
     "Force the clock to be at the bottom of the screen"            :"Forçar o relógio a ficar na parte de baixo da tela",
     "Show the clock when the taskbar is set to hide automatically" :"Mostrar o relógio quando a barra de tarefas estiver definida para se esconder automaticamente",
     "Fix the hyphen/dash showing over the month"                   :"Corrigir problema onde aparece um hífen/traço em cima do mês",
@@ -111,7 +111,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"Sobre o pacote de idiomas:",
-    "Translated to English by martinet101"      :"Traduzido para Português do Brasil por Wanderlei Huttel", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Traduzido para Português do Brasil por Wanderlei Hüttel", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Traduzir o ElevenClock para o seu idioma",
     "Get started"                               :"Traduzir",
     
@@ -119,9 +119,9 @@ lang2_3 = lang2_4 | {
     "About ElevenClock version {0}:"            :"Sobre a versão {0} do ElevenClock:",
     "View ElevenClock's homepage"               :"Ver página inicial do ElevenClock",
     "Open"                                      :"Abrir",
-    "Report an issue/request a feature"         :"Reportar um problema/pedir uma funcionalidade",
+    "Report an issue/request a feature"         :"Reportar um problema/solicitar uma funcionalidade",
     "Report"                                    :"Reportar",
-    "Support the dev: Give me a coffee☕"       :"Apoia o desenvolvedor: Me pague um café☕",
+    "Support the dev: Give me a coffee☕"       :"Apoiar o desenvolvedor: Me pague um café☕",
     "Open page"                                 :"Abrir página",
     "Icons by Icons8"                           :"Ícones por Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Website",
