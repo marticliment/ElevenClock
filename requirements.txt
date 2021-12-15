@@ -3,3 +3,4 @@ pywin32
 PySide2
 psutil
 PyInstaller==4.1
+BlurWindow
