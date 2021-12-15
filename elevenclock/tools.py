@@ -12,7 +12,7 @@ import globals
 from languages import *
 
 version = 2.91
-versionName = "2.9.1"
+versionName = "3.0.0-dev"
 
 def _(s): #Translate function
     global lang
