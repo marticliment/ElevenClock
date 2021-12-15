@@ -261,7 +261,7 @@ class SettingsWindow(QFramelessWindow):
         self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.languageSettingsTitle.addWidget(self.PackInfoButton)
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
-        self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md"))
+        self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock#translating-elevenclock"))
         self.languageSettingsTitle.addWidget(self.openTranslateButton)
 
 
