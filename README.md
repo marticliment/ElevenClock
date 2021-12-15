@@ -25,14 +25,14 @@
 
 -->
 
-Have a customizable clock on your secondary displays. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock is a simple app that provides the same functionality as in windows 10 secondary taskbar clock.
+The whole point of ElevenClock is to have a customizable clock on your Windows 11 taskbars. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock was an app designed to return this functionality, but it has evolved and it can now replace your system clock also in order to let you customize it, like in the good old days.
 
 ## Table of contents
  - [Table of contents](#table-of-contents)
  - [Installation](#microsoft-store-installation)
  - [Support the developer](#support-the-developer)
  - [Features](#features)
- - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
+ - [Translating ElevenClock](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock)
    - [Currently supported languages](#currently-supported-languages)
  - [Screenshots](#screenshots)
    - [Settings window screenshots](#settings-window-screenshots)
@@ -42,7 +42,8 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 ## Microsoft store installation:
 
-[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)
+[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)<br>
+(See the [WIKI](https://github.com/martinet101/ElevenClock/wiki/Installation) for more information)
 
 ## Support the developer:
 
@@ -79,7 +80,7 @@ Have a customizable clock on your secondary displays. When Microsoft's engineers
 
 
 ## Translating ElevenClock to other languages
-In order to translate ElevenClock to other languages or to update an old translation, please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
+In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock) for more info
 
 
 ### Currently Supported languages
