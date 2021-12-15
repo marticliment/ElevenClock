@@ -42,7 +42,8 @@ The whole point of ElevenClock is to have a customizable clock on your Windows 1
 
 ## Microsoft store installation:
 
-[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)
+[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)<br>
+(See the [WIKI](https://github.com/martinet101/ElevenClock/wiki/Installation) for more information)
 
 ## Support the developer:
 
