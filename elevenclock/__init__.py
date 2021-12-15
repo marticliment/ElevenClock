@@ -291,11 +291,17 @@ def loadTimeFormat():
         dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
 
     if not getSettings("EnableWeekDay"):
-        dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
-        if dateTimeFormat[-1] == "\n":
-            dateTimeFormat = dateTimeFormat[0:-1]
-        if dateTimeFormat[0] == "\n":
-            dateTimeFormat = dateTimeFormat[1:]
+        try:
+            dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
+            if dateTimeFormat[-1] == "\n":
+                dateTimeFormat = dateTimeFormat[0:-1]
+            if dateTimeFormat[0] == "\n":
+                dateTimeFormat = dateTimeFormat[1:]
+        except IndexError as e:
+            print("🟠 Date/Time string looks to be empty!")
+        except Exception as e:
+            report(e)
+            
 
     tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
     dateMode = ""
