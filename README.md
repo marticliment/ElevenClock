@@ -32,7 +32,7 @@ The whole point of ElevenClock is to have a customizable clock on your Windows 1
  - [Installation](#microsoft-store-installation)
  - [Support the developer](#support-the-developer)
  - [Features](#features)
- - [Translating ElevenClock](#translating-elevenclock-to-other-languages)
+ - [Translating ElevenClock](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock)
    - [Currently supported languages](#currently-supported-languages)
  - [Screenshots](#screenshots)
    - [Settings window screenshots](#settings-window-screenshots)
@@ -79,7 +79,7 @@ The whole point of ElevenClock is to have a customizable clock on your Windows 1
 
 
 ## Translating ElevenClock to other languages
-In order to translate ElevenClock to other languages or to update an old translation, please see [TRANSLATING.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md) for more info
+In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock) for more info
 
 
 ### Currently Supported languages
