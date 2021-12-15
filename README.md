@@ -37,7 +37,6 @@ The whole point of ElevenClock is to have a customizable clock on your Windows 1
  - [Screenshots](#screenshots)
    - [Settings window screenshots](#settings-window-screenshots)
  - [Frequently Asked Questions](#frequently-asked-questions)
- - [Download standalone installers](#download-standalone-installer)
  - [Legacy installation](#legacy-installation)
 
 ## Microsoft store installation:
@@ -148,7 +147,7 @@ A: Enable fullscreen hiding in settings<br>
 A: Enable RDP hiding in settings (it may consume more CPU)<br>
 
 **Q: Can ElevenClock be in my language?**<br>
-A: Yes, just take a look to [TRANSLATION.md](https://github.com/martinet101/ElevenClock/blob/main/TRANSLATION.md)<br>
+A: Yes, just take a look to [TRANSLATION.md](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock)<br>
 
 **Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**<br>
 A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings<br>
@@ -163,22 +162,8 @@ A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
 A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
 
 
-## Download standalone installer
-
-MajorGeeks: [https://m.majorgeeks.com/files/details/elevenclock.html](https://m.majorgeeks.com/files/details/elevenclock.html)<br>
-SoftPedia: [https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml](https://www.softpedia.com/get/Desktop-Enhancements/Clocks-Time-Management/ElevenClock.shtml)<br>
-Github Releases: [https://github.com/martinet101/ElevenClock/releases/latest](https://github.com/martinet101/ElevenClock/releases/latest)<br>
-SomePythonThings: [https://www.somepythonthings.tk/programs/elevenclock/](https://www.somepythonthings.tk/programs/elevenclock/)<br>
-
 ## Legacy Installation
 
- 1. Download the latest version from [SomePythonThings](https://www.somepythonthings.tk/programs/elevenclock/#downloadSection) or from [Github Releases](https://github.com/martinet101/ElevenClock/releases)
- 2. Open the installer and bypass Windows Defender SmartScreen: Click on more info and then on run:<br>
-     2.1.  Click on "More info":<br>
-     ![Defender Smart Screen Installation Screen](https://github.com/martinet101/ElevenClock/blob/main/media/smartscreen1.jpg?raw=true)<br><br>
-     2.2. Click on "Run anyway":<br>
-     ![Defender Smart Screen Run Anyway Screen](https://github.com/martinet101/ElevenClock/blob/main/media/smartscreen2.jpg?raw=true)<br><br>
- 3. Install the program as normal:<br>![Installer](https://github.com/martinet101/ElevenClock/blob/main/media/elevenclock_7.png?raw=true)<br><br>
- 4. The clock should start automatically when the installation is finished.
-
+See the wiki:
+https://github.com/martinet101/ElevenClock/wiki/Installation
 
