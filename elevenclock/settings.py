@@ -149,10 +149,14 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
         self.clockSettingsTitle.addWidget(self.clockAtLeft)
         self.primaryScreen = QSettingsCheckBoxWithWarning(_("Show the clock on the primary screen"), _("You might need to set a custom background color for this to work.&nbsp;More info <a href=\"{0}\" style=\"color:DodgerBlue\">HERE</a>").format("http://www.somepythonthings.tk/redirect?elevenclock_clockon1monitor"))
-        self.primaryScreen.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
         self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
         self.clockSettingsTitle.addWidget(self.primaryScreen)
+        self.onlyPrimaryScreen = QSettingsCheckBox(_("Do not show the clock on secondary monitors"))
+        self.onlyPrimaryScreen.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.onlyPrimaryScreen.setChecked(getSettings("HideClockOnSecondaryMonitors"))
+        self.onlyPrimaryScreen.stateChanged.connect(lambda i: setSettings("HideClockOnSecondaryMonitors", bool(i)))
+        self.clockSettingsTitle.addWidget(self.onlyPrimaryScreen)
 
 
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
@@ -368,6 +372,15 @@ class SettingsWindow(QFramelessWindow):
         else:
             self.showWeekCount.setToolTip("")
             self.showWeekCount.setEnabled(True)
+            
+            
+        if not self.primaryScreen.isChecked(): # Clock is set to be in primary monitor
+            self.onlyPrimaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock on the primary screen")))
+            self.onlyPrimaryScreen.setEnabled(False)
+            self.onlyPrimaryScreen.setChecked(False)
+        else:
+            self.onlyPrimaryScreen.setToolTip("")
+            self.onlyPrimaryScreen.setEnabled(True)
 
     def applyStyleSheet(self):
         colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']

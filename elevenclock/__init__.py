@@ -168,20 +168,21 @@ def loadClocks():
         st.kill()
     except AttributeError:
         pass
-    showOnFirstMon = getSettings("ForceClockOnFirstMonitor")
+    ForceClockOnFirstMonitor = getSettings("ForceClockOnFirstMonitor")
+    HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
     oldScreens = []
     clocks = []
     process = psutil.Process(os.getpid())
-    
     if restartCount<20 and (process.memory_info().rss/1048576) <= 150:
         restartCount += 1
         for screen in app.screens():
             screen: QScreen
             oldScreens.append(getGeometry(screen))
-            #old_stdout.write(buffer.getvalue())
-            #old_stdout.flush()
-            if not screen == QGuiApplication.primaryScreen() or showOnFirstMon: #Check if we are not on the primary screen
-                clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
+            if not screen == QGuiApplication.primaryScreen() or ForceClockOnFirstMonitor: # Check if we are not on the primary screen
+                if not HideClockOnSecondaryMonitors or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
+                    clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
+                else:
+                    print("🟠 This is a secondary screen and is set to be skipped")
             else: # Skip the primary display, as it has already the clock
                 print("🟡 This is the primary screen and is set to be skipped")
         st = KillableThread(target=screenCheckThread, daemon=True)
