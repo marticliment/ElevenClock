@@ -13,6 +13,10 @@ assignees: ''
 ✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the FAQ on README.md for solutions<br>
 ✅ I have checked the settings window for an option to toggle/fix what is happening<br>
 ✅ I have installed the latest version and the issue still happens<br>
+  
+  
+### 🟠🟠 If ElevenClock does not show or shows weirdly on primary screens, see #333
+### 🟠🟠 If ElevenClock is showing over a fullscreen window, enable "Hide on fullscreen window from the settings"
 </b>
 
 ## Describe the bug
