@@ -13,15 +13,15 @@ lang_2_9 = {
     "Notification settings": "Paramètres des notifications",
     "Updates, icon tray, language": "Mise à jour, icône de barre d'état, langue",
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportement lors du pleine écran, position de l'horloge, horloge sur l'écran principal, autres paramètres",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportement en plein écran, position de l'horloge, horloge sur l'écran principal, autres paramètres",
     'Add the "Show Desktop" button on the left corner of every clock': 'Ajouter le bouton "Afficher le bureau" à gauche de toutes les horloges',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Vous devrez peut-être sélectionner un fond d\'écran personnalisé pour que cela fonctionne.&nbsp;Plus d\'information <a href="{0}" style="color:DodgerBlue">ICI</a>',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Vous devrez peut-être sélectionner un fond d\'écran personnalisé pour que cela fonctionne.&nbsp;Plus d\'informations <a href="{0}" style="color:DodgerBlue">ICI</a>',
     "Clock's font, font size, font color and background, text alignment": "Police de l'horloge, taille de la police, couleur et arrière-plan, position du texte",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Format de la date & heure, affichage des secondes, jour de la semaine, numéro de la semaine et paramètres régionaux",
     "Testing features and error-fixing tools": "Fonctions expérimentales et outil de débogage",
-    "Language pack author(s), help translating ElevenClock": "Auteur(s) du pack de langue aidant à traduite ElevenClock",
+    "Language pack author(s), help translating ElevenClock": "Auteur(s) du pack de langue aidant à traduire ElevenClock",
     "Info, report a bug, submit a feature request, donate, about": "Informations, signaler un bug, proposer une fonctionnalité, faire un don, à propos",
-    "Log, debugging information": "Logs, information de débogage",
+    "Log, debugging information": "Logs, informations de débogage",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -31,19 +31,19 @@ lang_2_8 = lang_2_9 | {
     "Use a custom background color": "Utiliser une couleur de fond personnalisée",
     "Align the clock text to the center": "Aligner le texte de l'horloge au centre",
     "Select custom color": "Sélectionner la couleur",
-    "Hide the clock when a program occupies all screens": "Cacher l'horloge lorsqu'une application utilise l'écran complet",
+    "Hide the clock when a program occupies all screens": "Cacher l'horloge lorsqu'une application utilise tous les écrans",
 }
 
 lang2_7_bis = lang_2_8 | {
     "Use a custom font": "Utiliser une police personnalisée",
     "Use a custom font size": "Utiliser une taille de police personnalisée",
-    "Enable hide when multi-monitor fullscreen apps are running": "Cacher l'horloge quand une application multi-écran en plein écran est active",
-    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> a besoin d'être activer pour changer ce paramètre",
-    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> a besoin d'être désactiver pour changer ce paramètre",
+    "Enable hide when multi-monitor fullscreen apps are running": "Cacher l'horloge lorsqu'une application multi-écran en plein écran est active",
+    "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> doit être activé pour changer ce paramètre",
+    "<b>{0}</b> needs to be disabled to change this setting": "<b>{0}</b> doit être désactivé pour changer ce paramètre",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Cette fonctionnalité a été désactivé car elle devrait fonctionner par défaut)",
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Cette fonctionnalité a été désactivée car elle devrait fonctionner par défaut)",
     "ElevenClock's language": "Langue de ElevenClock"
 }
 
@@ -56,11 +56,11 @@ lang2_6 = lang2_7 | {
 }
 
 lang2_5 = lang2_6 | {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "Cacher l'horloge quand un client RDP ou Citrix est actif",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Cacher l'horloge quand un client RDP ou Citrix Workspace est actif",
     "Clock Appearance:": "Apparence de l'horloge",
     "Force the clock to have black text": "Forcer le texte de l'horloge en noir",
     " - It is required that the Dark Text checkbox is disabled": " - Forcer le texte de l'horloge en noir doit être désactivé",
-    "Debbugging information:": "Information de déboggage",
+    "Debbugging information:": "Informations de débogage",
     "Open ElevenClock's log": "Ouvrir les logs de ElevenClock",
 }
 
@@ -72,7 +72,7 @@ lang2_4 = lang2_5 | {
 
 lang2_3 = lang2_4 | {
     #Context menu
-    "ElevenClock Settings"      :"Paramètre de ElevenClock", # Also settings title
+    "ElevenClock Settings"      :"Paramètres de ElevenClock", # Also settings title
     "Reload Clocks"             :"Recharger ElevenClock",
     "ElevenClock v{0}"          :"ElevenClock v{0}",
     "Restart ElevenClock"       :"Redémarrer ElevenClock",
@@ -80,21 +80,21 @@ lang2_3 = lang2_4 | {
     "Quit ElevenClock"          :"Quitter ElevenClock",
     
     #General settings section
-    "General Settings:"                                                                 :"Paramètre généraux :",
+    "General Settings:"                                                                 :"Paramètres généraux :",
     "Automatically check for updates"                                                   :"Rechercher automatiquement les mises à jour",
     "Automatically install available updates"                                           :"Installer automatiquement les mises à jour",
     "Enable really silent updates"                                                      :"Activer les mises à jour silencieuses",
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Passer l'authentification du programme de mise à jour (NON RECOMMANDÉ, À VOS RISQUES ET PÉRILS)",
     "Show ElevenClock on system tray"                                                   :"Afficher ElevenClock dans la barre d'état",
     "Alternative clock alignment (may not work)"                                        :"Alignement alternatif de l'horloge (peut ne pas fonctionner)",
-    "Change startup behaviour"                                                          :"Changer le comportement du démarrage", # not sure what this is
+    "Change startup behaviour"                                                          :"Changer le comportement au démarrage de Windows", # not sure what this is
     "Change"                                                                            :"Changer",
     "<b>Update to the latest version!</b>"                                             :"<b>Mettre à jour vers la dernière version !</b>",
     "Install update"                                                                    :"Installer la mise à jour",
     
     #Clock settings
     "Clock Settings:"                                              :"Paramètre de l'horloge :",
-    "Hide the clock in fullscreen mode"                            :"Cacher l'horloge en mode pleine écran",
+    "Hide the clock in fullscreen mode"                            :"Cacher l'horloge en mode plein écran",
     "Hide the clock when RDP client is active"                     :"Cacher l'horloge quand un client RDP est actif",
     "Force the clock to be at the bottom of the screen"            :"Forcer l'affichage de l'horloge en bas de l'écran",
     "Show the clock when the taskbar is set to hide automatically" :"Afficher l'horloge lorsque la barre des tâches est masquée automatiquement",
@@ -112,7 +112,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"À propos du pack de langue",
-    "Translated to English by martinet101"      :"Traduis en français par Lilobast", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Traduit en français par Lilobast and scrocquesel", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Traduire ElevenClock dans votre langue",
     "Get started"                               :"Commencer",
     
@@ -122,9 +122,9 @@ lang2_3 = lang2_4 | {
     "Open"                                      :"Ouvrir",
     "Report an issue/request a feature"         :"Signaler un bug / proposer une fonctionnalité",
     "Report"                                    :"Signaler",
-    "Support the dev: Give me a coffee☕"       :"Supporter le développeur",
-    "Open page"                                 :"Supporter",
-    "Icons by Icons8"                           :"Icônes faites par Icons8", # Here, the word "Icons8" should not be translated
+    "Support the dev: Give me a coffee☕"       :"Soutenir le développeur: Offrez-moi un café☕",
+    "Open page"                                 :"Ouvrir la page",
+    "Icons by Icons8"                           :"Icônes réalisées par Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Page web",
     "Close settings"                            :"Fermer les paramètres",
     "Close"                                     :"Fermer",
