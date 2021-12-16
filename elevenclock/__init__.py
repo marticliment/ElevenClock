@@ -25,6 +25,8 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
+import welcome
+
 
 from languages import *
 import globals
@@ -36,6 +38,8 @@ from settings import *
 from tools import *
 
 appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
+blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay") # The "" codes for titleless windows
+
 
 print("---------------------------------------------------------------------------------------------------")
 print("")
@@ -646,11 +650,11 @@ class Clock(QWidget):
                             processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
                             for p in processes:
                                 if(p.Name != "TextInputHost.exe"):
-                                    if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
+                                    if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
                                         print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                         fullscreen = True
                         else:
-                            if(win32gui.GetWindowText(hwnd) not in ("", "Program Manager")):
+                            if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
                                 print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                 fullscreen = True
 
