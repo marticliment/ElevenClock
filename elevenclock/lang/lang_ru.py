@@ -18,7 +18,7 @@ lang_2_9 = {
     "Clock's font, font size, font color and background, text alignment": "Настройки шрифта, размера шрифта, цвета, выравнивание",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Формат даты, формат времени, секунды, дни недели, номер недели, региональные настройки",
     "Testing features and error-fixing tools": "Исправления проблем и тестирование новых возможностей",
-    "Language pack author(s), help translating ElevenClock": "Авторы переводов, помощь при переводе",
+    "Language pack author(s), help translating ElevenClock": "Авторы переводов, помощь в переводе ElevenClock",
     "Info, report a bug, submit a feature request, donate, about": "Больше информации, создать баг, предложить функцию, подкинуть на расходы",
     "Log, debugging information": "Логи, ифнормация для дебага",
 }
