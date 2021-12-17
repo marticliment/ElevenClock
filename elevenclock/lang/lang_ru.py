@@ -7,66 +7,66 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Диспетчер задач",
+    "Change date and time": "Сменить дату и время",
+    "Notification settings": "Настройки оповещения",
+    "Updates, icon tray, language": "Обновления, иконка трея, язык",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Не отображать расширенное меню по правому клику мыши (нужен перезапуск)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Поведение при работы с полноэкранными приложениями, позиционирование, разное",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Отображать кнопку "Показать рабочий стол" в левом углу всех часов',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Вам придется выбрать свой цвет фона, чтобы это работало.&nbsp;Больше информации <a href="{0}" style="color:DodgerBlue">здесь</a>',
+    "Clock's font, font size, font color and background, text alignment": "Настройки шрифта, размера шрифта, цвета, выравнивания",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Формат даты, формат времени, секунды, дни недели, номер недели, региональные настройки",
+    "Testing features and error-fixing tools": "Исправления проблем и тестовые вохможности",
+    "Language pack author(s), help translating ElevenClock": "Авторы переводов, помощь при переводе",
+    "Info, report a bug, submit a feature request, donate, about": "Больше информации, создать баг, предложить функцию, подкинуть на расходы",
+    "Log, debugging information": "Логи, ифнормация для дебага",
 }
 
 lang_2_8 = lang_2_9 | {
-    "Force the clock to be at the top of the screen": "",
-    "Show the clock on the primary screen": "",
-    "Use a custom font color": "",
-    "Use a custom background color": "",
-    "Align the clock text to the center": "",
-    "Select custom color": "",
-    "Hide the clock when a program occupies all screens": "",
+    "Force the clock to be at the top of the screen": "Отображать часы в  верхней части экрана",
+    "Show the clock on the primary screen": "Отображать часы на главном мониторе",
+    "Use a custom font color": "Сменить цвет шрифта",
+    "Use a custom background color": "Сменить цвет фона",
+    "Align the clock text to the center": "Выровнять текст по центру",
+    "Select custom color": "Выберите цвет",
+    "Hide the clock when a program occupies all screens": "Скрывать, когда программа занимает все экраны",
 }
 
 lang2_7_bis = lang_2_8 | {
-    "Use a custom font": "",
-    "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Use a custom font": "Сменить шрифт",
+    "Use a custom font size": "Сменить размер шрифта",
+    "Enable hide when multi-monitor fullscreen apps are running": "Скрывать при запущенном приложении, которое развернуто на все экраны",
+    "<b>{0}</b> needs to be enabled to change this setting": "Включите <b>{0}</b>, чтобы изменить это",
+    "<b>{0}</b> needs to be disabled to change this setting": "Отключите <b>{0}</b>, чтобы изменить это",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Эта настройка отключена, так как она должна работать по умолчанию. В противном случае, откройте баг)",
+    "ElevenClock's language": "Язык ElevenClock"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "",
-    "About": "",
-    "Alternative non-SSL update server (This might help with SSL errors)": "",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "",
+    "About Qt6 (PySide6)": "О Qt6 (PySide6)",
+    "About": "О приложении",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Сервер обновлений без SSL",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Исправления/экспериментальные возможности: (ТОЛЬКО если что-то не работает)",
+    "Show week number on the clock": "Отображать номер недели",
 }
 
 lang2_5 = lang2_6 | {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "",
-    "Clock Appearance:": "",
-    "Force the clock to have black text": "",
-    " - It is required that the Dark Text checkbox is disabled": "",
-    "Debbugging information:": "",
-    "Open ElevenClock's log": "",
+    "Hide the clock when RDP Client or Citrix Workspace are running": "Скрывать часы при открытом RDP клиенте или Citrix Workspace",
+    "Clock Appearance:": "Внешний вид часов",
+    "Force the clock to have black text": "Принудительно Темный Цвет текста",
+    " - It is required that the Dark Text checkbox is disabled": " - Необходимо, чтобы настройка Темный Цвет была выключена",
+    "Debbugging information:": "Информация для дебага",
+    "Open ElevenClock's log": "Открыть логи ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "",
-    "Show weekday on the clock"  :"",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Отображать на главном мониторе (полезно, если часы выставить слева)",
+    "Show weekday on the clock"  :"Отображать рабочий день недели",
 }
 
 lang2_3 = lang2_4 | {
@@ -76,7 +76,7 @@ lang2_3 = lang2_4 | {
     "ElevenClock v{0}"          :"ElevenClock v{0}",
     "Restart ElevenClock"       :"Перезапустить ElevenClock",
     "Hide ElevenClock"          :"Скрыть ElevenClock",
-    "Quit ElevenClock"          :"Выход ElevenClock",
+    "Quit ElevenClock"          :"Выйти из ElevenClock",
     
     #General settings section
     "General Settings:"                                                                 :"Основные настройки",
@@ -117,7 +117,7 @@ lang2_3 = lang2_4 | {
     
     #About ElevenClock
     "About ElevenClock version {0}:"            :"О ElevenClock version {0}:",
-    "View ElevenClock's homepage"               :"Посетать сайт ElevenClock",
+    "View ElevenClock's homepage"               :"Посетить сайт ElevenClock",
     "Open"                                      :"Открыть",
     "Report an issue/request a feature"         :"Сообщить о проблеме / запросить функцию",
     "Report"                                    :"Отчет",
