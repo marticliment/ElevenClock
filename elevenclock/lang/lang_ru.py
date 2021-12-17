@@ -49,7 +49,7 @@ lang2_7 = lang2_7_bis | {
 lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "О Qt6 (PySide6)",
     "About": "О приложении",
-    "Alternative non-SSL update server (This might help with SSL errors)": "Сервер обновлений без SSL",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Сервер обновлений без SSL (если есть ошибки SSL)",
     "Fixes and other experimental features: (Use ONLY if something is not working)": "Исправления/экспериментальные возможности: (Используйте, если ТОЛЬКО что-то не работает)",
     "Show week number on the clock": "Отображать номер недели",
 }
@@ -88,7 +88,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Синхронизация часов с альтернативным сервером (может не работать)",
     "Change startup behaviour"                                                          :"Настройка запуска",
     "Change"                                                                            :"Изменить",
-    "<b>Update to the latest version!</b>"                                             :"Обновить до последней версии!",
+    "<b>Update to the latest version!</b>"                                              :"Обновить до последней версии!",
     "Install update"                                                                    :"Установить обновление",
     
     #Clock settings
