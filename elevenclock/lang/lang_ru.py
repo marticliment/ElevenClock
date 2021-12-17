@@ -9,7 +9,7 @@
 lang_2_9 = {
     "Task Manager": "Диспетчер задач",
     "Change date and time": "Сменить дату и время",
-    "Notification settings": "Настройки оповещения",
+    "Notification settings": "Настройки уведомлений",
     "Updates, icon tray, language": "Обновления, иконка трея, язык",
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Не отображать расширенное меню по правому клику мыши (нужен перезапуск)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Поведение при работы с полноэкранными приложениями, позиционирование, разное",
