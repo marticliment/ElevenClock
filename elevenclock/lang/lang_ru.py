@@ -15,16 +15,16 @@ lang_2_9 = {
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Поведение при работы с полноэкранными приложениями, позиционирование, разное",
     'Add the "Show Desktop" button on the left corner of every clock': 'Отображать кнопку "Показать рабочий стол" в левом углу всех часов',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Вам придется выбрать свой цвет фона, чтобы это работало.&nbsp;Больше информации <a href="{0}" style="color:DodgerBlue">здесь</a>',
-    "Clock's font, font size, font color and background, text alignment": "Настройки шрифта, размера шрифта, цвета, выравнивания",
+    "Clock's font, font size, font color and background, text alignment": "Настройки шрифта, размера шрифта, цвета, выравнивание",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Формат даты, формат времени, секунды, дни недели, номер недели, региональные настройки",
-    "Testing features and error-fixing tools": "Исправления проблем и тестовые вохможности",
+    "Testing features and error-fixing tools": "Исправления проблем и тестирование новых возможностей",
     "Language pack author(s), help translating ElevenClock": "Авторы переводов, помощь при переводе",
     "Info, report a bug, submit a feature request, donate, about": "Больше информации, создать баг, предложить функцию, подкинуть на расходы",
     "Log, debugging information": "Логи, ифнормация для дебага",
 }
 
 lang_2_8 = lang_2_9 | {
-    "Force the clock to be at the top of the screen": "Отображать часы в  верхней части экрана",
+    "Force the clock to be at the top of the screen": "Отображать часы в верхней части экрана",
     "Show the clock on the primary screen": "Отображать часы на главном мониторе",
     "Use a custom font color": "Сменить цвет шрифта",
     "Use a custom background color": "Сменить цвет фона",
@@ -36,13 +36,13 @@ lang_2_8 = lang_2_9 | {
 lang2_7_bis = lang_2_8 | {
     "Use a custom font": "Сменить шрифт",
     "Use a custom font size": "Сменить размер шрифта",
-    "Enable hide when multi-monitor fullscreen apps are running": "Скрывать при запущенном приложении, которое развернуто на все экраны",
+    "Enable hide when multi-monitor fullscreen apps are running": "Скрывать при запущенном приложении, которое развернуто на все мониторы",
     "<b>{0}</b> needs to be enabled to change this setting": "Включите <b>{0}</b>, чтобы изменить это",
     "<b>{0}</b> needs to be disabled to change this setting": "Отключите <b>{0}</b>, чтобы изменить это",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Эта настройка отключена, так как она должна работать по умолчанию. В противном случае, откройте баг)",
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Эта настройка отключена, так как она должна работать по умолчанию. В противном случае откройте баг)",
     "ElevenClock's language": "Язык ElevenClock"
 }
 
@@ -50,7 +50,7 @@ lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "О Qt6 (PySide6)",
     "About": "О приложении",
     "Alternative non-SSL update server (This might help with SSL errors)": "Сервер обновлений без SSL",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "Исправления/экспериментальные возможности: (ТОЛЬКО если что-то не работает)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Исправления/экспериментальные возможности: (Используйте, если ТОЛЬКО что-то не работает)",
     "Show week number on the clock": "Отображать номер недели",
 }
 
@@ -65,8 +65,8 @@ lang2_5 = lang2_6 | {
 
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
-    "Show the clock on the primary screen (Useful if clock is set on the left)": "Отображать на главном мониторе (полезно, если часы выставить слева)",
-    "Show weekday on the clock"  :"Отображать рабочий день недели",
+    "Show the clock on the primary screen (Useful if clock is set on the left)": "Отображать на главном экране (полезно, если часы выставить слева)",
+    "Show weekday on the clock"  :"Отображать день недели",
 }
 
 lang2_3 = lang2_4 | {
@@ -111,7 +111,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"О языковом пакете",
-    "Translated to English by martinet101"      :"Перевод на русский: Иван (Risen)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Перевод на русский: Иван (Risen), Кирилл (kira)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Переведите ElevenClock на свой язык",
     "Get started"                               :"Начать",
     
@@ -121,7 +121,7 @@ lang2_3 = lang2_4 | {
     "Open"                                      :"Открыть",
     "Report an issue/request a feature"         :"Сообщить о проблеме / запросить функцию",
     "Report"                                    :"Отчет",
-    "Support the dev: Give me a coffee☕"       :"Поддержать разработчика ",
+    "Support the dev: Give me a coffee☕"       :"Поддержать разработчика чашечкой кофе☕",
     "Open page"                                 :"Открыть страницу",
     "Icons by Icons8"                           :"Иконки от Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Страница в Интернете",
