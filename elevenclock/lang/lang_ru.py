@@ -97,7 +97,7 @@ lang2_3 = lang2_4 | {
     "Hide the clock when RDP client is active"                     :"Скрыть часы при работе с RDP-клиентом",
     "Force the clock to be at the bottom of the screen"            :"Установить часы в нижней части экрана",
     "Show the clock when the taskbar is set to hide automatically" :"Показывать часы, когда панель задач настроена на автоматическое скрытие",
-    "Fix the hyphen/dash showing over the month"                   :"Изменить дефис / тире при отображении месяца",
+    "Fix the hyphen/dash showing over the month"                   :"Исправить наложение дефиса/тире на текст месяца",
     "Force the clock to have white text"                           :"Включить белый цвет часов",
     "Show the clock at the left of the screen"                     :"Показать часы в левой части экрана",
     
