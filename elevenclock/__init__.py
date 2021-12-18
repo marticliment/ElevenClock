@@ -197,10 +197,15 @@ def getGeometry(screen: QScreen):
     """
     Return a tuple containing: (screen_width, screen_height, screen_pos_x, screen_pos_y, screen_DPI, desktopWindowRect)
     """
-    #win32api.EnumDisplayMonitors()
-    geometry = screen.geometry()
-    g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
-    return g
+    try:
+        geometry = screen.geometry()
+        g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+        return g
+    except Exception as e:
+        report(e)
+        geometry = QGuiApplication.primaryScreen()
+        g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+        return g
 
 def theyMatch(oldscreens, newscreens):
     if len(oldscreens) != len(newscreens) or len(app.screens()) != len(win32api.EnumDisplayMonitors()):
