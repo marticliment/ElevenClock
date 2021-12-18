@@ -8,6 +8,7 @@ from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
+from FramelessWindow import QFramelessMenu
 import globals
 from languages import *
 
@@ -136,7 +137,7 @@ class Menu(QMenu):
 
         
 from BlurWindow.blurWindow import GlobalBlur
-        
+
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
         super().__init__(app)
