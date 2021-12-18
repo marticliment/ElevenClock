@@ -25,7 +25,6 @@ from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
-import welcome
 
 
 from languages import *
