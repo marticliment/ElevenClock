@@ -225,12 +225,15 @@ def closeClocks():
         clock.hide()
         clock.close()
 
-def showMessage(a, b):
+def showMessage(title: str, body: str, uBtn: bool = True) -> None:
+    """
+    Shows a Windows Notification
+    """
     lastState = i.isVisible()
     i.show()
-    i.showMessage(a, b)
-    sw.updateButton.show()
-    sw.resizewidget.setMinimumHeight(sw.resizewidget.sizeHint().height())
+    i.showMessage(title, body)
+    if uBtn:
+        sw.updateButton.show()
     i.setVisible(lastState)
 
 def restartClocks(caller: str = ""):
@@ -913,7 +916,6 @@ try:
     globals.trayIcon = i
 
     if not(getSettings("Updated2.9Already")) and not(getSettings("EnableSilentUpdates")):
-        print("Show2.8Welcome")
         sw.show()
         setSettings("Updated2.9Already", True)
         QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
@@ -925,6 +927,13 @@ try:
     if("--quit-on-loaded" in sys.argv):
         sys.exit(0)
         
+    if not getSettings("DefaultPrefsLoaded"):
+        setSettings("NewFullScreenMethod", True)
+        if len(QApplication.screens()) == 1:
+            setSettings("ForceClockOnFirstMonitor", True)
+        showMessage("Welcome to ElevenClock", "You can customize Elevenclock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
+        print("🟢 Default settings loaded")
+        setSettings("DefaultPrefsLoaded", True)
 
     app.exec_()
     sys.exit(0)
