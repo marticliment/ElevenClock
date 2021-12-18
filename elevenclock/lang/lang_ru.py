@@ -6,6 +6,9 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Make special attention to elements like ":", etc.
 
+# Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
+# sometimes ':' symbol is redundant, for example in a header of a settings section
+
 lang_2_9 = {
     "Task Manager"                                                                                               : "Диспетчер задач",
     "Change date and time"                                                                                       : "Сменить дату и время",
@@ -21,6 +24,7 @@ lang_2_9 = {
     "Language pack author(s), help translating ElevenClock"                                                      : "Авторы переводов, помощь в переводе ElevenClock",
     "Info, report a bug, submit a feature request, donate, about"                                                : "Больше информации, создать баг, предложить функцию, подкинуть на расходы",
     "Log, debugging information"                                                                                 : "Логи, ифнормация для дебага",
+    "Do not show the clock on secondary monitors"                                                                : "Показывать только на главном мониторе",
 }
 
 
@@ -38,8 +42,8 @@ lang2_7_bis = lang_2_8 | {
     "Use a custom font"                                          : "Сменить шрифт",
     "Use a custom font size"                                     : "Сменить размер шрифта",
     "Enable hide when multi-monitor fullscreen apps are running" : "Скрывать при запущенном приложении, которое развернуто на все мониторы",
-    "<b>{0}</b> needs to be enabled to change this setting"      : "Включите <b>{0}</b>, чтобы изменить это",
-    "<b>{0}</b> needs to be disabled to change this setting"     : "Отключите <b>{0}</b>, чтобы изменить это",
+    "<b>{0}</b> needs to be enabled to change this setting"      : "Включите опцию <b>{0}</b>, чтобы изменить этот параметр.",
+    "<b>{0}</b> needs to be disabled to change this setting"     : "Отключите опцию <b>{0}</b>, чтобы изменить этот параметр.",
 }
 
 lang2_7 = lang2_7_bis | {
@@ -89,7 +93,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Синхронизация часов с альтернативным сервером (может не работать)",
     "Change startup behaviour"                                                          :"Настройка запуска",
     "Change"                                                                            :"Изменить",
-    "<b>Update to the latest version!</b>"                                              :"Обновить до последней версии!",
+    "<b>Update to the latest version!</b>"                                              :"<b>Обновить до последней версии!</b>",
     "Install update"                                                                    :"Установить обновление",
 
     #Clock settings
@@ -99,11 +103,11 @@ lang2_3 = lang2_4 | {
     "Force the clock to be at the bottom of the screen"            :"Установить часы в нижней части экрана",
     "Show the clock when the taskbar is set to hide automatically" :"Показывать часы, когда панель задач настроена на автоматическое скрытие",
     "Fix the hyphen/dash showing over the month"                   :"Исправить наложение дефиса/тире на текст месяца",
-    "Force the clock to have white text"                           :"Включить белый цвет часов",
+    "Force the clock to have white text"                           :"Принудительно белый цвет текста часов",
     "Show the clock at the left of the screen"                     :"Показать часы в левой части экрана",
 
     #Date & time settings
-    "Date & Time Settings:"                             :"Настройки времени и даты",
+    "Date & Time Settings:"                             :"Настройки даты и времени",
     "Show seconds on the clock"                         :"Показывать секунды",
     "Show date on the clock"                            :"Показывать дату",
     "Show time on the clock"                            :"Показывать время",
@@ -114,10 +118,10 @@ lang2_3 = lang2_4 | {
     "About the language pack:"                  :"О языковом пакете",
     "Translated to English by martinet101"      :"Перевод на русский: Иван (Risen), Кирилл (kira)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
     "Translate ElevenClock to your language"    :"Переведите ElevenClock на свой язык",
-    "Get started"                               :"Начать",
+    "Get started"                               :"Перевести", # it's a button which leads to translation details
 
     #About ElevenClock
-    "About ElevenClock version {0}:"            :"О ElevenClock version {0}:",
+    "About ElevenClock version {0}:"            :"О ElevenClock версии {0}",
     "View ElevenClock's homepage"               :"Посетить сайт ElevenClock",
     "Open"                                      :"Открыть",
     "Report an issue/request a feature"         :"Сообщить о проблеме / запросить функцию",
