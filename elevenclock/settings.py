@@ -804,6 +804,11 @@ class SettingsWindow(QFramelessWindow):
                                 QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
                                     background: none;
                                 }}
+                                #titlebarLabel {{
+                                    color: red;
+                                    background: transparent;
+                                    font-size: 10pt;
+                                }}
                                """)
         else:
             self.iconMode = "black"
@@ -1722,11 +1727,15 @@ class QTitleBarWidget(QWidget):
         self.minimizeButton.clicked.connect(parent.showMinimized)
         
         self.setLayout(QHBoxLayout())
-        l = QLabel(_("ElevenClock Settings"))
-        l.setStyleSheet("background-color: transparent;")
+        icon = QLabel()
+        icon.setPixmap(QIcon(getPath("icon.png")).pixmap(parent.getPx(16), parent.getPx(16)))
+        l = QLabel(_("ElevenClock Settings"), self)
+        l.setObjectName("#titlebarLabel")
+        self.layout().addWidget(icon)
+        self.layout().addSpacing(parent.getPx(16))
         self.layout().addWidget(l)
         self.layout().addStretch()
-        self.layout().setContentsMargins(16, 0, 0, 0)
+        self.layout().setContentsMargins(parent.getPx(16), 0, 0, 0)
         self.layout().setSpacing(0)
         self.layout().addWidget(self.minimizeButton)
         self.layout().addWidget(self.maximizeButton)
