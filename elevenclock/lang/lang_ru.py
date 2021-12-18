@@ -52,11 +52,11 @@ lang2_7 = lang2_7_bis | {
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)"                                                 : "О Qt6 (PySide6)",
-    "About"                                                               : "О приложении",
-    "Alternative non-SSL update server (This might help with SSL errors)" : "Сервер обновлений без SSL (если есть ошибки SSL)",
-    "Fixes and other experimental features                                : (Use ONLY if something is not working)"             : "Исправления/экспериментальные возможности : (Используйте, если ТОЛЬКО что-то не работает)",
-    "Show week number on the clock"                                       : "Отображать номер недели",
+    "About Qt6 (PySide6)"                                                                       : "О Qt6 (PySide6)",
+    "About"                                                                                     : "О приложении",
+    "Alternative non-SSL update server (This might help with SSL errors)"                       : "Сервер обновлений без SSL (если есть ошибки SSL)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)"             : "Исправления/экспериментальные возможности: (Используйте, если ТОЛЬКО что-то не работает)",
+    "Show week number on the clock"                                                             : "Отображать номер недели",
 }
 
 lang2_5 = lang2_6 | {
