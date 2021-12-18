@@ -8,12 +8,11 @@ from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
-from FramelessWindow import QFramelessMenu
 import globals
 from languages import *
 
 version = 2.91
-versionName = "3.0.0-dev"
+versionName = "2.9.1"
 
 def _(s): #Translate function
     global lang
