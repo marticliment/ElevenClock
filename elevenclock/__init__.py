@@ -79,6 +79,8 @@ def getMousePos():
     return QPoint(mController.position[0], mController.position[1])
 
 def updateChecker():
+    updateIfPossible()
+    time.sleep(60)
     while True:
         updateIfPossible()
         time.sleep(7200)
