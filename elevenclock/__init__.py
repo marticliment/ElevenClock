@@ -1,3 +1,7 @@
+import time
+
+FirstTime = time.time()
+
 import os
 import io
 import sys
@@ -890,6 +894,7 @@ try:
     
     loadClocks()
     
+    print(f"🟢 Loaded clocks in {time.time()-FirstTime}")
     
     tdir = tempfile.TemporaryDirectory()
     tempDir = tdir.name
@@ -948,6 +953,7 @@ try:
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
 
+    print(f"🟢 Loaded everything in {time.time()-FirstTime}")
     
     app.exec_()
     sys.exit(0)
