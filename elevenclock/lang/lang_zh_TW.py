@@ -7,20 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "工作管理員",
+    "Change date and time": "調整日期和時間",
+    "Notification settings": "通知設定",
+    "Updates, icon tray, language": "更新、系統匣、語言",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "隱藏右鍵功能表中的延伸選項（需要重新啟動以進行套用）",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全螢幕行為、時鐘位置、主要螢幕時鐘、其他雜項設定",
+    'Add the "Show Desktop" button on the left corner of every clock': '新增「顯示桌面」的按鈕到每個時鐘角落',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '為使本功能正常運作，你可能需要設定自訂背景顏色。&nbsp;更多資訊見 <a href="{0}" style="color:DodgerBlue">這裡</a>',
+    "Clock's font, font size, font color and background, text alignment": "時鐘字型、字型大小、字型色彩、文字背景、文字對齊",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "日期格式、時間格式、秒數顯示、星期幾、週數、地區設定",
+    "Testing features and error-fixing tools": "實驗性功能、錯誤修正工具",
+    "Language pack author(s), help translating ElevenClock": "語言套件作者（翻譯協助者）",
+    "Info, report a bug, submit a feature request, donate, about": "資訊、錯誤回報、功能請求、贊助、關於",
+    "Log, debugging information": "日誌、除錯資訊",
+    "Do not show the clock on secondary monitors": "不要在第二螢幕上顯示時鐘",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -110,7 +111,7 @@ lang2_3 = lang2_4 | {
     "Regional settings"                                 :"地區設定",
     
     #About the language pack
-    "About the language pack:"                  :"關於此語言包",
+    "About the language pack:"                  :"關於此語言套件",
     "Translated to English by martinet101"      :"由 mmis1000、BoyceLig 翻譯為正體中文（台灣）", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"將 ElevenClock 翻譯成你的語言",
     "Get started"                               :"立刻開始",
