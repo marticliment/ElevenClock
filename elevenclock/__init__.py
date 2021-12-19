@@ -8,7 +8,6 @@ import locale
 import hashlib
 import tempfile
 import datetime
-import threading
 import subprocess
 from ctypes import windll
 from urllib.request import urlopen
@@ -26,7 +25,6 @@ from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
 
 
-
 from languages import *
 import globals
 
@@ -36,8 +34,9 @@ sys.stdout = buffer = io.StringIO()
 from settings import *
 from tools import *
 
-appsWhereElevenClockShouldClose = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
+blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
 blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay") # The "" codes for titleless windows
+
 
 
 print("---------------------------------------------------------------------------------------------------")
@@ -57,6 +56,7 @@ print(" 🔴: Error")
 print("")
 
 
+
 def checkRDP():
     def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
         for p_name in processess:
@@ -72,11 +72,16 @@ def checkRDP():
         _wmi = win32com.client.GetObject('winmgmts:')
         processes = _wmi.ExecQuery('Select Name from win32_process')
         procs = [p.Name for p in processes]
-        isRDPRunning = checkIfElevenClockRunning(procs, appsWhereElevenClockShouldClose)
+        isRDPRunning = checkIfElevenClockRunning(procs, blacklistedProcesses)
         time.sleep(5)
 
 def getMousePos():
-    return QPoint(mController.position[0], mController.position[1])
+    try:
+        return QPoint(mController.position[0], mController.position[1])
+    except AttributeError:
+        print("🟠 Mouse thread returned AttributeError")
+    except Exception as e:
+        report(e)
 
 def updateChecker():
     updateIfPossible()
@@ -151,8 +156,6 @@ def updateIfPossible(force = False):
         #old_stdout.write(buffer.getvalue())
         #old_stdout.flush()
 
-restartCount = 0
-
 def resetRestartCount():
     global restartCount
     while True:
@@ -161,7 +164,6 @@ def resetRestartCount():
             restartCount -= 1
         time.sleep(0.3)
 
-threading.Thread(target=resetRestartCount, daemon=True).start()
 
 def loadClocks():
     global clocks, oldScreens, st, restartCount, st
@@ -864,24 +866,37 @@ class Label(QLabel):
 
 # Start of main script
 try:
-    tdir = tempfile.TemporaryDirectory()
-    tempDir = tdir.name
     seconddoubleclick = False
     isRDPRunning = False
-    showSeconds = 0
+    restartCount = 0
+    tempDir = ""
     timeStr = ""
     dateTimeFormat = ""
-    mController = MouseController()
     clocks = []
     oldScreens = []
+    
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication()
-
-    sw = SettingsWindow() # Declare settings window
-
-    i = TaskbarIconTray(app)
-
     app.setQuitOnLastWindowClosed(False)
+    
+    mController: MouseController = None
+    sw: SettingsWindow = None
+    i: TaskbarIconTray = None
+    st: KillableThread = None # Will be defined on loadClocks
+
+    KillableThread(target=resetRestartCount, daemon=True).start()
+    timethread = KillableThread(target=timeStrThread, daemon=True)
+    timethread.start()
+    
+    loadClocks()
+    
+    
+    tdir = tempfile.TemporaryDirectory()
+    tempDir = tdir.name
+    sw = SettingsWindow() # Declare settings window
+    i = TaskbarIconTray(app)
+    mController = MouseController()
+    
     app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
     app.screenAdded.connect(lambda: os.startfile(sys.executable))
     app.screenRemoved.connect(lambda: os.startfile(sys.executable))
@@ -897,15 +912,12 @@ try:
     KillableThread(target=isElevenClockRunning, daemon=True).start()
     KillableThread(target=checkIfWokeUp, daemon=True).start()
 
-    st: KillableThread = None # Will be defined on loadClocks
+    signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
+    
     rdpThread = KillableThread(target=checkRDP, daemon=True)
-    timethread = KillableThread(target=timeStrThread, daemon=True)
-    timethread.start()
     if getSettings("EnableHideOnRDP"):
         rdpThread.start()
     
-    signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
-    loadClocks()
 
     globals.app = app
     globals.buffer = buffer # Register them
@@ -936,6 +948,7 @@ try:
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
 
+    
     app.exec_()
     sys.exit(0)
 
