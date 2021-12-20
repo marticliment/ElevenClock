@@ -940,11 +940,9 @@ try:
         QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Added an early crash detector\n - Added the ability to toggle the desktop button from the settings\n - Better settings headers UI (added descritions and collapse buttons)\n - Fixed scaling issues with icons\n - Added a better context menu for the clock and the system tray icon\n - Added Slovak, Brazilian Portuguese, Hungarian and Hebrew\n - Lots of other bugfixes and other improvements\n\nAnd, of course, Merry Christmas for everybody :)")
 
     showSettings = False
-    if("--settings" in sys.argv or showSettings):
+    if "--settings" in sys.argv or showSettings:
         sw.show()
 
-    if("--quit-on-loaded" in sys.argv):
-        sys.exit(0)
         
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("NewFullScreenMethod", True)
@@ -955,13 +953,16 @@ try:
         setSettings("DefaultPrefsLoaded", True)
         
         
-    showIntro = False
-    if showIntro:
+    showWelcomeWizard = False
+    if showWelcomeWizard or "--welcome" in sys.argv:
         import welcome
         ww = welcome.WelcomeWindow()
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
     
+    if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully 
+        sys.exit(0)
+        
     app.exec_()
     sys.exit(0)
 
