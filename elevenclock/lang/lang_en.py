@@ -11,7 +11,7 @@ lang_2_9 = {
     "Change date and time": "",
     "Notification settings": "",
     "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Hide extended options from the clock right-click menu (needs a restart to be applied)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
     'Add the "Show Desktop" button on the left corner of every clock': '',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
