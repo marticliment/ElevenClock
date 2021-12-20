@@ -925,6 +925,7 @@ try:
     
 
     globals.app = app
+    globals.old_stdout = old_stdout
     globals.buffer = buffer # Register them
     globals.loadTimeFormat = loadTimeFormat # Register them
     globals.updateIfPossible = updateIfPossible # Register them

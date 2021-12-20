@@ -1216,21 +1216,19 @@ class SettingsWindow(QFramelessWindow):
 
             self.updateSize = False
             KillableThread(target=enableUpdateSize, args=(self,)).start()
+        super().moveEvent(event)
             
     def mouseReleaseEvent(self, event) -> None:
         if(self.updateSize):
             self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
-            #self.settingsWidget.setMinimumHeight(self.settingsWidget.sizeHint().height())
             self.applyStyleSheet()
-            self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-            self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-            self.vlayout.setContentsMargins(2, 2, 2, 2)
-
+            if not self.isMaximized():
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
+                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+                self.vlayout.setContentsMargins(2, 2, 2, 2)
             self.updateSize = False
         return super().mouseReleaseEvent(event)
 
-    def resizeEvent(self, event: QMoveEvent) -> None:
-        self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
 
     def show(self) -> None:
         self.applyStyleSheet()

@@ -22,6 +22,7 @@ def closeClocks():
 
 app: QApplication = None
 buffer: io.StringIO = None
+old_stdout: io.StringIO = None
 trayIcon: QSystemTrayIcon = None
 sw: QScrollArea = None
 
