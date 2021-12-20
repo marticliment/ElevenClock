@@ -1251,7 +1251,8 @@ class SettingsWindow(QFramelessWindow):
         return super().eventFilter(watched, event)
 
     def showEvent(self, event: QShowEvent) -> None:
-        self.resize(900, 600)
+        self.showNormal()
+        self.resize(self.getPx(900), self.getPx(600))
         return super().showEvent(event)
 
     def closeEvent(self, event: QCloseEvent) -> None:
