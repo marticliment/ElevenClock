@@ -953,6 +953,12 @@ try:
         showMessage("Welcome to ElevenClock", "You can customize Elevenclock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
+        
+        
+    showIntro = False
+    if showIntro:
+        import welcome
+        ww = welcome.WelcomeWindow()
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
     
