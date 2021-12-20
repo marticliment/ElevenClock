@@ -435,7 +435,7 @@ class Clock(QWidget):
         hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
         registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
         self.autoHide = registry_read_result[8] == 123
-        self.setToolTip(f"ElevenClock version {versionName}\n\nClick once to show notifications")
+        
         try:
             if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
                 h = self.screenGeometry.y()
