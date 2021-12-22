@@ -21,6 +21,8 @@ class WelcomeWindow(QMainWindow):
     def __init__(self, parent: QObject = None, flags: Qt.WindowFlags = Qt.WindowFlags()) -> None:
         super().__init__()
         
+        self.switched = False
+        
         self.widgetOrder = (
             FirstRunWidget(self),
             LastWidget(self),
@@ -35,28 +37,25 @@ class WelcomeWindow(QMainWindow):
         
         self.currentIndex = -1
         
-        self.setFixedSize(800, 600)
-        x = (QGuiApplication.primaryScreen().geometry().width()-800)//2
-        y = (QGuiApplication.primaryScreen().geometry().height()-600)//2
-        self.move(x, y)
-        self.setWindowFlags(Qt.Window | Qt.FramelessWindowHint)
-        self.setWindowFlag(Qt.WindowStaysOnTopHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setFixedSize(self.getPx(800), self.getPx(600))
         self.setStyleSheet("background-color: transparent;")
         self.bgWidget = QStackedWidget(self)
         self.bgWidget.setObjectName("BackgroundWidget")
+        self.setWindowFlag(Qt.WindowMinimizeButtonHint, False)
+        self.setWindowTitle(_("Welcome to ElevenClock"))
+        self.setWindowIcon(QIcon(getPath("icon.png")))
         self.setCentralWidget(self.bgWidget)
         
         
         self.bgWindow = QMainWindow()
-        self.bgWindow.setGeometry(self.screen().geometry())
         self.bgWindow.setFocusPolicy(Qt.NoFocus)
-        self.bgWindow.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowDoesNotAcceptFocus)
+        self.bgWindow.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowDoesNotAcceptFocus | Qt.Tool)
         self.bgWindow.setAttribute(Qt.WA_TranslucentBackground)
         self.bgWindow.setCentralWidget(QWidget())
         self.bgWindow.centralWidget().setStyleSheet("background-color: rgba(30, 30, 30, 0.6)")
-        self.bgWindow.raise_()
-        self.bgWindow.show()
+        self.bgWindow.hide()
+        self.bgWindow.move(0, 0)
+        self.bgWindow.resize(1, 1)
         
         colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
         string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
@@ -81,18 +80,42 @@ class WelcomeWindow(QMainWindow):
                 if add:
                     i += 1
                     
+                    
         self.bgWidget.setStyleSheet(f"""
             * {{
                 color: #eeeeee;
-                background-color: #303030;
+                background-color: #282828;
                 border-radius: 4px;
                 font-family: "Segoe UI Variable Display"
             }}
             #BackgroundWidget {{
-                border: 1px solid #121212;
+                border: 0px solid #121212;
                 padding: 20px;
+                border-radius: 0px;
                 padding-left: 30px;
                 padding-right: 30px;
+            }}
+            QLabel {{
+                background-color: none;
+            }}
+            #SampleItem {{
+                font-family: "Segoe UI Variable Display semib";
+                width: 100px;
+                background-color: #303030;
+                padding: 20px;
+                border-radius: {self.getPx(8)}px;
+                border: {self.getPx(1)}px solid #393939;
+                height: {self.getPx(25)}px;
+                border-top: {self.getPx(1)}px solid #404040;
+            }}
+            #FramelessSampleItem {{
+                font-family: "Segoe UI Variable Display semib";
+                width: 100px;
+                background-color: transparent;
+                padding: 20px;
+                border-radius: {self.getPx(8)}px;
+                border: none;
+                height: {self.getPx(25)}px;
             }}
             QPushButton {{
                 font-family: "Segoe UI Variable Display semib";
@@ -129,24 +152,61 @@ class WelcomeWindow(QMainWindow):
             }}
             """)
         
-        self.nextWidget()
+        self.nextWidget(anim=False)
 
-        
         self.show()
+        
+    def fillScreen(self) -> None:
+        if not self.switched:
+            self.switched = True
+            GlobalBlur(self.bgWindow.winId(), Acrylic=False)
+            fGeometry = QGuiApplication.primaryScreen().geometry()
+            #fGeometry.setHeight(fGeometry.height()-10)
+            self.bgWindow.setGeometry(self.geometry())
+            bgAnim = QPropertyAnimation(self.bgWindow, b"geometry", self)
+            bgAnim.setStartValue(self.geometry())
+            bgAnim.setEndValue(fGeometry)
+            bgAnim.setEasingCurve(QEasingCurve.InOutCirc)
+            bgAnim.setDuration(400)
+            bgAnim.start()
+            self.bgWindow.show()
+            x = (QGuiApplication.primaryScreen().geometry().width()-self.getPx(800))//2
+            y = (QGuiApplication.primaryScreen().geometry().height()-self.getPx(600))//2
+            self.resize(self.getPx(800), self.getPx(600))
+            self.setFixedSize(self.getPx(800), self.getPx(600))
+            self.hide()
+            self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+            self.show()
+            uiAnim = QPropertyAnimation(self, b"pos", self)
+            uiAnim.setStartValue(self.pos())
+            uiAnim.setEndValue(QPoint(x, y))
+            uiAnim.setEasingCurve(QEasingCurve.InOutCirc)
+            uiAnim.setDuration(400)
+            uiAnim.start()
+    
+    def paintEvent(self, event: QMouseEvent) -> None:
+        self.bgWindow.show()
+        self.bgWindow.raise_()
+        return super().paintEvent(event)
     
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
         
-    def setWidget(self, w: QWidget) -> None:
+    def setWidget(self, w: QWidget, back=False, anim=True) -> None:
         self.bgWidget.setCurrentIndex(self.bgWidget.addWidget(w))
+        if anim:
+            if back:
+                w.invertedinAnim()
+            else:
+                w.inAnim()
         
-    def nextWidget(self) -> None:
+    def nextWidget(self, anim=True) -> None:
         if self.currentIndex == len(self.widgetOrder)-1:
             self.close()
         else:
             self.currentIndex += 1
             w: BasicNavWidget = self.widgetOrder[self.currentIndex]
-            self.setWidget(w)
+            self.setWidget(w, anim=anim)
     
     def previousWidget(self) -> None:
         if self.currentIndex == 0:
@@ -157,7 +217,7 @@ class WelcomeWindow(QMainWindow):
         else:
             self.currentIndex -= 1
             w: BasicNavWidget = self.widgetOrder[self.currentIndex]
-            self.setWidget(w)
+            self.setWidget(w, back=True)
     
     def lastWidget(self) -> None:
         self.currentIndex = len(self.widgetOrder)-1
@@ -192,7 +252,7 @@ class BasicNavWidget(QWidget):
             closeButton = QPushButton(_("Skip"))
             closeButton.setFixedSize(96, 36)
             closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            closeButton.clicked.connect(self.skipped.emit)
+            closeButton.clicked.connect(lambda: self.outAnim(self.skipped.emit))
             self.navLayout.addWidget(closeButton)
         self.navLayout.addStretch()
         if startEnabled:
@@ -200,13 +260,13 @@ class BasicNavWidget(QWidget):
             startButton.setLayoutDirection(Qt.RightToLeft)
             startButton.setFixedSize(96, 36)
             startButton.setIcon(QIcon(getPath(f"next_{self.negIconMode}.png")))
-            startButton.clicked.connect(self.next.emit)
+            startButton.clicked.connect(lambda: self.outAnim(self.next.emit))
             startButton.setObjectName("AccentButton")
             self.navLayout.addWidget(startButton)
         else:
             backButton = QPushButton("")
             backButton.setFixedSize(36, 36)
-            backButton.clicked.connect(self.previous.emit)
+            backButton.clicked.connect(lambda: self.invertedOutAnim(self.previous.emit))
             backButton.setIcon(QIcon(getPath(f"previous_{self.iconMode}.png")))
             self.navLayout.addWidget(backButton)
             if finishEnabled:
@@ -214,28 +274,79 @@ class BasicNavWidget(QWidget):
                 finishButton.setObjectName("AccentButton")
                 finishButton.setFixedSize(96, 36)
                 finishButton.setLayoutDirection(Qt.RightToLeft)
-                finishButton.clicked.connect(self.finished.emit)
+                finishButton.clicked.connect(lambda: self.outAnim(self.finished.emit))
                 self.navLayout.addWidget(finishButton)
             else:
                 nextButton = QPushButton("")
                 nextButton.setFixedSize(36, 36)
-                nextButton.clicked.connect(self.next.emit)
+                nextButton.clicked.connect(lambda:self.outAnim(self.next.emit))
                 nextButton.setIcon(QIcon(getPath(f"next_{self.negIconMode}.png")))
                 nextButton.setObjectName("AccentButton")
                 self.navLayout.addWidget(nextButton)
            
+    def nextWidget(self):
+        self.outAnim(self.next.emit)
+    
     def setCentralWidget(self, w: QWidget) -> QWidget:
         self.l.addWidget(w, stretch=1)
         self.l.addLayout(self.navLayout, stretch=0)
+        
+    def inAnim(self) -> None:
+        bgAnim = QPropertyAnimation(self, b"pos", self)
+        pos = self.pos()
+        pos.setX(pos.x()+self.width())
+        bgAnim.setStartValue(pos)
+        bgAnim.setEndValue(self.pos())
+        bgAnim.setEasingCurve(QEasingCurve.OutExpo)
+        bgAnim.setDuration(200)
+        bgAnim.start()
+        
+    def invertedinAnim(self) -> None:
+        bgAnim = QPropertyAnimation(self, b"pos", self)
+        pos = self.pos()
+        pos.setX(pos.x()-self.width())
+        bgAnim.setStartValue(pos)
+        bgAnim.setEndValue(self.pos())
+        bgAnim.setEasingCurve(QEasingCurve.OutExpo)
+        bgAnim.setDuration(200)
+        bgAnim.start()
+        
+    def outAnim(self, f) -> None:
+        bgAnim = QPropertyAnimation(self, b"pos", self)
+        bgAnim.setStartValue(self.pos())
+        pos = self.pos()
+        pos.setX(pos.x()-self.width())
+        bgAnim.setEndValue(pos)
+        bgAnim.setEasingCurve(QEasingCurve.InExpo)
+        bgAnim.setDuration(200)
+        bgAnim.start()
+        bgAnim.finished.connect(f)
+    
+    def invertedOutAnim(self, f) -> None:
+        bgAnim = QPropertyAnimation(self, b"pos", self)
+        bgAnim.setStartValue(self.pos())
+        pos = self.pos()
+        pos.setX(pos.x()+self.width())
+        bgAnim.setEndValue(pos)
+        bgAnim.setEasingCurve(QEasingCurve.InExpo)
+        bgAnim.setDuration(200)
+        bgAnim.start()
+        bgAnim.finished.connect(f)
+
 
 class IconLabel(QWidget):
-    def __init__(self, size=96) -> None:
+    def __init__(self, size=96, frame=True) -> None:
         super().__init__()
+        self.setAttribute(Qt.WA_StyledBackground)
+        if frame:
+            self.setObjectName("SampleItem")
+        else:
+            self.setObjectName("FramelessSampleItem")
         self.iconSize = size
         self.setLayout(QHBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = QLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize))
+        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize+40))
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setMinimumHeight(self.getPx(self.iconSize))
         self.textLabel = QLabel()
@@ -243,9 +354,11 @@ class IconLabel(QWidget):
         self.textLabel.setWordWrap(True)
         self.textLabel.setStyleSheet("font-size: 10pt;")
         self.textLabel.setOpenExternalLinks(True)
+        if frame: self.layout().addSpacing(self.getPx(40/96*self.iconSize))
         self.layout().addWidget(self.iconLabel, stretch=0)
-        self.layout().addSpacing(self.getPx(20/96*self.iconSize))
+        self.layout().addSpacing(self.getPx(30/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
+        if frame: self.layout().addSpacing(self.getPx(30/96*self.iconSize))
         
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
@@ -260,11 +373,13 @@ class ButtonLabel(QWidget):
     clicked = Signal()
     def __init__(self, size=96) -> None:
         super().__init__()
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.setObjectName("SampleItem")
         self.iconSize = size
         self.setLayout(QHBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = QLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize))
+        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize+40))
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setMinimumHeight(self.getPx(self.iconSize))
         self.textLabel = QLabel()
@@ -274,11 +389,13 @@ class ButtonLabel(QWidget):
         self.textLabel.setOpenExternalLinks(True)
         self.button = QPushButton()
         self.button.clicked.connect(self.clicked.emit)
+        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
         self.layout().addWidget(self.iconLabel, stretch=0)
         self.layout().addSpacing(self.getPx(20/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
         self.layout().addSpacing(self.getPx(20/96*self.iconSize))
         self.layout().addWidget(self.button, stretch=0)
+        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
         
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
@@ -299,6 +416,7 @@ class FirstRunWidget(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, startEnabled=True, closeEnabled=True)
         widget = QWidget()
+        self.next.connect(self.startWin)
         l = QHBoxLayout()
         l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
         widget.setLayout(l)
@@ -307,7 +425,7 @@ class FirstRunWidget(BasicNavWidget):
         l.addLayout(vl)
         vl.addSpacing(self.getPx(30))
         
-        label1 = IconLabel(size=self.getPx(64))
+        label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon("icon.png")
         label1.setText(f"""
  <h1>Welcome to Elevenclock!</h1>
@@ -334,6 +452,8 @@ class FirstRunWidget(BasicNavWidget):
         vl.addStretch()
         self.setCentralWidget(widget)
         
+    def startWin(self) -> None:
+        self.window().fillScreen()
     
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
@@ -350,7 +470,7 @@ class LastWidget(BasicNavWidget):
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
         
-        label1 = IconLabel(size=self.getPx(64))
+        label1 = IconLabel(size=self.getPx(64), frame=False)
         label1.setIcon("")
         label1.setText(f"""<h1>You are now ready to go!</h1>
                        <h3>But here are other things you can do:</h3>""")
