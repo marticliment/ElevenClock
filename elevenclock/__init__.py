@@ -39,7 +39,7 @@ from settings import *
 from tools import *
 
 blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
-blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay") # The "" codes for titleless windows
+blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
 
 
 
@@ -933,6 +933,7 @@ try:
     globals.closeClocks = closeClocks # Register them
     globals.sw = sw
     globals.trayIcon = i
+    globals.tempDir = tempDir
 
     if not(getSettings("Updated2.9Already")) and not(getSettings("EnableSilentUpdates")):
         sw.show()

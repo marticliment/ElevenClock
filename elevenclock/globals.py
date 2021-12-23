@@ -25,5 +25,5 @@ buffer: io.StringIO = None
 old_stdout: io.StringIO = None
 trayIcon: QSystemTrayIcon = None
 sw: QScrollArea = None
-
+tempDir: str = None
 
