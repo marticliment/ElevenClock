@@ -1,3 +1,4 @@
+from importlib import reload
 import platform
 import subprocess
 import os
@@ -17,6 +18,7 @@ import globals
 from languages import * 
 from tools import *
 from tools import _
+import welcome
 
 from FramelessWindow import QFramelessWindow
 
@@ -247,6 +249,16 @@ class SettingsWindow(QFramelessWindow):
         self.disableSystemTrayColor.setChecked(getSettings("DisableTaskbarBackgroundColor"))
         self.disableSystemTrayColor.stateChanged.connect(lambda i: setSettings("DisableTaskbarBackgroundColor", bool(i)))
         self.experimentalTitle.addWidget(self.disableSystemTrayColor)
+        self.wizardButton = QSettingsButton(_("Open the welcome wizard")+" (ALPHA STAGE, MAY NOT WORK)", _("Open"))
+        
+        def ww():
+            global welcomewindow
+            welcomewindow = welcome.WelcomeWindow()
+        
+        self.wizardButton.clicked.connect(ww)
+        self.wizardButton.button.setObjectName("AccentButton")
+        self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.experimentalTitle.addWidget(self.wizardButton)
         self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.fixDash.setChecked(getSettings("EnableHyphenFix"))
         self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
@@ -1201,13 +1213,31 @@ class SettingsWindow(QFramelessWindow):
         global old_stdout, buffer
         win = QMainWindow(self)
         win.resize(800, 600)
+        win.setObjectName("background")
         win.setWindowTitle("ElevenClock's log")
+        
+        w = QWidget()
+        w.setLayout(QVBoxLayout())
+        w.layout().setContentsMargins(0, 0, 0, 0)
+        
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
 
         textEdit.setPlainText(globals.buffer.getvalue())
-
-        win.setCentralWidget(textEdit)
+        
+        reloadButton = QPushButton(_("Reload log"))
+        reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
+        hl = QHBoxLayout()
+        hl.setSpacing(0)
+        hl.setContentsMargins(3, 3, 3, 0)
+        hl.addStretch()
+        hl.addWidget(reloadButton)
+        
+        w.layout().setSpacing(0)
+        w.layout().addLayout(hl, stretch=0)
+        w.layout().addWidget(textEdit, stretch=1)
+        
+        win.setCentralWidget(w)
         win.show()
 
     def moveEvent(self, event: QMoveEvent) -> None:
@@ -1731,8 +1761,10 @@ class QTitleBarWidget(QWidget):
         
         self.setLayout(QHBoxLayout())
         icon = QLabel()
+        icon.setAttribute(Qt.WA_TransparentForMouseEvents)
         icon.setPixmap(QIcon(getPath("icon.png")).pixmap(parent.getPx(16), parent.getPx(16)))
         l = QLabel(_("ElevenClock Settings"), self)
+        l.setAttribute(Qt.WA_TransparentForMouseEvents)
         l.setObjectName("#titlebarLabel")
         self.layout().addWidget(icon)
         self.layout().addSpacing(parent.getPx(16))
