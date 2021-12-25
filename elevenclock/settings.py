@@ -243,6 +243,10 @@ class SettingsWindow(QFramelessWindow):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
+        self.disableSystemTrayColor = QSettingsCheckBox(_("Disable clock taskbar background color (make clock transparent)"))
+        self.disableSystemTrayColor.setChecked(getSettings("DisableTaskbarBackgroundColor"))
+        self.disableSystemTrayColor.stateChanged.connect(lambda i: setSettings("DisableTaskbarBackgroundColor", bool(i)))
+        self.experimentalTitle.addWidget(self.disableSystemTrayColor)
         self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.fixDash.setChecked(getSettings("EnableHyphenFix"))
         self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))

@@ -382,32 +382,44 @@ class Clock(QWidget):
     refresh = Signal()
     hideSignal = Signal()
     callInMainSignal = Signal(object)
+    styler = Signal(str)
 
     def __init__(self, dpix, dpiy, screen):
         super().__init__()
         self.lastTheme = 0
         self.callInMainSignal.connect(lambda f: f())
+        self.styler.connect(self.setStyleSheet)
 
         self.preferedwidth = 200
         self.preferedHeight = 48
         
-        self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
-        print("🔵 Using bg color:", self.bgcolor)
+        self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
+        
+        if self.taskbarBackgroundColor:
+            print("🔵 Using taskbar background color")
+            self.bgcolor = "0, 0, 0, 0"
+        else:
+            print("🟡 Not using taskbar background color")
+            self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
+            print("🔵 Using bg color:", self.bgcolor)
 
         try:
             if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                self.setStyleSheet(f"background-color: rgba({self.bgcolor}%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;")
+                self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
                 if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                     print("🟡 Small sized taskbar")
                     self.preferedHeight = 32
                     self.preferedwidth = 200
             else:
                 print("🟢 Regular sized taskbar")
-                self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;")
+                self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;"
         except Exception as e:
             print("🟡 Regular sized taskbar")
             report(e)
-            self.setStyleSheet(f"background-color: rgba({self.bgcolor}%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;")
+            self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
+            
+        self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
+        print(self.styleSheet())
 
         self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
         for win32screen in win32api.EnumDisplayMonitors():
@@ -568,7 +580,7 @@ class Clock(QWidget):
         self.user32 = windll.user32
         self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
         self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
-        self.loop2 = KillableThread(target=self.refreshProcesses, daemon=True)
+        self.loop2 = KillableThread(target=self.rdp_bgColor_Worker, daemon=True)
         self.loop.start()
         self.loop2.start()
         
@@ -627,17 +639,19 @@ class Clock(QWidget):
                     border-right: 0px solid rgba(0, 0, 0, 0.05);
                 }}
             """)
-        #old_stdout.write(buffer.getvalue())
-        #old_stdout.flush()
-        
+    
 
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
-    def refreshProcesses(self):
+    def rdp_bgColor_Worker(self):
         global isRDPRunning
         while True:
             self.isRDPRunning = isRDPRunning
+            if self.taskbarBackgroundColor:
+                color = QColor(QGuiApplication.primaryScreen().grabWindow(0, self.x()+self.label.x(), self.y()+self.label.y()+self.label.height()-5, 1, 1).toImage().pixel(0, 0))
+                print(f"{color.red()}, {color.green()}, {color.blue()}, 100")
+                self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
             time.sleep(0.5)
 
     def theresFullScreenWin(self, clockOnFirstMon, newMethod):
