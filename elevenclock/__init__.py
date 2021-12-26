@@ -419,7 +419,6 @@ class Clock(QWidget):
             self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
             
         self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
-        print(self.styleSheet())
 
         self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
         for win32screen in win32api.EnumDisplayMonitors():
@@ -650,7 +649,6 @@ class Clock(QWidget):
             self.isRDPRunning = isRDPRunning
             if self.taskbarBackgroundColor:
                 color = QColor(QGuiApplication.primaryScreen().grabWindow(0, self.x()+self.label.x(), self.y()+self.label.y()+self.label.height()-5, 1, 1).toImage().pixel(0, 0))
-                print(f"{color.red()}, {color.green()}, {color.blue()}, 100")
                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
             time.sleep(0.5)
 
