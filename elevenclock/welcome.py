@@ -25,9 +25,9 @@ class WelcomeWindow(QMainWindow):
         self.switched = False
         
         self.widgetOrder = (
-            FirstRunWidget(self),
-            SelectModeWidget(self),
-            LastWidget(self),
+            FirstRunSlide(self),
+            SelectModeSlide(self),
+            LastSlide(self),
         )
         
         for w in self.widgetOrder:
@@ -87,13 +87,14 @@ class WelcomeWindow(QMainWindow):
         self.bgWidget.setStyleSheet(f"""
             * {{
                 color: #eeeeee;
-                background-color: #282828;
+                background-color: transparent;
                 border-radius: 4px;
                 font-family: "Segoe UI Variable Display"
             }}
             #BackgroundWidget {{
                 border: 0px solid #121212;
                 padding: 20px;
+                background-color: #282828;
                 border-radius: 0px;
                 padding-left: 30px;
                 padding-right: 30px;
@@ -124,23 +125,23 @@ class WelcomeWindow(QMainWindow):
                 font-family: "Segoe UI Variable Display semib";
                 font-size: 8pt;
                 width: 100px;
-                background-color: #363636;
+                background-color: rgba(63, 63, 63, 50%);
                 border-radius: {self.getPx(4)}px;
-                border: {self.getPx(1)}px solid #393939;
+                border: {self.getPx(1)}px solid rgba(77, 77, 77, 50%);
                 height: {self.getPx(25)}px;
-                border-top: {self.getPx(1)}px solid #404040;
+                border-top: {self.getPx(1)}px solid rgba(87, 87, 87, 50%);
             }}
             QPushButton:hover {{
-                background-color: #393939;
-                border: {self.getPx(1)}px solid #414141;
+                background-color: rgba(77, 77, 77, 50%);
+                border: {self.getPx(1)}px solid rgba(89, 89, 89, 50%);
                 height: {self.getPx(25)}px;
-                border-top: {self.getPx(1)}px solid #454545;
+                border-top: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
             }}
             QPushButton:pressed {{
-                background-color: rgb({colors[2]});
-                border-color: rgb({colors[2]});
-                border-bottom-color: rgb({colors[3]});
+                background-color: rgba(89, 89, 89, 50%);
+                border: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
                 height: {self.getPx(25)}px;
+                border-top: {self.getPx(1)}px solid rgba(99, 99, 99 , 50%);
             }}
             #AccentButton{{
                 color: black;
@@ -157,6 +158,11 @@ class WelcomeWindow(QMainWindow):
                 background-color: #212121;
                 border-color: #303030;
                 border-bottom-color: #363636;
+            }}
+            #FocusSelector {{
+                border: 5px solid rgb({colors[2]});
+                border-radius: 5px;
+                background-color: rgb({colors[2]});
             }}
             QLabel {{
                 border: none;
@@ -176,7 +182,6 @@ class WelcomeWindow(QMainWindow):
             self.switched = True
             GlobalBlur(self.bgWindow.winId(), Acrylic=False)
             fGeometry = QGuiApplication.primaryScreen().geometry()
-            #fGeometry.setHeight(fGeometry.height()-10)
             self.bgWindow.setGeometry(self.geometry())
             bgAnim = QPropertyAnimation(self.bgWindow, b"geometry", self)
             bgAnim.setStartValue(self.geometry())
@@ -358,7 +363,6 @@ class BasicNavWidget(QWidget):
     def window(self) -> WelcomeWindow:
         return super().window()
 
-
 class IconLabel(QWidget):
     def __init__(self, size=96, frame=True) -> None:
         super().__init__()
@@ -481,6 +485,17 @@ class ClickableButtonLabel(QPushButton):
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
+class MovableFocusSelector(QLabel):
+    def __init__(self, parent: QWidget = None) -> None:
+        super().__init__(parent=parent)
+        self.setObjectName("FocusSelector")
+        
+    def move(self, x: int, y: int) -> None:
+        return super().move(x, y)
+    
+    def resize(self, w: int, h: int) -> None:
+        return super().resize(w+17, h+17)
+
 class ClickableButtonLabelWithBiggerIcon(QPushButton):
     def __init__(self, size=96) -> None:
         super().__init__()
@@ -493,11 +508,11 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.iconLabel = ClickableLabel()
         self.iconLabel.setMinimumHeight(self.getPx(self.iconSize))
         self.iconLabel.setMinimumWidth(self.getPx(size))
-        self.iconLabel.clicked.connect(self.click)
+        self.iconLabel.clicked.connect(self.animateClick)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setMinimumHeight(self.getPx(self.iconSize))
         self.textLabel = ClickableLabel()
-        self.textLabel.clicked.connect(self.click)
+        self.textLabel.clicked.connect(self.animateClick)
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         self.textLabel.setWordWrap(True)
         self.textLabel.setStyleSheet("font-size: 10pt;")
@@ -520,7 +535,7 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))  
    
-class FirstRunWidget(BasicNavWidget):
+class FirstRunSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, startEnabled=True, closeEnabled=True)
         widget = QWidget()
@@ -566,7 +581,7 @@ class FirstRunWidget(BasicNavWidget):
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
            
-class LastWidget(BasicNavWidget):
+class LastSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, finishEnabled=True)
         widget = QWidget()
@@ -624,13 +639,16 @@ class LastWidget(BasicNavWidget):
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
         
-class SelectModeWidget(BasicNavWidget):
+class SelectModeSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, nextGreyed=True)
+        self.defaultSelected = False
         widget = QWidget()
         l = QHBoxLayout()
         l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
         widget.setLayout(l)
+        self.selector = MovableFocusSelector(self)
+        self.selector.hide()
         vl = QVBoxLayout()
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
@@ -640,75 +658,111 @@ class SelectModeWidget(BasicNavWidget):
         label1.setText(f"""<h1>How do you want ElevenClock to work?</h1>
                        <h3>Please select one of the following and click next</h3>""")
         
-        basicReplace = ClickableButtonLabelWithBiggerIcon(size=96)
-        basicReplace.setIcon(getPath(f"defaultClock_{self.iconMode}.png"))
-        basicReplace.clicked.connect(lambda: toggleClockMode("secondary"))
-        basicReplace.setText("""
+        self.secondaryClock = ClickableButtonLabelWithBiggerIcon(size=96)
+        self.secondaryClock.setIcon(getPath(f"defaultClock_{self.iconMode}.png"))
+        self.secondaryClock.clicked.connect(lambda: self.toggleClockMode("secondary", shouldReload=True))
+        self.secondaryClock.setText("""
  <h3>Add the secondary clock</h3>
- Simple clock that mimics the default clock behaviour""")
+ Simple clock that mimics the default clock behaviour, to add in secondary displays""")
         
-        formatCustom = ClickableButtonLabelWithBiggerIcon(size=96)
-        formatCustom.setIcon(getPath(f"formatClock_{self.iconMode}.png"))
-        formatCustom.clicked.connect(lambda: toggleClockMode("format"))
-        formatCustom.setText("""
+        self.formattedClock = ClickableButtonLabelWithBiggerIcon(size=96)
+        self.formattedClock.setIcon(getPath(f"formatClock_{self.iconMode}.png"))
+        self.formattedClock.clicked.connect(lambda: self.toggleClockMode("format", shouldReload=True))
+        self.formattedClock.setText("""
  <h3>Show clocks on every monitor and customize the date and time</h3>
- Enable seconds, weekday, disable date, time, set custom formats...""")
+ Replace the system clock and add a clock on secondary displays to be able to enable seconds, weekday, disable date, time, set custom formats, etc...""")
         
-        fullCustom = ClickableButtonLabelWithBiggerIcon(size=96)
-        fullCustom.setIcon(getPath(f"customClock_{self.iconMode}.png"))
-        fullCustom.clicked.connect(lambda: toggleClockMode("custom"))
-        fullCustom.setText("""
+        self.customClock = ClickableButtonLabelWithBiggerIcon(size=96)
+        self.customClock.setIcon(getPath(f"customClock_{self.iconMode}.png"))
+        self.customClock.clicked.connect(lambda: self.toggleClockMode("custom", shouldReload=True))
+        self.customClock.setText("""
  <h3>Show clocks on every monitor and customize them entierly</h3>
- Add seconds, weekday, weeknumber, remove date, change font, color background, etc...""")
+ Replace every clock and customize it adding seconds, weekday or weeknumber, removing the date, changing the font or the color background, etc...""")
         
-        def toggleClockMode(mode: str) -> None:
-            self.enableNextButton()
-            if mode == "secondary":
-                setSettings("ForceClockOnFirstMonitor", False, r=False)
-                setSettings("HideClockOnSecondaryMonitors", False, r=False)
-                setSettings("DisableTime", False, r=False)
-                setSettings("EnableSeconds", False, r=False)
-                setSettings("DisableDate", False, r=False)
-                setSettings("EnableWeekNumber", False, r=False)
-                setSettings("EnableWeekDay", False, r=False)
-                setSettings("UseCustomFont", False, r=False)
-                setSettings("UseCustomFontSize", False, r=False)
-                setSettings("UseCustomFontColor", False, r=False)
-                setSettings("UseCustomBgColor", False, r=False)
-                setSettings("CenterAlignment", False)
-            elif mode == "format":
-                geometry = QGuiApplication.primaryScreen().geometry()
-                self.window().bgWindow.hide()
-                rgb = QColor(QGuiApplication.primaryScreen().grabWindow(0, geometry.width()-self.getPx(45), geometry.height()-1, 1, 1).toImage().pixel(0, 0))
-                self.window().bgWindow.show()
-                setSettingsValue("UseCustomBgColor", f"{rgb.red()}, {rgb.green()}, {rgb.blue()}, 100", r=False)
-                setSettings("ForceClockOnFirstMonitor", True, r=False)
-                setSettings("HideClockOnSecondaryMonitors", False, r=False)
-                setSettings("UseCustomFont", False, r=False)
-                setSettings("UseCustomFontSize", False, r=False)
-                setSettings("UseCustomFontColor", False, r=False)
-                setSettings("CenterAlignment", False, r=True)
-            elif mode == "custom":
-                geometry = QGuiApplication.primaryScreen().geometry()
-                self.window().bgWindow.hide()
-                rgb = QColor(QGuiApplication.primaryScreen().grabWindow(0, geometry.width()-self.getPx(45), geometry.height()-1, 1, 1).toImage().pixel(0, 0))
-                self.window().bgWindow.show()
-                setSettingsValue("UseCustomBgColor", f"{rgb.red()}, {rgb.green()}, {rgb.blue()}, 100", r=False)
-                setSettings("ForceClockOnFirstMonitor", True, r=False)
-                setSettings("HideClockOnSecondaryMonitors", False, r=False)
-            else:
-                raise ValueError("Function toggleCheckMode() called with invalid arguments. Accepted values are: custom, format, secondary")
-                
         vl.addWidget(label1)
         vl.addStretch()
-        vl.addWidget(basicReplace)
+        vl.addWidget(self.secondaryClock)
         vl.addStretch()
-        vl.addWidget(formatCustom)
+        vl.addWidget(self.formattedClock)
         vl.addStretch()
-        vl.addWidget(fullCustom)
+        vl.addWidget(self.customClock)
         vl.addStretch()
         self.setCentralWidget(widget)
         
+        self.clockMode = ""
+        
+    def toggleClockMode(self, mode: str, shouldReload: bool = False) -> None:
+        self.enableNextButton()
+        if shouldReload:
+            self.defaultSelected = True
+        if mode == "secondary":
+            self.clockMode = "secondary"
+            self.moveSelector(self.secondaryClock)
+            setSettings("ForceClockOnFirstMonitor", False, r=False)
+            setSettings("HideClockOnSecondaryMonitors", False, r=False)
+            setSettings("DisableTime", False, r=False)
+            setSettings("EnableSeconds", False, r=False)
+            setSettings("DisableDate", False, r=False)
+            setSettings("EnableWeekNumber", False, r=False)
+            setSettings("EnableWeekDay", False, r=False)
+            setSettings("UseCustomFont", False, r=False)
+            setSettings("UseCustomFontSize", False, r=False)
+            setSettings("UseCustomFontColor", False, r=False)
+            setSettings("UseCustomBgColor", False, r=False)
+            setSettings("DisableTaskbarBackgroundColor", False, r=False)
+            setSettings("CenterAlignment", False, r=shouldReload)
+        elif mode == "format":
+            self.clockMode = "format"
+            self.moveSelector(self.formattedClock)
+            setSettings("UseCustomBgColor", False, r=False)
+            setSettings("ForceClockOnFirstMonitor", True, r=False)
+            setSettings("HideClockOnSecondaryMonitors", False, r=False)
+            setSettings("UseCustomFont", False, r=False)
+            setSettings("UseCustomFontSize", False, r=False)
+            setSettings("UseCustomFontColor", False, r=False)
+            setSettings("DisableTaskbarBackgroundColor", False, r=False)
+            setSettings("CenterAlignment", False, r=shouldReload)
+        elif mode == "custom":
+            self.clockMode = "custom"
+            self.moveSelector(self.customClock)
+            setSettings("UseCustomBgColor", False, r=False)
+            setSettings("ForceClockOnFirstMonitor", True, r=False)
+            setSettings("DisableTaskbarBackgroundColor", False, r=False)
+            setSettings("HideClockOnSecondaryMonitors", False, r=shouldReload)
+        else:
+            raise ValueError("Function toggleCheckMode() called with invalid arguments. Accepted values are: custom, format, secondary")
+                
+    def showEvent(self, event) -> None:
+        if not self.defaultSelected:
+            if len(QGuiApplication.screens())==1:
+                self.toggleClockMode("format")
+            else:
+                self.toggleClockMode("secondary")
+        return super().showEvent(event)
+    
+    def moveSelector(self, w: QWidget) -> None:
+        if not self.selector.isVisible():
+            self.selector.show()
+            self.selector.move(w.pos().x(), w.pos().y())
+            self.selector.resize(w.size().width(), w.size().height())
+        else:
+            posAnim = QPropertyAnimation(self.selector, b"pos", self)
+            posAnim.setStartValue(self.selector.pos())
+            posAnim.setEndValue(w.pos())
+            posAnim.setEasingCurve(QEasingCurve.InOutCirc)
+            posAnim.setDuration(200)
+            
+            sizeAnim = QPropertyAnimation(self.selector, b"size", self)
+            sizeAnim.setStartValue(self.selector.size())
+            s = w.size()
+            s.setWidth(s.width()+18)
+            s.setHeight(s.height()+18)
+            sizeAnim.setEndValue(s)
+            sizeAnim.setEasingCurve(QEasingCurve.InOutCirc)
+            sizeAnim.setDuration(200)
+            
+            posAnim.start()
+            sizeAnim.start()
     
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
