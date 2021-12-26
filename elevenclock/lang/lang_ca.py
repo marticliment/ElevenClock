@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Recarrega el registre",
+    "Do not show the clock on secondary monitors": "No mostris el rellotge a les pantalles secundàries",
+    "Disable clock taskbar background color (make clock transparent)": "Desactiva el color de fons automàtic del rellotge (fes el rellotge transparent)",
+    "Open the welcome wizard": "Obre l'assistent de benvinguda",
+    " (ALPHA STAGE, MAY NOT WORK)": " (EN ESTAT ALFA, POT NO FUNCIONAR)",
+    "Welcome to ElevenClock": "Benvingut/da a l'ElevenClock",
+    "Skip": "Omet",
+    "Start": "Comença",
+    "Next": "Següent",
+    "Finish": "Finalitzar",
 }
 
 lang_2_9 = lang_2_9_2 | {
