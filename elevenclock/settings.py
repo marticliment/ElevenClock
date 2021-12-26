@@ -249,7 +249,7 @@ class SettingsWindow(QFramelessWindow):
         self.disableSystemTrayColor.setChecked(getSettings("DisableTaskbarBackgroundColor"))
         self.disableSystemTrayColor.stateChanged.connect(lambda i: setSettings("DisableTaskbarBackgroundColor", bool(i)))
         self.experimentalTitle.addWidget(self.disableSystemTrayColor)
-        self.wizardButton = QSettingsButton(_("Open the welcome wizard")+" (ALPHA STAGE, MAY NOT WORK)", _("Open"))
+        self.wizardButton = QSettingsButton(_("Open the welcome wizard")+_(" (ALPHA STAGE, MAY NOT WORK)"), _("Open"))
         
         def ww():
             global welcomewindow

@@ -9,7 +9,20 @@
 # Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
-lang_2_9 = {
+lang_2_9_2 = {
+    "Reload log": "",
+    "Do not show the clock on secondary monitors": "",
+    "Disable clock taskbar background color (make clock transparent)": "",
+    "Open the welcome wizard": "",
+    " (ALPHA STAGE, MAY NOT WORK)": "",
+    "Welcome to ElevenClock": "",
+    "Skip": "",
+    "Start": "",
+    "Next": "",
+    "Finish": "",
+}
+
+lang_2_9 = lang_2_9_2 | {
     "Task Manager"                                                                                               : "Диспетчер задач",
     "Change date and time"                                                                                       : "Сменить дату и время",
     "Notification settings"                                                                                      : "Настройки уведомлений",

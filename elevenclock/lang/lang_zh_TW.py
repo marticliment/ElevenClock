@@ -6,7 +6,20 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_2_9 = {
+lang_2_9_2 = {
+    "Reload log": "",
+    "Do not show the clock on secondary monitors": "",
+    "Disable clock taskbar background color (make clock transparent)": "",
+    "Open the welcome wizard": "",
+    " (ALPHA STAGE, MAY NOT WORK)": "",
+    "Welcome to ElevenClock": "",
+    "Skip": "",
+    "Start": "",
+    "Next": "",
+    "Finish": "",
+}
+
+lang_2_9 = lang_2_9_2 | {
     "Task Manager": "工作管理員",
     "Change date and time": "調整日期和時間",
     "Notification settings": "通知設定",

@@ -3,26 +3,22 @@ import glob, os
 
 
 
-OLDSTR = b"lang_2_8 = {"
+OLDSTR = b"lang_2_9 = {"
 
-NEWSTR = b"""lang_2_9 = {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+NEWSTR = b"""lang_2_9_2 = {
+    "Reload log": "",
+    "Do not show the clock on secondary monitors": "",
+    "Disable clock taskbar background color (make clock transparent)": "",
+    "Open the welcome wizard": "",
+    " (ALPHA STAGE, MAY NOT WORK)": "",
+    "Welcome to ElevenClock": "",
+    "Skip": "",
+    "Start": "",
+    "Next": "",
+    "Finish": "",
 }
 
-lang_2_8 = lang_2_9 | {"""
+lang_2_9 = lang_2_9_2 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()
