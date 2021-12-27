@@ -10,16 +10,16 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_2_9_2 = {
-    "Reload log": "Перезагрузить логи",
-    "Do not show the clock on secondary monitors": "Не показывать часы на втором мониторе",
-    "Disable clock taskbar background color (make clock transparent)": "Сделать фон часов прозрачным",
-    "Open the welcome wizard": "Открыть Мастер Настройки",
-    " (ALPHA STAGE, MAY NOT WORK)": " (Очень сырое, может не работать, как надо)",
-    "Welcome to ElevenClock": "Добро пожаловать в ElevenClock",
-    "Skip": "Пропустить",
-    "Start": "Настроить", # yeah, it's not a direct translation, it's more contextual, "Start setting up"
-    "Next": "Далее",
-    "Finish": "Завершить",
+    "Reload log"                                                            : "Перезагрузить логи",
+    "Do not show the clock on secondary monitors"                           : "Не показывать часы на втором мониторе",
+    "Disable clock taskbar background color (make clock transparent)"       : "Сделать фон часов прозрачным",
+    "Open the welcome wizard"                                               : "Открыть Мастер Настройки",
+    " (ALPHA STAGE, MAY NOT WORK)"                                          : " (Очень сырое, может не работать, как надо)",
+    "Welcome to ElevenClock"                                                : "Добро пожаловать в ElevenClock",
+    "Skip"                                                                  : "Пропустить",
+    "Start"                                                                 : "Настроить", # yeah, it's not a direct translation, it's more contextual, "Start setting up"
+    "Next"                                                                  : "Далее",
+    "Finish"                                                                : "Завершить",
 }
 
 lang_2_9 = lang_2_9_2 | {
@@ -30,7 +30,7 @@ lang_2_9 = lang_2_9_2 | {
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)"                       : "Не отображать расширенное меню по правому клику мыши (нужен перезапуск)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"                      : "Поведение при работы с полноэкранными приложениями, позиционирование, разное",
     'Add the "Show Desktop" button on the left corner of every clock'                                            : 'Отображать кнопку "Показать рабочий стол" в левом углу всех часов',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color : DodgerBlue">HERE</a>'                                                                     : 'Вам придется выбрать свой цвет фона, чтобы это работало.&nbsp;Больше информации <a href="{0}" style="color : DodgerBlue">здесь</a>',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Вам придется выбрать свой цвет фона, чтобы это работало.&nbsp;Больше информации <a href="{0}" style="color:DodgerBlue">здесь</a>',
     "Clock's font, font size, font color and background, text alignment"                                         : "Настройки шрифта, размера шрифта, цвета, выравнивание",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings"                                   : "Формат даты, формат времени, секунды, дни недели, номер недели, региональные настройки",
     "Testing features and error-fixing tools"                                                                    : "Исправления проблем и тестирование новых возможностей",
