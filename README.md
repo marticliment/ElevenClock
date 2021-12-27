@@ -84,6 +84,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 
 ### Currently Supported languages
  - Catalan
+ - Czech (Čeština)
  - Danish
  - Dutch
  - English
@@ -115,7 +116,6 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Vietnamese
 
 #### New laguanges that will come with next version:
- - Czech
 
 
 ## The icon:

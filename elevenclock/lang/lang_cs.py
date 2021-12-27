@@ -11,16 +11,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Znovu načíst log",
+    "Do not show the clock on secondary monitors": "Nezobrazovat hodiny na sekundární obrazovce",
+    "Disable clock taskbar background color (make clock transparent)": "Vypnout barvu pozadí hodin na hlavní liště (hodiny budou průhledné)",
+    "Open the welcome wizard": "Otevřít průvodce prvního spuštění",
+    " (ALPHA STAGE, MAY NOT WORK)": " (TESTOVACÍ FÁZE, NEMUSÍ FUNGOVAT)",
+    "Welcome to ElevenClock": "Vítejte v ElevenClock",
+    "Skip": "Přeskočit",
+    "Start": "Začít",
+    "Next": "Další",
+    "Finish": "Dokončit",
 }
 
 lang_2_9 = lang_2_9_2 | {
@@ -31,7 +31,7 @@ lang_2_9 = lang_2_9_2 | {
     "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Skrýt rozšířené možnosti z nabídky po kliknutí pravým tlačítkem myši (aplikace vyžaduje restart)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Chování na celé obrazovce, pozice hodin a další různá nastavení",
     'Add the "Show Desktop" button on the left corner of every clock': 'Přidat tlačítko "Zobrazit plochu" ke všem hodinám',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Aby to správně fungovalo, tak možná budete muset změnit barvu pozadí.&nbsp;Pro více info <a href="{0}" style="color:DodgerBlue">zde</a>',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Pro správnou funkčnost budete muset nejspíš změnit barvu pozadí.&nbsp;Pro více info <a href="{0}" style="color:DodgerBlue">zde</a>',
     "Clock's font, font size, font color and background, text alignment": "Styl, velikost a barva písma, barva pozadí a zarovnání textu",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Formát data a času, sekundy, dny v týdnu, číslo dne a regionální nastavení",
     "Testing features and error-fixing tools": "Testovací funkce a nástroje pro opravu chyb",
@@ -67,16 +67,16 @@ lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "O Qt6 (PySide6)",
     "About": "O",
     "Alternative non-SSL update server (This might help with SSL errors)": "Alternativní aktualizační server bez SSL (Může pomoci s SSL chybami)",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "Opravy a další experimentální funkce: (Použijte POUZE v případě, že něco nefunguje)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)": "Opravy a další experimentální funkce (Použijte POUZE v případě, že něco nefunguje)",
     "Show week number on the clock": "Zobrazit číslo týdne na hodinách"
 }
 
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Skryj hodiny když běží RDP Client nebo Citrix Workspace",
-    "Clock Appearance:": "Vzhled hodin:",
+    "Clock Appearance:": "Vzhled hodin",
     "Force the clock to have black text": "Vynutit, aby hodiny měly černý text",
     " - It is required that the Dark Text checkbox is disabled": " - Toto vyžaduje vypnuté nastavení zobrazování černého textu",
-    "Debbugging information:": "Informace o ladění:",
+    "Debbugging information:": "Informace o ladění",
     "Open ElevenClock's log": "Otevřít protokol ElevenClock",
 }
 
@@ -96,7 +96,7 @@ lang2_3 = lang2_4 | {
     "Quit ElevenClock"          :"Ukončit ElevenClock",
     
     #General settings section
-    "General Settings:"                                                                 :"Obecné nastavení:",
+    "General Settings:"                                                                 :"Obecné nastavení",
     "Automatically check for updates"                                                   :"Automaticky kontrolovat aktualizace",
     "Automatically install available updates"                                           :"Automaticky instalovat dostupné aktualizace",
     "Enable really silent updates"                                                      :"Povolit opravdu tiché aktualizace",
@@ -109,7 +109,7 @@ lang2_3 = lang2_4 | {
     "Install update"                                                                    :"Instalovat aktualizaci",
     
     #Clock settings
-    "Clock Settings:"                                              :"Nastavení hodin:",
+    "Clock Settings:"                                              :"Nastavení hodin",
     "Hide the clock in fullscreen mode"                            :"Skrýt hodiny v celoobrazovém režimu",
     "Hide the clock when RDP client is active"                     :"Skrýt hodiny, když je RDP client aktivní",
     "Force the clock to be at the bottom of the screen"            :"Vynutit, aby byly hodiny ve spodní části obrazovky",
@@ -119,7 +119,7 @@ lang2_3 = lang2_4 | {
     "Show the clock at the left of the screen"                     :"Zobrazte hodiny v levé části obrazovky",
     
     #Date & time settings
-    "Date & Time Settings:"                             :"Nastavení data a času:",
+    "Date & Time Settings:"                             :"Nastavení data a času",
     "Show seconds on the clock"                         :"Zobrazit sekundy na hodinách",
     "Show date on the clock"                            :"Zobrazit datum na hodinách",
     "Show time on the clock"                            :"Ukázat čas na hodinách",
@@ -127,13 +127,13 @@ lang2_3 = lang2_4 | {
     "Regional settings"                                 :"Regionální nastavení",
     
     #About the language pack
-    "About the language pack:"                  :"O jazykovém balíčku:",
+    "About the language pack:"                  :"O jazykovém balíčku",
     "Translated to English by martinet101"      :"Do češtiny přeložil Matouš Adamů a panther7", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Přeložte ElevenClock do svého jazyka",
     "Get started"                               :"Začít",
     
     #About ElevenClock
-    "About ElevenClock version {0}:"            :"O verzi ElevenClock {0}:",
+    "About ElevenClock version {0}:"            :"O verzi ElevenClock {0}",
     "View ElevenClock's homepage"               :"Zobrazit domovskou stránku ElevenClock",
     "Open"                                      :"Otevřít",
     "Report an issue/request a feature"         :"Nahlásit problém/požádat o funkci",
