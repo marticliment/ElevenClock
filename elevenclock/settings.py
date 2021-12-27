@@ -20,7 +20,7 @@ from tools import *
 from tools import _
 import welcome
 
-from FramelessWindow import QFramelessWindow
+from external.FramelessWindow import QFramelessWindow
 
 class SettingsWindow(QFramelessWindow):
     def __init__(self):

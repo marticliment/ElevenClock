@@ -38,6 +38,8 @@ sys.stdout = buffer = io.StringIO()
 from settings import *
 from tools import *
 
+from external.WnfReader import isFocusAssistEnabled
+
 blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
 blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
 
@@ -393,6 +395,8 @@ class Clock(QWidget):
         self.preferedwidth = 200
         self.preferedHeight = 48
         
+        self.focusassitant = True
+        
         self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
         
         if self.taskbarBackgroundColor:
@@ -564,6 +568,7 @@ class Clock(QWidget):
         self.label.show()
         loadTimeFormat()
         self.show()
+        print(self.label.contentsMargins())
         self.raise_()
         self.setFocus()
 
@@ -720,8 +725,22 @@ class Clock(QWidget):
                             self.refresh.emit()
                 else:
                     self.hideSignal.emit()
+                if isFocusAssistEnabled():
+                    self.callInMainSignal.emit(self.enableFocusAssistant)
+                else:
+                    self.callInMainSignal.emit(self.disableFocusAssistant)
                 time.sleep(0.1)
 
+    def enableFocusAssistant(self):
+        if not self.focusassitant:
+            self.focusassitant = True
+            self.label.setContentsMargins(8, 4, 45, 4)
+        
+    def disableFocusAssistant(self):
+        if self.focusassitant:
+            self.focusassitant = False
+            self.label.setContentsMargins(8, 4, 15, 4)
+    
     def showCalendar(self):
         self.keyboard.press(Key.cmd)
         self.keyboard.press('n')

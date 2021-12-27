@@ -1,0 +1,54 @@
+#
+#
+#
+#      File modified from https://github.com/ionescu007/wnfun
+#
+#
+#
+#      All rights reserved to Alex Ionescu. 
+#      See the license here: https://github.com/ionescu007/wnfun/blob/master/LICENSE
+#
+#
+
+
+"""
+
+Copyright (c) 2018 Gabrielle Viala. All Rights Reserved.
+https://blog.quarkslab.com/author/gwaby.html
+
+"""
+import ctypes
+
+ZwQueryWnfStateData = ctypes.windll.ntdll.ZwQueryWnfStateData
+
+def ReadWnfData(StateName):
+    changeStamp = ctypes.c_ulong(0)
+    dataBuffer = ctypes.create_string_buffer(4096)
+    bufferSize = ctypes.c_ulong(ctypes.sizeof(dataBuffer))  
+    StateName = ctypes.c_longlong(StateName)
+    res = ZwQueryWnfStateData(ctypes.byref(StateName), 
+        0, 0, 
+        ctypes.byref(changeStamp), 
+        ctypes.byref(dataBuffer), 
+        ctypes.byref(bufferSize)
+    )
+    readAccess = 0 if res !=0 else 1
+    bufferSize =  ctypes.c_ulong(0) if res !=0 else bufferSize
+    return readAccess, changeStamp.value, dataBuffer, bufferSize.value
+
+
+
+### Reads the current data stored in the given state name
+def DoRead(StateName) -> bytes:
+    _, _, dataBuffer, bufferSize = ReadWnfData(int(StateName, 16))
+    return dataBuffer.raw[0:bufferSize]
+    
+def isFocusAssistEnabled() -> bool:
+    try:
+        return not DoRead("0xd83063ea3bf1c75") == b'\x00\x00\x00\x00'
+    except Exception as e:
+        print(e)
+        return False
+
+    
+    
