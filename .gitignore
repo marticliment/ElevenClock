@@ -2,4 +2,6 @@ ElevenClock.exe
 elevenclock\__init__.spec
 elevenclock\lang\__pycache__\*
 *.pyc
+*.pyo
+__init__
 ElevenClock.zip
