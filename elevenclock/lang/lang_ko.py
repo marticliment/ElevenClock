@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "로그 새로 고침",
+    "Do not show the clock on secondary monitors": "보조 모니터에 시계 표시 안 함",
+    "Disable clock taskbar background color (make clock transparent)": "시계 배경 색상 사용 안 함 (시계를 투명하게 표시)",
+    "Open the welcome wizard": "환영 마법사 열기",
+    " (ALPHA STAGE, MAY NOT WORK)": " (알파 단계, 작동하지 않을 수 있음)",
+    "Welcome to ElevenClock": "ElevenClock에 오신 것을 환영합니다",
+    "Skip": "건너뛰기",
+    "Start": "시작",
+    "Next": "다음",
+    "Finish": "마침",
 }
 
 lang_2_9 = lang_2_9_2 | {
