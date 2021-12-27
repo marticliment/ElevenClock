@@ -10,16 +10,16 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Перезагрузить логи",
+    "Do not show the clock on secondary monitors": "Не показывать часы на втором мониторе",
+    "Disable clock taskbar background color (make clock transparent)": "Сделать фон часов прозрачным",
+    "Open the welcome wizard": "Открыть Мастер Настройки",
+    " (ALPHA STAGE, MAY NOT WORK)": " (Очень сырое, может не работать, как надо)",
+    "Welcome to ElevenClock": "Добро пожаловать в ElevenClock",
+    "Skip": "Пропустить",
+    "Start": "Настроить", # yeah, it's not a direct translation, it's more contextual, "Start setting up"
+    "Next": "Далее",
+    "Finish": "Завершить",
 }
 
 lang_2_9 = lang_2_9_2 | {
