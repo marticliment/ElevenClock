@@ -703,6 +703,7 @@ class Clock(QWidget):
         EnableHideOnRDP = getSettings("EnableHideOnRDP")
         clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
         newMethod = getSettings("NewFullScreenMethod")
+        oldNotifNumber = 0
         print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
         if clockOnFirstMon:
             INTLOOPTIME = 15
@@ -727,8 +728,9 @@ class Clock(QWidget):
                     self.hideSignal.emit()
                 if isFocusAssistEnabled():
                     self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                elif getNotificationNumber()>0:
+                elif getNotificationNumber()!=0:
                     self.callInMainSignal.emit(self.label.enableNotifDot)
+                    oldNotifNumber = getNotificationNumber()
                 else:
                     self.callInMainSignal.emit(self.label.disableClockIndicators)
                 time.sleep(0.1)
@@ -852,10 +854,10 @@ class Label(QLabel):
             self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
             self.focusAssitantLabel.show()
             
-    def enableNotifDot(self, n=1):
+    def enableNotifDot(self):
+        self.notifDotLabel.setText(str(getNotificationNumber()))
         if not self.notifdot:
             self.notifdot = True
-            self.notifDotLabel.setText(str(getNotificationNumber()))
             self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
             topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
             leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
