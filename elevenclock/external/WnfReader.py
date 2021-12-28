@@ -3,7 +3,7 @@
 #
 #      File modified from https://github.com/ionescu007/wnfun
 #
-#
+#      Some parts have been removed because they were useless in the context this script is intended
 #
 #      All rights reserved to Alex Ionescu. 
 #      See the license here: https://github.com/ionescu007/wnfun/blob/master/LICENSE
@@ -38,11 +38,19 @@ def ReadWnfData(StateName):
 
 
 
-### Reads the current data stored in the given state name
 def DoRead(StateName) -> bytes:
     _, _, dataBuffer, bufferSize = ReadWnfData(int(StateName, 16))
     return dataBuffer.raw[0:bufferSize]
     
+
+#
+#   End of https://github.com/ionescu007/wnfun code 
+#
+#
+#   The following parts are simple definitions
+#
+#
+
 def isFocusAssistEnabled() -> bool:
     try:
         return not DoRead("0xd83063ea3bf1c75") == b'\x00\x00\x00\x00'
@@ -50,5 +58,12 @@ def isFocusAssistEnabled() -> bool:
         print(e)
         return False
 
-    
-    
+
+def getNotificationNumber() -> bool:
+    try:
+        res = DoRead("0xd83063ea3bc1035")[0]
+        assert type(res) == int, "Invalid value for notification number"
+        return int(res)
+    except Exception as e:
+        print(e)
+        return 0
