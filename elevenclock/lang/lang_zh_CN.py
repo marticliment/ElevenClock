@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "重新加载日志",
+    "Do not show the clock on secondary monitors": "不要在辅助监视器上显示时钟",
+    "Disable clock taskbar background color (make clock transparent)": "禁用时钟任务栏背景颜色（使时钟透明）",
+    "Open the welcome wizard": "打开欢迎向导",
+    " (ALPHA STAGE, MAY NOT WORK)": "（ALPHA 阶段，可能不起作用）",
+    "Welcome to ElevenClock": "欢迎使用 ElevenClock",
+    "Skip": "跳过",
+    "Start": "开始",
+    "Next": "下一个",
+    "Finish": "完成",
 }
 
 lang_2_9 = lang_2_9_2 | {
