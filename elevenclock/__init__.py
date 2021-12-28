@@ -38,7 +38,7 @@ sys.stdout = buffer = io.StringIO()
 from settings import *
 from tools import *
 
-from external.WnfReader import isFocusAssistEnabled
+from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
 
 blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
 blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
@@ -727,8 +727,10 @@ class Clock(QWidget):
                     self.hideSignal.emit()
                 if isFocusAssistEnabled():
                     self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                elif getNotificationNumber()>0:
+                    self.callInMainSignal.emit(self.label.enableNotifDot)
                 else:
-                    self.callInMainSignal.emit(self.label.disableFocusAssistant)
+                    self.callInMainSignal.emit(self.label.disableClockIndicators)
                 time.sleep(0.1)
  
     def showCalendar(self):
@@ -817,8 +819,8 @@ class Label(QLabel):
         self.opacity=QGraphicsOpacityEffect(self)
         self.opacity.setOpacity(1.00)
         self.backgroundwidget.setGraphicsEffect(self.opacity)
-        self.focusassitant = True
         
+        self.focusassitant = True
         self.focusAssitantLabel = QPushButton(self)
         self.focusAssitantLabel.move(self.width(), 0)
         self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
@@ -827,10 +829,20 @@ class Label(QLabel):
         self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
         self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
         
-        self.disableFocusAssistant()
+        accColors = getColors()
+        
+        self.notifdot = True
+        self.notifDotLabel = QLabel("", self)
+        self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
+        self.notifDotLabel.setStyleSheet(f"font-family: \"Segoe UI Variable Display\";background-color: rgb({accColors[0]});color:rgb({accColors[6]});border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
+        
+        
+        self.disableClockIndicators()
         
     def enableFocusAssistant(self):
         if not self.focusassitant:
+            if self.notifdot:
+                self.disableClockIndicators()
             self.focusassitant = True
             self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
             self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
@@ -839,12 +851,29 @@ class Label(QLabel):
             self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
             self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
             self.focusAssitantLabel.show()
+            
+    def enableNotifDot(self, n=1):
+        if not self.notifdot:
+            self.notifdot = True
+            self.notifDotLabel.setText(str(getNotificationNumber()))
+            self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
+            topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
+            leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
+            self.notifDotLabel.move(self.width()-self.contentsMargins().right()+leftRightPadding, topBottomPadding)
+            self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
+            print(self.notifDotLabel.geometry())
+            self.notifDotLabel.show()
         
-    def disableFocusAssistant(self):
+    def disableClockIndicators(self):
         if self.focusassitant:
             self.focusassitant = False
             self.setContentsMargins(self.getPx(6), self.getPx(4), self.getPx(13), self.getPx(6))
             self.focusAssitantLabel.hide()
+        if self.notifdot:
+            self.notifdot = False
+            self.setContentsMargins(self.getPx(6), self.getPx(4), self.getPx(13), self.getPx(6))
+            self.notifDotLabel.hide()
+            
         
     def getPx(self, i: int) -> int:
         return self.window().getPx(i)
@@ -920,9 +949,13 @@ class Label(QLabel):
         if self.focusassitant:
             self.focusassitant = False
             self.enableFocusAssistant()
+        elif self.notifdot:
+            self.notifdot = False
+            self.enableNotifDot()
         else:
+            self.notifdot = True
             self.focusassitant = True
-            self.disableFocusAssistant()
+            self.disableClockIndicators()
         return super().resizeEvent(event)
     
 

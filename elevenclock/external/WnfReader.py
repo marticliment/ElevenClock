@@ -59,7 +59,7 @@ def isFocusAssistEnabled() -> bool:
         return False
 
 
-def getNotificationNumber() -> bool:
+def getNotificationNumber() -> int:
     try:
         res = DoRead("0xd83063ea3bc1035")[0]
         assert type(res) == int, "Invalid value for notification number"
