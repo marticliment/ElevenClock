@@ -836,7 +836,7 @@ class Label(QLabel):
         self.notifdot = True
         self.notifDotLabel = QLabel("", self)
         self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
-        self.notifDotLabel.setStyleSheet(f"font-family: \"Segoe UI Variable Display\";background-color: rgb({accColors[0]});color:rgb({accColors[6]});border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
+        self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";background-color: rgb({accColors[0]});color:rgb({accColors[6]});border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
         
         
         self.disableClockIndicators()
