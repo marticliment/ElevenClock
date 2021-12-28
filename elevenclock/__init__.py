@@ -653,7 +653,7 @@ class Clock(QWidget):
         while True:
             self.isRDPRunning = isRDPRunning
             if self.taskbarBackgroundColor:
-                color = QColor(QGuiApplication.primaryScreen().grabWindow(0, self.x()+self.label.x(), self.y()+self.label.y()+self.label.height()-5, 1, 1).toImage().pixel(0, 0))
+                color = QColor(QGuiApplication.primaryScreen().grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0))
                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
             time.sleep(0.5)
 
@@ -816,11 +816,10 @@ class Label(QLabel):
         
         self.opacity=QGraphicsOpacityEffect(self)
         self.opacity.setOpacity(1.00)
-        self.setGraphicsEffect(self.opacity)
+        self.backgroundwidget.setGraphicsEffect(self.opacity)
         self.focusassitant = True
         
         self.focusAssitantLabel = QPushButton(self)
-        print(self.focusAssitantLabel.pos())
         self.focusAssitantLabel.move(self.width(), 0)
         self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
         self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
@@ -833,7 +832,7 @@ class Label(QLabel):
     def enableFocusAssistant(self):
         if not self.focusassitant:
             self.focusassitant = True
-            self.setContentsMargins(self.getPx(7), self.getPx(4), self.getPx(43), self.getPx(4))
+            self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
             self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
             self.focusAssitantLabel.setFixedWidth(self.getPx(30))
             self.focusAssitantLabel.setFixedHeight(self.height())
@@ -844,7 +843,7 @@ class Label(QLabel):
     def disableFocusAssistant(self):
         if self.focusassitant:
             self.focusassitant = False
-            self.setContentsMargins(self.getPx(7), self.getPx(4), self.getPx(13), self.getPx(4))
+            self.setContentsMargins(self.getPx(6), self.getPx(4), self.getPx(13), self.getPx(6))
             self.focusAssitantLabel.hide()
         
     def getPx(self, i: int) -> int:
@@ -884,15 +883,15 @@ class Label(QLabel):
     def mousePressEvent(self, ev: QMouseEvent) -> None:
         self.setWindowOpacity(0.7)
         self.setWindowOpacity(0.7)
-        self.opacity.setOpacity(0.80)
-        self.setGraphicsEffect(self.opacity)
+        self.opacity.setOpacity(0.60)
+        self.backgroundwidget.setGraphicsEffect(self.opacity)
         return super().mousePressEvent(ev)
 
     def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
         self.setWindowOpacity(1)
         self.setWindowOpacity(1)
         self.opacity.setOpacity(1.00)
-        self.setGraphicsEffect(self.opacity)
+        self.backgroundwidget.setGraphicsEffect(self.opacity)
         if(ev.button() == Qt.RightButton):
             mousePos = getMousePos()
             if(i.contextMenu().height() != 480):
