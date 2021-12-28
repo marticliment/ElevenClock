@@ -1,4 +1,3 @@
-from importlib import reload
 import platform
 import subprocess
 import os
@@ -399,28 +398,8 @@ class SettingsWindow(QFramelessWindow):
             self.onlyPrimaryScreen.setEnabled(True)
 
     def applyStyleSheet(self):
-        colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
-        string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
-        i  =  0
-        acc = False
-        for color in string.split(b"\x00"):
-            add = True
-            try:
-                if len(color) == 3:
-                    colors[i] = f"{color[0]},{color[1]},{color[2]}"
-                elif len(color) == 0:
-                    acc = True   
-                    add = False
-                elif len(color) == 2 and acc:
-                    acc = False
-                    colors[i] = f"0,{color[0]},{color[1]}"
-                else:
-                    pass
-            except IndexError:
-                pass
-            finally:
-                if add:
-                    i += 1
+        colors = getColors()
+                            
         self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"

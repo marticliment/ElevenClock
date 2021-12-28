@@ -54,6 +54,17 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             report(e)
             return default
 
+def getColors() -> list:
+    colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
+    string = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Accent", "AccentPalette", b'\xe9\xd8\xf1\x00\xcb\xb7\xde\x00\x96}\xbd\x00\x82g\xb0\x00gN\x97\x00H4s\x00#\x13K\x00\x88\x17\x98\x00')
+    i = 0
+    j = 0
+    while (i+2)<len(string):
+        colors[j] = f"{string[i]},{string[i+1]},{string[i+2]}"
+        j += 1
+        i += 4
+    return colors
+
 def getSettings(s: str):
     try:
         return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
