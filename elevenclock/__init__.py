@@ -1036,6 +1036,8 @@ except Exception as e:
         f"                   Version: {platform.win32_ver()}\n"+\
         f"           OS Architecture: {platform.machine()}\n"+\
         f"          APP Architecture: {platform.architecture()[0]}\n"+\
+        f"               APP Version: {versionName}\n"+\
+        f"          APP Version Code: {version}\n"+\
         f"                   Program: ElevenClock"+\
         "\n\n-----------------------------------------------------------------------------------------"
     traceback_info = "Traceback (most recent call last):\n"
