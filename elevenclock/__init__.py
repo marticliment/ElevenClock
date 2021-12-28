@@ -464,12 +464,12 @@ class Clock(QWidget):
             print("🟡 Taskbar at bottom")
         self.label = Label(timeStr, self)
         if(getSettings("ClockOnTheLeft")):
+            print("🟡 Clock on the left")
             w = self.screenGeometry.x()+8*dpix
-            print("🟢 Clock on the right")
             self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         else:
             self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-            print("🟡 Clock on the left")
+            print("🟢 Clock on the right")
             w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
             
         if getSettings("CenterAlignment"):
@@ -568,7 +568,6 @@ class Clock(QWidget):
         self.label.show()
         loadTimeFormat()
         self.show()
-        print(self.label.contentsMargins())
         self.raise_()
         self.setFocus()
 
@@ -604,12 +603,13 @@ class Clock(QWidget):
                 return super().leaveEvent(event)
             
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
+            print("🟡 Desktop button enabled")
             self.desktopButton = QHoverButton(parent=self)
             self.desktopButton.clicked.connect(lambda: self.showDesktop())
             self.desktopButton.show()
             self.desktopButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-            self.desktopButton.move(self.width()-self.getPx(12), 0)
-            self.desktopButton.resize(self.getPx(12), self.getPx(self.preferedHeight))
+            self.desktopButton.move(self.width()-self.getPx(10), 0)
+            self.desktopButton.resize(self.getPx(10), self.getPx(self.preferedHeight))
             self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath("showdesktop.png"))))
             self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
             self.setFixedHeight(self.getPx(self.preferedHeight))
@@ -726,21 +726,11 @@ class Clock(QWidget):
                 else:
                     self.hideSignal.emit()
                 if isFocusAssistEnabled():
-                    self.callInMainSignal.emit(self.enableFocusAssistant)
+                    self.callInMainSignal.emit(self.label.enableFocusAssistant)
                 else:
-                    self.callInMainSignal.emit(self.disableFocusAssistant)
+                    self.callInMainSignal.emit(self.label.disableFocusAssistant)
                 time.sleep(0.1)
-
-    def enableFocusAssistant(self):
-        if not self.focusassitant:
-            self.focusassitant = True
-            self.label.setContentsMargins(8, 4, 45, 4)
-        
-    def disableFocusAssistant(self):
-        if self.focusassitant:
-            self.focusassitant = False
-            self.label.setContentsMargins(8, 4, 15, 4)
-    
+ 
     def showCalendar(self):
         self.keyboard.press(Key.cmd)
         self.keyboard.press('n')
@@ -794,6 +784,9 @@ class Clock(QWidget):
         self.loop2.kill()
         event.accept()
         return super().closeEvent(event)
+    
+    def showEvent(self, event: QShowEvent) -> None:
+        return super().showEvent(event)
 
 class Label(QLabel):
     clicked = Signal()
@@ -824,11 +817,38 @@ class Label(QLabel):
         self.opacity=QGraphicsOpacityEffect(self)
         self.opacity.setOpacity(1.00)
         self.setGraphicsEffect(self.opacity)
+        self.focusassitant = True
+        
+        self.focusAssitantLabel = QPushButton(self)
+        print(self.focusAssitantLabel.pos())
+        self.focusAssitantLabel.move(self.width(), 0)
+        self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
+        self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
+        self.focusAssitantLabel.resize(self.getPx(30), self.height())
+        self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
+        self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
+        
+        self.disableFocusAssistant()
+        
+    def enableFocusAssistant(self):
+        if not self.focusassitant:
+            self.focusassitant = True
+            self.setContentsMargins(self.getPx(7), self.getPx(4), self.getPx(43), self.getPx(4))
+            self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
+            self.focusAssitantLabel.setFixedWidth(self.getPx(30))
+            self.focusAssitantLabel.setFixedHeight(self.height())
+            self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
+            self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
+            self.focusAssitantLabel.show()
+        
+    def disableFocusAssistant(self):
+        if self.focusassitant:
+            self.focusassitant = False
+            self.setContentsMargins(self.getPx(7), self.getPx(4), self.getPx(13), self.getPx(4))
+            self.focusAssitantLabel.hide()
         
     def getPx(self, i: int) -> int:
         return self.window().getPx(i)
-
-
 
     def enterEvent(self, event: QEvent, r=False) -> None:
         geometry: QRect = self.width()
@@ -887,17 +907,27 @@ class Label(QLabel):
             self.clicked.emit()
         return super().mouseReleaseEvent(ev)
     
-    def eventFilter(self, watched: QObject, event: QEvent) -> bool:
-        if event.type() == event.Paint:
-            w = self.minimumSizeHint().width()
-            if w<self.window().getPx(self.window().preferedwidth) and not getSettings("ClockOnTheLeft"):
-                self.move(self.window().getPx(self.window().preferedwidth)-self.minimumSizeHint().width(), 0)
-                self.resize(self.minimumSizeHint().width(), self.height())
-            else:
-                self.move(0, 0)
-                self.resize(w, self.height())
-            
-        return super().eventFilter(watched, event)
+    def paintEvent(self, event: QPaintEvent) -> None:
+        w = self.minimumSizeHint().width()
+        if w<self.window().getPx(self.window().preferedwidth) and not getSettings("ClockOnTheLeft"):
+            self.move(self.window().getPx(self.window().preferedwidth)-self.minimumSizeHint().width()+self.getPx(2), 0)
+            self.resize(self.minimumSizeHint().width(), self.height())
+        else:
+            self.move(0, 0)
+            self.resize(w, self.height())
+        return super().paintEvent(event)
+    
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        if self.focusassitant:
+            self.focusassitant = False
+            self.enableFocusAssistant()
+        else:
+            self.focusassitant = True
+            self.disableFocusAssistant()
+        return super().resizeEvent(event)
+    
+
+    
 
 # Start of main script
 try:
