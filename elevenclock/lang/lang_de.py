@@ -8,15 +8,15 @@
 
 lang_2_9_2 = {
     "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Do not show the clock on secondary monitors": "Uhr nicht auf sekundären Bildschirmen anzeigen",
+    "Disable clock taskbar background color (make clock transparent)": "Deaktiviere Uhr Taskenleisten Hintergrund Farbe (Uhr transparent machen)",
+    "Open the welcome wizard": "Öffne den Willkommensassistenten",
+    " (ALPHA STAGE, MAY NOT WORK)": "(ALPHA PHASE, KÖNNTE NICHT FUNKTIONIEREN)",
+    "Welcome to ElevenClock": "Willkommen zu ElevenClock",
+    "Skip": "Überspringen",
+    "Start": "Start",
+    "Next": "Weiter",
+    "Finish": "Beenden",
 }
 
 lang_2_9 = lang_2_9_2 | {
