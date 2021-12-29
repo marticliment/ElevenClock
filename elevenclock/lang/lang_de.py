@@ -7,7 +7,7 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9_2 = {
-    "Reload log": "",
+    "Reload log": "Log neuladen",
     "Do not show the clock on secondary monitors": "Uhr nicht auf sekundären Bildschirmen anzeigen",
     "Disable clock taskbar background color (make clock transparent)": "Deaktiviere Uhr Taskenleisten Hintergrund Farbe (Uhr transparent machen)",
     "Open the welcome wizard": "Öffne den Willkommensassistenten",
