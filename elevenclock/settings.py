@@ -133,22 +133,10 @@ class SettingsWindow(QFramelessWindow):
         self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
         self.clockSettingsTitle.addWidget(self.forceClockToShow)
-        self.clockAtBottom = QSettingsCheckBox(_("Force the clock to be at the bottom of the screen"))
-        self.clockAtBottom.setChecked(getSettings("ForceOnBottom"))
-        self.clockAtBottom.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
-        self.clockSettingsTitle.addWidget(self.clockAtBottom)
-        self.clockAtTop = QSettingsCheckBox(_("Force the clock to be at the top of the screen"))
-        self.clockAtTop.setChecked(getSettings("ForceOnTop"))
-        self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
         self.clockSettingsTitle.addWidget(self.clockAtTop)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
-        self.clockSettingsTitle.addWidget(self.showDesktopButton)
-        self.clockAtLeft = QSettingsCheckBox(_("Show the clock at the left of the screen"))
-        self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
-        self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
-        self.clockSettingsTitle.addWidget(self.clockAtLeft)
         self.primaryScreen = QSettingsCheckBox(_("Show the clock on the primary screen"))
         self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
         self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
@@ -158,6 +146,21 @@ class SettingsWindow(QFramelessWindow):
         self.onlyPrimaryScreen.setChecked(getSettings("HideClockOnSecondaryMonitors"))
         self.onlyPrimaryScreen.stateChanged.connect(lambda i: setSettings("HideClockOnSecondaryMonitors", bool(i)))
         self.clockSettingsTitle.addWidget(self.onlyPrimaryScreen)
+
+        self.clockPosTitle = QIconLabel(_("Clock position and size:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
+        layout.addWidget(self.clockPosTitle)
+        self.clockPosTitle.addWidget(self.showDesktopButton)
+        self.clockAtLeft = QSettingsCheckBox(_("Show the clock at the left of the screen"))
+        self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
+        self.clockAtLeft.stateChanged.connect(lambda i: setSettings("ClockOnTheLeft", bool(i)))
+        self.clockPosTitle.addWidget(self.clockAtLeft)
+        self.clockAtBottom = QSettingsCheckBox(_("Force the clock to be at the bottom of the screen"))
+        self.clockAtBottom.setChecked(getSettings("ForceOnBottom"))
+        self.clockAtBottom.stateChanged.connect(lambda i: setSettings("ForceOnBottom", bool(i)))
+        self.clockPosTitle.addWidget(self.clockAtBottom)
+        self.clockAtTop = QSettingsCheckBox(_("Force the clock to be at the top of the screen"))
+        self.clockAtTop.setChecked(getSettings("ForceOnTop"))
+        self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
 
 
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
@@ -804,6 +807,9 @@ class SettingsWindow(QFramelessWindow):
                                     background: transparent;
                                     font-size: 10pt;
                                 }}
+                                #dialogButtonWidget{{
+                                    background-color: #1d1d1d;
+                                }}
                                """)
         else:
             self.iconMode = "black"
@@ -1185,6 +1191,9 @@ class SettingsWindow(QFramelessWindow):
                                 }}
                                 #greyishLabel {{
                                     color: #888888;
+                                }}
+                                #dialogButtonWidget{{
+                                    background-color: #eeeeee;
                                 }}
                                """)
 

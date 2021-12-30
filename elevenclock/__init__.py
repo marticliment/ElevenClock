@@ -1,5 +1,6 @@
 import time
 
+
 FirstTime = time.time()
 
 import os
@@ -27,7 +28,7 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from pynput.keyboard import Controller, Key
 from pynput.mouse import Controller as MouseController
-
+from external.FramelessWindow import QFramelessDialog
 
 from languages import *
 import globals
@@ -1030,10 +1031,21 @@ try:
     globals.trayIcon = i
     globals.tempDir = tempDir
 
-    if not(getSettings("Updated2.92Already")) and not(getSettings("EnableSilentUpdates")):
+    if not(getSettings("Updated2.93Already")) and not(getSettings("EnableSilentUpdates")):
         sw.show()
         setSettings("Updated2.92Already", True)
-        QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Faster launch times\n - A background that dinamically adjusts to the taskbar color (useful to replace first monitor clock)\n - Better log window\n - Updated languages and added Czech\n - Fixed resizing on the settings window\n - Added a little delay to the updater to let laptops connect to the WI-FI network\n - Lots of other bugfixes and other improvements\n\nAnd, of course, happy new year for everybody :)")
+        msg = QFramelessDialog(sw)
+        msg.setAutoFillBackground(True)
+        msg.setStyleSheet(sw.styleSheet())
+        msg.setAttribute(QtCore.Qt.WA_StyledBackground)
+        msg.setObjectName("QMessageBox")
+        msg.setTitle("Information")
+        msg.setText(f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Faster launch times\n - A background that dinamically adjusts to the taskbar color (useful to replace first monitor clock)\n - Better log window\n - Updated languages and added Czech\n - Fixed resizing on the settings window\n - Added a little delay to the updater to let laptops connect to the WI-FI network\n - Lots of other bugfixes and other improvements\n\nAnd, of course, happy new year for everybody :)")
+        msg.addButton("Ok", QDialogButtonBox.ButtonRole.AcceptRole)
+        msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.AcceptRole, sw.styleSheet())
+        msg.setWindowTitle("ElevenClock has updated!")
+        msg.show()
+        #QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Faster launch times\n - A background that dinamically adjusts to the taskbar color (useful to replace first monitor clock)\n - Better log window\n - Updated languages and added Czech\n - Fixed resizing on the settings window\n - Added a little delay to the updater to let laptops connect to the WI-FI network\n - Lots of other bugfixes and other improvements\n\nAnd, of course, happy new year for everybody :)")
 
     showSettings = False
     if "--settings" in sys.argv or showSettings:
