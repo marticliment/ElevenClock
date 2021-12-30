@@ -133,7 +133,6 @@ class SettingsWindow(QFramelessWindow):
         self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
         self.clockSettingsTitle.addWidget(self.forceClockToShow)
-        self.clockSettingsTitle.addWidget(self.clockAtTop)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
@@ -161,6 +160,7 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtTop = QSettingsCheckBox(_("Force the clock to be at the top of the screen"))
         self.clockAtTop.setChecked(getSettings("ForceOnTop"))
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
+        self.clockPosTitle.addWidget(self.clockAtTop)
 
 
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
