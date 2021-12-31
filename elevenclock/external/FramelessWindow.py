@@ -136,8 +136,9 @@ class QFramelessWindow(QMainWindow):
 
 class QFramelessDialog(QFramelessWindow):
     clicked = Signal(QDialogButtonBox.ButtonRole)
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, closeOnClick=True):
         super().__init__(parent=parent)
+        self.closeOnClick = closeOnClick
         self.setAutoFillBackground(True)
         self.setAttribute(Qt.WA_StyledBackground)
         l = QVBoxLayout()
@@ -150,9 +151,10 @@ class QFramelessDialog(QFramelessWindow):
         l.addWidget(self.body)
         self.buttonWidget = QDialogButtonBox(self)
         self.buttonWidget.setObjectName("dialogButtonWidget")
-        self.buttonWidget.setStyleSheet("QPushButton{margin: 15px;height: 30px;}")
+        self.buttonWidget.setStyleSheet("QPushButton{margin: 2px;height: 30px;}")
         self.buttonWidget.clicked.connect(self.click)
         bwd = QWidget()
+        bwd.setContentsMargins(15, 15, 15, 15)
         bwd.setObjectName("dialogButtonWidget")
         tl = QVBoxLayout()
         tl.addWidget(self.buttonWidget)
@@ -169,23 +171,33 @@ class QFramelessDialog(QFramelessWindow):
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
     
     def closeEvent(self, event: QCloseEvent) -> None:
-        self.parent().window().setWindowOpacity(1)
+        #self.parent().window().setWindowOpacity(1)
         return super().closeEvent(event)
         
     def click(self, btnRole: QDialogButtonBox.ButtonRole) -> None:
         self.clicked.emit(btnRole)
-        self.close()
+        if self.closeOnClick:
+            self.close()
         
-    def addButton(self, text: str, btnRole: QDialogButtonBox.ButtonRole) -> None:
-        self.buttonWidget.addButton(text, btnRole)
+    def addButton(self, text: str, btnRole: QDialogButtonBox.ButtonRole, action: object = None) -> None:
+        b = self.buttonWidget.addButton(text, btnRole)
+        if action:
+            b.clicked.connect(action)
         
     def setDefaultButtonRole(self, btnRole: QDialogButtonBox.ButtonRole, stylesheet: str) -> None:
         for btn in self.buttonWidget.buttons():
             btn: QPushButton
             if self.buttonWidget.buttonRole(btn) == btnRole:
                 btn.setObjectName("AccentButton")
-                btn.setStyleSheet(stylesheet)
+                btn.setStyleSheet(stylesheet+"QPushButton{margin: 2px;height: 30px;}")
                 break
+            
+    def getBtn(self, btnRole: QDialogButtonBox.ButtonRole) -> QPushButton:
+        for btn in self.buttonWidget.buttons():
+            btn: QPushButton
+            if self.buttonWidget.buttonRole(btn) == btnRole:
+                return btn
+            
             
     def setTitle(self, t: str):
         self.title.setText(t)
@@ -202,11 +214,14 @@ class QFramelessDialog(QFramelessWindow):
         self.setFixedSize(self.minimumSizeHint())
         w = self.width()
         h = self.height()
-        self.move(
-            self.parent().window().x()+(self.parent().window().width()-w)//2,
-            self.parent().window().y()+(self.parent().window().height()-h)//2
-        )
-        self.parent().window().setWindowOpacity(0.7)
+        try:
+            self.move(
+                self.parent().window().x()+(self.parent().window().width()-w)//2,
+                self.parent().window().y()+(self.parent().window().height()-h)//2
+            )
+        except AttributeError:
+            pass
+        #self.parent().window().setWindowOpacity(0.7)
         return super().showEvent(event)
     
     
