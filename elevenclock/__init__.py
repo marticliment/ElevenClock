@@ -392,6 +392,7 @@ class Clock(QWidget):
         self.lastTheme = 0
         self.callInMainSignal.connect(lambda f: f())
         self.styler.connect(self.setStyleSheet)
+        self.clockShouldBeHidden = False
 
         self.preferedwidth = 200
         self.preferedHeight = 48
@@ -713,7 +714,14 @@ class Clock(QWidget):
         while True:
             isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod)
             for i in range(INTLOOPTIME):
-                if not(isFullScreen) or not(EnableHideOnFullScreen):
+                if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
+                    if isFocusAssistEnabled():
+                        self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                    elif getNotificationNumber()!=0:
+                        self.callInMainSignal.emit(self.label.enableNotifDot)
+                        oldNotifNumber = getNotificationNumber()
+                    else:
+                        self.callInMainSignal.emit(self.label.disableClockIndicators)
                     if self.autoHide and not(DisableHideWithTaskbar):
                         mousePos = getMousePos()
                         if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
@@ -727,13 +735,6 @@ class Clock(QWidget):
                             self.refresh.emit()
                 else:
                     self.hideSignal.emit()
-                if isFocusAssistEnabled():
-                    self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                elif getNotificationNumber()!=0:
-                    self.callInMainSignal.emit(self.label.enableNotifDot)
-                    oldNotifNumber = getNotificationNumber()
-                else:
-                    self.callInMainSignal.emit(self.label.disableClockIndicators)
                 time.sleep(0.1)
  
     def showCalendar(self):
@@ -741,6 +742,16 @@ class Clock(QWidget):
         self.keyboard.press('n')
         self.keyboard.release('n')
         self.keyboard.release(Key.cmd)
+        if getSettings("HideClockWhenClicked"):
+            print("🟡 Hiding clock because clicked!")
+            self.clockShouldBeHidden = True
+            
+            def showClockOn10s(self: Clock):
+                time.sleep(10)
+                print("🟢 Showing clock because 10s passed!")
+                self.clockShouldBeHidden = False
+                
+            KillableThread(target=showClockOn10s, args=(self,)).start()
 
     def showDesktop(self):
         self.keyboard.press(Key.cmd)
@@ -1031,7 +1042,7 @@ try:
     globals.trayIcon = i
     globals.tempDir = tempDir
 
-    if not(getSettings("Updated2.93Already")) and not(getSettings("EnableSilentUpdates")):
+    if not(getSettings("Updated2.92Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings("Updated2.92Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
