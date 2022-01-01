@@ -4,6 +4,7 @@
 #      File modified from https://github.com/ionescu007/wnfun
 #
 #      Some parts have been removed because they were useless in the context this script is intended
+#      Additionally, the script has been optimized
 #
 #      All rights reserved to Alex Ionescu. 
 #      See the license here: https://github.com/ionescu007/wnfun/blob/master/LICENSE
@@ -21,10 +22,13 @@ import ctypes
 
 ZwQueryWnfStateData = ctypes.windll.ntdll.ZwQueryWnfStateData
 
+changeStamp = ctypes.c_ulong(0)
+dataBuffer = ctypes.create_string_buffer(4096)
+bufferSize = ctypes.c_ulong(ctypes.sizeof(dataBuffer))
+nullBfr = ctypes.c_ulong(0)
+
 def ReadWnfData(StateName):
-    changeStamp = ctypes.c_ulong(0)
-    dataBuffer = ctypes.create_string_buffer(4096)
-    bufferSize = ctypes.c_ulong(ctypes.sizeof(dataBuffer))  
+    global bufferSize, changeStamp, dataBuffer
     StateName = ctypes.c_longlong(StateName)
     res = ZwQueryWnfStateData(ctypes.byref(StateName), 
         0, 0, 
@@ -33,7 +37,7 @@ def ReadWnfData(StateName):
         ctypes.byref(bufferSize)
     )
     readAccess = 0 if res !=0 else 1
-    bufferSize =  ctypes.c_ulong(0) if res !=0 else bufferSize
+    bufferSize = nullBfr if res !=0 else bufferSize
     return readAccess, changeStamp.value, dataBuffer, bufferSize.value
 
 

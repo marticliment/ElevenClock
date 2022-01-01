@@ -45,6 +45,16 @@ try:
     blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
     blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
 
+    seconddoubleclick = False
+    isRDPRunning = False
+    restartCount = 0
+    tempDir = ""
+    timeStr = ""
+    dateTimeFormat = ""
+    clocks = []
+    oldScreens = []
+    isFocusAssist = False
+    numOfNotifs = 0
 
     print("---------------------------------------------------------------------------------------------------")
     print("")
@@ -185,17 +195,19 @@ try:
         process = psutil.Process(os.getpid())
         if restartCount<20 and (process.memory_info().rss/1048576) <= 150:
             restartCount += 1
+            i = 0
             for screen in app.screens():
                 screen: QScreen
                 oldScreens.append(getGeometry(screen))
                 if not screen == QGuiApplication.primaryScreen() or ForceClockOnFirstMonitor: # Check if we are not on the primary screen
                     if not HideClockOnSecondaryMonitors or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
-                        clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen))
+                        clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
+                        i += 1
                     else:
                         print("🟠 This is a secondary screen and is set to be skipped")
                 else: # Skip the primary display, as it has already the clock
                     print("🟡 This is the primary screen and is set to be skipped")
-            st = KillableThread(target=screenCheckThread, daemon=True)
+            st = KillableThread(target=screenCheckThread, daemon=True, name="Main [loaded]: Screen listener")
             st.start()
         else:
             os.startfile(sys.executable)
@@ -223,6 +235,15 @@ try:
 
         # Check that all screen dimensions and dpi are the same as before
         return all(old == getGeometry(new) for old, new in zip(oldscreens, newscreens))
+
+    def wnfDataThread():
+        global isFocusAssist, numOfNotifs
+        while True:
+            isFocusAssist = isFocusAssistEnabled()
+            time.sleep(0.4)
+            numOfNotifs = getNotificationNumber()
+            time.sleep(0.4)
+
 
     def screenCheckThread():
         while theyMatch(oldScreens, app.screens()):
@@ -265,7 +286,7 @@ try:
         timethread = KillableThread(target=timeStrThread, daemon=True)
         timethread.start()
 
-    def isElevenClockRunning():
+    def isElevenClockRunningThread():
         nowTime = time.time()
         name = f"ElevenClockRunning{nowTime}"
         setSettings(name, True, False)
@@ -288,7 +309,7 @@ try:
         if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
             os.startfile("https://github.com/martinet101/ElevenClock/releases/latest")
 
-    def checkIfWokeUp():
+    def checkIfWokeUpThread():
         while True:
             lastTime = time.time()
             time.sleep(3)
@@ -360,11 +381,11 @@ try:
             if(fixHyphen):
                 for _ in range(36000):
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("t-", "t -")
-                    time.sleep(0.1)
+                    time.sleep(0.2)
             else:
                 for _ in range(36000):
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat)
-                    time.sleep(0.1)
+                    time.sleep(0.2)
 
     class RestartSignal(QObject):
 
@@ -387,8 +408,10 @@ try:
         callInMainSignal = Signal(object)
         styler = Signal(str)
 
-        def __init__(self, dpix, dpiy, screen):
+        def __init__(self, dpix, dpiy, screen, index):
+            self.index = index
             super().__init__()
+            print(f"🔵 Initializing clock {index}...")
             self.lastTheme = 0
             self.callInMainSignal.connect(lambda f: f())
             self.styler.connect(self.setStyleSheet)
@@ -459,7 +482,7 @@ try:
                     print("🟢 Taskbar at top")
                 else:
                     h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                    print("🟢 Taskbar at bottom")
+                    print("🟡 Taskbar at bottom")
             except Exception as e:
                 report(e)
                 h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
@@ -584,8 +607,8 @@ try:
 
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-            self.loop = KillableThread(target=self.fivesecsloop, daemon=True)
-            self.loop2 = KillableThread(target=self.rdp_bgColor_Worker, daemon=True)
+            self.loop = KillableThread(target=self.fivesecsloop, daemon=True, name=f"Clock[{index}]: Main loop")
+            self.loop2 = KillableThread(target=self.rdp_bgColor_Worker, daemon=True, name=f"Clock[{index}]: Auxiliar loop")
             self.loop.start()
             self.loop2.start()
             
@@ -715,11 +738,11 @@ try:
                 isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod)
                 for i in range(INTLOOPTIME):
                     if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
-                        if isFocusAssistEnabled():
+                        if isFocusAssist:
                             self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        elif getNotificationNumber()!=0:
+                        elif numOfNotifs!=0:
                             self.callInMainSignal.emit(self.label.enableNotifDot)
-                            oldNotifNumber = getNotificationNumber()
+                            oldNotifNumber = numOfNotifs
                         else:
                             self.callInMainSignal.emit(self.label.disableClockIndicators)
                         if self.autoHide and not(DisableHideWithTaskbar):
@@ -735,7 +758,7 @@ try:
                                 self.refresh.emit()
                     else:
                         self.hideSignal.emit()
-                    time.sleep(0.1)
+                    time.sleep(0.2)
     
         def showCalendar(self):
             self.keyboard.press(Key.cmd)
@@ -751,7 +774,7 @@ try:
                     print("🟢 Showing clock because 10s passed!")
                     self.clockShouldBeHidden = False
                     
-                KillableThread(target=showClockOn10s, args=(self,)).start()
+                KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
 
         def showDesktop(self):
             self.keyboard.press(Key.cmd)
@@ -867,7 +890,7 @@ try:
                 self.focusAssitantLabel.show()
                 
         def enableNotifDot(self):
-            self.notifDotLabel.setText(str(getNotificationNumber()))
+            self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
                 self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
@@ -976,15 +999,6 @@ try:
         
 
     # Start of main script
-
-    seconddoubleclick = False
-    isRDPRunning = False
-    restartCount = 0
-    tempDir = ""
-    timeStr = ""
-    dateTimeFormat = ""
-    clocks = []
-    oldScreens = []
     
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication()
@@ -995,8 +1009,8 @@ try:
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
 
-    KillableThread(target=resetRestartCount, daemon=True).start()
-    timethread = KillableThread(target=timeStrThread, daemon=True)
+    KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
+    timethread = KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader")
     timethread.start()
     
     loadClocks()
@@ -1020,13 +1034,14 @@ try:
     showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
     killSignal.infoSignal.connect(lambda: app.quit())
 
-    KillableThread(target=updateChecker, daemon=True).start()
-    KillableThread(target=isElevenClockRunning, daemon=True).start()
-    KillableThread(target=checkIfWokeUp, daemon=True).start()
+    KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
+    KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
+    KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
+    KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
 
     signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
     
-    rdpThread = KillableThread(target=checkRDP, daemon=True)
+    rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
     if getSettings("EnableHideOnRDP"):
         rdpThread.start()
     
