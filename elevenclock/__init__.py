@@ -156,6 +156,8 @@ try:
 
                         else:
                             print("🔴 Can't verify update server authenticity, aborting")
+                            print("🔴 Provided DmName:", dmname)
+                            print("🔴 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
                             showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                     else:
                         showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
@@ -542,8 +544,13 @@ try:
             self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
             self.label.setFont(self.font)
 
+            self.isDark = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0
+
+            accColors = getColors()
             def make_style_sheet(a, b, c, d, color):
-                return f"padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};"
+                bg = 1 if self.isDark else 4
+                fg = 6 if self.isDark else 1
+                return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
             if getSettings("UseCustomFontColor"):
                 print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
@@ -878,7 +885,8 @@ try:
             self.notifdot = True
             self.notifDotLabel = QLabel("", self)
             self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
-            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";background-color: rgb({accColors[0]});color:rgb({accColors[6]});border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
+            self.notifDotLabel.setObjectName("notifIndicator")
+            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
             
             
             self.disableClockIndicators()
