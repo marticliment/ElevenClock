@@ -1,7 +1,6 @@
 try:
     import time
 
-
     FirstTime = time.time()
 
     import os
@@ -268,7 +267,7 @@ try:
         i.setVisible(lastState)
 
     def restartClocks(caller: str = ""):
-        global clocks, st, rdpThread, timethread
+        global clocks, st, rdpThread
 
         closeClocks()
         loadClocks()
@@ -276,15 +275,12 @@ try:
 
         try:
             rdpThread.kill()
-            timethread.kill()
         except AttributeError:
             pass
         rdpThread = KillableThread(target=checkRDP, daemon=True)
         if(getSettings("EnableHideOnRDP")):
             rdpThread.start()
 
-        timethread = KillableThread(target=timeStrThread, daemon=True)
-        timethread.start()
 
     def isElevenClockRunningThread():
         nowTime = time.time()
@@ -604,11 +600,13 @@ try:
 
             self.forceDarkTheme = getSettings("ForceDarkTheme")
             self.forceLightTheme = getSettings("ForceLightTheme")
+            self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
+            self.primary_screen = QGuiApplication.primaryScreen()
 
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
             self.loop = KillableThread(target=self.fivesecsloop, daemon=True, name=f"Clock[{index}]: Main loop")
-            self.loop2 = KillableThread(target=self.rdp_bgColor_Worker, daemon=True, name=f"Clock[{index}]: Auxiliar loop")
+            self.loop2 = KillableThread(target=self.assistantLoopThread, daemon=True, name=f"Clock[{index}]: Auxiliar loop")
             self.loop.start()
             self.loop2.start()
             
@@ -673,12 +671,12 @@ try:
         def getPx(self, original) -> int:
             return round(original*(self.screen().logicalDotsPerInch()/96))
 
-        def rdp_bgColor_Worker(self):
+        def assistantLoopThread(self):
             global isRDPRunning
             while True:
                 self.isRDPRunning = isRDPRunning
                 if self.taskbarBackgroundColor:
-                    color = QColor(QGuiApplication.primaryScreen().grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0))
+                    color = QColor(self.primary_screen.grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0))
                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
                 time.sleep(0.5)
 
@@ -740,7 +738,7 @@ try:
                     if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
                         if isFocusAssist:
                             self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        elif numOfNotifs!=0:
+                        elif oldNotifNumber != numOfNotifs:
                             self.callInMainSignal.emit(self.label.enableNotifDot)
                             oldNotifNumber = numOfNotifs
                         else:
@@ -765,7 +763,7 @@ try:
             self.keyboard.press('n')
             self.keyboard.release('n')
             self.keyboard.release(Key.cmd)
-            if getSettings("HideClockWhenClicked"):
+            if self.hideClockWhenClicked:
                 print("🟡 Hiding clock because clicked!")
                 self.clockShouldBeHidden = True
                 
@@ -788,9 +786,9 @@ try:
         def refreshandShow(self):
             if(self.shouldBeVisible):
                 self.show()
-                self.setVisible(True)
                 self.raise_()
-                if(self.lastTheme >= 0): # If tet color is not customized
+                self.label.setText(timeStr)
+                if(self.lastTheme >= 0): # If the color is not customized
                     theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
                     if(theme != self.lastTheme):
                         if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
@@ -814,7 +812,6 @@ try:
                             self.font.setFamilies(self.fontfamilies)
                             self.font.setWeight(QFont.Weight.ExtraLight)
                             self.label.setFont(self.font)
-                self.label.setText(timeStr)
 
         def closeEvent(self, event: QCloseEvent) -> None:
             self.shouldBeVisible = False
@@ -1010,8 +1007,7 @@ try:
     st: KillableThread = None # Will be defined on loadClocks
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
-    timethread = KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader")
-    timethread.start()
+    KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
     
     loadClocks()
     
@@ -1033,13 +1029,13 @@ try:
     showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
     showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
     killSignal.infoSignal.connect(lambda: app.quit())
+    signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
 
-    signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
     
     rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
     if getSettings("EnableHideOnRDP"):
