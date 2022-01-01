@@ -417,267 +417,273 @@ try:
         isRDPRunning = True
 
         def __init__(self, dpix, dpiy, screen, index):
-            self.index = index
+
             super().__init__()
-
-            print(f"🔵 Initializing clock {index}...")
-            self.callInMainSignal.connect(lambda f: f())
-            self.styler.connect(self.setStyleSheet)
-            
-            self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
-            
-            if self.taskbarBackgroundColor:
-                print("🔵 Using taskbar background color")
-                self.bgcolor = "0, 0, 0, 0"
+            if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
+                print("🟠 Monitor blacklisted!")
+                self.hide()
             else:
-                print("🟡 Not using taskbar background color")
-                self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
-                print("🔵 Using bg color:", self.bgcolor)
 
-            try:
-                if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
-                    if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                        print("🟡 Small sized taskbar")
-                        self.preferedHeight = 32
-                        self.preferedwidth = 200
-                else:
-                    print("🟢 Regular sized taskbar")
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;"
-            except Exception as e:
-                print("🟡 Regular sized taskbar")
-                report(e)
-                self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
+                self.index = index
+
+                print(f"🔵 Initializing clock {index}...")
+                self.callInMainSignal.connect(lambda f: f())
+                self.styler.connect(self.setStyleSheet)
                 
-            self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
+                self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
+                
+                if self.taskbarBackgroundColor:
+                    print("🔵 Using taskbar background color")
+                    self.bgcolor = "0, 0, 0, 0"
+                else:
+                    print("🟡 Not using taskbar background color")
+                    self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
+                    print("🔵 Using bg color:", self.bgcolor)
 
-            self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
-            for win32screen in win32api.EnumDisplayMonitors():
                 try:
-                    if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
-                        self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
+                    if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
+                        if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
+                            print("🟡 Small sized taskbar")
+                            self.preferedHeight = 32
+                            self.preferedwidth = 200
+                    else:
+                        print("🟢 Regular sized taskbar")
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;"
+                except Exception as e:
+                    print("🟡 Regular sized taskbar")
+                    report(e)
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
+                    
+                self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
+
+                self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
+                for win32screen in win32api.EnumDisplayMonitors():
+                    try:
+                        if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
+                            self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
+                    except Exception as e:
+                        report(e)
+                        
+                if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
+                    os.startfile(sys.executable) # Restart elevenclock
+                    app.quit()
+                
+                self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
+                print("🔵 Monitor geometry:", self.screenGeometry)
+                
+                self.refresh.connect(self.refreshandShow)
+                self.hideSignal.connect(self.hide)
+                self.keyboard = Controller()
+                self.setWindowFlag(Qt.WindowStaysOnTopHint)
+                self.setWindowFlag(Qt.FramelessWindowHint)
+                self.setAttribute(Qt.WA_TranslucentBackground)
+                self.setWindowFlag(Qt.Tool)
+                hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
+                registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
+                self.autoHide = registry_read_result[8] == 123
+                
+                try:
+                    if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
+                        h = self.screenGeometry.y()
+                        print("🟢 Taskbar at top")
+                    else:
+                        h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
+                        print("🟡 Taskbar at bottom")
                 except Exception as e:
                     report(e)
-                    
-            if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
-                os.startfile(sys.executable) # Restart elevenclock
-                app.quit()
-            
-            self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
-            print("🔵 Monitor geometry:", self.screenGeometry)
-            
-            self.refresh.connect(self.refreshandShow)
-            self.hideSignal.connect(self.hide)
-            self.keyboard = Controller()
-            self.setWindowFlag(Qt.WindowStaysOnTopHint)
-            self.setWindowFlag(Qt.FramelessWindowHint)
-            self.setAttribute(Qt.WA_TranslucentBackground)
-            self.setWindowFlag(Qt.Tool)
-            hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
-            registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
-            self.autoHide = registry_read_result[8] == 123
-            
-            try:
-                if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
-                    h = self.screenGeometry.y()
-                    print("🟢 Taskbar at top")
-                else:
                     h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
                     print("🟡 Taskbar at bottom")
-            except Exception as e:
-                report(e)
-                h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                print("🟡 Taskbar at bottom")
-            self.label = Label(timeStr, self)
-            if(getSettings("ClockOnTheLeft")):
-                print("🟡 Clock on the left")
-                w = self.screenGeometry.x()+8*dpix
-                self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-            else:
-                self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-                print("🟢 Clock on the right")
-                w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
-                
-            if getSettings("CenterAlignment"):
-                self.label.setAlignment(Qt.AlignCenter)
-
-
-            self.w = w
-            self.h = h
-            self.dpix = dpix
-            self.dpiy = dpiy
-
-            if not(getSettings("EnableWin32API")):
-                print("🟢 Using qt's default positioning system")
-                self.move(w, h)
-                self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
-            else:
-                print("🟡 Using win32 API positioning system")
-                self.user32 = windll.user32
-                self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
-            print("🔵 Clock geometry:", self.geometry())
-            self.font: QFont = QFont()
-            customFont = getSettingsValue("UseCustomFont")
-            if customFont == "":
-                if lang == lang_ko:
-                    self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
-                elif lang == lang_zh_TW or lang == lang_zh_CN:
-                    self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
+                self.label = Label(timeStr, self)
+                if(getSettings("ClockOnTheLeft")):
+                    print("🟡 Clock on the left")
+                    w = self.screenGeometry.x()+8*dpix
+                    self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 else:
-                    self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
-            else:
-                self.fontfamilies = [customFont]
-            print(f"🔵 Font families: {self.fontfamilies}")
-            customSize = getSettingsValue("UseCustomFontSize")
-            if customSize == "":
-                self.font.setPointSizeF(9.3)
-            else:
-                try:
-                    self.font.setPointSizeF(float(customSize))
-                except Exception as e:
+                    self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    print("🟢 Clock on the right")
+                    w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
+                    
+                if getSettings("CenterAlignment"):
+                    self.label.setAlignment(Qt.AlignCenter)
+
+
+                self.w = w
+                self.h = h
+                self.dpix = dpix
+                self.dpiy = dpiy
+
+                if not(getSettings("EnableWin32API")):
+                    print("🟢 Using qt's default positioning system")
+                    self.move(w, h)
+                    self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
+                else:
+                    print("🟡 Using win32 API positioning system")
+                    self.user32 = windll.user32
+                    self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
+                    win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
+                print("🔵 Clock geometry:", self.geometry())
+                self.font: QFont = QFont()
+                customFont = getSettingsValue("UseCustomFont")
+                if customFont == "":
+                    if lang == lang_ko:
+                        self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
+                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                        self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
+                    else:
+                        self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
+                else:
+                    self.fontfamilies = [customFont]
+                print(f"🔵 Font families: {self.fontfamilies}")
+                customSize = getSettingsValue("UseCustomFontSize")
+                if customSize == "":
                     self.font.setPointSizeF(9.3)
-                    report(e)
-            print(f"🔵 Font size: {self.font.pointSizeF()}")
-            self.font.setStyleStrategy(QFont.PreferOutline)
-            self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
-            self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
-            self.label.setFont(self.font)
-
-            self.isDark = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0
-
-            accColors = getColors()
-            def make_style_sheet(a, b, c, d, color):
-                bg = 1 if self.isDark else 4
-                fg = 6 if self.isDark else 1
-                return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
-
-            if getSettings("UseCustomFontColor"):
-                print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
-                self.lastTheme = -1
-                style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
-                self.label.setStyleSheet(style_sheet_string)
-                self.label.bgopacity = .1
-                self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                self.font.setFamilies(self.fontfamilies)
-                if lang == lang_ko:
-                    self.font.setWeight(QFont.Weight.Normal)
-                elif lang == lang_zh_TW or lang == lang_zh_CN:
-                    self.font.setWeight(QFont.Weight.Normal)
                 else:
-                    self.font.setWeight(QFont.Weight.DemiBold)
-                self.label.setFont(self.font)        
-            elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
-                print("🟢 Using white text (dark mode)")
-                self.lastTheme = 0
-                style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
-                self.label.setStyleSheet(style_sheet_string)
-                self.label.bgopacity = .1
-                self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                self.font.setFamilies(self.fontfamilies)
-                if lang == lang_ko:
-                    self.font.setWeight(QFont.Weight.Normal)
-                elif lang == lang_zh_TW or lang == lang_zh_CN:
-                    self.font.setWeight(QFont.Weight.Normal)
+                    try:
+                        self.font.setPointSizeF(float(customSize))
+                    except Exception as e:
+                        self.font.setPointSizeF(9.3)
+                        report(e)
+                print(f"🔵 Font size: {self.font.pointSizeF()}")
+                self.font.setStyleStrategy(QFont.PreferOutline)
+                self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
+                self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
+                self.label.setFont(self.font)
+
+                self.isDark = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0
+
+                accColors = getColors()
+                def make_style_sheet(a, b, c, d, color):
+                    bg = 1 if self.isDark else 4
+                    fg = 6 if self.isDark else 1
+                    return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
+
+                if getSettings("UseCustomFontColor"):
+                    print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
+                    self.lastTheme = -1
+                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+                    self.label.setStyleSheet(style_sheet_string)
+                    self.label.bgopacity = .1
+                    self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+                    self.font.setFamilies(self.fontfamilies)
+                    if lang == lang_ko:
+                        self.font.setWeight(QFont.Weight.Normal)
+                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                        self.font.setWeight(QFont.Weight.Normal)
+                    else:
+                        self.font.setWeight(QFont.Weight.DemiBold)
+                    self.label.setFont(self.font)        
+                elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
+                    print("🟢 Using white text (dark mode)")
+                    self.lastTheme = 0
+                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
+                    self.label.setStyleSheet(style_sheet_string)
+                    self.label.bgopacity = .1
+                    self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+                    self.font.setFamilies(self.fontfamilies)
+                    if lang == lang_ko:
+                        self.font.setWeight(QFont.Weight.Normal)
+                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                        self.font.setWeight(QFont.Weight.Normal)
+                    else:
+                        self.font.setWeight(QFont.Weight.DemiBold)
+                    self.label.setFont(self.font)
                 else:
-                    self.font.setWeight(QFont.Weight.DemiBold)
-                self.label.setFont(self.font)
-            else:
-                print("🟢 Using black text (light mode)")
-                self.lastTheme = 1
-                style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
-                self.label.setStyleSheet(style_sheet_string)
-                self.label.bgopacity = .5
-                self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                self.font.setFamilies(self.fontfamilies)
-                self.font.setWeight(QFont.Weight.ExtraLight)
-                self.label.setFont(self.font)
-            self.label.clicked.connect(lambda: self.showCalendar())
-            self.label.move(0, 0)
-            self.label.setFixedHeight(self.height())
-            self.label.resize(self.width()-self.getPx(8), self.height())
-            self.label.show()
-            loadTimeFormat()
-            self.show()
-            self.raise_()
-            self.setFocus()
+                    print("🟢 Using black text (light mode)")
+                    self.lastTheme = 1
+                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
+                    self.label.setStyleSheet(style_sheet_string)
+                    self.label.bgopacity = .5
+                    self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
+                    self.font.setFamilies(self.fontfamilies)
+                    self.font.setWeight(QFont.Weight.ExtraLight)
+                    self.label.setFont(self.font)
+                self.label.clicked.connect(lambda: self.showCalendar())
+                self.label.move(0, 0)
+                self.label.setFixedHeight(self.height())
+                self.label.resize(self.width()-self.getPx(8), self.height())
+                self.label.show()
+                loadTimeFormat()
+                self.show()
+                self.raise_()
+                self.setFocus()
 
 
-            self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
-            print("🔵 Full screen rect: ", self.full_screen_rect)
+                self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
+                print("🔵 Full screen rect: ", self.full_screen_rect)
 
 
-            self.forceDarkTheme = getSettings("ForceDarkTheme")
-            self.forceLightTheme = getSettings("ForceLightTheme")
-            self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
-            self.isLowCpuMode = getSettings("EnableLowCpuMode")
-            self.primary_screen = QGuiApplication.primaryScreen()
-            self.oldBgColor = 0
+                self.forceDarkTheme = getSettings("ForceDarkTheme")
+                self.forceLightTheme = getSettings("ForceLightTheme")
+                self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
+                self.isLowCpuMode = getSettings("EnableLowCpuMode")
+                self.primary_screen = QGuiApplication.primaryScreen()
+                self.oldBgColor = 0
 
-            self.user32 = windll.user32
-            self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-            self.loop = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
-            self.loop2 = KillableThread(target=self.backgroundLoop, daemon=True, name=f"Clock[{index}]: Background color loop")
-            self.loop.start()
-            self.loop2.start()
+                self.user32 = windll.user32
+                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+                self.loop = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
+                self.loop2 = KillableThread(target=self.backgroundLoop, daemon=True, name=f"Clock[{index}]: Background color loop")
+                self.loop.start()
+                self.loop2.start()
+                
+                class QHoverButton(QPushButton):
+                    hovered = Signal()
+                    unhovered = Signal()
+                    
+                    def __init__(self, text: str = "", parent: QObject = None) -> None:
+                        super().__init__(text=text, parent=parent)
+                    
+                    def enterEvent(self, event: QtCore.QEvent) -> None:
+                        self.hovered.emit()
+                        return super().enterEvent(event)
+                    
+                    def leaveEvent(self, event: QtCore.QEvent) -> None:
+                        self.unhovered.emit()
+                        return super().leaveEvent(event)
+                    
+                if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
+                    print("🟡 Desktop button enabled")
+                    self.desktopButton = QHoverButton(parent=self)
+                    self.desktopButton.clicked.connect(lambda: self.showDesktop())
+                    self.desktopButton.show()
+                    self.desktopButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+                    self.desktopButton.move(self.width()-self.getPx(10), 0)
+                    self.desktopButton.resize(self.getPx(10), self.getPx(self.preferedHeight))
+                    self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath("showdesktop.png"))))
+                    self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
+                    self.setFixedHeight(self.getPx(self.preferedHeight))
+                    self.desktopButton.setStyleSheet(f"""
+                        QPushButton{{
+                            background-color: rgba(0, 0, 0, 0.01); 
+                            margin: 0px;
+                            padding: 0px; 
+                            margin-top: 0px;
+                            border-radius: 0px;
+                            margin-bottom: 0px;
+                            border-left: 0px solid rgba(0, 0, 0, 0.05);
+                            border-right: 0px solid rgba(0, 0, 0, 0.05);
+                        }}
+                        QPushButton:hover{{
+                            background-color: rgba(127, 127, 127, 1%); 
+                            margin: 0px;
+                            margin-top: 0px;
+                            border-radius: 0px;
+                            margin-bottom: 0px;
+                            border-left: 0px solid rgba(0, 0, 0, 0.05);
+                            border-right: 0px solid rgba(0, 0, 0, 0.05);
+                        }}
+                        QPushButton:pressed{{
+                            background-color: rgba(127, 127, 127, 1%); 
+                            margin: 0px;
+                            margin-top: 0px;
+                            border-radius: 0px;
+                            margin-bottom: 0px;
+                            border-left: 0px solid rgba(0, 0, 0, 0.05);
+                            border-right: 0px solid rgba(0, 0, 0, 0.05);
+                        }}
+                    """)
             
-            class QHoverButton(QPushButton):
-                hovered = Signal()
-                unhovered = Signal()
-                
-                def __init__(self, text: str = "", parent: QObject = None) -> None:
-                    super().__init__(text=text, parent=parent)
-                
-                def enterEvent(self, event: QtCore.QEvent) -> None:
-                    self.hovered.emit()
-                    return super().enterEvent(event)
-                
-                def leaveEvent(self, event: QtCore.QEvent) -> None:
-                    self.unhovered.emit()
-                    return super().leaveEvent(event)
-                
-            if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
-                print("🟡 Desktop button enabled")
-                self.desktopButton = QHoverButton(parent=self)
-                self.desktopButton.clicked.connect(lambda: self.showDesktop())
-                self.desktopButton.show()
-                self.desktopButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-                self.desktopButton.move(self.width()-self.getPx(10), 0)
-                self.desktopButton.resize(self.getPx(10), self.getPx(self.preferedHeight))
-                self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath("showdesktop.png"))))
-                self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
-                self.setFixedHeight(self.getPx(self.preferedHeight))
-                self.desktopButton.setStyleSheet(f"""
-                    QPushButton{{
-                        background-color: rgba(0, 0, 0, 0.01); 
-                        margin: 0px;
-                        padding: 0px; 
-                        margin-top: 0px;
-                        border-radius: 0px;
-                        margin-bottom: 0px;
-                        border-left: 0px solid rgba(0, 0, 0, 0.05);
-                        border-right: 0px solid rgba(0, 0, 0, 0.05);
-                    }}
-                    QPushButton:hover{{
-                        background-color: rgba(127, 127, 127, 1%); 
-                        margin: 0px;
-                        margin-top: 0px;
-                        border-radius: 0px;
-                        margin-bottom: 0px;
-                        border-left: 0px solid rgba(0, 0, 0, 0.05);
-                        border-right: 0px solid rgba(0, 0, 0, 0.05);
-                    }}
-                    QPushButton:pressed{{
-                        background-color: rgba(127, 127, 127, 1%); 
-                        margin: 0px;
-                        margin-top: 0px;
-                        border-radius: 0px;
-                        margin-bottom: 0px;
-                        border-left: 0px solid rgba(0, 0, 0, 0.05);
-                        border-right: 0px solid rgba(0, 0, 0, 0.05);
-                    }}
-                """)
-        
 
         def getPx(self, original) -> int:
             return round(original*(self.screen().logicalDotsPerInch()/96))
@@ -832,9 +838,12 @@ try:
 
         def closeEvent(self, event: QCloseEvent) -> None:
             self.shouldBeVisible = False
-            print(f"🟡 Closing clock on {self.win32screen}")
-            self.loop.kill()
-            self.loop2.kill()
+            try:
+                print(f"🟡 Closing clock on {self.win32screen}")
+                self.loop.kill()
+                self.loop2.kill()
+            except AttributeError:
+                pass
             event.accept()
             return super().closeEvent(event)
         
@@ -1078,7 +1087,7 @@ try:
         msg.setStyleSheet(sw.styleSheet())
         msg.setAttribute(QtCore.Qt.WA_StyledBackground)
         msg.setObjectName("QMessageBox")
-        msg.setTitle("ElevenClock Updater")
+        msg.setTitle(_("ElevenClock Updater"))
         msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
  <br><br>This update brings:<br>
  - Faster launch times<br>

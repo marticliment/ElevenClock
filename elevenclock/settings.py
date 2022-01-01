@@ -171,6 +171,25 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
         self.clockPosTitle.addWidget(self.clockAtTop)
 
+        def unblacklist():
+            global msg
+            setSettingsValue("BlacklistedMonitors", "")
+            globals.restartClocks()
+            msg = QFramelessDialog(parent=self, closeOnClick=True)
+            msg.setAutoFillBackground(True)
+            msg.setStyleSheet(globals.sw.styleSheet())
+            msg.setAttribute(Qt.WA_StyledBackground)
+            msg.setObjectName("QMessageBox")
+            msg.setTitle(_("Success"))
+            msg.setText(f"""{_("The monitors were unblacklisted successfully.")}<br>
+    {_("Now you should see the clock everywhere")}""")
+            msg.addButton(_("Ok"), QDialogButtonBox.ButtonRole.ApplyRole)
+            msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
+            msg.show()
+
+        self.unBlackListButton = QSettingsButton(_("Reset monitor blacklisting status"), _("Reset"))
+        self.unBlackListButton.clicked.connect(unblacklist)
+        self.clockPosTitle.addWidget(self.unBlackListButton)
 
         self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
         layout.addWidget(self.clockAppearanceTitle)
@@ -305,29 +324,25 @@ class SettingsWindow(QFramelessWindow):
             msg.setTitle(_("Third Party Open-Source Software in Elevenclock {0} (And their licenses)").format(versionName))
             colors = getColors()
             msg.setText(f"""
-            <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
-            <style> a {{color: rgb({colors[3]})}}</style>
-    <ul>
-    <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a><br></li>
-    <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a><br></li>
-    <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a><br></li>
-    <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a><br></li>
-    <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a><br></li>
-    <li> <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a><br></li>
-    <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a><br></li>
-    <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a><br></li>
-    </ul>    """)
-            msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
-            msg.addButton("More Info", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#third-party-libraries"))
-            
+                <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
+                <style> a {{color: rgb({colors[3]})}}</style>
+                <ul>
+                <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a><br></li>
+                <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a><br></li>
+                <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a><br></li>
+                <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a><br></li>
+                <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a><br></li>
+                <li> <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a><br></li>
+                <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a><br></li>
+                <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a><br></li>
+                </ul>    """)
+            msg.addButton(_("Ok"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
+            msg.addButton(_("More Info"), QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#third-party-libraries"))
             def closeAndQt():
                 msg.close()
-                QMessageBox.aboutQt(self, "ElevenClock - About Qt")
-
-            msg.addButton("About Qt", QDialogButtonBox.ButtonRole.ResetRole, lambda: closeAndQt())
-
+                QMessageBox.aboutQt(self, "ElevenClock - "+_("About Qt"))
+            msg.addButton(_("About Qt"), QDialogButtonBox.ButtonRole.ResetRole, lambda: closeAndQt())
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
-            msg.setWindowTitle("ElevenClock has updated!")
             msg.show()
 
         self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))

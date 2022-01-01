@@ -7,9 +7,11 @@ import locale
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
+from PySide2.QtWinExtras import QtWin
 
 import globals
 from languages import *
+from external.FramelessWindow import QFramelessDialog
 
 version = 3
 versionName = "3.0.0-beta"
@@ -180,6 +182,42 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.quitAction.triggered.connect(lambda: globals.app.quit())
         menu.addAction(self.quitAction)
         menu.addSeparator()
+        
+        self.toolsMenu = menu.addMenu(_("Tools"))
+        self.toolsMenu.setParent(menu)
+        self.toolsMenu.setWindowFlag(Qt.WindowStaysOnTopHint)
+        self.toolsMenu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)
+        self.toolsMenu.setAttribute(Qt.WA_TranslucentBackground)
+        
+
+        def blacklist():
+            setSettingsValue("BlacklistedMonitors", getSettingsValue("BlacklistedMonitors")+f"_{self.toolsMenu.screen().name()}_")
+
+        def warnBlacklist():
+            global msg
+            msg = QFramelessDialog(parent=None, closeOnClick=True, xoff=self.toolsMenu.screen().geometry().x(), yoff=self.toolsMenu.screen().geometry().y())
+            msg.setAutoFillBackground(True)
+            msg.setStyleSheet(globals.sw.styleSheet())
+            msg.setAttribute(Qt.WA_StyledBackground)
+            msg.setObjectName("QMessageBox")
+            msg.setTitle(_("Blacklist Monitor"))
+            msg.setText(f"""{_("Blacklisting a monitor will hide the clock on this monitor permanently.")}<br>
+                            {_("This action can be reverted from the settings window. under <b>Clock position and size</b>")}.<br><br>
+
+                            <b>{_('Are you sure do you want to blacklist the monitor "{0}"?').format(self.toolsMenu.screen().name())}</b>
+    
+    """)
+            msg.addButton(_("Yes"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: blacklist())
+            msg.addButton(_("No"), QDialogButtonBox.ButtonRole.RejectRole)
+            msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, globals.sw.styleSheet())
+            msg.setWindowTitle("ElevenClock has updated!")
+            msg.show()
+
+        self.blacklistAction = QAction(_("Blacklist this monitor"), app)
+        self.blacklistAction.triggered.connect(lambda: warnBlacklist())
+        self.toolsMenu.addAction(self.blacklistAction)
+        
+        menu.addSeparator()
         self.takmgr = QAction(_("Task Manager"), app)
         self.takmgr.triggered.connect(lambda: os.startfile('taskmgr'))
         if not getSettings("HideTaskManagerButton"):
@@ -228,7 +266,10 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121", QWidget=self.contextMenu())
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
+            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
+            QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
+            QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
             self.contextMenu().setStyleSheet(f"""
                 * {{
                     border-radius: {self.getPx(8)}px;

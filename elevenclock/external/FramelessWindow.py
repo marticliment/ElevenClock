@@ -136,7 +136,9 @@ class QFramelessWindow(QMainWindow):
 
 class QFramelessDialog(QFramelessWindow):
     clicked = Signal(QDialogButtonBox.ButtonRole)
-    def __init__(self, parent=None, closeOnClick=True):
+    def __init__(self, parent=None, closeOnClick=True, xoff = 0, yoff = 0):
+        self.xoff = xoff
+        self.yoff = yoff
         super().__init__(parent=None)
         self.windows = parent
         self.closeOnClick = closeOnClick
@@ -218,8 +220,8 @@ class QFramelessDialog(QFramelessWindow):
         h = self.height()
         try:
             self.move(
-                self.windows.x()+(self.windows.width()-w)//2,
-                self.windows.y()+(self.windows.height()-h)//2
+                self.xoff+self.windows.x()+(self.windows.width()-w)//2,
+                self.yoff+self.windows.y()+(self.windows.height()-h)//2
             )
         except AttributeError:
             pass
