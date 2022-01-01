@@ -239,11 +239,11 @@ try:
         global isFocusAssist, numOfNotifs
         while True:
             isFocusAssist = isFocusAssistEnabled()
-            time.sleep(0.4)
+            time.sleep(0.25)
             if not isFocusAssist:
                 numOfNotifs = getNotificationNumber()
                 print(numOfNotifs)
-            time.sleep(0.4)
+            time.sleep(0.25)
 
 
     def screenCheckThread():
@@ -605,6 +605,7 @@ try:
             self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
             self.isLowCpuMode = getSettings("EnableLowCpuMode")
             self.primary_screen = QGuiApplication.primaryScreen()
+            self.oldBgColor = 0
 
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
@@ -677,8 +678,11 @@ try:
         def backgroundLoop(self):
             while True:
                 if self.taskbarBackgroundColor and not self.isLowCpuMode:
-                    color = QColor(self.primary_screen.grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0))
-                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
+                    intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0)
+                    if intColor != self.oldBgColor:
+                        self.oldBgColor = intColor
+                        color = QColor(intColor)
+                        self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
                 time.sleep(0.5)
 
         def theresFullScreenWin(self, clockOnFirstMon, newMethod):
@@ -743,11 +747,11 @@ try:
                             self.callInMainSignal.emit(self.label.enableFocusAssistant)
                         elif numOfNotifs > 0:
                             if oldNotifNumber != numOfNotifs:
-                                oldNotifNumber = numOfNotifs
                                 print(oldNotifNumber, numOfNotifs)
                                 self.callInMainSignal.emit(self.label.enableNotifDot)
                         else:
                             self.callInMainSignal.emit(self.label.disableClockIndicators)
+                        oldNotifNumber = numOfNotifs
                         if self.autoHide and not(DisableHideWithTaskbar):
                             mousePos = getMousePos()
                             if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
