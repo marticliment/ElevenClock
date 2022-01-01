@@ -976,12 +976,12 @@ try:
             if(ev.button() == Qt.RightButton):
                 mousePos = getMousePos()
                 if(i.contextMenu().height() != 480):
-                    mousePos.setY(self.window().y()-i.contextMenu().height())
+                    mousePos.setY(self.window().y()-(i.contextMenu().height()+5))
                 else:
                     if getSettings("HideTaskManagerButton"):
-                        mousePos.setY(self.window().y()-int(220*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
+                        mousePos.setY(self.window().y()-int(260*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
                     else:
-                        mousePos.setY(self.window().y()-int(330*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
+                        mousePos.setY(self.window().y()-int(370*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
                 i.execMenu(mousePos)
             else:
                 self.clicked.emit()

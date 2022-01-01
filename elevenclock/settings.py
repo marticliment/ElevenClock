@@ -1369,13 +1369,13 @@ class QIconLabel(QWidget):
         self.compressibleWidget.setStyleSheet("#compressibleWidget{background-color: transparent;}")
 
         self.showHideButton = QPushButton("", self)
-        self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
+        self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
         self.showHideButton.setStyleSheet("border: none; background-color:none;")
         self.showHideButton.clicked.connect(self.toggleChilds)
         l = QVBoxLayout()
         l.setSpacing(0)
         l.setContentsMargins(0, 0, 0, 0)
-        self.childsVisible = True
+        self.childsVisible = False
         self.compressibleWidget.setLayout(l)
 
         self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;border-bottom: 1px;}}")
@@ -1395,10 +1395,15 @@ class QIconLabel(QWidget):
         self.hideAnim.finished.connect(self.invertNotAnimated)
         self.NotAnimated = True
 
+     
+
         self.button = QPushButton("", self)
         self.button.setObjectName("subtitleLableHover")
         self.button.clicked.connect(self.toggleChilds)
         self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
+
+        self.setChildFixedHeight(0, 0)
+        self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;")
 
         
     def setChildFixedHeight(self, h: int, o:float = 1.0) -> None:
