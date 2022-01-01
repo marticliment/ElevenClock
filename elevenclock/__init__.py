@@ -240,7 +240,9 @@ try:
         while True:
             isFocusAssist = isFocusAssistEnabled()
             time.sleep(0.4)
-            numOfNotifs = getNotificationNumber()
+            if not isFocusAssist:
+                numOfNotifs = getNotificationNumber()
+                print(numOfNotifs)
             time.sleep(0.4)
 
 
@@ -605,8 +607,8 @@ try:
 
             self.user32 = windll.user32
             self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-            self.loop = KillableThread(target=self.fivesecsloop, daemon=True, name=f"Clock[{index}]: Main loop")
-            self.loop2 = KillableThread(target=self.assistantLoopThread, daemon=True, name=f"Clock[{index}]: Auxiliar loop")
+            self.loop = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
+            self.loop2 = KillableThread(target=self.backgroundLoop, daemon=True, name=f"Clock[{index}]: Background color loop")
             self.loop.start()
             self.loop2.start()
             
@@ -671,10 +673,8 @@ try:
         def getPx(self, original) -> int:
             return round(original*(self.screen().logicalDotsPerInch()/96))
 
-        def assistantLoopThread(self):
-            global isRDPRunning
+        def backgroundLoop(self):
             while True:
-                self.isRDPRunning = isRDPRunning
                 if self.taskbarBackgroundColor:
                     color = QColor(self.primary_screen.grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0))
                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
@@ -720,7 +720,8 @@ try:
                 report(e)
                 return False
 
-        def fivesecsloop(self):
+        def mainClockLoop(self):
+            global isRDPRunning, numOfNotifs
             EnableHideOnFullScreen = not(getSettings("DisableHideOnFullScreen"))
             DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
             EnableHideOnRDP = getSettings("EnableHideOnRDP")
@@ -733,14 +734,17 @@ try:
             else:
                 INTLOOPTIME = 2
             while True:
+                self.isRDPRunning = isRDPRunning
                 isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod)
                 for i in range(INTLOOPTIME):
                     if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
                         if isFocusAssist:
                             self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        elif oldNotifNumber != numOfNotifs:
-                            self.callInMainSignal.emit(self.label.enableNotifDot)
-                            oldNotifNumber = numOfNotifs
+                        elif numOfNotifs > 0:
+                            if oldNotifNumber != numOfNotifs:
+                                oldNotifNumber = numOfNotifs
+                                print(oldNotifNumber, numOfNotifs)
+                                self.callInMainSignal.emit(self.label.enableNotifDot)
                         else:
                             self.callInMainSignal.emit(self.label.disableClockIndicators)
                         if self.autoHide and not(DisableHideWithTaskbar):
@@ -757,6 +761,7 @@ try:
                     else:
                         self.hideSignal.emit()
                     time.sleep(0.2)
+                time.sleep(0.2)
     
         def showCalendar(self):
             self.keyboard.press(Key.cmd)
