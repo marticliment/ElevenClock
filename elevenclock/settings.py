@@ -307,18 +307,24 @@ class SettingsWindow(QFramelessWindow):
             msg.setText(f"""
             <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
             <style> a {{color: rgb({colors[3]})}}</style>
-    - <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a><br>
-    - <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a><br>
-    - <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a><br>
-    - <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a><br>
-    - <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a><br>
-    - <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a><br>
-    - <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a><br>
-    - <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a><br>
-    """)
+    <ul>
+    <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a><br></li>
+    <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a><br></li>
+    <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a><br></li>
+    <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a><br></li>
+    <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a><br></li>
+    <li> <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a><br></li>
+    <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a><br></li>
+    <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a><br></li>
+    </ul>    """)
             msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
             msg.addButton("More Info", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#third-party-libraries"))
-            msg.addButton("About Qt", QDialogButtonBox.ButtonRole.ResetRole, lambda: QMessageBox.aboutQt(self, "ElevenClock - About Qt"))
+            
+            def closeAndQt():
+                msg.close()
+                QMessageBox.aboutQt(self, "ElevenClock - About Qt")
+
+            msg.addButton("About Qt", QDialogButtonBox.ButtonRole.ResetRole, lambda: closeAndQt())
 
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
             msg.setWindowTitle("ElevenClock has updated!")
