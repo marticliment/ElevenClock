@@ -19,7 +19,7 @@ from tools import *
 from tools import _
 import welcome
 
-from external.FramelessWindow import QFramelessWindow
+from external.FramelessWindow import QFramelessWindow, QFramelessDialog
 
 class SettingsWindow(QFramelessWindow):
     def __init__(self):
@@ -295,6 +295,34 @@ class SettingsWindow(QFramelessWindow):
         self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock#translating-elevenclock"))
         self.languageSettingsTitle.addWidget(self.openTranslateButton)
 
+        def thirdPartyLicenses():
+            msg = QFramelessDialog(parent=self, closeOnClick=False)
+            msg.setAutoFillBackground(True)
+            msg.setStyleSheet(self.styleSheet())
+            msg.setAttribute(Qt.WA_StyledBackground)
+            msg.setWindowFlag(Qt.WindowStaysOnTopHint)
+            msg.setObjectName("QMessageBox")
+            msg.setTitle(_("Third Party Open-Source Software in Elevenclock {0} (And their licenses)").format(versionName))
+            colors = getColors()
+            msg.setText(f"""
+            <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
+            <style> a {{color: rgb({colors[3]})}}</style>
+    - <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a><br>
+    - <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a><br>
+    - <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a><br>
+    - <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a><br>
+    - <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a><br>
+    - <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a><br>
+    - <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a><br>
+    - <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a><br>
+    """)
+            msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
+            msg.addButton("More Info", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#third-party-libraries"))
+            msg.addButton("About Qt", QDialogButtonBox.ButtonRole.ResetRole, lambda: QMessageBox.aboutQt(self, "ElevenClock - About Qt"))
+
+            msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
+            msg.setWindowTitle("ElevenClock has updated!")
+            msg.show()
 
         self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
@@ -302,6 +330,10 @@ class SettingsWindow(QFramelessWindow):
         self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
         self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.aboutTitle.addWidget(self.WebPageButton)
+        self.ThirdParty = QSettingsButton(_("Third party licenses"), _("View"))
+        self.ThirdParty.clicked.connect(lambda: thirdPartyLicenses())
+        self.ThirdParty.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.aboutTitle.addWidget(self.ThirdParty)
         self.IssueButton = QSettingsButton(_("Report an issue/request a feature"), _("Report"))
         self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
         self.IssueButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
@@ -310,14 +342,6 @@ class SettingsWindow(QFramelessWindow):
         self.CofeeButton.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
         self.CofeeButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.aboutTitle.addWidget(self.CofeeButton)
-        self.PichonButton = QSettingsButton(_("Icons by Icons8"), _("Webpage"))
-        self.PichonButton.clicked.connect(lambda: os.startfile("https://icons8.com/"))
-        self.PichonButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        self.aboutTitle.addWidget(self.PichonButton)
-        self.QtButton = QSettingsButton(_("About Qt6 (PySide6)").replace("Qt6", "Qt5").replace("PySide6", "PySide2"), _("About"))
-        self.QtButton.clicked.connect(lambda: QMessageBox.aboutQt(self, "ElevenClock - About Qt"))
-        self.QtButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        self.aboutTitle.addWidget(self.QtButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: self.hide())
         self.aboutTitle.addWidget(self.closeButton)
@@ -435,8 +459,7 @@ class SettingsWindow(QFramelessWindow):
             self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
             self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
             self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
-            self.PichonButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.QtButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.ThirdParty.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
@@ -842,8 +865,7 @@ class SettingsWindow(QFramelessWindow):
             self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
             self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
             self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
-            self.PichonButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.QtButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.ThirdParty.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))

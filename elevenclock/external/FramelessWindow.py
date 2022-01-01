@@ -137,7 +137,8 @@ class QFramelessWindow(QMainWindow):
 class QFramelessDialog(QFramelessWindow):
     clicked = Signal(QDialogButtonBox.ButtonRole)
     def __init__(self, parent=None, closeOnClick=True):
-        super().__init__(parent=parent)
+        super().__init__(parent=None)
+        self.windows = parent
         self.closeOnClick = closeOnClick
         self.setAutoFillBackground(True)
         self.setAttribute(Qt.WA_StyledBackground)
@@ -147,6 +148,7 @@ class QFramelessDialog(QFramelessWindow):
         self.title.setStyleSheet("font-size: 16pt;padding: 30px; padding-bottom: 5px;")
         l.addWidget(self.title)
         self.body = QLabel("This is the body. Here comes the warning")
+        self.body.setOpenExternalLinks(True)
         self.body.setStyleSheet("font-size: 10pt;font-weight: light;font-family: \"Segoe UI Variable Display\";padding: 30px; padding-top: 5px;")
         l.addWidget(self.body)
         self.buttonWidget = QDialogButtonBox(self)
@@ -216,8 +218,8 @@ class QFramelessDialog(QFramelessWindow):
         h = self.height()
         try:
             self.move(
-                self.parent().window().x()+(self.parent().window().width()-w)//2,
-                self.parent().window().y()+(self.parent().window().height()-h)//2
+                self.windows.x()+(self.windows.width()-w)//2,
+                self.windows.y()+(self.windows.height()-h)//2
             )
         except AttributeError:
             pass

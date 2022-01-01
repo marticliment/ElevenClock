@@ -1085,7 +1085,6 @@ try:
         msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, sw.styleSheet())
         msg.setWindowTitle("ElevenClock has updated!")
         msg.show()
-        #QMessageBox.information(sw, "ElevenClock updated!", f"ElevenClock has updated to version {versionName} successfully. \n\nThis update brings:\n - Faster launch times\n - A background that dinamically adjusts to the taskbar color (useful to replace first monitor clock)\n - Better log window\n - Updated languages and added Czech\n - Fixed resizing on the settings window\n - Added a little delay to the updater to let laptops connect to the WI-FI network\n - Lots of other bugfixes and other improvements\n\nAnd, of course, happy new year for everybody :)")
 
     showSettings = False
     if "--settings" in sys.argv or showSettings:
