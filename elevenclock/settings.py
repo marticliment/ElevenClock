@@ -145,10 +145,14 @@ class SettingsWindow(QFramelessWindow):
         self.onlyPrimaryScreen.stateChanged.connect(lambda i: setSettings("HideClockOnSecondaryMonitors", bool(i)))
         self.clockSettingsTitle.addWidget(self.onlyPrimaryScreen)
         self.hideClockWhenClicked = QSettingsCheckBox(_("Hide the clock during 10 seconds when clicked"))
-        self.hideClockWhenClicked.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.hideClockWhenClicked.setChecked(getSettings("HideClockWhenClicked"))
         self.hideClockWhenClicked.stateChanged.connect(lambda i: setSettings("HideClockWhenClicked", bool(i)))
         self.clockSettingsTitle.addWidget(self.hideClockWhenClicked)
+        self.enableLowCpuMode = QSettingsCheckBoxWithWarning(_("Enable low-cpu mode"), _("You might lose functionalities, like the notification counter or the dynamic background"))
+        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
+        self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
+        self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
+        self.clockSettingsTitle.addWidget(self.enableLowCpuMode)
 
         self.clockPosTitle = QIconLabel(_("Clock position and size:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
         layout.addWidget(self.clockPosTitle)
@@ -163,6 +167,7 @@ class SettingsWindow(QFramelessWindow):
         self.clockPosTitle.addWidget(self.clockAtBottom)
         self.clockAtTop = QSettingsCheckBox(_("Force the clock to be at the top of the screen"))
         self.clockAtTop.setChecked(getSettings("ForceOnTop"))
+        self.clockAtTop.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
         self.clockPosTitle.addWidget(self.clockAtTop)
 
@@ -207,6 +212,10 @@ class SettingsWindow(QFramelessWindow):
         self.fontColor.stateChanged.connect(lambda i: setSettings("UseCustomFontColor", bool(i)))
         self.fontColor.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontColor", v))
         self.clockAppearanceTitle.addWidget(self.fontColor)
+        self.disableSystemTrayColor = QSettingsCheckBox(_("Disable clock taskbar background color (make clock transparent)"))
+        self.disableSystemTrayColor.setChecked(getSettings("DisableTaskbarBackgroundColor"))
+        self.disableSystemTrayColor.stateChanged.connect(lambda i: setSettings("DisableTaskbarBackgroundColor", bool(i)))
+        self.clockAppearanceTitle.addWidget(self.disableSystemTrayColor)
         self.backgroundcolor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
         self.backgroundcolor.setChecked(getSettings("UseCustomBgColor"))
         self.backgroundcolor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
@@ -251,10 +260,6 @@ class SettingsWindow(QFramelessWindow):
         
         self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
-        self.disableSystemTrayColor = QSettingsCheckBox(_("Disable clock taskbar background color (make clock transparent)"))
-        self.disableSystemTrayColor.setChecked(getSettings("DisableTaskbarBackgroundColor"))
-        self.disableSystemTrayColor.stateChanged.connect(lambda i: setSettings("DisableTaskbarBackgroundColor", bool(i)))
-        self.experimentalTitle.addWidget(self.disableSystemTrayColor)
         self.wizardButton = QSettingsButton(_("Open the welcome wizard")+_(" (ALPHA STAGE, MAY NOT WORK)"), _("Open"))
         
         def ww():
@@ -403,6 +408,20 @@ class SettingsWindow(QFramelessWindow):
         else:
             self.onlyPrimaryScreen.setToolTip("")
             self.onlyPrimaryScreen.setEnabled(True)
+
+        if self.enableLowCpuMode.isChecked():
+            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
+            self.disableSystemTrayColor.setChecked(True)
+            self.disableSystemTrayColor.setEnabled(False)
+            self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
+            self.legacyRDPHide.setChecked(False)
+            self.legacyRDPHide.setEnabled(False)
+        else:
+            self.disableSystemTrayColor.setToolTip("")
+            self.disableSystemTrayColor.setEnabled(True)
+            self.legacyRDPHide.setToolTip("")
+            self.legacyRDPHide.setEnabled(True)
+
 
     def applyStyleSheet(self):
         colors = getColors()

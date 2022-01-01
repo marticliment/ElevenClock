@@ -406,19 +406,21 @@ try:
         callInMainSignal = Signal(object)
         styler = Signal(str)
 
+        preferedwidth = 200
+        preferedHeight = 48
+        focusassitant = True
+        lastTheme = 0
+        clockShouldBeHidden = False
+        shouldBeVisible = True
+        isRDPRunning = True
+
         def __init__(self, dpix, dpiy, screen, index):
             self.index = index
             super().__init__()
+
             print(f"🔵 Initializing clock {index}...")
-            self.lastTheme = 0
             self.callInMainSignal.connect(lambda f: f())
             self.styler.connect(self.setStyleSheet)
-            self.clockShouldBeHidden = False
-
-            self.preferedwidth = 200
-            self.preferedHeight = 48
-            
-            self.focusassitant = True
             
             self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
             
@@ -462,7 +464,6 @@ try:
             self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
             print("🔵 Monitor geometry:", self.screenGeometry)
             
-            self.shouldBeVisible = True
             self.refresh.connect(self.refreshandShow)
             self.hideSignal.connect(self.hide)
             self.keyboard = Controller()
@@ -594,7 +595,6 @@ try:
             self.raise_()
             self.setFocus()
 
-            self.isRDPRunning = True
 
             self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
             print("🔵 Full screen rect: ", self.full_screen_rect)
@@ -603,6 +603,7 @@ try:
             self.forceDarkTheme = getSettings("ForceDarkTheme")
             self.forceLightTheme = getSettings("ForceLightTheme")
             self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
+            self.isLowCpuMode = getSettings("EnableLowCpuMode")
             self.primary_screen = QGuiApplication.primaryScreen()
 
             self.user32 = windll.user32
@@ -675,7 +676,7 @@ try:
 
         def backgroundLoop(self):
             while True:
-                if self.taskbarBackgroundColor:
+                if self.taskbarBackgroundColor and not self.isLowCpuMode:
                     color = QColor(self.primary_screen.grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0))
                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
                 time.sleep(0.5)
@@ -729,7 +730,7 @@ try:
             newMethod = getSettings("NewFullScreenMethod")
             oldNotifNumber = 0
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
-            if clockOnFirstMon:
+            if clockOnFirstMon or self.isLowCpuMode:
                 INTLOOPTIME = 15
             else:
                 INTLOOPTIME = 2
@@ -1038,8 +1039,8 @@ try:
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
-    KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
-    KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
+    if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
+    if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
 
     
     rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
