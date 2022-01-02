@@ -1107,7 +1107,7 @@ try:
         msg.setWindowTitle("ElevenClock has updated!")
         msg.show()
 
-    showSettings = False
+    showSettings = True
     if "--settings" in sys.argv or showSettings:
         sw.show()
 

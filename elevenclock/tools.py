@@ -266,6 +266,8 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+            self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
+            self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
@@ -336,7 +338,12 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            GlobalBlur(self.contextMenu().winId(), Acrylic=True, Dark=False, hexColor="#ffffff", QWidget=self.contextMenu())
+            self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
+            self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
+            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
+            QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
+            QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
             self.contextMenu().setStyleSheet(f"""
                 QWidget{{
                     background-color: transparent;
