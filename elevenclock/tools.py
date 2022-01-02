@@ -9,6 +9,8 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtWinExtras import QtWin
 
+from pymica import ApplyMica
+
 import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
@@ -142,11 +144,14 @@ class KillableThread(threading.Thread):
     def kill(self):
         self.shouldBeRuning = False
 
+def isDark():
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+
+
 class Menu(QMenu):
     def __init__(self, title: str):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
-
         
 from BlurWindow.blurWindow import GlobalBlur
 

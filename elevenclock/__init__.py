@@ -39,6 +39,9 @@ try:
     from settings import *
     from tools import *
 
+    from mica import mica
+
+
     from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
 
     blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe"]
@@ -244,7 +247,6 @@ try:
             time.sleep(0.25)
             if not isFocusAssist:
                 numOfNotifs = getNotificationNumber()
-                print(numOfNotifs)
             time.sleep(0.25)
 
 
