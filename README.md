@@ -75,7 +75,11 @@ The whole point of ElevenClock is to have a customizable clock on your Windows 1
 - Supports font and size customization
 - Supports custom font color
 - Supports custom background color
-- SUPPORTS FIRST MONITOR CLOCK REPLACEMENT
+- Supports replacing the main clock
+- Supports a dynamic background color
+- Supports the notification assistant
+- Supports the unread notifications counter
+- Lots of extra features and tools!
 
 
 ## Translating ElevenClock to other languages
