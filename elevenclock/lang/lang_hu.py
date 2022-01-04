@@ -11,33 +11,33 @@
 # Meke special attention to elements like ":", etc.
 
 lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Napló újratöltése",
+    "Do not show the clock on secondary monitors": "Ne jelentítse meg az órát a másodlagos monitoron",
+    "Disable clock taskbar background color (make clock transparent)": "Az óra háttérszínének letiltása a tálcán",
+    "Open the welcome wizard": "Az Üdvözlővarázsló megnyitása",
+    " (ALPHA STAGE, MAY NOT WORK)": " (ALFAÁLLAPOTÚ, LEHET, HOGY NEM MŰKÖDIK)",
+    "Welcome to ElevenClock": "Üdvözli az ElevenClock",
+    "Skip": "Kihagyás",
+    "Start": "Indítás",
+    "Next": "Tovább",
+    "Finish": "Befejezés",
 }
 
 lang_2_9 = lang_2_9_2 | {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Feladatkezelő",
+    "Change date and time": "A dátum és az idő beállítása",
+    "Notification settings": "Értesítési beállítások",
+    "Updates, icon tray, language": "Frissítések, tálca ikonja, nyelv",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Kiterjesztett beállítások elrejtése az óra helyi menüjében",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Teljes képernyős működés, óra helye, első monitor órája, egyéb beállítások",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Az "Asztal mutatása" gomb hozzáadása az összes óra bal sarkában',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Egyedi háttérszínre lehet szükséges ennek a funkciónak a használatához.&nbsp;További információkat <a href="{0}" style="color:DodgerBlue">ITT</a> talál.',
+    "Clock's font, font size, font color and background, text alignment": "Óra betűtípusa, betűk mérete, betűk színe és háttere, szövegigazítás",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Dátumformátum, időformátum, másodpercek, hét száma, területi beállítások",
+    "Testing features and error-fixing tools": "Tesztelési funkciók és hibajavításra használt eszközök",
+    "Language pack author(s), help translating ElevenClock": "Nyelvi csomagok készítői, segítségnyújtás az ElevenClock fordításában",
+    "Info, report a bug, submit a feature request, donate, about": "Információk, hibajelentés, új funkció kérelmezése, anyagi támogatás, névjegy",
+    "Log, debugging information": "Eseménynapló, hibakeresési információ",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -128,7 +128,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"A nyelvi csomagról:",
-    "Translated to English by martinet101"      :"Magyarra fordította: morbydance", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Magyarra fordította: morbydance, viktak (2.9 - 2.9.2)", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Az ElevenClock fordítása a nyelvedre",
     "Get started"                               :"Kezdés",
     
