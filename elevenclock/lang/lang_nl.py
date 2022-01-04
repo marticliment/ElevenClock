@@ -6,7 +6,37 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_2_9_2 = {
+lang_3 = {
+    "Hide the clock during 10 seconds when clicked": "",
+    "Enable low-cpu mode": "",
+    "You might lose functionalities, like the notification counter or the dynamic background": "",
+    "Clock position and size:": "",
+    "Clock size preferences, position offset, clock at the left, etc.": "",
+    "Reset monitor blacklisting status": "",
+    "Reset": "",
+    "Third party licenses": "",
+    "View": "",
+    "ElevenClock": "",
+    "Monitor tools": "",
+    "Blacklist this monitor": "",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "",
+    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "",
+    "Ok": "",
+    "More Info": "",
+    "About Qt": "",
+    "Success": "",
+    "The monitors were unblacklisted successfully.": "",
+    "Now you should see the clock everywhere": "",
+    "Ok": "",
+    "Blacklist Monitor": "",
+    "Blacklisting a monitor will hide the clock on this monitor permanently.": "",
+    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "",
+    "Are you sure do you want to blacklist the monitor \"{0}\"?": "",
+    "Yes": "",
+    "No": "",
+}
+
+lang_2_9_2 = lang_3 | {
     "Reload log": "",
     "Do not show the clock on secondary monitors": "",
     "Disable clock taskbar background color (make clock transparent)": "",

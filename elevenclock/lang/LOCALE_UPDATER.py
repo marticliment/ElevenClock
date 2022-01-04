@@ -3,22 +3,9 @@ import glob, os
 
 
 
-OLDSTR = b"lang_2_9 = {"
+OLDSTR = b""""Are you sure do you want to blacklist the monitor "{0}"?": "","""
 
-NEWSTR = b"""lang_2_9_2 = {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
-}
-
-lang_2_9 = lang_2_9_2 | {"""
+NEWSTR = b""""Are you sure do you want to blacklist the monitor \\"{0}\\"?": "","""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()

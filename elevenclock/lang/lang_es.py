@@ -6,8 +6,38 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_2_9_2 = {
-    "Reload log": "Recarrega el registre",
+lang_3 = {
+    "Hide the clock during 10 seconds when clicked": "Oculat el reloj durante 10 segundos cuando se clique",
+    "Enable low-cpu mode": "Activar el modo de bajo consumo de CPU",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Puede perder funcionalidades, como el contador de notificaciones o el fondo dinámico",
+    "Clock position and size:": "Posición y tamaño del reloj:",
+    "Clock size preferences, position offset, clock at the left, etc.": "Preferencias de tamaño del reloj, desplazamiento, reloj en la izquierda, etc.",
+    "Reset monitor blacklisting status": "Reinicia la lista negra de monitores",
+    "Reset": "Reinicia",
+    "Third party licenses": "Licencias de terceros",
+    "View": "Muestra",
+    "ElevenClock": "Elevenclock",
+    "Monitor tools": "Herramientas de monitor",
+    "Blacklist this monitor": "Añade este monitor a la lista negra",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Software de terceros de código abierto en ElevenClock {0} (Y sus licencias)",
+    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock es una aplicación de código abierto hecha con la ayuda de otras librerías hechas por la comunidad",
+    "Ok": "De acuerdo",
+    "More Info": "Más información",
+    "About Qt": "Sobre Qt",
+    "Success": "Felicidades!",
+    "The monitors were unblacklisted successfully.": "Los monitores se quitaron de la lista negra correctamente",
+    "Now you should see the clock everywhere": "Ahora debería poder ver el reloj en todas partes",
+    "Ok": "De acuerdo",
+    "Blacklist Monitor": "Añade el monitor a la lista negra",
+    "Blacklisting a monitor will hide the clock on this monitor permanently.": "Si añade un monitor a la lista negra, el reloj no se mostrará en él.",
+    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Esta acción puede ser revertida des de la Configuración, debajo de <b>Posición y tamaño del reloj</b>",
+    "Are you sure do you want to blacklist the monitor \"{0}\"?": "Está seguro de que quiere añadir el monitor \"{0}\" a la lista negra?",
+    "Yes": "Sí",
+    "No": "No",
+}
+
+lang_2_9_2 = lang_3 | {
+    "Reload log": "Recarga el registre",
     "Do not show the clock on secondary monitors": "No muestres el reloj en pantallas secundarias",
     "Disable clock taskbar background color (make clock transparent)": "Desactiva el color de fondo automático del reloj (haz el reloj transparente)",
     "Open the welcome wizard": "Abre el asistente de bienvenida",

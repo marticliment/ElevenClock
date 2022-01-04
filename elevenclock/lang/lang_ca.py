@@ -6,7 +6,37 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_2_9_2 = {
+lang_3 = {
+    "Hide the clock during 10 seconds when clicked": "Amaga el rellotge durant 10 segons quant es cliqui",
+    "Enable low-cpu mode": "Activa el mode de baix consum de CPU",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Podeu perdre funcionalitats, com el comptador de notificacions o el fons dinàmic",
+    "Clock position and size:": "Posició i mida del rellotge:",
+    "Clock size preferences, position offset, clock at the left, etc.": "Preferències de mida del rellotge, desplaçament, rellotge a l'esquerra, etc.",
+    "Reset monitor blacklisting status": "Reinicialitza",
+    "Reset": "Reinicialitza",
+    "Third party licenses": "Llicències de tercers",
+    "View": "Mostra",
+    "ElevenClock": "ElevenClock",
+    "Monitor tools": "Eines de la pantalla",
+    "Blacklist this monitor": "Afegeix la pantalla a la llista negra",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Software de tercers de codi obert a l'ElevenClock {0} (I les seves llicències)",
+    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "L'ElevenClock és una aplicació de codi obert feta amb l'ajuda d'altres llibreries fetes per la comunitat",
+    "Ok": "D'acord",
+    "More Info": "Més informació",
+    "About Qt": "Sobre Qt",
+    "Success": "Enhorabona",
+    "The monitors were unblacklisted successfully.": "Les pantalles han sigut tretes de la llista negra satisfactòriament",
+    "Now you should see the clock everywhere": "Ara hauríeu de veure el rellotge a tot arreu",
+    "Ok": "D'acord",
+    "Blacklist Monitor": "Afegir a la llista negra",
+    "Blacklisting a monitor will hide the clock on this monitor permanently.": "Si afegiu una pantalla a la llista negra, el rellotge no es mostrarà allà",
+    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Aquesta acció es pot revertir des de la Configuració, sota <b>Posició i mida del rellotge</b>",
+    "Are you sure do you want to blacklist the monitor \"{0}\"?": "Esteu segurs de que voleu afegir la pantalla {0} a la llista negra?",
+    "Yes": "Sí",
+    "No": "No",
+}
+
+lang_2_9_2 = lang_3 | {
     "Reload log": "Recarrega el registre",
     "Do not show the clock on secondary monitors": "No mostris el rellotge a les pantalles secundàries",
     "Disable clock taskbar background color (make clock transparent)": "Desactiva el color de fons automàtic del rellotge (fes el rellotge transparent)",
