@@ -15,7 +15,7 @@ from languages import *
 from external.FramelessWindow import QFramelessDialog
 
 version = 3
-versionName = "3.0.0-beta"
+versionName = "3.0.0"
 
 def _(s): #Translate function
     global lang
@@ -187,7 +187,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         menu.addAction(self.quitAction)
         menu.addSeparator()
         
-        self.toolsMenu = menu.addMenu(_("Tools"))
+        self.toolsMenu = menu.addMenu(_("Monitor tools"))
         self.toolsMenu.setParent(menu)
         self.toolsMenu.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.toolsMenu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)
