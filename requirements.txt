@@ -4,4 +4,4 @@ PySide2
 psutil
 PyInstaller==4.1
 BlurWindow
-pymica
+win32mica
