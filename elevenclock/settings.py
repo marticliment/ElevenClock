@@ -485,7 +485,10 @@ class SettingsWindow(QFramelessWindow):
                             
         self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
-            ApplyMica(self.winId(), True)
+            try:
+                ApplyMica(self.winId(), True)
+            except OSError:
+                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#33333388")
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -896,7 +899,10 @@ class SettingsWindow(QFramelessWindow):
                                 }}
                                """)
         else:
-            ApplyMica(self.winId(), False)
+            try:
+                ApplyMica(self.winId(), False)
+            except OSError:
+                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#ffffff88")
             self.iconMode = "black"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
