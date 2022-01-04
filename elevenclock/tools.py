@@ -9,7 +9,6 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtWinExtras import QtWin
 
-from pymica import ApplyMica
 
 import globals
 from languages import *

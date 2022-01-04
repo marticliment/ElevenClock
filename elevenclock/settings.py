@@ -13,7 +13,7 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
 import globals
-from pymica import ApplyMica
+from win32mica import ApplyMica
 
 from languages import * 
 from tools import *
