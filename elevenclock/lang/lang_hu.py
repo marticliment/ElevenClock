@@ -23,7 +23,7 @@ lang_3 = {
     "ElevenClock": "ElevenClock",
     "Monitor tools": "Monitoreszközök",
     "Blacklist this monitor": "Jelenlegi monitor tiltása",
-    "Third Party Open-Source Software in ElevenClock {0} (And their licenses)": "Harmadik fél által készített nyílt forráskódú szoftverek (ElevenClock {0}) (és licenceik)",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Harmadik fél által készített nyílt forráskódú szoftverek (ElevenClock {0}) (és licenceik)",
     "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "Az ElevenClock nyílt forráskódú alkalmazás, amely más, a közösség által készített könyvtárak segítségével készült.",
     "Ok": "Ok",
     "More Info": "További információk",
