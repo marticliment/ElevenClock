@@ -1092,6 +1092,7 @@ try:
         msg.setTitle("ElevenClock Updater")
         msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
  <br><br>This update brings:<br>
+ - <b>The license has changed from Apache2 to MIT</b><br>
  - Better dialogs and settings UI (now with mica)<br>
  - ElevenClock now shows the Focus Assistant icon when needed<br>
  - ElevenClock can now hide when clicked (optional feature)<br>

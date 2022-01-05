@@ -19,7 +19,7 @@ lang_3 = {
     "ElevenClock": "",
     "Monitor tools": "",
     "Blacklist this monitor": "",
-    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Third Party Open-Source Software in ElevenClock {0} (And their licenses)",
     "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "",
     "Ok": "",
     "More Info": "",
