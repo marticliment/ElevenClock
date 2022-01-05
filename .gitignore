@@ -5,3 +5,4 @@ elevenclock\lang\__pycache__\*
 *.pyo
 __init__
 ElevenClock.zip
+*.code-workspace
