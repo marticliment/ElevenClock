@@ -13,7 +13,7 @@ from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 
 import globals
-from pymica import ApplyMica
+from win32mica import ApplyMica
 
 from languages import * 
 from tools import *
@@ -332,7 +332,7 @@ class SettingsWindow(QFramelessWindow):
                 <style> a {{color: rgb({colors[3]})}}</style>
                 <ul>
                 <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
-                <li> <b>PyMica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
+                <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a></li>
                 <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
@@ -400,7 +400,7 @@ class SettingsWindow(QFramelessWindow):
         self.settingsWidget.setLayout(shl)
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.titlebar = QTitleBarWidget(self)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
         self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
@@ -485,7 +485,10 @@ class SettingsWindow(QFramelessWindow):
                             
         self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
-            ApplyMica(self.winId(), True)
+            try:
+                ApplyMica(self.winId(), True)
+            except OSError:
+                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#33333388")
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -896,7 +899,10 @@ class SettingsWindow(QFramelessWindow):
                                 }}
                                """)
         else:
-            ApplyMica(self.winId(), False)
+            try:
+                ApplyMica(self.winId(), False)
+            except OSError:
+                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#ffffff88")
             self.iconMode = "black"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -1347,10 +1353,12 @@ class SettingsWindow(QFramelessWindow):
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
             if self.isMaximized():
+                self.titlebar.closeButton.setFixedWidth(self.getPx(48))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
                 self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: 0px;border-top-right-radius: 0px;}}#closeButton{{border-top-right-radius: 0px;}}")
                 self.vlayout.setContentsMargins(0, 0, 0, 0)
             else:
+                self.titlebar.closeButton.setFixedWidth(self.getPx(56))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
                 self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
                 self.vlayout.setContentsMargins(2, 2, 2, 2)
@@ -1823,7 +1831,7 @@ class QTitleBarWidget(QWidget):
         self.closeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
         #self.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
         self.closeButton.setFixedHeight(parent.getPx(32))
-        self.closeButton.setFixedWidth(parent.getPx(50))
+        self.closeButton.setFixedWidth(parent.getPx(46))
         self.closeButton.clicked.connect(parent.close)
         
         self.maximizeButton = QPushButton()

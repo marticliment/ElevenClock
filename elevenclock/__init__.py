@@ -1082,23 +1082,24 @@ try:
     globals.trayIcon = i
     globals.tempDir = tempDir
 
-    if not(getSettings("Updated2.92Already")) and not(getSettings("EnableSilentUpdates")):
-        setSettings("Updated2.92Already", True)
+    if not(getSettings("Updated3Already")) and not(getSettings("EnableSilentUpdates")):
+        setSettings("Updated3Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
         msg.setStyleSheet(sw.styleSheet())
         msg.setAttribute(QtCore.Qt.WA_StyledBackground)
         msg.setObjectName("QMessageBox")
-        msg.setTitle(_("ElevenClock Updater"))
+        msg.setTitle("ElevenClock Updater")
         msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
  <br><br>This update brings:<br>
- - Faster launch times<br>
- - A background that dinamically adjusts to the taskbar color (useful to replace first monitor clock)<br>
- - Better log window<br>
- - Updated languages and added Czech<br>
- - Fixed resizing on the settings window<br>
- - Added a little delay to the updater to let laptops connect to the WI-FI network<br>
- - Lots of other bugfixes and other improvements<br>""")
+ - Better dialogs and settings UI (now with mica)<br>
+ - ElevenClock now shows the Focus Assistant icon when needed<br>
+ - ElevenClock can now hide when clicked (optional feature)<br>
+ - ElevenClock now has an unread notifications counter<br>
+ - Now you can hide the clock on a specific screen<br>
+ &nbsp;&nbsp;&nbsp;You can do that from the clock right-click menu<br>
+ - Added information related to third-party licenses and libraries under About ElevenClock<br>
+ - Lots of code optimisation<br>""")
         msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
         msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
         def settNClose():
@@ -1109,7 +1110,7 @@ try:
         msg.setWindowTitle("ElevenClock has updated!")
         msg.show()
 
-    showSettings = True
+    showSettings = False
     if "--settings" in sys.argv or showSettings:
         sw.show()
 
