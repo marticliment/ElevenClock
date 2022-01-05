@@ -8,33 +8,33 @@
 
 
 lang_3 = {
-    "Hide the clock during 10 seconds when clicked": "",
-    "Enable low-cpu mode": "",
-    "You might lose functionalities, like the notification counter or the dynamic background": "",
-    "Clock position and size:": "",
-    "Clock size preferences, position offset, clock at the left, etc.": "",
-    "Reset monitor blacklisting status": "",
-    "Reset": "",
-    "Third party licenses": "",
-    "View": "",
-    "ElevenClock": "",
-    "Monitor tools": "",
-    "Blacklist this monitor": "",
-    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "",
-    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "",
-    "Ok": "",
-    "More Info": "",
-    "About Qt": "",
-    "Success": "",
-    "The monitors were unblacklisted successfully.": "",
-    "Now you should see the clock everywhere": "",
-    "Ok": "",
-    "Blacklist Monitor": "",
-    "Blacklisting a monitor will hide the clock on this monitor permanently.": "",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "",
-    "Are you sure do you want to blacklist the monitor \"{0}\"?": "",
-    "Yes": "",
-    "No": "",
+    "Hide the clock during 10 seconds when clicked": "Cacher l'horloge pendant 10s lorsqu'elle est cliquée",
+    "Enable low-cpu mode": "Activer le mode basse-consommation cpu",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Vous risquez de perdre des fonctionnalités, comme les badges de notifications ou l'arrière-plan dynamique",
+    "Clock position and size:": "Taille et position de l'horloge",
+    "Clock size preferences, position offset, clock at the left, etc.": "Paramètres de la position, de la taille, de la marge, etc.",
+    "Reset monitor blacklisting status": "Réinitialiser le statut de la liste noire",
+    "Reset": "Réinitialiser",
+    "Third party licenses": "Licences tierces",
+    "View": "Ouvrir",
+    "ElevenClock": "ElevenClock",
+    "Monitor tools": "Gestion des écrans",
+    "Blacklist this monitor": "Ajouter cet écran à la liste noire",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Applications open-source tierces utilisées dans ElevenClock {0} (et leurs licences)",
+    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock est une application open-source créer à l'aide d'autres librairies communautaire",
+    "Ok": "OK",
+    "More Info": "Plus d'informations",
+    "About Qt": "À propos de Qt",
+    "Success": "Succès",
+    "The monitors were unblacklisted successfully.": "L'écran a bien été retiré de la liste noire",
+    "Now you should see the clock everywhere": "Vous devriez maintenant voir l'horloge sur tous les écrans",
+    "Ok": "OK",
+    "Blacklist Monitor": "Ajouter l'écran à la liste noire",
+    "Blacklisting a monitor will hide the clock on this monitor permanently.": "Mettre un écran sur liste noire permet de cacher l'horloge de celui-ci de manière permanente",
+    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Cette action peut être annulée via les paramètres, sous <b>Taille et position de l'horloge</b>",
+    "Are you sure do you want to blacklist the monitor \"{0}\"?": "Êtes-vous sûr de vouloir ajouter cet écran à la liste noire ?",
+    "Yes": "Oui",
+    "No": "Non",
 }
 
 lang_2_9_2 = lang_3 | {
@@ -155,7 +155,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"À propos du pack de langue",
-    "Translated to English by martinet101"      :"Traduit en français par Lilobast and scrocquesel", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Traduit en français par Lilobast et scrocquesel", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Traduire ElevenClock dans votre langue",
     "Get started"                               :"Commencer",
     
@@ -166,7 +166,7 @@ lang2_3 = lang2_4 | {
     "Report an issue/request a feature"         :"Signaler un bug / proposer une fonctionnalité",
     "Report"                                    :"Signaler",
     "Support the dev: Give me a coffee☕"       :"Soutenir le développeur: Offrez-moi un café☕",
-    "Open page"                                 :"Ouvrir la page",
+    "Open page"                                 :"Soutenir",
     "Icons by Icons8"                           :"Icônes réalisées par Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Page web",
     "Close settings"                            :"Fermer les paramètres",
