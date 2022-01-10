@@ -17,6 +17,10 @@ assignees: ''
   
 ### 🟠🟠 If ElevenClock does not show or shows weirdly on primary screens, see #333
 ### 🟠🟠 If ElevenClock is showing over a fullscreen window, enable "Hide on fullscreen window from the settings"
+### 🟠🟠 If the issue is with the context menu, this has been fixed and will come with the next release
+### 🟠🟠 If the issue is with the bottom cropped text of the clock, this has been fixed and will come with the next release
+
+
 </b>
 
 ## Describe the bug
