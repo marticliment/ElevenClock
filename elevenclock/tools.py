@@ -4,10 +4,10 @@ import winreg
 import threading
 import locale
  
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-from PySide2.QtWinExtras import QtWin
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtWinExtras import QtWin
 
 
 from BlurWindow.blurWindow import GlobalBlur
@@ -18,7 +18,7 @@ from languages import *
 from external.FramelessWindow import QFramelessDialog
 
 version = 3
-versionName = "3.0.0"
+versionName = "3.0.1-beta"
 
 def _(s): #Translate function
     global lang

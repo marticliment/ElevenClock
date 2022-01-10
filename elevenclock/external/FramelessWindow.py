@@ -16,10 +16,11 @@ from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, W
     HTTOP, HTBOTTOM, HTLEFT, HTRIGHT, HTCAPTION, WS_POPUP, WS_SYSMENU, WS_MINIMIZEBOX
     
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
-from PySide2.QtWinExtras import QtWin
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtWinExtras import QtWin
+from PyQt5.QtCore import pyqtSignal as Signal
 
 
 
@@ -43,6 +44,8 @@ class QFramelessWindow(QMainWindow):
         
 
 
+        self.setAutoFillBackground(True)
+
         # Window Widgets
         self.resize(800, 600)
         self._layout = QVBoxLayout()
@@ -58,7 +61,6 @@ class QFramelessWindow(QMainWindow):
         self.mainWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         # set background color
-        self.setAutoFillBackground(True)
         p = self.palette()
         p.setColor(self.backgroundRole(), QColor("#272727"))
         self.setPalette(p)
@@ -178,7 +180,8 @@ class QFramelessDialog(QFramelessWindow):
         #self.parent().window().setWindowOpacity(1)
         return super().closeEvent(event)
         
-    def click(self, btnRole: QDialogButtonBox.ButtonRole) -> None:
+    def click(self, btn: QAbstractButton) -> None:
+        btnRole = self.buttonWidget.buttonRole(btn)
         self.clicked.emit(btnRole)
         if self.closeOnClick:
             self.close()

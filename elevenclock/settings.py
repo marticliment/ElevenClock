@@ -4,13 +4,14 @@ import os
 import sys
 import locale
 import time
-from PySide2 import QtGui
-from PySide2 import QtCore
+from PyQt5 import QtGui
+from PyQt5 import QtCore
 
 import psutil
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal as Signal
 
 import globals
 from win32mica import ApplyMica
@@ -32,7 +33,7 @@ class SettingsWindow(QFramelessWindow):
         self.setWindowFlag(Qt.WindowMinimizeButtonHint, False)
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, False)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)"""
-        self.vlayout.setMargin(0)
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
         self.vlayout.setSpacing(0)
         layout = QVBoxLayout()
         self.updateSize = True
@@ -334,7 +335,7 @@ class SettingsWindow(QFramelessWindow):
                 <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a></li>
-                <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a></li>
+                <li> <b>PyQt5 (Qt5)</b>: <a href="https://www.riverbankcomputing.com/commercial/license-faq">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
                 <li> <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a></li>
@@ -491,7 +492,7 @@ class SettingsWindow(QFramelessWindow):
         self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             try:
-                ApplyMica(self.winId(), True)
+                ApplyMica(self.winId().__int__(), True)
             except OSError:
                 GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#33333388")
             self.iconMode = "white"
@@ -1803,7 +1804,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
     
     def valuechangedEvent(self, i: int):
         self.valueChanged.emit(self.combobox.itemText(i))
-        self.combobox.lineEdit().setFont(self.combobox.itemText(i))
+        self.combobox.lineEdit().setFont(QFont(self.combobox.itemText(i)))
     
     def stateChangedEvent(self, v: bool):
         self.combobox.setEnabled(self.checkbox.isChecked())
@@ -1814,7 +1815,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
             self.combobox.setEnabled(True)
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
-            self.combobox.lineEdit().setFont(self.combobox.currentText())
+            self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
         self.stateChanged.emit(v)
         
     def setItems(self, items: list):

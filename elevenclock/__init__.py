@@ -23,9 +23,10 @@ try:
     import pythoncom
     import win32process
     import win32com.client
-    from PySide2.QtGui import *
-    from PySide2.QtCore import *
-    from PySide2.QtWidgets import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtCore import pyqtSignal as Signal
     from pynput.keyboard import Controller, Key
     from pynput.mouse import Controller as MouseController
     from external.FramelessWindow import QFramelessDialog
@@ -509,15 +510,15 @@ try:
                     self.label.setAlignment(Qt.AlignCenter)
 
 
-                self.w = w
-                self.h = h
+                self.w = int(w)
+                self.h = int(h)
                 self.dpix = dpix
                 self.dpiy = dpiy
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
-                    self.move(w, h)
-                    self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
+                    self.move(self.w, self.h)
+                    self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy))
                 else:
                     print("🟡 Using win32 API positioning system")
                     self.user32 = windll.user32
@@ -920,7 +921,7 @@ try:
                 self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
                 topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
-                self.notifDotLabel.move(self.width()-self.contentsMargins().right()+leftRightPadding, topBottomPadding)
+                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding))
                 self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
                 self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
                 self.notifDotLabel.show()
@@ -1025,7 +1026,7 @@ try:
     # Start of main script
     
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
-    app = QApplication()
+    app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     
     mController: MouseController = None
