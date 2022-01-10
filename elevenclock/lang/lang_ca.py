@@ -12,7 +12,7 @@ lang_3 = {
     "You might lose functionalities, like the notification counter or the dynamic background": "Podeu perdre funcionalitats, com el comptador de notificacions o el fons dinàmic",
     "Clock position and size:": "Posició i mida del rellotge:",
     "Clock size preferences, position offset, clock at the left, etc.": "Preferències de mida del rellotge, desplaçament, rellotge a l'esquerra, etc.",
-    "Reset monitor blacklisting status": "Reinicialitza",
+    "Reset monitor blacklisting status": "Reinicialitza la llista negra de pantalles",
     "Reset": "Reinicialitza",
     "Third party licenses": "Llicències de tercers",
     "View": "Mostra",
