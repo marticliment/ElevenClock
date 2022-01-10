@@ -761,7 +761,6 @@ try:
                             self.callInMainSignal.emit(self.label.enableFocusAssistant)
                         elif numOfNotifs > 0:
                             if oldNotifNumber != numOfNotifs:
-                                print(oldNotifNumber, numOfNotifs)
                                 self.callInMainSignal.emit(self.label.enableNotifDot)
                         else:
                             self.callInMainSignal.emit(self.label.disableClockIndicators)
@@ -923,7 +922,7 @@ try:
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
                 self.notifDotLabel.move(self.width()-self.contentsMargins().right()+leftRightPadding, topBottomPadding)
                 self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
-                print(self.notifDotLabel.geometry())
+                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
                 self.notifDotLabel.show()
             
         def disableClockIndicators(self):
@@ -938,7 +937,7 @@ try:
                 
             
         def getPx(self, i: int) -> int:
-            return self.window().getPx(i)
+            return round(i*(self.screen().logicalDotsPerInch()/96))
 
         def enterEvent(self, event: QEvent, r=False) -> None:
             geometry: QRect = self.width()
