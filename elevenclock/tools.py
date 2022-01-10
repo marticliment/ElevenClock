@@ -10,6 +10,9 @@ from PySide2.QtWidgets import *
 from PySide2.QtWinExtras import QtWin
 
 
+from BlurWindow.blurWindow import GlobalBlur
+
+
 import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
@@ -152,7 +155,6 @@ class Menu(QMenu):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
         
-from BlurWindow.blurWindow import GlobalBlur
 
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -272,8 +274,8 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
             self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
-            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
-            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#21212140", Dark=True)
+            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
             QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
             self.contextMenu().setStyleSheet(f"""
@@ -344,8 +346,8 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
             self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
-            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
-            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
+            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
             QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
             self.contextMenu().setStyleSheet(f"""
