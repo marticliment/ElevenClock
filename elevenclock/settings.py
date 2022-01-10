@@ -468,16 +468,21 @@ class SettingsWindow(QFramelessWindow):
 
         if self.enableLowCpuMode.isChecked():
             self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            self.disableSystemTrayColor.setChecked(True)
             self.disableSystemTrayColor.setEnabled(False)
             self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            self.legacyRDPHide.setChecked(False)
             self.legacyRDPHide.setEnabled(False)
         else:
             self.disableSystemTrayColor.setToolTip("")
             self.disableSystemTrayColor.setEnabled(True)
             self.legacyRDPHide.setToolTip("")
             self.legacyRDPHide.setEnabled(True)
+
+        if self.backgroundcolor.isChecked():
+            self.disableSystemTrayColor.setEnabled(False)
+            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+        else:
+            self.disableSystemTrayColor.setEnabled(True)
+            self.disableSystemTrayColor.setToolTip("")
 
 
     def applyStyleSheet(self):

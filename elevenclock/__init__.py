@@ -39,7 +39,6 @@ try:
     from settings import *
     from tools import *
 
-    from mica import mica
 
 
     from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
