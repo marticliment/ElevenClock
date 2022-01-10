@@ -32,6 +32,12 @@ def _(s): #Translate function
 def getPath(s):
     return os.path.join(os.path.join(realpath, "resources"), s).replace("\\", "/")
 
+def getAppIconMode() -> str:
+    return "white" if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0 else "black"
+
+def getTaskbarIconMode() -> str:
+    return "white" if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0 else "black"
+
 def report(exception) -> None: # Exception reporter
     import traceback
     for line in traceback.format_exception(*sys.exc_info()):

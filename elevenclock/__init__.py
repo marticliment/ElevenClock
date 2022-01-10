@@ -888,7 +888,7 @@ try:
             self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
             self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
             self.focusAssitantLabel.resize(self.getPx(30), self.height())
-            self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
+            self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
             self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
             
             accColors = getColors()
@@ -912,7 +912,7 @@ try:
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
                 self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
-                self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
+                self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
                 self.focusAssitantLabel.show()
                 
         def enableNotifDot(self):
