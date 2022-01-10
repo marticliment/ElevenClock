@@ -906,7 +906,7 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True
-                self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
+                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
                 self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
@@ -918,7 +918,7 @@ try:
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
-                self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
+                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
                 topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
                 self.notifDotLabel.move(self.width()-self.contentsMargins().right()+leftRightPadding, topBottomPadding)
