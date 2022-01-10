@@ -1716,11 +1716,35 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
-        self.setStyleSheet("*{border-radius: 5px;background: transparent;}  QColorLuminancePicker {background-color: transparent; border: 5px solid black;margin: none; border: none; padding: none;} ")
-        self.setAttribute(Qt.WA_NoSystemBackground)
+        self.setStyleSheet("*{border-radius: 5px;}  QColorLuminancePicker {background-color: transparent; border: 5px solid black;margin: none; border: none; padding: none;} ")
+        #self.setAttribute(Qt.WA_NoSystemBackground)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        #self.setAttribute(Qt.WA_TranslucentBackground)
+
+        
+        import win32gui
+
+
+        from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, WS_MAXIMIZEBOX, WS_THICKFRAME, \
+            WS_CAPTION, HTTOPLEFT, HTBOTTOMRIGHT, HTTOPRIGHT, HTBOTTOMLEFT, \
+            HTTOP, HTBOTTOM, HTLEFT, HTRIGHT, HTCAPTION, WS_POPUP, WS_SYSMENU, WS_MINIMIZEBOX
+
+        self.hwnd = self.winId().__int__()
+        window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
+        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+
+        if QtWin.isCompositionEnabled():
+            # Aero Shadow
+            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
+        else:
+            QtWin.resetExtendedFrame(self)
+        
+        #self.setAutoFillBackground(True)
+
+        
+        ApplyMica(self.hwnd, isDark())
+
 
 class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
