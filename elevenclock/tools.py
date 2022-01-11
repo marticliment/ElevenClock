@@ -29,6 +29,12 @@ def _(s): #Translate function
         if debugLang: print(s)
         return f"{s}🔴[MissingString]🔴" if debugLang else s
 
+def cprint(*args):
+    """
+    Prints on the console instead of on the log
+    """
+    print(*args, file=globals.old_stdout)
+
 def getPath(s):
     return os.path.join(os.path.join(realpath, "resources"), s).replace("\\", "/")
 
@@ -37,6 +43,13 @@ def getAppIconMode() -> str:
 
 def getTaskbarIconMode() -> str:
     return "white" if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0 else "black"
+
+def isWindowDark() -> str:
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+
+def isTaskbarDark() -> str:
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
+
 
 def report(exception) -> None: # Exception reporter
     import traceback

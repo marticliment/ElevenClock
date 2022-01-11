@@ -21,9 +21,14 @@ from tools import *
 from tools import _
 import welcome
 
+import win32gui
+
+from win32con import GWL_STYLE, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU, WS_POPUP
+
 from external.FramelessWindow import QFramelessWindow, QFramelessDialog
 
-class SettingsWindow(QFramelessWindow):
+#class SettingsWindow(QFramelessWindow):
+class SettingsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.scrollArea = QScrollArea()
@@ -402,10 +407,10 @@ class SettingsWindow(QFramelessWindow):
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.titlebar = QTitleBarWidget(self)
+        #self.titlebar = QTitleBarWidget(self)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-        self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-        self.vlayout.addWidget(self.titlebar)
+        #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+        #self.vlayout.addWidget(self.titlebar)
         self.vlayout.addWidget(self.scrollArea)
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
@@ -416,10 +421,23 @@ class SettingsWindow(QFramelessWindow):
         self.setCentralWidget(w)
         self.setMouseTracking(True)
         self.resize(900, 600)
+        self.setAttribute(Qt.WA_NoSystemBackground)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        
+        self.hwnd = self.winId().__int__()
+        window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
+        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+
+        if QtWin.isCompositionEnabled():
+            # Aero Shadow
+            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
+        else:
+            QtWin.resetExtendedFrame(self)
+
+        self.setAutoFillBackground(True)
         self.installEventFilter(self)
 
     def showEvent(self, event: QShowEvent) -> None:
-        self.debbuggingTitle.toggleChilds()
         return super().showEvent(event)
 
     def updateCheckBoxesStatus(self):
@@ -489,7 +507,7 @@ class SettingsWindow(QFramelessWindow):
     def applyStyleSheet(self):
         colors = getColors()
                             
-        self.titlebar.setFixedHeight(self.getPx(32))
+        #self.titlebar.setFixedHeight(self.getPx(32))
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             try:
                 ApplyMica(self.winId().__int__(), True)
@@ -516,15 +534,15 @@ class SettingsWindow(QFramelessWindow):
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.closeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.closeButton.setFixedWidth(self.getPx(50))
-            self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
-            self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
+            #self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            #self.titlebar.closeButton.setFixedHeight(self.getPx(32))
+            #self.titlebar.closeButton.setFixedWidth(self.getPx(50))
+            #self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
+            #self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            #self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
+            #self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
+            #self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
+            #self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             
             self.setStyleSheet(f"""
                                #backgroundWindow {{
@@ -929,18 +947,18 @@ class SettingsWindow(QFramelessWindow):
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
-            self.titlebar.closeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.closeButton.setFixedWidth(self.getPx(50))
-            self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
-            self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
-            self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
-            self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
+            #self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            #self.titlebar.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
+            #self.titlebar.closeButton.setFixedHeight(self.getPx(32))
+            #self.titlebar.closeButton.setFixedWidth(self.getPx(50))
+            #self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
+            #self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
+            #self.titlebar.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
+            #self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
+            #self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
+            #self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
+            #self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
+            #self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    background-color: rgba({colors[4]}, 1);
@@ -1298,32 +1316,63 @@ class SettingsWindow(QFramelessWindow):
     def showDebugInfo(self):
         global old_stdout, buffer
         win = QMainWindow(self)
-        win.resize(800, 600)
+        win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
         win.setWindowTitle("ElevenClock's log")
         
         w = QWidget()
         w.setLayout(QVBoxLayout())
-        w.layout().setContentsMargins(0, 0, 0, 0)
+        w.setContentsMargins(0, 0, 0, 0)
         
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
+        if isWindowDark():
+            cprint("dark")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #161616;}}")
+        else:
+            cprint("light")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #dddddd;}}")
+
+
 
         textEdit.setPlainText(globals.buffer.getvalue())
         
         reloadButton = QPushButton(_("Reload log"))
+        reloadButton.setFixedWidth(self.getPx(200))
         reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
         hl = QHBoxLayout()
         hl.setSpacing(0)
-        hl.setContentsMargins(3, 3, 3, 0)
+        hl.setContentsMargins(self.getPx(10), self.getPx(10), self.getPx(10), 0)
         hl.addStretch()
         hl.addWidget(reloadButton)
         
         w.layout().setSpacing(0)
+        w.layout().setContentsMargins(self.getPx(5), self.getPx(5), self.getPx(5), self.getPx(5))
         w.layout().addLayout(hl, stretch=0)
         w.layout().addWidget(textEdit, stretch=1)
         
         win.setCentralWidget(w)
+        win.hwnd = win.winId().__int__()
+
+
+        win.setAttribute(Qt.WA_TranslucentBackground)
+        win.setAttribute(Qt.WA_NoSystemBackground)
+        win.setAutoFillBackground(True)
+
+        win.hwnd = win.winId().__int__()
+        window_style = win32gui.GetWindowLong(win.hwnd, GWL_STYLE)
+        win32gui.SetWindowLong(win.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+
+        if QtWin.isCompositionEnabled():
+            QtWin.extendFrameIntoClientArea(win, -1, -1, -1, -1)
+        else:
+            QtWin.resetExtendedFrame(win)
+
+        try:
+            ApplyMica(win.hwnd, isDark())
+        except OSError:
+            GlobalBlur(win.hwnd, Acrylic=True)
+
         win.show()
 
     def moveEvent(self, event: QMoveEvent) -> None:
@@ -1344,7 +1393,7 @@ class SettingsWindow(QFramelessWindow):
             self.applyStyleSheet()
             if not self.isMaximized():
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+                #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
                 self.vlayout.setContentsMargins(2, 2, 2, 2)
             self.updateSize = False
         return super().mouseReleaseEvent(event)
@@ -1359,14 +1408,14 @@ class SettingsWindow(QFramelessWindow):
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
             if self.isMaximized():
-                self.titlebar.closeButton.setFixedWidth(self.getPx(48))
+                #self.titlebar.closeButton.setFixedWidth(self.getPx(48))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
-                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: 0px;border-top-right-radius: 0px;}}#closeButton{{border-top-right-radius: 0px;}}")
+                #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: 0px;border-top-right-radius: 0px;}}#closeButton{{border-top-right-radius: 0px;}}")
                 self.vlayout.setContentsMargins(0, 0, 0, 0)
             else:
-                self.titlebar.closeButton.setFixedWidth(self.getPx(56))
+                #self.titlebar.closeButton.setFixedWidth(self.getPx(56))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
+                #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
                 self.vlayout.setContentsMargins(2, 2, 2, 2)
         return super().eventFilter(watched, event)
 
@@ -1716,34 +1765,26 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
+        self.setWindowModality(Qt.WindowModality.WindowModal)
         self.setStyleSheet("*{border-radius: 5px;}  QColorLuminancePicker {background-color: transparent; border: 5px solid black;margin: none; border: none; padding: none;} ")
-        #self.setAttribute(Qt.WA_NoSystemBackground)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
-        #self.setAttribute(Qt.WA_TranslucentBackground)
-
-        
-        import win32gui
-
-
-        from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, WS_MAXIMIZEBOX, WS_THICKFRAME, \
-            WS_CAPTION, HTTOPLEFT, HTBOTTOMRIGHT, HTTOPRIGHT, HTBOTTOMLEFT, \
-            HTTOP, HTBOTTOM, HTLEFT, HTRIGHT, HTCAPTION, WS_POPUP, WS_SYSMENU, WS_MINIMIZEBOX
 
         self.hwnd = self.winId().__int__()
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
 
         if QtWin.isCompositionEnabled():
-            # Aero Shadow
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
             QtWin.resetExtendedFrame(self)
         
-        #self.setAutoFillBackground(True)
-
-        
-        ApplyMica(self.hwnd, isDark())
+        try:
+            ApplyMica(self.hwnd, isDark())
+        except OSError:
+            GlobalBlur(self.hwnd, Acrylic=True)
+            
+        self.setWindowIcon(self.window().windowIcon())
 
 
 class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
