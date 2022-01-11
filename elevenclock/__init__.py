@@ -575,12 +575,10 @@ try:
                 self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
                 self.label.setFont(self.font)
 
-                self.isDark = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0
-
                 accColors = getColors()
                 def make_style_sheet(a, b, c, d, color):
-                    bg = 1 if self.isDark else 4
-                    fg = 6 if self.isDark else 1
+                    bg = 1 if isTaskbarDark() else 4
+                    fg = 6 if isTaskbarDark() else 1
                     return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
                 if getSettings("UseCustomFontColor"):
@@ -598,7 +596,7 @@ try:
                     else:
                         self.font.setWeight(QFont.Weight.DemiBold)
                     self.label.setFont(self.font)        
-                elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
+                elif isTaskbarDark():
                     print("🟢 Using white text (dark mode)")
                     self.lastTheme = 0
                     style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")

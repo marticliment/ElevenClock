@@ -281,7 +281,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         return round(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
 
     def applyStyleSheet(self) -> None:
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isTaskbarDark():
             self.iconMode = "white"
             self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
             self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
@@ -312,7 +312,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: white;
-                    background: rgba(50, 50, 50, 1%)/*#262626*/;
+                    background: transparent;
                     border-radius: {self.getPx(8)}px;
                 }}
                 QMenu::separator {{
