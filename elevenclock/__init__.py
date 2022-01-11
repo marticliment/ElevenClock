@@ -459,6 +459,13 @@ try:
                     
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
+                if getSettings("ClockFixedHeight"):
+                    print("🟡 Custom height being used!")
+                    try:
+                        self.preferedHeight = int(getSettingsValue("ClockFixedHeight"))
+                    except ValueError as e:
+                        report(e)
+
                 self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
                 for win32screen in win32api.EnumDisplayMonitors():
                     try:
@@ -509,9 +516,25 @@ try:
                 if getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignCenter)
 
+                xoff = 0
+                yoff = 0
 
-                self.w = int(w)
-                self.h = int(h)
+                if getSettings("ClockXOffset"):
+                    print("🟡 X offset being used!")
+                    try:
+                        xoff = int(getSettingsValue("ClockXOffset"))
+                    except ValueError as e:
+                        report(e)
+
+                if getSettings("ClockYOffset"):
+                    print("🟡 Y offset being used!")
+                    try:
+                        yoff = int(getSettingsValue("ClockYOffset"))
+                    except ValueError as e:
+                        report(e)
+
+                self.w = int(w) + xoff
+                self.h = int(h) + yoff
                 self.dpix = dpix
                 self.dpiy = dpiy
 

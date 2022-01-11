@@ -191,6 +191,27 @@ class SettingsWindow(QMainWindow):
         self.clockFixedHeight.valueChanged.connect(lambda v: setSettingsValue("ClockFixedHeight", str(v)))
         self.clockPosTitle.addWidget(self.clockFixedHeight)
 
+        self.clockXOffset = QSettingsSliderWithCheckBox(_("Adjust horizontal clock position"), self, -200, 200)
+        self.clockXOffset.setChecked(getSettings("ClockXOffset"))
+        if self.clockXOffset.isChecked():
+            try:
+                self.clockXOffset.slider.setValue(int(getSettingsValue("ClockXOffset")))
+            except ValueError:
+                print("🟠 Unable to parse int from ClockXOffset settings value")
+        self.clockXOffset.stateChanged.connect(lambda v: setSettings("ClockXOffset", bool(v)))
+        self.clockXOffset.valueChanged.connect(lambda v: setSettingsValue("ClockXOffset", str(v)))
+        self.clockPosTitle.addWidget(self.clockXOffset)
+
+        self.clockYOffset = QSettingsSliderWithCheckBox(_("Adjust vertical clock position"), self, -200, 200)
+        self.clockYOffset.setChecked(getSettings("ClockYOffset"))
+        if self.clockYOffset.isChecked():
+            try:
+                self.clockYOffset.slider.setValue(int(getSettingsValue("ClockYOffset")))
+            except ValueError:
+                print("🟠 Unable to parse int from clockYOffset settings value")
+        self.clockYOffset.stateChanged.connect(lambda v: setSettings("ClockYOffset", bool(v)))
+        self.clockYOffset.valueChanged.connect(lambda v: setSettingsValue("ClockYOffset", str(v)))
+        self.clockPosTitle.addWidget(self.clockYOffset)
         def unblacklist():
             global msg
             setSettingsValue("BlacklistedMonitors", "")
