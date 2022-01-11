@@ -61,7 +61,7 @@ class SettingsWindow(QMainWindow):
         self.resize(900, 600)
         self.setMinimumWidth(520)
         self.scrollArea.setFrameShape(QFrame.NoFrame)
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isWindowDark():
             self.iconMode = "white"
         else:
             self.iconMode = "black"
@@ -506,9 +506,7 @@ class SettingsWindow(QMainWindow):
 
     def applyStyleSheet(self):
         colors = getColors()
-                            
-        #self.titlebar.setFixedHeight(self.getPx(32))
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isWindowDark():
             try:
                 ApplyMica(self.winId().__int__(), True)
             except OSError:
@@ -534,16 +532,6 @@ class SettingsWindow(QMainWindow):
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            #self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            #self.titlebar.closeButton.setFixedHeight(self.getPx(32))
-            #self.titlebar.closeButton.setFixedWidth(self.getPx(50))
-            #self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
-            #self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            #self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
-            #self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
-            #self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            #self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
-            
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    
@@ -924,9 +912,9 @@ class SettingsWindow(QMainWindow):
                                """)
         else:
             try:
-                ApplyMica(self.winId(), False)
+                ApplyMica(self.winId().__int__(), False)
             except OSError:
-                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#ffffff88")
+                GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#ffffff88")
             self.iconMode = "black"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -947,21 +935,9 @@ class SettingsWindow(QMainWindow):
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            #self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            #self.titlebar.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
-            #self.titlebar.closeButton.setFixedHeight(self.getPx(32))
-            #self.titlebar.closeButton.setFixedWidth(self.getPx(50))
-            #self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
-            #self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            #self.titlebar.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
-            #self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
-            #self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
-            #self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            #self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
-            #self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             self.setStyleSheet(f"""
                                #backgroundWindow {{
-                                   background-color: rgba({colors[4]}, 1);
+                                   background-color: transparent;
                                }}
                                #titlebarButton {{
                                    border-radius: 0px;
@@ -1042,10 +1018,11 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
+                                   background-color: transparent;
                                 }}
                                 * {{
-                                   background-color: #eeeeee;
-                                   color: #000000;
+                                   background-color: transparent;
+                                   color: black;
                                    font-size: 8pt;
                                 }}
                                 #warningLabel {{
@@ -1327,10 +1304,8 @@ class SettingsWindow(QMainWindow):
         textEdit = QPlainTextEdit()
         textEdit.setReadOnly(True)
         if isWindowDark():
-            cprint("dark")
             textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #161616;}}")
         else:
-            cprint("light")
             textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #dddddd;}}")
 
 
@@ -1369,7 +1344,7 @@ class SettingsWindow(QMainWindow):
             QtWin.resetExtendedFrame(win)
 
         try:
-            ApplyMica(win.hwnd, isDark())
+            ApplyMica(win.hwnd, isWindowDark())
         except OSError:
             GlobalBlur(win.hwnd, Acrylic=True)
 
@@ -1434,7 +1409,7 @@ class SettingsWindow(QMainWindow):
 
 class QIconLabel(QWidget):
     def __init__(self, text: str, icon: str, descText: str = "No description provided"):
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isWindowDark():
             self.iconMode = "white"
             semib = "Semib"
         else:
@@ -1783,7 +1758,7 @@ class QCustomColorDialog(QColorDialog):
             ApplyMica(self.hwnd, isDark())
         except OSError:
             GlobalBlur(self.hwnd, Acrylic=True)
-            
+
         self.setWindowIcon(self.window().windowIcon())
 
 
@@ -1886,58 +1861,6 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
     def setItems(self, items: list):
         self.combobox.clear()
         self.combobox.addItems(items)
-
-class QTitleBarWidget(QWidget):
-    def __init__(self, parent: QMainWindow = ...) -> None:
-        super().__init__(parent=parent)
-        self.setAttribute(Qt.WA_StyledBackground)
-        self.setObjectName("ControlWidget")
-        self.oldPos = QPoint(0, 0)
-        self.setFixedHeight(parent.getPx(32))
-        
-        self.iconMode = "white"
-        
-        self.closeButton = QPushButton()
-        self.closeButton.setObjectName("closeButton")
-        self.closeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
-        #self.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
-        self.closeButton.setFixedHeight(parent.getPx(32))
-        self.closeButton.setFixedWidth(parent.getPx(46))
-        self.closeButton.clicked.connect(parent.close)
-        
-        self.maximizeButton = QPushButton()
-        self.maximizeButton.setObjectName("titlebarButton")
-        self.maximizeButton.setFixedHeight(parent.getPx(32))
-        self.maximizeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
-        #self.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
-        self.maximizeButton.setFixedWidth(parent.getPx(46))
-        self.maximizeButton.clicked.connect(lambda: parent.showNormal() if parent.isMaximized() else parent.showMaximized())
-        
-        self.minimizeButton = QPushButton()
-        self.minimizeButton.setObjectName("titlebarButton")
-        self.minimizeButton.setFixedHeight(parent.getPx(32))
-        self.minimizeButton.setIconSize(QSize(parent.getPx(12), parent.getPx(12)))
-        #self.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
-        self.minimizeButton.setFixedWidth(parent.getPx(46))
-        self.minimizeButton.clicked.connect(parent.showMinimized)
-        
-        self.setLayout(QHBoxLayout())
-        icon = QLabel()
-        icon.setAttribute(Qt.WA_TransparentForMouseEvents)
-        icon.setPixmap(QIcon(getPath("icon.png")).pixmap(parent.getPx(16), parent.getPx(16)))
-        l = QLabel(_("ElevenClock Settings"), self)
-        l.setAttribute(Qt.WA_TransparentForMouseEvents)
-        l.setObjectName("#titlebarLabel")
-        self.layout().addWidget(icon)
-        self.layout().addSpacing(parent.getPx(16))
-        self.layout().addWidget(l)
-        self.layout().addStretch()
-        self.layout().setContentsMargins(parent.getPx(16), 0, 0, 0)
-        self.layout().setSpacing(0)
-        self.layout().addWidget(self.minimizeButton)
-        self.layout().addWidget(self.maximizeButton)
-        self.layout().addWidget(self.closeButton)
-        
     
 if __name__ == "__main__":
     import __init__

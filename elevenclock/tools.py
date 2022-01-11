@@ -45,10 +45,10 @@ def getTaskbarIconMode() -> str:
     return "white" if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0 else "black"
 
 def isWindowDark() -> str:
-    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+    return not readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
 
 def isTaskbarDark() -> str:
-    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
+    return not readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
 
 
 def report(exception) -> None: # Exception reporter
@@ -166,7 +166,8 @@ class KillableThread(threading.Thread):
         self.shouldBeRuning = False
 
 def isDark():
-    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+    cprint("REPLACE THIS!!!")
+    return isWindowDark()
 
 
 class Menu(QMenu):
