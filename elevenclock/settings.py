@@ -180,6 +180,16 @@ class SettingsWindow(QMainWindow):
         self.clockAtTop.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
         self.clockPosTitle.addWidget(self.clockAtTop)
+        self.clockFixedHeight = QSettingsSliderWithCheckBox(_("Override clock default height"), self, 20, 105)
+        self.clockFixedHeight.setChecked(getSettings("ClockFixedHeight"))
+        if self.clockFixedHeight.isChecked():
+            try:
+                self.clockFixedHeight.slider.setValue(int(getSettingsValue("ClockFixedHeight")))
+            except ValueError:
+                print("🟠 Unable to parse int from ClockFixedHeight settings value")
+        self.clockFixedHeight.stateChanged.connect(lambda v: setSettings("ClockFixedHeight", bool(v)))
+        self.clockFixedHeight.valueChanged.connect(lambda v: setSettingsValue("ClockFixedHeight", str(v)))
+        self.clockPosTitle.addWidget(self.clockFixedHeight)
 
         def unblacklist():
             global msg
@@ -556,6 +566,55 @@ class SettingsWindow(QMainWindow):
                                    border-radius: 0px;
                                    background-color: rgba(196, 43, 28, 25%);
                                }}
+
+                                QSlider {{
+                                    height: {self.getPx(20)}px;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    border-radius: {self.getPx(2)}px;
+                                }}
+                                QSlider::groove {{
+                                    height: {self.getPx(4)}px;
+                                    border: 1px solid #212121;
+                                    background: #303030;
+                                }}
+                                QSlider::handle {{
+                                    border: 4px solid #404040;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[0]});
+                                }}
+                                QSlider::handle:hover {{
+                                    border: 3px solid #404040;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[0]});
+                                }}
+                                QSlider::handle:disabled {{
+                                    border: 4px solid #404040;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: #212121;
+                                }}
+                                QSlider::add-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #303030;
+                                }}
+                                QSlider::sub-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: rgb({colors[0]});
+                                }}
+                                QSlider::add-page:disabled {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #212121;
+                                }}
+                                QSlider::sub-page:disabled {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #212121;
+                                }}
                                 QToolTip {{
                                     border: {self.getPx(1)}px solid #222222;
                                     padding: {self.getPx(4)}px;
@@ -957,6 +1016,55 @@ class SettingsWindow(QMainWindow):
                                    border-radius: 0px;
                                    background-color: rgba(196, 43, 28, 1);
                                }}
+                               
+                                QSlider {{
+                                    height: {self.getPx(20)}px;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    border-radius: {self.getPx(2)}px;
+                                }}
+                                QSlider::groove {{
+                                    height: {self.getPx(4)}px;
+                                    border: 1px solid #dddddd;
+                                    background: #303030;
+                                }}
+                                QSlider::handle {{
+                                    border: 4px solid #f5f5f5;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[4]});
+                                }}
+                                QSlider::handle:hover {{
+                                    border: 3px solid #f5f5f5;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[4]});
+                                }}
+                                QSlider::handle:disabled {{
+                                    border: 4px solid #f5f5f5;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: #aaaaaa;
+                                }}
+                                QSlider::add-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #bbbbbb;
+                                }}
+                                QSlider::sub-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: rgb({colors[4]});
+                                }}
+                                QSlider::add-page:disabled {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #bbbbbb;
+                                }}
+                                QSlider::sub-page:disabled {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #bbbbbb;
+                                }}
                                 QToolTip{{
                                     border: {self.getPx(1)}px solid #dddddd;
                                     padding: {self.getPx(4)}px;
@@ -1736,6 +1844,49 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     def loadItems(self):
         self.combobox.clear()
         self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16])
+
+
+class QSettingsSliderWithCheckBox(QSettingsCheckBox):
+    stateChanged = Signal(bool)
+    valueChanged = Signal(int)
+    
+    def __init__(self, text: str, parent=None, min: int = 10, max: int = 100):
+        super().__init__(text=text, parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.slider = QSlider(self)
+        self.slider.setRange(min, max)
+        self.slider.setOrientation(Qt.Horizontal)
+        self.slider.setObjectName("slider")
+        self.slider.sliderReleased.connect(self.valuechangedEvent)
+        self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.stateChangedEvent(self.checkbox.isChecked())
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.slider.move(self.width()-self.getPx(270), self.getPx(10))
+        self.checkbox.move(self.getPx(70), self.getPx(10))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.slider.setFixedHeight(self.getPx(30))
+        self.slider.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+    
+    def valuechangedEvent(self):
+        self.valueChanged.emit(self.slider.value())
+    
+    def stateChangedEvent(self, v: bool):
+        self.slider.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.slider.setEnabled(False)
+            self.slider.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+        else:
+            self.slider.setEnabled(True)
+            self.slider.setToolTip("")
+            self.valueChanged.emit(self.slider.value())
+        self.stateChanged.emit(v)
+        
+
+
 
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:

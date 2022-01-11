@@ -39,16 +39,16 @@ def getPath(s):
     return os.path.join(os.path.join(realpath, "resources"), s).replace("\\", "/")
 
 def getAppIconMode() -> str:
-    return "white" if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0 else "black"
+    return "white" if isWindowDark() else "black"
 
 def getTaskbarIconMode() -> str:
-    return "white" if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0 else "black"
+    return "white" if isTaskbarDark() else "black"
 
 def isWindowDark() -> str:
-    return not readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
 
 def isTaskbarDark() -> str:
-    return not readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
 
 
 def report(exception) -> None: # Exception reporter
