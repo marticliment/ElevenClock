@@ -312,7 +312,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: white;
-                    background: transparent;
+                    background: rgba(0, 0, 0, 0.01%);
                     border-radius: {self.getPx(8)}px;
                 }}
                 QMenu::separator {{
