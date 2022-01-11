@@ -765,7 +765,6 @@ class SettingsWindow(QMainWindow):
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    /*border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
-                                   border-bottom: 0px;
                                    */font-size: 13pt;
                                    border-radius: {self.getPx(4)}px;
                                 }}
@@ -1037,7 +1036,6 @@ class SettingsWindow(QMainWindow):
                                    border-radius: 0px;
                                    background-color: rgba(196, 43, 28, 1);
                                }}
-                               
                                 QSlider {{
                                     height: {self.getPx(20)}px;
                                     margin-left: 10px;
@@ -1046,33 +1044,33 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QSlider::groove {{
                                     height: {self.getPx(4)}px;
-                                    border: 1px solid #dddddd;
+                                    border: 1px solid rgba(196, 196, 196, 25%);
                                     background: #303030;
                                 }}
                                 QSlider::handle {{
-                                    border: 4px solid #f5f5f5;
+                                    border: 4px solid #eeeeee;
                                     margin: -8px -10px;
                                     height: 8px;
                                     border-radius: {self.getPx(9)}px; 
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:hover {{
-                                    border: 3px solid #f5f5f5;
+                                    border: 3px solid #eeeeee;
                                     margin: -8px -10px;
                                     height: 8px;
                                     border-radius: {self.getPx(9)}px; 
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:disabled {{
-                                    border: 4px solid #f5f5f5;
+                                    border: 4px solid #eeeeee;
                                     margin: -8px -10px;
                                     height: 8px;
                                     border-radius: {self.getPx(9)}px; 
-                                    background: #aaaaaa;
+                                    background: rgba(106, 106, 106, 25%);
                                 }}
                                 QSlider::add-page {{
                                     border-radius: {self.getPx(3)}px;
-                                    background: #bbbbbb;
+                                    background: #eeeeee;
                                 }}
                                 QSlider::sub-page {{
                                     border-radius: {self.getPx(3)}px;
@@ -1080,21 +1078,21 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QSlider::add-page:disabled {{
                                     border-radius: {self.getPx(3)}px;
-                                    background: #bbbbbb;
+                                    background: #eeeeee;
                                 }}
                                 QSlider::sub-page:disabled {{
                                     border-radius: {self.getPx(3)}px;
-                                    background: #bbbbbb;
+                                    background: #eeeeee;
                                 }}
                                 QToolTip{{
-                                    border: {self.getPx(1)}px solid #dddddd;
+                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                     padding: {self.getPx(4)}px;
                                     border-radius: {self.getPx(6)}px;
                                     background-color: #eeeeee;
                                 }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
-                                    background-color: #ffffff;
+                                    background-color: rgba(255, 255, 255, 10%);
                                     selection-background-color: rgb({colors[3]});
                                     border: none;
                                 }}
@@ -1160,18 +1158,18 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QPushButton {{
                                    width: 100px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 70%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 QPushButton:hover {{
-                                   background-color: #f6f6f6;
+                                   background-color: rgba(238, 238, 238, 100%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #AccentButton{{
                                     background-color: rgb({colors[3]});
@@ -1186,19 +1184,19 @@ class SettingsWindow(QMainWindow):
                                     border-bottom-color: rgb({colors[3]});
                                 }}
                                 #title{{
-                                   /*background-color: #ffffff;
+                                   /*background-color: rgba(255, 255, 255, 10%);
                                    */margin: {self.getPx(2)}px;
                                    margin-bottom: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   /*border: {self.getPx(1)}px solid #dddddd;
+                                   /*border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 1px;
                                    */font-size: 13pt;
                                    border-radius: {self.getPx(6)}px;
                                 }}
                                 #subtitleLabel{{
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
@@ -1206,7 +1204,7 @@ class SettingsWindow(QMainWindow):
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    border-radius: {self.getPx(4)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
@@ -1229,24 +1227,24 @@ class SettingsWindow(QMainWindow):
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
                                 }}
                                 #StLbl{{
                                    padding: 0px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: 0px;
                                    border:none;
                                    font-size: {self.getPx(11)}px;
                                 }}
                                 #stBtn{{
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 0px;
                                    border-bottom-left-radius: {self.getPx(0)}px;
                                    border-bottom-right-radius: {self.getPx(0)}px;
@@ -1259,11 +1257,11 @@ class SettingsWindow(QMainWindow):
                                 #stChkBg{{
                                    padding: {self.getPx(15)}px;
                                    padding-left: {self.getPx(45)}px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 0px;
                                 }}
                                 #stChk::indicator{{
@@ -1271,65 +1269,65 @@ class SettingsWindow(QMainWindow):
                                    width: {self.getPx(20)}px;
                                 }}
                                 #stChk::indicator:unchecked {{
-                                    background-color: #ffffff;
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    background-color: rgba(255, 255, 255, 10%);
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                 }}
                                 #stChk::indicator:disabled {{
                                     background-color: #eeeeee;
-                                    color: #bbbbbb;
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    color: rgba(136, 136, 136, 25%);
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                 }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #eeeeee;
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                 }}
                                 #stChk::indicator:checked {{
-                                    border: {self.getPx(0)}px solid #bbbbbb;
+                                    border: {self.getPx(0)}px solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[4]});
                                     border-radius: {self.getPx(5)}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
-                                    border: {self.getPx(0)}px solid #bbbbbb;
+                                    border: {self.getPx(0)}px solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[3]});
                                     border-radius: {self.getPx(5)}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:disabled {{
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     background-color: #eeeeee;
-                                    color: #bbbbbb;
+                                    color: rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
                                    width: 100px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx:disabled {{
                                    width: 100px;
                                    background-color: #eeeeee;
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-top: {self.getPx(1)}px solid #dddddd;
+                                   border-top: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                 }}
                                 #stCmbbx:hover {{
-                                   background-color: #f6f6f6;
+                                   background-color: rgba(238, 238, 238, 25%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
@@ -1350,10 +1348,10 @@ class SettingsWindow(QMainWindow):
                                     width: {self.getPx(2)}px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
-                                    border: {self.getPx(1)}px solid #dddddd;
+                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                     padding: {self.getPx(4)}px;
                                     outline: 0px;
-                                    background-color: #ffffff;
+                                    background-color: rgba(255, 255, 255, 10%);
                                     border-radius: {self.getPx(8)}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
@@ -1378,7 +1376,7 @@ class SettingsWindow(QMainWindow):
                                     outline: none;
                                 }}
                                 QScrollBar:vertical {{
-                                    background: #ffffff;
+                                    background: rgba(255, 255, 255, 10%);
                                     margin: {self.getPx(4)}px;
                                     width: {self.getPx(20)}px;
                                     border: none;
@@ -1388,12 +1386,12 @@ class SettingsWindow(QMainWindow):
                                     margin: {self.getPx(3)}px;
                                     border-radius: {self.getPx(3)}px;
                                     min-height: 20px;
-                                    background: #dddddd;
+                                    background: rgba(196, 196, 196, 25%);
                                 }}
                                 QScrollBar::handle:vertical:hover {{
                                     margin: {self.getPx(3)}px;
                                     border-radius: {self.getPx(3)}px;
-                                    background: #bbbbbb;
+                                    background: rgba(136, 136, 136, 25%);
                                 }}
                                 QScrollBar::add-line:vertical {{
                                     height: 0;
