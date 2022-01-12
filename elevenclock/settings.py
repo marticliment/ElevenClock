@@ -366,7 +366,7 @@ class SettingsWindow(QMainWindow):
             colors = getColors()
             msg.setText(f"""
                 <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
-                <style> a {{color: rgb({colors[3]})}}</style>
+                <style> a {{color: rgb({colors[2 if isWindowDark() else 4]})}}</style>
                 <ul>
                 <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
