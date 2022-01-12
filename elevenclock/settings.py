@@ -438,10 +438,7 @@ class SettingsWindow(QMainWindow):
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        #self.titlebar = QTitleBarWidget(self)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-        #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-        #self.vlayout.addWidget(self.titlebar)
         self.vlayout.addWidget(self.scrollArea)
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
@@ -451,7 +448,7 @@ class SettingsWindow(QMainWindow):
         w.setLayout(self.vlayout)
         self.setCentralWidget(w)
         self.setMouseTracking(True)
-        self.resize(900, 600)
+        self.resize(self.getPx(1100), self.getPx(700))
         self.setAttribute(Qt.WA_NoSystemBackground)
         self.setAttribute(Qt.WA_TranslucentBackground)
         
@@ -1516,6 +1513,7 @@ class SettingsWindow(QMainWindow):
     def show(self) -> None:
         self.applyStyleSheet()
         self.raise_()
+        self.activateWindow()
         return super().show()
     
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
@@ -1527,8 +1525,7 @@ class SettingsWindow(QMainWindow):
         return super().eventFilter(watched, event)
 
     def showEvent(self, event: QShowEvent) -> None:
-        self.showNormal()
-        self.resize(self.getPx(900), self.getPx(600))
+        self.show()
         return super().showEvent(event)
 
     def closeEvent(self, event: QCloseEvent) -> None:
