@@ -752,14 +752,21 @@ class SettingsWindow(QMainWindow):
                                    border-top: {self.getPx(1)}px solid rgba(107, 107, 107, 25%);
                                 }}
                                 #AccentButton{{
-                                    background-color: rgb({colors[3]});
-                                    border-color: rgb({colors[2]});
-                                    border-top-color: rgb({colors[1]});
+                                    color: black;
+                                    background-color: rgb({colors[1]});
+                                    border-color: rgb({colors[1]});
+                                    border-bottom-color: rgb({colors[2]});
                                 }}
                                 #AccentButton:hover{{
-                                    background-color: rgb({colors[2]});
-                                    border-color: rgb({colors[1]});
-                                    border-top-color: rgb({colors[1]});
+                                    background-color: rgba({colors[1]}, 80%);
+                                    border-color: rgb({colors[2]});
+                                    border-bottom-color: rgb({colors[2]});
+                                }}
+                                #AccentButton:pressed{{
+                                    color: #555555;
+                                    background-color: rgba({colors[1]}, 80%);
+                                    border-color: rgb({colors[2]});
+                                    border-bottom-color: rgb({colors[2]});
                                 }}
                                 #title{{
                                    /*background-color: #303030;
