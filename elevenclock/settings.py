@@ -457,7 +457,6 @@ class SettingsWindow(QMainWindow):
         win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_BORDER | WS_CAPTION | WS_SYSMENU)
 
         if QtWin.isCompositionEnabled():
-            # Aero Shadow
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
             QtWin.resetExtendedFrame(self)
@@ -1927,7 +1926,7 @@ class QCustomColorDialog(QColorDialog):
             QtWin.resetExtendedFrame(self)
         
         try:
-            ApplyMica(self.hwnd, isDark())
+            ApplyMica(self.hwnd, isWindowDark())
         except OSError:
             if isWindowDark():    
                 GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")

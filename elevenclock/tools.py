@@ -166,7 +166,10 @@ class KillableThread(threading.Thread):
         self.shouldBeRuning = False
 
 def isDark():
-    cprint("REPLACE THIS!!!")
+    try:
+        raise DeprecationWarning("This function has been deprecated and must be replaced with isWindowDark or isTaskbarDark!")
+    except DeprecationWarning as e:
+        report(e)
     return isWindowDark()
 
 
