@@ -130,6 +130,7 @@ try:
                 if float(new_version_number) > version:
                     print("🟢 Updates found!")
                     if(not(getSettings("DisableAutoInstallUpdates")) or force):
+                        showNotif.infoSignal.emit(("ElevenClock Updater"), ("ElevenClock is downloading updates"))
                         if(integrityPass):
                             url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
                             filedata = urlopen(url)
@@ -155,15 +156,15 @@ try:
                                 print("🔴 Hash not ok")
                                 print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
                                 print("🔴 Provided hash: ", provided_hash)
-                                showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                                showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                         else:
                             print("🔴 Can't verify update server authenticity, aborting")
                             print("🔴 Provided DmName:", dmname)
                             print("🔴 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
-                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                            showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                     else:
-                        showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
+                        showNotif.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
 
                 else:
                     print("🟢 Updates not found")
@@ -335,6 +336,8 @@ try:
                 dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
         elif not getSettings("EnableWeekNumber"):
             dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
+        else:
+            dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W)")
 
         if not getSettings("EnableWeekDay"):
             try:

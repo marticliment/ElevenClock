@@ -27,17 +27,12 @@ from win32con import GWL_STYLE, WS_BORDER, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU
 
 from external.FramelessWindow import QFramelessWindow, QFramelessDialog
 
-#class SettingsWindow(QFramelessWindow):
 class SettingsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.scrollArea = QScrollArea()
         self.vlayout = QVBoxLayout()
         self.vlayout.setContentsMargins(0, 0, 0, 0)
-        """
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, False)
-        self.setWindowFlag(Qt.WindowMaximizeButtonHint, False)
-        self.setWindowFlag(Qt.WindowCloseButtonHint, False)"""
         self.vlayout.setContentsMargins(0, 0, 0, 0)
         self.vlayout.setSpacing(0)
         layout = QVBoxLayout()
@@ -66,14 +61,15 @@ class SettingsWindow(QMainWindow):
         else:
             self.iconMode = "black"
 
-        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
-        layout.addWidget(self.generalSettingsTitle)
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
-        self.updateButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.updateButton.setStyleSheet("")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
-        self.generalSettingsTitle.addWidget(self.updateButton)
-        self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) #The non-translated (Language) string is there to know what the language option is if you accidentaly change the language
+        layout.addWidget(self.updateButton)
+        
+        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
+        layout.addWidget(self.generalSettingsTitle)
+        self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) # The non-translated (Language) string is there to let people know what the language option is if you accidentaly change the language
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         try:
             self.selectedLanguage.setItems(list(languageReference.values()), list(languageReference.keys()).index(langName))
