@@ -771,8 +771,9 @@ try:
             EnableHideOnRDP = getSettings("EnableHideOnRDP")
             clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
             newMethod = getSettings("NewFullScreenMethod")
+            notifs = not getSettings("DisableNotifications")
             oldNotifNumber = 0
-            print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
+            print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}, DisableNotifications:{notifs}")
             if clockOnFirstMon or self.isLowCpuMode:
                 INTLOOPTIME = 15
             else:
@@ -782,13 +783,14 @@ try:
                 isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod)
                 for i in range(INTLOOPTIME):
                     if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
-                        if isFocusAssist:
-                            self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        elif numOfNotifs > 0:
-                            if oldNotifNumber != numOfNotifs:
-                                self.callInMainSignal.emit(self.label.enableNotifDot)
-                        else:
-                            self.callInMainSignal.emit(self.label.disableClockIndicators)
+                        if notifs:
+                            if isFocusAssist:
+                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                            elif numOfNotifs > 0:
+                                if oldNotifNumber != numOfNotifs:
+                                    self.callInMainSignal.emit(self.label.enableNotifDot)
+                            else:
+                                self.callInMainSignal.emit(self.label.disableClockIndicators)
                         oldNotifNumber = numOfNotifs
                         if self.autoHide and not(DisableHideWithTaskbar):
                             mousePos = getMousePos()
@@ -1087,7 +1089,7 @@ try:
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
-
+    print("🔵Low cpu mode is set to", getSettings("EnableLowCpuMode"), ". DisableNotifications is set to", getSettings("DisableNotifications"))
     
     rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
     if getSettings("EnableHideOnRDP"):

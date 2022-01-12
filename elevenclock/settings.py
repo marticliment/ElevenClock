@@ -66,7 +66,7 @@ class SettingsWindow(QMainWindow):
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
-        
+
         self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
         layout.addWidget(self.generalSettingsTitle)
         self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) # The non-translated (Language) string is there to let people know what the language option is if you accidentaly change the language
@@ -158,6 +158,10 @@ class SettingsWindow(QMainWindow):
         self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
         self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
+        self.disableNotificationBadge = QSettingsCheckBox(_("Disable the notification badge"))
+        self.disableNotificationBadge.setChecked(getSettings("DisableNotifications"))
+        self.disableNotificationBadge.stateChanged.connect(lambda i: setSettings("DisableNotifications", bool(i)))
+        self.clockSettingsTitle.addWidget(self.disableNotificationBadge)
         self.clockSettingsTitle.addWidget(self.enableLowCpuMode)
 
         self.clockPosTitle = QIconLabel(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
@@ -515,11 +519,15 @@ class SettingsWindow(QMainWindow):
         if self.enableLowCpuMode.isChecked():
             self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
             self.disableSystemTrayColor.setEnabled(False)
+            self.disableNotificationBadge.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
+            self.disableNotificationBadge.setEnabled(False)
             self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
             self.legacyRDPHide.setEnabled(False)
         else:
             self.disableSystemTrayColor.setToolTip("")
             self.disableSystemTrayColor.setEnabled(True)
+            self.disableNotificationBadge.setToolTip("")
+            self.disableNotificationBadge.setEnabled(True)
             self.legacyRDPHide.setToolTip("")
             self.legacyRDPHide.setEnabled(True)
 
