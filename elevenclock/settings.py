@@ -23,7 +23,7 @@ import welcome
 
 import win32gui
 
-from win32con import GWL_STYLE, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU, WS_POPUP
+from win32con import GWL_STYLE, WS_BORDER, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU, WS_POPUP
 
 from external.FramelessWindow import QFramelessWindow, QFramelessDialog
 
@@ -457,7 +457,7 @@ class SettingsWindow(QMainWindow):
         
         self.hwnd = self.winId().__int__()
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
-        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_BORDER | WS_CAPTION | WS_SYSMENU)
 
         if QtWin.isCompositionEnabled():
             # Aero Shadow
@@ -541,7 +541,7 @@ class SettingsWindow(QMainWindow):
             try:
                 ApplyMica(self.winId().__int__(), True)
             except OSError:
-                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#33333388")
+                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -993,7 +993,7 @@ class SettingsWindow(QMainWindow):
             try:
                 ApplyMica(self.winId().__int__(), False)
             except OSError:
-                GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#ffffff88")
+                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
             self.iconMode = "black"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -1473,7 +1473,10 @@ class SettingsWindow(QMainWindow):
         try:
             ApplyMica(win.hwnd, isWindowDark())
         except OSError:
-            GlobalBlur(win.hwnd, Acrylic=True)
+            if isWindowDark():    
+                GlobalBlur(win.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
+            else:
+                GlobalBlur(win.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         win.show()
 
@@ -1495,8 +1498,6 @@ class SettingsWindow(QMainWindow):
             self.applyStyleSheet()
             if not self.isMaximized():
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-                #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-                self.vlayout.setContentsMargins(2, 2, 2, 2)
             self.updateSize = False
         return super().mouseReleaseEvent(event)
 
@@ -1504,21 +1505,14 @@ class SettingsWindow(QMainWindow):
     def show(self) -> None:
         self.applyStyleSheet()
         self.raise_()
-        self.vlayout.setContentsMargins(2, 2, 2, 2)
         return super().show()
     
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
             if self.isMaximized():
-                #self.titlebar.closeButton.setFixedWidth(self.getPx(48))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
-                #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: 0px;border-top-right-radius: 0px;}}#closeButton{{border-top-right-radius: 0px;}}")
-                self.vlayout.setContentsMargins(0, 0, 0, 0)
             else:
-                #self.titlebar.closeButton.setFixedWidth(self.getPx(56))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-                #self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-                self.vlayout.setContentsMargins(2, 2, 2, 2)
         return super().eventFilter(watched, event)
 
     def showEvent(self, event: QShowEvent) -> None:
@@ -1927,7 +1921,10 @@ class QCustomColorDialog(QColorDialog):
         try:
             ApplyMica(self.hwnd, isDark())
         except OSError:
-            GlobalBlur(self.hwnd, Acrylic=True)
+            if isWindowDark():    
+                GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
+            else:
+                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         self.setWindowIcon(self.window().windowIcon())
 
