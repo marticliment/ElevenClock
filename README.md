@@ -1,31 +1,16 @@
-## To replace system clock, see discussion [#333](https://github.com/martinet101/ElevenClock/discussions/333#discussioncomment-1726960)
 
-![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
-<br>
-<!--![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)-->
 [![](https://img.shields.io/github/downloads/martinet101/ElevenClock/2.8/total?style=for-the-badge)]()
 ![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
 ![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
 ![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
 ![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
+<br>
+
 # ElevenClock
 
+The whole point of ElevenClock is to have a customizable clock on your Windows 11 taskbars. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock was an app designed to return this functionality, but it has evolved and it can now replace your system clock also in order to let you customize it, like in the good old days.<br><br>
 
-<!--
-![Downloads Badge](https://img.shields.io/github/downloads/martinet101/ElevenClock/total.svg?style=for-the-badge)
-![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
-![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
-![Forks](https://img.shields.io/github/forks/martinet101/ElevenClock?color=yellow&style=for-the-badge)
-![Stars](https://img.shields.io/github/stars/martinet101/ElevenClock?color=yellow&style=for-the-badge)
-<br>
-![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
-![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
-![PRs Badge](https://img.shields.io/github/issues-pr/martinet101/ElevenClock?style=for-the-badge)
-![Closed PRs Badge]( https://img.shields.io/github/issues-pr-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
-
--->
-
-The whole point of ElevenClock is to have a customizable clock on your Windows 11 taskbars. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. ElevenClock was an app designed to return this functionality, but it has evolved and it can now replace your system clock also in order to let you customize it, like in the good old days.
+![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 
 ## Support the developer:
 
