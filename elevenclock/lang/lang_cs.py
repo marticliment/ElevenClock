@@ -11,18 +11,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "T", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Vypnout ikonku upozornění notifikací",
+    "Override clock default height": "Přepsat výchozí výšku hodin",
+    "Adjust horizontal clock position": "Upravit horizontální pozici hodin",
+    "Adjust vertical clock position": "Upravit vertikální pozici hodin",
+    "Export log as a file": "Exportovat log do souboru",
+    "Copy log to clipboard": "Zkopírovat log do schránky",
+    "Announcements:": "Oznámení:",
+    "Fetching latest announcement, please wait...": "Získávám poslední oznámení, prosím vyčkejte...",
+    "Couldn't load the announcements. Please try again later": "Nelze získat oznámení. Prosím, zkuste to později",
+    "ElevenClock's log": "Log ElevenClock",
+    "Pick a color": "Vybrat barvu"
 }
 
 lang_3 = lang_3_1 | {
