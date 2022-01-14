@@ -5,6 +5,7 @@
 #               translation ->  "Aquest text està en anglès: valor {0}"
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
+
 lang_3_1 = {
     "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "Desactiva la icona de notificació",

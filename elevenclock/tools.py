@@ -10,12 +10,16 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtWinExtras import QtWin
 
 
-from BlurWindow.blurWindow import GlobalBlur
+from external.blurwindow import GlobalBlur
+
 
 
 import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
+
+import win32gui
+from win32con import *
 
 version = 3
 versionName = "3.0.1-beta"
@@ -172,6 +176,17 @@ def isDark():
         report(e)
     return isWindowDark()
 
+def ApplyMenuBlur(hwnd: int, window: QWidget):
+    hwnd = int(hwnd)
+    window.setAttribute(Qt.WA_TranslucentBackground)
+    window.setAttribute(Qt.WA_NoSystemBackground)
+    window.setStyleSheet("background-color: transparent;")
+    if isWindowDark():
+        GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True)
+        QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
+    else:
+        GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True)
+        QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
 
 class Menu(QMenu):
     def __init__(self, title: str):
@@ -301,6 +316,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
             QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
+
             self.contextMenu().setStyleSheet(f"""
                 * {{
                     border-radius: {self.getPx(8)}px;

@@ -26,6 +26,7 @@ import win32gui
 from win32con import GWL_STYLE, WS_BORDER, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU, WS_POPUP
 
 from external.FramelessWindow import QFramelessWindow, QFramelessDialog
+from external.blurwindow import GlobalBlur
 
 class SettingsWindow(QMainWindow):
     def __init__(self):
@@ -1421,6 +1422,34 @@ class SettingsWindow(QMainWindow):
                                """)
 
     def showDebugInfo(self):
+
+        class QPlainTextEditWithFluentMenu(QPlainTextEdit):
+            def __init__(self):
+                super().__init__()
+
+            def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
+                menu = self.createStandardContextMenu()
+                menu.addSeparator()
+
+                a = QAction()
+                a.setText(_("Reload log"))
+                a.triggered.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
+                menu.addAction(a)
+
+                a2 = QAction()
+                a2.setText(_("Export log as a file"))
+                a2.triggered.connect(lambda: saveLog())
+                menu.addAction(a2)
+
+                a3 = QAction()
+                a3.setText(_("Copy log to clipboard"))
+                a3.triggered.connect(lambda: copyLog())
+                menu.addAction(a3)
+
+                ApplyMenuBlur(menu.winId().__int__(), menu)
+                menu.exec(e.globalPos())
+                return super().contextMenuEvent(e)
+
         global old_stdout, buffer
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
@@ -1431,7 +1460,7 @@ class SettingsWindow(QMainWindow):
         w.setLayout(QVBoxLayout())
         w.setContentsMargins(0, 0, 0, 0)
         
-        textEdit = QPlainTextEdit()
+        textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
         if isWindowDark():
             textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #161616;}}")
@@ -1758,8 +1787,14 @@ class QSettingsComboBox(QWidget):
     textChanged = Signal(str)
     def __init__(self, text="", btntext="", parent=None):
         super().__init__(parent)
+
+        class QcomboBoxWithFluentMenu(QComboBox):
+            def __init__(self, parent) -> None:
+                super().__init__(parent)
+
+
         self.setAttribute(Qt.WA_StyledBackground)
-        self.combobox = QComboBox(self)
+        self.combobox = QcomboBoxWithFluentMenu(self)
         self.combobox.setObjectName("stCmbbx")
         self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.setObjectName("stBtn")
