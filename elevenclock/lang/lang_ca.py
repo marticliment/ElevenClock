@@ -8,13 +8,13 @@
 lang_3_1 = {
     "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "Desactiva la icona de notificació",
-    "Override clock default height": "Sobrepassa l'altura per defecte del rellotge",
+    "Override clock default height": "Sobreescriu l'altura per defecte del rellotge",
     "Adjust horizontal clock position": "Ajusta la posició horitzontal del rellotge",
     "Adjust vertical clock position": "Ajusta la posició vertical del rellotge",
     "Export log as a file": "Exporta el registre com a fitxer",
     "Copy log to clipboard": "Copia el registre al porta-retalls",
     "Announcements:": "Taulell d'anuncis:",
-    "Fetching latest announcement, please wait...": "Carregant l'últim anunci...",
+    "Fetching latest announcement, please wait...": "Carregant l'últim anunci, espereu-vos si us plau...",
     "Couldn't load the announcements. Please try again later": "No hem pogut carregar els anuncis. Proveu-ho més tard",
     "ElevenClock's log": "Registre de l'ElevenClock",
     "Pick a color": "Selecciona un color"

@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Desactiva el contador de notificación",
+    "Override clock default height": "Sobreescribe la altura predeterminada del reloj",
+    "Adjust horizontal clock position": "Ajusta la posición horizontal del reloj",
+    "Adjust vertical clock position": "Ajusta la posición vertical del reloj",
+    "Export log as a file": "Exporta el registro como un fichero",
+    "Copy log to clipboard": "Copia el registo al portapapeles",
+    "Announcements:": "Anuncios:",
+    "Fetching latest announcement, please wait...": "Cargando el último anuncio, por favor espere...",
+    "Couldn't load the announcements. Please try again later": "No hemos podido cargar los anuncios. Inténtelo más tarde",
+    "ElevenClock's log": "Registro de ElevenClock",
+    "Pick a color": "Seleccione un color"
 }
 
 lang_3 = lang_3_1 | {
