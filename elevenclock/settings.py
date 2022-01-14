@@ -1445,9 +1445,55 @@ class SettingsWindow(QMainWindow):
         reloadButton = QPushButton(_("Reload log"))
         reloadButton.setFixedWidth(self.getPx(200))
         reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
+        
+        def saveLog():
+            try:
+                print("🔵 Saving log...")
+                f = QFileDialog.getSaveFileName(win, "Save log", os.path.expanduser("~"), "Text file (.txt)")
+                if f[0]:
+                    fpath = f[0]
+                    if not ".txt" in fpath.lower():
+                        fpath += ".txt"
+                    with open(fpath, "wb") as fobj:
+                        fobj.write(globals.buffer.getvalue().encode("utf-8"))
+                        fobj.close()
+                    os.startfile(fpath)
+                    print("🟢 log saved successfully")
+                    textEdit.setPlainText(globals.buffer.getvalue())
+                else:
+                    print("🟡 log save cancelled!")
+                    textEdit.setPlainText(globals.buffer.getvalue())
+            except Exception as e:
+                report(e)
+                textEdit.setPlainText(globals.buffer.getvalue())
+
+        
+        exportButtom = QPushButton(_("Export log as a file"))
+        exportButtom.setFixedWidth(self.getPx(200))
+        exportButtom.clicked.connect(lambda: saveLog())
+
+        def copyLog():
+            try:
+                print("🔵 Copying log to the clipboard...")
+                globals.app.clipboard().setText(globals.buffer.getvalue())
+                print("🟢 Log copied to the clipboard successfully!")
+                textEdit.setPlainText(globals.buffer.getvalue())
+            except Exception as e:
+                report(e)
+                textEdit.setPlainText(globals.buffer.getvalue())
+
+
+        copyButton = QPushButton(_("Copy log to clipboard"))
+        copyButton.setFixedWidth(self.getPx(200))
+        copyButton.clicked.connect(lambda: copyLog())
+         
+
+
         hl = QHBoxLayout()
-        hl.setSpacing(0)
+        hl.setSpacing(self.getPx(5))
         hl.setContentsMargins(self.getPx(10), self.getPx(10), self.getPx(10), 0)
+        hl.addWidget(exportButtom)
+        hl.addWidget(copyButton)
         hl.addStretch()
         hl.addWidget(reloadButton)
         
