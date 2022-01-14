@@ -18,6 +18,13 @@ def restartClocks():
     
 def closeClocks():
     raise NotImplementedError("closeClocks function has not been defined!")
+
+def _(a):
+    try:
+        raise NotImplementedError("_ function has not been defined!")
+    except Exception as e:
+        print("🟠", e)
+    return a
     
 
 app: QApplication = None

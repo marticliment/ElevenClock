@@ -5,8 +5,22 @@
 #               translation ->  "Aquest text està en anglès: valor {0}"
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
+lang_3_1 = {
+    "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Desactiva la icona de notificació",
+    "Override clock default height": "Sobrepassa l'altura per defecte del rellotge",
+    "Adjust horizontal clock position": "Ajusta la posició horitzontal del rellotge",
+    "Adjust vertical clock position": "Ajusta la posició vertical del rellotge",
+    "Export log as a file": "Exporta el registre com a fitxer",
+    "Copy log to clipboard": "Copia el registre al porta-retalls",
+    "Announcements:": "Taulell d'anuncis:",
+    "Fetching latest announcement, please wait...": "Carregant l'últim anunci...",
+    "Couldn't load the announcements. Please try again later": "No hem pogut carregar els anuncis. Proveu-ho més tard",
+    "ElevenClock's log": "Registre de l'ElevenClock",
+    "Pick a color": "Selecciona un color"
+}
 
-lang_3 = {
+lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "Amaga el rellotge durant 10 segons quant es cliqui",
     "Enable low-cpu mode": "Activa el mode de baix consum de CPU",
     "You might lose functionalities, like the notification counter or the dynamic background": "Podeu perdre funcionalitats, com el comptador de notificacions o el fons dinàmic",

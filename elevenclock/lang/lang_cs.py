@@ -10,7 +10,22 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3 = {
+lang_3_1 = {
+    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "",
+    "Override clock default height": "",
+    "Adjust horizontal clock position": "",
+    "Adjust vertical clock position": "",
+    "Export log as a file": "",
+    "Copy log to clipboard": "",
+    "Announcements:": "",
+    "Fetching latest announcement, please wait...": "",
+    "Couldn't load the announcements. Please try again later": "",
+    "ElevenClock's log": "",
+    "Pick a color": ""
+}
+
+lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "Skrýt hodiny po kliknutí na dobu 10 sekund",
     "Enable low-cpu mode": "Zapnout mód pro slabé počítače",
     "You might lose functionalities, like the notification counter or the dynamic background": "Můžete ztratit některé funkce, jako počítadlo notifikací nebo dynamické pozadí",

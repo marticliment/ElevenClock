@@ -583,34 +583,36 @@ class SettingsWindow(QMainWindow):
                                }}
 
                                 QSlider {{
+                                    background: transparent;
                                     height: {self.getPx(20)}px;
-                                    margin-left: 10px;
-                                    margin-right: 10px;
+                                    margin-left: {self.getPx(10)}px;
+                                    margin-right: {self.getPx(10)}px;
                                     border-radius: {self.getPx(2)}px;
                                 }}
                                 QSlider::groove {{
                                     height: {self.getPx(4)}px;
-                                    border: 1px solid #212121;
-                                    background: #303030;
+                                    border: {self.getPx(1)}px solid #212121;
+                                    background: #212121;
+                                    border-radius: {self.getPx(2)}px;
                                 }}
                                 QSlider::handle {{
-                                    border: 4px solid #404040;
-                                    margin: -8px -10px;
-                                    height: 8px;
+                                    border: {self.getPx(4)}px solid #404040;
+                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
+                                    height: {self.getPx(8)}px;
                                     border-radius: {self.getPx(9)}px; 
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:hover {{
-                                    border: 3px solid #404040;
-                                    margin: -8px -10px;
-                                    height: 8px;
+                                    border: {self.getPx(3)}px solid #404040;
+                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
+                                    height: {self.getPx(7)}px;
                                     border-radius: {self.getPx(9)}px; 
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:disabled {{
-                                    border: 4px solid #404040;
-                                    margin: -8px -10px;
-                                    height: 8px;
+                                    border: {self.getPx(4)}px solid #404040;
+                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
+                                    height: {self.getPx(8)}px;
                                     border-radius: {self.getPx(9)}px; 
                                     background: #212121;
                                 }}
@@ -623,11 +625,11 @@ class SettingsWindow(QMainWindow):
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::add-page:disabled {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {self.getPx(2)}px;
                                     background: #212121;
                                 }}
                                 QSlider::sub-page:disabled {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {self.getPx(2)}px;
                                     background: #212121;
                                 }}
                                 QToolTip {{
@@ -1423,7 +1425,7 @@ class SettingsWindow(QMainWindow):
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
-        win.setWindowTitle("ElevenClock's log")
+        win.setWindowTitle(_("ElevenClock's log"))
         
         w = QWidget()
         w.setLayout(QVBoxLayout())
@@ -1928,6 +1930,7 @@ class QCustomColorDialog(QColorDialog):
                 GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         self.setWindowIcon(self.window().windowIcon())
+        self.setWindowTitle(_("Pick a color"))
 
 
 class QSettingsSizeBoxColorDialog(QSettingsCheckBox):

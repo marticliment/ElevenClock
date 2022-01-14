@@ -39,6 +39,7 @@ try:
 
     from settings import *
     from tools import *
+    import tools
 
 
 
@@ -74,7 +75,8 @@ try:
     print(" 🔴: Error")
     print("")
 
-
+    def _(s) -> str:
+        return tools._(s)
 
     def checkRDP():
         def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
@@ -337,7 +339,7 @@ try:
         elif not getSettings("EnableWeekNumber"):
             dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
         else:
-            dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W)")
+            dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
 
         if not getSettings("EnableWeekDay"):
             try:
