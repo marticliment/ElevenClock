@@ -375,7 +375,6 @@ class SettingsWindow(QMainWindow):
                 <li> <b>PyQt5 (Qt5)</b>: <a href="https://www.riverbankcomputing.com/commercial/license-faq">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
-                <li> <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
                 <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a></li>
                 </ul>    """)
