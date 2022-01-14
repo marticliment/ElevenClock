@@ -449,19 +449,13 @@ class SettingsWindow(QMainWindow):
         self.setCentralWidget(w)
         self.setMouseTracking(True)
         self.resize(self.getPx(1100), self.getPx(700))
-        self.setAttribute(Qt.WA_NoSystemBackground)
-        self.setAttribute(Qt.WA_TranslucentBackground)
-        
         self.hwnd = self.winId().__int__()
-        window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
-        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_BORDER | WS_CAPTION | WS_SYSMENU)
-
+        self.setAttribute(Qt.WA_TranslucentBackground)
         if QtWin.isCompositionEnabled():
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
             QtWin.resetExtendedFrame(self)
 
-        self.setAutoFillBackground(True)
         self.installEventFilter(self)
 
     def showEvent(self, event: QShowEvent) -> None:
