@@ -3,5 +3,4 @@ pywin32
 PyQt5
 psutil
 PyInstaller==4.1
-BlurWindow
 win32mica
