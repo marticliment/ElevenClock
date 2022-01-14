@@ -7,63 +7,63 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3 = {
-    "Hide the clock during 10 seconds when clicked": "",
-    "Enable low-cpu mode": "",
-    "You might lose functionalities, like the notification counter or the dynamic background": "",
-    "Clock position and size:": "",
-    "Clock size preferences, position offset, clock at the left, etc.": "",
-    "Reset monitor blacklisting status": "",
-    "Reset": "",
-    "Third party licenses": "",
-    "View": "",
-    "ElevenClock": "",
-    "Monitor tools": "",
-    "Blacklist this monitor": "",
-    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "",
-    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "",
-    "Ok": "",
-    "More Info": "",
-    "About Qt": "",
-    "Success": "",
-    "The monitors were unblacklisted successfully.": "",
-    "Now you should see the clock everywhere": "",
-    "Ok": "",
-    "Blacklist Monitor": "",
-    "Blacklisting a monitor will hide the clock on this monitor permanently.": "",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "",
-    "Are you sure do you want to blacklist the monitor \"{0}\"?": "",
-    "Yes": "",
-    "No": "",
+    "Hide the clock during 10 seconds when clicked": "Skjul klokken i 10 sekunder når den trykkes på",
+    "Enable low-cpu mode": "Slå på modus for lite prosessorbruk",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Du kan miste funksjonalitet, som varseltelleren eller dynamisk bakgrunn",
+    "Clock position and size:": "Klokkens posisjon og størrelse",
+    "Clock size preferences, position offset, clock at the left, etc.": "Innstillinger for klokkestørrelse, plassering, klokken til venstre, etc.",
+    "Reset monitor blacklisting status": "Nullstill status for svartelisting av skjerm",
+    "Reset": "Nullstill",
+    "Third party licenses": "Tredjepartslisenser",
+    "View": "Visning",
+    "ElevenClock": "ElevenClock",
+    "Monitor tools": "Skjermverktøy",
+    "Blacklist this monitor": "Svartelist denne skjermen",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Tredjeparts programvare med åpen kildekode i ElevenClock {0} (og lisensene deres)",
+    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock er en app med åpen kildekode laget med hjelp fra andre biblioteker laget av brukerfellesskapet",
+    "Ok": "Ok",
+    "More Info": "Mer Info",
+    "About Qt": "Om Qt",
+    "Success": "Suksessfullt",
+    "The monitors were unblacklisted successfully.": "Skjermene ble u-svartelistet suksessfullt.",
+    "Now you should see the clock everywhere": "Nå skal du kunne se klokken overalt",
+    "Ok": "Ok",
+    "Blacklist Monitor": "Svartelist skjerm",
+    "Blacklisting a monitor will hide the clock on this monitor permanently.": "Å svarteliste en skjerm vil skjule klokken på denne skjermen permanent.",
+    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Denne handlingen kan bli omgjort fra innstillingsvinduet under <b>Klokkens posisjon og størrelse<b>",
+    "Are you sure do you want to blacklist the monitor \"{0}\"?": "Er du sikker på at du vil svarteliste denne skjermen? \"{0}\"?",
+    "Yes": "Ja",
+    "No": "Nei",
 }
 
 lang_2_9_2 = lang_3 | {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Last inn logg på nytt",
+    "Do not show the clock on secondary monitors": "Ikke vil klokken på sekundærskjermer",
+    "Disable clock taskbar background color (make clock transparent)": "Skru av oppgavelinjeklokkens bakgrunnsfarge (gjør klokken gjennomsiktig)",
+    "Open the welcome wizard": "Åpne veiviseren for installasjon",
+    " (ALPHA STAGE, MAY NOT WORK)": " (ALFA-STADIUM, VIRKER KANSKJE IKKE",
+    "Welcome to ElevenClock": "Velkommen til ElevenClock",
+    "Skip": "Hopp over",
+    "Start": "Start",
+    "Next": "Neste",
+    "Finish": "Fullfør",
 }
 
 lang_2_9 = lang_2_9_2 | {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
-    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Task Manager": "Oppgavebehandling",
+    "Change date and time": "Endre dato og klokkeslett",
+    "Notification settings": "Varslingsinnstillinger",
+    "Updates, icon tray, language": "Oppdateringer, ikonboks, språk",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Skjul avanserte innsillinger fra høyreklikkmenyen for klokken (trenger omstart av programmet for å brukes)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Fullskjermoppførsel, klokkens posisjon, klokke på hovedskjerm, diverse andre innstillinger",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Legg til "Vis skrivebord"-knappen på venstre side av alle klokker',
+    'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Det kan hende at du må bestemme en egen bakgrunnsfarge for at dette skal fungere.&nbsp;Mer informasjon <a href="{0}" style="color:DodgerBlue">HER</a>',
+    "Clock's font, font size, font color and background, text alignment": "Klokkens font, fontstørrelse, fontfarge og -bakgrunn, tekststilling",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Datoformat, tidsformat, sekunder, ukedag, ukenummer, regionale innstillinger",
+    "Testing features and error-fixing tools": "Testfunksjoner og feilløsningsverktøy",
+    "Language pack author(s), help translating ElevenClock": "Språkpakkens forfatter(e), hjelp til med å oversette ElevenClock",
+    "Info, report a bug, submit a feature request, donate, about": "Informasjon, rapporter en 'bug' (feil), send forslag til ny funksjon, doner, om",
+    "Log, debugging information": "Logg, informasjon for 'debugging' (feilsøking)",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -73,11 +73,11 @@ lang_2_8 = lang_2_9 | {
     "Use a custom background color": "Bruk en annen bakgrunnsfarge",
     "Align the clock text to the center": "Sentrer klokketeksten",
     "Select custom color": "Bruk en annen farge",
-    "Hide the clock when a program occupies all screens": "Skjul klokken når et program bruker alle skjermene",
+    "Hide the clock when a program occupies all screens": "Skjul klokken når et program bruker alle skjermer",
 }
 
 lang2_7_bis = lang_2_8 | {
-    "Use a custom font": "Bruk en annen skrifttype (font)",
+    "Use a custom font": "Bruk en annen font",
     "Use a custom font size": "Bruk en annen skriftstørrelse",
     "Enable hide when multi-monitor fullscreen apps are running": "Skjul klokken når apper som bruker fullskjerm over flere skjermer kjører",
     "<b>{0}</b> needs to be enabled to change this setting": "<b>{0}</b> må være aktivert for å endre denne innstillingen",
@@ -85,8 +85,8 @@ lang2_7_bis = lang_2_8 | {
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Denne funksjonen har blitt deaktivert fordi den skal virke som standard. Hvis den ikke virker, kan du sende en feilrapport)",
-    "ElevenClock's language": "Valgt språk:"
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (Denne funksjonen har blitt deaktivert fordi den skal virke som standard. Hvis den ikke virker, vær så snill og rapporter en 'bug' (feil))",
+    "ElevenClock's language": "Valgt språk"
 }
 
 lang2_6 = lang2_7 | {
@@ -99,7 +99,7 @@ lang2_6 = lang2_7 | {
 
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Skjul klokken når RDP Klient eller Citrix Workspace kjører",
-    "Clock Appearance:": "Klokken sitt utseende:",
+    "Clock Appearance:": "Klokkens utseende:",
     "Force the clock to have black text": "Tving klokken til å bruke svart tekst",
     " - It is required that the Dark Text checkbox is disabled": " - Krever at 'svart tekst' er deaktivert",
     "Debbugging information:": "Feilsøkingsinformasjon:",
@@ -114,7 +114,7 @@ lang2_4 = lang2_5 | {
 
 lang2_3 = lang2_4 | {
     #Context menu
-    "ElevenClock Settings"      :"ElevenClock Innstillinger", # Also settings title
+    "ElevenClock Settings"      :"Innstillinger, ElevenClock", # Also settings title
     "Reload Clocks"             :"Last inn klokker på nytt",
     "ElevenClock v{0}"          :"ElevenClock versjon {0}",
     "Restart ElevenClock"       :"Start ElevenClock på nytt",
@@ -122,7 +122,7 @@ lang2_3 = lang2_4 | {
     "Quit ElevenClock"          :"Avslutt ElevenClock",
     
     #General settings section
-    "General Settings:"                                                                 :"Generelle Innstillinger",
+    "General Settings:"                                                                 :"Generelle innstillinger",
     "Automatically check for updates"                                                   :"Se etter oppdateringer automatisk",
     "Automatically install available updates"                                           :"Installer tilgjengelige oppdateringer automatisk",
     "Enable really silent updates"                                                      :"Aktiver stille oppdateringer",
@@ -154,7 +154,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"Om språkpakken:",
-    "Translated to English by martinet101"      :"Oversatt til Norsk (Bokmål) av SkebbZ", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Oversatt til Norsk (Bokmål) av SkebbZ og norway-yv", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Oversett ElevenClock til ditt språk",
     "Get started"                               :"Sett i gang",
     
