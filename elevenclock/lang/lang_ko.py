@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "주", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "알림 배지 사용 안 함",
+    "Override clock default height": "시계 기본 높이 재정의",
+    "Adjust horizontal clock position": "수평 시계 위치 조정",
+    "Adjust vertical clock position": "수직 시계 위치 조정",
+    "Export log as a file": "로그를 파일로 내보내기",
+    "Copy log to clipboard": "로그를 클립보드에 복사",
+    "Announcements:": "공지사항",
+    "최신 공지사항을 가져오는 중입니다. 잠시 기다려 주십시오...": "",
+    "Couldn't load the announcements. Please try again later": "공지사항을 불러올 수 없습니다. 나중에 다시 시도해 주십시오",
+    "ElevenClock's log": "ElevenClock 로그",
+    "Pick a color": "색상 선택"
 }
 
 lang_3 = lang_3_1 | {
