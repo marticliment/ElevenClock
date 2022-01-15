@@ -149,18 +149,18 @@ class QFramelessDialog(QFramelessWindow):
         l = QVBoxLayout()
         l.setContentsMargins(0, 0, 0, 0)
         self.title = QLabel("Title")
-        self.title.setStyleSheet("font-size: 16pt;padding: 30px; padding-bottom: 5px;")
+        self.title.setStyleSheet(f"font-size: 16pt;padding: {self.getPx(30)}px; padding-bottom: {self.getPx(5)}px;")
         l.addWidget(self.title)
         self.body = QLabel("This is the body. Here comes the warning")
         self.body.setOpenExternalLinks(True)
-        self.body.setStyleSheet("font-size: 10pt;font-weight: light;font-family: \"Segoe UI Variable Display\";padding: 30px; padding-top: 5px;")
+        self.body.setStyleSheet(f"font-size: 10pt;font-weight: light;font-family: \"Segoe UI Variable Display\";padding: {self.getPx(30)}px; padding-top: {self.getPx(5)}px;")
         l.addWidget(self.body)
         self.buttonWidget = QDialogButtonBox(self)
         self.buttonWidget.setObjectName("dialogButtonWidget")
-        self.buttonWidget.setStyleSheet("QPushButton{margin: 2px;height: 30px;}")
+        self.buttonWidget.setStyleSheet(f"QPushButton{{margin: {self.getPx(2)}px;height: {self.getPx(30)}px;}}")
         self.buttonWidget.clicked.connect(self.click)
         bwd = QWidget()
-        bwd.setContentsMargins(15, 15, 15, 15)
+        bwd.setContentsMargins(self.getPx(15), self.getPx(15), self.getPx(15), self.getPx(15))
         bwd.setObjectName("dialogButtonWidget")
         tl = QVBoxLayout()
         tl.addWidget(self.buttonWidget)
@@ -196,7 +196,7 @@ class QFramelessDialog(QFramelessWindow):
             btn: QPushButton
             if self.buttonWidget.buttonRole(btn) == btnRole:
                 btn.setObjectName("AccentButton")
-                btn.setStyleSheet(stylesheet+"QPushButton{margin: 2px;height: 30px;}")
+                btn.setStyleSheet(stylesheet+f"QPushButton{{margin: {self.getPx(2)}px;height: {self.getPx(30)}px;}}")
                 break
             
     def getBtn(self, btnRole: QDialogButtonBox.ButtonRole) -> QPushButton:
@@ -230,6 +230,9 @@ class QFramelessDialog(QFramelessWindow):
             pass
         #self.parent().window().setWindowOpacity(0.7)
         return super().showEvent(event)
+
+    def getPx(self, i: int):
+        return round(i*(self.screen().logicalDotsPerInch()/96))
     
     
     
