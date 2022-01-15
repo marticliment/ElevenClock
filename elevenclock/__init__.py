@@ -1109,7 +1109,7 @@ try:
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
-    print("🔵Low cpu mode is set to", getSettings("EnableLowCpuMode"), ". DisableNotifications is set to", getSettings("DisableNotifications"))
+    print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
     
     rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
     if getSettings("EnableHideOnRDP"):
@@ -1171,7 +1171,7 @@ try:
         setSettings("DefaultPrefsLoaded", True)
         
         
-    showWelcomeWizard = False
+    showWelcomeWizard = True
     if showWelcomeWizard or "--welcome" in sys.argv:
         import welcome
         ww = welcome.WelcomeWindow()
