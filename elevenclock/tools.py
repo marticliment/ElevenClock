@@ -4,18 +4,25 @@ import winreg
 import threading
 import locale
  
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-from PySide2.QtWinExtras import QtWin
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtWinExtras import QtWin
+
+
+from external.blurwindow import GlobalBlur
+
 
 
 import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
 
-version = 3
-versionName = "3.0.0"
+import win32gui
+from win32con import *
+
+version = 3.1
+versionName = "3.1.0-beta"
 
 def _(s): #Translate function
     global lang
@@ -26,8 +33,27 @@ def _(s): #Translate function
         if debugLang: print(s)
         return f"{s}🔴[MissingString]🔴" if debugLang else s
 
+def cprint(*args):
+    """
+    Prints on the console instead of on the log
+    """
+    print(*args, file=globals.old_stdout)
+
 def getPath(s):
     return os.path.join(os.path.join(realpath, "resources"), s).replace("\\", "/")
+
+def getAppIconMode() -> str:
+    return "white" if isWindowDark() else "black"
+
+def getTaskbarIconMode() -> str:
+    return "white" if isTaskbarDark() else "black"
+
+def isWindowDark() -> str:
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+
+def isTaskbarDark() -> str:
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
+
 
 def report(exception) -> None: # Exception reporter
     import traceback
@@ -144,15 +170,29 @@ class KillableThread(threading.Thread):
         self.shouldBeRuning = False
 
 def isDark():
-    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+    try:
+        raise DeprecationWarning("This function has been deprecated and must be replaced with isWindowDark or isTaskbarDark!")
+    except DeprecationWarning as e:
+        report(e)
+    return isWindowDark()
 
+def ApplyMenuBlur(hwnd: int, window: QWidget):
+    hwnd = int(hwnd)
+    window.setAttribute(Qt.WA_TranslucentBackground)
+    window.setAttribute(Qt.WA_NoSystemBackground)
+    window.setStyleSheet("background-color: transparent;")
+    if isWindowDark():
+        GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True)
+        QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
+    else:
+        GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True)
+        QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
 
 class Menu(QMenu):
     def __init__(self, title: str):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
         
-from BlurWindow.blurWindow import GlobalBlur
 
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -259,7 +299,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         return round(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
 
     def applyStyleSheet(self) -> None:
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isTaskbarDark():
             self.iconMode = "white"
             self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
             self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
@@ -272,10 +312,11 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
             self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
-            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
-            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#21212140", Dark=True)
+            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
             QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
+
             self.contextMenu().setStyleSheet(f"""
                 * {{
                     border-radius: {self.getPx(8)}px;
@@ -290,7 +331,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: white;
-                    background: rgba(50, 50, 50, 1%)/*#262626*/;
+                    background: rgba(0, 0, 0, 0.01%);
                     border-radius: {self.getPx(8)}px;
                 }}
                 QMenu::separator {{
@@ -344,8 +385,8 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
             self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
-            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#212121")
-            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#212121")
+            GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
+            GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
             QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
             self.contextMenu().setStyleSheet(f"""

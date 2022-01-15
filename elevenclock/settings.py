@@ -4,13 +4,14 @@ import os
 import sys
 import locale
 import time
-from PySide2 import QtGui
-from PySide2 import QtCore
+from PyQt5 import QtGui
+from PyQt5 import QtCore
 
 import psutil
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal as Signal
 
 import globals
 from win32mica import ApplyMica
@@ -20,19 +21,20 @@ from tools import *
 from tools import _
 import welcome
 
-from external.FramelessWindow import QFramelessWindow, QFramelessDialog
+import win32gui
 
-class SettingsWindow(QFramelessWindow):
+from win32con import GWL_STYLE, WS_BORDER, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU, WS_POPUP
+
+from external.FramelessWindow import QFramelessWindow, QFramelessDialog
+from external.blurwindow import GlobalBlur
+
+class SettingsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.scrollArea = QScrollArea()
         self.vlayout = QVBoxLayout()
         self.vlayout.setContentsMargins(0, 0, 0, 0)
-        """
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, False)
-        self.setWindowFlag(Qt.WindowMaximizeButtonHint, False)
-        self.setWindowFlag(Qt.WindowCloseButtonHint, False)"""
-        self.vlayout.setMargin(0)
+        self.vlayout.setContentsMargins(0, 0, 0, 0)
         self.vlayout.setSpacing(0)
         layout = QVBoxLayout()
         self.updateSize = True
@@ -55,19 +57,20 @@ class SettingsWindow(QFramelessWindow):
         self.resize(900, 600)
         self.setMinimumWidth(520)
         self.scrollArea.setFrameShape(QFrame.NoFrame)
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isWindowDark():
             self.iconMode = "white"
         else:
             self.iconMode = "black"
 
-        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
-        layout.addWidget(self.generalSettingsTitle)
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
-        self.updateButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.updateButton.setStyleSheet("")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
         self.updateButton.hide()
-        self.generalSettingsTitle.addWidget(self.updateButton)
-        self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) #The non-translated (Language) string is there to know what the language option is if you accidentaly change the language
+        layout.addWidget(self.updateButton)
+
+        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
+        layout.addWidget(self.generalSettingsTitle)
+        self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) # The non-translated (Language) string is there to let people know what the language option is if you accidentaly change the language
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         try:
             self.selectedLanguage.setItems(list(languageReference.values()), list(languageReference.keys()).index(langName))
@@ -156,6 +159,10 @@ class SettingsWindow(QFramelessWindow):
         self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
         self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
+        self.disableNotificationBadge = QSettingsCheckBox(_("Disable the notification badge"))
+        self.disableNotificationBadge.setChecked(getSettings("DisableNotifications"))
+        self.disableNotificationBadge.stateChanged.connect(lambda i: setSettings("DisableNotifications", bool(i)))
+        self.clockSettingsTitle.addWidget(self.disableNotificationBadge)
         self.clockSettingsTitle.addWidget(self.enableLowCpuMode)
 
         self.clockPosTitle = QIconLabel(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
@@ -174,7 +181,38 @@ class SettingsWindow(QFramelessWindow):
         self.clockAtTop.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: 1px;}}")
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
         self.clockPosTitle.addWidget(self.clockAtTop)
+        self.clockFixedHeight = QSettingsSliderWithCheckBox(_("Override clock default height"), self, 20, 105)
+        self.clockFixedHeight.setChecked(getSettings("ClockFixedHeight"))
+        if self.clockFixedHeight.isChecked():
+            try:
+                self.clockFixedHeight.slider.setValue(int(getSettingsValue("ClockFixedHeight")))
+            except ValueError:
+                print("🟠 Unable to parse int from ClockFixedHeight settings value")
+        self.clockFixedHeight.stateChanged.connect(lambda v: setSettings("ClockFixedHeight", bool(v)))
+        self.clockFixedHeight.valueChanged.connect(lambda v: setSettingsValue("ClockFixedHeight", str(v)))
+        self.clockPosTitle.addWidget(self.clockFixedHeight)
 
+        self.clockXOffset = QSettingsSliderWithCheckBox(_("Adjust horizontal clock position"), self, -200, 200)
+        self.clockXOffset.setChecked(getSettings("ClockXOffset"))
+        if self.clockXOffset.isChecked():
+            try:
+                self.clockXOffset.slider.setValue(int(getSettingsValue("ClockXOffset")))
+            except ValueError:
+                print("🟠 Unable to parse int from ClockXOffset settings value")
+        self.clockXOffset.stateChanged.connect(lambda v: setSettings("ClockXOffset", bool(v)))
+        self.clockXOffset.valueChanged.connect(lambda v: setSettingsValue("ClockXOffset", str(v)))
+        self.clockPosTitle.addWidget(self.clockXOffset)
+
+        self.clockYOffset = QSettingsSliderWithCheckBox(_("Adjust vertical clock position"), self, -200, 200)
+        self.clockYOffset.setChecked(getSettings("ClockYOffset"))
+        if self.clockYOffset.isChecked():
+            try:
+                self.clockYOffset.slider.setValue(int(getSettingsValue("ClockYOffset")))
+            except ValueError:
+                print("🟠 Unable to parse int from clockYOffset settings value")
+        self.clockYOffset.stateChanged.connect(lambda v: setSettings("ClockYOffset", bool(v)))
+        self.clockYOffset.valueChanged.connect(lambda v: setSettingsValue("ClockYOffset", str(v)))
+        self.clockPosTitle.addWidget(self.clockYOffset)
         def unblacklist():
             global msg
             setSettingsValue("BlacklistedMonitors", "")
@@ -329,15 +367,14 @@ class SettingsWindow(QFramelessWindow):
             colors = getColors()
             msg.setText(f"""
                 <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
-                <style> a {{color: rgb({colors[3]})}}</style>
+                <style> a {{color: rgb({colors[2 if isWindowDark() else 4]})}}</style>
                 <ul>
                 <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a></li>
-                <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/open-source-lgpl-obligations">LGPL-v3</a></li>
+                <li> <b>PyQt5 (Qt5)</b>: <a href="https://www.riverbankcomputing.com/commercial/license-faq">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
-                <li> <b>PythonBlurBehind</b>: <a href="https://github.com/Peticali/PythonBlurBehind/blob/main/LICENSE">MIT License</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
                 <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a></li>
                 </ul>    """)
@@ -401,10 +438,7 @@ class SettingsWindow(QFramelessWindow):
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.titlebar = QTitleBarWidget(self)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-        self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-        self.vlayout.addWidget(self.titlebar)
         self.vlayout.addWidget(self.scrollArea)
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
@@ -414,11 +448,17 @@ class SettingsWindow(QFramelessWindow):
         w.setLayout(self.vlayout)
         self.setCentralWidget(w)
         self.setMouseTracking(True)
-        self.resize(900, 600)
+        self.resize(self.getPx(1100), self.getPx(700))
+        self.hwnd = self.winId().__int__()
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        if QtWin.isCompositionEnabled():
+            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
+        else:
+            QtWin.resetExtendedFrame(self)
+
         self.installEventFilter(self)
 
     def showEvent(self, event: QShowEvent) -> None:
-        self.debbuggingTitle.toggleChilds()
         return super().showEvent(event)
 
     def updateCheckBoxesStatus(self):
@@ -468,27 +508,34 @@ class SettingsWindow(QFramelessWindow):
 
         if self.enableLowCpuMode.isChecked():
             self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            self.disableSystemTrayColor.setChecked(True)
             self.disableSystemTrayColor.setEnabled(False)
+            self.disableNotificationBadge.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
+            self.disableNotificationBadge.setEnabled(False)
             self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            self.legacyRDPHide.setChecked(False)
             self.legacyRDPHide.setEnabled(False)
         else:
             self.disableSystemTrayColor.setToolTip("")
             self.disableSystemTrayColor.setEnabled(True)
+            self.disableNotificationBadge.setToolTip("")
+            self.disableNotificationBadge.setEnabled(True)
             self.legacyRDPHide.setToolTip("")
             self.legacyRDPHide.setEnabled(True)
+
+        if self.backgroundcolor.isChecked():
+            self.disableSystemTrayColor.setEnabled(False)
+            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+        else:
+            self.disableSystemTrayColor.setEnabled(True)
+            self.disableSystemTrayColor.setToolTip("")
 
 
     def applyStyleSheet(self):
         colors = getColors()
-                            
-        self.titlebar.setFixedHeight(self.getPx(32))
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isWindowDark():
             try:
-                ApplyMica(self.winId(), True)
+                ApplyMica(self.winId().__int__(), True)
             except OSError:
-                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#33333388")
+                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -510,16 +557,6 @@ class SettingsWindow(QFramelessWindow):
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.closeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.closeButton.setFixedWidth(self.getPx(50))
-            self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
-            self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
-            
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    
@@ -544,6 +581,57 @@ class SettingsWindow(QFramelessWindow):
                                    border-radius: 0px;
                                    background-color: rgba(196, 43, 28, 25%);
                                }}
+
+                                QSlider {{
+                                    background: transparent;
+                                    height: {self.getPx(20)}px;
+                                    margin-left: {self.getPx(10)}px;
+                                    margin-right: {self.getPx(10)}px;
+                                    border-radius: {self.getPx(2)}px;
+                                }}
+                                QSlider::groove {{
+                                    height: {self.getPx(4)}px;
+                                    border: {self.getPx(1)}px solid #212121;
+                                    background: #212121;
+                                    border-radius: {self.getPx(2)}px;
+                                }}
+                                QSlider::handle {{
+                                    border: {self.getPx(4)}px solid #404040;
+                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
+                                    height: {self.getPx(8)}px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[0]});
+                                }}
+                                QSlider::handle:hover {{
+                                    border: {self.getPx(3)}px solid #404040;
+                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
+                                    height: {self.getPx(7)}px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[0]});
+                                }}
+                                QSlider::handle:disabled {{
+                                    border: {self.getPx(4)}px solid #404040;
+                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
+                                    height: {self.getPx(8)}px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: #212121;
+                                }}
+                                QSlider::add-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #303030;
+                                }}
+                                QSlider::sub-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: rgb({colors[0]});
+                                }}
+                                QSlider::add-page:disabled {{
+                                    border-radius: {self.getPx(2)}px;
+                                    background: #212121;
+                                }}
+                                QSlider::sub-page:disabled {{
+                                    border-radius: {self.getPx(2)}px;
+                                    background: #212121;
+                                }}
                                 QToolTip {{
                                     border: {self.getPx(1)}px solid #222222;
                                     padding: {self.getPx(4)}px;
@@ -656,14 +744,21 @@ class SettingsWindow(QFramelessWindow):
                                    border-top: {self.getPx(1)}px solid rgba(107, 107, 107, 25%);
                                 }}
                                 #AccentButton{{
-                                    background-color: rgb({colors[3]});
-                                    border-color: rgb({colors[2]});
-                                    border-top-color: rgb({colors[1]});
+                                    color: black;
+                                    background-color: rgb({colors[1]});
+                                    border-color: rgb({colors[1]});
+                                    border-bottom-color: rgb({colors[2]});
                                 }}
                                 #AccentButton:hover{{
-                                    background-color: rgb({colors[2]});
-                                    border-color: rgb({colors[1]});
-                                    border-top-color: rgb({colors[1]});
+                                    background-color: rgba({colors[1]}, 80%);
+                                    border-color: rgb({colors[2]});
+                                    border-bottom-color: rgb({colors[2]});
+                                }}
+                                #AccentButton:pressed{{
+                                    color: #555555;
+                                    background-color: rgba({colors[1]}, 80%);
+                                    border-color: rgb({colors[2]});
+                                    border-bottom-color: rgb({colors[2]});
                                 }}
                                 #title{{
                                    /*background-color: #303030;
@@ -673,7 +768,6 @@ class SettingsWindow(QFramelessWindow):
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    /*border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
-                                   border-bottom: 0px;
                                    */font-size: 13pt;
                                    border-radius: {self.getPx(4)}px;
                                 }}
@@ -900,9 +994,9 @@ class SettingsWindow(QFramelessWindow):
                                """)
         else:
             try:
-                ApplyMica(self.winId(), False)
+                ApplyMica(self.winId().__int__(), False)
             except OSError:
-                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#ffffff88")
+                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
             self.iconMode = "black"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
             self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
@@ -923,21 +1017,9 @@ class SettingsWindow(QFramelessWindow):
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.titlebar.closeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
-            self.titlebar.closeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.closeButton.setFixedWidth(self.getPx(50))
-            self.titlebar.maximizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.maximizeButton.setIconSize(QSize(self.getPx(14), self.getPx(14)))
-            self.titlebar.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
-            self.titlebar.maximizeButton.setFixedWidth(self.getPx(46))
-            self.titlebar.minimizeButton.setFixedHeight(self.getPx(32))
-            self.titlebar.minimizeButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            self.titlebar.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
-            self.titlebar.minimizeButton.setFixedWidth(self.getPx(46))
             self.setStyleSheet(f"""
                                #backgroundWindow {{
-                                   background-color: rgba({colors[4]}, 1);
+                                   background-color: transparent;
                                }}
                                #titlebarButton {{
                                    border-radius: 0px;
@@ -957,15 +1039,63 @@ class SettingsWindow(QFramelessWindow):
                                    border-radius: 0px;
                                    background-color: rgba(196, 43, 28, 1);
                                }}
+                                QSlider {{
+                                    height: {self.getPx(20)}px;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    border-radius: {self.getPx(2)}px;
+                                }}
+                                QSlider::groove {{
+                                    height: {self.getPx(4)}px;
+                                    border: 1px solid rgba(196, 196, 196, 25%);
+                                    background: #303030;
+                                }}
+                                QSlider::handle {{
+                                    border: 4px solid #eeeeee;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[4]});
+                                }}
+                                QSlider::handle:hover {{
+                                    border: 3px solid #eeeeee;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgb({colors[4]});
+                                }}
+                                QSlider::handle:disabled {{
+                                    border: 4px solid #eeeeee;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: {self.getPx(9)}px; 
+                                    background: rgba(106, 106, 106, 25%);
+                                }}
+                                QSlider::add-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #eeeeee;
+                                }}
+                                QSlider::sub-page {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: rgb({colors[4]});
+                                }}
+                                QSlider::add-page:disabled {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #eeeeee;
+                                }}
+                                QSlider::sub-page:disabled {{
+                                    border-radius: {self.getPx(3)}px;
+                                    background: #eeeeee;
+                                }}
                                 QToolTip{{
-                                    border: {self.getPx(1)}px solid #dddddd;
+                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                     padding: {self.getPx(4)}px;
                                     border-radius: {self.getPx(6)}px;
                                     background-color: #eeeeee;
                                 }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
-                                    background-color: #ffffff;
+                                    background-color: rgba(255, 255, 255, 10%);
                                     selection-background-color: rgb({colors[3]});
                                     border: none;
                                 }}
@@ -1018,10 +1148,11 @@ class SettingsWindow(QFramelessWindow):
                                 }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
+                                   background-color: transparent;
                                 }}
                                 * {{
-                                   background-color: #eeeeee;
-                                   color: #000000;
+                                   background-color: transparent;
+                                   color: black;
                                    font-size: 8pt;
                                 }}
                                 #warningLabel {{
@@ -1030,18 +1161,18 @@ class SettingsWindow(QFramelessWindow):
                                 }}
                                 QPushButton {{
                                    width: 100px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 70%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 QPushButton:hover {{
-                                   background-color: #f6f6f6;
+                                   background-color: rgba(238, 238, 238, 100%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #AccentButton{{
                                     background-color: rgb({colors[3]});
@@ -1056,19 +1187,19 @@ class SettingsWindow(QFramelessWindow):
                                     border-bottom-color: rgb({colors[3]});
                                 }}
                                 #title{{
-                                   /*background-color: #ffffff;
+                                   /*background-color: rgba(255, 255, 255, 10%);
                                    */margin: {self.getPx(2)}px;
                                    margin-bottom: 0px;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   /*border: {self.getPx(1)}px solid #dddddd;
+                                   /*border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 1px;
                                    */font-size: 13pt;
                                    border-radius: {self.getPx(6)}px;
                                 }}
                                 #subtitleLabel{{
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
@@ -1076,7 +1207,7 @@ class SettingsWindow(QFramelessWindow):
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    border-radius: {self.getPx(4)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
@@ -1099,24 +1230,24 @@ class SettingsWindow(QFramelessWindow):
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
                                 }}
                                 #StLbl{{
                                    padding: 0px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: 0px;
                                    border:none;
                                    font-size: {self.getPx(11)}px;
                                 }}
                                 #stBtn{{
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 0px;
                                    border-bottom-left-radius: {self.getPx(0)}px;
                                    border-bottom-right-radius: {self.getPx(0)}px;
@@ -1129,11 +1260,11 @@ class SettingsWindow(QFramelessWindow):
                                 #stChkBg{{
                                    padding: {self.getPx(15)}px;
                                    padding-left: {self.getPx(45)}px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 0px;
                                 }}
                                 #stChk::indicator{{
@@ -1141,65 +1272,65 @@ class SettingsWindow(QFramelessWindow):
                                    width: {self.getPx(20)}px;
                                 }}
                                 #stChk::indicator:unchecked {{
-                                    background-color: #ffffff;
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    background-color: rgba(255, 255, 255, 10%);
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                 }}
                                 #stChk::indicator:disabled {{
                                     background-color: #eeeeee;
-                                    color: #bbbbbb;
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    color: rgba(136, 136, 136, 25%);
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                 }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #eeeeee;
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                 }}
                                 #stChk::indicator:checked {{
-                                    border: {self.getPx(0)}px solid #bbbbbb;
+                                    border: {self.getPx(0)}px solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[4]});
                                     border-radius: {self.getPx(5)}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
-                                    border: {self.getPx(0)}px solid #bbbbbb;
+                                    border: {self.getPx(0)}px solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[3]});
                                     border-radius: {self.getPx(5)}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:disabled {{
-                                    border: {self.getPx(1)}px solid #bbbbbb;
+                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
                                     background-color: #eeeeee;
-                                    color: #bbbbbb;
+                                    color: rgba(136, 136, 136, 25%);
                                     border-radius: {self.getPx(6)}px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
                                    width: 100px;
-                                   background-color: #ffffff;
+                                   background-color: rgba(255, 255, 255, 10%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx:disabled {{
                                    width: 100px;
                                    background-color: #eeeeee;
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-top: {self.getPx(1)}px solid #dddddd;
+                                   border-top: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                 }}
                                 #stCmbbx:hover {{
-                                   background-color: #f6f6f6;
+                                   background-color: rgba(238, 238, 238, 25%);
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solid #dddddd;
+                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-bottom: {self.getPx(1)}px solid #cccccc;
+                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
@@ -1220,10 +1351,10 @@ class SettingsWindow(QFramelessWindow):
                                     width: {self.getPx(2)}px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
-                                    border: {self.getPx(1)}px solid #dddddd;
+                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
                                     padding: {self.getPx(4)}px;
                                     outline: 0px;
-                                    background-color: #ffffff;
+                                    background-color: rgba(255, 255, 255, 10%);
                                     border-radius: {self.getPx(8)}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
@@ -1248,7 +1379,7 @@ class SettingsWindow(QFramelessWindow):
                                     outline: none;
                                 }}
                                 QScrollBar:vertical {{
-                                    background: #ffffff;
+                                    background: rgba(255, 255, 255, 10%);
                                     margin: {self.getPx(4)}px;
                                     width: {self.getPx(20)}px;
                                     border: none;
@@ -1258,12 +1389,12 @@ class SettingsWindow(QFramelessWindow):
                                     margin: {self.getPx(3)}px;
                                     border-radius: {self.getPx(3)}px;
                                     min-height: 20px;
-                                    background: #dddddd;
+                                    background: rgba(196, 196, 196, 25%);
                                 }}
                                 QScrollBar::handle:vertical:hover {{
                                     margin: {self.getPx(3)}px;
                                     border-radius: {self.getPx(3)}px;
-                                    background: #bbbbbb;
+                                    background: rgba(136, 136, 136, 25%);
                                 }}
                                 QScrollBar::add-line:vertical {{
                                     height: 0;
@@ -1290,34 +1421,140 @@ class SettingsWindow(QFramelessWindow):
                                """)
 
     def showDebugInfo(self):
+
+        class QPlainTextEditWithFluentMenu(QPlainTextEdit):
+            def __init__(self):
+                super().__init__()
+
+            def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
+                menu = self.createStandardContextMenu()
+                menu.addSeparator()
+
+                a = QAction()
+                a.setText(_("Reload log"))
+                a.triggered.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
+                menu.addAction(a)
+
+                a2 = QAction()
+                a2.setText(_("Export log as a file"))
+                a2.triggered.connect(lambda: saveLog())
+                menu.addAction(a2)
+
+                a3 = QAction()
+                a3.setText(_("Copy log to clipboard"))
+                a3.triggered.connect(lambda: copyLog())
+                menu.addAction(a3)
+
+                ApplyMenuBlur(menu.winId().__int__(), menu)
+                menu.exec(e.globalPos())
+                return super().contextMenuEvent(e)
+
         global old_stdout, buffer
         win = QMainWindow(self)
-        win.resize(800, 600)
+        win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
-        win.setWindowTitle("ElevenClock's log")
+        win.setWindowTitle(_("ElevenClock's log"))
         
         w = QWidget()
         w.setLayout(QVBoxLayout())
-        w.layout().setContentsMargins(0, 0, 0, 0)
+        w.setContentsMargins(0, 0, 0, 0)
         
-        textEdit = QPlainTextEdit()
+        textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
+        if isWindowDark():
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #161616;}}")
+        else:
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: 1px solid #dddddd;}}")
+
+
 
         textEdit.setPlainText(globals.buffer.getvalue())
         
         reloadButton = QPushButton(_("Reload log"))
+        reloadButton.setFixedWidth(self.getPx(200))
         reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
+        
+        def saveLog():
+            try:
+                print("🔵 Saving log...")
+                f = QFileDialog.getSaveFileName(win, "Save log", os.path.expanduser("~"), "Text file (.txt)")
+                if f[0]:
+                    fpath = f[0]
+                    if not ".txt" in fpath.lower():
+                        fpath += ".txt"
+                    with open(fpath, "wb") as fobj:
+                        fobj.write(globals.buffer.getvalue().encode("utf-8"))
+                        fobj.close()
+                    os.startfile(fpath)
+                    print("🟢 log saved successfully")
+                    textEdit.setPlainText(globals.buffer.getvalue())
+                else:
+                    print("🟡 log save cancelled!")
+                    textEdit.setPlainText(globals.buffer.getvalue())
+            except Exception as e:
+                report(e)
+                textEdit.setPlainText(globals.buffer.getvalue())
+
+        
+        exportButtom = QPushButton(_("Export log as a file"))
+        exportButtom.setFixedWidth(self.getPx(200))
+        exportButtom.clicked.connect(lambda: saveLog())
+
+        def copyLog():
+            try:
+                print("🔵 Copying log to the clipboard...")
+                globals.app.clipboard().setText(globals.buffer.getvalue())
+                print("🟢 Log copied to the clipboard successfully!")
+                textEdit.setPlainText(globals.buffer.getvalue())
+            except Exception as e:
+                report(e)
+                textEdit.setPlainText(globals.buffer.getvalue())
+
+
+        copyButton = QPushButton(_("Copy log to clipboard"))
+        copyButton.setFixedWidth(self.getPx(200))
+        copyButton.clicked.connect(lambda: copyLog())
+         
+
+
         hl = QHBoxLayout()
-        hl.setSpacing(0)
-        hl.setContentsMargins(3, 3, 3, 0)
+        hl.setSpacing(self.getPx(5))
+        hl.setContentsMargins(self.getPx(10), self.getPx(10), self.getPx(10), 0)
+        hl.addWidget(exportButtom)
+        hl.addWidget(copyButton)
         hl.addStretch()
         hl.addWidget(reloadButton)
         
         w.layout().setSpacing(0)
+        w.layout().setContentsMargins(self.getPx(5), self.getPx(5), self.getPx(5), self.getPx(5))
         w.layout().addLayout(hl, stretch=0)
         w.layout().addWidget(textEdit, stretch=1)
         
         win.setCentralWidget(w)
+        win.hwnd = win.winId().__int__()
+
+
+        win.setAttribute(Qt.WA_TranslucentBackground)
+        win.setAttribute(Qt.WA_NoSystemBackground)
+        win.setAutoFillBackground(True)
+
+        win.hwnd = win.winId().__int__()
+        window_style = win32gui.GetWindowLong(win.hwnd, GWL_STYLE)
+        win32gui.SetWindowLong(win.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+
+        if QtWin.isCompositionEnabled():
+            QtWin.extendFrameIntoClientArea(win, -1, -1, -1, -1)
+        else:
+            QtWin.resetExtendedFrame(win)
+
+        try:
+            ApplyMica(win.hwnd, isWindowDark())
+        except OSError:
+            if isWindowDark():    
+                GlobalBlur(win.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
+            else:
+                GlobalBlur(win.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
+
         win.show()
 
     def moveEvent(self, event: QMoveEvent) -> None:
@@ -1338,8 +1575,6 @@ class SettingsWindow(QFramelessWindow):
             self.applyStyleSheet()
             if not self.isMaximized():
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-                self.vlayout.setContentsMargins(2, 2, 2, 2)
             self.updateSize = False
         return super().mouseReleaseEvent(event)
 
@@ -1347,26 +1582,19 @@ class SettingsWindow(QFramelessWindow):
     def show(self) -> None:
         self.applyStyleSheet()
         self.raise_()
-        self.vlayout.setContentsMargins(2, 2, 2, 2)
+        self.activateWindow()
         return super().show()
     
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
             if self.isMaximized():
-                self.titlebar.closeButton.setFixedWidth(self.getPx(48))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
-                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: 0px;border-top-right-radius: 0px;}}#closeButton{{border-top-right-radius: 0px;}}")
-                self.vlayout.setContentsMargins(0, 0, 0, 0)
             else:
-                self.titlebar.closeButton.setFixedWidth(self.getPx(56))
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-                self.titlebar.setStyleSheet(f"#ControlWidget{{border-top-left-radius: {self.getPx(6)}px;border-top-right-radius: {self.getPx(6)}px;}}#closeButton{{border-top-right-radius: {self.getPx(6)}px;}}")
-                self.vlayout.setContentsMargins(2, 2, 2, 2)
         return super().eventFilter(watched, event)
 
     def showEvent(self, event: QShowEvent) -> None:
-        self.showNormal()
-        self.resize(self.getPx(900), self.getPx(600))
+        self.show()
         return super().showEvent(event)
 
     def closeEvent(self, event: QCloseEvent) -> None:
@@ -1379,7 +1607,7 @@ class SettingsWindow(QFramelessWindow):
 
 class QIconLabel(QWidget):
     def __init__(self, text: str, icon: str, descText: str = "No description provided"):
-        if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
+        if isWindowDark():
             self.iconMode = "white"
             semib = "Semib"
         else:
@@ -1558,8 +1786,14 @@ class QSettingsComboBox(QWidget):
     textChanged = Signal(str)
     def __init__(self, text="", btntext="", parent=None):
         super().__init__(parent)
+
+        class QcomboBoxWithFluentMenu(QComboBox):
+            def __init__(self, parent) -> None:
+                super().__init__(parent)
+
+
         self.setAttribute(Qt.WA_StyledBackground)
-        self.combobox = QComboBox(self)
+        self.combobox = QcomboBoxWithFluentMenu(self)
         self.combobox.setObjectName("stCmbbx")
         self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.setObjectName("stBtn")
@@ -1707,14 +1941,77 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.combobox.clear()
         self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16])
 
+
+class QSettingsSliderWithCheckBox(QSettingsCheckBox):
+    stateChanged = Signal(bool)
+    valueChanged = Signal(int)
+    
+    def __init__(self, text: str, parent=None, min: int = 10, max: int = 100):
+        super().__init__(text=text, parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.slider = QSlider(self)
+        self.slider.setRange(min, max)
+        self.slider.setOrientation(Qt.Horizontal)
+        self.slider.setObjectName("slider")
+        self.slider.sliderReleased.connect(self.valuechangedEvent)
+        self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.stateChangedEvent(self.checkbox.isChecked())
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.slider.move(self.width()-self.getPx(270), self.getPx(10))
+        self.checkbox.move(self.getPx(70), self.getPx(10))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.slider.setFixedHeight(self.getPx(30))
+        self.slider.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+    
+    def valuechangedEvent(self):
+        self.valueChanged.emit(self.slider.value())
+    
+    def stateChangedEvent(self, v: bool):
+        self.slider.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.slider.setEnabled(False)
+            self.slider.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+        else:
+            self.slider.setEnabled(True)
+            self.slider.setToolTip("")
+            self.valueChanged.emit(self.slider.value())
+        self.stateChanged.emit(v)
+        
+
+
+
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
-        self.setStyleSheet("*{border-radius: 5px;background: transparent;}  QColorLuminancePicker {background-color: transparent; border: 5px solid black;margin: none; border: none; padding: none;} ")
-        self.setAttribute(Qt.WA_NoSystemBackground)
+        self.setWindowModality(Qt.WindowModality.WindowModal)
+        self.setStyleSheet("*{border-radius: 5px;}  QColorLuminancePicker {background-color: transparent; border: 5px solid black;margin: none; border: none; padding: none;} ")
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+
+        self.hwnd = self.winId().__int__()
+        window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
+        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+
+        if QtWin.isCompositionEnabled():
+            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
+        else:
+            QtWin.resetExtendedFrame(self)
+        
+        try:
+            ApplyMica(self.hwnd, isWindowDark())
+        except OSError:
+            if isWindowDark():    
+                GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
+            else:
+                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
+
+        self.setWindowIcon(self.window().windowIcon())
+        self.setWindowTitle(_("Pick a color"))
+
 
 class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
@@ -1798,7 +2095,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
     
     def valuechangedEvent(self, i: int):
         self.valueChanged.emit(self.combobox.itemText(i))
-        self.combobox.lineEdit().setFont(self.combobox.itemText(i))
+        self.combobox.lineEdit().setFont(QFont(self.combobox.itemText(i)))
     
     def stateChangedEvent(self, v: bool):
         self.combobox.setEnabled(self.checkbox.isChecked())
@@ -1809,64 +2106,12 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
             self.combobox.setEnabled(True)
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
-            self.combobox.lineEdit().setFont(self.combobox.currentText())
+            self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
         self.stateChanged.emit(v)
         
     def setItems(self, items: list):
         self.combobox.clear()
         self.combobox.addItems(items)
-
-class QTitleBarWidget(QWidget):
-    def __init__(self, parent: QMainWindow = ...) -> None:
-        super().__init__(parent=parent)
-        self.setAttribute(Qt.WA_StyledBackground)
-        self.setObjectName("ControlWidget")
-        self.oldPos = QPoint(0, 0)
-        self.setFixedHeight(parent.getPx(32))
-        
-        self.iconMode = "white"
-        
-        self.closeButton = QPushButton()
-        self.closeButton.setObjectName("closeButton")
-        self.closeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
-        #self.closeButton.setIcon(QIcon(getPath(f"cross_{self.iconMode}.png")))
-        self.closeButton.setFixedHeight(parent.getPx(32))
-        self.closeButton.setFixedWidth(parent.getPx(46))
-        self.closeButton.clicked.connect(parent.close)
-        
-        self.maximizeButton = QPushButton()
-        self.maximizeButton.setObjectName("titlebarButton")
-        self.maximizeButton.setFixedHeight(parent.getPx(32))
-        self.maximizeButton.setIconSize(QSize(parent.getPx(14), parent.getPx(14)))
-        #self.maximizeButton.setIcon(QIcon(getPath(f"maximize_{self.iconMode}.png")))
-        self.maximizeButton.setFixedWidth(parent.getPx(46))
-        self.maximizeButton.clicked.connect(lambda: parent.showNormal() if parent.isMaximized() else parent.showMaximized())
-        
-        self.minimizeButton = QPushButton()
-        self.minimizeButton.setObjectName("titlebarButton")
-        self.minimizeButton.setFixedHeight(parent.getPx(32))
-        self.minimizeButton.setIconSize(QSize(parent.getPx(12), parent.getPx(12)))
-        #self.minimizeButton.setIcon(QIcon(getPath(f"minimize_{self.iconMode}.png")))
-        self.minimizeButton.setFixedWidth(parent.getPx(46))
-        self.minimizeButton.clicked.connect(parent.showMinimized)
-        
-        self.setLayout(QHBoxLayout())
-        icon = QLabel()
-        icon.setAttribute(Qt.WA_TransparentForMouseEvents)
-        icon.setPixmap(QIcon(getPath("icon.png")).pixmap(parent.getPx(16), parent.getPx(16)))
-        l = QLabel(_("ElevenClock Settings"), self)
-        l.setAttribute(Qt.WA_TransparentForMouseEvents)
-        l.setObjectName("#titlebarLabel")
-        self.layout().addWidget(icon)
-        self.layout().addSpacing(parent.getPx(16))
-        self.layout().addWidget(l)
-        self.layout().addStretch()
-        self.layout().setContentsMargins(parent.getPx(16), 0, 0, 0)
-        self.layout().setSpacing(0)
-        self.layout().addWidget(self.minimizeButton)
-        self.layout().addWidget(self.maximizeButton)
-        self.layout().addWidget(self.closeButton)
-        
     
 if __name__ == "__main__":
     import __init__

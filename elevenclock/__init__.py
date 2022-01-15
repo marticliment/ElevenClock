@@ -23,9 +23,10 @@ try:
     import pythoncom
     import win32process
     import win32com.client
-    from PySide2.QtGui import *
-    from PySide2.QtCore import *
-    from PySide2.QtWidgets import *
+    from PyQt5.QtGui import *
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+    from PyQt5.QtCore import pyqtSignal as Signal
     from pynput.keyboard import Controller, Key
     from pynput.mouse import Controller as MouseController
     from external.FramelessWindow import QFramelessDialog
@@ -38,8 +39,8 @@ try:
 
     from settings import *
     from tools import *
+    import tools
 
-    from mica import mica
 
 
     from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
@@ -74,7 +75,8 @@ try:
     print(" 🔴: Error")
     print("")
 
-
+    def _(s) -> str:
+        return tools._(s)
 
     def checkRDP():
         def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
@@ -130,6 +132,7 @@ try:
                 if float(new_version_number) > version:
                     print("🟢 Updates found!")
                     if(not(getSettings("DisableAutoInstallUpdates")) or force):
+                        showNotif.infoSignal.emit(("ElevenClock Updater"), ("ElevenClock is downloading updates"))
                         if(integrityPass):
                             url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
                             filedata = urlopen(url)
@@ -155,15 +158,15 @@ try:
                                 print("🔴 Hash not ok")
                                 print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
                                 print("🔴 Provided hash: ", provided_hash)
-                                showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                                showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                         else:
                             print("🔴 Can't verify update server authenticity, aborting")
                             print("🔴 Provided DmName:", dmname)
                             print("🔴 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
-                            showWarn.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                            showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                     else:
-                        showNotif.infoSignal.emit("Updates found!", f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
+                        showNotif.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
 
                 else:
                     print("🟢 Updates not found")
@@ -335,6 +338,8 @@ try:
                 dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
         elif not getSettings("EnableWeekNumber"):
             dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
+        else:
+            dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
 
         if not getSettings("EnableWeekDay"):
             try:
@@ -459,6 +464,13 @@ try:
                     
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
+                if getSettings("ClockFixedHeight"):
+                    print("🟡 Custom height being used!")
+                    try:
+                        self.preferedHeight = int(getSettingsValue("ClockFixedHeight"))
+                    except ValueError as e:
+                        report(e)
+
                 self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
                 for win32screen in win32api.EnumDisplayMonitors():
                     try:
@@ -509,16 +521,32 @@ try:
                 if getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignCenter)
 
+                xoff = 0
+                yoff = 0
 
-                self.w = w
-                self.h = h
+                if getSettings("ClockXOffset"):
+                    print("🟡 X offset being used!")
+                    try:
+                        xoff = int(getSettingsValue("ClockXOffset"))
+                    except ValueError as e:
+                        report(e)
+
+                if getSettings("ClockYOffset"):
+                    print("🟡 Y offset being used!")
+                    try:
+                        yoff = int(getSettingsValue("ClockYOffset"))
+                    except ValueError as e:
+                        report(e)
+
+                self.w = int(w) + xoff
+                self.h = int(h) + yoff
                 self.dpix = dpix
                 self.dpiy = dpiy
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
-                    self.move(w, h)
-                    self.resize(self.preferedwidth*dpix, self.preferedHeight*dpiy)
+                    self.move(self.w, self.h)
+                    self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy))
                 else:
                     print("🟡 Using win32 API positioning system")
                     self.user32 = windll.user32
@@ -552,12 +580,10 @@ try:
                 self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
                 self.label.setFont(self.font)
 
-                self.isDark = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0
-
                 accColors = getColors()
                 def make_style_sheet(a, b, c, d, color):
-                    bg = 1 if self.isDark else 4
-                    fg = 6 if self.isDark else 1
+                    bg = 1 if isTaskbarDark() else 4
+                    fg = 6 if isTaskbarDark() else 1
                     return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
                 if getSettings("UseCustomFontColor"):
@@ -575,7 +601,7 @@ try:
                     else:
                         self.font.setWeight(QFont.Weight.DemiBold)
                     self.label.setFont(self.font)        
-                elif readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme",  1) == 0:
+                elif isTaskbarDark():
                     print("🟢 Using white text (dark mode)")
                     self.lastTheme = 0
                     style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
@@ -747,8 +773,9 @@ try:
             EnableHideOnRDP = getSettings("EnableHideOnRDP")
             clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
             newMethod = getSettings("NewFullScreenMethod")
+            notifs = not getSettings("DisableNotifications")
             oldNotifNumber = 0
-            print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}")
+            print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}, DisableNotifications:{notifs}")
             if clockOnFirstMon or self.isLowCpuMode:
                 INTLOOPTIME = 15
             else:
@@ -758,14 +785,14 @@ try:
                 isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod)
                 for i in range(INTLOOPTIME):
                     if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
-                        if isFocusAssist:
-                            self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        elif numOfNotifs > 0:
-                            if oldNotifNumber != numOfNotifs:
-                                print(oldNotifNumber, numOfNotifs)
-                                self.callInMainSignal.emit(self.label.enableNotifDot)
-                        else:
-                            self.callInMainSignal.emit(self.label.disableClockIndicators)
+                        if notifs:
+                            if isFocusAssist:
+                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                            elif numOfNotifs > 0:
+                                if oldNotifNumber != numOfNotifs:
+                                    self.callInMainSignal.emit(self.label.enableNotifDot)
+                            else:
+                                self.callInMainSignal.emit(self.label.disableClockIndicators)
                         oldNotifNumber = numOfNotifs
                         if self.autoHide and not(DisableHideWithTaskbar):
                             mousePos = getMousePos()
@@ -888,7 +915,7 @@ try:
             self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
             self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
             self.focusAssitantLabel.resize(self.getPx(30), self.height())
-            self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
+            self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
             self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
             
             accColors = getColors()
@@ -907,24 +934,24 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True
-                self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
+                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
                 self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
                 self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
-                self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_white.png")))
+                self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
                 self.focusAssitantLabel.show()
                 
         def enableNotifDot(self):
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
-                self.setContentsMargins(self.getPx(5), self.getPx(4), self.getPx(43), self.getPx(4))
+                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
                 topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
-                self.notifDotLabel.move(self.width()-self.contentsMargins().right()+leftRightPadding, topBottomPadding)
+                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding))
                 self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
-                print(self.notifDotLabel.geometry())
+                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
                 self.notifDotLabel.show()
             
         def disableClockIndicators(self):
@@ -939,7 +966,7 @@ try:
                 
             
         def getPx(self, i: int) -> int:
-            return self.window().getPx(i)
+            return round(i*(self.screen().logicalDotsPerInch()/96))
 
         def enterEvent(self, event: QEvent, r=False) -> None:
             geometry: QRect = self.width()
@@ -1027,7 +1054,7 @@ try:
     # Start of main script
     
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
-    app = QApplication()
+    app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     
     mController: MouseController = None
@@ -1064,7 +1091,7 @@ try:
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
-
+    print("🔵Low cpu mode is set to", getSettings("EnableLowCpuMode"), ". DisableNotifications is set to", getSettings("DisableNotifications"))
     
     rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
     if getSettings("EnableHideOnRDP"):

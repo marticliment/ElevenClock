@@ -7,7 +7,22 @@
 # Meke special attention to elements like ":", etc.
 
 
-lang_3 = {
+lang_3_1 = {
+    "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Désactiver le badge de notification",
+    "Override clock default height": "Remplacer la hauteur par défaut de l'horloge",
+    "Adjust horizontal clock position": "Ajuster la position horizontale de l'horloge",
+    "Adjust vertical clock position": "Ajuster la position verticale de l'horloge",
+    "Export log as a file": "Exporter les logs dans un fichier",
+    "Copy log to clipboard": "Copier les logs dans le presse papier",
+    "Announcements:": "Annonces",
+    "Fetching latest announcement, please wait...": "Récupération des dernières annonces, veuillez patienter...",
+    "Couldn't load the announcements. Please try again later": "Impossible de charger les annonces. Réessayer ultérieurement",
+    "ElevenClock's log": "Logs de ElevenClock",
+    "Pick a color": "Choisissez une couleur"
+}
+
+lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "Cacher l'horloge pendant 10s lorsqu'elle est cliquée",
     "Enable low-cpu mode": "Activer le mode basse-consommation cpu",
     "You might lose functionalities, like the notification counter or the dynamic background": "Vous risquez de perdre des fonctionnalités, comme les badges de notifications ou l'arrière-plan dynamique",

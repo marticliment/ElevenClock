@@ -3,9 +3,24 @@ import glob, os
 
 
 
-OLDSTR = b""""Are you sure do you want to blacklist the monitor "{0}"?": "","""
+OLDSTR = b"""lang_3 = {"""
 
-NEWSTR = b""""Are you sure do you want to blacklist the monitor \\"{0}\\"?": "","""
+NEWSTR = b"""lang_3_1 = {
+    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "",
+    "Override clock default height": "",
+    "Adjust horizontal clock position": "",
+    "Adjust vertical clock position": "",
+    "Export log as a file": "",
+    "Copy log to clipboard": "",
+    "Announcements:": "",
+    "Fetching latest announcement, please wait...": "",
+    "Couldn't load the announcements. Please try again later": "",
+    "ElevenClock's log": "",
+    "Pick a color": ""
+}
+
+lang_3 = lang_3_1 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()

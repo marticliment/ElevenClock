@@ -1,7 +1,6 @@
 pynput==1.6.8
 pywin32
-PySide2
+PyQt5
 psutil
 PyInstaller==4.1
-BlurWindow
 win32mica

@@ -4,10 +4,11 @@ import os
 import sys
 import locale
 import time
-from PySide2 import QtGui
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
+from PyQt5 import QtGui
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import pyqtSignal as Signal
 import external.FramelessWindow as FramelessWindow
 
 import globals
@@ -509,7 +510,7 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.button.setText(t)
         
     def setIcon(self, path: str) -> None:
-        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20), Mode=Qt.KeepAspectRatio))
+        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
         
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))  

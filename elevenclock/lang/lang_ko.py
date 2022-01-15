@@ -6,7 +6,22 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3 = {
+lang_3_1 = {
+    "W": "주", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "알림 배지 사용 안 함",
+    "Override clock default height": "시계 기본 높이 재정의",
+    "Adjust horizontal clock position": "수평 시계 위치 조정",
+    "Adjust vertical clock position": "수직 시계 위치 조정",
+    "Export log as a file": "로그를 파일로 내보내기",
+    "Copy log to clipboard": "로그를 클립보드에 복사",
+    "Announcements:": "공지사항",
+    "Fetching latest announcement, please wait...": "최신 공지사항을 가져오는 중입니다. 잠시 기다려 주십시오...",
+    "Couldn't load the announcements. Please try again later": "공지사항을 불러올 수 없습니다. 나중에 다시 시도해 주십시오",
+    "ElevenClock's log": "ElevenClock 로그",
+    "Pick a color": "색상 선택"
+}
+
+lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "클릭 시 10초간 시계 숨기기",
     "Enable low-cpu mode": "저성능 모드 사용",
     "You might lose functionalities, like the notification counter or the dynamic background": "알림 카운터, 동적 배경 등의 기능이 비활성화됩니다",
