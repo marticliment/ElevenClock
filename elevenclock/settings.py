@@ -544,7 +544,9 @@ class SettingsWindow(QMainWindow):
             self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
             self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
             self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
-            self.unBlackListButton.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
+            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
+            """self.unBlackListButton.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.ThirdParty.setIcon(QIcon(getPath(f"open_{self.iconMode}.png")))
             self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
@@ -553,10 +555,8 @@ class SettingsWindow(QMainWindow):
             self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
-            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))"""
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    
@@ -1005,18 +1005,18 @@ class SettingsWindow(QMainWindow):
             self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
             self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
             self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
+            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
+            """self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+            self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.unBlackListButton.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.ThirdParty.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
             self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
             self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
-            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
-            self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
+            self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))"""
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    background-color: transparent;
