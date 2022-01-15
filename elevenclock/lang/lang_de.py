@@ -7,24 +7,24 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "W", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Anzeige für Benachrichtigungen deaktiveren",
+    "Override clock default height": "Standart-Höhe der Uhr überschreiben",
+    "Adjust horizontal clock position": "Horizontale Position der Uhr anpassen",
+    "Adjust vertical clock position": "Vertikale Position der Uhr anpassen",
+    "Export log as a file": "Log als Datei exportieren",
+    "Copy log to clipboard": "Log in die Zwischenablage kopieren",
+    "Announcements:": "Ankündigungen",
+    "Fetching latest announcement, please wait...": "Neueste Ankündigungen werden abgerufen, bitte warten...",
+    "Couldn't load the announcements. Please try again later": "Ankündigungen konnten nicht geladen werden. Bitte versuche es später erneut",
+    "ElevenClock's log": "ElevenClocks Log",
+    "Pick a color": "Wähle eine Farbe"
 }
 
 lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "Verstecke die Uhr für 10 Sekunden beim Anklicken",
-    "Enable low-cpu mode": "Niedrigen CPU Modus aktivieren",
-    "You might lose functionalities, like the notification counter or the dynamic background": "Du könntest Funktionen, wie den Benachrichtigungs-Zähler oder denn dynamischen Hintergrund, verlieren.",
+    "Enable low-cpu mode": "Niedrigen CPU-Auslastungs Modus aktivieren",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Du könntest Funktionen, wie den Benachrichtigungs-Zähler oder den dynamischen Hintergrund, verlieren.",
     "Clock position and size:": "Position und Größe der Uhr",
     "Clock size preferences, position offset, clock at the left, etc.": "Bevorzugte Uhr Größe, Positionsversatz, Uhr links, etc.",
     "Reset monitor blacklisting status": "Monitor Blacklist-Status zurücksetzen",
