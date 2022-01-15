@@ -70,9 +70,10 @@ try:
     print(" Log legend:")
     print(" 🔵: Verbose")
     print(" 🟢: Information")
-    print(" 🟡: Expected warning")
-    print(" 🟠: Unexpected warning")
-    print(" 🔴: Error")
+    print(" 🟡: Warning")
+    print(" 🟠: Handled unexpected exception")
+    print(" 🔴: Unhandled unexpected exception")
+    print(" 🟣: Handled expected exception")
     print("")
 
     def _(s) -> str:
@@ -155,15 +156,15 @@ try:
                                 else:
                                     subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
                             else:
-                                print("🔴 Hash not ok")
-                                print("🔴 File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                                print("🔴 Provided hash: ", provided_hash)
+                                print("🟠 Hash not ok")
+                                print("🟠 File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                                print("🟠 Provided hash: ", provided_hash)
                                 showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                         else:
-                            print("🔴 Can't verify update server authenticity, aborting")
-                            print("🔴 Provided DmName:", dmname)
-                            print("🔴 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
+                            print("🟠 Can't verify update server authenticity, aborting")
+                            print("🟠 Provided DmName:", dmname)
+                            print("🟠 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
                             showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                     else:
                         showNotif.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
@@ -304,7 +305,7 @@ try:
                         if(float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
                             os.remove(file)
                 if not(getSettings(name)):
-                    print("🔴 KILLING, NEWER VERSION RUNNING")
+                    print("🟠 KILLING, NEWER VERSION RUNNING")
                     killSignal.infoSignal.emit("", "")
             except Exception as e:
                 report(e)
@@ -438,6 +439,7 @@ try:
                 self.styler.connect(self.setStyleSheet)
                 
                 self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
+                self.transparentBackground = getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
                 
                 if self.taskbarBackgroundColor:
                     print("🔵 Using taskbar background color")
@@ -447,20 +449,25 @@ try:
                     self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
                     print("🔵 Using bg color:", self.bgcolor)
 
+                self.prefMargins = 0
+
                 try:
                     if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(5)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
+                        self.prefMargins = self.getPx(5)
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(0)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
                         if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                             print("🟡 Small sized taskbar")
                             self.preferedHeight = 32
                             self.preferedwidth = 200
                     else:
                         print("🟢 Regular sized taskbar")
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;"
+                        self.prefMargins = self.getPx(3)
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;"
                 except Exception as e:
                     print("🟡 Regular sized taskbar")
                     report(e)
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(3)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
+                    self.prefMargins = self.getPx(3)
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
                     
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -718,12 +725,15 @@ try:
 
         def backgroundLoop(self):
             while True:
-                if self.taskbarBackgroundColor and not self.isLowCpuMode:
-                    intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x(), self.y()+1, 1, 1).toImage().pixel(0, 0)
-                    if intColor != self.oldBgColor:
-                        self.oldBgColor = intColor
-                        color = QColor(intColor)
-                        self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
+                try:
+                    if self.taskbarBackgroundColor and not self.isLowCpuMode and not globals.trayIcon.contextMenu().isVisible():
+                        intColor = self.primary_screen.grabWindow(0, self.x(), self.y(), 1, 1).toImage().pixel(0, 0)
+                        if intColor != self.oldBgColor:
+                            self.oldBgColor = intColor
+                            color = QColor(intColor)
+                            self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
+                except AttributeError:
+                    print("🟣 Expected AttributeError on backgroundLoop thread")
                 time.sleep(0.5)
 
         def theresFullScreenWin(self, clockOnFirstMon, newMethod):
@@ -888,20 +898,25 @@ try:
             self.color = "255, 255, 255"
             self.installEventFilter(self)
             self.bgopacity = 0.1
-            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.getPx(2)}px; margin-bottom: {self.getPx(2)};")
+            self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
+            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
+            if self.window().transparentBackground:
+                colorOffset = .01
+            else:
+                colorOffset = 0
             self.showBackground = QVariantAnimation()
-            self.showBackground.setStartValue(.01) # Not 0 to prevent white flashing on the border
+            self.showBackground.setStartValue(0+colorOffset) # Not 0 to prevent white flashing on the border
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity-0.01});"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
-            self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
+            self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity});"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
             self.setAutoFillBackground(True)
             self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
             
@@ -957,11 +972,11 @@ try:
         def disableClockIndicators(self):
             if self.focusassitant:
                 self.focusassitant = False
-                self.setContentsMargins(self.getPx(6), self.getPx(4), self.getPx(13), self.getPx(6))
+                self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
                 self.focusAssitantLabel.hide()
             if self.notifdot:
                 self.notifdot = False
-                self.setContentsMargins(self.getPx(6), self.getPx(4), self.getPx(13), self.getPx(6))
+                self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
                 self.notifDotLabel.hide()
                 
             
@@ -1047,6 +1062,9 @@ try:
                 self.focusassitant = True
                 self.disableClockIndicators()
             return super().resizeEvent(event)
+
+        def window(self) -> Clock:
+            return super().window()
         
 
         
