@@ -466,6 +466,7 @@ class SettingsWindow(QMainWindow):
         self.installEventFilter(self)
 
     def showEvent(self, event: QShowEvent) -> None:
+        threading.Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
         return super().showEvent(event)
 
     def updateCheckBoxesStatus(self):
@@ -1598,9 +1599,6 @@ class SettingsWindow(QMainWindow):
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
         return super().eventFilter(watched, event)
 
-    def showEvent(self, event: QShowEvent) -> None:
-        self.show()
-        return super().showEvent(event)
 
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
@@ -2133,7 +2131,6 @@ class QAnnouncements(QLabel):
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: {self.getPx(1)}px;font-size: 12pt;}}*{{padding: 3px;}}")
         self.setTtext(_("Fetching latest announcement, please wait..."))
-        threading.Thread(target=self.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         self.setContentsMargins(0, 0, 0, 0)
@@ -2143,7 +2140,7 @@ class QAnnouncements(QLabel):
         self.pictureLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.textLabel = QLabel()
         self.textLabel.setOpenExternalLinks(True)
-        self.textLabel.setContentsMargins(10, 0, 10, 0)
+        self.textLabel.setContentsMargins(self.getPx(10), 0, self.getPx(10), 0)
         self.textLabel.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         layout.addStretch()
         layout.addWidget(self.textLabel, stretch=0)
@@ -2155,18 +2152,13 @@ class QAnnouncements(QLabel):
         self.w.setContentsMargins(0, 0, 0, 0)
         self.area.setWidget(self.w)
         l = QVBoxLayout()
-        """
-        title = QLabel(_("Announcements:"))
-        title.setStyleSheet("font-size: 12pt;")
-        title.setContentsMargins(5, 5, 0, 0)"""
-        #l.addWidget(title, stretch=0)
         l.setSpacing(0)
-        l.setContentsMargins(0, 5, 0, 5)
+        l.setContentsMargins(0, self.getPx(5), 0, self.getPx(5))
         l.addWidget(self.area, stretch=1)
         self.area.setWidgetResizable(True)
         self.area.setContentsMargins(0, 0, 0, 0)
         self.area.setObjectName("backgroundWindow")
-        self.area.setStyleSheet("border: 0px solid red; padding: 0px; margin: 0px;")
+        self.area.setStyleSheet("border: 0px solid black; padding: 0px; margin: 0px;")
         self.area.setFrameShape(QFrame.NoFrame)
         self.area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -2193,12 +2185,11 @@ class QAnnouncements(QLabel):
                 self.file =  open(os.path.join(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock")), "announcement.png"), "wb")
                 self.file.write(response)
                 self.callInMain.emit(lambda: self.pictureLabel.setText(""))
-                cprint(self.file.name)
                 self.file.close()
-                cprint(self.file.name)
-                self.callInMain.emit(lambda: self.pictureLabel.setFixedHeight(self.area.height()))
-                self.callInMain.emit(lambda: self.textLabel.setFixedHeight(self.area.height()))
-                self.callInMain.emit(lambda: self.pictureLabel.setPixmap(QPixmap(self.file.name).scaledToHeight(self.pictureLabel.height()-6, Qt.SmoothTransformation)))
+                h = self.area.height()
+                self.callInMain.emit(lambda: self.pictureLabel.setFixedHeight(h))
+                self.callInMain.emit(lambda: self.textLabel.setFixedHeight(h))
+                self.callInMain.emit(lambda: self.pictureLabel.setPixmap(QPixmap(self.file.name).scaledToHeight(h-self.getPx(6), Qt.SmoothTransformation)))
             except Exception as ex:
                 s = _("Couldn't load the announcement image")+"\n\n"+str(ex)
                 self.callInMain.emit(lambda: self.pictureLabel.setText(s))
