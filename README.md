@@ -1,5 +1,5 @@
 
-[![](https://img.shields.io/github/downloads/martinet101/ElevenClock/2.8/total?style=for-the-badge)]()
+[![Download@3.0](https://img.shields.io/github/downloads/martinet101/ElevenClock/3.0.0/total?style=for-the-badge)]()
 ![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
 ![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
 ![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
