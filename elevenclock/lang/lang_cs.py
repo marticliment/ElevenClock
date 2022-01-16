@@ -11,13 +11,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
+    "Use system accent color as background color": "Použít barvu motivu jako barvu pozadí",
     "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Clock on monitor {0}": "Hodiny na monitoru {0}",
+    "Move to the left": "Přesunout vlevo",
+    "Show this clock on the left": "Zobrazit hodiny na levé straně",
+    "Show this clock on the right": "Zobrazit hodiny na pravé straně",
+    "Restore clock position": "Obnovit pozici hodin",
 }
 
 lang_3_1 = lang_3_2 | {
@@ -26,12 +26,12 @@ lang_3_1 = lang_3_2 | {
     "Override clock default height": "Přepsat výchozí výšku hodin",
     "Adjust horizontal clock position": "Upravit horizontální pozici hodin",
     "Adjust vertical clock position": "Upravit vertikální pozici hodin",
-    "Export log as a file": "Exportovat log do souboru",
-    "Copy log to clipboard": "Zkopírovat log do schránky",
+    "Export log as a file": "Exportovat protokol do souboru",
+    "Copy log to clipboard": "Zkopírovat protokol do schránky",
     "Announcements:": "Oznámení:",
     "Fetching latest announcement, please wait...": "Získávám poslední oznámení, prosím vyčkejte...",
     "Couldn't load the announcements. Please try again later": "Nelze získat oznámení. Prosím, zkuste to později",
-    "ElevenClock's log": "Log ElevenClock",
+    "ElevenClock's log": "Protokol ElevenClock",
     "Pick a color": "Vybrat barvu"
 }
 
@@ -46,7 +46,7 @@ lang_3 = lang_3_1 | {
     "Third party licenses": "Licence třetích stran",
     "View": "Zobrazit",
     "ElevenClock": "ElevenClock",
-    "Monitor tools": "Nástroje obrazovky",
+    "Monitor tools": "Nástroje monitoru",
     "Blacklist this monitor": "Umístit tento monitor na blacklist",
     "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Open-source třetích stran v ElevenClock {0} (a jejich licence)",
     "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock je aplikace s otevřeným kódem, která vznikla za pomocí dalších knihovem vytvořených komunitou:",
@@ -65,7 +65,7 @@ lang_3 = lang_3_1 | {
 }
 
 lang_2_9_2 = lang_3 | {
-    "Reload log": "Znovu načíst log",
+    "Reload log": "Znovu načíst protokol",
     "Do not show the clock on secondary monitors": "Nezobrazovat hodiny na sekundárním monitoru",
     "Disable clock taskbar background color (make clock transparent)": "Vypnout barvu pozadí hodin na hlavní liště (hodiny budou průhledné)",
     "Open the welcome wizard": "Otevřít průvodce prvního spuštění",
@@ -182,7 +182,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"O jazykovém balíčku",
-    "Translated to English by martinet101"      :"Do češtiny přeložil Matouš Adamů a panther7", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Do češtiny přeložili Matouš Adamů a panther7", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Přeložte ElevenClock do svého jazyka",
     "Get started"                               :"Začít",
     
