@@ -1127,8 +1127,8 @@ try:
     globals.trayIcon = i
     globals.tempDir = tempDir
 
-    if not(getSettings("Updated3Already")) and not(getSettings("EnableSilentUpdates")):
-        setSettings("Updated3Already", True)
+    if not(getSettings("Updated3.1Already")) and not(getSettings("EnableSilentUpdates")):
+        setSettings("Updated3.1Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
         msg.setStyleSheet(sw.styleSheet())
@@ -1137,15 +1137,14 @@ try:
         msg.setTitle("ElevenClock Updater")
         msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
  <br><br>This update brings:<br>
- - <b>The license has changed from Apache2 to MIT</b><br>
- - Better dialogs and settings UI (now with mica)<br>
- - ElevenClock now shows the Focus Assistant icon when needed<br>
- - ElevenClock can now hide when clicked (optional feature)<br>
- - ElevenClock now has an unread notifications counter<br>
- - Now you can hide the clock on a specific screen<br>
- &nbsp;&nbsp;&nbsp;You can do that from the clock right-click menu<br>
- - Added information related to third-party licenses and libraries under About ElevenClock<br>
- - Lots of code optimisation<br>""")
+ <ul><li><b>The license has changed from MIT to GPLv3</b></li>
+ <li> Fixed some scaling UI inconcistencies</li>
+ <li> Fixed an issue with 3-row dates</li>
+ <li> Added the announcements section</li>
+ <li> Added slider to set a custom clock height, as well as x and y pos</li>
+ <li> Improved the log window</li>
+ <li> Added a new slide in the alpha welcome wizard</li></ul>
+ <h3>We have a new <a href="https://twitter.com/ElevenClockProj" style="color: rgb({getColors()[2 if isWindowDark() else 4]})">Twitter Account</a>, Make sure to follow us for the latest news and announcements!</h3>""")
         msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
         msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
         def settNClose():
@@ -1171,7 +1170,7 @@ try:
         setSettings("DefaultPrefsLoaded", True)
         
         
-    showWelcomeWizard = True
+    showWelcomeWizard = False
     if showWelcomeWizard or "--welcome" in sys.argv:
         import welcome
         ww = welcome.WelcomeWindow()
