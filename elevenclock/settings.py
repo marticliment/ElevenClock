@@ -3,7 +3,9 @@ import subprocess
 import os
 import sys
 import locale
+import tempfile
 import time
+from urllib.request import urlopen
 from PyQt5 import QtGui
 from PyQt5 import QtCore
 
@@ -40,6 +42,7 @@ class SettingsWindow(QMainWindow):
         self.updateSize = True
         self.scrollArea.setWidgetResizable(True)
         self.setObjectName("backgroundWindow")
+        self.scrollArea.setFrameShape(QFrame.NoFrame)
         self.settingsWidget = QWidget()
         self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
@@ -56,11 +59,15 @@ class SettingsWindow(QMainWindow):
         layout.addSpacing(0)
         self.resize(900, 600)
         self.setMinimumWidth(520)
-        self.scrollArea.setFrameShape(QFrame.NoFrame)
         if isWindowDark():
             self.iconMode = "white"
         else:
             self.iconMode = "black"
+
+        self.announcements = QAnnouncements()
+        layout.addWidget(self.announcements)
+
+
 
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("")
@@ -784,7 +791,7 @@ class SettingsWindow(QMainWindow):
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
                                 }}
-                                #subtitleLableHover {{
+                                #subtitleLabelHover {{
                                    background-color: rgba(20, 20, 20, 1%);
                                    margin: {self.getPx(10)}px;
                                    margin-top: 0px;
@@ -794,7 +801,7 @@ class SettingsWindow(QMainWindow):
                                    border-top-right-radius: {self.getPx(6)}px;
                                    border: {self.getPx(1)}px solid transparent;
                                 }}
-                                #subtitleLableHover:hover{{
+                                #subtitleLabelHover:hover{{
                                    background-color: rgba(255, 255, 255, 4%);
                                    margin: {self.getPx(10)}px;
                                    margin-top: 0px;
@@ -1193,9 +1200,7 @@ class SettingsWindow(QMainWindow):
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   /*border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                   border-bottom: {self.getPx(1)}px;
-                                   */font-size: 13pt;
+                                   font-size: 13pt;
                                    border-radius: {self.getPx(6)}px;
                                 }}
                                 #subtitleLabel{{
@@ -1212,7 +1217,7 @@ class SettingsWindow(QMainWindow):
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
                                 }}
-                                #subtitleLableHover {{
+                                #subtitleLabelHover {{
                                    background-color: rgba(0, 0, 0, 1%);
                                    margin: {self.getPx(10)}px;
                                    margin-top: 0px;
@@ -1222,7 +1227,7 @@ class SettingsWindow(QMainWindow):
                                    border-top-right-radius: {self.getPx(6)}px;
                                    border: {self.getPx(1)}px solid transparent;
                                 }}
-                                #subtitleLableHover:hover{{
+                                #subtitleLabelHover:hover{{
                                    background-color: rgba(0, 0, 0, 6%);
                                    margin: {self.getPx(10)}px;
                                    margin-top: 0px;
@@ -1629,7 +1634,7 @@ class QIconLabel(QWidget):
             self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
 
         self.image = QLabel(self)
-        self.image.setStyleSheet("padding: {self.getPx(1)}px;background: none;")
+        self.image.setStyleSheet(f"padding: {self.getPx(1)}px;background: none;")
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
         self.compressibleWidget.show()
@@ -1670,7 +1675,7 @@ class QIconLabel(QWidget):
      
 
         self.button = QPushButton("", self)
-        self.button.setObjectName("subtitleLableHover")
+        self.button.setObjectName("subtitleLabelHover")
         self.button.clicked.connect(self.toggleChilds)
         self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
 
@@ -2115,5 +2120,109 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.combobox.clear()
         self.combobox.addItems(items)
     
+class QAnnouncements(QLabel):
+    callInMain = Signal(object)
+
+    def __init__(self):
+        super().__init__()
+        self.area = QScrollArea()
+        self.setMaximumWidth(self.getPx(1000))
+        self.callInMain.connect(lambda f: f())
+        self.setObjectName("subtitleLabel")
+        self.setFixedHeight(self.getPx(110))
+        self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: {self.getPx(1)}px;font-size: 12pt;}}*{{padding: 3px;}}")
+        self.setTtext(_("Fetching latest announcement, please wait..."))
+        threading.Thread(target=self.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
+        layout = QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
+        self.pictureLabel = QLabel()
+        self.pictureLabel.setContentsMargins(0, 0, 0, 0)
+        self.pictureLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.textLabel = QLabel()
+        self.textLabel.setOpenExternalLinks(True)
+        self.textLabel.setContentsMargins(10, 0, 10, 0)
+        self.textLabel.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+        layout.addStretch()
+        layout.addWidget(self.textLabel, stretch=0)
+        layout.addWidget(self.pictureLabel, stretch=0)
+        layout.addStretch()
+        self.w = QWidget()
+        self.w.setObjectName("backgroundWindow")
+        self.w.setLayout(layout)
+        self.w.setContentsMargins(0, 0, 0, 0)
+        self.area.setWidget(self.w)
+        l = QVBoxLayout()
+        """
+        title = QLabel(_("Announcements:"))
+        title.setStyleSheet("font-size: 12pt;")
+        title.setContentsMargins(5, 5, 0, 0)"""
+        #l.addWidget(title, stretch=0)
+        l.setSpacing(0)
+        l.setContentsMargins(0, 5, 0, 5)
+        l.addWidget(self.area, stretch=1)
+        self.area.setWidgetResizable(True)
+        self.area.setContentsMargins(0, 0, 0, 0)
+        self.area.setObjectName("backgroundWindow")
+        self.area.setStyleSheet("border: 0px solid red; padding: 0px; margin: 0px;")
+        self.area.setFrameShape(QFrame.NoFrame)
+        self.area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        self.area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.pictureLabel.setFixedHeight(self.area.height())
+        self.textLabel.setFixedHeight(self.area.height())
+        self.setLayout(l)
+
+
+
+    def loadAnnouncements(self):
+        try:
+            response = urlopen("http://www.somepythonthings.tk/resources/elevenclock.announcement")
+            print("🔵 Announcement URL:", response.url)
+            response = response.read().decode("utf8")
+            self.callInMain.emit(lambda: self.setTtext(""))
+            announcement_body = response.split("////")[0].strip().replace("http://", "ignore:").replace("https://", "ignoreSecure:").replace("linkId", "http://somepythonthings.tk/redirect/").replace("linkColor", f"rgb({getColors()[2 if isWindowDark() else 4]})")
+            self.callInMain.emit(lambda: self.textLabel.setText(announcement_body))
+            self.callInMain.emit(lambda: self.pictureLabel.setText("Loading media..."))
+            announcement_image_url = response.split("////")[1].strip()
+            try:
+                response = urlopen(announcement_image_url)
+                print("🔵 Image URL:", response.url)
+                response = response.read()
+                self.file =  open(os.path.join(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock")), "announcement.png"), "wb")
+                self.file.write(response)
+                self.callInMain.emit(lambda: self.pictureLabel.setText(""))
+                cprint(self.file.name)
+                self.file.close()
+                cprint(self.file.name)
+                self.callInMain.emit(lambda: self.pictureLabel.setFixedHeight(self.area.height()))
+                self.callInMain.emit(lambda: self.textLabel.setFixedHeight(self.area.height()))
+                self.callInMain.emit(lambda: self.pictureLabel.setPixmap(QPixmap(self.file.name).scaledToHeight(self.pictureLabel.height()-6, Qt.SmoothTransformation)))
+            except Exception as ex:
+                s = _("Couldn't load the announcement image")+"\n\n"+str(ex)
+                self.callInMain.emit(lambda: self.pictureLabel.setText(s))
+                print("🟠 Unable to retrieve announcement image")
+                report(ex)
+        except Exception as e:
+            s = _("Couldn't load the announcements. Please try again later")+"\n\n"+str(e)
+            self.callInMain.emit(lambda: self.setTtext(s))
+            print("🟠 Unable to retrieve latest announcement")
+            report(e)
+
+    def showEvent(self, a0: QShowEvent) -> None:
+        return super().showEvent(a0)
+
+    def getPx(self, i: int) -> int:
+        return round(i*(self.screen().logicalDotsPerInch()/96))
+
+    def setTtext(self, a0: str) -> None:
+        return super().setText(a0)
+
+    def setText(self, a: str) -> None:
+        class FuckYouException(Exception):
+            pass
+        raise FuckYouException("You don't have permissions to do that. Please don't try using sudo, or Obama will nuke your pc. You have been warned")
+
 if __name__ == "__main__":
     import __init__
