@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "週", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "通知バッジを無効にする",
+    "Override clock default height": "時計の既定の高さを上書きする",
+    "Adjust horizontal clock position": "時計の水平位置を調整する",
+    "Adjust vertical clock position": "時計の垂直位置を調整する",
+    "Export log as a file": "ログをファイルにエクスポート",
+    "Copy log to clipboard": "ログをクリップボードにコピー",
+    "Announcements:": "お知らせ",
+    "Fetching latest announcement, please wait...": "最新のお知らせを取得中です。しばらくお待ちください。",
+    "Couldn't load the announcements. Please try again later": "お知らせを読み込めませんでした。後ほど再度お試しください。",
+    "ElevenClock's log": "ElevenClockのログ",
+    "Pick a color": "色を選択"
 }
 
 lang_3 = lang_3_1 | {
