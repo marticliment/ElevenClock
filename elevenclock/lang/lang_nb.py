@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "U", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Deaktiver varslingsmerket",
+    "Override clock default height": "Overstyr standardhøyde for klokken",
+    "Adjust horizontal clock position": "Juster klokkens horisontale posisjon",
+    "Adjust vertical clock position": "Juster klokkens vertikale posisjon",
+    "Export log as a file": "Eksporter logg som fil",
+    "Copy log to clipboard": "Kopier logg til utklippstavlen",
+    "Announcements:": "Kunngjøringer:",
+    "Fetching latest announcement, please wait...": "Henter siste kunngjøring, vennligst vent...",
+    "Couldn't load the announcements. Please try again later": "Kunne ikke laste kunngjøringene. Vennligst prøv igjen senere",
+    "ElevenClock's log": "Logg for ElevenClock",
+    "Pick a color": "Velg en farge"
 }
 
 lang_3 = lang_3_1 | {
@@ -30,7 +30,7 @@ lang_3 = lang_3_1 | {
     "Reset monitor blacklisting status": "Nullstill status for svartelisting av skjerm",
     "Reset": "Nullstill",
     "Third party licenses": "Tredjepartslisenser",
-    "View": "Visning",
+    "View": "Vis",
     "ElevenClock": "ElevenClock",
     "Monitor tools": "Skjermverktøy",
     "Blacklist this monitor": "Svartelist denne skjermen",
@@ -77,8 +77,8 @@ lang_2_9 = lang_2_9_2 | {
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Datoformat, tidsformat, sekunder, ukedag, ukenummer, regionale innstillinger",
     "Testing features and error-fixing tools": "Testfunksjoner og feilløsningsverktøy",
     "Language pack author(s), help translating ElevenClock": "Språkpakkens forfatter(e), hjelp til med å oversette ElevenClock",
-    "Info, report a bug, submit a feature request, donate, about": "Informasjon, rapporter en 'bug' (feil), send forslag til ny funksjon, doner, om",
-    "Log, debugging information": "Logg, informasjon for 'debugging' (feilsøking)",
+    "Info, report a bug, submit a feature request, donate, about": "Informasjon, rapporter en feil, send forslag til ny funksjon, doner, om",
+    "Log, debugging information": "Logg, informasjon for feilsøking",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -169,7 +169,7 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"Om språkpakken:",
-    "Translated to English by martinet101"      :"Oversatt til Norsk (Bokmål) av SkebbZ og norway-yv", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Oversatt til Norsk (Bokmål) av SkebbZ og norway-yv", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Oversett ElevenClock til ditt språk",
     "Get started"                               :"Sett i gang",
     
