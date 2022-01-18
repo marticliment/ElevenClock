@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Desative o selo de notificação",
+    "Override clock default height": "Substituir a altura padrão do relógio",
+    "Adjust horizontal clock position": "Ajustar a posição horizontal do relógio",
+    "Adjust vertical clock position": "Ajustar a posição vertical do relógio",
+    "Export log as a file": "Exportar o log como um arquivo",
+    "Copy log to clipboard": "Copiar o log para a área de transferência",
+    "Announcements:": "Anúncios:",
+    "Fetching latest announcement, please wait...": "Buscando o último anúncio, aguarde...",
+    "Couldn't load the announcements. Please try again later": "Não foi possível carregar os anúncios. Por favor, tente novamente mais tarde",
+    "ElevenClock's log": "Log's do ElevenClock",
+    "Pick a color": "Escolha uma cor"
 }
 
 lang_3 = lang_3_1 | {
@@ -52,16 +52,16 @@ lang_3 = lang_3_1 | {
 }
 
 lang_2_9_2 = lang_3 | {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Recarregar log",
+    "Do not show the clock on secondary monitors": "Não mostrar o relógio em monitores secundários",
+    "Disable clock taskbar background color (make clock transparent)": "Desabilitar a cor de fundo da barra de tarefas do relógio (tornar o relógio transparente)",
+    "Open the welcome wizard": "Abra o assistente de boas-vindas",
+    " (ALPHA STAGE, MAY NOT WORK)": " (ESTÁGIO ALFA, PODE NÃO FUNCIONAR)",
+    "Welcome to ElevenClock": "Bem-vindo ao ElevenClock",
+    "Skip": "Pular",
+    "Start": "Iniciar",
+    "Next": "Próximo",
+    "Finish": "Finalizar",
 }
 
 lang_2_9 = lang_2_9_2 | {
