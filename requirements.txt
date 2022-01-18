@@ -2,5 +2,5 @@ pynput==1.6.8
 pywin32
 PyQt5
 psutil
-PyInstaller==4.8
+PyInstaller==4.1
 win32mica
