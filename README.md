@@ -1,10 +1,13 @@
 
-[![Download@3.0](https://img.shields.io/github/downloads/martinet101/ElevenClock/3.0.0/total?style=for-the-badge)]()
-![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)
-![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)
-![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)
-![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)
+[![Download@3.0](https://img.shields.io/github/downloads/martinet101/ElevenClock/3.0.0/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
+[![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
+[![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
+[![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
+[![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
+[![ElevenClock](https://img.shields.io/twitter/follow/elevenclockproj?color=%231DA1F2&style=for-the-badge)](https://twitter.com/ElevenClockProj)
 <br>
+
+### We are on twitter! Follow us for the latest news: https://twitter.com/ElevenClockProj
 
 # ElevenClock
 
