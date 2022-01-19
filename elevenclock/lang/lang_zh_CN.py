@@ -7,18 +7,18 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "周", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "禁用通知标志",
+    "Override clock default height": "覆盖时钟默认高度",
+    "Adjust horizontal clock position": "调整水平时钟位置",
+    "Adjust vertical clock position": "调整垂直时钟位置",
+    "Export log as a file": "将日志导出为文件",
+    "Copy log to clipboard": "将日志复制到剪贴板",
+    "Announcements:": "公告：",
+    "Fetching latest announcement, please wait...": "正在获取最新公告，请稍候……",
+    "Couldn't load the announcements. Please try again later": "无法加载公告。 请稍后再试",
+    "ElevenClock's log": "ElevenClock 的日志",
+    "Pick a color": "取样一个颜色"
 }
 
 lang_3 = lang_3_1 | {
