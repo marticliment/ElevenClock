@@ -10,37 +10,37 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    "W": "Н", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "Disable the notification badge": "Отключить значок уведомлений",
+    "Override clock default height": "Высота часов по умолчанию",
+    "Adjust horizontal clock position": "Смещение по горизонтали",
+    "Adjust vertical clock position": "Смещение по вертикали",
+    "Export log as a file": "Экспорт логов в файл",
+    "Copy log to clipboard": "Скопировать логи",
+    "Announcements:": "Объявления:",
+    "Fetching latest announcement, please wait...": "Загружаются объявления, ждите...",
+    "Couldn't load the announcements. Please try again later": "Не получилось загрузить объявления, попробуйте позже.",
+    "ElevenClock's log": "Логи",
+    "Pick a color": "Выберите цвет"
 }
 
 lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "Скрывать часы после клика 10 секунд",
     "Enable low-cpu mode": "Режим низкого потребления CPU",
-    "You might lose functionalities, like the notification counter or the dynamic background": "Часть функций не будет работать, например, счетчик уведомлений или динамический цвет фона.",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Часть функций не будет работать (счетчик уведомлений и др.).",
     "Clock position and size:": "Расположение и размер часов",
     "Clock size preferences, position offset, clock at the left, etc.": "Размер часов, положение, перенос налево, т.д.",
     "Reset monitor blacklisting status": "Очистить черный список мониторов",
     "Reset": "Очистить",
     "Third party licenses": "Лицензии сторонних продуктов",
-    "View": "Вид",
+    "View": "Просмотреть",
     "ElevenClock": "ElevenClock", # there is no point
     "Monitor tools": "Монитор",
     "Blacklist this monitor": "Игнорировать монитор",
     "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Стороннее открытое ПО в ElevenClock {0}",
     "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock является открытым ПО и использует библиотеки, созданные сообществом:",
     "Ok": "OK",
-    "More Info": "Больше информации",
+    "More Info": "Еще", # the button is not dynamic, can't contain full correct translation
     "About Qt": "Про Qt",
     "Success": "Успех",
     "The monitors were unblacklisted successfully.": "Черный список очищен.",
