@@ -41,12 +41,12 @@ lang_3 = lang_3_1 | {
     "About Qt": "Qt 정보",
     "Success": "성공",
     "The monitors were unblacklisted successfully.": "모니터가 블랙리스트 해제되었습니다.",
-    "Now you should see the clock everywhere": "이제 당신은 어디에서나 시계를 볼 수 있습니다.",
+    "Now you should see the clock everywhere": "이제 어디에서나 시계를 볼 수 있습니다.",
     "Ok": "확인",
-    "Blacklist Monitor": "블랙리스트 모니터",
+    "Blacklist Monitor": "블랙리스트 모니터에 추가",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "모니터를 블랙리스트에 올리면 이 모니터의 시계가 영구적으로 숨겨집니다.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "설정 창의 <b>시계 위치 및 크기</b> 에서 이 동작을 되돌릴 수 있습니다.",
-    "Are you sure do you want to blacklist the monitor \"{0}\"?": "모니터를 \"{0}\" 블랙리스트에 표시하시겠습니까?",
+    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "설정 창의 <b>시계 위치 및 크기</b>에서 이 동작을 되돌릴 수 있습니다.",
+    "Are you sure do you want to blacklist the monitor \"{0}\"?": "\"{0}\" 모니터를 블랙리스트에 추가하시겠습니까?",
     "Yes": "예",
     "No": "아니오",
 }
@@ -75,7 +75,7 @@ lang_2_9 = lang_2_9_2 | {
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '이 작업을 수행하려면 사용자 지정 배경색을 설정해야 할 수 있습니다.&nbsp;추가 정보는 <a href="{0}" style="color:DodgerBlue">여기</a>',
     "Clock's font, font size, font color and background, text alignment": "시계의 글꼴, 글꼴 크기, 글꼴 색상 및 배경, 텍스트 정렬",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "날짜 형식, 시간 형식, 초, 요일, 주 번호, 지역 설정",
-    "Testing features and error-fixing tools": " 기능 및 오류 테스트 - 수정 도구",
+    "Testing features and error-fixing tools": " 기능  테스트 및 오류 수정 도구",
     "Language pack author(s), help translating ElevenClock": "언어 팩 작성자, ElevenClock 번역 돕기",
     "Info, report a bug, submit a feature request, donate, about": "정보, 버그 보고, 기능 요청 제출, 기부, 정보",
     "Log, debugging information": "로그, 디버깅 정보",
@@ -100,14 +100,14 @@ lang2_7_bis = lang_2_8 | {
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "이 기능은 기본적으로 작동해야 하므로 사용할 수 없습니다. 그렇지 않다면 버그를 보고해 주세요.)",
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": " (이 기능은 기본적으로 작동해야 하므로 사용할 수 없습니다. 그렇지 않다면 버그를 보고해 주세요.)",
     "ElevenClock's language": "ElevenClock 언어"
 }
 
 lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "Qt6 (PySide6) 정보",
     "About": "정보",
-    "Alternative non-SSL update server (This might help with SSL errors)": "SSL이 아닌 업데이트 서버 대체 (SSL 오류에 도움이 될 수 있음)",
+    "Alternative non-SSL update server (This might help with SSL errors)": "비-SSL 업데이트 서버 대체 (SSL 오류에 도움이 될 수 있음)",
     "Fixes and other experimental features: (Use ONLY if something is not working)": "수정 및 기타 실험 기능: (작동하지 않는 경우에만 사용)",
     "Show week number on the clock": "시계에 주 번호 표시"
 }
@@ -150,26 +150,26 @@ lang2_3 = lang2_4 | {
     "Install update"                                                                    :"업데이트 설치",
     
     #Clock settings
-    "Clock Settings:"                                              :"시계 설정",
+    "Clock Settings:"                                              :"시계 설정:",
     "Hide the clock in fullscreen mode"                            :"전체 화면 모드에서 시계 숨기기",
     "Hide the clock when RDP client is active"                     :"RDP 클라이언트가 활성 상태일 때 시계 숨기기",
     "Force the clock to be at the bottom of the screen"            :"화면 하단에 시계를 강제로 표시",
     "Show the clock when the taskbar is set to hide automatically" :"작업 표시줄이 자동으로 숨기도록 설정되어도 시계 표시",
-    "Fix the hyphen/dash showing over the month"                   :"월 표시로된 하이픈/대시 수정",
+    "Fix the hyphen/dash showing over the month"                   :"월 다음에 표시되는 하이픈/대시 수정",
     "Force the clock to have white text"                           :"시계를 흰색 텍스트로 강제 설정",
     "Show the clock at the left of the screen"                     :"화면 왼쪽에 시계 표시",
     
     #Date & time settings
-    "Date & Time Settings:"                             :"날짜 및 시간 설정",
+    "Date & Time Settings:"                             :"날짜 및 시간 설정:",
     "Show seconds on the clock"                         :"시계에 초 표시",
     "Show date on the clock"                            :"시계에 날짜 표시",
     "Show time on the clock"                            :"시계에 시간 표시",
-    "Change date and time format (Regional settings)"   :"",
-    "Regional settings"                                 :"",
+    "Change date and time format (Regional settings)"   :"날짜 및 시간 형식 변경 (지역 설정)",
+    "Regional settings"                                 :"지역 설정",
     
     #About the language pack
     "About the language pack:"                  :"언어 팩 정보",
-    "Translated to English by martinet101"      :"한국어 번역 - VᴇɴᴜꜱGɪʀʟ💗비너스걸", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"VᴇɴᴜꜱGɪʀʟ(비너스걸) 및 sinusinu에 의해 한국어로 번역", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"ElevenClock을 당신의 언어로 번역하세요",
     "Get started"                               :"",
     
@@ -181,7 +181,7 @@ lang2_3 = lang2_4 | {
     "Report"                                    :"보고",
     "Support the dev: Give me a coffee☕"       :"개발 지원: 커피값 기부하기☕",
     "Open page"                                 :"페이지 열기",
-    "Icons by Icons8"                           :"", # Here, the word "Icons8" should not be translated
+    "Icons by Icons8"                           :"아이콘 제공은 Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"웹페이지",
     "Close settings"                            :"설정 닫기",
     "Close"                                     :"닫기",
