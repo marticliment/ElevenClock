@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal as Signal
 
 import globals
-from win32mica import ApplyMica
+from win32mica import ApplyMica, MICAMODE
 
 from languages import * 
 from tools import *
@@ -541,7 +541,7 @@ class SettingsWindow(QMainWindow):
         colors = getColors()
         if isWindowDark():
             try:
-                ApplyMica(self.winId().__int__(), True)
+                ApplyMica(self.winId().__int__(), MICAMODE.DARK)
             except OSError:
                 GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
             self.iconMode = "white"
@@ -1002,7 +1002,7 @@ class SettingsWindow(QMainWindow):
                                """)
         else:
             try:
-                ApplyMica(self.winId().__int__(), False)
+                ApplyMica(self.winId().__int__(), MICAMODE.LIGHT)
             except OSError:
                 GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
             self.iconMode = "black"
