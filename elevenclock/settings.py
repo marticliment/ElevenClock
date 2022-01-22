@@ -2211,9 +2211,7 @@ class QAnnouncements(QLabel):
         return super().setText(a0)
 
     def setText(self, a: str) -> None:
-        class FuckYouException(Exception):
-            pass
-        raise FuckYouException("You don't have permissions to do that. Please don't try using sudo, or Obama will nuke your pc. You have been warned")
+        raise Exception("This member should not be used under any circumstances")
 
 if __name__ == "__main__":
     import __init__
