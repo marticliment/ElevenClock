@@ -543,9 +543,7 @@ class SettingsWindow(QMainWindow):
     def applyStyleSheet(self):
         colors = getColors()
         if isWindowDark():
-            try:
-                ApplyMica(self.winId().__int__(), MICAMODE.DARK)
-            except OSError:
+            if ApplyMica(self.winId().__int__(), MICAMODE.DARK) != 0x0:
                 GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
             self.iconMode = "white"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
@@ -557,17 +555,6 @@ class SettingsWindow(QMainWindow):
             self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
             self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
-            """self.unBlackListButton.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
-            self.ThirdParty.setIcon(QIcon(getPath(f"open_{self.iconMode}.png")))
-            self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))"""
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    
@@ -1004,9 +991,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                """)
         else:
-            try:
-                ApplyMica(self.winId().__int__(), MICAMODE.LIGHT)
-            except OSError:
+            if ApplyMica(self.winId().__int__(), MICAMODE.LIGHT) != 0x0:
                 GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
             self.iconMode = "black"
             self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
@@ -1018,16 +1003,6 @@ class SettingsWindow(QMainWindow):
             self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
             self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
             self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
-            """self.IssueButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            self.openTranslateButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.unBlackListButton.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
-            self.ThirdParty.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
-            self.CofeeButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.startupButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.RegionButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.WebPageButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))
-            self.logButton.setIcon(QIcon(getPath(f"launch_{self.iconMode}.png")))"""
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    background-color: transparent;
@@ -1556,9 +1531,8 @@ class SettingsWindow(QMainWindow):
         else:
             QtWin.resetExtendedFrame(win)
 
-        try:
-            ApplyMica(win.hwnd, isWindowDark())
-        except OSError:
+        
+        if ApplyMica(win.hwnd, isWindowDark()) != 0:
             if isWindowDark():    
                 GlobalBlur(win.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
             else:
@@ -2007,9 +1981,8 @@ class QCustomColorDialog(QColorDialog):
         else:
             QtWin.resetExtendedFrame(self)
         
-        try:
-            ApplyMica(self.hwnd, isWindowDark())
-        except OSError:
+        
+        if ApplyMica(self.hwnd, isWindowDark()) != 0x0:
             if isWindowDark():    
                 GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
             else:
