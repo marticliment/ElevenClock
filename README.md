@@ -109,6 +109,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 
 #### New laguanges that will come with next version:
 
+ - Arabic
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
