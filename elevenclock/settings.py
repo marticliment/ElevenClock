@@ -14,6 +14,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import pyqtSignal as Signal
+from Tools import getPath
 
 import globals
 from win32mica import ApplyMica, MICAMODE

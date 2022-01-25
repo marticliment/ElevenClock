@@ -233,7 +233,7 @@ try:
             return g
         except Exception as e:
             report(e)
-            geometry = QGuiApplication.primaryScreen()
+            geometry = QGuiApplication.primaryScreen().geometry()
             g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
             return g
 
