@@ -565,8 +565,10 @@ try:
                 if customFont == "":
                     if lang == lang_ko:
                         self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
-                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                    elif lang == lang_zh_TW:
                         self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
+                    elif lang == lang_zh_CN:
+                        self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable", "sans-serif"]
                     else:
                         self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
                 else:

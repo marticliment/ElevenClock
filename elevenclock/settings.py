@@ -50,8 +50,10 @@ class SettingsWindow(QMainWindow):
         layout.addSpacing(0)
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
-        if lang == lang_zh_TW or lang == lang_zh_CN:
+        if lang == lang_zh_TW:
             title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        elif lang == lang_zh_CN:
+            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
         else:
             title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         layout.addWidget(title)
@@ -249,8 +251,10 @@ class SettingsWindow(QMainWindow):
         else:
             if lang == lang_ko:
                 self.fontPrefs.combobox.setCurrentText("Malgun Gothic")
-            elif lang == lang_zh_TW or lang == lang_zh_CN:
+            elif lang == lang_zh_TW:
                 self.fontPrefs.combobox.setCurrentText("Microsoft JhengHei UI")
+            elif lang == lang_zh_CN:
+                self.fontPrefs.combobox.setCurrentText("Microsoft YaHei UI")
             else:
                 self.fontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
         self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
@@ -1601,10 +1605,12 @@ class QIconLabel(QWidget):
         self.setMaximumWidth(self.getPx(1000))
         self.descLabel = QLabel(descText, self)
         self.descLabel.setObjectName("greyishLabel")
-        if lang == lang_zh_TW or lang == lang_zh_CN:
+        if lang == lang_zh_TW:
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";")
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft JhengHei UI\";")
-
+        elif lang == lang_zh_CN:
+            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft YaHei UI\";")
+            self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft YaHei UI\";")
         else:
             self.label.setStyleSheet(f"font-size: 10pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
             self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
@@ -1736,15 +1742,16 @@ class QSettingsButton(QWidget):
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
         self.label = QLabel(text, self)
-
-        if lang == lang_zh_TW or lang == lang_zh_CN:
+        if lang == lang_zh_TW:
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-            self.label.setObjectName("StLbl")
+        elif lang == lang_zh_CN:
+            self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
+            self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
         else:
             self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
-            self.label.setObjectName("StLbl")
+        self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
 
     def getPx(self, original) -> int:
@@ -1783,10 +1790,14 @@ class QSettingsComboBox(QWidget):
         self.restartButton.setObjectName("AccentButton")
         self.label = QLabel(text, self)
 
-        if lang == lang_zh_TW or lang == lang_zh_CN:
+        if lang == lang_zh_TW:
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        elif lang == lang_zh_CN:
+            self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
+            self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
+            self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
         else:
             self.label.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
             self.combobox.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
@@ -1832,8 +1843,10 @@ class QSettingsCheckBox(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
         self.checkbox = QCheckBox(text, self)
-        if lang == lang_zh_TW or lang == lang_zh_CN:
+        if lang == lang_zh_TW:
             self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+        elif lang == lang_zh_CN:
+            self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
         else:
             self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.checkbox.setObjectName("stChk")
