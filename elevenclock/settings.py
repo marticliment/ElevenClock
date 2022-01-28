@@ -29,7 +29,7 @@ import win32gui
 from win32con import GWL_STYLE, WS_BORDER, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU, WS_POPUP
 
 from external.FramelessWindow import QFramelessWindow, QFramelessDialog
-from external.blurwindow import GlobalBlur
+from external.blurwindow import ExtendFrameIntoClientArea, GlobalBlur
 
 class SettingsWindow(QMainWindow):
     def __init__(self):
@@ -949,7 +949,7 @@ class SettingsWindow(QMainWindow):
                                     border-radius: {self.getPx(4)}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item:selected{{
-                                    background-color: #4c4c4c;
+                                    background: rgba(255, 255, 255, 6%);
                                     height: {self.getPx(30)}px;
                                     outline: none;
                                     border: none;
@@ -1363,7 +1363,7 @@ class SettingsWindow(QMainWindow):
                                     border-radius: {self.getPx(4)}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item:selected{{
-                                    background-color: #eeeeee;
+                                    background: rgba(0, 0, 0, 6%);
                                     height: {self.getPx(30)}px;
                                     outline: none;
                                     color: black;
@@ -1800,13 +1800,14 @@ class QSettingsComboBox(QWidget):
     def __init__(self, text="", btntext="", parent=None):
         super().__init__(parent)
 
-        class QcomboBoxWithFluentMenu(QComboBox):
+        class QComboBoxWithFluentMenu(QComboBox):
             def __init__(self, parent) -> None:
                 super().__init__(parent)
-
+                v = self.view().window()
+                ApplyMenuBlur(v.winId().__int__(), v)
 
         self.setAttribute(Qt.WA_StyledBackground)
-        self.combobox = QcomboBoxWithFluentMenu(self)
+        self.combobox = QComboBoxWithFluentMenu(self)
         self.combobox.setObjectName("stCmbbx")
         self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.setObjectName("stBtn")
@@ -1924,9 +1925,16 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     valueChanged = Signal(str)
     
     def __init__(self, text: str, parent=None):
+
+        class QComboBoxWithFluentMenu(QComboBox):
+            def __init__(self, parent) -> None:
+                super().__init__(parent)
+                v = self.view().window()
+                ApplyMenuBlur(v.winId().__int__(), v)
+
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
-        self.combobox = QComboBox(self)
+        self.combobox = QComboBoxWithFluentMenu(self)
         self.combobox.setObjectName("stCmbbx")
         self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
@@ -1959,7 +1967,6 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     def loadItems(self):
         self.combobox.clear()
         self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16])
-
 
 class QSettingsSliderWithCheckBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
@@ -2000,9 +2007,6 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
             self.valueChanged.emit(self.slider.value())
         self.stateChanged.emit(v)
         
-
-
-
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
@@ -2097,7 +2101,14 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
     def __init__(self, text: str, parent=None):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
-        self.combobox = QFontComboBox(self)
+
+        class QFontComboBoxWithFluentMenu(QFontComboBox):
+            def __init__(self, parent) -> None:
+                super().__init__(parent)
+                v = self.view().window()
+                ApplyMenuBlur(v.winId().__int__(), v)
+
+        self.combobox = QFontComboBoxWithFluentMenu(self)
         self.combobox.setObjectName("stCmbbx")
         self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)

@@ -45,6 +45,15 @@ if platform.system() == 'Windows':
 
 
     SetWindowCompositionAttribute = user32.SetWindowCompositionAttribute
+    DwmExtendFrameIntoClientArea = dwm.DwmExtendFrameIntoClientArea
+
+def ExtendFrameIntoClientArea(hwnd):
+    m = MARGINS()
+    m.cxLeftWidth = 0
+    m.cxRightWidth = 0
+    m.cyTopHeight = 0
+    m.cyBottomHeight = 25
+    return DwmExtendFrameIntoClientArea(hwnd, m)
 
 def HEXtoRGBAint(HEX:str):
     alpha = HEX[7:]
