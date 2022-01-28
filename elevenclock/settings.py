@@ -53,7 +53,7 @@ class SettingsWindow(QMainWindow):
         self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
         layout.addSpacing(0)
-        title = QLabel(_("ElevenClock Settings"))
+        title = QLabel("\u200e"+_("ElevenClock Settings"))
         title.setObjectName("title")
         if lang == lang_zh_TW:
             title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
@@ -775,15 +775,13 @@ class SettingsWindow(QMainWindow):
                                     border-bottom-color: rgb({colors[2]});
                                 }}
                                 #title{{
-                                   /*background-color: #303030;
-                                   */margin: {self.getPx(2)}px;
+                                   margin: {self.getPx(2)}px;
                                    margin-bottom: 0px;
                                    font-weight: bold;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   /*border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
-                                   */font-size: 13pt;
+                                   font-size: 13pt;
                                    border-radius: {self.getPx(4)}px;
                                 }}
                                 #subtitleLabel{{
@@ -1615,9 +1613,12 @@ class QSettingsTitle(QWidget):
         super().__init__()
         self.icon = icon
         self.setObjectName("subtitleLabel")
-        self.label = QLabel(text, self)
+        self.label = QLabel("\u200e"+text, self)
+        self.label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.label.setAlignment(Qt.AlignLeft)
         self.setMaximumWidth(self.getPx(1000))
         self.descLabel = QLabel(descText, self)
+        self.descLabel.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.descLabel.setObjectName("greyishLabel")
         if lang == lang_zh_TW:
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";")
@@ -1749,7 +1750,7 @@ class QSettingsTitle(QWidget):
         self.compressibleWidget.move(0, self.getPx(70))
         self.compressibleWidget.setFixedWidth(self.width())
         self.image.setFixedHeight(self.getPx(30))
-        self.label.setFixedWidth(self.width()-self.getPx(70))
+        self.label.setFixedWidth(self.width()-self.getPx(140))
         self.image.setFixedWidth(self.getPx(30))
         return super().resizeEvent(event)
     
@@ -1765,7 +1766,7 @@ class QSettingsButton(QWidget):
         self.button = QPushButton(btntext+" ", self)
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
-        self.label = QLabel(text, self)
+        self.label = QLabel("\u200e"+text, self)
         if lang == lang_zh_TW:
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
@@ -1784,7 +1785,7 @@ class QSettingsButton(QWidget):
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(170), self.getPx(10))
         self.label.move(self.getPx(70), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(230))
+        self.label.setFixedWidth(self.width()-self.getPx(250))
         self.label.setFixedHeight(self.getPx(self.fh))
         self.setFixedHeight(self.getPx(50+(self.fh-30)))
         self.button.setFixedHeight(self.getPx(self.fh))
@@ -1812,7 +1813,7 @@ class QSettingsComboBox(QWidget):
         self.restartButton = QPushButton("Restart ElevenClock", self)
         self.restartButton.hide()
         self.restartButton.setObjectName("AccentButton")
-        self.label = QLabel(text, self)
+        self.label = QLabel("\u200e"+text, self)
 
         if lang == lang_zh_TW:
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
