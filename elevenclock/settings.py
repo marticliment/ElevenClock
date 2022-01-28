@@ -784,19 +784,6 @@ class SettingsWindow(QMainWindow):
                                    font-size: 13pt;
                                    border-radius: {self.getPx(4)}px;
                                 }}
-                                #subtitleLabel{{
-                                   background-color: rgba(71, 71, 71, 25%);
-                                   margin: {self.getPx(10)}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(15)}px;
-                                   padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 75%);
-                                   font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(6)}px;
-                                   border-top-right-radius: {self.getPx(6)}px;
-                                }}
                                 #subtitleLabelHover {{
                                    background-color: rgba(20, 20, 20, 1%);
                                    margin: {self.getPx(10)}px;
@@ -816,7 +803,20 @@ class SettingsWindow(QMainWindow):
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
                                    border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
-                                   border-bottom: 0px;
+                                   border-bottom: {self.getPx(1)}px solid rgba(25, 25, 25, 50%);
+                                   font-size: 13pt;
+                                   border-top-left-radius: {self.getPx(6)}px;
+                                   border-top-right-radius: {self.getPx(6)}px;
+                                }}
+                                #subtitleLabel{{
+                                   background-color: rgba(71, 71, 71, 25%);
+                                   margin: {self.getPx(10)}px;
+                                   margin-bottom: 0px;
+                                   margin-top: 0px;
+                                   padding-left: {self.getPx(20)}px;
+                                   padding-top: {self.getPx(15)}px;
+                                   padding-bottom: {self.getPx(15)}px;
+                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 75%);
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
