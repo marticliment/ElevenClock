@@ -833,7 +833,7 @@ class SettingsWindow(QMainWindow):
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
+                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 50%);
                                    border-bottom-left-radius: {self.getPx(6)}px;
                                    border-bottom-right-radius: {self.getPx(6)}px;
                                 }}
@@ -848,7 +848,7 @@ class SettingsWindow(QMainWindow):
                                    margin: {self.getPx(10)}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
+                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 50%);;
                                    border-bottom: 0px;
                                 }}
                                 #stChk::indicator{{
