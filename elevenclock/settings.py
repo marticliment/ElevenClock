@@ -35,6 +35,11 @@ class SettingsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.scrollArea = QScrollArea()
+        sp = QScrollerProperties()
+        sp.setScrollMetric( QScrollerProperties.DragVelocitySmoothingFactor,   1 )
+        sp.setScrollMetric( QScrollerProperties.ScrollingCurve, QEasingCurve.InOutCubic )
+        qs  = QScroller.scroller( self.scrollArea )
+        qs.setScrollerProperties( sp )
         self.vlayout = QVBoxLayout()
         self.vlayout.setContentsMargins(0, 0, 0, 0)
         self.vlayout.setContentsMargins(0, 0, 0, 0)
@@ -51,11 +56,11 @@ class SettingsWindow(QMainWindow):
         title = QLabel(_("ElevenClock Settings"))
         title.setObjectName("title")
         if lang == lang_zh_TW:
-            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
+            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
         elif lang == lang_zh_CN:
-            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
+            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
-            title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
+            title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
         layout.addWidget(title)
         layout.setSpacing(5)
         layout.setContentsMargins(10, 0, 0, 0)
@@ -78,7 +83,7 @@ class SettingsWindow(QMainWindow):
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
 
-        self.generalSettingsTitle = QIconLabel(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
+        self.generalSettingsTitle = QSettingsTitle(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
         layout.addWidget(self.generalSettingsTitle)
         self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) # The non-translated (Language) string is there to let people know what the language option is if you accidentaly change the language
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
@@ -132,7 +137,7 @@ class SettingsWindow(QMainWindow):
         self.generalSettingsTitle.addWidget(self.startupButton)
 
 
-        self.clockSettingsTitle = QIconLabel(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"), _("Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"))
+        self.clockSettingsTitle = QSettingsTitle(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"), _("Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"))
         layout.addWidget(self.clockSettingsTitle)
         self.legacyHideOnFullScreen = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
         self.legacyHideOnFullScreen.setChecked(not getSettings("DisableHideOnFullScreen"))
@@ -171,7 +176,7 @@ class SettingsWindow(QMainWindow):
         self.clockSettingsTitle.addWidget(self.disableNotificationBadge)
         self.clockSettingsTitle.addWidget(self.enableLowCpuMode)
 
-        self.clockPosTitle = QIconLabel(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
+        self.clockPosTitle = QSettingsTitle(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
         layout.addWidget(self.clockPosTitle)
         self.clockPosTitle.addWidget(self.showDesktopButton)
         self.clockAtLeft = QSettingsCheckBox(_("Show the clock at the left of the screen"))
@@ -239,7 +244,7 @@ class SettingsWindow(QMainWindow):
         self.unBlackListButton.clicked.connect(unblacklist)
         self.clockPosTitle.addWidget(self.unBlackListButton)
 
-        self.clockAppearanceTitle = QIconLabel(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
+        self.clockAppearanceTitle = QSettingsTitle(_("Clock Appearance:"), getPath(f"appearance_{self.iconMode}.png"), _("Clock's font, font size, font color and background, text alignment"))
         layout.addWidget(self.clockAppearanceTitle)
         self.fontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
         self.fontPrefs.setChecked(getSettings("UseCustomFont"))
@@ -300,7 +305,7 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.addWidget(self.centerText)
 
 
-        self.dateTimeTitle = QIconLabel(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"), _("Date format, Time format, seconds,weekday, weeknumber, regional settings"))
+        self.dateTimeTitle = QSettingsTitle(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"), _("Date format, Time format, seconds,weekday, weeknumber, regional settings"))
         layout.addWidget(self.dateTimeTitle)
         self.showTime = QSettingsCheckBox(_("Show time on the clock"))
         self.showTime.setChecked(not getSettings("DisableTime"))
@@ -327,7 +332,7 @@ class SettingsWindow(QMainWindow):
         self.dateTimeTitle.addWidget(self.RegionButton)
 
         
-        self.experimentalTitle = QIconLabel(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
+        self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
         self.wizardButton = QSettingsButton(_("Open the welcome wizard")+_(" (ALPHA STAGE, MAY NOT WORK)"), _("Open"))
         
@@ -361,7 +366,7 @@ class SettingsWindow(QMainWindow):
         self.legacyFullScreenHide.stateChanged.connect(lambda i: setSettings("legacyFullScreenMethod", bool(i)))
         self.experimentalTitle.addWidget(self.legacyFullScreenHide)
 
-        self.languageSettingsTitle = QIconLabel(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"), _("Language pack author(s), help translating ElevenClock"))
+        self.languageSettingsTitle = QSettingsTitle(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"), _("Language pack author(s), help translating ElevenClock"))
         layout.addWidget(self.languageSettingsTitle)
         self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
         self.PackInfoButton.button.hide()
@@ -402,7 +407,7 @@ class SettingsWindow(QMainWindow):
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
             msg.show()
 
-        self.aboutTitle = QIconLabel(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
+        self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
         self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
@@ -425,7 +430,7 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle.addWidget(self.closeButton)
 
 
-        self.debbuggingTitle = QIconLabel(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"), _("Log, debugging information"))
+        self.debbuggingTitle = QSettingsTitle(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"), _("Log, debugging information"))
         layout.addWidget(self.debbuggingTitle)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.showDebugInfo())
@@ -443,11 +448,17 @@ class SettingsWindow(QMainWindow):
         layout.addStretch()
 
         shl = QHBoxLayout()
+
+        class QStaticWidget(QWidget):
+            def __init__(self) -> None:
+                super().__init__()
+                self.setFixedHeight(1)
+
         shl.setSpacing(0)
         shl.setContentsMargins(0, 0, 0, 0)
-        shl.addWidget(QWidget(), stretch=0)
+        shl.addWidget(QStaticWidget(), stretch=0)
         shl.addLayout(layout, stretch=1)
-        shl.addWidget(QWidget(), stretch=0)
+        shl.addWidget(QStaticWidget(), stretch=0)
 
         self.settingsWidget.setLayout(shl)
         self.scrollArea.setWidget(self.settingsWidget)
@@ -767,6 +778,7 @@ class SettingsWindow(QMainWindow):
                                    /*background-color: #303030;
                                    */margin: {self.getPx(2)}px;
                                    margin-bottom: 0px;
+                                   font-weight: bold;
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
@@ -782,7 +794,7 @@ class SettingsWindow(QMainWindow):
                                    padding-left: {self.getPx(20)}px;
                                    padding-top: {self.getPx(15)}px;
                                    padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
+                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 75%);
                                    font-size: 13pt;
                                    border-top-left-radius: {self.getPx(6)}px;
                                    border-top-right-radius: {self.getPx(6)}px;
@@ -1590,7 +1602,9 @@ class SettingsWindow(QMainWindow):
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
 
-class QIconLabel(QWidget):
+class QSettingsTitle(QWidget):
+    oldScrollValue = 0
+    showing = False
     def __init__(self, text: str, icon: str, descText: str = "No description provided"):
         if isWindowDark():
             self.iconMode = "white"
@@ -1620,9 +1634,9 @@ class QIconLabel(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
         self.compressibleWidget.show()
-        self.childOpacity=QGraphicsOpacityEffect(self)
-        self.childOpacity.setOpacity(1.0)
-        self.compressibleWidget.setGraphicsEffect(self.childOpacity)
+        #self.childOpacity=QGraphicsOpacityEffect(self)
+        #self.childOpacity.setOpacity(1.0)
+        #self.compressibleWidget.setGraphicsEffect(self.childOpacity)
         self.compressibleWidget.setAutoFillBackground(True)
         self.compressibleWidget.setObjectName("compressibleWidget")
         self.compressibleWidget.setStyleSheet("#compressibleWidget{background-color: transparent;}")
@@ -1640,36 +1654,35 @@ class QIconLabel(QWidget):
         self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: {self.getPx(1)}px;}}")
 
         self.showAnim = QVariantAnimation(self.compressibleWidget)
-        self.showAnim.setEasingCurve(QEasingCurve.InOutQuart)
+        self.showAnim.setEasingCurve(QEasingCurve.InOutCubic)
         self.showAnim.setStartValue(0)
         self.showAnim.setEndValue(1000)
-        self.showAnim.valueChanged.connect(lambda v: self.setChildFixedHeight(v, v/self.compressibleWidget.sizeHint().height()))
+        self.showAnim.valueChanged.connect(lambda v: self.setChildFixedHeight(v))
         self.showAnim.setDuration(300)
         self.showAnim.finished.connect(self.invertNotAnimated)
         self.hideAnim = QVariantAnimation(self.compressibleWidget)
         self.hideAnim.setEndValue(0)
-        self.hideAnim.setEasingCurve(QEasingCurve.InOutQuart)
-        self.hideAnim.valueChanged.connect(lambda v: self.setChildFixedHeight(v, v/self.compressibleWidget.sizeHint().height()))
+        self.hideAnim.setEasingCurve(QEasingCurve.InOutCubic)
+        self.hideAnim.valueChanged.connect(lambda v: self.setChildFixedHeight(v))
         self.hideAnim.setDuration(300)
         self.hideAnim.finished.connect(self.invertNotAnimated)
+        self.scrollAnim = QVariantAnimation(self)
+        self.scrollAnim.setEasingCurve(QEasingCurve.InOutCubic)
+        self.scrollAnim.valueChanged.connect(lambda i: self.window().scrollArea.verticalScrollBar().setValue(i))
+        self.scrollAnim.setDuration(300)
         self.NotAnimated = True
-
-     
 
         self.button = QPushButton("", self)
         self.button.setObjectName("subtitleLabelHover")
         self.button.clicked.connect(self.toggleChilds)
         self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
-
-        self.setChildFixedHeight(0, 0)
         self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;")
+        self.setChildFixedHeight(0)
 
         
-    def setChildFixedHeight(self, h: int, o:float = 1.0) -> None:
+    def setChildFixedHeight(self, h: int) -> None:
         self.compressibleWidget.setFixedHeight(h)
         self.setFixedHeight(h+self.getPx(70))
-        self.childOpacity.setOpacity((o-(0.5))*2 if (o-(0.5))*2>0 else 0)
-        self.compressibleWidget.setGraphicsEffect(self.childOpacity)
 
     def invertNotAnimated(self):
         self.NotAnimated = not self.NotAnimated
@@ -1680,22 +1693,33 @@ class QIconLabel(QWidget):
         else:
             self.iconMode = "black"
         if self.childsVisible:
+            #self.window().scrollArea.verticalScrollBar().setValue(self.oldScrollValue)
             self.childsVisible = False
             self.hideAnim.setStartValue(self.compressibleWidget.sizeHint().height())
             self.hideAnim.setEndValue(0)
             self.invertNotAnimated()
+            self.scrollAnim.setStartValue(self.window().scrollArea.verticalScrollBar().value())
+            self.scrollAnim.setEndValue(self.oldScrollValue)
+            self.scrollAnim.start()
             self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
             self.hideAnim.finished.connect(lambda: self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;"))
             self.hideAnim.start()
         else:
-            self.showAnim.setStartValue(0)
             self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
-            self.showAnim.setEndValue(self.compressibleWidget.sizeHint().height())
             self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
-            self.showAnim.start()
             self.invertNotAnimated()
             self.childsVisible = True
+            self.oldScrollValue = self.window().scrollArea.verticalScrollBar().value()
+            self.scrollAnim.setStartValue(self.oldScrollValue)
+            self.scrollAnim.setEndValue(self.pos().y()-self.getPx(5))
+            self.scrollAnim.start()
+            self.showAnim.setStartValue(0)
+            self.showAnim.setEndValue(self.compressibleWidget.sizeHint().height())
+            self.showAnim.start()
         
+    def window(self) -> 'SettingsWindow':
+        return super().window()
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInchX()/96))
 
