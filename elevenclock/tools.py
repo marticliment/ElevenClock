@@ -257,9 +257,33 @@ class TaskbarIconTray(QSystemTrayIcon):
             msg.setWindowTitle("ElevenClock has updated!")
             msg.show()
 
+        self.monitorInfoAction = QAction(_("Clock on monitor {0}"), app)
+        self.monitorInfoAction.setEnabled(False)
+        self.toolsMenu.addAction(self.monitorInfoAction)
+        self.toolsMenu.addSeparator()
+
         self.blacklistAction = QAction(_("Blacklist this monitor"), app)
         self.blacklistAction.triggered.connect(lambda: warnBlacklist())
         self.toolsMenu.addAction(self.blacklistAction)
+
+        def toggleClockPosAction():
+            screen = self.contextMenu().screen().name().replace("\\", "_")
+            if getSettings("ClockOnTheLeft"):
+                if getSettings(f"SpecificClockOnTheRight{screen}"):
+                    setSettings(f"SpecificClockOnTheRight{screen}", False)
+                else:
+                    setSettings(f"SpecificClockOnTheRight{screen}", True)
+            else:
+                if getSettings(f"SpecificClockOnTheLeft{screen}"):
+                    setSettings(f"SpecificClockOnTheLeft{screen}", False)
+                else:
+                    cprint("togglePosAction")
+                    setSettings(f"SpecificClockOnTheLeft{screen}", True)
+
+        self.moveToLeftAction = QAction(_("Move to the left"), app)
+        self.moveToLeftAction.triggered.connect(lambda: toggleClockPosAction())
+        self.toolsMenu.addAction(self.moveToLeftAction)
+
         
         menu.addSeparator()
         self.takmgr = QAction(_("Task Manager"), app)
@@ -293,6 +317,18 @@ class TaskbarIconTray(QSystemTrayIcon):
 
     def execMenu(self, pos: QPoint):
         self.applyStyleSheet()
+        screen = globals.app.screenAt(pos).name().replace("\\", "_")
+        if getSettings("ClockOnTheLeft"):
+            if getSettings(f"SpecificClockOnTheRight{screen}"):
+                self.moveToLeftAction.setText(_("Restore clock position"))
+            else:
+                self.moveToLeftAction.setText(_("Show this clock on the right"))
+        else:
+            if getSettings(f"SpecificClockOnTheLeft{screen}"):
+                self.moveToLeftAction.setText(_("Restore clock position"))
+            else:
+                self.moveToLeftAction.setText(_("Show this clock on the left"))
+        self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screen.replace("_", "\\")))
         self.contextMenu().exec_(pos)
 
     def getPx(self, original) -> int:
@@ -301,17 +337,6 @@ class TaskbarIconTray(QSystemTrayIcon):
     def applyStyleSheet(self) -> None:
         if isTaskbarDark():
             self.iconMode = "white"
-            self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
-            self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
-            self.takmgr.setIcon(QIcon(getPath(f"taskmgr_{self.iconMode}.png")))
-            self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
-            self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
-            self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
-            self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
-            self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
-            self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
-            self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
@@ -374,17 +399,6 @@ class TaskbarIconTray(QSystemTrayIcon):
                 """)
         else:
             self.iconMode = "black"
-            self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
-            self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
-            self.takmgr.setIcon(QIcon(getPath(f"taskmgr_{self.iconMode}.png")))
-            self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
-            self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
-            self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
-            self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
-            self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
-            self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
-            self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
-            self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
@@ -439,7 +453,19 @@ class TaskbarIconTray(QSystemTrayIcon):
                     border-radius: {self.getPx(4)}px;
                 }}            
                 """)
-
+        self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+        self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+        self.takmgr.setIcon(QIcon(getPath(f"taskmgr_{self.iconMode}.png")))
+        self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+        self.reloadAction.setIcon(QIcon(getPath(f"clock_{self.iconMode}.png")))
+        self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
+        self.monitorInfoAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
+        self.moveToLeftAction.setIcon(QIcon(getPath(f"move_{self.iconMode}.png")))
+        self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
+        self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
+        self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
+        self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
+        self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
 
 
 

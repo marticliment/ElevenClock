@@ -423,8 +423,9 @@ try:
         clockShouldBeHidden = False
         shouldBeVisible = True
         isRDPRunning = True
+        clockOnTheLeft = False
 
-        def __init__(self, dpix, dpiy, screen, index):
+        def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int):
 
             super().__init__()
             if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
@@ -504,6 +505,17 @@ try:
                 registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
                 self.autoHide = registry_read_result[8] == 123
                 
+                self.clockOnTheLeft = getSettings("ClockOnTheLeft")
+                screenName = screen.name().replace("\\", "_")
+                if not self.clockOnTheLeft:
+                    if getSettings(f"SpecificClockOnTheLeft{screenName}"):
+                        self.clockOnTheLeft = True
+                        print(f"🟡 Clock {screenName} on the left (forced)")
+                else:
+                    if getSettings(f"SpecificClockOnTheRight{screenName}"):
+                        self.clockOnTheLeft = False
+                        print(f"🟡 Clock {screenName} on the right (forced)")
+
                 try:
                     if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
                         h = self.screenGeometry.y()
@@ -516,7 +528,7 @@ try:
                     h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
                     print("🟡 Taskbar at bottom")
                 self.label = Label(timeStr, self)
-                if(getSettings("ClockOnTheLeft")):
+                if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
                     w = self.screenGeometry.x()+8*dpix
                     self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
@@ -996,7 +1008,7 @@ try:
             geometry: QRect = self.width()
             self.showBackground.setStartValue(.01)
             self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
-            if(not(getSettings("ClockOnTheLeft"))):
+            if not self.window().clockOnTheLeft:
                 self.backgroundwidget.move(0, 2)
                 self.backgroundwidget.resize(geometry, self.height()-4)
             else:
@@ -1051,7 +1063,7 @@ try:
         
         def paintEvent(self, event: QPaintEvent) -> None:
             w = self.minimumSizeHint().width()
-            if w<self.window().getPx(self.window().preferedwidth) and not getSettings("ClockOnTheLeft"):
+            if w<self.window().getPx(self.window().preferedwidth) and not self.window().clockOnTheLeft:
                 self.move(self.window().getPx(self.window().preferedwidth)-self.minimumSizeHint().width()+self.getPx(2), 0)
                 self.resize(self.minimumSizeHint().width(), self.height())
             else:
