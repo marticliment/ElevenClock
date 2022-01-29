@@ -45,10 +45,18 @@ if platform.system() == 'Windows':
 
 
     SetWindowCompositionAttribute = user32.SetWindowCompositionAttribute
-    DwmExtendFrameIntoClientArea = dwm.DwmExtendFrameIntoClientArea
 
 def ExtendFrameIntoClientArea(hwnd):
-    m = MARGINS()
+
+    class _MARGINS(ctypes.Structure):
+        _fields_ = [("cxLeftWidth", ctypes.c_int),
+                    ("cxRightWidth", ctypes.c_int),
+                    ("cyTopHeight", ctypes.c_int),
+                    ("cyBottomHeight", ctypes.c_int)
+                    ]
+
+    DwmExtendFrameIntoClientArea = dwm.DwmExtendFrameIntoClientArea
+    m = _MARGINS()
     m.cxLeftWidth = 0
     m.cxRightWidth = 0
     m.cyTopHeight = 0
