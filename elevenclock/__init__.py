@@ -424,6 +424,8 @@ try:
         shouldBeVisible = True
         isRDPRunning = True
         clockOnTheLeft = False
+        textInputHostHWND = 0
+        INTLOOPTIME = 2
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int):
 
@@ -763,24 +765,28 @@ try:
                     except Exception as e:
                         report(e)
 
-                def winEnumHandler( hwnd, ctx ):
+                def winEnumHandler(hwnd, _):
                     nonlocal fullscreen
-                    if win32gui.IsWindowVisible( hwnd ):
-                        if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod)):
-                            if(clockOnFirstMon):
-                                pythoncom.CoInitialize()
-                                _, pid = win32process.GetWindowThreadProcessId(hwnd)
-                                _wmi = win32com.client.GetObject('winmgmts:')
+                    if win32gui.IsWindowVisible(hwnd):
+                        if compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod):
+                            if clockOnFirstMon and self.textInputHostHWND == 0:
+                                    pythoncom.CoInitialize()
+                                    _, pid = win32process.GetWindowThreadProcessId(hwnd)
+                                    _wmi = win32com.client.GetObject('winmgmts:')
 
-                                # collect all the running processes
-                                processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
-                                for p in processes:
-                                    if(p.Name != "TextInputHost.exe"):
-                                        if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                                            print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
-                                            fullscreen = True
+                                    # collect all the running processes
+                                    processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
+                                    for p in processes:
+                                        if p.Name != "TextInputHost.exe":
+                                            if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
+                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                                fullscreen = True
+                                        else:
+                                            print("🟢 Cached text input host hwnd:", hwnd)
+                                            self.textInputHostHWND = hwnd
+                                            self.INTLOOPTIME = 2
                             else:
-                                if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
+                                if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
                                     print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
                                     fullscreen = True
                 if not legacyMethod:
@@ -807,14 +813,14 @@ try:
             legacyMethod = getSettings("legacyFullScreenMethod")
             oldNotifNumber = 0
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}, DisableNotifications:{notifs}, legacyFullScreenMethod:{legacyMethod}")
-            if clockOnFirstMon or self.isLowCpuMode:
-                INTLOOPTIME = 15
+            if self.isLowCpuMode or clockOnFirstMon:
+                self.INTLOOPTIME = 15
             else:
-                INTLOOPTIME = 2
+                self.INTLOOPTIME = 2
             while True:
                 self.isRDPRunning = isRDPRunning
                 isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod, legacyMethod)
-                for i in range(INTLOOPTIME):
+                for i in range(self.INTLOOPTIME):
                     if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
                         if notifs:
                             if isFocusAssist:
