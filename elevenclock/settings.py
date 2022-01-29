@@ -433,7 +433,7 @@ class SettingsWindow(QMainWindow):
         self.debbuggingTitle = QSettingsTitle(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"), _("Log, debugging information"))
         layout.addWidget(self.debbuggingTitle)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
-        self.logButton.clicked.connect(lambda: self.showDebugInfo())
+        self.logButton.clicked.connect(lambda: self.openLogWindow())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.debbuggingTitle.addWidget(self.logButton)
         try:
@@ -481,8 +481,11 @@ class SettingsWindow(QMainWindow):
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
             QtWin.resetExtendedFrame(self)
-
         self.installEventFilter(self)
+        self.setWindowTitle("‎")
+        pixmap = QPixmap(32, 32)
+        pixmap.fill(Qt.transparent)
+        self.setWindowIcon(QIcon(pixmap))
 
     def showEvent(self, event: QShowEvent) -> None:
         threading.Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
@@ -1419,7 +1422,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                """)
 
-    def showDebugInfo(self):
+    def openLogWindow(self):
 
         class QPlainTextEditWithFluentMenu(QPlainTextEdit):
             def __init__(self):
@@ -1452,7 +1455,6 @@ class SettingsWindow(QMainWindow):
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
-        win.setWindowTitle(_("ElevenClock's log"))
         
         w = QWidget()
         w.setLayout(QVBoxLayout())
@@ -1554,6 +1556,10 @@ class SettingsWindow(QMainWindow):
                 GlobalBlur(win.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         win.show()
+        win.setWindowTitle("‎")
+        pixmap = QPixmap(32, 32)
+        pixmap.fill(Qt.transparent)
+        win.setWindowIcon(QIcon(pixmap))
 
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
@@ -2014,6 +2020,10 @@ class QCustomColorDialog(QColorDialog):
         self.setStyleSheet(f"*{{border-radius: {self.getPx(4)}px;}}  QColorLuminancePicker {{background-color: transparent; border: {self.getPx(4)}px solid black;margin: none; border: none; padding: none;}} ")
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
+        self.setWindowTitle("‎")
+        pixmap = QPixmap(32, 32)
+        pixmap.fill(Qt.transparent)
+        self.setWindowIcon(QIcon(pixmap))
 
         self.hwnd = self.winId().__int__()
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
@@ -2032,7 +2042,6 @@ class QCustomColorDialog(QColorDialog):
                 GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         self.setWindowIcon(self.window().windowIcon())
-        self.setWindowTitle(_("Pick a color"))
 
     def getPx(self, i: int):
         return round(i*(self.screen().logicalDotsPerInch()/96))
