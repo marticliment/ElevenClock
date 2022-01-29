@@ -1149,6 +1149,7 @@ try:
     globals.tempDir = tempDir
 
     if not(getSettings("Updated3.1Already")) and not(getSettings("EnableSilentUpdates")):
+        setSettings("ForceClockOnFirstMonitor", True)
         setSettings("Updated3.1Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
@@ -1184,8 +1185,7 @@ try:
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("AlreadyInstalled", True)
         setSettings("NewFullScreenMethod", True)
-        if len(QApplication.screens()) == 1:
-            setSettings("ForceClockOnFirstMonitor", True)
+        setSettings("ForceClockOnFirstMonitor", True)
         showMessage("Welcome to ElevenClock", "You can customize Elevenclock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
