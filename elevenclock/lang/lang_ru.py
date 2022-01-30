@@ -9,7 +9,17 @@
 # Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
-lang_3_1 = {
+lang_3_2 = {
+    "Use system accent color as background color": "",
+    "Check only the focused window on the fullscreen check": "",
+    "Clock on monitor {0}": "",
+    "Move to the left": "",
+    "Show this clock on the left": "",
+    "Show this clock on the right": "",
+    "Restore clock position": "",
+}
+
+lang_3_1 = lang_3_2 | {
     "W": "Н", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "Отключить значок уведомлений",
     "Override clock default height": "Высота часов по умолчанию",

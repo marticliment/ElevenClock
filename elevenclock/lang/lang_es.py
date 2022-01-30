@@ -6,7 +6,17 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_1 = {
+lang_3_2 = {
+    "Use system accent color as background color": "Usa el color de émfasis del sistema como color de fondo del reloj",
+    "Check only the focused window on the fullscreen check": "Comprueba sólo la ventana con el foco del usuario cuando se compruebe si hay ventanas en pantalla completa",
+    "Clock on monitor {0}": "Reloj en el monitor {0}",
+    "Move to the left": "Mueve a la izquierda",
+    "Show this clock on the left": "Muestra este reloj a la izquierda",
+    "Show this clock on the right": "Muestra este reloj a la derecha",
+    "Restore clock position": "Restablece la posición del reloj",
+}
+
+lang_3_1 = lang_3_2 | {
     "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "Desactiva el contador de notificación",
     "Override clock default height": "Sobreescribe la altura predeterminada del reloj",

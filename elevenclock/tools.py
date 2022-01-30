@@ -280,7 +280,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     cprint("togglePosAction")
                     setSettings(f"SpecificClockOnTheLeft{screen}", True)
 
-        self.moveToLeftAction = QAction(_("Move to the left"), app)
+        self.moveToLeftAction = QAction("Placeholder text", app)
         self.moveToLeftAction.triggered.connect(lambda: toggleClockPosAction())
         self.toolsMenu.addAction(self.moveToLeftAction)
 

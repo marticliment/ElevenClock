@@ -3,24 +3,19 @@ import glob, os
 
 
 
-OLDSTR = b"""lang_3 = {"""
+OLDSTR = b"""lang_3_1 = {"""
 
-NEWSTR = b"""lang_3_1 = {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+NEWSTR = b"""lang_3_2 = {
+    "Use system accent color as background color": "",
+    "Check only the focused window on the fullscreen check": "",
+    "Clock on monitor {0}": "",
+    "Move to the left": "",
+    "Show this clock on the left": "",
+    "Show this clock on the right": "",
+    "Restore clock position": "",
 }
 
-lang_3 = lang_3_1 | {"""
+lang_3_1 = lang_3_2 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()

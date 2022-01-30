@@ -6,7 +6,17 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_1 = {
+lang_3_2 = {
+    "Use system accent color as background color": "",
+    "Check only the focused window on the fullscreen check": "",
+    "Clock on monitor {0}": "",
+    "Move to the left": "",
+    "Show this clock on the left": "",
+    "Show this clock on the right": "",
+    "Restore clock position": "",
+}
+
+lang_3_1 = lang_3_2 | {
     "W": "주", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "알림 배지 사용 안 함",
     "Override clock default height": "시계 기본 높이 재정의",
