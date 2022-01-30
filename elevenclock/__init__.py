@@ -441,15 +441,18 @@ try:
                 self.callInMainSignal.connect(lambda f: f())
                 self.styler.connect(self.setStyleSheet)
                 
-                self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
-                self.transparentBackground = getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")
+                self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
+                self.transparentBackground = getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
                 
                 if self.taskbarBackgroundColor:
                     print("🔵 Using taskbar background color")
                     self.bgcolor = "0, 0, 0, 0"
                 else:
                     print("🟡 Not using taskbar background color")
-                    self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
+                    if getSettings("AccentBackgroundcolor"):
+                        self.bgcolor = f"{getColors()[4 if isTaskbarDark() else 1]},100"
+                    else:
+                        self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
                     print("🔵 Using bg color:", self.bgcolor)
 
                 self.prefMargins = 0

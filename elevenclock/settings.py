@@ -298,6 +298,10 @@ class SettingsWindow(QMainWindow):
         self.backgroundcolor.stateChanged.connect(lambda i: setSettings("UseCustomBgColor", bool(i)))
         self.backgroundcolor.valueChanged.connect(lambda v: setSettingsValue("UseCustomBgColor", v))
         self.clockAppearanceTitle.addWidget(self.backgroundcolor)
+        self.accentBgColor = QSettingsCheckBox(_("Use system accent color as background color"))
+        self.accentBgColor.setChecked(getSettings("AccentBackgroundcolor"))
+        self.accentBgColor.stateChanged.connect(lambda i: setSettings("AccentBackgroundcolor", bool(i)))
+        self.clockAppearanceTitle.addWidget(self.accentBgColor)
         self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         self.centerText.setChecked(getSettings("CenterAlignment"))
         self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: {self.getPx(1)}px;}}")
@@ -553,10 +557,25 @@ class SettingsWindow(QMainWindow):
 
         if self.backgroundcolor.isChecked():
             self.disableSystemTrayColor.setEnabled(False)
-            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
+            self.accentBgColor.setEnabled(False)
+            self.accentBgColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
         else:
             self.disableSystemTrayColor.setEnabled(True)
             self.disableSystemTrayColor.setToolTip("")
+            self.accentBgColor.setEnabled(True)
+            self.accentBgColor.setToolTip("")
+
+        if self.accentBgColor.isChecked():
+            self.disableSystemTrayColor.setEnabled(False)
+            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+            self.backgroundcolor.setEnabled(False)
+            self.backgroundcolor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+        else:
+            self.disableSystemTrayColor.setEnabled(True)
+            self.disableSystemTrayColor.setToolTip("")
+            self.backgroundcolor.setEnabled(True)
+            self.backgroundcolor.setToolTip("")
 
 
     def applyStyleSheet(self):
