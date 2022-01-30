@@ -10,13 +10,13 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "Цвет темы системы в качестве фона",
+    "Check only the focused window on the fullscreen check": "Использовать только активное окно при определении полноэкранного режима (старый метод)",
+    "Clock on monitor {0}": "Монитор: {0}",
+    "Move to the left": "Переместить налево",
+    "Show this clock on the left": "Показывать часы слева",
+    "Show this clock on the right": "Показывать часы справа",
+    "Restore clock position": "Сброс положения",
 }
 
 lang_3_1 = lang_3_2 | {
@@ -184,7 +184,7 @@ lang2_3 = lang2_4 | {
 
     #About the language pack
     "About the language pack:"                  :"О языковом пакете",
-    "Translated to English by martinet101"      :"Перевод на русский: Иван (Risen), Кирилл (kira)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
+    "Translated to English by martinet101"      :"Перевод на русский: Кирилл (gh://kira-lappo), Иван (Risen)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
     "Translate ElevenClock to your language"    :"Переведите ElevenClock на свой язык",
     "Get started"                               :"Перевести", # it's a button which leads to translation details
 
@@ -193,7 +193,7 @@ lang2_3 = lang2_4 | {
     "View ElevenClock's homepage"               :"Посетить сайт ElevenClock",
     "Open"                                      :"Открыть",
     "Report an issue/request a feature"         :"Сообщить о проблеме / запросить функцию",
-    "Report"                                    :"Отчет",
+    "Report"                                    :"Перейти",
     "Support the dev: Give me a coffee☕"       :"Поддержать разработчика чашечкой кофе☕",
     "Open page"                                 :"Открыть страницу",
     "Icons by Icons8"                           :"Иконки от Icons8", # Here, the word "Icons8" should not be translated
