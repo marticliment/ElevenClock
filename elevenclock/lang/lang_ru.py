@@ -11,8 +11,8 @@
 
 lang_3_2 = {
     "Use system accent color as background color": "Цвет темы системы в качестве фона",
-    "Check only the focused window on the fullscreen check": "Проверять только активное окно при полноэкранной проверке", # wat
-    "Clock on monitor {0}": "Часы на мониторе {0}",
+    "Check only the focused window on the fullscreen check": "Использовать только активное окно при определении полноэкранного режима (старый метод)",
+    "Clock on monitor {0}": "Монитор: {0}",
     "Move to the left": "Переместить налево",
     "Show this clock on the left": "Показывать часы слева",
     "Show this clock on the right": "Показывать часы справа",
@@ -193,7 +193,7 @@ lang2_3 = lang2_4 | {
     "View ElevenClock's homepage"               :"Посетить сайт ElevenClock",
     "Open"                                      :"Открыть",
     "Report an issue/request a feature"         :"Сообщить о проблеме / запросить функцию",
-    "Report"                                    :"Отчет",
+    "Report"                                    :"Перейти",
     "Support the dev: Give me a coffee☕"       :"Поддержать разработчика чашечкой кофе☕",
     "Open page"                                 :"Открыть страницу",
     "Icons by Icons8"                           :"Иконки от Icons8", # Here, the word "Icons8" should not be translated
