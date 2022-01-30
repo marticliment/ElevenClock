@@ -8,13 +8,13 @@
 
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "Utiliser la couleur d'accentuation en tant que couleur d'arrière-plan",
+    "Check only the focused window on the fullscreen check": "N'afficher l'horloge que si une fenêtre active est en plein écran",
+    "Clock on monitor {0}": "Horloge sur l'écran {0}",
+    "Move to the left": "Déplacer vers la gauche",
+    "Show this clock on the left": "Afficher cette horloge à gauche",
+    "Show this clock on the right": "Afficher cette horloge à droite",
+    "Restore clock position": "Restaurer la position de l'horloge",
 }
 
 lang_3_1 = lang_3_2 | {

@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "시스템 테마 컬러를 배경 색상으로 사용",
+    "Check only the focused window on the fullscreen check": "활성화된 창으로만 전체 화면 여부 확인",
+    "Clock on monitor {0}": "모니터 {0}의 시계",
+    "Move to the left": "왼쪽으로 옮기기",
+    "Show this clock on the left": "이 시계를 왼쪽에 표시하기",
+    "Show this clock on the right": "이 시계를 오른쪽에 표시하기",
+    "Restore clock position": "시계 위치 기본값 복원",
 }
 
 lang_3_1 = lang_3_2 | {
@@ -181,7 +181,7 @@ lang2_3 = lang2_4 | {
     "About the language pack:"                  :"언어 팩 정보",
     "Translated to English by martinet101"      :"VᴇɴᴜꜱGɪʀʟ(비너스걸) 및 sinusinu에 의해 한국어로 번역", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"ElevenClock을 당신의 언어로 번역하세요",
-    "Get started"                               :"",
+    "Get started"                               :"시작하기",
     
     #About ElevenClock
     "About ElevenClock version {0}:"            :"ElevenClock 버전 {0} 정보:",
