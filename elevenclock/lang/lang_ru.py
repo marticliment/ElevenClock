@@ -10,13 +10,13 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "Цвет темы системы в качестве фона",
+    "Check only the focused window on the fullscreen check": "Проверять только активное окно при полноэкранной проверке", # wat
+    "Clock on monitor {0}": "Часы на мониторе {0}",
+    "Move to the left": "Переместить налево",
+    "Show this clock on the left": "Показывать часы слева",
+    "Show this clock on the right": "Показывать часы справа",
+    "Restore clock position": "Сброс положения",
 }
 
 lang_3_1 = lang_3_2 | {
