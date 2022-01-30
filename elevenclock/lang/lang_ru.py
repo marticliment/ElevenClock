@@ -184,7 +184,7 @@ lang2_3 = lang2_4 | {
 
     #About the language pack
     "About the language pack:"                  :"О языковом пакете",
-    "Translated to English by martinet101"      :"Перевод на русский: Иван (Risen), Кирилл (kira)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
+    "Translated to English by martinet101"      :"Перевод на русский: Кирилл (gh://kira-lappo), Иван (Risen)", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
     "Translate ElevenClock to your language"    :"Переведите ElevenClock на свой язык",
     "Get started"                               :"Перевести", # it's a button which leads to translation details
 
