@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "Bruk systemfarge som bakgrunnsfarge",
+    "Check only the focused window on the fullscreen check": "Bare undersøk vinduet i fokus på fullskjermundersøkelsen",
+    "Clock on monitor {0}": "Klokke på monitor {0}",
+    "Move to the left": "Flytt til venstre",
+    "Show this clock on the left": "Vis denne klokken på venstresiden",
+    "Show this clock on the right": "Vis denne klokken på høyresiden",
+    "Restore clock position": "Gjenopprett klokkens posisjon",
 }
 
 lang_3_1 = lang_3_2 | {
@@ -139,7 +139,7 @@ lang2_4 = lang2_5 | {
 
 lang2_3 = lang2_4 | {
     #Context menu
-    "ElevenClock Settings"      :"Innstillinger, ElevenClock", # Also settings title
+    "ElevenClock Settings"      :"Innstillinger for ElevenClock", # Also settings title
     "Reload Clocks"             :"Last inn klokker på nytt",
     "ElevenClock v{0}"          :"ElevenClock versjon {0}",
     "Restart ElevenClock"       :"Start ElevenClock på nytt",
