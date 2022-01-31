@@ -1,0 +1,6 @@
+psutil==5.9.0
+pynput==1.7.6
+PyQt5==5.15.6
+pywin32==303
+win32gui==221.6
+win32mica==1.3
