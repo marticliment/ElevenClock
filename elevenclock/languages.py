@@ -61,8 +61,8 @@ languageReference = {
     "lv"    : "Latvian",
     "lt"    : "Lithuanian",
     "nb"    : "Norwegian (bokmål)",
-    "nn"    : "Norwegian (nynorsk)
-    "pl"    : "Polish" ,
+    "nn"    : "Norwegian (nynorsk)",
+    "pl"    : "Polish",
     "pt_PT" : "Portuguese (Portugal)",
     "pt_BR" : "Portuguese (Brazil)",
     "ru"    : "Russian",
