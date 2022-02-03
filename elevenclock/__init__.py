@@ -510,6 +510,9 @@ try:
                 registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
                 self.autoHide = registry_read_result[8] == 123
                 
+                if self.autoHide:
+                    print("🟡 ElevenClock set to hide with the taskbar")
+
                 self.clockOnTheLeft = getSettings("ClockOnTheLeft")
                 screenName = screen.name().replace("\\", "_")
                 if not self.clockOnTheLeft:
