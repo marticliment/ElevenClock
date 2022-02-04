@@ -12,7 +12,7 @@
 
 lang_3_2 = {
     "Use system accent color as background color": "Použít barvu motivu jako barvu pozadí",
-    "Check only the focused window on the fullscreen check": "",
+    "Check only the focused window on the fullscreen check": "Kontrolovat pouze aktivní okno při kontrole celé obrazovky",
     "Clock on monitor {0}": "Hodiny na monitoru {0}",
     "Move to the left": "Přesunout vlevo",
     "Show this clock on the left": "Zobrazit hodiny na levé straně",
@@ -37,19 +37,19 @@ lang_3_1 = lang_3_2 | {
 
 lang_3 = lang_3_1 | {
     "Hide the clock during 10 seconds when clicked": "Skrýt hodiny po kliknutí na dobu 10 sekund",
-    "Enable low-cpu mode": "Zapnout mód pro slabé počítače",
+    "Enable low-cpu mode": "Zapnout mód pro počítače se slabším procesorem",
     "You might lose functionalities, like the notification counter or the dynamic background": "Můžete ztratit některé funkce, jako počítadlo notifikací nebo dynamické pozadí",
     "Clock position and size:": "Umístění a velikost hodin",
     "Clock size preferences, position offset, clock at the left, etc.": "Velikost, pozice, umístění z leva a další",
     "Reset monitor blacklisting status": "Obnovit stav blacklistovaných monitorů",
     "Reset": "Obnovit",
-    "Third party licenses": "Licence třetích stran",
+    "Third party licenses": "Licence aplikací třetích stran",
     "View": "Zobrazit",
     "ElevenClock": "ElevenClock",
     "Monitor tools": "Nástroje monitoru",
     "Blacklist this monitor": "Umístit tento monitor na blacklist",
-    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Open-source třetích stran v ElevenClock {0} (a jejich licence)",
-    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock je aplikace s otevřeným kódem, která vznikla za pomocí dalších knihovem vytvořených komunitou:",
+    "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "Aplikace s otevřeným zdrojovým kódem třetích stran v ElevenClock {0} (a jejich licence)",
+    "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "ElevenClock je aplikace s otevřeným zdrojovým kódem, která vznikla za pomocí dalších knihovem vytvořených komunitou:",
     "Ok": "Ok",
     "More Info": "Více informací",
     "About Qt": "O Qt",
@@ -100,7 +100,7 @@ lang_2_8 = lang_2_9 | {
     "Use a custom font color": "Použít vlastní barvu písma",
     "Use a custom background color": "Použít vlastní barvu pozadí",
     "Align the clock text to the center": "Vycentrovat text hodin",
-    "Select custom color": "Vybrat barvu",
+    "Select custom color": "Vybrat vlastní barvu",
     "Hide the clock when a program occupies all screens": "Skrýt hodiny, když je aplikace na všech obrazovkách",
 }
 
@@ -128,7 +128,7 @@ lang2_6 = lang2_7 | {
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Skrýt hodiny, když běží RDP Client nebo Citrix Workspace",
     "Clock Appearance:": "Vzhled hodin",
-    "Force the clock to have black text": "Vynutit, aby hodiny měly černý text",
+    "Force the clock to have black text": "Vynutit černý text hodin",
     " - It is required that the Dark Text checkbox is disabled": " - Toto vyžaduje vypnuté nastavení zobrazování černého textu",
     "Debbugging information:": "Informace o ladění",
     "Open ElevenClock's log": "Otevřít protokol ElevenClock",
@@ -153,7 +153,7 @@ lang2_3 = lang2_4 | {
     "General Settings:"                                                                 :"Obecné nastavení",
     "Automatically check for updates"                                                   :"Automaticky kontrolovat aktualizace",
     "Automatically install available updates"                                           :"Automaticky instalovat dostupné aktualizace",
-    "Enable really silent updates"                                                      :"Povolit tiché aktualizace",
+    "Enable really silent updates"                                                      :"Povolit opravdu tiché aktualizace",
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Vynechat kontrolu pravosti poskytovatele aktualizací (NEDOPORUČUJEME, NA VAŠE VLASTNÍ RIZIKO)",
     "Show ElevenClock on system tray"                                                   :"Zobrazit ElevenClock na systémové liště",
     "Alternative clock alignment (may not work)"                                        :"Alternativní zarovnání hodin (nemusí fungovat)",
@@ -182,19 +182,19 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"O jazykovém balíčku",
-    "Translated to English by martinet101"      :"Do češtiny přeložili Matouš Adamů a panther7", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Do češtiny přeložili Matouš Adamů, panther7 a SunightMC", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"Přeložte ElevenClock do svého jazyka",
     "Get started"                               :"Začít",
     
     #About ElevenClock
     "About ElevenClock version {0}:"            :"O verzi ElevenClock {0}",
-    "View ElevenClock's homepage"               :"Zobrazit domovskou stránku ElevenClock",
+    "View ElevenClock's homepage"               :"Zobrazit domovskou stránku aplikace ElevenClock",
     "Open"                                      :"Otevřít",
     "Report an issue/request a feature"         :"Nahlásit problém/požádat o funkci",
     "Report"                                    :"Hlášení",
     "Support the dev: Give me a coffee☕"       :"Podpořte vývojáře: Pošlete mi kávu ☕",
     "Open page"                                 :"Otevřít stránku",
-    "Icons by Icons8"                           :"Ikony od Icons8", # Here, the word "Icons8" should not be translated
+    "Icons by Icons8"                           :"Ikony vytvořil Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Webová stránka",
     "Close settings"                            :"Zavřít nastavení",
     "Close"                                     :"Zavřít",
