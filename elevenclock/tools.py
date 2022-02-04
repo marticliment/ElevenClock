@@ -316,20 +316,25 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.applyStyleSheet()
 
     def execMenu(self, pos: QPoint):
-        self.applyStyleSheet()
-        screen = globals.app.screenAt(pos).name().replace("\\", "_")
-        if getSettings("ClockOnTheLeft"):
-            if getSettings(f"SpecificClockOnTheRight{screen}"):
-                self.moveToLeftAction.setText(_("Restore clock position"))
+        try:
+            self.applyStyleSheet()
+            pos.setY(pos.y() if pos.y() > 0 else 1)
+            pos.setX(pos.x() if pos.x() > 0 else 1)
+            screen = globals.app.screenAt(pos).name().replace("\\", "_")
+            if getSettings("ClockOnTheLeft"):
+                if getSettings(f"SpecificClockOnTheRight{screen}"):
+                    self.moveToLeftAction.setText(_("Restore clock position"))
+                else:
+                    self.moveToLeftAction.setText(_("Show this clock on the right"))
             else:
-                self.moveToLeftAction.setText(_("Show this clock on the right"))
-        else:
-            if getSettings(f"SpecificClockOnTheLeft{screen}"):
-                self.moveToLeftAction.setText(_("Restore clock position"))
-            else:
-                self.moveToLeftAction.setText(_("Show this clock on the left"))
-        self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screen.replace("_", "\\")))
-        self.contextMenu().exec_(pos)
+                if getSettings(f"SpecificClockOnTheLeft{screen}"):
+                    self.moveToLeftAction.setText(_("Restore clock position"))
+                else:
+                    self.moveToLeftAction.setText(_("Show this clock on the left"))
+            self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screen.replace("_", "\\")))
+            self.contextMenu().exec_(pos)
+        except Exception as e:
+            report(e)
 
     def getPx(self, original) -> int:
         return round(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
