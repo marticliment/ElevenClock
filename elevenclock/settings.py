@@ -56,17 +56,17 @@ class SettingsWindow(QMainWindow):
         title = QLabel("\u200e"+_("ElevenClock Settings"))
         title.setObjectName("title")
         if lang == lang_zh_TW:
-            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
+            title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
         elif lang == lang_zh_CN:
-            title.setStyleSheet("font-size: 25pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
+            title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
-            title.setStyleSheet("font-size: 25pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
-        layout.addWidget(title)
+            title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
+        #layout.addWidget(title)
         layout.setSpacing(5)
         layout.setContentsMargins(10, 0, 0, 0)
         layout.addSpacing(0)
         self.resize(900, 600)
-        self.setMinimumWidth(520)
+        self.setMinimumWidth(540)
         if isWindowDark():
             self.iconMode = "white"
         else:
@@ -451,25 +451,44 @@ class SettingsWindow(QMainWindow):
         layout.addSpacing(15)
         layout.addStretch()
 
-        shl = QHBoxLayout()
 
         class QStaticWidget(QWidget):
             def __init__(self) -> None:
                 super().__init__()
                 self.setFixedHeight(1)
 
-        shl.setSpacing(0)
-        shl.setContentsMargins(0, 0, 0, 0)
-        shl.addWidget(QStaticWidget(), stretch=0)
-        shl.addLayout(layout, stretch=1)
-        shl.addWidget(QStaticWidget(), stretch=0)
 
-        self.settingsWidget.setLayout(shl)
+        self.settingsWidget.setLayout(layout)
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
-        self.vlayout.addWidget(self.scrollArea)
+        
+        svl = QVBoxLayout()
+        svl.setSpacing(0)
+        svl.setContentsMargins(0, 0, 0, 0)
+        svl.addWidget(title, stretch=0)
+        svl.addWidget(self.scrollArea, stretch=1)
+
+        w = QWidget()
+        w.setMaximumWidth(1000)
+        w.setLayout(svl)
+
+        self.scrollbar = QScrollBar()
+        self.scrollArea.setVerticalScrollBar(self.scrollbar)
+        
+        shl = QHBoxLayout()
+        shl.setSpacing(0)
+        shl.setContentsMargins(0, 0, 0, 0)
+        shl.addSpacing(16)
+        shl.addWidget(QStaticWidget(), stretch=0)
+        shl.addWidget(w, stretch=1)
+        shl.addWidget(QStaticWidget(), stretch=0)
+        shl.addWidget(self.scrollbar, stretch=0)
+
+
+        self.vlayout.addLayout(shl)
+        
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
         self.updateCheckBoxesStatus()
@@ -984,38 +1003,48 @@ class SettingsWindow(QMainWindow):
                                     padding: none;
                                     outline: none;
                                 }}
-                                QScrollBar:vertical {{
+                                QScrollBar {{
                                     background: rgba(71, 71, 71, 25%);
                                     margin: {self.getPx(4)}px;
-                                    width: {self.getPx(20)}px;
+                                    margin-left: 0px;
+                                    width: {self.getPx(16)}px;
+                                    height: {self.getPx(20)}px;
                                     border: none;
                                     border-radius: {self.getPx(5)}px;
                                 }}
-                                QScrollBar::handle:vertical {{
+                                QScrollBar:horizontal {{
+                                    margin-bottom: 0px;
+                                    padding-bottom: 0px;
+                                    height: {self.getPx(12)}px;
+                                }}
+                                QScrollBar::handle {{
                                     margin: {self.getPx(3)}px;
                                     min-height: {self.getPx(20)}px;
+                                    min-width: {self.getPx(20)}px;
                                     border-radius: {self.getPx(3)}px;
                                     background: rgba(80, 80, 80, 25%);
                                 }}
-                                QScrollBar::handle:vertical:hover {{
+                                QScrollBar::handle:hover {{
                                     margin: {self.getPx(3)}px;
                                     border-radius: {self.getPx(3)}px;
                                     background: rgba(112, 112, 112, 25%);
                                 }}
-                                QScrollBar::add-line:vertical {{
+                                QScrollBar::add-line {{
                                     height: 0;
+                                    width: 0;
                                     subcontrol-position: bottom;
                                     subcontrol-origin: margin;
                                 }}
-                                QScrollBar::sub-line:vertical {{
+                                QScrollBar::sub-line {{
                                     height: 0;
+                                    width: 0;
                                     subcontrol-position: top;
                                     subcontrol-origin: margin;
                                 }}
-                                QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {{
+                                QScrollBar::up-arrow, QScrollBar::down-arrow {{
                                     background: none;
                                 }}
-                                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                                QScrollBar::add-page, QScrollBar::sub-page {{
                                     background: none;
                                 }}
                                 #titlebarLabel {{
@@ -1764,6 +1793,7 @@ class QSettingsTitle(QWidget):
         self.label.setFixedHeight(self.getPx(20))
         self.descLabel.move(self.getPx(70), self.getPx(37))
         self.descLabel.setFixedHeight(self.getPx(20))
+        self.descLabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(70))
 
         self.image.move(self.getPx(27), self.getPx(20))
         self.image.setFixedHeight(self.getPx(30))
