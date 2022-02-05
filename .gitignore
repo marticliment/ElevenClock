@@ -6,3 +6,4 @@ elevenclock\lang\__pycache__\*
 __init__
 ElevenClock.zip
 *.code-workspace
+elevenclock/.vscode/launch.json
