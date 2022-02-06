@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "背景色にシステムアクセントカラーを使用する",
+    "Check only the focused window on the fullscreen check": "全画面の確認をアクティブなウィンドウの確認のみにする",
+    "Clock on monitor {0}": "モニター {0} の時計",
+    "Move to the left": "左に移動する",
+    "Show this clock on the left": "この時計を左に表示する",
+    "Show this clock on the right": "この時計を右に表示する",
+    "Restore clock position": "時計の位置を復元する",
 }
 
 lang_3_1 = lang_3_2 | {
@@ -62,8 +62,8 @@ lang_3 = lang_3_1 | {
 }
 
 lang_2_9_2 = lang_3 | {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
+    "Reload log": "ログを再読み込み",
+    "Do not show the clock on secondary monitors": "セカンダリー画面に時計を表示しない",
     "Disable clock taskbar background color (make clock transparent)": "時計のタスクバーの背景色を無効にする (時計が透明になります)",
     "Open the welcome wizard": "ようこそウィザードを開く",
     " (ALPHA STAGE, MAY NOT WORK)": "(アルファ版のため、動作しません)",
