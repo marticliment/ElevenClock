@@ -365,6 +365,7 @@ try:
                 
 
         tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+        print("🔵 tDateMode:", tDateMode)
         dateMode = ""
         for i, ministr in enumerate(tDateMode.split("'")):
             if i%2==0:
@@ -373,6 +374,7 @@ try:
                 dateMode += ministr
             
         tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+        print("🔵 tTimeMode:", tTimeMode)
         timeMode = ""
 
         for i, ministr in enumerate(tTimeMode.split("'")):
