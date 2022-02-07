@@ -76,7 +76,6 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.announcements)
 
 
-
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())

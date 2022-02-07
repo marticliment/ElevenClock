@@ -450,7 +450,7 @@ try:
                 else:
                     print("🟡 Not using taskbar background color")
                     if getSettings("AccentBackgroundcolor"):
-                        self.bgcolor = f"{getColors()[4 if isTaskbarDark() else 1]},100"
+                        self.bgcolor = f"{getColors()[5 if isTaskbarDark() else 1]},100"
                     else:
                         self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
                     print("🔵 Using bg color:", self.bgcolor)
