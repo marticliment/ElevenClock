@@ -1716,9 +1716,6 @@ class QSettingsTitle(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
         self.compressibleWidget.show()
-        #self.childOpacity=QGraphicsOpacityEffect(self)
-        #self.childOpacity.setOpacity(1.0)
-        #self.compressibleWidget.setGraphicsEffect(self.childOpacity)
         self.compressibleWidget.setAutoFillBackground(True)
         self.compressibleWidget.setObjectName("compressibleWidget")
         self.compressibleWidget.setStyleSheet("#compressibleWidget{background-color: transparent;}")
@@ -1775,7 +1772,6 @@ class QSettingsTitle(QWidget):
         else:
             self.iconMode = "black"
         if self.childsVisible:
-            #self.window().scrollArea.verticalScrollBar().setValue(self.oldScrollValue)
             self.childsVisible = False
             self.hideAnim.setStartValue(self.compressibleWidget.sizeHint().height())
             self.hideAnim.setEndValue(0)
@@ -1806,7 +1802,7 @@ class QSettingsTitle(QWidget):
         return round(original*(self.screen().logicalDotsPerInchX()/96))
 
     def setIcon(self, icon: str) -> None:
-        self.image.setPixmap(QIcon(icon).pixmap(QSize(24, 24)))
+        self.image.setPixmap(QIcon(icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.image.setPixmap(QIcon(self.icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
