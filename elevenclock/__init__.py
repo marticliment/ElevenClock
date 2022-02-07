@@ -17,7 +17,11 @@ try:
     from ctypes import windll
     from urllib.request import urlopen
 
-    import psutil
+    try:
+        import psutil
+        importedPsutil = True
+    except ImportError:
+        importedPsutil = False
     import win32gui
     import win32api
     import pythoncom
@@ -200,8 +204,13 @@ try:
         HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
         clocks = []
-        process = psutil.Process(os.getpid())
-        if restartCount<20 and (process.memory_info().rss/1048576) <= 150:
+        if importedPsutil:
+            process = psutil.Process(os.getpid())
+            memOk = (process.memory_info().rss/1048576) <= 150
+        else:
+            print("🟠 Psutil couldn't be imported!")
+            memOk = True
+        if restartCount<20 and memOk:
             restartCount += 1
             i = 0
             for screen in app.screens():
