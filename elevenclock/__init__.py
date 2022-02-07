@@ -401,10 +401,25 @@ try:
             if(fixHyphen):
                 for _ in range(36000):
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("t-", "t -")
+                    try:
+                        secs = datetime.datetime.now().strftime("%S")
+                        if secs[-1] == "1":
+                            if nTimeStr.count(secs) == 1 or nTimeStr[-2:] == secs:
+                                nTimeStr = nTimeStr.replace(secs, secs+" \u200e")
+                    except IndexError:
+                        pass
                     time.sleep(0.2)
             else:
                 for _ in range(36000):
-                    timeStr = datetime.datetime.now().strftime(dateTimeFormat)
+                    nTimeStr = datetime.datetime.now().strftime(dateTimeFormat)
+                    try:
+                        secs = datetime.datetime.now().strftime("%S")
+                        if secs[-1] == "1":
+                            if nTimeStr.count(secs) == 1 or nTimeStr[-2:] == secs:
+                                nTimeStr = nTimeStr.replace(secs, secs+" \u200e")
+                    except IndexError:
+                        pass
+                    timeStr = nTimeStr
                     time.sleep(0.2)
 
     class RestartSignal(QObject):
