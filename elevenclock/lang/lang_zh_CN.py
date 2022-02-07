@@ -7,13 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "使用系统强调色作为背景色",
+    "Check only the focused window on the fullscreen check": "在全屏检查中只检查被关注的窗口",
+    "Clock on monitor {0}": "监视器 {0} 上的时钟",
+    "Move to the left": "向左移动",
+    "Show this clock on the left": "在左边显示这个时钟",
+    "Show this clock on the right": "在右边显示这个时钟",
+    "Restore clock position": "恢复时钟位置",
 }
 
 lang_3_1 = lang_3_2 | {
