@@ -1,3 +1,4 @@
+import glob
 import platform
 import subprocess
 import os
@@ -439,6 +440,23 @@ class SettingsWindow(QMainWindow):
 
         self.debbuggingTitle = QSettingsTitle(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"), _("Log, debugging information"))
         layout.addWidget(self.debbuggingTitle)
+        self.helpButton = QSettingsButton(_("Open online help for troubleshooting problems"), _("Open"))
+        self.helpButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.helpButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki/Troubleshooting"))
+        self.debbuggingTitle.addWidget(self.helpButton)
+        self.resetButton = QSettingsButton(_("Reset ElevenClock preferences"), _("Reset"))
+        self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+
+        def resetSettings():
+            for file in glob.glob(os.path.join(os.path.expanduser("~"), ".elevenclock/*")):
+                if not "Running" in file:
+                    try:
+                        os.remove(file)
+                    except:
+                        pass
+
+        self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable)))
+        self.debbuggingTitle.addWidget(self.resetButton)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.openLogWindow())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
