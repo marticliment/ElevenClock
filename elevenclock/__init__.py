@@ -390,6 +390,7 @@ try:
             timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
 
         dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+        print("🔵 Loaded date time format:", dateTimeFormat)
 
     def timeStrThread():
         global timeStr, dateTimeFormat
