@@ -380,7 +380,7 @@ try:
         for i, ministr in enumerate(tTimeMode.split("'")):
             if i%2==0:
                 timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-                if not("S" in timeMode) and showSeconds==1:
+                if not("S" in timeMode) and showSeconds == 1:
                     for separator in ":.-/_":
                         if(separator in timeMode):
                             timeMode += f"{separator}%S"
@@ -390,6 +390,8 @@ try:
         for separator in ":.-/_":
             timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
             timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+
+        timeMode = timeMode.replace("%S", "%S·").replace("%#S", "%#S·")
 
         dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
         print("🔵 Loaded date time format:", dateTimeFormat)
@@ -404,23 +406,25 @@ try:
                     try:
                         secs = datetime.datetime.now().strftime("%S")
                         if secs[-1] == "1":
-                            if nTimeStr.count(secs) == 1 or nTimeStr[-2:] == secs:
-                                nTimeStr = nTimeStr.replace(secs, secs+" \u200e")
+                            nTimeStr = nTimeStr.replace("·", " \u200e")
+                        else:
+                            nTimeStr = nTimeStr.replace("·", "")
                     except IndexError:
                         pass
-                    time.sleep(0.2)
+                    time.sleep(0.1)
             else:
                 for _ in range(36000):
                     nTimeStr = datetime.datetime.now().strftime(dateTimeFormat)
                     try:
                         secs = datetime.datetime.now().strftime("%S")
                         if secs[-1] == "1":
-                            if nTimeStr.count(secs) == 1 or nTimeStr[-2:] == secs:
-                                nTimeStr = nTimeStr.replace(secs, secs+" \u200e")
+                            nTimeStr = nTimeStr.replace("·", " \u200e")
+                        else:
+                            nTimeStr = nTimeStr.replace("·", "")
                     except IndexError:
                         pass
                     timeStr = nTimeStr
-                    time.sleep(0.2)
+                    time.sleep(0.1)
 
     class RestartSignal(QObject):
 
