@@ -710,9 +710,11 @@ try:
 
                 self.user32 = windll.user32
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-                self.loop = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
+                self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
+                self.loop1 = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
                 self.loop2 = KillableThread(target=self.backgroundLoop, daemon=True, name=f"Clock[{index}]: Background color loop")
-                self.loop.start()
+                self.loop0.start()
+                self.loop1.start()
                 self.loop2.start()
                 
                 class QHoverButton(QPushButton):
@@ -884,6 +886,12 @@ try:
                     time.sleep(0.2)
                 time.sleep(0.2)
     
+        def updateTextLoop(self) -> None:
+            global timeStr
+            while True:
+                self.label.setText(timeStr)
+                time.sleep(0.1)
+
         def showCalendar(self):
             self.keyboard.press(Key.cmd)
             self.keyboard.press('n')
@@ -913,7 +921,6 @@ try:
             if(self.shouldBeVisible):
                 self.show()
                 self.raise_()
-                self.label.setText(timeStr)
                 if(self.lastTheme >= 0): # If the color is not customized
                     theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
                     if(theme != self.lastTheme):
@@ -943,7 +950,8 @@ try:
             self.shouldBeVisible = False
             try:
                 print(f"🟡 Closing clock on {self.win32screen}")
-                self.loop.kill()
+                self.loop0.kill()
+                self.loop1.kill()
                 self.loop2.kill()
             except AttributeError:
                 pass
