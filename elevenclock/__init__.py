@@ -399,32 +399,26 @@ try:
     def timeStrThread():
         global timeStr, dateTimeFormat
         fixHyphen = getSettings("EnableHyphenFix")
+        encoding = 'unicode-escape'
         while True:
-            if(fixHyphen):
-                for _ in range(36000):
-                    timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("t-", "t -")
-                    try:
-                        secs = datetime.datetime.now().strftime("%S")
-                        if secs[-1] == "1":
-                            nTimeStr = nTimeStr.replace("·", " \u200e")
-                        else:
-                            nTimeStr = nTimeStr.replace("·", "")
-                    except IndexError:
-                        pass
-                    time.sleep(0.1)
-            else:
-                for _ in range(36000):
-                    nTimeStr = datetime.datetime.now().strftime(dateTimeFormat)
-                    try:
-                        secs = datetime.datetime.now().strftime("%S")
-                        if secs[-1] == "1":
-                            nTimeStr = nTimeStr.replace("·", " \u200e")
-                        else:
-                            nTimeStr = nTimeStr.replace("·", "")
-                    except IndexError:
-                        pass
-                    timeStr = nTimeStr
-                    time.sleep(0.1)
+            for _ in range(36000):
+                dateTimeFormatUnicode = dateTimeFormat.encode(encoding).decode()
+                now = datetime.datetime.now()
+                timeStr = now.strftime(dateTimeFormatUnicode).encode().decode(encoding)
+
+                if fixHyphen:
+                    timeStr = timeStr.replace("t-", "t -")
+
+                try:
+                    secs = datetime.datetime.now().strftime("%S")
+                    if secs[-1] == "1":
+                        timeStr = timeStr.replace("·", " \u200e")
+                    else:
+                        timeStr = timeStr.replace("·", "")
+                except IndexError:
+                    pass
+                time.sleep(0.1)
+
 
     class RestartSignal(QObject):
 
