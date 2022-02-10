@@ -7,3 +7,10 @@ __init__
 ElevenClock.zip
 *.code-workspace
 elevenclock/.vscode/launch.json
+
+# Virtual environments
+venv/
+env/
+
+# Intellij Cache and Settings folder
+.idea/
