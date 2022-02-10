@@ -497,9 +497,9 @@ class SettingsWindow(QMainWindow):
         svl.addWidget(title, stretch=0)
         svl.addWidget(self.scrollArea, stretch=1)
 
-        w = QWidget()
-        w.setMaximumWidth(1000)
-        w.setLayout(svl)
+        self.staticVerticalWidget = QWidget()
+        self.staticVerticalWidget.setMaximumWidth(self.getPx(1000))
+        self.staticVerticalWidget.setLayout(svl)
 
         self.scrollbar = QScrollBar()
         self.scrollArea.setVerticalScrollBar(self.scrollbar)
@@ -509,7 +509,7 @@ class SettingsWindow(QMainWindow):
         shl.setContentsMargins(0, 0, 0, 0)
         shl.addSpacing(16)
         shl.addWidget(QStaticWidget(), stretch=0)
-        shl.addWidget(w, stretch=1)
+        shl.addWidget(self.staticVerticalWidget, stretch=1)
         shl.addWidget(QStaticWidget(), stretch=0)
         shl.addWidget(self.scrollbar, stretch=0)
 
@@ -625,6 +625,7 @@ class SettingsWindow(QMainWindow):
 
 
     def applyStyleSheet(self):
+        self.staticVerticalWidget.setMaximumWidth(self.getPx(1000))
         colors = getColors()
         if isWindowDark():
             if ApplyMica(self.winId().__int__(), MICAMODE.DARK) != 0x0:
