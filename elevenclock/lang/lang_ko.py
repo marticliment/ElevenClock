@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "온라인 도움말을 열어 문제 해결",
+    "Reset ElevenClock preferences to defaults": "ElevenClock 기본 설정을 기본값으로 재설정",
+    "Specify a minimum width for the clock": "시계의 최소 너비 지정",
+    "Search on the settings": "설정에서 검색",
+    "No results were found": "결과를 찾을 수 없습니다",
 }
 
 lang_3_2 = lang_3_2_1 | {
-    "Use system accent color as background color": "시스템 테마 컬러를 배경 색상으로 사용",
-    "Check only the focused window on the fullscreen check": "활성화된 창으로만 전체 화면 여부 확인",
-    "Clock on monitor {0}": "모니터 {0}의 시계",
-    "Move to the left": "왼쪽으로 옮기기",
-    "Show this clock on the left": "이 시계를 왼쪽에 표시하기",
-    "Show this clock on the right": "이 시계를 오른쪽에 표시하기",
-    "Restore clock position": "시계 위치 기본값 복원",
+    "Use system accent color as background color": "시스템 강조 색상을 배경색으로 사용",
+    "Check only the focused window on the fullscreen check": "전체 화면 검사에서 초점을 맞춘 창만 확인",
+    "Clock on monitor {0}": "{0} 모니터의 시계",
+    "Move to the left": "왼쪽으로 이동",
+    "Show this clock on the left": "왼쪽에 이 시계 표시",
+    "Show this clock on the right": "오른쪽에 이 시계 표시",
+    "Restore clock position": "시계 위치 복원",
 }
 
 lang_3_1 = lang_3_2 | {
