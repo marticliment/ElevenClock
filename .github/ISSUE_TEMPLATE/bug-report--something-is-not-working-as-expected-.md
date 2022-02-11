@@ -10,17 +10,9 @@ assignees: ''
 ## Before submitting the issue
 
 <b>
-✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the FAQ on README.md for solutions<br>
-✅ I have checked the settings window for an option to toggle/fix what is happening<br>
+✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the [FAQ](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting) for solutions<br>
 ✅ I have installed the latest version and the issue still happens<br>
-  
-  
-### 🟠🟠 If ElevenClock does not show or shows weirdly on primary screens, see #333
-### 🟠🟠 If ElevenClock is showing over a fullscreen window, enable "Hide on fullscreen window from the settings"
-### 🟠🟠 If the issue is with the context menu, this has been fixed and will come with the next release
-### 🟠🟠 If the issue is with the bottom cropped text of the clock, this has been fixed and will come with the next release
-
-
+ 
 </b>
 
 ## Describe the bug
