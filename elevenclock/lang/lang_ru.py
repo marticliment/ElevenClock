@@ -10,11 +10,11 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Помощь по проблеме онлайн",
+    "Reset ElevenClock preferences to defaults": "Сброс настроек",
+    "Specify a minimum width for the clock": "Минимальная ширина часов",
+    "Search on the settings": "Поиск по настройкам",
+    "No results were found": "Ничего не найдено",
 }
 
 lang_3_2 = lang_3_2_1 | {
