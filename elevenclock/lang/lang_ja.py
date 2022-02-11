@@ -6,7 +6,15 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_2 = {
+lang_3_2_1 = {
+    "Open online help to troubleshoot problems": "",
+    "Reset ElevenClock preferences to defaults": "",
+    "Specify a minimum width for the clock": "",
+    "Search on the settings": "",
+    "No results were found": "",
+}
+
+lang_3_2 = lang_3_2_1 | {
     "Use system accent color as background color": "背景色にシステムアクセントカラーを使用する",
     "Check only the focused window on the fullscreen check": "全画面の確認をアクティブなウィンドウの確認のみにする",
     "Clock on monitor {0}": "モニター {0} の時計",

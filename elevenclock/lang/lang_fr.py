@@ -7,7 +7,15 @@
 # Meke special attention to elements like ":", etc.
 
 
-lang_3_2 = {
+lang_3_2_1 = {
+    "Open online help to troubleshoot problems": "",
+    "Reset ElevenClock preferences to defaults": "",
+    "Specify a minimum width for the clock": "",
+    "Search on the settings": "",
+    "No results were found": "",
+}
+
+lang_3_2 = lang_3_2_1 | {
     "Use system accent color as background color": "Utiliser la couleur d'accentuation en tant que couleur d'arrière-plan",
     "Check only the focused window on the fullscreen check": "N'afficher l'horloge que si une fenêtre active est en plein écran",
     "Clock on monitor {0}": "Horloge sur l'écran {0}",

@@ -9,7 +9,15 @@
 # Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
-lang_3_2 = {
+lang_3_2_1 = {
+    "Open online help to troubleshoot problems": "",
+    "Reset ElevenClock preferences to defaults": "",
+    "Specify a minimum width for the clock": "",
+    "Search on the settings": "",
+    "No results were found": "",
+}
+
+lang_3_2 = lang_3_2_1 | {
     "Use system accent color as background color": "Цвет темы системы в качестве фона",
     "Check only the focused window on the fullscreen check": "Использовать только активное окно при определении полноэкранного режима (старый метод)",
     "Clock on monitor {0}": "Монитор: {0}",

@@ -3,19 +3,17 @@ import glob, os
 
 
 
-OLDSTR = b"""lang_3_1 = {"""
+OLDSTR = b"""lang_3_2 = {"""
 
-NEWSTR = b"""lang_3_2 = {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+NEWSTR = b"""lang_3_2_1 = {
+    "Open online help to troubleshoot problems": "",
+    "Reset ElevenClock preferences to defaults": "",
+    "Specify a minimum width for the clock": "",
+    "Search on the settings": "",
+    "No results were found": "",
 }
 
-lang_3_1 = lang_3_2 | {"""
+lang_3_2 = lang_3_2_1 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()
