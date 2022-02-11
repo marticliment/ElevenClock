@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Abre la ayuda en línea para solucionar problemas",
+    "Reset ElevenClock preferences to defaults": "Resetea las preferencias de ElevenClock a sus valores predefinidos",
+    "Specify a minimum width for the clock": "Especifica una anchura mínima para el relol",
+    "Search on the settings": "Buscar en la configuración",
+    "No results were found": "No se encontraron resultados",
 }
 
 lang_3_2 = lang_3_2_1 | {
