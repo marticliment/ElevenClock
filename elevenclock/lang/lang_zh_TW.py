@@ -25,7 +25,7 @@ lang_3_2 = lang_3_2_1 | {
 }
 
 lang_3_1 = lang_3_2 | {
-    "W": "星期", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "W": "周", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "停用通知徽章",
     "Override clock default height": "覆寫時鐘預設高度",
     "Adjust horizontal clock position": "調整時鐘水平位置",
