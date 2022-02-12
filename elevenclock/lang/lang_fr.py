@@ -8,11 +8,11 @@
 
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Ouvrir l'aide en ligne pour résoudre les problèmes",
+    "Reset ElevenClock preferences to defaults": "Restaurer les paramètres par défaut d'ElevenClock",
+    "Specify a minimum width for the clock": "Entrer une largeur minimale pour l'horloge",
+    "Search on the settings": "Rechercher un paramètre",
+    "No results were found": "Aucun résultat trouvé",
 }
 
 lang_3_2 = lang_3_2_1 | {
