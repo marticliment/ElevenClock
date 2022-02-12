@@ -29,8 +29,8 @@ lang_3_1 = lang_3_2 | {
     "W": "S", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "Désactiver le badge de notification",
     "Override clock default height": "Modifier la hauteur par défaut de l'horloge",
-    "Adjust horizontal clock position": "Ajuster la position horizontale de l'horloge",
-    "Adjust vertical clock position": "Ajuster la position verticale de l'horloge",
+    "Adjust horizontal clock position": "Modifier la position horizontale de l'horloge",
+    "Adjust vertical clock position": "Modifier la position verticale de l'horloge",
     "Export log as a file": "Exporter les logs dans un fichier",
     "Copy log to clipboard": "Copier les logs dans le presse-papiers",
     "Announcements:": "Annonces :",
@@ -161,7 +161,7 @@ lang2_3 = lang2_4 | {
     "Automatically install available updates"                                           :"Installer automatiquement les mises à jour",
     "Enable really silent updates"                                                      :"Activer les mises à jour silencieuses",
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Passer l'authentification du programme de mise à jour (NON RECOMMANDÉ, À VOS RISQUES ET PÉRILS)",
-    "Show ElevenClock on system tray"                                                   :"Afficher ElevenClock dans la barre d'état",
+    "Show ElevenClock on system tray"                                                   :"Afficher ElevenClock dans l'angle de la barre des tâches",
     "Alternative clock alignment (may not work)"                                        :"Alignement alternatif de l'horloge (peut ne pas fonctionner)",
     "Change startup behaviour"                                                          :"Changer le comportement au démarrage de Windows", # not sure what this is
     "Change"                                                                            :"Changer",
