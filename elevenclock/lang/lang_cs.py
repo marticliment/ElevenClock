@@ -11,11 +11,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Otevřít online nápovědu pro řešení problémů",
+    "Reset ElevenClock preferences to defaults": "Obnovit aplikaci do výchozího nastavení",
+    "Specify a minimum width for the clock": "Specifikovat minimální šířku pro hodiny",
+    "Search on the settings": "Vyhledávání v nastavení",
+    "No results were found": "Žádné výsledky",
 }
 
 lang_3_2 = lang_3_2_1 | {
@@ -178,7 +178,7 @@ lang2_3 = lang2_4 | {
     "Show the clock when the taskbar is set to hide automatically" :"Zobrazit hodiny, když je hlavní panel nastaven na automatické skrytí",
     "Fix the hyphen/dash showing over the month"                   :"Opravuje pomlčku zobrazovanou v průběhu měsíce",
     "Force the clock to have white text"                           :"Vynutit, aby hodiny měly bílý text",
-    "Show the clock at the left of the screen"                     :"Zobrazte hodiny v levé části obrazovky",
+    "Show the clock at the left of the screen"                     :"Zobrazit hodiny v levé části obrazovky",
     
     #Date & time settings
     "Date & Time Settings:"                             :"Nastavení data a času",
