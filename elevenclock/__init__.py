@@ -1182,16 +1182,16 @@ try:
         rdpThread.start()
     
 
-    globals.app = app
-    globals.old_stdout = old_stdout
-    globals.buffer = buffer # Register them
-    globals.loadTimeFormat = loadTimeFormat # Register them
-    globals.updateIfPossible = updateIfPossible # Register them
-    globals.restartClocks = restartClocks # Register them
-    globals.closeClocks = closeClocks # Register them
-    globals.sw = sw
-    globals.trayIcon = i
-    globals.tempDir = tempDir
+    globals.tempDir = tempDir # Register global variables
+    globals.old_stdout = old_stdout # Register global variables
+    globals.buffer = buffer # Register global variables
+    globals.app = app # Register global variables
+    globals.sw = sw # Register global variables
+    globals.trayIcon = i # Register global variables
+    globals.loadTimeFormat = loadTimeFormat # Register global functions
+    globals.updateIfPossible = updateIfPossible # Register global functions
+    globals.restartClocks = restartClocks # Register global functions
+    globals.closeClocks = closeClocks  # Register global functions
 
     if not(getSettings("Updated3.2Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings("ForceClockOnFirstMonitor", True)

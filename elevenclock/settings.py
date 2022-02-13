@@ -66,7 +66,6 @@ class SettingsWindow(QMainWindow):
             title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
             title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
-        #layout.addWidget(title)
         layout.setSpacing(5)
         layout.setContentsMargins(10, 0, 0, 0)
         layout.addSpacing(0)
@@ -475,6 +474,13 @@ class SettingsWindow(QMainWindow):
 
         self.hiddenButton.button.setVisible(False)
         self.debbuggingTitle.addWidget(self.hiddenButton)
+
+        self.notFoundLabel = QLabel(_("No results were found"))
+        self.notFoundLabel.setStyleSheet(f"padding-top: {self.getPx(30)}px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
+        self.notFoundLabel.setAlignment(Qt.AlignCenter)
+        layout.addWidget(self.notFoundLabel)
+        self.notFoundLabel.hide()
+
         layout.addSpacing(15)
         layout.addStretch()
 
@@ -491,10 +497,22 @@ class SettingsWindow(QMainWindow):
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;}}")
         
+        self.searchBox = QLineEdit()
+        self.searchBox.setClearButtonEnabled(True)
+        self.searchBox.setPlaceholderText(_("Search on the settings"))
+        self.searchBox.setContentsMargins(0, 0, 25, 0)
+        self.searchBox.textChanged.connect(self.filter)
+
+        titleLayout = QHBoxLayout()
+        titleLayout.setContentsMargins(0, 0, 0, 0)
+        titleLayout.setSpacing(0)
+        titleLayout.addWidget(title, stretch=1)
+        titleLayout.addWidget(self.searchBox)
+
         svl = QVBoxLayout()
         svl.setSpacing(0)
         svl.setContentsMargins(0, 0, 0, 0)
-        svl.addWidget(title, stretch=0)
+        svl.addLayout(titleLayout, stretch=0)
         svl.addWidget(self.scrollArea, stretch=1)
 
         self.staticVerticalWidget = QWidget()
@@ -536,6 +554,43 @@ class SettingsWindow(QMainWindow):
         pixmap = QPixmap(32, 32)
         pixmap.fill(Qt.transparent)
         self.setWindowIcon(QIcon(pixmap))
+
+    def filter(self, query: str):
+        widgets: list[QSettingsTitle] = (
+            self.generalSettingsTitle,
+            self.clockSettingsTitle,
+            self.clockPosTitle,
+            self.clockAppearanceTitle,
+            self.dateTimeTitle,
+            self.experimentalTitle,
+            self.languageSettingsTitle,
+            self.aboutTitle,
+            self.debbuggingTitle
+        )
+        if query != "":
+            self.announcements.hide()
+            found = False
+            for w in widgets:
+                for item in w.getChildren():
+                    if query.lower() in item.text().lower():
+                        item.show()
+                        found = True
+                    else:
+                        item.hide()
+                w.searchMode = True
+                w.resizeEvent(QResizeEvent(w.size(), w.size()))
+                if not found:
+                    self.notFoundLabel.show()
+                else:
+                    self.notFoundLabel.hide()
+        else:
+            self.announcements.show()
+            for w in widgets:
+                for item in w.getChildren():
+                        item.show()
+                w.searchMode = False
+                self.notFoundLabel.hide()
+                w.resizeEvent(QResizeEvent(w.size(), w.size()))
 
     def showEvent(self, event: QShowEvent) -> None:
         threading.Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
@@ -769,10 +824,14 @@ class SettingsWindow(QMainWindow):
                                     border: none;
                                 }}
                                 QLineEdit {{
-                                    background-color: #1d1d1d;
+                                    background-color: #212121;
+                                    font-family: "Segoe UI Variable Display";
+                                    font-size: 9pt;
+                                    width: {self.getPx(300)}px;
                                     padding: {self.getPx(5)}px;
                                     border-radius: {self.getPx(6)}px;
-                                    border: {self.getPx(1)}px solid #262626;
+                                    border: 0.6px solid #262626;
+                                    border-bottom: {self.getPx(2)}px solid rgb({colors[1]});
                                 }}
                                 #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
@@ -1685,6 +1744,8 @@ class SettingsWindow(QMainWindow):
 class QSettingsTitle(QWidget):
     oldScrollValue = 0
     showing = False
+    searchMode = False
+    childrenw = []
     def __init__(self, text: str, icon: str, descText: str = "No description provided"):
         if isWindowDark():
             self.iconMode = "white"
@@ -1806,35 +1867,58 @@ class QSettingsTitle(QWidget):
         self.image.setPixmap(QIcon(icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.image.setPixmap(QIcon(self.icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
-        self.showHideButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-        self.button.move(0, 0)
-        self.button.resize(self.width(), self.getPx(70))
-        self.showHideButton.setFixedSize(self.getPx(30), self.getPx(30))
-        self.showHideButton.move(self.width()-self.getPx(55), self.getPx(20))
-        
-        self.label.move(self.getPx(70), self.getPx(17))
-        self.label.setFixedHeight(self.getPx(20))
-        self.descLabel.move(self.getPx(70), self.getPx(37))
-        self.descLabel.setFixedHeight(self.getPx(20))
-        self.descLabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(70))
+        if not self.searchMode:
+            self.image.show()
+            self.showHideButton.show()
+            self.button.show()
+            self.image.show()
+            self.label.show()
+            self.descLabel.show()
+            self.image.setPixmap(QIcon(self.icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
+            self.button.move(0, 0)
+            self.button.resize(self.width(), self.getPx(70))
+            self.showHideButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
+            self.showHideButton.setFixedSize(self.getPx(30), self.getPx(30))
+            self.showHideButton.move(self.width()-self.getPx(55), self.getPx(20))
+            
+            self.label.move(self.getPx(70), self.getPx(17))
+            self.label.setFixedHeight(self.getPx(20))
+            self.descLabel.move(self.getPx(70), self.getPx(37))
+            self.descLabel.setFixedHeight(self.getPx(20))
+            self.descLabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(70))
 
-        self.image.move(self.getPx(27), self.getPx(20))
-        self.image.setFixedHeight(self.getPx(30))
-        if self.childsVisible and self.NotAnimated:
-            self.setFixedHeight(self.compressibleWidget.sizeHint().height()+self.getPx(70))
+            self.image.move(self.getPx(27), self.getPx(20))
+            self.image.setFixedHeight(self.getPx(30))
+            if self.childsVisible and self.NotAnimated:
+                self.setFixedHeight(self.compressibleWidget.sizeHint().height()+self.getPx(70))
+                self.compressibleWidget.setFixedHeight(self.compressibleWidget.sizeHint().height())
+            elif self.NotAnimated:
+                self.setFixedHeight(self.getPx(70))
+            self.compressibleWidget.move(0, self.getPx(70))
+            self.compressibleWidget.setFixedWidth(self.width())
+            self.image.setFixedHeight(self.getPx(30))
+            self.label.setFixedWidth(self.width()-self.getPx(140))
+            self.image.setFixedWidth(self.getPx(30))
+        else:
+            self.image.hide()
+            self.showHideButton.hide()
+            self.button.hide()
+            self.image.hide()
+            self.label.hide()
+            self.descLabel.hide()
+
+            self.setFixedHeight(self.compressibleWidget.sizeHint().height())
             self.compressibleWidget.setFixedHeight(self.compressibleWidget.sizeHint().height())
-        elif self.NotAnimated:
-            self.setFixedHeight(self.getPx(70))
-        self.compressibleWidget.move(0, self.getPx(70))
-        self.compressibleWidget.setFixedWidth(self.width())
-        self.image.setFixedHeight(self.getPx(30))
-        self.label.setFixedWidth(self.width()-self.getPx(140))
-        self.image.setFixedWidth(self.getPx(30))
+            self.compressibleWidget.move(0, 0)
+            self.compressibleWidget.setFixedWidth(self.width())
         return super().resizeEvent(event)
     
     def addWidget(self, widget: QWidget) -> None:
         self.compressibleWidget.layout().addWidget(widget)
+        self.childrenw.append(widget)
+
+    def getChildren(self) -> list:
+        return self.childrenw
         
 class QSettingsButton(QWidget):
     clicked = Signal()
@@ -1873,6 +1957,9 @@ class QSettingsButton(QWidget):
 
     def setIcon(self, icon: QIcon) -> None:
         self.button.setIcon(icon)
+
+    def text(self) -> str:
+        return self.label.text() + " " + self.button.text()
 
 class QSettingsComboBox(QWidget):
     textChanged = Signal(str)
@@ -1941,6 +2028,9 @@ class QSettingsComboBox(QWidget):
     def showRestartButton(self) -> None:
         self.restartButton.show()
 
+    def text(self) -> str:
+        return self.label.text() + " " + self.combobox.currentText()
+
 class QSettingsCheckBox(QWidget):
     stateChanged = Signal(bool)
     def __init__(self, text="", parent=None):
@@ -1972,6 +2062,9 @@ class QSettingsCheckBox(QWidget):
         self.checkbox.setFixedWidth(self.width()-self.getPx(70))
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
+
+    def text(self) -> str:
+        return self.checkbox.text()
 
 class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
     def __init__(self, text = "", infotext = "", parent=None):
@@ -2234,7 +2327,7 @@ class QAnnouncements(QLabel):
         self.area = QScrollArea()
         self.setMaximumWidth(self.getPx(1000))
         self.callInMain.connect(lambda f: f())
-        self.setObjectName("subtitleLabel")
+        #self.setObjectName("subtitleLabel")
         self.setFixedHeight(self.getPx(110))
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: {self.getPx(1)}px;font-size: 12pt;}}*{{padding: 3px;}}")
