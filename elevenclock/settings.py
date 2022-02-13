@@ -476,7 +476,11 @@ class SettingsWindow(QMainWindow):
         self.debbuggingTitle.addWidget(self.hiddenButton)
 
         self.notFoundLabel = QLabel(_("No results were found"))
-        self.notFoundLabel.setStyleSheet(f"padding-top: {self.getPx(30)}px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
+        if isWindowDark():
+            self.notFoundLabel.setStyleSheet(f"padding-top: {self.getPx(30)}px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
+        else:
+            self.notFoundLabel.setStyleSheet(f"padding-top: {self.getPx(30)}px;font-size: 16pt; font-weight: bold; color: rgba(0, 0, 0, 50%)")
+
         self.notFoundLabel.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.notFoundLabel)
         self.notFoundLabel.hide()
@@ -1284,6 +1288,16 @@ class SettingsWindow(QMainWindow):
                                 QColorDialog {{
                                     background-color: transparent;
                                     border: none;
+                                }}
+                                QLineEdit {{
+                                    background-color: #fefefe;
+                                    font-family: "Segoe UI Variable Display";
+                                    font-size: 9pt;
+                                    width: {self.getPx(300)}px;
+                                    padding: {self.getPx(5)}px;
+                                    border-radius: {self.getPx(6)}px;
+                                    border: 0.6px solid #eeeeee;
+                                    border-bottom: {self.getPx(2)}px solid rgb({colors[4]});
                                 }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
