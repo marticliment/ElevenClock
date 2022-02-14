@@ -1108,9 +1108,15 @@ try:
         
         def paintEvent(self, event: QPaintEvent) -> None:
             w = self.minimumSizeHint().width()
+            try:
+                mw = int(getSettingsValue("ClockFixedWidth"))
+                if mw > w:
+                    w = mw
+            except Exception as e:
+                report(e)
             if w<self.window().getPx(self.window().preferedwidth) and not self.window().clockOnTheLeft:
-                self.move(self.window().getPx(self.window().preferedwidth)-self.minimumSizeHint().width()+self.getPx(2), 0)
-                self.resize(self.minimumSizeHint().width(), self.height())
+                self.move(self.window().getPx(self.window().preferedwidth)-w+self.getPx(2), 0)
+                self.resize(w, self.height())
             else:
                 self.move(0, 0)
                 self.resize(w, self.height())

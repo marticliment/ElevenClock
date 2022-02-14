@@ -205,6 +205,16 @@ class SettingsWindow(QMainWindow):
         self.clockFixedHeight.stateChanged.connect(lambda v: setSettings("ClockFixedHeight", bool(v)))
         self.clockFixedHeight.valueChanged.connect(lambda v: setSettingsValue("ClockFixedHeight", str(v)))
         self.clockPosTitle.addWidget(self.clockFixedHeight)
+        self.ClockFixedWidth = QSettingsSliderWithCheckBox(_("Specify a minimum width for the clock"), self, 30, 200)
+        self.ClockFixedWidth.setChecked(getSettings("ClockFixedWidth"))
+        if self.ClockFixedWidth.isChecked():
+            try:
+                self.ClockFixedWidth.slider.setValue(int(getSettingsValue("ClockFixedWidth")))
+            except ValueError:
+                print("🟠 Unable to parse int from ClockFixedWidth settings value")
+        self.ClockFixedWidth.stateChanged.connect(lambda v: setSettings("ClockFixedWidth", bool(v)))
+        self.ClockFixedWidth.valueChanged.connect(lambda v: setSettingsValue("ClockFixedWidth", str(v)))
+        self.clockPosTitle.addWidget(self.ClockFixedWidth)
 
         self.clockXOffset = QSettingsSliderWithCheckBox(_("Adjust horizontal clock position"), self, -200, 200)
         self.clockXOffset.setChecked(getSettings("ClockXOffset"))

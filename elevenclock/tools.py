@@ -21,8 +21,8 @@ from external.FramelessWindow import QFramelessDialog
 import win32gui
 from win32con import *
 
-version = 3.209
-versionName = "3.2.1-beta"
+version = 3.21
+versionName = "3.2.1"
 
 def _(s): #Translate function
     global lang
@@ -318,9 +318,11 @@ class TaskbarIconTray(QSystemTrayIcon):
     def execMenu(self, pos: QPoint):
         try:
             self.applyStyleSheet()
-            pos.setY(pos.y() if pos.y() > 0 else 1)
-            pos.setX(pos.x() if pos.x() > 0 else 1)
             screen = globals.app.screenAt(pos).name().replace("\\", "_")
+            if not screen:
+                pos.setY(pos.y() if pos.y() > 0 else 1)
+                pos.setX(pos.x() if pos.x() > 0 else 1)
+                screen = globals.app.screenAt(pos).name().replace("\\", "_")
             if getSettings("ClockOnTheLeft"):
                 if getSettings(f"SpecificClockOnTheRight{screen}"):
                     self.moveToLeftAction.setText(_("Restore clock position"))
