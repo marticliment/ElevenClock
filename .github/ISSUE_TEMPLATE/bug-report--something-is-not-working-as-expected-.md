@@ -13,6 +13,8 @@ assignees: ''
 ✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the [FAQ](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting) for solutions<br>
 ✅ I have installed the latest version and the issue still happens<br>
  
+# for issues related with font corruption see #590
+ 
 </b>
 
 ## Describe the bug
