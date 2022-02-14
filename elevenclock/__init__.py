@@ -1210,13 +1210,13 @@ try:
         msg.setTitle("ElevenClock Updater")
         msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
  <br><br>This update brings:<br>
- <ul><li>The ability to set the accent color as the system background color</li>
- <li> The ability to move only one clock to the left/right</li>
- <li> ElevenClock will show on the main monitor by default</li>
- <li> Fixed settings window titlebar glitches</li>
- <li> Improved simplified chinese's font</li>
- <li> Added Arabian</li>
- <li> Some bugfixing and CPU usage improvements</li></ul>""")
+ <ul><li>The ability to specify a clock minimum width</li>
+ <li> The ability to search through the settings</li>
+ <li> Fixed an aesthetic issue with the seconds</li>
+ <li> Added a button to reset ElevenClock</li>
+ <li> Fixed an issue where ElevenClock would crash when clicking the right-click menu</li>
+ <li> Added Nynorsk</li>
+ <li> Some bugfixing and other improvements</li></ul>""")
         msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
         msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
         def settNClose():
