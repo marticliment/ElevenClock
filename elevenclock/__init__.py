@@ -1199,9 +1199,9 @@ try:
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions
 
-    if not(getSettings("Updated3.2Already")) and not(getSettings("EnableSilentUpdates")):
+    if not(getSettings("Updated3.21Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings("ForceClockOnFirstMonitor", True)
-        setSettings("Updated3.2Already", True)
+        setSettings("Updated3.21Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
         msg.setStyleSheet(sw.styleSheet())
