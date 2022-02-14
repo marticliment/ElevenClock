@@ -7,7 +7,7 @@ OLDSTR = b"2021"
 
 NEWSTR = b"""2022"""
 
-input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
+input(f"Path is \"{os.getcwd()}\" Press [INTRO] to continue")
 print()
 print()
 print("Lang files to update: ")
@@ -17,14 +17,14 @@ for ext in ["py", "txt", "md", "html", "js"]:
         if "year_update" not in file:
             print(" -", file)
 print()
-input("Press [INTRO] to contniue")
+input("Press [INTRO] to continue")
 
 print()
 print()
 print("old string:", OLDSTR)
 print("new string:", NEWSTR)
 print()
-input("Press [INTRO] to contniue")
+input("Press [INTRO] to continue")
 
 for ext in ["py", "txt", "md", "html", "js"]:
     for file in glob.glob(f"**/*.{ext}", recursive=True):
