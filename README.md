@@ -1,5 +1,5 @@
 
-[![Download@3.0](https://img.shields.io/github/downloads/martinet101/ElevenClock/3.0.0/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
+[![Download@3.2](https://img.shields.io/github/downloads/martinet101/ElevenClock/3.2.0/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
 [![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
 [![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
 [![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
