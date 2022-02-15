@@ -59,6 +59,7 @@ def report(exception) -> None: # Exception reporter
     import traceback
     for line in traceback.format_exception(*sys.exc_info()):
         print("🔴 "+line)
+        cprint("🔴 "+line)
     print(f"🔴 Note this traceback was caught by reporter and has been added to the log ({exception})")
 
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
