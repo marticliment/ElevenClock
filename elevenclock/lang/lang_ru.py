@@ -28,7 +28,7 @@ lang_3_2 = lang_3_2_1 | {
 }
 
 lang_3_1 = lang_3_2 | {
-    "W": "Н", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "W": "H", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "Отключить значок уведомлений",
     "Override clock default height": "Высота часов по умолчанию",
     "Adjust horizontal clock position": "Смещение по горизонтали",
