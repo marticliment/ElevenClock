@@ -28,8 +28,8 @@ lang_3_1 = lang_3_2 | {
     "W": "주", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge": "알림 배지 사용 안 함",
     "Override clock default height": "시계 기본 높이 재정의",
-    "Adjust horizontal clock position": "수평 시계 위치 조정",
-    "Adjust vertical clock position": "수직 시계 위치 조정",
+    "Adjust horizontal clock position": "시계 위치 수평 조정",
+    "Adjust vertical clock position": "시계 위치 수직 조정",
     "Export log as a file": "로그를 파일로 내보내기",
     "Copy log to clipboard": "로그를 클립보드에 복사",
     "Announcements:": "공지사항",
@@ -104,7 +104,7 @@ lang_2_8 = lang_2_9 | {
     "Show the clock on the primary screen": "주 화면에 시계 표시",
     "Use a custom font color": "사용자 지정 글꼴 색 사용",
     "Use a custom background color": "사용자 지정 배경색 사용",
-    "Align the clock text to the center": "시계 텍스트를 가운데에 정렬",
+    "Align the clock text to the center": "시계 텍스트를 가운데로 정렬",
     "Select custom color": "사용자 지정 색상 선택",
     "Hide the clock when a program occupies all screens": "프로그램이 모든 화면을 차지할 때 시계 숨기기",
 }
