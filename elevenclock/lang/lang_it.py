@@ -1,57 +1,58 @@
 # INSTRUCTIONS
 
 # Translate the text and write it between the "
-# EXAMPLE:      original    ->  "This text is in english: value {0}" 
+# EXAMPLE:      original    ->  "This text is in english: value {0}"
 #               translation ->  "Aquest text està en anglès: valor {0}"
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Apri la guida in linea per risolvere i problemi",
+    "Reset ElevenClock preferences to defaults": "Ripristina le preferenze di ElevanClock per i valori predefiniti",
+    "Specify a minimum width for the clock": "Specificare una larghezza minima per l'orologio",
+    "Search on the settings": "Cerca sulle impostazioni",
+    "No results were found": "Nessun risultato trovato",
 }
 
 lang_3_2 = lang_3_2_1 | {
-    "Use system accent color as background color": "",
-    "Check only the focused window on the fullscreen check": "",
-    "Clock on monitor {0}": "",
-    "Move to the left": "",
-    "Show this clock on the left": "",
-    "Show this clock on the right": "",
-    "Restore clock position": "",
+    "Use system accent color as background color": "Utilizzare il colore di accento del sistema come colore di sfondo",
+    "Check only the focused window on the fullscreen check": "Controllare solo la finestra focalizzata sul controllo completo",
+    "Clock on monitor {0}": "Orologio sul monitor {0}",
+    "Move to the left": "Passa a sinistra",
+    "Show this clock on the left": "Mostra questo orologio a sinistra",
+    "Show this clock on the right": "Mostra questo orologio a destra",
+    "Restore clock position": "Ripristina la posizione dell'orologio",
 }
 
 lang_3_1 = lang_3_2 | {
-    "W": "", # The initial of the word week in your language: W for week, S for setmana, etc.
-    "Disable the notification badge": "",
-    "Override clock default height": "",
-    "Adjust horizontal clock position": "",
-    "Adjust vertical clock position": "",
-    "Export log as a file": "",
-    "Copy log to clipboard": "",
-    "Announcements:": "",
-    "Fetching latest announcement, please wait...": "",
-    "Couldn't load the announcements. Please try again later": "",
-    "ElevenClock's log": "",
-    "Pick a color": ""
+    # The initial of the word week in your language: W for week, S for setmana, etc.
+    "W": "S",
+    "Disable the notification badge": "Disabilita il distintivo della notifica",
+    "Override clock default height": "Override Orologio Altezza predefinita",
+    "Adjust horizontal clock position": "Regola la posizione dell'orologio orizzontale",
+    "Adjust vertical clock position": "Regola la posizione dell'orologio verticale",
+    "Export log as a file": "Esporta log come file",
+    "Copy log to clipboard": "Copia log negli Appunti",
+    "Announcements:": "Annunci:",
+    "Fetching latest announcement, please wait...": "Recuperando l'ultimo annuncio, per favore aspetta ...",
+    "Couldn't load the announcements. Please try again later": "Non poteva caricare gli annunci. Per favore riprova più tardi",
+    "ElevenClock's log": "Log ElevenClock",
+    "Pick a color": "Scegli un colore"
 }
 
 lang_3 = lang_3_1 | {
-    "Hide the clock during 10 seconds when clicked": "",
-    "Enable low-cpu mode": "",
-    "You might lose functionalities, like the notification counter or the dynamic background": "",
-    "Clock position and size:": "",
-    "Clock size preferences, position offset, clock at the left, etc.": "",
-    "Reset monitor blacklisting status": "",
-    "Reset": "",
-    "Third party licenses": "",
-    "View": "",
-    "ElevenClock": "",
-    "Monitor tools": "",
-    "Blacklist this monitor": "",
+    "Hide the clock during 10 seconds when clicked": "Nascondi l'orologio durante 10 secondi quando cliccato",
+    "Enable low-cpu mode": "Abilita la modalità a bassa cpu",
+    "You might lose functionalities, like the notification counter or the dynamic background": "Potresti perdere funzionalità, come il contatore di notifica o lo sfondo dinamico",
+    "Clock position and size:": "Posizione e dimensione dell'orologio:",
+    "Clock size preferences, position offset, clock at the left, etc.": "Preferenze di dimensioni dell'orologio, offset di posizione, orologio a sinistra, ecc.",
+    "Reset monitor blacklisting status": "Reset Monitor Blacklisting Status",
+    "Reset": "Ripristina",
+    "Third party licenses": "Licenze di terze parti",
+    "View": "Visualizza",
+    "ElevenClock": "ElevenClock",
+    "Monitor tools": "Monitor strumenti",
+    "Blacklist this monitor": "Blacklist questo monitor.",
     "Third Party Open-Source Software in Elevenclock {0} (And their licenses)": "",
     "ElevenClock is an Open-Source application made with the help of other libraries made by the community:": "",
     "Ok": "",
@@ -70,33 +71,33 @@ lang_3 = lang_3_1 | {
 }
 
 lang_2_9_2 = lang_3 | {
-    "Reload log": "",
-    "Do not show the clock on secondary monitors": "",
-    "Disable clock taskbar background color (make clock transparent)": "",
-    "Open the welcome wizard": "",
-    " (ALPHA STAGE, MAY NOT WORK)": "",
-    "Welcome to ElevenClock": "",
-    "Skip": "",
-    "Start": "",
-    "Next": "",
-    "Finish": "",
+    "Reload log": "Ricarica log",
+    "Do not show the clock on secondary monitors": "Non mostrare l'orologio sui monitor secondari",
+    "Disable clock taskbar background color (make clock transparent)": "Disabilita il colore dello sfondo della barra delle applicazioni dell'orologio (crea orologio trasparente)",
+    "Open the welcome wizard": "Apri il wizard di benvenuto",
+    " (ALPHA STAGE, MAY NOT WORK)": "(Fase alfa, potrebbe non funzionare)",
+    "Welcome to ElevenClock": "Benvenuti in ElevenClock.",
+    "Skip": "Salta",
+    "Start": "Inizio",
+    "Next": "Prossima",
+    "Finish": "Fine",
 }
 
 lang_2_9 = lang_2_9_2 | {
-    "Task Manager": "",
-    "Change date and time": "",
-    "Notification settings": "",
-    "Updates, icon tray, language": "",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "",
-    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "",
-    'Add the "Show Desktop" button on the left corner of every clock': '',
+    "Task Manager": "Task Manager",
+    "Change date and time": "Cambia data e ora",
+    "Notification settings": "Impostazioni di notifica",
+    "Updates, icon tray, language": "Aggiornamenti, Icona Vassoio, Lingua",
+    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Nascondi opzioni estese dal menu del tasto destro del mouse dell'orologio (ha bisogno di un riavvio da applicare)",
+    "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportamento a schermo intero, posizione dell'orologio, 1 ° monitor clock, altre impostazioni miscellanee",
+    'Add the "Show Desktop" button on the left corner of every clock': 'Aggiungi il pulsante "Mostra desktop" sull\'angolo sinistro di ogni orologio',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '',
-    "Clock's font, font size, font color and background, text alignment": "",
-    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "",
-    "Testing features and error-fixing tools": "",
-    "Language pack author(s), help translating ElevenClock": "",
-    "Info, report a bug, submit a feature request, donate, about": "",
-    "Log, debugging information": "",
+    "Clock's font, font size, font color and background, text alignment": "Carattere dell'orologio, dimensione del carattere, colore del carattere e sfondo, allineamento del testo",
+    "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Formato data, formato orario, secondi, giorni feriali, Numero della settimana, Impostazioni regionali",
+    "Testing features and error-fixing tools": "Caratteristiche di prova e strumenti di fissaggio degli errori",
+    "Language pack author(s), help translating ElevenClock": "Autore del pacchetto di lingue, aiuto per la traduzioneElevenClock ",
+    "Info, report a bug, submit a feature request, donate, about": "Info, segnala un bug, inviare una richiesta di funzionalità, donare, circa",
+    "Log, debugging information": "Log, informazioni di debug",
 }
 
 lang_2_8 = lang_2_9 | {
@@ -132,7 +133,7 @@ lang2_6 = lang2_7 | {
 
 lang2_5 = lang2_6 | {
     "Hide the clock when RDP Client or Citrix Workspace are running": "Nascondi l'orologio quando RDP Client o Citrix Workspace sono in esecuzione",
-    "Clock Appearance:": "Aspetto dell'orlogio",
+    "Clock Appearance:": "Aspetto dell'orologio",
     "Force the clock to have black text": "Forza l'orologio ad avere il testo scuro",
     " - It is required that the Dark Text checkbox is disabled": "È richiesto che la casella Testo Scuro sia disabilitata",
     "Debbugging information:": "Informazioni di debug",
@@ -142,67 +143,69 @@ lang2_5 = lang2_6 | {
 lang2_4 = lang2_5 | {
     # Added text in version 2.4
     "Show the clock on the primary screen (Useful if clock is set on the left)": "Mostra l'orologio sullo schermo principale (Utile se l'orologio è impostato a sinistra)",
-    "Show weekday on the clock"  :"Visualizza il giorno della settimana",
+    "Show weekday on the clock": "Visualizza il giorno della settimana",
 }
 
 lang2_3 = lang2_4 | {
-    #Context menu
-    "ElevenClock Settings"      :"Impostazioni ElevenClock", # Also settings title
-    "Reload Clocks"             :"Ricarica",
-    "ElevenClock v{0}"          :"ElevenClock v{0}",
-    "Restart ElevenClock"       :"Riavvia ElevenClock",
-    "Hide ElevenClock"          :"Nascondi ElevenClock",
-    "Quit ElevenClock"          :"Esci",
-    
-    #General settings section
-    "General Settings:"                                                                 :"Impostazioni generali:",
-    "Automatically check for updates"                                                   :"Rileva automaticamente gli aggiornamenti",
-    "Automatically install available updates"                                           :"Installa automaticamente gli aggiornamenti",
-    "Enable really silent updates"                                                      :"Abilita aggiornamenti silenziosi",
-    "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Ignora il controllo di autenticità del provider di aggiornamento (NON RACCOMANDATO, A TUO RISCHIO)",
-    "Show ElevenClock on system tray"                                                   :"Visualizza ElevenClock sulla barra di sistema",
-    "Alternative clock alignment (may not work)"                                        :"Allineamento alternativo dell'orologio (potrebbe non funzionare)",
-    "Change startup behaviour"                                                          :"Cambia il comportamento in avvio",
-    "Change"                                                                            :"Cambia",
-    "<b>Update to the latest version!</b>"                                             :"<b>Aggiorna all'ultima versione!</b>",
-    "Install update"                                                                    :"Installa l'aggiornamento",
-    
-    #Clock settings
-    "Clock Settings:"                                              :"Impostazioni orologio:",
-    "Hide the clock in fullscreen mode"                            :"Nascondi l'orologio in modalità a schermo intero",
-    "Hide the clock when RDP client is active"                     :"Nascondi l'orologio quando il client RDP è attivo",
-    "Force the clock to be at the bottom of the screen"            :"Forza l'orologio ad essere al fondo dello schermo",
-    "Show the clock when the taskbar is set to hide automatically" :"Visualizza l'orologio quando la barra delle applicazioni è impostata a Nascondi",
-    "Fix the hyphen/dash showing over the month"                   :"Corregge la visualizzazione del trattino sul mese",
-    "Force the clock to have white text"                           :"Forza l'orologio ad usare testo bianco",
-    "Show the clock at the left of the screen"                     :"Visualizza l'orologio alla sinistra dello schermo",
-    
-    #Date & time settings
-    "Date & Time Settings:"                             :"Impostazioni data e Ora:",
-    "Show seconds on the clock"                         :"Visualizza i secondi",
-    "Show date on the clock"                            :"Visualizza la data",
-    "Show time on the clock"                            :"Visualizza l'ora",
-    "Change date and time format (Regional settings)"   :"Cambia il formato di visualizzazione della data e dell'ora (Impostazioni regionali)",
-    "Regional settings"                                 :"Impostazioni regionali",
-    
-    #About the language pack
-    "About the language pack:"                  :"Informazioni sulla traduzione",
-    "Translated to English by martinet101"      :"Tradotto in Italiano da Parapongo, zuidstroopwafel", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
-    "Translate ElevenClock to your language"    :"Traduci ElevenClock nella tua lingua",
-    "Get started"                               :"Inizia",
-    
-    #About ElevenClock
-    "About ElevenClock version {0}:"            :"Informazioni sulla versione {0} di ElevenClock",
-    "View ElevenClock's homepage"               :"Visualizza l'homepage di ElevenClock",
-    "Open"                                      :"Apri",
-    "Report an issue/request a feature"         :"Segnala un problema/richiedi una nuova funzionalità",
-    "Report"                                    :"Segnala",
-    "Support the dev: Give me a coffee☕"       :"Supporta lo sviluppatore: donami un caffè☕",
-    "Open page"                                 :"Apri la pagina",
-    "Icons by Icons8"                           :"Icone tratte da Icons8", # Here, the word "Icons8" should not be translated
-    "Webpage"                                   :"Pagina Web",
-    "Close settings"                            :"Chiudi le impostazioni",
-    "Close"                                     :"Chiudi",
+    # Context menu
+    "ElevenClock Settings": "Impostazioni ElevenClock",  # Also settings title
+    "Reload Clocks": "Ricarica",
+    "ElevenClock v{0}": "ElevenClock v{0}",
+    "Restart ElevenClock": "Riavvia ElevenClock",
+    "Hide ElevenClock": "Nascondi ElevenClock",
+    "Quit ElevenClock": "Esci",
+
+    # General settings section
+    "General Settings:": "Impostazioni generali:",
+    "Automatically check for updates": "Rileva automaticamente gli aggiornamenti",
+    "Automatically install available updates": "Installa automaticamente gli aggiornamenti",
+    "Enable really silent updates": "Abilita aggiornamenti silenziosi",
+    "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)": "Ignora il controllo di autenticità del provider di aggiornamento (NON RACCOMANDATO, A TUO RISCHIO)",
+    "Show ElevenClock on system tray": "Visualizza ElevenClock sulla barra di sistema",
+    "Alternative clock alignment (may not work)": "Allineamento alternativo dell'orologio (potrebbe non funzionare)",
+    "Change startup behaviour": "Cambia il comportamento in avvio",
+    "Change": "Cambia",
+    "<b>Update to the latest version!</b>": "<b>Aggiorna all'ultima versione!</b>",
+    "Install update": "Installa l'aggiornamento",
+
+    # Clock settings
+    "Clock Settings:": "Impostazioni orologio:",
+    "Hide the clock in fullscreen mode": "Nascondi l'orologio in modalità a schermo intero",
+    "Hide the clock when RDP client is active": "Nascondi l'orologio quando il client RDP è attivo",
+    "Force the clock to be at the bottom of the screen": "Forza l'orologio ad essere al fondo dello schermo",
+    "Show the clock when the taskbar is set to hide automatically": "Visualizza l'orologio quando la barra delle applicazioni è impostata a Nascondi",
+    "Fix the hyphen/dash showing over the month": "Corregge la visualizzazione del trattino sul mese",
+    "Force the clock to have white text": "Forza l'orologio ad usare testo bianco",
+    "Show the clock at the left of the screen": "Visualizza l'orologio alla sinistra dello schermo",
+
+    # Date & time settings
+    "Date & Time Settings:": "Impostazioni data e Ora:",
+    "Show seconds on the clock": "Visualizza i secondi",
+    "Show date on the clock": "Visualizza la data",
+    "Show time on the clock": "Visualizza l'ora",
+    "Change date and time format (Regional settings)": "Cambia il formato di visualizzazione della data e dell'ora (Impostazioni regionali)",
+    "Regional settings": "Impostazioni regionali",
+
+    # About the language pack
+    "About the language pack:": "Informazioni sulla traduzione",
+    # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
+    "Translated to English by martinet101": "Tradotto in Italiano da Parapongo, zuidstroopwafel",
+    "Translate ElevenClock to your language": "Traduci ElevenClock nella tua lingua",
+    "Get started": "Inizia",
+
+    # About ElevenClock
+    "About ElevenClock version {0}:": "Informazioni sulla versione {0} di ElevenClock",
+    "View ElevenClock's homepage": "Visualizza l'homepage di ElevenClock",
+    "Open": "Apri",
+    "Report an issue/request a feature": "Segnala un problema/richiedi una nuova funzionalità",
+    "Report": "Segnala",
+    "Support the dev: Give me a coffee☕": "Supporta lo sviluppatore: donami un caffè☕",
+    "Open page": "Apri la pagina",
+    # Here, the word "Icons8" should not be translated
+    "Icons by Icons8": "Icone tratte da Icons8",
+    "Webpage": "Pagina Web",
+    "Close settings": "Chiudi le impostazioni",
+    "Close": "Chiudi",
 }
 
 lang = lang2_3
