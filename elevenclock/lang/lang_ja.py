@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "オンラインヘルプを開いて問題のトラブルシューティングを行う",
+    "Reset ElevenClock preferences to defaults": "ElevenClockの設定を既定にリセットする",
+    "Specify a minimum width for the clock": "特定の時計の最小幅を指定する",
+    "Search on the settings": "設定項目を検索",
+    "No results were found": "該当する結果はありません",
 }
 
 lang_3_2 = lang_3_2_1 | {
