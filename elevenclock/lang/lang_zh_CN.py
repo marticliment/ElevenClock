@@ -7,11 +7,11 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_2_1 = {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "打开联机帮助以解决问题",
+    "Reset ElevenClock preferences to defaults": "将 ElevenClock 首选项重置为默认值",
+    "Specify a minimum width for the clock": "指定时钟的最小宽度",
+    "Search on the settings": "搜索设置",
+    "No results were found": "没有找到任何结果",
 }
 
 lang_3_2 = lang_3_2_1 | {
@@ -19,8 +19,8 @@ lang_3_2 = lang_3_2_1 | {
     "Check only the focused window on the fullscreen check": "在全屏检查中只检查被关注的窗口",
     "Clock on monitor {0}": "监视器 {0} 上的时钟",
     "Move to the left": "向左移动",
-    "Show this clock on the left": "在左边显示这个时钟",
-    "Show this clock on the right": "在右边显示这个时钟",
+    "Show this clock on the left": "在左侧显示这个时钟",
+    "Show this clock on the right": "在右侧显示这个时钟",
     "Restore clock position": "恢复时钟位置",
 }
 
