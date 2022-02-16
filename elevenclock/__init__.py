@@ -179,13 +179,9 @@ try:
                     print("🟢 Updates not found")
             else:
                 print("🟠 Update checking disabled")
-            #old_stdout.write(buffer.getvalue())
-            #old_stdout.flush()
 
         except Exception as e:
             report(e)
-            #old_stdout.write(buffer.getvalue())
-            #old_stdout.flush()
 
     def resetRestartCount():
         global restartCount
@@ -497,7 +493,7 @@ try:
 
                 try:
                     if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                        self.prefMargins = self.getPx(5)
+                        self.prefMargins = self.getPx(1)
                         self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(0)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
                         if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                             print("🟡 Small sized taskbar")
