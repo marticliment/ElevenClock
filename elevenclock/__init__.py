@@ -393,9 +393,8 @@ try:
                 timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
                 timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
 
-            timeMode = timeMode.replace("%S", "%S·").replace("%#S", "%#S·")
 
-            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode)
+            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S·").replace("%#S", "%#S·")
             print("🔵 Loaded date time format:", dateTimeFormat)
         except Exception as e:
             report(e)
@@ -415,8 +414,8 @@ try:
                             timeStr = timeStr.replace("·", " \u200e")
                         else:
                             timeStr = timeStr.replace("·", "")
-                    except IndexError:
-                        pass
+                    except IndexError as e:
+                        report(e)
                     time.sleep(0.2)  
             else:
                 for _ in range(36000):
@@ -427,8 +426,8 @@ try:
                             timeStr = timeStr.replace("·", " \u200e")
                         else:
                             timeStr = timeStr.replace("·", "")
-                    except IndexError:
-                        pass
+                    except IndexError as e:
+                        report(e)
                     time.sleep(0.2)
 
 
