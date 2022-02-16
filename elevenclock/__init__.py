@@ -895,7 +895,7 @@ try:
         def updateTextLoop(self) -> None:
             global timeStr
             while True:
-                self.label.setText(timeStr)
+                self.callInMainSignal.emit(lambda: self.label.setText(timeStr))
                 time.sleep(0.1)
 
         def showCalendar(self):
