@@ -40,7 +40,7 @@ try:
 
     old_stdout = sys.stdout
     buffer = io.StringIO()
-    #sys.stdout = buffer = io.StringIO()
+    sys.stdout = buffer = io.StringIO()
 
     from settings import *
     from tools import *
