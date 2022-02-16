@@ -62,6 +62,7 @@ try:
     clocks = []
     oldScreens = []
     isFocusAssist = False
+    shouldFixSeconds = False
     numOfNotifs = 0
 
     print("---------------------------------------------------------------------------------------------------")
@@ -196,11 +197,12 @@ try:
 
 
     def loadClocks():
-        global clocks, oldScreens, st, restartCount, st
+        global clocks, oldScreens, st, restartCount, st, shouldFixSeconds
         try:
             st.kill()
         except AttributeError:
             pass
+        shouldFixSeconds = not(getSettings("UseCustomFont"))
         ForceClockOnFirstMonitor = getSettings("ForceClockOnFirstMonitor")
         HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
@@ -410,7 +412,7 @@ try:
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("t-", "t -")
                     try:
                         secs = datetime.datetime.now().strftime("%S")
-                        if secs[-1] == "1":
+                        if secs[-1] == "1" and shouldFixSeconds:
                             timeStr = timeStr.replace("·", " \u200e")
                         else:
                             timeStr = timeStr.replace("·", "")
@@ -422,7 +424,7 @@ try:
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat)
                     try:
                         secs = datetime.datetime.now().strftime("%S")
-                        if secs[-1] == "1":
+                        if secs[-1] == "1" and shouldFixSeconds:
                             timeStr = timeStr.replace("·", " \u200e")
                         else:
                             timeStr = timeStr.replace("·", "")
@@ -1168,6 +1170,7 @@ try:
     sw: SettingsWindow = None
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
+    shouldFixSeconds = not(getSettings("UseCustomFont"))
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
     KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
