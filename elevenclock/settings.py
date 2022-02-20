@@ -2162,7 +2162,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         
     def loadItems(self):
         self.combobox.clear()
-        self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16])
+        self.combobox.addItems(str(item) for item in [5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16, 18, 20])
 
 class QSettingsSliderWithCheckBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
