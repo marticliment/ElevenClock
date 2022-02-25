@@ -559,16 +559,16 @@ try:
                         print(f"🟡 Clock {screenName} on the right (forced)")
 
                 try:
-                    if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or getSettings("ForceOnTop"):
+                    if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
                         h = self.screenGeometry.y()
-                        print("🟢 Taskbar at top")
+                        print("🟢 Clock at top")
                     else:
                         h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                        print("🟡 Taskbar at bottom")
+                        print("🟡 Clock at bottom")
                 except Exception as e:
                     report(e)
                     h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                    print("🟡 Taskbar at bottom")
+                    print("🟠 Clock at bottom (by exception)")
                 self.label = Label(timeStr, self)
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")

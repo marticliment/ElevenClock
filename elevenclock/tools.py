@@ -21,8 +21,8 @@ from external.FramelessWindow import QFramelessDialog
 import win32gui
 from win32con import *
 
-version = 3.23
-versionName = "3.2.3"
+version = 3.29
+versionName = "3.3.0-beta"
 
 def _(s): #Translate function
     global lang
@@ -267,7 +267,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.blacklistAction.triggered.connect(lambda: warnBlacklist())
         self.toolsMenu.addAction(self.blacklistAction)
 
-        def toggleClockPosAction():
+        def toggleClockHorPosAction():
             screen = self.contextMenu().screen().name().replace("\\", "_")
             if getSettings("ClockOnTheLeft"):
                 if getSettings(f"SpecificClockOnTheRight{screen}"):
@@ -282,8 +282,26 @@ class TaskbarIconTray(QSystemTrayIcon):
                     setSettings(f"SpecificClockOnTheLeft{screen}", True)
 
         self.moveToLeftAction = QAction("Placeholder text", app)
-        self.moveToLeftAction.triggered.connect(lambda: toggleClockPosAction())
+        self.moveToLeftAction.triggered.connect(lambda: toggleClockHorPosAction())
         self.toolsMenu.addAction(self.moveToLeftAction)
+        
+        def toggleClockVerPosAction():
+            screen = self.contextMenu().screen().name().replace("\\", "_")
+            if getSettings("ForceOnTop"):
+                if getSettings(f"SpecificClockOnTheBottom{screen}"):
+                    setSettings(f"SpecificClockOnTheBottom{screen}", False)
+                else:
+                    setSettings(f"SpecificClockOnTheBottom{screen}", True)
+            else:
+                if getSettings(f"SpecificClockOnTheTop{screen}"):
+                    setSettings(f"SpecificClockOnTheTop{screen}", False)
+                else:
+                    cprint("togglePosAction")
+                    setSettings(f"SpecificClockOnTheTop{screen}", True)
+
+        self.moveToTopAction = QAction("Placeholder text", app)
+        self.moveToTopAction.triggered.connect(lambda: toggleClockVerPosAction())
+        self.toolsMenu.addAction(self.moveToTopAction)
 
         
         menu.addSeparator()
@@ -319,21 +337,33 @@ class TaskbarIconTray(QSystemTrayIcon):
     def execMenu(self, pos: QPoint):
         try:
             self.applyStyleSheet()
-            screen = globals.app.screenAt(pos).name().replace("\\", "_")
-            if not screen:
+            try:
+                screen = globals.app.screenAt(pos).name().replace("\\", "_")
+            except AttributeError:
                 pos.setY(pos.y() if pos.y() > 0 else 1)
                 pos.setX(pos.x() if pos.x() > 0 else 1)
                 screen = globals.app.screenAt(pos).name().replace("\\", "_")
             if getSettings("ClockOnTheLeft"):
                 if getSettings(f"SpecificClockOnTheRight{screen}"):
-                    self.moveToLeftAction.setText(_("Restore clock position"))
+                    self.moveToLeftAction.setText(_("Restore horizontal position"))
                 else:
-                    self.moveToLeftAction.setText(_("Show this clock on the right"))
+                    self.moveToLeftAction.setText(_("Move this clock to the right"))
             else:
                 if getSettings(f"SpecificClockOnTheLeft{screen}"):
-                    self.moveToLeftAction.setText(_("Restore clock position"))
+                    self.moveToLeftAction.setText(_("Restore horizontal position"))
                 else:
-                    self.moveToLeftAction.setText(_("Show this clock on the left"))
+                    self.moveToLeftAction.setText(_("Move this clock to the left"))
+
+            if getSettings("ForceOnTop"):
+                if getSettings(f"SpecificClockOnTheBottom{screen}"):
+                    self.moveToTopAction.setText(_("Restore vertical position"))
+                else:
+                    self.moveToTopAction.setText(_("Move this clock to the bottom"))
+            else:
+                if getSettings(f"SpecificClockOnTheTop{screen}"):
+                    self.moveToTopAction.setText(_("Restore vertical position"))
+                else:
+                    self.moveToTopAction.setText(_("Move this clock to the top"))
             self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screen.replace("_", "\\")))
             self.contextMenu().exec_(pos)
         except Exception as e:
@@ -469,6 +499,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.nameAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
         self.monitorInfoAction.setIcon(QIcon(getPath(f"about_{self.iconMode}.png")))
         self.moveToLeftAction.setIcon(QIcon(getPath(f"move_{self.iconMode}.png")))
+        self.moveToTopAction.setIcon(QIcon(getPath(f"move_{self.iconMode}.png")))
         self.restartAction.setIcon(QIcon(getPath(f"restart_{self.iconMode}.png")))
         self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
         self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
