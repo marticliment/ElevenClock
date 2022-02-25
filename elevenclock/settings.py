@@ -292,7 +292,7 @@ class SettingsWindow(QMainWindow):
         self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
         self.clockAppearanceTitle.addWidget(self.fontSize)
         
-        self.fontColor = QSettingsSizeBoxColorDialog(_("Use a custom font color"))
+        self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
             self.fontColor.button.setStyleSheet(f"color: rgb({getSettingsValue('UseCustomFontColor')})")
@@ -2154,11 +2154,12 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         if not self.checkbox.isChecked():
             self.combobox.setEnabled(False)
             self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.stateChanged.emit(v)
         else:
+            self.stateChanged.emit(v)
             self.combobox.setEnabled(True)
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
-        self.stateChanged.emit(v)
         
     def loadItems(self):
         self.combobox.clear()
@@ -2197,11 +2198,12 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         if not self.checkbox.isChecked():
             self.slider.setEnabled(False)
             self.slider.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.stateChanged.emit(v)
         else:
+            self.stateChanged.emit(v)
             self.slider.setEnabled(True)
             self.slider.setToolTip("")
             self.valueChanged.emit(self.slider.value())
-        self.stateChanged.emit(v)
         
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
@@ -2236,9 +2238,10 @@ class QCustomColorDialog(QColorDialog):
     def getPx(self, i: int):
         return round(i*(self.screen().logicalDotsPerInch()/96))
 
-class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
+class QSettingsCheckboxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
+    color = "0,0,0"
     
     def __init__(self, text: str, parent=None):
         super().__init__(text=text, parent=parent)
@@ -2267,31 +2270,49 @@ class QSettingsSizeBoxColorDialog(QSettingsCheckBox):
         r = c.red()
         g = c.green()
         b = c.blue()
-        color = f"{r},{g},{b}"
-        self.valueChanged.emit(color)
-        self.button.setStyleSheet(f"color: rgb({color})")
+        self.color = f"{r},{g},{b}"
+        self.valueChanged.emit(self.color)
+        self.button.setStyleSheet(f"color: rgb({self.color})")
     
     def stateChangedEvent(self, v: bool):
         self.button.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
             self.button.setEnabled(False)
             self.button.setStyleSheet("")
+            self.stateChanged.emit(v)
             self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
         else:
+            self.stateChanged.emit(v)
             self.button.setEnabled(True)
             self.button.setToolTip("")
-        self.stateChanged.emit(v)
+            self.valueChanged.emit(self.color)
+            self.button.setStyleSheet(f"color: rgb({self.color})")
         
-class QSettingsBgBoxColorDialog(QSettingsSizeBoxColorDialog):
- 
+class QSettingsBgBoxColorDialog(QSettingsCheckboxColorDialog):
+    color = "0, 0, 0, 100"
+
     def valuechangedEvent(self, c: QColor):
         r = c.red()
         g = c.green()
         b = c.blue()
         a = c.alpha()
-        color = f"{r},{g},{b},{a/255*100}"
-        self.valueChanged.emit(color)
-        self.button.setStyleSheet(f"background-color: rgba({color})")    
+        self.color = f"{r},{g},{b},{a/255*100}"
+        self.valueChanged.emit(self.color)
+        self.button.setStyleSheet(f"background-color: rgba({self.color})") 
+
+    def stateChangedEvent(self, v: bool):
+        self.button.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.button.setEnabled(False)
+            self.button.setStyleSheet("")
+            self.stateChanged.emit(v)
+            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+        else:
+            self.stateChanged.emit(v)
+            self.button.setEnabled(True)
+            self.button.setToolTip("")
+            self.valueChanged.emit(self.color)
+            self.button.setStyleSheet(f"background-color: rgba({self.color})")  
 
 class QSettingsFontBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
@@ -2325,6 +2346,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
     
     def valuechangedEvent(self, i: int):
         self.valueChanged.emit(self.combobox.itemText(i))
+        cprint(self.combobox.itemText(self.combobox.currentIndex()))
         self.combobox.lineEdit().setFont(QFont(self.combobox.itemText(i)))
     
     def stateChangedEvent(self, v: bool):
@@ -2332,16 +2354,19 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         if not self.checkbox.isChecked():
             self.combobox.setEnabled(False)
             self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.stateChanged.emit(v)
         else:
+            self.stateChanged.emit(v)
             self.combobox.setEnabled(True)
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
             self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
-        self.stateChanged.emit(v)
+            cprint(self.combobox.itemText(self.combobox.currentIndex()))
         
     def setItems(self, items: list):
         self.combobox.clear()
         self.combobox.addItems(items)
+
     
 class QAnnouncements(QLabel):
     callInMain = Signal(object)
