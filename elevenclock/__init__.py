@@ -785,11 +785,12 @@ try:
             while True:
                 try:
                     if self.taskbarBackgroundColor and not self.isLowCpuMode and not globals.trayIcon.contextMenu().isVisible():
-                        intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
-                        if intColor != self.oldBgColor:
-                            self.oldBgColor = intColor
-                            color = QColor(intColor)
-                            self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
+                        if self.isVisible():
+                            intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                            if intColor != self.oldBgColor:
+                                self.oldBgColor = intColor
+                                color = QColor(intColor)
+                                self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
                 except AttributeError:
                     print("🟣 Expected AttributeError on backgroundLoop thread")
                 time.sleep(0.5)
