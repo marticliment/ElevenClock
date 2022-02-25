@@ -392,7 +392,7 @@ try:
                 timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
 
 
-            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S·").replace("%#S", "%#S·")
+            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
             print("🔵 Loaded date time format:", dateTimeFormat)
         except Exception as e:
             report(e)
@@ -409,9 +409,9 @@ try:
                     try:
                         secs = datetime.datetime.now().strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
-                            timeStr = timeStr.replace("·", " \u200e")
+                            timeStr = timeStr.replace(" ", " \u200e")
                         else:
-                            timeStr = timeStr.replace("·", "")
+                            timeStr = timeStr.replace(" ", "")
                     except IndexError as e:
                         report(e)
                     time.sleep(0.2)  
@@ -421,9 +421,9 @@ try:
                     try:
                         secs = datetime.datetime.now().strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
-                            timeStr = timeStr.replace("·", " \u200e")
+                            timeStr = timeStr.replace(" ", " \u200e")
                         else:
-                            timeStr = timeStr.replace("·", "")
+                            timeStr = timeStr.replace(" ", "")
                     except IndexError as e:
                         report(e)
                     time.sleep(0.2)
