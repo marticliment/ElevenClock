@@ -324,6 +324,20 @@ class SettingsWindow(QMainWindow):
 
         self.dateTimeTitle = QSettingsTitle(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"), _("Date format, Time format, seconds,weekday, weeknumber, regional settings"))
         layout.addWidget(self.dateTimeTitle)
+        rulesText = f"""<b>{_("Custom format rules:")}</b>
+        <ul>
+        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link")}: <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python Date and time values")}</a>
+        <li>{_("To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>
+        <li>{_("Click on Apply to apply and preview the format")}</li></ul>
+        {_("If you don't understand what is happening, please uncheck the checkbox over the text area")}
+        """
+        self.customDateTimeFormat = QSettingsLineEditCheckBox(_("Set a custom date and time format")+" "+_("(for advanced users only)"))
+        self.customDateTimeFormat.edit.setPlainText(getSettingsValue("CustomClockStrings"))
+        self.customDateTimeFormat.setChecked(getSettings("CustomClockStrings"))
+        self.customDateTimeFormat.setLabelText(rulesText)
+        self.customDateTimeFormat.stateChanged.connect(lambda i: setSettings("CustomClockStrings", bool(i)))
+        self.customDateTimeFormat.valueChanged.connect(lambda v: setSettingsValue("CustomClockStrings", v))
+        self.dateTimeTitle.addWidget(self.customDateTimeFormat)
         self.showTime = QSettingsCheckBox(_("Show time on the clock"))
         self.showTime.setChecked(not getSettings("DisableTime"))
         self.showTime.stateChanged.connect(lambda i: setSettings("DisableTime", not bool(i), r = False))
@@ -630,22 +644,29 @@ class SettingsWindow(QMainWindow):
                     checkbox.setToolTip("")
                     checkbox.setEnabled(True)
         
-                    
         # Date & time settings
-        if not self.showTime.isChecked(): # Check if time is shown
-            self.showSeconds.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show time on the clock")))
-            self.showSeconds.setEnabled(False)
+        if not self.customDateTimeFormat.isChecked():
+            for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
+                item: QSettingsCheckBox
+                item.setVisible(True)
+            if not self.showTime.isChecked(): # Check if time is shown
+                self.showSeconds.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show time on the clock")))
+                self.showSeconds.setEnabled(False)
+            else:
+                self.showSeconds.setToolTip("")
+                self.showSeconds.setEnabled(True)
+                
+            if not self.showDate.isChecked(): # Check if date is shown
+                self.showWeekCount.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show date on the clock")))
+                self.showWeekCount.setEnabled(False)
+            else:
+                self.showWeekCount.setToolTip("")
+                self.showWeekCount.setEnabled(True)
         else:
-            self.showSeconds.setToolTip("")
-            self.showSeconds.setEnabled(True)
-            
-        if not self.showDate.isChecked(): # Check if date is shown
-            self.showWeekCount.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show date on the clock")))
-            self.showWeekCount.setEnabled(False)
-        else:
-            self.showWeekCount.setToolTip("")
-            self.showWeekCount.setEnabled(True)
-            
+            for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
+                item: QSettingsCheckBox
+                item.setVisible(False)    
+        self.dateTimeTitle.resizeEvent()
             
         if not self.primaryScreen.isChecked(): # Clock is set to be in primary monitor
             self.onlyPrimaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock on the primary screen")))
@@ -874,8 +895,9 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
+                                    border-radius: {self.getPx(4)}px;
+                                    border: {self.getPx(1)}px solid #161616;
                                     selection-background-color: rgb({colors[4]});
-                                    border: none;
                                 }}
                                 QSpinBox {{
                                    background-color: rgba(81, 81, 81, 25%);
@@ -1249,8 +1271,9 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: rgba(255, 255, 255, 10%);
+                                    border-radius: {self.getPx(4)}px;
+                                    border: {self.getPx(1)}px solid #dddddd;
                                     selection-background-color: rgb({colors[3]});
-                                    border: none;
                                 }}
                                 QMenu {{
                                     border: {self.getPx(1)}px solid rgb(200, 200, 200);
@@ -1608,7 +1631,6 @@ class SettingsWindow(QMainWindow):
 
                 ApplyMenuBlur(menu.winId().__int__(), menu)
                 menu.exec(e.globalPos())
-                return super().contextMenuEvent(e)
 
         global old_stdout, buffer
         win = QMainWindow(self)
@@ -1890,7 +1912,7 @@ class QSettingsTitle(QWidget):
     def setIcon(self, icon: str) -> None:
         self.image.setPixmap(QIcon(icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
 
-    def resizeEvent(self, event: QResizeEvent) -> None:
+    def resizeEvent(self, event: QResizeEvent = None) -> None:
         if not self.searchMode:
             self.image.show()
             self.showHideButton.show()
@@ -1935,7 +1957,8 @@ class QSettingsTitle(QWidget):
             self.compressibleWidget.setFixedHeight(self.compressibleWidget.sizeHint().height())
             self.compressibleWidget.move(0, 0)
             self.compressibleWidget.setFixedWidth(self.width())
-        return super().resizeEvent(event)
+        if event:
+            return super().resizeEvent(event)
     
     def addWidget(self, widget: QWidget) -> None:
         self.compressibleWidget.layout().addWidget(widget)
@@ -2367,7 +2390,63 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.combobox.clear()
         self.combobox.addItems(items)
 
-    
+class QSettingsLineEditCheckBox(QSettingsCheckBox):
+    valueChanged = Signal(str)
+
+
+    def __init__(self, text="", parent=None):
+
+        class QPlainTextEditWithFluentMenu(QPlainTextEdit):
+                def __init__(self, parent=None):
+                    super().__init__(parent=parent)
+                def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
+                    menu = self.createStandardContextMenu()
+                    ApplyMenuBlur(menu.winId().__int__(), menu)
+                    menu.exec(e.globalPos())
+
+        super().__init__(text, parent)
+        self.button = QPushButton(_("Apply"), self)
+        self.edit = QPlainTextEditWithFluentMenu(self)
+        self.edit.setPlaceholderText(globals.dateTimeFormat)
+        self.edit.setStyleSheet("QPlainTextEdit{font-size: 13pt;}")
+        self.rulesLabel = QLabel(self)
+        self.rulesLabel.setOpenExternalLinks(True)
+        self.stateChanged.connect(self.resizeEvent)
+        self.button.clicked.connect(lambda: self.valueChanged.emit(self.edit.toPlainText().strip()))
+
+    def resizeEvent(self, event: QResizeEvent = None) -> None:
+        if not self.isChecked():  
+            self.button.hide()
+            self.rulesLabel.hide()
+            self.edit.hide()
+            self.checkbox.move(self.getPx(70), self.getPx(10))
+            self.checkbox.setFixedHeight(self.getPx(30))
+            self.checkbox.setFixedWidth(self.width()-self.getPx(70))
+            self.setFixedHeight(self.getPx(50))
+        else:
+            if not event:
+                self.valueChanged.emit(self.edit.toPlainText().strip())
+            self.edit.setPlaceholderText(globals.dateTimeFormat) 
+            self.button.show()
+            self.rulesLabel.show()
+            self.edit.show()
+            self.checkbox.move(self.getPx(70), self.getPx(10))
+            self.checkbox.setFixedWidth(self.width()-self.getPx(250))
+            self.checkbox.setFixedHeight(self.getPx(30))
+            self.setFixedHeight(self.getPx(250))
+            self.button.move(self.width()-self.getPx(170), self.getPx(10))
+            self.button.setFixedHeight(self.getPx(30))
+            self.button.setFixedWidth(self.getPx(150))
+            self.edit.setFixedHeight(self.getPx(80))
+            self.edit.setFixedWidth(self.width()-self.getPx(90))
+            self.edit.move(self.getPx(70), self.getPx(50))
+            self.rulesLabel.move(self.getPx(70), self.getPx(140))
+            self.rulesLabel.setFixedHeight(self.getPx(100))
+            self.rulesLabel.setFixedWidth(self.width()-self.getPx(90))
+
+    def setLabelText(self, s: str) -> None:
+        self.rulesLabel.setText(s)
+
 class QAnnouncements(QLabel):
     callInMain = Signal(object)
 
@@ -2376,7 +2455,6 @@ class QAnnouncements(QLabel):
         self.area = QScrollArea()
         self.setMaximumWidth(self.getPx(1000))
         self.callInMain.connect(lambda f: f())
-        #self.setObjectName("subtitleLabel")
         self.setFixedHeight(self.getPx(110))
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {self.getPx(6)}px;border-bottom-right-radius: {self.getPx(6)}px;border-bottom: {self.getPx(1)}px;font-size: 12pt;}}*{{padding: 3px;}}")

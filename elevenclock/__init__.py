@@ -336,67 +336,74 @@ try:
     def loadTimeFormat():
         global dateTimeFormat
         try:
-            showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
             locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-            dateTimeFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
-
-
-            if getSettings("DisableTime"):
-                dateTimeFormat = dateTimeFormat.replace("%HH:%M\n", "")
-
-            if getSettings("DisableDate"):
-                if("\n" in dateTimeFormat):
-                    dateTimeFormat = dateTimeFormat.replace("\n(W%W) %d/%m/%Y", "")
-                else:
-                    dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
-            elif not getSettings("EnableWeekNumber"):
-                dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
+            if getSettingsValue("CustomClockStrings") != "":
+                dateTimeFormat = getSettingsValue("CustomClockStrings")
+                print("🟡 Custom loaded date time format:", dateTimeFormat)
+                globals.dateTimeFormat = dateTimeFormat
             else:
-                dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
+                showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
+                dateTimeFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
 
-            if not getSettings("EnableWeekDay"):
-                try:
-                    dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
-                    if dateTimeFormat[-1] == "\n":
-                        dateTimeFormat = dateTimeFormat[0:-1]
-                    if dateTimeFormat[0] == "\n":
-                        dateTimeFormat = dateTimeFormat[1:]
-                except IndexError as e:
-                    print("🟠 Date/Time string looks to be empty!")
-                except Exception as e:
-                    report(e)
+
+                if getSettings("DisableTime"):
+                    dateTimeFormat = dateTimeFormat.replace("%HH:%M\n", "")
+
+                if getSettings("DisableDate"):
+                    if("\n" in dateTimeFormat):
+                        dateTimeFormat = dateTimeFormat.replace("\n(W%W) %d/%m/%Y", "")
+                    else:
+                        dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
+                elif not getSettings("EnableWeekNumber"):
+                    dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
+                else:
+                    dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
+
+                if not getSettings("EnableWeekDay"):
+                    try:
+                        dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
+                        if dateTimeFormat[-1] == "\n":
+                            dateTimeFormat = dateTimeFormat[0:-1]
+                        if dateTimeFormat[0] == "\n":
+                            dateTimeFormat = dateTimeFormat[1:]
+                    except IndexError as e:
+                        print("🟠 Date/Time string looks to be empty!")
+                    except Exception as e:
+                        report(e)
+                        
+
+                tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+                print("🔵 tDateMode:", tDateMode)
+                dateMode = ""
+                for i, ministr in enumerate(tDateMode.split("'")):
+                    if i%2==0:
+                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+                    else:
+                        dateMode += ministr
                     
+                tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+                print("🔵 tTimeMode:", tTimeMode)
+                timeMode = ""
 
-            tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-            print("🔵 tDateMode:", tDateMode)
-            dateMode = ""
-            for i, ministr in enumerate(tDateMode.split("'")):
-                if i%2==0:
-                    dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-                else:
-                    dateMode += ministr
-                
-            tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-            print("🔵 tTimeMode:", tTimeMode)
-            timeMode = ""
+                for i, ministr in enumerate(tTimeMode.split("'")):
+                    if i%2==0:
+                        timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+                        if not("S" in timeMode) and showSeconds == 1:
+                            for separator in ":.-/_":
+                                if(separator in timeMode):
+                                    timeMode += f"{separator}%S"
+                    else:
+                        timeMode += ministr
 
-            for i, ministr in enumerate(tTimeMode.split("'")):
-                if i%2==0:
-                    timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-                    if not("S" in timeMode) and showSeconds == 1:
-                        for separator in ":.-/_":
-                            if(separator in timeMode):
-                                timeMode += f"{separator}%S"
-                else:
-                    timeMode += ministr
-
-            for separator in ":.-/_":
-                timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
-                timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+                for separator in ":.-/_":
+                    timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
+                    timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
 
 
-            dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
-            print("🔵 Loaded date time format:", dateTimeFormat)
+                dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
+                print("🔵 Loaded date time format:", dateTimeFormat)
+                globals.dateTimeFormat = dateTimeFormat
+
         except Exception as e:
             report(e)
 
@@ -405,22 +412,14 @@ try:
     def timeStrThread():
         global timeStr, dateTimeFormat
         fixHyphen = getSettings("EnableHyphenFix")
+        adverted = False
         while True:
-            if(fixHyphen):
-                for _ in range(36000):
-                    timeStr = datetime.datetime.now().strftime(dateTimeFormat).replace("t-", "t -")
-                    try:
-                        secs = datetime.datetime.now().strftime("%S")
-                        if secs[-1] == "1" and shouldFixSeconds:
-                            timeStr = timeStr.replace(" ", " \u200e")
-                        else:
-                            timeStr = timeStr.replace(" ", "")
-                    except IndexError as e:
-                        report(e)
-                    time.sleep(0.2)  
-            else:
-                for _ in range(36000):
+            for _ in range(36000):
+                try:
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat)
+                    adverted = False
+                    if fixHyphen:
+                        timeStr = timeStr.replace("t-", "t -")
                     try:
                         secs = datetime.datetime.now().strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
@@ -429,7 +428,19 @@ try:
                             timeStr = timeStr.replace(" ", "")
                     except IndexError as e:
                         report(e)
-                    time.sleep(0.2)
+                except ValueError as e:
+                    timeStr = "Invalid time format\nPlease modify it\nin the settings"
+                    if not adverted:
+                        try:
+                            showNotif.infoSignal.emit("Format error", "The specified date and time format is invalid. Please check your preferences")
+                            adverted = True
+                            report(e)
+                        except NameError:
+                            adverted = True
+                            print("🟣 Expected NameError on timeStrThread")
+                except Exception as e:
+                    report(e)
+                time.sleep(0.2)
 
 
     class RestartSignal(QObject):

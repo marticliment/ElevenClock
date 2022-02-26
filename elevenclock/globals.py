@@ -33,4 +33,4 @@ old_stdout: io.StringIO = None
 trayIcon: QSystemTrayIcon = None
 sw: QScrollArea = None
 tempDir: str = None
-
+dateTimeFormat: str = "%HH:%M\n%A\n%d/%m/%Y"
