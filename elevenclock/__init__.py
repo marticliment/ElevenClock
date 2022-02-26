@@ -802,7 +802,7 @@ try:
                 def compareFullScreenRects(window, screen, newMethod):
                     try:
                         if(newMethod):
-                            return  window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3]
+                            return  window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3] and window[0]+8 != screen[0] and window[1]+8 != screen[1]
                         else:
                             return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
                     except Exception as e:
