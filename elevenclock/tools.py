@@ -177,16 +177,17 @@ def isDark():
         report(e)
     return isWindowDark()
 
-def ApplyMenuBlur(hwnd: int, window: QWidget):
+def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False):
     hwnd = int(hwnd)
     window.setAttribute(Qt.WA_TranslucentBackground)
     window.setAttribute(Qt.WA_NoSystemBackground)
-    window.setStyleSheet("background-color: transparent;")
+    if not avoidOverrideStyleSheet:
+        window.setStyleSheet("background-color: transparent;")
     if isWindowDark():
-        GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True)
+        GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True, smallCorners=smallCorners)
         QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
     else:
-        GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True)
+        GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True, smallCorners=smallCorners)
         QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
 
 class Menu(QMenu):
@@ -278,7 +279,6 @@ class TaskbarIconTray(QSystemTrayIcon):
                 if getSettings(f"SpecificClockOnTheLeft{screen}"):
                     setSettings(f"SpecificClockOnTheLeft{screen}", False)
                 else:
-                    cprint("togglePosAction")
                     setSettings(f"SpecificClockOnTheLeft{screen}", True)
 
         self.moveToLeftAction = QAction("Placeholder text", app)
@@ -296,7 +296,6 @@ class TaskbarIconTray(QSystemTrayIcon):
                 if getSettings(f"SpecificClockOnTheTop{screen}"):
                     setSettings(f"SpecificClockOnTheTop{screen}", False)
                 else:
-                    cprint("togglePosAction")
                     setSettings(f"SpecificClockOnTheTop{screen}", True)
 
         self.moveToTopAction = QAction("Placeholder text", app)

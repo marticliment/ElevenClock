@@ -1,3 +1,6 @@
+from threading import Thread
+
+
 try:
     import time
 
@@ -443,6 +446,32 @@ try:
         def __init__(self) -> None:
             super().__init__()
 
+    class CustomToolTip(QLabel):
+        def __init__(self, text: str = "", pos: tuple[int, int] = (0, 0)):
+            super().__init__(text)
+            self.setFixedHeight(30)
+            self.setMaximumWidth(200)
+            self.setContentsMargins(10, 5, 10, 5)
+            self.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
+            self.setWindowFlag(Qt.WindowStaysOnTopHint)
+            self.setWindowFlag(Qt.FramelessWindowHint)
+            self.setWindowFlag(Qt.Tool)
+            if isTaskbarDark():
+                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display semib\"; background-color: blue;color: #eeeeee;}")
+            else:
+                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;}")
+            self.move(pos[0], pos[1])
+            ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True)
+            lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
+            print("🔵 Long date string:", lDateMode)
+            dateMode = ""
+            for i, ministr in enumerate(lDateMode.split("'")):
+                if i%2==0:
+                    dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+                else:
+                    dateMode += ministr
+            self.setText(str(datetime.datetime.now().strftime(dateMode)))
+
     class Clock(QWidget):
 
         refresh = Signal()
@@ -451,6 +480,8 @@ try:
         styler = Signal(str)
 
         preferedwidth = 200
+        isHovered = False
+        isTooltipWaiting = False
         preferedHeight = 48
         focusassitant = True
         lastTheme = 0
@@ -561,14 +592,17 @@ try:
                 try:
                     if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
                         h = self.screenGeometry.y()
-                        print("🟢 Clock at top")
+                        self.clockOnTop = True
+                        print("🟢 Clock on the top")
                     else:
                         h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                        print("🟡 Clock at bottom")
+                        self.clockOnTop = False
+                        print("🟡 Clock on the bottom")
                 except Exception as e:
                     report(e)
                     h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                    print("🟠 Clock at bottom (by exception)")
+                    self.clockOnTop = False
+                    print("🟠 Clock on the bottom (by exception)")
                 self.label = Label(timeStr, self)
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
@@ -719,6 +753,10 @@ try:
                 self.loop0.start()
                 self.loop1.start()
                 self.loop2.start()
+
+                self.setMouseTracking(True)
+
+                self.tooltip = CustomToolTip("lol")
                 
                 class QHoverButton(QPushButton):
                     hovered = Signal()
@@ -776,7 +814,29 @@ try:
                             border-right: 0px solid rgba(0, 0, 0, 0.05);
                         }}
                     """)
-            
+
+        def updateToolTipStatus(self, mouseIn: bool =False) -> None:
+            if mouseIn:
+                self.isHovered = True
+                if not self.isTooltipWaiting:
+                    Thread(target=self.waitAndShowToolTip, daemon=True, name=f"Clock[{self.index}]: Tooltip").start()
+                    self.isTooltipWaiting = True
+            else:
+                self.tooltip.close()
+                self.isHovered = False
+                self.isTooltipWaiting = False
+
+        def waitAndShowToolTip(self):
+            time.sleep(0.3)
+            if self.isHovered:
+                print("🔵 Showing hover")
+                self.callInMainSignal.emit(lambda: self.showToolTip())
+
+        def showToolTip(self):
+            self.tooltip.show()
+            xPos = self.screen().geometry().x()+self.screen().size().width()-self.getPx(10)-self.tooltip.width() if not self.clockOnTheLeft else self.screen().geometry().x()+self.getPx(10)
+            yPos = self.pos().y()-self.getPx(5)-self.tooltip.height() if not self.clockOnTop else self.pos().y()+self.getPx(5)+self.height()
+            self.tooltip.move(xPos, yPos)
 
         def getPx(self, original) -> int:
             return round(original*(self.screen().logicalDotsPerInch()/96))
@@ -981,7 +1041,7 @@ try:
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
-            self.installEventFilter(self)
+            QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.1
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
             self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
@@ -1081,12 +1141,14 @@ try:
             self.showBackground.start()
             if not r:
                 self.enterEvent(event, r=True)
+            self.window().updateToolTipStatus(True)
             return super().enterEvent(event)
 
         def leaveEvent(self, event: QEvent) -> None:
             self.hideBackground.setStartValue(self.bgopacity)
             self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
             self.hideBackground.start()
+            self.window().updateToolTipStatus(False)
             return super().leaveEvent(event)
 
         def getTextUsedSpaceRect(self):

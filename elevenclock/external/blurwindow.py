@@ -73,7 +73,7 @@ def HEXtoRGBAint(HEX:str):
     return int(gradientColor, base=16)
 
 
-def ApplyBlur(hwnd, hexColor=False, Acrylic=False, Dark=False):
+def ApplyBlur(hwnd, hexColor=False, Acrylic=False, Dark=False, smallCorners=False):
     accent = ACCENTPOLICY()
     accent.AccentState = 3 #Default window Blur #ACCENT_ENABLE_BLURBEHIND
 
@@ -105,9 +105,9 @@ def ApplyBlur(hwnd, hexColor=False, Acrylic=False, Dark=False):
     
 
     DwmSetWindowAttribute = dwm.DwmSetWindowAttribute #  Add rounded borders (My addition)
-    DwmSetWindowAttribute(int(hwnd), 33, ctypes.byref(ctypes.c_int(2)), ctypes.sizeof(ctypes.c_int)) # Add rounded borders (My addition)
+    DwmSetWindowAttribute(int(hwnd), 33, ctypes.byref(ctypes.c_int(3 if smallCorners else 2)), ctypes.sizeof(ctypes.c_int)) # Add rounded borders (My addition)
 
 
 
-def GlobalBlur(HWND,hexColor=False,Acrylic=False,Dark=False,QWidget=None):
-    ApplyBlur(HWND,hexColor,Acrylic,Dark)
+def GlobalBlur(HWND,hexColor=False,Acrylic=False,Dark=False,QWidget=None, smallCorners=False):
+    ApplyBlur(HWND,hexColor,Acrylic,Dark, smallCorners=smallCorners)
