@@ -1,20 +1,20 @@
 ---
-name: Bug report (Something is not working as expected)
+name: Bug/Issue report (Something is not working as expected)
 about: Create a report to let me know what is happening
-title: "[BUG] (Enter your description here)"
-labels: bug
-assignees: ''
+title: "[BUG/ISSUE] (Enter your description here)"
+labels: bug,triage
+assignees: 'martinet101'
 
 ---
 
 ## Before submitting the issue
 
-<b>
-✅ I have checked that the bug is not a duplicate or, if it is, it needs to be reopened; and I've checked the [FAQ](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting) for solutions<br>
-✅ I have installed the latest version and the issue still happens<br>
- 
-# for issues related with font corruption see #590
- 
+
+- [ ] **I have checked that the bug is not a duplicate or, if it is, it needs to be reopened**
+- [ ] **I have checked that I am running the latest version**
+- [ ] **I have tried resetting and reinstalling ElevenClock and the issue persisted/happened again**
+- [ ] **I have checked the [FAQ](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting) for solutions**
+
 </b>
 
 ## Describe the bug
@@ -36,7 +36,7 @@ If applicable, add screenshots to help explain your problem.
 ## The Log
 
 ```
-Please paste here the log (Go to ElevenClock Settings -> Scroll to the bottom -> Open ElevenClock Log). 
+Please paste here the log (Go to ElevenClock Settings -> Scroll to the bottom -> Open ElevenClock Log -> Copy log or Save log to file). 
 
 If the issue can be reproduced (As an example: After waiting 5 minutes, the clock shows a wrong format), please send the log AFTER reproducing the issue (1. Launch ElevenClock, 2. Reproduce the issue, 3. Paste the log)
 
