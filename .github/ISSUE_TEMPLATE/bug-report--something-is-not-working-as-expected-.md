@@ -11,10 +11,10 @@ assignees: 'martinet101'
 
 
 - [ ] **I have checked that the bug is not a duplicate or, if it is, it needs to be reopened**
-- [ ] **I have checked that this issue is not present in the [Known Issues](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting#known-issues) section on the wiki.
+- [ ] **I have checked that this issue is not present in the [Known Issues](https://github.com/martinet101/ElevenClock/wiki#known-issues) section on the wiki.**
 - [ ] **I have checked that I am running the latest version of ElevenClock**
 - [ ] **I have tried resetting and reinstalling ElevenClock and the issue persisted or happened again**
-- [ ] **I have checked the [Common Problems](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting#common-problems) section on the wiki for solutions**
+- [ ] **I have checked the [Common Problems](https://github.com/martinet101/ElevenClock/wiki#common-problems) section on the wiki for solutions**
 
 </b>
 
@@ -41,7 +41,6 @@ Please paste here the log (Go to ElevenClock Settings -> Scroll to the bottom ->
 
 If the issue can be reproduced (As an example: After waiting 5 minutes, the clock shows a wrong format), please 
 send the log AFTER reproducing the issue (1. Launch ElevenClock, 2. Reproduce the issue, 3. Paste the log)
-
 ```
 
 ## Additional context
