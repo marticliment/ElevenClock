@@ -10,21 +10,21 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Настройки формата",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Для форматирования используйте стандарт <b>1989 C</b>. Больше деталей по ссылке",
+    "Python Date and time values": "Python-значения даты и времени",
+    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Чтобы обойти нулевой паддинг, добавьте символ # между символом % и кодом части даты/времени. Например, формат значения часа без лидирующего нуля %#H, с нулем - %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Нажмите на 'Применть', чтобы увидеть эффект",
+    "Apply": "Применить",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Если вы не понимаете, что происходит, снимите галочку над областью с текстом",
+    "Set a custom date and time format": "Изменить формат даты и времени",
+    "(for advanced users only)": "(для продвинутых)",
+    "Move this clock to the left": "Сдвинуть влево",
+    "Move this clock to the top": "Сдвинуть вверх",
+    "Move this clock to the right": "Сдвинуть влево",
+    "Move this clock to the bottom": "Сдвинуть вниз",
+    "Restore horizontal position": "Сброс по горизонтали",
+    "Restore vertical position": "Сброс по вертикали",
 }
 
 lang_3_2_1 = lang_3_3 | {
