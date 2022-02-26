@@ -66,8 +66,8 @@ lang_3 = lang_3_1 | {
     "You might lose functionalities, like the notification counter or the dynamic background": "Часть функций не будет работать (счетчик уведомлений и др.).",
     "Clock position and size:": "Расположение и размер часов",
     "Clock size preferences, position offset, clock at the left, etc.": "Размер часов, положение, перенос налево, т.д.",
-    "Reset monitor blacklisting status": "Очистить черный список мониторов",
-    "Reset": "Очистить",
+    "Reset monitor blacklisting status": "Сбросить настройки черного списка мониторов",
+    "Reset": "Сбросить",
     "Third party licenses": "Лицензии сторонних продуктов",
     "View": "Просмотреть",
     "ElevenClock": "ElevenClock", # there is no point
