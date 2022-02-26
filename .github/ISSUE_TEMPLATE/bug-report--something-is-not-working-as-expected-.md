@@ -36,9 +36,10 @@ If applicable, add screenshots to help explain your problem.
 ## The Log
 
 ```
-Please paste here the log (Go to ElevenClock Settings -> Scroll to the bottom -> Open ElevenClock Log -> Copy log or Save log to file). 
+Please paste here the log (Go to ElevenClock Settings -> Scroll to the bottom -> Open ElevenClock Log. 
 
-If the issue can be reproduced (As an example: After waiting 5 minutes, the clock shows a wrong format), please send the log AFTER reproducing the issue (1. Launch ElevenClock, 2. Reproduce the issue, 3. Paste the log)
+If the issue can be reproduced (As an example: After waiting 5 minutes, the clock shows a wrong format), please 
+send the log AFTER reproducing the issue (1. Launch ElevenClock, 2. Reproduce the issue, 3. Paste the log)
 
 ```
 
