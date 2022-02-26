@@ -11,9 +11,10 @@ assignees: 'martinet101'
 
 
 - [ ] **I have checked that the bug is not a duplicate or, if it is, it needs to be reopened**
-- [ ] **I have checked that I am running the latest version**
-- [ ] **I have tried resetting and reinstalling ElevenClock and the issue persisted/happened again**
-- [ ] **I have checked the [FAQ](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting) for solutions**
+- [ ] **I have checked that this issue is not present in the [Known Issues](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting#known-issues) section on the wiki.
+- [ ] **I have checked that I am running the latest version of ElevenClock**
+- [ ] **I have tried resetting and reinstalling ElevenClock and the issue persisted or happened again**
+- [ ] **I have checked the [Common Problems](https://github.com/martinet101/ElevenClock/wiki/Troubleshooting#common-problems) section on the wiki for solutions**
 
 </b>
 
