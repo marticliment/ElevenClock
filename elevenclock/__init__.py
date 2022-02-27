@@ -458,11 +458,12 @@ try:
             super().__init__()
 
     class CustomToolTip(QLabel):
-        def __init__(self, text: str = "", pos: tuple[int, int] = (0, 0)):
+        def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0)):
             super().__init__(text)
-            self.setFixedHeight(30)
-            self.setMaximumWidth(200)
-            self.setContentsMargins(10, 5, 10, 5)
+            self.scr = screen
+            self.setFixedHeight(self.getPx(30))
+            self.setMaximumWidth(self.getPx(200))
+            self.setContentsMargins(self.getPx(10), self.getPx(5), self.getPx(10), self.getPx(5))
             self.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
             self.setWindowFlag(Qt.WindowStaysOnTopHint)
             self.setWindowFlag(Qt.FramelessWindowHint)
@@ -482,6 +483,9 @@ try:
                 else:
                     dateMode += ministr
             self.setText(str(datetime.datetime.now().strftime(dateMode)))
+            
+        def getPx(self, original) -> int:
+            return round(original*(self.scr.logicalDotsPerInch()/96))
 
     class Clock(QWidget):
 
@@ -767,7 +771,7 @@ try:
 
                 self.setMouseTracking(True)
 
-                self.tooltip = CustomToolTip("lol")
+                self.tooltip = CustomToolTip(screen, "placeholder")
                 
                 class QHoverButton(QPushButton):
                     hovered = Signal()

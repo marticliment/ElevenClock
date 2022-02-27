@@ -2393,7 +2393,6 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
 class QSettingsLineEditCheckBox(QSettingsCheckBox):
     valueChanged = Signal(str)
 
-
     def __init__(self, text="", parent=None):
 
         class QPlainTextEditWithFluentMenu(QPlainTextEdit):
