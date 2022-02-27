@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please keep %H and %#H values the same
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Normes del format personalitzat",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualsevol text pot avar aquí. Per a afegir elements com la data i l'hora, useu l'estàndard C del 1989. Més informació aquí:",
+    "Python Date and time values": "Valors de data i hora de Python",
+    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Per a desactivar el zero flotant a l'esquerra, afegiu un # entre el % i el codi: Les hores sense zero flotant serien %#H, i les hores amb el zero flotant serien %H", # Here please keep %H and %#H values the same
+    "Click on Apply to apply and preview the format": "Cliqueu Aplica per a aplicar i previsualitzar els canvis",
+    "Apply": "Aplica",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Si no enteneu què està passant, desmarqueu la casella de dalt de la caixa de text",
+    "Set a custom date and time format": "Estableix un format de data i d'hora personalitzat",
+    "(for advanced users only)": "(només per a usuaris avançats)",
+    "Move this clock to the left": "Mou aquest rellotge a l'esquerra",
+    "Move this clock to the top": "Mou aquest rellotge a dalt",
+    "Move this clock to the right": "Mou aquest rellotge a la dreta",
+    "Move this clock to the bottom": "Mou aquest rellotge a baix",
+    "Restore horizontal position": "Restableix la posició hoitzontal",
+    "Restore vertical position": "Restableix la posició vertical",
 }
 
 lang_3_2_1 = lang_3_3 | {
