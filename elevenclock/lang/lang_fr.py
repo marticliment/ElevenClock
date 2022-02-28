@@ -8,9 +8,9 @@
 
 
 lang_3_3 = {
-    "Custom format rules:": "Règles de format personnalisé",
+    "Custom format rules:": "Règles de format personnalisées :",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "N'importe quel texte peut être placé ici. Pour placer des éléments tels que la date et l'heure, veuillez utiliser la norme 1989 C. Plus d'infos sur le lien suivant",
-    "Python date and time formats": "Valeurs de date et heure de python",
+    "Python date and time formats": "Formats de la date et heure Python",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Pour désactiver l'effet zéro-marge, ajoutez un # entre le % et le code : une heure avec marge doit être %#H, une heure sans marge doit être %H", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "Cliquez sur Appliquer pour appliquer et prévisualiser le format",
     "Apply": "Appliquer",
