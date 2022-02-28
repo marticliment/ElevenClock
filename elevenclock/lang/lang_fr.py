@@ -8,21 +8,21 @@
 
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Règles de format personnalisé",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "N'importe quel texte peut être placé ici. Pour placer des éléments tels que la date et l'heure, veuillez utiliser la norme 1989 C. Plus d'infos sur le lien suivant",
+    "Python Date and time values": "Valeurs de date et heure de python",
+    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Pour désactiver l'effet zéro-marge, ajoutez un # entre le % et le code : une heure avec marge doit être %#H, une heure sans marge doit être %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Cliquez sur Appliquer pour appliquer et prévisualiser le format",
+    "Apply": "Appliquer",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Si vous n'êtes pas sûr de ce qu'il se passe, veuillez décocher la case au-dessus de la zone de texte",
+    "Set a custom date and time format": "Définir un format de date et heure personnalisé",
+    "(for advanced users only)": "(utilisateurs avancés uniquement)",
+    "Move this clock to the left": "Déplacer cette horloge vers la gauche",
+    "Move this clock to the top": "Déplacer cette horloge vers en haut",
+    "Move this clock to the right": "Déplacer cette horloge vers la droite",
+    "Move this clock to the bottom": "Déplacer cette horloge vers le bas",
+    "Restore horizontal position": "Restaurer la position horizontale",
+    "Restore vertical position": "Restaurer la position verticale",
 }
 
 lang_3_2_1 = lang_3_3 | {
