@@ -1,4 +1,5 @@
 from threading import Thread
+_globals = globals
 
 
 try:
@@ -48,8 +49,6 @@ try:
     from settings import *
     from tools import *
     import tools
-
-
 
     from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
 
@@ -106,13 +105,6 @@ try:
             isRDPRunning = checkIfElevenClockRunning(procs, blacklistedProcesses)
             time.sleep(5)
 
-    def getMousePos():
-        try:
-            return QPoint(mController.position[0], mController.position[1])
-        except AttributeError:
-            print("🟠 Mouse thread returned AttributeError")
-        except Exception as e:
-            report(e)
 
     def updateChecker():
         updateIfPossible()
@@ -608,11 +600,11 @@ try:
                     if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
                         h = self.screenGeometry.y()
                         self.clockOnTop = True
-                        print("🟢 Clock on the top")
+                        print("🟡 Clock on the top")
                     else:
                         h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
                         self.clockOnTop = False
-                        print("🟡 Clock on the bottom")
+                        print("🟢 Clock on the bottom")
                 except Exception as e:
                     report(e)
                     h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
@@ -1189,15 +1181,7 @@ try:
             self.opacity.setOpacity(1.00)
             self.backgroundwidget.setGraphicsEffect(self.opacity)
             if(ev.button() == Qt.RightButton):
-                mousePos = getMousePos()
-                if(i.contextMenu().height() != 480):
-                    mousePos.setY(self.window().y()-(i.contextMenu().height()+5))
-                else:
-                    if getSettings("HideTaskManagerButton"):
-                        mousePos.setY(self.window().y()-int(260*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
-                    else:
-                        mousePos.setY(self.window().y()-int(370*(i.contextMenu().screen().logicalDotsPerInchX()/96)))
-                i.execMenu(mousePos)
+                i.showMenu(self.window())
             else:
                 self.clicked.emit()
             return super().mouseReleaseEvent(ev)
@@ -1289,6 +1273,7 @@ try:
     globals.app = app # Register global variables
     globals.sw = sw # Register global variables
     globals.trayIcon = i # Register global variables
+    globals.mController = mController
     globals.loadTimeFormat = loadTimeFormat # Register global functions
     globals.updateIfPossible = updateIfPossible # Register global functions
     globals.restartClocks = restartClocks # Register global functions
@@ -1351,9 +1336,9 @@ try:
 
 except Exception as e:
     import webbrowser, traceback, platform
-    if not "versionName" in locals() and not "versionName" in globals():
+    if not "versionName" in locals() and not "versionName" in _globals():
         versionName = "Unknown"
-    if not "version" in locals() and not "version" in globals():
+    if not "version" in locals() and not "version" in _globals():
         version = "Unknown"
     os_info = f"" + \
         f"                        OS: {platform.system()}\n"+\
