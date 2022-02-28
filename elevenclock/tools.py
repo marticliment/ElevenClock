@@ -258,7 +258,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             msg.setObjectName("QMessageBox")
             msg.setTitle(_("Blacklist Monitor"))
             msg.setText(f"""{_("Blacklisting a monitor will hide the clock on this monitor permanently.")}<br>
-                            {_("This action can be reverted from the settings window. under <b>Clock position and size</b>")}.<br><br>
+                            {_("This action can be reverted from the settings window, under <b>Clock position and size</b>")}.<br><br>
 
                             <b>{_('Are you sure do you want to blacklist the monitor "{0}"?').format(self.toolsMenu.screen().name())}</b>
     
@@ -345,8 +345,6 @@ class TaskbarIconTray(QSystemTrayIcon):
     
 
     def showMenu(self, clock):
-        import __init__
-        clock: __init__.Clock = clock
         pos = QPoint(0, 0)
 
         if(self.contextMenu().height() != 480):
@@ -357,7 +355,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             else:
                 menuHeight = clock.getPx(370)
 
-        if(self.contextMenu().width() != 480):
+        if(self.contextMenu().width() != 640):
             menuWidth = self.contextMenu().width()
         else:
             menuWidth = clock.getPx(225)

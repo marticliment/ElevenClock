@@ -12,8 +12,8 @@
 lang_3_3 = {
     "Custom format rules:": "Настройки формата",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Для форматирования используйте стандарт <b>1989 C</b>. Больше деталей по ссылке",
-    "Python Date and time values": "Python-значения даты и времени",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Чтобы обойти нулевой паддинг, добавьте символ # между символом % и кодом части даты/времени. Например, формат значения часа без лидирующего нуля %#H, с нулем - %H", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "Python-значения даты и времени",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Чтобы обойти нулевой паддинг, добавьте символ # между символом % и кодом части даты/времени. Например, формат значения часа без лидирующего нуля %#H, с нулем - %H", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "Нажмите на 'Применить', чтобы увидеть эффект",
     "Apply": "Применить",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "Если вы не понимаете, что происходит, снимите галочку над областью с текстом",
@@ -84,7 +84,7 @@ lang_3 = lang_3_1 | {
     "Ok": "ОК",
     "Blacklist Monitor": "Игнорировать монитор",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "Часы не будут отображаться на мониторах из черного списка.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Это действие можно отменить в настройках в разделе <b>Расположение и размер часов</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Это действие можно отменить в настройках в разделе <b>Расположение и размер часов</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Добавить монитор \"{0}\" в черный список?",
     "Yes": "Да",
     "No": "Нет",
@@ -108,7 +108,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time"                                                                                       : "Сменить дату и время",
     "Notification settings"                                                                                      : "Настройки уведомлений",
     "Updates, icon tray, language"                                                                               : "Обновления, иконка трея, язык",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)"                       : "Не отображать расширенное меню по правому клику мыши (нужен перезапуск)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)"                       : "Не отображать расширенное меню по правому клику мыши (нужен перезапуск)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"                      : "Поведение при работы с полноэкранными приложениями, позиционирование, разное",
     'Add the "Show Desktop" button on the left corner of every clock'                                            : 'Отображать кнопку "Показать рабочий стол" в левом углу всех часов',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Вам придется выбрать свой цвет фона, чтобы это работало.&nbsp;Больше информации <a href="{0}" style="color:DodgerBlue">здесь</a>',

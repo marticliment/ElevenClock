@@ -10,8 +10,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -82,7 +82,7 @@ lang_3 = lang_3_1 | {
     "Ok": "OK",
     "Blacklist Monitor": "Ne pas afficher sur cet écran",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "En continuant, l'écran sera ignoré et l'horloge ne sera plus affichée sur cet écran de manière permanente.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Cette action peut être annulée via les paramètres, sous <b>Taille et position de l'horloge</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Cette action peut être annulée via les paramètres, sous <b>Taille et position de l'horloge</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Êtes-vous sûr de ne plus vouloir afficher l'horloge sur cet écran ?",
     "Yes": "Oui",
     "No": "Non",
@@ -106,7 +106,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "Régler la date et l'heure",
     "Notification settings": "Paramètres des notifications",
     "Updates, icon tray, language": "Mise à jour, icône de l'angle de la barre des tâches, langue",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "Cacher les options avancées du menu clic droit (nécessite un redémarrage)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportement en plein écran, position de l'horloge, horloge sur l'écran principal, autres paramètres",
     'Add the "Show Desktop" button on the left corner of every clock': 'Ajouter le bouton "Afficher le bureau" à gauche de toutes les horloges',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Vous devrez peut-être sélectionner un fond d\'écran personnalisé pour que cela fonctionne.&nbsp;Plus d\'informations <a href="{0}" style="color:DodgerBlue">ICI</a>',

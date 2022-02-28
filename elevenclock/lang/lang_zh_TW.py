@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "確定",
     "Blacklist Monitor": "黑名單螢幕",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "黑名單此螢幕將會將時鐘自此螢幕永久移除",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "這個動作可以在設定頁中恢復。對應的選項位於 <b>時鐘位置以及大小</b> 中",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "這個動作可以在設定頁中恢復。對應的選項位於 <b>時鐘位置以及大小</b> 中",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "你確定要黑名單這個螢幕 \"{0}\"？",
     "Yes": "是",
     "No": "否",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "調整日期和時間",
     "Notification settings": "通知設定",
     "Updates, icon tray, language": "更新、系統匣、語言",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "隱藏右鍵功能表中的延伸選項（需要重新啟動以進行套用）",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "隱藏右鍵功能表中的延伸選項（需要重新啟動以進行套用）",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全螢幕行為、時鐘位置、主要螢幕時鐘、其他雜項設定",
     'Add the "Show Desktop" button on the left corner of every clock': '新增「顯示桌面」的按鈕到每個時鐘角落',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '為使本功能正常運作，你可能需要設定自訂背景顏色。&nbsp;更多資訊見 <a href="{0}" style="color:DodgerBlue">這裡</a>',

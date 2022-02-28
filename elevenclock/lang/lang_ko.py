@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "사용자 정의 포맷 규칙:",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "이곳에는 아무 텍스트나 입력될 수 있습니다. 날짜나 시간 등의 항목을 추가하려면, 1989년 C 표준에 따라 작성해주세요. 다음 링크에서 자세한 정보를 확인할 수 있습니다",
-    "Python Date and time values": "Python 날짜 및 시간 값",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "앞에 0을 붙이지 않으려면, %와 코드 사이에 #을 입력하세요. 예시: 앞에 0이 붙지 않는 시간은 %#H, 앞에 0이 붙는 시간은 %H", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "Python 날짜 및 시간 값",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "앞에 0을 붙이지 않으려면, %와 코드 사이에 #을 입력하세요. 예시: 앞에 0이 붙지 않는 시간은 %#H, 앞에 0이 붙는 시간은 %H", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "적용을 클릭하면 변경 사항을 적용하고 포맷을 미리 볼 수 있습니다",
     "Apply": "적용",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "무슨 일이 일어나고 있는지 이해할 수 없다면, 텍스트 입력 영역 옆의 체크박스를 체크 해제해주세요",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "확인",
     "Blacklist Monitor": "블랙리스트 모니터에 추가",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "모니터를 블랙리스트에 올리면 이 모니터의 시계가 영구적으로 숨겨집니다.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "설정 창의 <b>시계 위치 및 크기</b>에서 이 동작을 되돌릴 수 있습니다.",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "설정 창의 <b>시계 위치 및 크기</b>에서 이 동작을 되돌릴 수 있습니다.",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "\"{0}\" 모니터를 블랙리스트에 추가하시겠습니까?",
     "Yes": "예",
     "No": "아니오",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "날짜 및 시간 변경",
     "Notification settings": "알림",
     "Updates, icon tray, language": "업데이트, 아이콘 트레이, 언어",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "시계 오른쪽 버튼 메뉴에서 확장 옵션 숨기기 (적용하려면 재시작 필요)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "시계 오른쪽 버튼 메뉴에서 확장 옵션 숨기기 (적용하려면 재시작 필요)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "전체 화면 동작, 시계 위치, 첫 번째 모니터 시계, 다른 여러가지 설정",
     'Add the "Show Desktop" button on the left corner of every clock': '모든 시계의 왼쪽 모서리에 "바탕 화면 표시" 버튼 추가',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '이 작업을 수행하려면 사용자 지정 배경색을 설정해야 할 수 있습니다.&nbsp;추가 정보는 <a href="{0}" style="color:DodgerBlue">여기</a>',

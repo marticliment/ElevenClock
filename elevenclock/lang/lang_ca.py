@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "Normes del format personalitzat",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualsevol text pot avar aquí. Per a afegir elements com la data i l'hora, useu l'estàndard C del 1989. Més informació aquí:",
-    "Python Date and time values": "Valors de data i hora de Python",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Per a desactivar el zero flotant a l'esquerra, afegiu un # entre el % i el codi: Les hores sense zero flotant serien %#H, i les hores amb el zero flotant serien %H", # Here please keep %H and %#H values the same
+    "Python date and time formats": "Valors de data i hora de Python",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Per a desactivar el zero flotant a l'esquerra, afegiu un # entre el % i el codi: Les hores sense zero flotant serien %#H, i les hores amb el zero flotant serien %H", # Here please keep %H and %#H values the same
     "Click on Apply to apply and preview the format": "Cliqueu Aplica per a aplicar i previsualitzar els canvis",
     "Apply": "Aplica",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "Si no enteneu què està passant, desmarqueu la casella de dalt de la caixa de text",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "D'acord",
     "Blacklist Monitor": "Afegir a la llista negra",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "Si afegiu una pantalla a la llista negra, el rellotge no es mostrarà allà",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Aquesta acció es pot revertir des de la Configuració, sota <b>Posició i mida del rellotge</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Aquesta acció es pot revertir des de la Configuració, sota <b>Posició i mida del rellotge</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Esteu segurs de que voleu afegir la pantalla {0} a la llista negra?",
     "Yes": "Sí",
     "No": "No",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "Ajusta la data i l'hora",
     "Notification settings": "Configuració de les notificacions",
     "Updates, icon tray, language": "Actualitzacions, safata del sistema, idioma",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Amaga les funcions extres del menú de clic dret del rellotge (Es necessita un reinici per a aplicar)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "Amaga les funcions extres del menú de clic dret del rellotge (Es necessita un reinici per a aplicar)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportament de pantalla completa, posició del rellotge, rellotge de la pantalla principal, altres paràmetres miscel·lanis",
     'Add the "Show Desktop" button on the left corner of every clock': 'Afegeix el botó de "Mostrar l\'escriptori" a la cantonada dreta de cada rellotge',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Pot ser que necessiteu establir un color de fons concret.&nbsp;Més informació <a href="{0}" style="color:DodgerBlue">AQUÍ</a>',

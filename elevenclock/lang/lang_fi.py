@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "Ok",
     "Blacklist Monitor": "Lisää näyttö mustalle listalle",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "Näytön lisääminen mustalle listalle piilottaa kyseisen näytön kellon pysyvästi.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Tämä toiminto voidaan peruuttaa asetusikkunasta, kohdan <b>Kellon sijainti ja koko</b> alta.",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Tämä toiminto voidaan peruuttaa asetusikkunasta, kohdan <b>Kellon sijainti ja koko</b> alta.",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Oletko varma että haluat lisätä näytön \"{0}\" mustalle listalle?",
     "Yes": "Kyllä",
     "No": "En",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "Vaihda pävämäärää ja kellonaikaa",
     "Notification settings": "Ilmoitusasetukset",
     "Updates, icon tray, language": "Päivitykset, pikkukuvake, kieli",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Laajennettujen vaihtoehtojen piilottaminen kellon hiiren oikealla painikkeella napsautettavasta valikosta (vaatii uudelleenkäynnistyksen toimiakseen)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "Laajennettujen vaihtoehtojen piilottaminen kellon hiiren oikealla painikkeella napsautettavasta valikosta (vaatii uudelleenkäynnistyksen toimiakseen)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Koko näytön -tilan käyttäytyminen, kellon sijainti, ensisijaisen näytön kello, muut sekalaiset asetukset",
     'Add the "Show Desktop" button on the left corner of every clock': 'Lisää "Näytä työpöytä" -painike jokaisen kellon vasempaan kulmaan',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Sinun on ehkä asetettava mukautettu taustaväri, jotta tämä toimii.&nbsp;Lisätietoja <a href="{0}" style="color:DodgerBlue">täällä</a>',

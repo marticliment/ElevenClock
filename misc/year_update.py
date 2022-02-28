@@ -3,9 +3,9 @@ import glob, os
 
 
 
-OLDSTR = b"2021"
+OLDSTR = b"""aplied"""
 
-NEWSTR = b"""2022"""
+NEWSTR = b"""applied"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to continue")
 print()
