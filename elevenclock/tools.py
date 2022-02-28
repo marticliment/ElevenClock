@@ -11,6 +11,7 @@ from PyQt5.QtWinExtras import QtWin
 
 
 from external.blurwindow import GlobalBlur
+import pyautogui
 
 
 
@@ -172,7 +173,12 @@ class KillableThread(threading.Thread):
 
 def getMousePos() -> QPoint:
     try:
-        return QPoint(globals.mController.position[0], globals.mController.position[1])
+        p = QPoint(pyautogui.position()[0], pyautogui.position()[1])
+        if p.x() == None:
+            p.setX(0)
+        if p.y() == None:
+            p.setY(0)
+        return p
     except AttributeError:
         print("🟣 Mouse thread returned AttributeError")
         return QPoint(0, 0)

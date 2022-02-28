@@ -1,4 +1,4 @@
-pynput==1.6.8
+pyautogui
 pywin32
 PyQt5
 psutil

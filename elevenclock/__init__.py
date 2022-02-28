@@ -35,8 +35,7 @@ try:
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
     from PyQt5.QtCore import pyqtSignal as Signal
-    from pynput.keyboard import Controller, Key
-    from pynput.mouse import Controller as MouseController
+    import pyautogui
     from external.FramelessWindow import QFramelessDialog
 
     from languages import *
@@ -573,7 +572,7 @@ try:
                 
                 self.refresh.connect(self.refreshandShow)
                 self.hideSignal.connect(self.hide)
-                self.keyboard = Controller()
+                #self.keyboard = Controller()
                 self.setWindowFlag(Qt.WindowStaysOnTopHint)
                 self.setWindowFlag(Qt.FramelessWindowHint)
                 self.setAttribute(Qt.WA_TranslucentBackground)
@@ -964,10 +963,7 @@ try:
                 time.sleep(0.1)
 
         def showCalendar(self):
-            self.keyboard.press(Key.cmd)
-            self.keyboard.press('n')
-            self.keyboard.release('n')
-            self.keyboard.release(Key.cmd)
+            pyautogui.hotkey("win", "n")
             if self.hideClockWhenClicked:
                 print("🟡 Hiding clock because clicked!")
                 self.clockShouldBeHidden = True
@@ -980,10 +976,7 @@ try:
                 KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
 
         def showDesktop(self):
-            self.keyboard.press(Key.cmd)
-            self.keyboard.press('d')
-            self.keyboard.release('d')
-            self.keyboard.release(Key.cmd)
+            pyautogui.hotkey("win", "d")
 
         def focusOutEvent(self, event: QFocusEvent) -> None:
             self.refresh.emit()
@@ -1224,7 +1217,7 @@ try:
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     
-    mController: MouseController = None
+    #mController: MouseController = None
     sw: SettingsWindow = None
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
@@ -1241,7 +1234,7 @@ try:
     tempDir = tdir.name
     sw = SettingsWindow() # Declare settings window
     i = TaskbarIconTray(app)
-    mController = MouseController()
+    #mController = MouseController()
     
     app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
     app.screenAdded.connect(lambda: os.startfile(sys.executable))
@@ -1273,7 +1266,7 @@ try:
     globals.app = app # Register global variables
     globals.sw = sw # Register global variables
     globals.trayIcon = i # Register global variables
-    globals.mController = mController
+    #globals.mController = mController
     globals.loadTimeFormat = loadTimeFormat # Register global functions
     globals.updateIfPossible = updateIfPossible # Register global functions
     globals.restartClocks = restartClocks # Register global functions
