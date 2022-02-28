@@ -7,14 +7,14 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "사용자 정의 포맷 규칙:",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "이곳에는 아무 텍스트나 입력될 수 있습니다. 날짜나 시간 등의 항목을 추가하려면, 1989년 C 표준에 따라 작성해주세요. 다음 링크에서 자세한 정보를 확인할 수 있습니다",
-    "Python date and time formats": "Python 날짜 및 시간 값",
+    "Custom format rules:": "사용자 정의 형식 규칙:",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "이곳에는 아무 텍스트나 입력할 수 있습니다. 날짜나 시간 등을 추가하려면, 1989년 C 표준에 따라 작성해주세요. 자세한 정보",
+    "Python date and time formats": "Python 날짜 및 시간 형식",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "앞에 0을 붙이지 않으려면, %와 코드 사이에 #을 입력하세요. 예시: 앞에 0이 붙지 않는 시간은 %#H, 앞에 0이 붙는 시간은 %H", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "적용을 클릭하면 변경 사항을 적용하고 포맷을 미리 볼 수 있습니다",
+    "Click on Apply to apply and preview the format": "적용을 클릭하면 변경 사항을 적용하고 형식을 미리 볼 수 있습니다",
     "Apply": "적용",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "무슨 일이 일어나고 있는지 이해할 수 없다면, 텍스트 입력 영역 옆의 체크박스를 체크 해제해주세요",
-    "Set a custom date and time format": "사용자 정의 날짜 및 시간 포맷 설정",
+    "Set a custom date and time format": "사용자 정의 날짜 및 시간 형식 설정",
     "(for advanced users only)": "(고급 사용자 전용)",
     "Move this clock to the left": "이 시계를 왼쪽으로 이동",
     "Move this clock to the top": "이 시계를 위쪽으로 이동",
