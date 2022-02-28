@@ -422,7 +422,8 @@ class SettingsWindow(QMainWindow):
                 <ul>
                 <li> <b>Python 3.9</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
-                <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pynput/">LGPL-v3</a></li>
+                <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
+                <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
                 <li> <b>PyQt5 (Qt5)</b>: <a href="https://www.riverbankcomputing.com/commercial/license-faq">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
