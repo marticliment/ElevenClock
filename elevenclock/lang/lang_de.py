@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok"                                                                                                      : "Ok",
     "Blacklist Monitor"                                                                                       : "Monitor blacklisten",
     "Blacklisting a monitor will hide the clock on this monitor permanently."                                 : "Durch das Blacklisten eines Monitor wird auf diesem die Uhr permanent versteckt.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>"              : "Diese Aktion kann über das Einstellungen-Fenster unter <b>Position and Größe der Uhr</b> rückgängig gemacht werden.",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>"              : "Diese Aktion kann über das Einstellungen-Fenster unter <b>Position and Größe der Uhr</b> rückgängig gemacht werden.",
     "Are you sure do you want to blacklist the monitor \"{0}\"?"                                              : "Bist du sicher, dass du Monitor \"{0}\" blacklisten möchtest?",
     "Yes"                                                                                                     : "Ja",
     "No"                                                                                                      : "Nein",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time"                                                                                                              : "Datum und Zeit ändern",
     "Notification settings"                                                                                                             : "Benachrichtigungseinstellungen",
     "Updates, icon tray, language"                                                                                                      : "Updates, Tray-Icon, Sprache",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)"                                              : "Verstecke erweiterte Optionen im Rechts-Klick-Menü der Uhr (erfordert Neustart)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)"                                              : "Verstecke erweiterte Optionen im Rechts-Klick-Menü der Uhr (erfordert Neustart)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"                                             : "Verhalten im Vollbildmodus, Position der Uhr, Uhr auf dem Hauptbildschirm, weitere Einstelleungen",
     'Add the "Show Desktop" button on the left corner of every clock'                                                                   : 'Füge die Schaltfläche "Desktop anzeigen" in der linken Ecke jeder Uhr hinzu',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>'  : 'Möglicherweise müssen Sie eine benutzerdefinierte Hintergrundfarbe festlegen, damit dies funktioniert.&nbsp;Weitere Informationen <a href="{0}" style="color:DodgerBlue">HIER</a>',

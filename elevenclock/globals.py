@@ -30,6 +30,7 @@ def _(a):
 app: QApplication = None
 buffer: io.StringIO = None
 old_stdout: io.StringIO = None
+mController: object = None
 trayIcon: QSystemTrayIcon = None
 sw: QScrollArea = None
 tempDir: str = None

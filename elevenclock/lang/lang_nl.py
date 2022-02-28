@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "",
     "Blacklist Monitor": "",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "Als u een monitor op de blacklist zet, wordt de klok op deze monitor permanent verborgen.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Deze actie kan worden teruggedraaid vanuit het instellingenvenster. Onder <b>Klokpositie en -grootte</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Deze actie kan worden teruggedraaid vanuit het instellingenvenster. Onder <b>Klokpositie en -grootte</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Weet u zeker dat u de monitor \"{0}\" op de blacklist wilt zetten?",
     "Yes": "Ja",
     "No": "Nee",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "Datum en tijd wijzigen",
     "Notification settings": "Melding instellingen",
     "Updates, icon tray, language": "Updates, icoon lade, taal",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Verberg uitgebreide opties in het rechtsklikmenu van de klok (hiervoor is een herstart nodig)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "Verberg uitgebreide opties in het rechtsklikmenu van de klok (hiervoor is een herstart nodig)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Volledig scherm gedrag, klokpositie, 1e monitor klok, overige instellingen",
     'Add the "Show Desktop" button on the left corner of every clock': 'Voeg de "Bureaublad weergeven" knop toe in de linkerhoek van elke klok',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Mogelijk moet u een aangepaste achtergrondkleur instellen om dit te laten werken.&nbsp;Meer info <a href="{0}" style="color:DodgerBlue">HIER</a>',

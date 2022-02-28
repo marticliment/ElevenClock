@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "OK",
     "Blacklist Monitor": "モニターのブラックリスト登録",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "モニターをブラックリストに登録すると、このモニターで完全に時計が非表示になります。",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "この操作は設定ウィンドウから元に戻すことができます。<b>時計の位置とサイズ</b>の中に含まれています。",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "この操作は設定ウィンドウから元に戻すことができます。<b>時計の位置とサイズ</b>の中に含まれています。",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "モニター \"{0}\"をブラックリストに登録しますか?",
     "Yes": "はい",
     "No": "いいえ",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "日付と時刻の変更",
     "Notification settings": "通知設定",
     "Updates, icon tray, language": "更新、トレイ アイコン、言語",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "時計を右クリックメニューから拡張オプションを隠す (適用のために再起動が必要)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "時計を右クリックメニューから拡張オプションを隠す (適用のために再起動が必要)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全画面時の動作、時計の位置、プライマリー画面の時計、その他の設定",
     'Add the "Show Desktop" button on the left corner of every clock': 'すべての時計の左端に「デスクトップを表示」ボタンを追加する',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'これを正しく機能させるためにカスタム背景色を設定する必要がある場合があります。&nbsp;詳細情報は<a href="{0}" style="color:DodgerBlue">こちら</a>',

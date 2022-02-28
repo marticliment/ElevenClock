@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "确认",
     "Blacklist Monitor": "黑名单监视器",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "将监视器列入黑名单将永久隐藏该监视器上的时钟。",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "可以从设置窗口恢复此操作。 under <b>时钟位置和大小</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "可以从设置窗口恢复此操作。 under <b>时钟位置和大小</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "您确定要将监视器\"{0}\"列入黑名单吗？",
     "Yes": "是",
     "No": "否",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "更改日期和时间",
     "Notification settings": "通知设置",
     "Updates, icon tray, language": "更新, 托盘图标, 语言",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "隐藏时钟右键菜单中的扩展选项（需要重新启动才能应用）",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "隐藏时钟右键菜单中的扩展选项（需要重新启动才能应用）",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "全屏行为, 时钟位置, 主监视器时钟, 其他杂项设置",
     'Add the "Show Desktop" button on the left corner of every clock': '在每个时钟的左上角添加“显示桌面”按钮',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': '您可能需要为此设置自定义背景颜色。&nbsp;更多信息 <a href="{0}" style="color:DodgerBlue">HERE</a>',

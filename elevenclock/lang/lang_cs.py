@@ -13,8 +13,8 @@
 lang_3_3 = {
     "Custom format rules:": "",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python Date and time values": "",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "",
     "Apply": "",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
@@ -84,7 +84,7 @@ lang_3 = lang_3_1 | {
     "Now you should see the clock everywhere": "Hodiny nyní uvidíte všude",
     "Blacklist Monitor": "Blacklist monitoru",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "Blacklistování monitoru trvale skryje hodiny na daném monitoru.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Tato akce může být změněna z nastavení pod volbou <b>Umístění a velikost hodin</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Tato akce může být změněna z nastavení pod volbou <b>Umístění a velikost hodin</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Jste si jistí, že chcete umístit monitor \"{0}\" na blacklist?",
     "Yes": "Ano",
     "No": "Ne",
@@ -108,7 +108,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "Upravit datum a čas",
     "Notification settings": "Nastavení oznámení",
     "Updates, icon tray, language": "Aktualizace, lokalizace a ikonka lišty",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Skrýt rozšířené možnosti z nabídky po kliknutí pravým tlačítkem myši (aplikace vyžaduje restart)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "Skrýt rozšířené možnosti z nabídky po kliknutí pravým tlačítkem myši (aplikace vyžaduje restart)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Chování na celé obrazovce, pozice hodin a další různá nastavení",
     'Add the "Show Desktop" button on the left corner of every clock': 'Přidat tlačítko "Zobrazit plochu" ke všem hodinám',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Pro správnou funkčnost budete muset nejspíš změnit barvu pozadí.&nbsp;Pro více info <a href="{0}" style="color:DodgerBlue">zde</a>',

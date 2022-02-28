@@ -9,8 +9,8 @@
 lang_3_3 = {
     "Custom format rules:": "Normas del formato personalizado",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualquier texto se puede escribir aquí. Para poner elementos como la fecha o la hora, use el estándard C de 1989. Más información aquí:",
-    "Python Date and time values": "Valores de fecha y hora",
-    "To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Para desactivar el cero inicial, añada un # entre el % y el código: las horas sin cero serían %#H, mientras que las horas con cero serían %H", # Here please don't modify the %H and %#H values
+    "Python date and time formats": "Valores de fecha y hora",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Para desactivar el cero inicial, añada un # entre el % y el código: las horas sin cero serían %#H, mientras que las horas con cero serían %H", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "Pulse en Aplicar para aplicar los cambios y previsualizar el formato",
     "Apply": "Aplicar",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "Si no entiende qué está pasando, por favor desmarque la casilla de encima de la caja de texto",
@@ -81,7 +81,7 @@ lang_3 = lang_3_1 | {
     "Ok": "De acuerdo",
     "Blacklist Monitor": "Añade el monitor a la lista negra",
     "Blacklisting a monitor will hide the clock on this monitor permanently.": "Si añade un monitor a la lista negra, el reloj no se mostrará en él.",
-    "This action can be reverted from the settings window. under <b>Clock position and size</b>": "Esta acción puede ser revertida des de la Configuración, debajo de <b>Posición y tamaño del reloj</b>",
+    "This action can be reverted from the settings window, under <b>Clock position and size</b>": "Esta acción puede ser revertida des de la Configuración, debajo de <b>Posición y tamaño del reloj</b>",
     "Are you sure do you want to blacklist the monitor \"{0}\"?": "Está seguro de que quiere añadir el monitor \"{0}\" a la lista negra?",
     "Yes": "Sí",
     "No": "No",
@@ -105,7 +105,7 @@ lang_2_9 = lang_2_9_2 | {
     "Change date and time": "Ajusta la fecha y la hora",
     "Notification settings": "Configuración de las notificaciones",
     "Updates, icon tray, language": "Actualizaciones, bandeja del sistema, idioma",
-    "Hide extended options from the clock right-click menu (needs a restart to be aplied)": "Oculta las funciones extras del menú de clic derecho del relo (Se necessita un reinicio para aplicar)",
+    "Hide extended options from the clock right-click menu (needs a restart to be applied)": "Oculta las funciones extras del menú de clic derecho del relo (Se necessita un reinicio para aplicar)",
     "Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings": "Comportamiento de pantalla completa, posición del reloj, reloj de la pantalla principal, otros parametros misceláneos",
     'Add the "Show Desktop" button on the left corner of every clock': 'Añade el botón de "Mostrar el escritorio" en el borde derecho de cada reloj',
     'You might need to set a custom background color for this to work.&nbsp;More info <a href="{0}" style="color:DodgerBlue">HERE</a>': 'Puede ser que necesite establecer un color de fondo para el reloj.&nbsp;Más información <a href="{0}" style="color:DodgerBlue">AQUÍ</a>',

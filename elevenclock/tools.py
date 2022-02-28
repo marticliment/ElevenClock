@@ -170,6 +170,16 @@ class KillableThread(threading.Thread):
     def kill(self):
         self.shouldBeRuning = False
 
+def getMousePos() -> QPoint:
+    try:
+        return QPoint(globals.mController.position[0], globals.mController.position[1])
+    except AttributeError:
+        print("🟣 Mouse thread returned AttributeError")
+        return QPoint(0, 0)
+    except Exception as e:
+        report(e)
+        return QPoint(0, 0)
+
 def isDark():
     try:
         raise DeprecationWarning("This function has been deprecated and must be replaced with isWindowDark or isTaskbarDark!")
@@ -248,7 +258,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             msg.setObjectName("QMessageBox")
             msg.setTitle(_("Blacklist Monitor"))
             msg.setText(f"""{_("Blacklisting a monitor will hide the clock on this monitor permanently.")}<br>
-                            {_("This action can be reverted from the settings window. under <b>Clock position and size</b>")}.<br><br>
+                            {_("This action can be reverted from the settings window, under <b>Clock position and size</b>")}.<br><br>
 
                             <b>{_('Are you sure do you want to blacklist the monitor "{0}"?').format(self.toolsMenu.screen().name())}</b>
     
@@ -332,38 +342,70 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.show()
             print("🔵 System tray icon enabled")
         self.applyStyleSheet()
+    
+
+    def showMenu(self, clock):
+        pos = QPoint(0, 0)
+
+        if(self.contextMenu().height() != 480):
+            menuHeight = self.contextMenu().height()
+        else:
+            if getSettings("HideTaskManagerButton"):
+                menuHeight = clock.getPx(260)
+            else:
+                menuHeight = clock.getPx(370)
+
+        if(self.contextMenu().width() != 640):
+            menuWidth = self.contextMenu().width()
+        else:
+            menuWidth = clock.getPx(225)
+
+        if clock.clockOnTheLeft:
+            pos.setX(clock.screen().geometry().x()+clock.getPx(5))
+        else:
+            pos.setX(clock.screen().geometry().x()+clock.screen().geometry().width()-clock.getPx(5)-menuWidth)
+        
+        if clock.clockOnTop:
+            pos.setY(clock.screen().geometry().y()+clock.getPx(5)+clock.height())
+        else:
+            pos.setY(clock.screen().geometry().y()+clock.screen().geometry().height()-clock.height()-clock.getPx(5)-menuHeight)
+        
+        self.execMenu(pos)
+
 
     def execMenu(self, pos: QPoint):
         try:
             self.applyStyleSheet()
             try:
-                screen = globals.app.screenAt(pos).name().replace("\\", "_")
+                screen = globals.app.screenAt(pos)
+                screenName = screen.name().replace("\\", "_")
             except AttributeError:
                 pos.setY(pos.y() if pos.y() > 0 else 1)
                 pos.setX(pos.x() if pos.x() > 0 else 1)
-                screen = globals.app.screenAt(pos).name().replace("\\", "_")
+                screen = globals.app.screenAt(pos)
+                screenName = screen.name().replace("\\", "_")
             if getSettings("ClockOnTheLeft"):
-                if getSettings(f"SpecificClockOnTheRight{screen}"):
+                if getSettings(f"SpecificClockOnTheRight{screenName}"):
                     self.moveToLeftAction.setText(_("Restore horizontal position"))
                 else:
                     self.moveToLeftAction.setText(_("Move this clock to the right"))
             else:
-                if getSettings(f"SpecificClockOnTheLeft{screen}"):
+                if getSettings(f"SpecificClockOnTheLeft{screenName}"):
                     self.moveToLeftAction.setText(_("Restore horizontal position"))
                 else:
                     self.moveToLeftAction.setText(_("Move this clock to the left"))
 
             if getSettings("ForceOnTop"):
-                if getSettings(f"SpecificClockOnTheBottom{screen}"):
+                if getSettings(f"SpecificClockOnTheBottom{screenName}"):
                     self.moveToTopAction.setText(_("Restore vertical position"))
                 else:
                     self.moveToTopAction.setText(_("Move this clock to the bottom"))
             else:
-                if getSettings(f"SpecificClockOnTheTop{screen}"):
+                if getSettings(f"SpecificClockOnTheTop{screenName}"):
                     self.moveToTopAction.setText(_("Restore vertical position"))
                 else:
                     self.moveToTopAction.setText(_("Move this clock to the top"))
-            self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screen.replace("_", "\\")))
+            self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screenName.replace("_", "\\")))
             self.contextMenu().exec_(pos)
         except Exception as e:
             report(e)

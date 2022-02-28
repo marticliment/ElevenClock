@@ -131,7 +131,7 @@ class SettingsWindow(QMainWindow):
         self.enableSystemTray.setChecked(not getSettings("DisableSystemTray"))
         self.enableSystemTray.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not bool(i)))
         self.generalSettingsTitle.addWidget(self.enableSystemTray)
-        self.disableTaskMgr = QSettingsCheckBox(_("Hide extended options from the clock right-click menu (needs a restart to be aplied)"))
+        self.disableTaskMgr = QSettingsCheckBox(_("Hide extended options from the clock right-click menu (needs a restart to be applied)"))
         self.disableTaskMgr.setChecked(getSettings("HideTaskManagerButton"))
         self.disableTaskMgr.stateChanged.connect(lambda i: setSettings("HideTaskManagerButton", bool(i)))
         self.generalSettingsTitle.addWidget(self.disableTaskMgr)
@@ -326,8 +326,8 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.dateTimeTitle)
         rulesText = f"""<b>{_("Custom format rules:")}</b>
         <ul>
-        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link")}: <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python Date and time values")}</a>
-        <li>{_("To disable the zero-padding effect, add a # in bethwwn the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>
+        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link")}: <a href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
+        <li>{_("To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>
         <li>{_("Click on Apply to apply and preview the format")}</li></ul>
         {_("If you don't understand what is happening, please uncheck the checkbox over the text area")}
         """
