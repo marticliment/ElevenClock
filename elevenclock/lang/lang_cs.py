@@ -1,7 +1,7 @@
 # INSTRUCTIONS
 
 # Translate the text and write it between the "
-# EXAMPLE:      original    ->  "This text is in english: value {0}" 
+# EXAMPLE:      original    ->  "This text is in english: value {0}"
 #               translation ->  "Tento text je v angličtině: hodnota {0}"
 
 # So it would look like: "ORIGINAL_TEXT" : "TRANSLATED_TEXT",
@@ -11,21 +11,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Pravidla formátování:",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Zde můžete vložit jakýkoliv text. Chcete-li umístit hodnoty jako je datum a čas, použijte standard 1989 C. Více informací se dozvíte na následujícím odkaze",
+    "Python date and time formats": "Formáty datumu a času jazyka Pyhton",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Pokud nechcete doplňovat nuly před čísla, stačí přidat znak \"#\" mezi znak \"%\", například pro hodiny bez počáteční nuly by to bylo %#H, s případnou nulou pak %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Kliknutím na \"Použít\" aplikujete formát náhledu",
+    "Apply": "Použít",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Pokud nevíte co se děje, tak odškrtněte zaškrtávátko nad textovým polem",
+    "Set a custom date and time format": "Nastavit vlastní formát datumu a času",
+    "(for advanced users only)": "(pouze pro pokročilé uživatele)",
+    "Move this clock to the left": "Přesunout hodiny vlevo",
+    "Move this clock to the top": "Přesunout hodiny nahoru",
+    "Move this clock to the right": "Přesunout hodiny vpravo",
+    "Move this clock to the bottom": "Přesunout hodiny dolu",
+    "Restore horizontal position": "Obnovit horizontální pozici",
+    "Restore vertical position": "Obnovit vertikální pozici",
 }
 
 lang_3_2_1 = lang_3_3 | {
@@ -174,7 +174,7 @@ lang2_3 = lang2_4 | {
     "Restart ElevenClock"       :"Restartovat ElevenClock",
     "Hide ElevenClock"          :"Skrýt ElevenClock",
     "Quit ElevenClock"          :"Ukončit ElevenClock",
-    
+
     #General settings section
     "General Settings:"                                                                 :"Obecné nastavení",
     "Automatically check for updates"                                                   :"Automaticky kontrolovat aktualizace",
@@ -187,7 +187,7 @@ lang2_3 = lang2_4 | {
     "Change"                                                                            :"Změnit",
     "<b>Update to the latest version!</b>"                                             :"<b>Aktualizujte na nejnovější verzi!</b>",
     "Install update"                                                                    :"Instalovat aktualizaci",
-    
+
     #Clock settings
     "Clock Settings:"                                              :"Nastavení hodin",
     "Hide the clock in fullscreen mode"                            :"Skrýt hodiny v celoobrazovém režimu",
@@ -197,7 +197,7 @@ lang2_3 = lang2_4 | {
     "Fix the hyphen/dash showing over the month"                   :"Opravuje pomlčku zobrazovanou v průběhu měsíce",
     "Force the clock to have white text"                           :"Vynutit, aby hodiny měly bílý text",
     "Show the clock at the left of the screen"                     :"Zobrazit hodiny v levé části obrazovky",
-    
+
     #Date & time settings
     "Date & Time Settings:"                             :"Nastavení data a času",
     "Show seconds on the clock"                         :"Zobrazit sekundy na hodinách",
@@ -205,13 +205,13 @@ lang2_3 = lang2_4 | {
     "Show time on the clock"                            :"Ukázat čas na hodinách",
     "Change date and time format (Regional settings)"   :"Změnit formát data a času (regionální nastavení)",
     "Regional settings"                                 :"Regionální nastavení",
-    
+
     #About the language pack
     "About the language pack:"                  :"O jazykovém balíčku",
-    "Translated to English by martinet101"      :"Do češtiny přeložili Matouš Adamů, panther7 a SunightMC", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"Do češtiny přeložili Matouš Adamů, panther7 a SunightMC", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc.
     "Translate ElevenClock to your language"    :"Přeložte ElevenClock do svého jazyka",
     "Get started"                               :"Začít",
-    
+
     #About ElevenClock
     "About ElevenClock version {0}:"            :"O verzi ElevenClock {0}",
     "View ElevenClock's homepage"               :"Zobrazit domovskou stránku aplikace ElevenClock",
