@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Benutzerdefinierte Formatregeln:",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Irgendwelcher Text kann hier platziert werden. Um Items wie Datum und Zeit zu platzieren, nutze bitte den 1989 C Standart. Mehr Info beim folgenden Link:",
+    "Python date and time formats": "Python Datum- und Zeitformate",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Um den Zero-Padding Effekt zu deaktiveren, füge ein # zwischen dem % und dem Code hinzu: Nicht-Zero-Gepaddete Stunden wären %#H und zero-gepaddete Stunden wären %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Drücke auf Anwenden um das Format anzuwenden und anzuschauen",
+    "Apply": "Anwenden",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Falls du nicht verstehst, was passiert, deaktiviere die Checkbox über dem Textbereich",
+    "Set a custom date and time format": "Lege ein benutzerdefiniertes Datums- und Zeitformat fest",
+    "(for advanced users only)": "(Nur für fortgeschrittene Benutzer)",
+    "Move this clock to the left": "Verschiebe diese Uhr nach links",
+    "Move this clock to the top": "Verschiebe diese Uhr nach oben",
+    "Move this clock to the right": "Verschiebe diese Uhr nach rechts",
+    "Move this clock to the bottom": "Verschiebe diese Uhr nach unten",
+    "Restore horizontal position": "Horizontale Position wiederherstellen",
+    "Restore vertical position": "Vertikale Position wiederherstellen",
 }
 
 lang_3_2_1 = lang_3_3 | {
