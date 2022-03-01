@@ -7,15 +7,15 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "사용자 정의 형식 규칙:",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "이곳에는 아무 텍스트나 입력할 수 있습니다. 날짜나 시간 등을 추가하려면, 1989년 C 표준에 따라 작성해주세요. 자세한 정보",
+    "Custom format rules:": "사용자 지정 형식 규칙:",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "모든 텍스트를 여기에 배치할 수 있습니다. 날짜, 시간 등의 항목을 배치할 때는 1989년 C 표준을 사용하십시오. 자세히 알아보기:",
     "Python date and time formats": "Python 날짜 및 시간 형식",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "앞에 0을 붙이지 않으려면, %와 코드 사이에 #을 입력하세요. 예시: 앞에 0이 붙지 않는 시간은 %#H, 앞에 0이 붙는 시간은 %H", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "적용을 클릭하면 변경 사항을 적용하고 형식을 미리 볼 수 있습니다",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "앞에 0를 사용하지 않으려면 %와 코드 사이에 #을 추가하십시오: 0이 없는 시간은 %#H이고 0이 있는 시간은 %H입니다", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "양식을 적용하고 미리 보려면 적용을 클릭하십시오",
     "Apply": "적용",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "무슨 일이 일어나고 있는지 이해할 수 없다면, 텍스트 입력 영역 옆의 체크박스를 체크 해제해주세요",
-    "Set a custom date and time format": "사용자 정의 날짜 및 시간 형식 설정",
-    "(for advanced users only)": "(고급 사용자 전용)",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "무슨 일인지 모르겠으면 텍스트 영역 위의 확인란을 선택 해제하십시오",
+    "Set a custom date and time format": "사용자 지정 날짜 및 시간 형식 설정",
+    "(for advanced users only)": "(고급 사용자만 해당)",
     "Move this clock to the left": "이 시계를 왼쪽으로 이동",
     "Move this clock to the top": "이 시계를 위쪽으로 이동",
     "Move this clock to the right": "이 시계를 오른쪽으로 이동",
