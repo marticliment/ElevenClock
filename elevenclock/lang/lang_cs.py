@@ -11,17 +11,17 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Špatný formát času.\nProsím, zkontrolujte si\nstandard 1989 C.",
+    "Nothing to preview": "Žádný náhled",
+    "Invalid time format\nPlease modify it\nin the settings": "Špatný formát času\nProsím, upravte se\njej v nastavení",
+    "Disable the tooltip shown when the clock is hovered": "Vypnout popis po najetí myší na hodiny"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Pravidla formátování:",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Zde můžete vložit jakýkoliv text. Chcete-li umístit hodnoty jako je datum a čas, použijte standard 1989 C. Více informací se dozvíte na následujícím odkaze",
     "Python date and time formats": "Formáty datumu a času jazyka Pyhton",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Pokud nechcete doplňovat nuly před čísla, stačí přidat znak \"#\" mezi znak \"%\", například pro hodiny bez počáteční nuly by to bylo %#H, s případnou nulou pak %H", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "Kliknutím na \"Použít\" aplikujete formát náhledu",
+    "Click on Apply to apply and preview the format": "Kliknutím na \"Použít\" aplikujete vlastní formát",
     "Apply": "Použít",
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "Pokud nevíte co se děje, tak odškrtněte zaškrtávátko nad textovým polem",
     "Set a custom date and time format": "Nastavit vlastní formát datumu a času",
