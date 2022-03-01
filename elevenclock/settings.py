@@ -2411,6 +2411,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         self.edit.setStyleSheet("QPlainTextEdit{font-size: 13pt;}")
         self.rulesLabel = QLabel(self)
         self.rulesLabel.setOpenExternalLinks(True)
+        self.rulesLabel.setWordWrap(True)
         self.stateChanged.connect(self.resizeEvent)
         self.button.clicked.connect(lambda: self.valueChanged.emit(self.edit.toPlainText().strip()))
 

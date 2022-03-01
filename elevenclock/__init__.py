@@ -1272,9 +1272,9 @@ try:
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions
 
-    if not(getSettings("Updated3.21Already")) and not(getSettings("EnableSilentUpdates")):
+    if not(getSettings("Updated3.3Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings("ForceClockOnFirstMonitor", True)
-        setSettings("Updated3.21Already", True)
+        setSettings("Updated3.3Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
         msg.setStyleSheet(sw.styleSheet())
@@ -1283,12 +1283,11 @@ try:
         msg.setTitle("ElevenClock Updater")
         msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
  <br><br>This update brings:<br>
- <ul><li>The ability to specify a clock minimum width</li>
- <li> The ability to search through the settings</li>
- <li> Fixed an aesthetic issue with the seconds</li>
- <li> Added a button to reset ElevenClock</li>
- <li> Fixed an issue where ElevenClock would crash when clicking the right-click menu</li>
- <li> Added Nynorsk</li>
+ <ul><li><b>The ability to specify a custom date and time format</b></li>
+ <li> The ability to move individual clocks to the top</li>
+ <li> Fixed an issue where the context menu would crash</li>
+ <li> Fixed an issue with language input switcher</li>
+ <li> Added tooltips to the clock</li>
  <li> Some bugfixing and other improvements</li></ul>""")
         msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
         msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
