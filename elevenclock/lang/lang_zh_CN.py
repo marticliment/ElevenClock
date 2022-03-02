@@ -8,7 +8,7 @@
 
 lang_3_3 = {
     "Custom format rules:": "自定义格式规则",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "任何文字都可以放在这里。 要放置日期和时间等项目，请使用 1989 C 标准。 有关以下链接的更多信息",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "任何文字都可以放在这里。 要放置日期和时间等项目，请使用 1989 C 标准。 以下链接有关更多信息",
     "Python date and time formats": "Python 日期和时间格式",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "要禁用零填充效果，请在 % 和代码之间添加一个 #：非零填充小时数将是 %#H，零填充小时数将是 %H", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "单击应用以应用和预览格式",
