@@ -403,11 +403,14 @@ try:
     def timeStrThread():
         global timeStr, dateTimeFormat
         fixHyphen = getSettings("EnableHyphenFix")
+        encoding = 'unicode-escape'
         adverted = False
         while True:
             for _ in range(36000):
                 try:
-                    timeStr = datetime.datetime.now().strftime(dateTimeFormat)
+                    dateTimeFormatUnicode = dateTimeFormat.encode(encoding).decode()
+                    now = datetime.datetime.now()
+                    timeStr = now.strftime(dateTimeFormatUnicode).encode().decode(encoding)
                     adverted = False
                     if fixHyphen:
                         timeStr = timeStr.replace("t-", "t -")
