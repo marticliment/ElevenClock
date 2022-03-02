@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "自定义格式规则",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "任何文字都可以放在这里。 要放置日期和时间等项目，请使用 1989 C 标准。 有关以下链接的更多信息",
+    "Python date and time formats": "Python 日期和时间格式",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "要禁用零填充效果，请在 % 和代码之间添加一个 #：非零填充小时数将是 %#H，零填充小时数将是 %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "单击应用以应用和预览格式",
+    "Apply": "应用",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "如果您不明白发生了什么，请取消选中文本区域上的复选框",
+    "Set a custom date and time format": "设置自定义日期和时间格式",
+    "(for advanced users only)": "（仅限高级用户）",
+    "Move this clock to the left": "将此时钟向左移动",
+    "Move this clock to the top": "将此时钟移至顶部",
+    "Move this clock to the right": "将此时钟向右移动",
+    "Move this clock to the bottom": "将此时钟移至底部",
+    "Restore horizontal position": "恢复水平位置",
+    "Restore vertical position": "恢复垂直位置",
 }
 
 lang_3_2_1 = lang_3_3 | {
