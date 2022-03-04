@@ -514,6 +514,7 @@ try:
             else:
 
                 self.index = index
+                self.tooltipEnabled = not getSettings("DisableToolTip")
 
                 print(f"🔵 Initializing clock {index}...")
                 self.callInMainSignal.connect(lambda f: f())
@@ -842,8 +843,12 @@ try:
         def waitAndShowToolTip(self):
             time.sleep(0.3)
             if self.isHovered:
-                print("🔵 Showing tooltip")
-                self.callInMainSignal.emit(lambda: self.showToolTip())
+                if self.tooltipEnabled:
+                    print("🔵 Showing tooltip")
+                    self.callInMainSignal.emit(lambda: self.showToolTip())
+                else:
+                    print("🟡 NOT showing tooltip, it has been disabled")
+
 
         def showToolTip(self):
             self.tooltip.show()
