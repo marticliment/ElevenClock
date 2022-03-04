@@ -465,6 +465,8 @@ try:
                 self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;}")
             self.move(pos[0], pos[1])
             ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True)
+
+        def show(self):
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
             print("🔵 Long date string:", lDateMode)
             dateMode = ""
@@ -474,6 +476,7 @@ try:
                 else:
                     dateMode += ministr
             self.setText(str(datetime.datetime.now().strftime(dateMode)))
+            super().show()
             
         def getPx(self, original) -> int:
             return round(original*(self.scr.logicalDotsPerInch()/96))
@@ -835,7 +838,7 @@ try:
         def waitAndShowToolTip(self):
             time.sleep(0.3)
             if self.isHovered:
-                print("🔵 Showing hover")
+                print("🔵 Showing tooltip")
                 self.callInMainSignal.emit(lambda: self.showToolTip())
 
         def showToolTip(self):
