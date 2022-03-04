@@ -348,7 +348,10 @@ try:
                 elif not getSettings("EnableWeekNumber"):
                     dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
                 else:
-                    dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
+                    if not lang in (lang_zh_CN, lang_zh_TW):
+                        dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
+                    else:
+                        dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"(%W{_('W')}) ")
 
                 if not getSettings("EnableWeekDay"):
                     try:
