@@ -410,7 +410,7 @@ try:
         while True:
             for _ in range(36000):
                 try:
-                    timeStr = datetime.datetime.now().strftime(dateTimeFormat)
+                    timeStr = datetime.datetime.now().strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
                     if fixHyphen:
                         timeStr = timeStr.replace("t-", "t -")
@@ -432,6 +432,7 @@ try:
                         except NameError:
                             adverted = True
                             print("🟣 Expected NameError on timeStrThread")
+                    report(e)
                 except Exception as e:
                     report(e)
                 time.sleep(0.2)
