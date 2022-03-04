@@ -1273,7 +1273,6 @@ try:
     globals.closeClocks = closeClocks  # Register global functions
 
     if not(getSettings("Updated3.3Already")) and not(getSettings("EnableSilentUpdates")):
-        setSettings("ForceClockOnFirstMonitor", True)
         setSettings("Updated3.3Already", True)
         msg = QFramelessDialog(parent=None, closeOnClick=False)
         msg.setAutoFillBackground(True)
