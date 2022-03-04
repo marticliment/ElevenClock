@@ -1,3 +1,4 @@
+import datetime
 import glob
 import platform
 import subprocess
@@ -911,7 +912,7 @@ class SettingsWindow(QMainWindow):
                                    height: {self.getPx(25)}px;
                                    border-top: {self.getPx(1)}px solid rgba(99, 99, 99, 25%);
                                 }}
-                                QPushButton {{
+                                QPushButton,#FocusLabel {{
                                    width: {self.getPx(100)}px;
                                    background-color:rgba(81, 81, 81, 25%);
                                    border-radius: {self.getPx(6)}px;
@@ -1350,7 +1351,7 @@ class SettingsWindow(QMainWindow):
                                     color: #bd0000;
                                     background-color: transparent;
                                 }}
-                                QPushButton {{
+                                QPushButton,#FocusLabel {{
                                    width: {self.getPx(100)}px;
                                    background-color: rgba(255, 255, 255, 70%);
                                    border-radius: {self.getPx(6)}px;
@@ -2413,6 +2414,10 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         self.edit = QPlainTextEditWithFluentMenu(self)
         self.edit.setPlaceholderText(globals.dateTimeFormat)
         self.edit.setStyleSheet("QPlainTextEdit{font-size: 13pt;}")
+        self.edit.textChanged.connect(self.updateText)
+        self.preview = QLabel(_("Nothing to preview"), self)
+        self.preview.setOpenExternalLinks(False)
+        self.preview.setObjectName("FocusLabel")
         self.rulesLabel = QLabel(self)
         self.rulesLabel.setOpenExternalLinks(True)
         self.rulesLabel.setWordWrap(True)
@@ -2443,14 +2448,29 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.button.setFixedHeight(self.getPx(30))
             self.button.setFixedWidth(self.getPx(150))
             self.edit.setFixedHeight(self.getPx(80))
-            self.edit.setFixedWidth(self.width()-self.getPx(90))
+            self.edit.setFixedWidth(self.width()-self.getPx(90)-self.getPx(160))
             self.edit.move(self.getPx(70), self.getPx(50))
-            self.rulesLabel.move(self.getPx(70), self.getPx(140))
+            self.preview.setFixedHeight(self.getPx(80))
+            self.preview.setFixedWidth(self.getPx(150))
+            self.preview.move(self.width()-self.getPx(170), self.getPx(50))
+            self.rulesLabel.move(self.getPx(70), self.getPx(130))
             self.rulesLabel.setFixedHeight(self.getPx(100))
             self.rulesLabel.setFixedWidth(self.width()-self.getPx(90))
 
     def setLabelText(self, s: str) -> None:
         self.rulesLabel.setText(s)
+
+    def updateText(self) -> None:
+        if self.edit.toPlainText() == "":
+            self.preview.setText(_("Nothing to preview"))
+        else:
+            try:
+                self.preview.setText(datetime.datetime.now().strftime(self.edit.toPlainText().replace("\u200a", "hairsec")).replace("hairsec", "\u200a"))
+            except Exception as e:
+                self.preview.setText(_("Invalid time format\nPlease follow the\nC 1989 Standards"))
+                report(e)
+
+
 
 class QAnnouncements(QLabel):
     callInMain = Signal(object)

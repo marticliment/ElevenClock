@@ -408,7 +408,7 @@ try:
         fixHyphen = getSettings("EnableHyphenFix")
         adverted = False
         while True:
-            for _ in range(36000):
+            for integerrrrrrrrrrrrrrrrr in range(36000):
                 try:
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
@@ -423,7 +423,10 @@ try:
                     except IndexError as e:
                         report(e)
                 except ValueError as e:
-                    timeStr = "Invalid time format\nPlease modify it\nin the settings"
+                    try:
+                        timeStr = _("Invalid time format\nPlease modify it\nin the settings")
+                    except:
+                        timeStr = "Invalid time format\nPlease modify it\nin the settings"
                     if not adverted:
                         try:
                             showNotif.infoSignal.emit("Format error", "The specified date and time format is invalid. Please check your preferences")
