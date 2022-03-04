@@ -1046,6 +1046,7 @@ try:
 
     class Label(QLabel):
         clicked = Signal()
+        outline = True
         def __init__(self, text, parent):
             super().__init__(text, parent=parent)
 
@@ -1209,6 +1210,7 @@ try:
             else:
                 self.move(0, 0)
                 self.resize(w, self.height())
+
             return super().paintEvent(event)
         
         def resizeEvent(self, event: QResizeEvent) -> None:
@@ -1226,6 +1228,8 @@ try:
 
         def window(self) -> Clock:
             return super().window()
+
+        
         
 
         
