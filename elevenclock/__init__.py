@@ -479,7 +479,11 @@ try:
                     dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
                 else:
                     dateMode += ministr
-            self.setText(str(datetime.datetime.now().strftime(dateMode)))
+            try:
+                self.setText(str(datetime.datetime.now().strftime(dateMode)))
+            except Exception as e:
+                report(e)
+                self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y")))
             super().show()
             
         def getPx(self, original) -> int:
