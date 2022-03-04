@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "カスタム形式ルール",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "ここには任意のテキストを配置できます。日付や時刻などを配置するには、1989 C Standard を使用してください。詳細は次のリンクをご参照ください",
+    "Python date and time formats": "Python の日時形式",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "0の追加を無効化するには、 # を % と文字の間に追加してください: 1桁のときに0の追加をしない「○時」表記 (例:9) は %#H, 1桁のときに0の追加をする「○時」表記 (例:09) は %H のようになります。", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "適用・プレビューするには「適用」をクリックしてください",
+    "Apply": "適用",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "何が起こるかを理解していない場合は、入力欄上のチェックボックスをオフにしてください。",
+    "Set a custom date and time format": "カスタム日時形式を設定",
+    "(for advanced users only)": "(上級者向け)",
+    "Move this clock to the left": "この時計を画面左に移動",
+    "Move this clock to the top": "この時計を画面上に移動",
+    "Move this clock to the right": "この時計を画面右に移動",
+    "Move this clock to the bottom": "この時計を画面下に移動",
+    "Restore horizontal position": "水平位置を復元する",
+    "Restore vertical position": "垂直位置を復元する",
 }
 
 lang_3_2_1 = lang_3_3 | {

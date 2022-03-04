@@ -7,21 +7,21 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3 = {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Regras de formato personalizado:",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualquer texto pode ser colocado aqui. Para colocar itens como data e hora, use o padrão C de 1989. Mais informações no link a seguir",
+    "Python date and time formats": "Formatos de data e hora do Python",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Para desabilitar o efeito de preenchimento zero, adicione um # entre % e o código: horas não preenchidas com zero seriam %#H e horas preenchidas com zero seriam %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Clique em aplicar para aplicar e visualizar o formato",
+    "Apply": "Aplicar",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Se você não entender o que está acontecendo, desmarque a caixa de seleção sobre a área de texto",
+    "Set a custom date and time format": "Definir um formato personalizado de data e hora",
+    "(for advanced users only)": "(somente para usuários avançados)",
+    "Move this clock to the left": "Mover este relógio para a esquerda",
+    "Move this clock to the top": "Mover este relógio para o topo",
+    "Move this clock to the right": "Mover este relógio para a direita",
+    "Move this clock to the bottom": "Mover este relógio para baixo",
+    "Restore horizontal position": "Restaurar a posição horizontal",
+    "Restore vertical position": "Restaurar a posição vertical",
 }
 
 lang_3_2_1 = lang_3_3 | {
