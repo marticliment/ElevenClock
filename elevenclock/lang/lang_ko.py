@@ -7,10 +7,10 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "잘못된 시간 형식\nC 1989 표준을\n따르십시오",
+    "Nothing to preview": "미리보기 할 것이 없습니다",
+    "Invalid time format\nPlease modify it\nin the settings": "잘못된 시간 형식\n설정에서\n수정해 주세요",
+    "Disable the tooltip shown when the clock is hovered": "시계가 호버될 때 표시되는 도구 설명 사용 안 함"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "사용자 지정 형식 규칙:",
