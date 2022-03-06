@@ -1,13 +1,16 @@
+from ctypes import c_int, windll
+windll.shcore.SetProcessDpiAwareness(c_int(2))
+
 import os
 import sys
 import winreg
 import threading
 import locale
  
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWinExtras import QtWin
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
+from PySide2.QtWinExtras import QtWin
 
 
 from external.blurwindow import GlobalBlur
@@ -193,7 +196,7 @@ def isDark():
         report(e)
     return isWindowDark()
 
-def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False):
+def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False, shadow: bool = True):
     hwnd = int(hwnd)
     window.setAttribute(Qt.WA_TranslucentBackground)
     window.setAttribute(Qt.WA_NoSystemBackground)
@@ -201,10 +204,12 @@ def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidO
         window.setStyleSheet("background-color: transparent;")
     if isWindowDark():
         GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True, smallCorners=smallCorners)
-        QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
+        if shadow:
+            QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
     else:
         GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True, smallCorners=smallCorners)
-        QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
+        if shadow: 
+            QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
 
 class Menu(QMenu):
     def __init__(self, title: str):
@@ -215,6 +220,7 @@ class Menu(QMenu):
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
         super().__init__(app)
+        self.menuScreen = QGuiApplication.primaryScreen()
         self.setIcon(QIcon(getPath("icon.ico")))
         self.show()
         menu = QMenu(_("ElevenClock"))
@@ -250,7 +256,6 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.toolsMenu.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.toolsMenu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)
         self.toolsMenu.setAttribute(Qt.WA_TranslucentBackground)
-        
 
         def blacklist():
             setSettingsValue("BlacklistedMonitors", getSettingsValue("BlacklistedMonitors")+f"_{self.toolsMenu.screen().name()}_")
@@ -267,7 +272,6 @@ class TaskbarIconTray(QSystemTrayIcon):
                             {_("This action can be reverted from the settings window, under <b>Clock position and size</b>")}.<br><br>
 
                             <b>{_('Are you sure do you want to blacklist the monitor "{0}"?').format(self.toolsMenu.screen().name())}</b>
-    
     """)
             msg.addButton(_("Yes"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: blacklist())
             msg.addButton(_("No"), QDialogButtonBox.ButtonRole.RejectRole)
@@ -334,6 +338,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             menu.addAction(self.notifprefs)
 
         self.setContextMenu(menu)
+        self.menuScreen = self.contextMenu().screen()
 
         def reloadClocksIfRequired(reason: QSystemTrayIcon.ActivationReason) -> None:
             if(reason != QSystemTrayIcon.ActivationReason.Context):
@@ -352,6 +357,7 @@ class TaskbarIconTray(QSystemTrayIcon):
 
     def showMenu(self, clock):
         pos = QPoint(0, 0)
+        self.menuScreen = clock.screen()
 
         if(self.contextMenu().height() != 480):
             menuHeight = self.contextMenu().height()
@@ -381,7 +387,6 @@ class TaskbarIconTray(QSystemTrayIcon):
 
     def execMenu(self, pos: QPoint):
         try:
-            self.applyStyleSheet()
             try:
                 screen = globals.app.screenAt(pos)
                 screenName = screen.name().replace("\\", "_")
@@ -413,11 +418,12 @@ class TaskbarIconTray(QSystemTrayIcon):
                     self.moveToTopAction.setText(_("Move this clock to the top"))
             self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screenName.replace("_", "\\")))
             self.contextMenu().exec_(pos)
+            self.applyStyleSheet()
         except Exception as e:
             report(e)
 
     def getPx(self, original) -> int:
-        return round(original*(self.contextMenu().screen().logicalDotsPerInchX()/96))
+        return round(original*(self.menuScreen.logicalDotsPerInchX()/96))
 
     def applyStyleSheet(self) -> None:
         if isTaskbarDark():
@@ -441,6 +447,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: white;
+                    icon-size: {self.getPx(32)}px;
                     background: rgba(0, 0, 0, 0.01%);
                     border-radius: {self.getPx(8)}px;
                 }}
@@ -453,13 +460,14 @@ class TaskbarIconTray(QSystemTrayIcon):
                 }}
                 QMenu::icon {{
                     padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(10)}px;
                 }}
                 QMenu::item {{
                     height: {self.getPx(30)}px;
                     border: none;
                     background: transparent;
                     padding-right: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                     margin: {self.getPx(2)}px;
                 }}
@@ -469,7 +477,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     outline: none;
                     border: none;
                     padding-right: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}  
                 QMenu::item:selected:disabled {{
@@ -478,7 +486,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     outline: none;
                     border: none;
                     padding-right: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}            
                 """)
@@ -497,6 +505,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding: {self.getPx(2)}px;
                     outline: 0px;
                     color: black;
+                    icon-size: {self.getPx(32)}px;
                     background: rgba(220, 220, 220, 1%)/*#262626*/;
                     border-radius: {self.getPx(8)}px;
                 }}
@@ -515,7 +524,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     border: none;
                     background: transparent;
                     padding-right: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                     margin: {self.getPx(2)}px;
                 }}
@@ -525,7 +534,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     outline: none;
                     border: none;
                     padding-right: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}  
                 QMenu::item:selected:disabled{{
@@ -534,7 +543,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     outline: none;
                     border: none;
                     padding-right: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}            
                 """)

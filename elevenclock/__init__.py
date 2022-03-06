@@ -1,8 +1,7 @@
-from threading import Thread
-_globals = globals
-
-
 try:
+    from ctypes import c_int, windll
+    windll.shcore.SetProcessDpiAwareness(c_int(2))
+
     import time
 
     FirstTime = time.time()
@@ -18,7 +17,7 @@ try:
     import tempfile
     import datetime
     import subprocess
-    from ctypes import windll
+    from threading import Thread
     from urllib.request import urlopen
 
     try:
@@ -31,10 +30,10 @@ try:
     import pythoncom
     import win32process
     import win32com.client
-    from PyQt5.QtGui import *
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
-    from PyQt5.QtCore import pyqtSignal as Signal
+    from PySide2.QtGui import *
+    from PySide2.QtCore import *
+    from PySide2.QtWidgets import *
+    #from PySide2.QtCore import pyqtSignal as Signal
     import pyautogui
     from external.FramelessWindow import QFramelessDialog
 
@@ -402,7 +401,6 @@ try:
             report(e)
 
 
-
     def timeStrThread():
         global timeStr, dateTimeFormat
         fixHyphen = getSettings("EnableHyphenFix")
@@ -471,7 +469,7 @@ try:
             else:
                 self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;}")
             self.move(pos[0], pos[1])
-            ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True)
+            ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False)
 
         def show(self):
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
@@ -546,7 +544,7 @@ try:
                 try:
                     if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                         self.prefMargins = self.getPx(1)
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(0)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(5)}px;"
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(0)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(4)}px;"
                         if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                             print("🟡 Small sized taskbar")
                             self.preferedHeight = 32
@@ -554,12 +552,12 @@ try:
                     else:
                         print("🟢 Regular sized taskbar")
                         self.prefMargins = self.getPx(3)
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(5)}px;padding: {self.getPx(2)}px;"
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;padding: {self.getPx(2)}px;"
                 except Exception as e:
                     print("🟡 Regular sized taskbar")
                     report(e)
                     self.prefMargins = self.getPx(3)
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(5)}px;;padding: {self.getPx(2)}px;"
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;;padding: {self.getPx(2)}px;"
                     
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -1062,7 +1060,7 @@ try:
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
             QGuiApplication.instance().installEventFilter(self)
-            self.bgopacity = 0.1
+            self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
             self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()

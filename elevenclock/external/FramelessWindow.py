@@ -1,3 +1,6 @@
+from ctypes import c_int, windll
+windll.shcore.SetProcessDpiAwareness(c_int(2))
+
 #
 #
 # This file comes from https://github.com/mustafaahci/FramelessWindow
@@ -16,11 +19,11 @@ from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, W
     HTTOP, HTBOTTOM, HTLEFT, HTRIGHT, HTCAPTION, WS_POPUP, WS_SYSMENU, WS_MINIMIZEBOX
     
 
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtWinExtras import QtWin
-from PyQt5.QtCore import pyqtSignal as Signal
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+from PySide2.QtWinExtras import QtWin
+#from PySide2.QtCore import pyqtSignal as Signal
 
 
 
@@ -238,4 +241,6 @@ class QFramelessDialog(QFramelessWindow):
     
     
 if __name__ == "__main__":
+    from ctypes import c_int, windll
+    windll.shcore.SetProcessDpiAwareness(c_int(2))
     import __init__ 

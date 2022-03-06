@@ -1,3 +1,6 @@
+from ctypes import c_int, windll
+windll.shcore.SetProcessDpiAwareness(c_int(2))
+
 import datetime
 import glob
 import platform
@@ -8,18 +11,18 @@ import locale
 import tempfile
 import time
 from urllib.request import urlopen
-from PyQt5 import QtGui
-from PyQt5 import QtCore
+from PySide2 import QtGui
+from PySide2 import QtCore
 
 try:
     import psutil
     importedPsutil = True
 except ImportError:
     importedPsutil = False
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal as Signal
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
+#from PySide2.QtCore import pyqtSignal as Signal
 
 
 import globals
@@ -429,7 +432,7 @@ class SettingsWindow(QMainWindow):
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
-                <li> <b>PyQt5 (Qt5)</b>: <a href="https://www.riverbankcomputing.com/commercial/license-faq">LGPL-v3</a></li>
+                <li> <b>PySide2 (Qt5)</b>: <a href="https://www.riverbankcomputing.com/commercial/license-faq">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
@@ -578,7 +581,7 @@ class SettingsWindow(QMainWindow):
         self.setMouseTracking(True)
         self.resize(self.getPx(1100), self.getPx(700))
         self.hwnd = self.winId().__int__()
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        #self.setAttribute(Qt.WA_TranslucentBackground)
         if QtWin.isCompositionEnabled():
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
@@ -1722,8 +1725,8 @@ class SettingsWindow(QMainWindow):
         win.hwnd = win.winId().__int__()
 
 
-        win.setAttribute(Qt.WA_TranslucentBackground)
-        win.setAttribute(Qt.WA_NoSystemBackground)
+        #win.setAttribute(Qt.WA_TranslucentBackground)
+        #win.setAttribute(Qt.WA_NoSystemBackground)
         win.setAutoFillBackground(True)
 
         win.hwnd = win.winId().__int__()
@@ -2567,4 +2570,6 @@ class QAnnouncements(QLabel):
         raise Exception("This member should not be used under any circumstances")
 
 if __name__ == "__main__":
+    from ctypes import c_int, windll
+    windll.shcore.SetProcessDpiAwareness(c_int(2))
     import __init__

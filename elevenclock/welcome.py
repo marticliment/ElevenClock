@@ -1,3 +1,6 @@
+from ctypes import c_int, windll
+windll.shcore.SetProcessDpiAwareness(c_int(2))
+
 import platform
 import subprocess
 import os
@@ -5,11 +8,11 @@ import sys
 import locale
 import time
 import ctypes
-from PyQt5 import QtGui
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import pyqtSignal as Signal
+from PySide2 import QtGui
+from PySide2.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtWidgets import *
+#from PySide2.QtCore import pyqtSignal as Signal
 import external.FramelessWindow as FramelessWindow
 
 import globals
@@ -846,4 +849,6 @@ class SelectFullScreenSlide(BasicNavWidget):
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
 if __name__ == "__main__":
+    from ctypes import c_int, windll
+    windll.shcore.SetProcessDpiAwareness(c_int(2))
     import __init__
