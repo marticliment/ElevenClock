@@ -6,7 +6,13 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_3 = {
+lang_3_3_1 = {
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Formato no válido\nSiga el estándard\nde C del 1989",
+    "Nothing to preview": "Nada a previsualizar",
+    "Invalid time format\nPlease modify it\nin the settings": "Formato no válido\nCambie esto\nen la configuración",
+    "Disable the tooltip shown when the clock is hovered": "Desactive la etiqueta mostrada cuando se mantenga el ratón encima del reloj"
+}
+lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Normas del formato personalizado",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualquier texto se puede escribir aquí. Para poner elementos como la fecha o la hora, use el estándard C de 1989. Más información aquí:",
     "Python date and time formats": "Valores de fecha y hora",

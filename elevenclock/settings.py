@@ -173,7 +173,7 @@ class SettingsWindow(QMainWindow):
         self.hideClockWhenClicked.setChecked(getSettings("HideClockWhenClicked"))
         self.hideClockWhenClicked.stateChanged.connect(lambda i: setSettings("HideClockWhenClicked", bool(i)))
         self.clockSettingsTitle.addWidget(self.hideClockWhenClicked)
-        self.disableTooltip = QSettingsCheckBox(_("Disable the tooltip when the clock is hovered"))
+        self.disableTooltip = QSettingsCheckBox(_("Disable the tooltip shown when the clock is hovered"))
         self.disableTooltip.setChecked(getSettings("DisableToolTip"))
         self.disableTooltip.stateChanged.connect(lambda i: setSettings("DisableToolTip", bool(i)))
         self.clockSettingsTitle.addWidget(self.disableTooltip)

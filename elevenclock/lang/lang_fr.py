@@ -7,7 +7,13 @@
 # Meke special attention to elements like ":", etc.
 
 
-lang_3_3 = {
+lang_3_3_1 = {
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
+    "Nothing to preview": "",
+    "Invalid time format\nPlease modify it\nin the settings": "",
+    "Disable the tooltip shown when the clock is hovered": ""
+}
+lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Règles de format personnalisées :",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "N'importe quel texte peut être placé ici. Pour placer des éléments tels que la date et l'heure, veuillez utiliser la norme 1989 C. Plus d'infos sur le lien suivant",
     "Python date and time formats": "Formats de la date et heure Python",

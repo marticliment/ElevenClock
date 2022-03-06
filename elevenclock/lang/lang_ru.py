@@ -9,7 +9,13 @@
 # Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
-lang_3_3 = {
+lang_3_3_1 = {
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
+    "Nothing to preview": "",
+    "Invalid time format\nPlease modify it\nin the settings": "",
+    "Disable the tooltip shown when the clock is hovered": ""
+}
+lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Настройки формата",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Для форматирования используйте стандарт <b>1989 C</b>. Больше деталей по ссылке",
     "Python date and time formats": "Python-значения даты и времени",

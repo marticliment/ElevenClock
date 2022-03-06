@@ -466,7 +466,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     height: {self.getPx(30)}px;
                     border: none;
                     background: transparent;
-                    padding-right: {self.getPx(10)}px;
+                    padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                     margin: {self.getPx(2)}px;
@@ -476,7 +476,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     height: {self.getPx(30)}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(10)}px;
+                    padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}  
@@ -485,7 +485,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     height: {self.getPx(30)}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(10)}px;
+                    padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}            
@@ -523,7 +523,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     height: {self.getPx(30)}px;
                     border: none;
                     background: transparent;
-                    padding-right: {self.getPx(10)}px;
+                    padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                     margin: {self.getPx(2)}px;
@@ -533,7 +533,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     height: {self.getPx(30)}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(10)}px;
+                    padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}  
@@ -542,7 +542,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     height: {self.getPx(30)}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(10)}px;
+                    padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}            

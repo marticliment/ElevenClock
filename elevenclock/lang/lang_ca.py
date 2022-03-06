@@ -6,9 +6,15 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_3 = {
+lang_3_3_1 = {
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Format de data invàlid\nSeguiu l'estàndard\nde C del 1989",
+    "Nothing to preview": "Res a previsualitzar",
+    "Invalid time format\nPlease modify it\nin the settings": "Format de data invàlid\nModifiqueu-lo\na la configuració",
+    "Disable the tooltip shown when the clock is hovered": "Desactiva l'etiqueta mostrada quan el ratolí es mantigui sobre el rellotge"
+}
+lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Normes del format personalitzat",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualsevol text pot avar aquí. Per a afegir elements com la data i l'hora, useu l'estàndard C del 1989. Més informació aquí:",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Qualsevol text pot avar aquí. Per a afegir elements com la data i l'hora, useu l'estàndard C del 1989. Més informació aquí",
     "Python date and time formats": "Valors de data i hora de Python",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Per a desactivar el zero flotant a l'esquerra, afegiu un # entre el % i el codi: Les hores sense zero flotant serien %#H, i les hores amb el zero flotant serien %H", # Here please keep %H and %#H values the same
     "Click on Apply to apply and preview the format": "Cliqueu Aplica per a aplicar i previsualitzar els canvis",

@@ -14,9 +14,7 @@ lang_3_3_1 = {
     "Invalid time format\nPlease follow the\nC 1989 Standards": "",
     "Nothing to preview": "",
     "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip when the clock is hovered": "",
-    "": "",
-    "": "",
+    "Disable the tooltip shown when the clock is hovered": ""
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "",

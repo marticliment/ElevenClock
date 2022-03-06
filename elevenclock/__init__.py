@@ -1,4 +1,6 @@
 try:
+    _globals = globals
+    
     from ctypes import c_int, windll
     windll.shcore.SetProcessDpiAwareness(c_int(2))
 
