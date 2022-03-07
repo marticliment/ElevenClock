@@ -7,10 +7,10 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Ungültiges Zeitformat\nBitte folge dem\nC 1989 Standart",
+    "Nothing to preview": "Nichts zum Vorzeigen",
+    "Invalid time format\nPlease modify it\nin the settings": "Ungültiges Zeitformat\nBitte ändere es\nin den Einstellungen",
+    "Disable the tooltip shown when the clock is hovered": "Deaktiviere den Tooltip, der angezeigt wird, wenn man über die Uhr fährt"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Benutzerdefinierte Formatregeln:",
