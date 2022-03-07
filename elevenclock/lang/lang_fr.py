@@ -8,13 +8,13 @@
 
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Format d'heure invalide\nVeuillez suivre le\nStandard C 1989",
+    "Nothing to preview": "Rien à prévisualiser",
+    "Invalid time format\nPlease modify it\nin the settings": "Format d'heure invalide\nVeuillez le modifier\ndans les paramètres",
+    "Disable the tooltip shown when the clock is hovered": "Désactiver l'info-bulle affichée lorsque l'horloge est survolée"
 }
 lang_3_3 = lang_3_3_1 | {
-    "Custom format rules:": "Règles de format personnalisées :",
+    "Custom format rules:": "Règles de format personnalisé :",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "N'importe quel texte peut être placé ici. Pour placer des éléments tels que la date et l'heure, veuillez utiliser la norme 1989 C. Plus d'infos sur le lien suivant",
     "Python date and time formats": "Formats de la date et heure Python",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "Pour désactiver l'effet zéro-marge, ajoutez un # entre le % et le code : une heure avec marge doit être %#H, une heure sans marge doit être %H", # Here please don't modify the %H and %#H values
@@ -24,7 +24,7 @@ lang_3_3 = lang_3_3_1 | {
     "Set a custom date and time format": "Définir un format de date et heure personnalisé",
     "(for advanced users only)": "(utilisateurs avancés uniquement)",
     "Move this clock to the left": "Déplacer cette horloge vers la gauche",
-    "Move this clock to the top": "Déplacer cette horloge vers en haut",
+    "Move this clock to the top": "Déplacer cette horloge vers le haut",
     "Move this clock to the right": "Déplacer cette horloge vers la droite",
     "Move this clock to the bottom": "Déplacer cette horloge vers le bas",
     "Restore horizontal position": "Restaurer la position horizontale",
