@@ -1,6 +1,6 @@
 pyautogui
 pywin32
-PyQt5
+PySide2
 psutil
 PyInstaller==4.1
 win32mica
