@@ -467,9 +467,9 @@ try:
             self.setWindowFlag(Qt.FramelessWindowHint)
             self.setWindowFlag(Qt.Tool)
             if isTaskbarDark():
-                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display semib\"; background-color: blue;color: #eeeeee;}")
+                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display semib\"; background-color: transparent;color: #eeeeee;}")
             else:
-                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;}")
+                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;background-color: transparent}")
             self.move(pos[0], pos[1])
             ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False)
 

@@ -198,8 +198,8 @@ def isDark():
 
 def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False, shadow: bool = True):
     hwnd = int(hwnd)
-    window.setAttribute(Qt.WA_TranslucentBackground)
-    window.setAttribute(Qt.WA_NoSystemBackground)
+    #window.setAttribute(Qt.WA_TranslucentBackground)
+    #window.setAttribute(Qt.WA_NoSystemBackground)
     if not avoidOverrideStyleSheet:
         window.setStyleSheet("background-color: transparent;")
     if isWindowDark():

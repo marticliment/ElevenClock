@@ -1639,7 +1639,7 @@ class SettingsWindow(QMainWindow):
                 menu.addAction(a3)
 
                 ApplyMenuBlur(menu.winId().__int__(), menu)
-                menu.exec(e.globalPos())
+                menu.exec_(e.globalPos())
 
         global old_stdout, buffer
         win = QMainWindow(self)
@@ -2410,7 +2410,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
                 def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
                     menu = self.createStandardContextMenu()
                     ApplyMenuBlur(menu.winId().__int__(), menu)
-                    menu.exec(e.globalPos())
+                    menu.exec_(e.globalPos())
 
         super().__init__(text, parent)
         self.button = QPushButton(_("Apply"), self)
