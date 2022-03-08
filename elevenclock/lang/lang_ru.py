@@ -12,7 +12,7 @@
 lang_3_3_1 = {
     "Invalid time format\nPlease follow the\nC 1989 Standards": "Неверный формат времени\nСледуйте стандарту\nC 1989 Standards",
     "Nothing to preview": "Нет предпросмотра",
-    "Invalid time format\nPlease modify it\nin the settings": "Неверный формат времени\nСледуйте стандарту\nC 1989 Standards",
+    "Invalid time format\nPlease modify it\nin the settings": "Неверный формат времени\nИзмените формат\nв настройках",
     "Disable the tooltip shown when the clock is hovered": "Скрывать тултипы при наведении курсора на часы"
 }
 lang_3_3 = lang_3_3_1 | {
