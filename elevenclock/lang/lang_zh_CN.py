@@ -7,10 +7,10 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "时间格式无效\n请遵循 C 1989 标准",
+    "Nothing to preview": "没有可预览的",
+    "Invalid time format\nPlease modify it\nin the settings": "时间格式无效\n请在设置中修改",
+    "Disable the tooltip shown when the clock is hovered": "禁用时钟悬停时显示的工具提示"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "自定义格式规则",
@@ -22,9 +22,9 @@ lang_3_3 = lang_3_3_1 | {
     "If you don't understand what is happening, please uncheck the checkbox over the text area": "如果您不明白发生了什么，请取消选中文本区域上的复选框",
     "Set a custom date and time format": "设置自定义日期和时间格式",
     "(for advanced users only)": "（仅限高级用户）",
-    "Move this clock to the left": "将此时钟向左移动",
+    "Move this clock to the left": "将此时钟移至左侧",
     "Move this clock to the top": "将此时钟移至顶部",
-    "Move this clock to the right": "将此时钟向右移动",
+    "Move this clock to the right": "将此时钟移至右侧",
     "Move this clock to the bottom": "将此时钟移至底部",
     "Restore horizontal position": "恢复水平位置",
     "Restore vertical position": "恢复垂直位置",
