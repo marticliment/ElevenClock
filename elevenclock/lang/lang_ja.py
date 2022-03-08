@@ -7,10 +7,10 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "時刻形式の誤り\nC 1989標準形式に\n従ってください",
+    "Nothing to preview": "プレビューはありません",
+    "Invalid time format\nPlease modify it\nin the settings": "時刻形式の誤り\n設定画面にて\n変更してください",
+    "Disable the tooltip shown when the clock is hovered": "時計にマウスホバーしたときに表示されるツールチップを無効にする"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "カスタム形式ルール",
