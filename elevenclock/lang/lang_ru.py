@@ -10,10 +10,10 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_3_1 = {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Неверный формат времени\nСледуйте стандарту\nC 1989 Standards",
+    "Nothing to preview": "Нет предпросмотра",
+    "Invalid time format\nPlease modify it\nin the settings": "Неверный формат времени\nСледуйте стандарту\nC 1989 Standards",
+    "Disable the tooltip shown when the clock is hovered": "Скрывать тултипы при наведении курсора на часы"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Настройки формата",
