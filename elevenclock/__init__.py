@@ -309,7 +309,8 @@ try:
                             os.remove(file)
                         elif float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) > nowTime:
                             if not getSettings("DisableNewInstanceChecker"):
-                                sys.exit(0)
+                                print("🟠 KILLING, NEWER VERSION RUNNING")
+                                killSignal.infoSignal.emit("", "")
                 if not(getSettings(name)):
                     print("🟠 KILLING, NEWER VERSION RUNNING")
                     killSignal.infoSignal.emit("", "")
