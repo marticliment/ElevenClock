@@ -307,6 +307,9 @@ try:
                     else:
                         if(float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
                             os.remove(file)
+                        elif float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) > nowTime:
+                            if not getSettings("DisableNewInstanceChecker"):
+                                sys.exit(0)
                 if not(getSettings(name)):
                     print("🟠 KILLING, NEWER VERSION RUNNING")
                     killSignal.infoSignal.emit("", "")

@@ -404,6 +404,10 @@ class SettingsWindow(QMainWindow):
         self.legacyFullScreenHide.setChecked(getSettings("legacyFullScreenMethod"))
         self.legacyFullScreenHide.stateChanged.connect(lambda i: setSettings("legacyFullScreenMethod", bool(i)))
         self.experimentalTitle.addWidget(self.legacyFullScreenHide)
+        self.disableNewQuitMode = QSettingsCheckBox(_("Disable the new instance checker method"))
+        self.disableNewQuitMode.setChecked(getSettings("DisableNewInstanceChecker"))
+        self.disableNewQuitMode.stateChanged.connect(lambda i: setSettings("DisableNewInstanceChecker", bool(i)))
+        self.experimentalTitle.addWidget(self.disableNewQuitMode)
 
         self.languageSettingsTitle = QSettingsTitle(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"), _("Language pack author(s), help translating ElevenClock"))
         layout.addWidget(self.languageSettingsTitle)
