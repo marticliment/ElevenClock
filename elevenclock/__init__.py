@@ -134,7 +134,13 @@ try:
                 if float(new_version_number) > version:
                     print("🟢 Updates found!")
                     if(not(getSettings("DisableAutoInstallUpdates")) or force):
-                        showNotif.infoSignal.emit(("ElevenClock Updater"), ("ElevenClock is downloading updates"))
+                        if not getSettings("EnableSilentUpdates"):
+                            showNotif.infoSignal.emit(("ElevenClock Updater"), ("ElevenClock is downloading updates"))
+                        try:
+                            for clock in clocks:
+                                clock.progressbar.show()
+                        except Exception as e:
+                            report(e)
                         if(integrityPass):
                             url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
                             filedata = urlopen(url)
@@ -155,14 +161,24 @@ try:
                                         time.sleep(5)
                                     subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                                 else:
-                                    subprocess.run('start /B "" "{0}" /silent'.format(filename), shell=True)
+                                    subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                             else:
+                                try:
+                                    for clock in clocks:
+                                        clock.progressbar.hide()
+                                except Exception as e:
+                                    report(e)
                                 print("🟠 Hash not ok")
                                 print("🟠 File hash: ", hashlib.sha256(datatowrite).hexdigest())
                                 print("🟠 Provided hash: ", provided_hash)
                                 showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
 
                         else:
+                            try:
+                                for clock in clocks:
+                                    clock.progressbar.hide()
+                            except Exception as e:
+                                report(e)
                             print("🟠 Can't verify update server authenticity, aborting")
                             print("🟠 Provided DmName:", dmname)
                             print("🟠 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
@@ -177,6 +193,11 @@ try:
 
         except Exception as e:
             report(e)
+            try:
+                for clock in clocks:
+                    clock.progressbar.hide()
+            except Exception as e:
+                report(e)
 
     def resetRestartCount():
         global restartCount
@@ -594,6 +615,7 @@ try:
                 #self.keyboard = Controller()
                 self.setWindowFlag(Qt.WindowStaysOnTopHint)
                 self.setWindowFlag(Qt.FramelessWindowHint)
+                self.setAttribute(Qt.WA_ShowWithoutActivating)
                 self.setAttribute(Qt.WA_TranslucentBackground)
                 self.setWindowFlag(Qt.Tool)
                 hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
@@ -708,6 +730,64 @@ try:
                     fg = 6 if isTaskbarDark() else 1
                     return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
+                
+                self.progressbar = QProgressBar(self)
+                self.progressbar.setFixedHeight(self.getPx(2))
+                self.progressbar.setRange(0, 200)
+                self.progressbar.setValue(0)
+                self.progressbar.setStyleSheet(f"*{{border: 0px;margin:0px;padding:0px;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
+                self.progressbar.hide()
+
+                self.pgsbarleftSlow = QtCore.QVariantAnimation()
+                self.pgsbarleftSlow.setStartValue(0)
+                self.pgsbarleftSlow.setEndValue(200)
+                self.pgsbarleftSlow.setDuration(500)
+                self.pgsbarleftSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                
+                self.pgsbarrightSlow = QtCore.QVariantAnimation()
+                self.pgsbarrightSlow.setStartValue(200)
+                self.pgsbarrightSlow.setEndValue(0)
+                self.pgsbarrightSlow.setDuration(500)
+                self.pgsbarrightSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                
+                self.pgsbarleftFast = QtCore.QVariantAnimation()
+                self.pgsbarleftFast.setStartValue(0)
+                self.pgsbarleftFast.setEndValue(200)
+                self.pgsbarleftFast.setDuration(200)
+                self.pgsbarleftFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                
+                self.pgsbarrightFast = QtCore.QVariantAnimation()
+                self.pgsbarrightFast.setStartValue(200)
+                self.pgsbarrightFast.setEndValue(0)
+                self.pgsbarrightFast.setDuration(200)
+                self.pgsbarrightFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                
+                def loadProgressBarLoop():
+                    nonlocal self
+                    time.sleep(0.5)
+                    print("starting")
+                    while True:
+                        if self.progressbar.isVisible():
+                            cprint("zsdgasdg")
+                            self.callInMainSignal.emit(self.pgsbarleftSlow.start)
+                            time.sleep(0.7)
+                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
+                            self.callInMainSignal.emit(self.pgsbarrightSlow.start)
+                            time.sleep(0.7)
+                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
+                            self.callInMainSignal.emit(self.pgsbarleftFast.start)
+                            time.sleep(0.3)
+                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
+                            self.callInMainSignal.emit(self.pgsbarrightFast.start)
+                            time.sleep(0.3)
+                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
+                        else:
+                            time.sleep(0.1)
+
+
+                Thread(target=loadProgressBarLoop, daemon=True).start()
+
+
                 if getSettings("UseCustomFontColor"):
                     print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                     self.lastTheme = -1
@@ -778,6 +858,8 @@ try:
                 self.loop0.start()
                 self.loop1.start()
                 self.loop2.start()
+
+                
 
                 self.setMouseTracking(True)
 
@@ -1045,8 +1127,12 @@ try:
             event.accept()
             return super().closeEvent(event)
         
-        def showEvent(self, event: QShowEvent) -> None:
-            return super().showEvent(event)
+
+        def resizeEvent(self, event: QResizeEvent = None):
+            self.progressbar.move(self.label.x(), self.height()-self.progressbar.height())
+            self.progressbar.setFixedWidth(self.label.width())
+            if event:
+                return super().resizeEvent(event)
 
     class Label(QLabel):
         clicked = Signal()
@@ -1228,6 +1314,7 @@ try:
                 self.notifdot = True
                 self.focusassitant = True
                 self.disableClockIndicators()
+            self.window().resizeEvent(None)
             return super().resizeEvent(event)
 
         def window(self) -> Clock:
@@ -1299,31 +1386,32 @@ try:
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions
 
-    if not(getSettings("Updated3.31Already")) and not(getSettings("EnableSilentUpdates")):
-        setSettings("Updated3.31Already", True)
-        msg = QFramelessDialog(parent=None, closeOnClick=False)
-        msg.setAutoFillBackground(True)
-        msg.setStyleSheet(sw.styleSheet())
-        msg.setAttribute(QtCore.Qt.WA_StyledBackground)
-        msg.setObjectName("QMessageBox")
-        msg.setTitle("ElevenClock Updater")
-        msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
- <br><br>This update brings:<br>
- <ul><li><b>Lots of fixes!</b></li>
- <li> Fixed the "Invaid Time Format" error</li>
- <li> Fixed the clock being black</li>
- <li> Fixed the clock changing color</li>
- <li> Added the ability to disable tooltips</li>
- <li> Other bugfixing and improvements</li></ul>""")
-        msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
-        msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
-        def settNClose():
-            sw.show()
-            msg.close()
-        msg.addButton("Settings", QDialogButtonBox.ButtonRole.ActionRole, lambda: settNClose())
-        msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, sw.styleSheet())
-        msg.setWindowTitle("ElevenClock has updated!")
-        msg.show()
+    if not(getSettings("Updated3.32Already")) and not(getSettings("EnableSilentUpdates")):
+        setSettings("Updated3.31Already", True, False)
+        showMessage("ElevenClock Updater", f"ElevenClock has updated to version {versionName} successfully\nPlease see GitHub for the changelog", False)
+        #msg = QFramelessDialog(parent=None, closeOnClick=False)
+        #msg.setAutoFillBackground(True)
+        #msg.setStyleSheet(sw.styleSheet())
+        #msg.setAttribute(QtCore.Qt.WA_StyledBackground)
+        #msg.setObjectName("QMessageBox")
+        #msg.setTitle("ElevenClock Updater")
+        #msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
+        #<br><br>This update brings:<br>
+        #<ul><li><b>Lots of fixes!</b></li>
+        #<li> Fixed the "Invaid Time Format" error</li>
+        #3<li> Fixed the clock being black</li>
+        #<li> Fixed the clock changing color</li>
+        #<li> Added the ability to disable tooltips</li>
+        #<li> Other bugfixing and improvements</li></ul>""")
+        #msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
+        #msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
+        #def settNClose():
+        #    sw.show()
+        #    msg.close()
+        #msg.addButton("Settings", QDialogButtonBox.ButtonRole.ActionRole, lambda: settNClose())
+        #msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, sw.styleSheet())
+        #msg.setWindowTitle("ElevenClock has updated!")
+        #msg.show()
 
     showSettings = False
     if "--settings" in sys.argv or showSettings:
