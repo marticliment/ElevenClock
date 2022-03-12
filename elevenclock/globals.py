@@ -39,3 +39,4 @@ trayIcon: QSystemTrayIcon = None
 sw: QScrollArea = None
 tempDir: str = None
 dateTimeFormat: str = "%HH:%M\n%A\n%d/%m/%Y"
+settingsCache = {}

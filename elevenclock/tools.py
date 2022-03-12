@@ -101,12 +101,18 @@ def getColors() -> list:
 
 def getSettings(s: str):
     try:
-        return os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+        try:
+            return globals.settingsCache[s]
+        except KeyError:
+            v = os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+            globals.settingsCache[s] = v
+            return v
     except Exception as e:
         report(e)
 
 def setSettings(s: str, v: bool, r: bool = True):
     try:
+        globals.settingsCache = {}
         if(v):
             open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w").close()
         else:
@@ -130,8 +136,13 @@ def setSettings(s: str, v: bool, r: bool = True):
 
 def getSettingsValue(s: str):
     try:
-        with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "r") as sf:
-            return sf.read()
+        try:
+            return globals.settingsCache[s+"Value"]
+        except KeyError:
+            with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "r") as sf:
+                v = sf.read()
+                globals.settingsCache[s+"Value"] = v
+                return v
     except FileNotFoundError:
         return ""
     except Exception as e:
@@ -140,6 +151,7 @@ def getSettingsValue(s: str):
 
 def setSettingsValue(s: str, v: str, r: bool = True):
     try:
+        globals.settingsCache = {}
         with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w") as sf:
             sf.write(v)
         globals.loadTimeFormat()
