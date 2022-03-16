@@ -208,13 +208,19 @@ def isDark():
         report(e)
     return isWindowDark()
 
-def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False, shadow: bool = True):
+def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False, shadow: bool = True, useTaskbarModeCheck: bool = False):
     hwnd = int(hwnd)
     #window.setAttribute(Qt.WA_TranslucentBackground)
     #window.setAttribute(Qt.WA_NoSystemBackground)
+
+    if not useTaskbarModeCheck:
+        mode = isWindowDark()
+    else:
+        mode = isTaskbarDark()
+
     if not avoidOverrideStyleSheet:
         window.setStyleSheet("background-color: transparent;")
-    if isWindowDark():
+    if mode:
         GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True, smallCorners=smallCorners)
         if shadow:
             QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)

@@ -496,7 +496,7 @@ try:
             else:
                 self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;background-color: transparent}")
             self.move(pos[0], pos[1])
-            ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False)
+            ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
 
         def show(self):
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
