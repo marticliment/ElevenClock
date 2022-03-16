@@ -91,6 +91,7 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Latvian
  - Lithuanian
  - Norwegian
+ - Nynorsk
  - Polish
  - Portuguese (Brazil)
  - Portuguese (Portugal)
@@ -107,8 +108,7 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Arabic
 
 #### New laguanges that will come with next version:
-
- - Nynorsk
+ - You say!
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
