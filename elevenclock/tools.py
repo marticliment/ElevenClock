@@ -235,6 +235,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.menuScreen = QGuiApplication.primaryScreen()
         self.setIcon(QIcon(getPath("icon.ico")))
         self.show()
+        self.setToolTip("ElevenClock - "+_("Customize the clock on Windows 11"))
         menu = QMenu(_("ElevenClock"))
 
         menu.setWindowFlag(Qt.WindowStaysOnTopHint)
