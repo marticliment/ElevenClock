@@ -1046,9 +1046,18 @@ try:
                         if self.autoHide and not(DisableHideWithTaskbar):
                             mousePos = getMousePos()
                             if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
+                                if self.isHidden():
+                                    time.sleep(0.22)
                                 self.refresh.emit()
                             elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
-                                self.hideSignal.emit()
+                                if globals.trayIcon != None:
+                                    menu = globals.trayIcon.contextMenu()
+                                    if menu.isVisible():
+                                        self.refresh.emit()
+                                    else:
+                                        self.hideSignal.emit()
+                                else:
+                                    self.hideSignal.emit()
                         else:
                             if(self.isRDPRunning and EnableHideOnRDP):
                                 self.hideSignal.emit()
