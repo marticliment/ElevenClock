@@ -14,3 +14,6 @@ env/
 
 # Intellij Cache and Settings folder
 .idea/
+elevenclock.py
+compile.py
+build_BETA.bat
