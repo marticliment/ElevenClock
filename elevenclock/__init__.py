@@ -135,7 +135,7 @@ try:
                     print("🟢 Updates found!")
                     if(not(getSettings("DisableAutoInstallUpdates")) or force):
                         if not getSettings("EnableSilentUpdates"):
-                            showNotif.infoSignal.emit(("ElevenClock Updater"), ("ElevenClock is downloading updates"))
+                            showNotif.infoSignal.emit(_("ElevenClock Updater"), _("ElevenClock is downloading updates"))
                         try:
                             for clock in clocks:
                                 clock.progressbar.show()
@@ -765,10 +765,8 @@ try:
                 def loadProgressBarLoop():
                     nonlocal self
                     time.sleep(0.5)
-                    print("starting")
                     while True:
                         if self.progressbar.isVisible():
-                            cprint("zsdgasdg")
                             self.callInMainSignal.emit(self.pgsbarleftSlow.start)
                             time.sleep(0.7)
                             self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
@@ -1386,9 +1384,9 @@ try:
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions
 
-    if not(getSettings("Updated3.32Already")) and not(getSettings("EnableSilentUpdates")):
+    if not(getSettings("Updated3.31Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings("Updated3.31Already", True, False)
-        showMessage("ElevenClock Updater", f"ElevenClock has updated to version {versionName} successfully\nPlease see GitHub for the changelog", False)
+        showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
         #msg = QFramelessDialog(parent=None, closeOnClick=False)
         #msg.setAutoFillBackground(True)
         #msg.setStyleSheet(sw.styleSheet())
