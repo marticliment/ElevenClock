@@ -6,7 +6,21 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_3_1 = {
+lang_3_3_2 = {
+    "ElevenClock Updater": "",
+    "ElevenClock is downloading updates": "",
+    "ElevenClock has updated to version {0} successfully
+Please see GitHub for the changelog": "",
+    "Customize the clock on Windows 11": "",
+    "Disable the new instance checker method": "",
+    "ElevenClock is downloading updates": "",
+    "Import settings from a local file": "",
+    "Export settings to a local file": "",
+    "Export": "",
+    "Import": "",
+}
+
+lang_3_3_1 = lang_3_3_2 | {
     "Invalid time format\nPlease follow the\nC 1989 Standards": "时间格式无效\n请遵循 C 1989 标准",
     "Nothing to preview": "没有可预览的",
     "Invalid time format\nPlease modify it\nin the settings": "时间格式无效\n请在设置中修改",
