@@ -73,6 +73,8 @@ In order to translate ElevenClock to other languages or to update an old transla
 
 
 ### Currently Supported languages
+
+ - Arabic
  - Catalan
  - Czech (Čeština)
  - Danish
@@ -105,7 +107,6 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Turkish
  - Ukranian
  - Vietnamese
- - Arabic
 
 #### New laguanges that will come with next version:
  - You say!
