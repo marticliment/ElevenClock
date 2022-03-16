@@ -3,22 +3,10 @@ import glob, os
 
 
 
-OLDSTR = b"""lang_3_3_1 = {"""
+OLDSTR = b""""ElevenClock has updated to version {0} successfully
+Please see GitHub for the changelog": "","""
 
-NEWSTR = b"""lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "ElevenClock is downloading updates": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
-}
-
-lang_3_3_1 = lang_3_3_2 | {"""
+NEWSTR = b""""ElevenClock has updated to version {0} successfully\\nPlease see GitHub for the changelog": "","""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()
