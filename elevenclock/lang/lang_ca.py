@@ -7,18 +7,17 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "ElevenClock is downloading updates": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "Actualitzador de l'ElevenClock",
+    "ElevenClock is downloading updates": "L'ElevenClock està descarregant les actualitzacions",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "L'ElevenClock s'ha actualitzat a la versió {0}.\nVeieu a GitHub el registre de canvis",
+    "Customize the clock on Windows 11": "Personalitzeu el rellotge del Windows 11",
+    "Disable the new instance checker method": "Desactiva el nou sistema de comprovació d'instàncies",
+    "Import settings from a local file": "Importa la configuració des d'un fitxer local",
+    "Export settings to a local file": "Exporta la configuració a un fitxer local",
+    "Export": "Exporta",
+    "Import": "Importa",
 }
-
+ 
 lang_3_3_1 = lang_3_3_2 | {
     "Invalid time format\nPlease follow the\nC 1989 Standards": "Format de data invàlid\nSeguiu l'estàndard\nde C del 1989",
     "Nothing to preview": "Res a previsualitzar",
