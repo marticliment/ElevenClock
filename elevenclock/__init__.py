@@ -225,7 +225,11 @@ try:
         else:
             print("🟠 Psutil couldn't be imported!")
             memOk = True
-        if restartCount<20 and memOk:
+        try:
+            isPrefsWinOpen = globals.sw.isVisible()
+        except AttributeError:
+            isPrefsWinOpen = True
+        if (restartCount<20 and memOk) or isPrefsWinOpen:
             restartCount += 1
             i = 0
             for screen in app.screens():
