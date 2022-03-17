@@ -7,15 +7,15 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClock 업데이트 프로그램",
+    "ElevenClock is downloading updates": "Eleven Clock이 업데이트를 다운로드하고 있습니다",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "Eleven Clock이 {0} 버전으로 업데이트되었습니다.\n변경 사항은 대해서는 GitHub를 참조하십시오.",
+    "Customize the clock on Windows 11": "Windows 11에서 시계를 사용자 정의",
+    "Disable the new instance checker method": "새 인스턴스 검사기 방법 사용 안 함",
+    "Import settings from a local file": "로컬 파일에서 설정 가져오기",
+    "Export settings to a local file": "로컬 파일로 설정 내보내기",
+    "Export": "내보내기",
+    "Import": "가져오기",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
