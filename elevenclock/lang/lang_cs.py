@@ -11,15 +11,15 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClock Updater",
+    "ElevenClock is downloading updates": "ElevenClock stahuje aktualizace",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock se úspšně aktualizovat na verzi {0}\nSeznam změn najdete v GitHubu",
+    "Customize the clock on Windows 11": "Upravit hodiny na Windows 11",
+    "Disable the new instance checker method": "Zakázat novou metodu kontroly instance",
+    "Import settings from a local file": "Importovat nastavení z lokálního souboru",
+    "Export settings to a local file": "Exportovat nastavení do lokálního souboru",
+    "Export": "Export",
+    "Import": "Import",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
@@ -197,7 +197,7 @@ lang2_3 = lang2_4 | {
     "General Settings:"                                                                 :"Obecné nastavení",
     "Automatically check for updates"                                                   :"Automaticky kontrolovat aktualizace",
     "Automatically install available updates"                                           :"Automaticky instalovat dostupné aktualizace",
-    "Enable really silent updates"                                                      :"Povolit opravdu tiché aktualizace",
+    "Enable really silent updates"                                                      :"Povolit tiché aktualizace", # "opravdu" není nutné dělat doslovný překlad
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"     :"Vynechat kontrolu pravosti poskytovatele aktualizací (NEDOPORUČUJEME, NA VAŠE VLASTNÍ RIZIKO)",
     "Show ElevenClock on system tray"                                                   :"Zobrazit ElevenClock na systémové liště",
     "Alternative clock alignment (may not work)"                                        :"Alternativní zarovnání hodin (nemusí fungovat)",
