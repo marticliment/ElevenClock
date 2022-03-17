@@ -448,6 +448,45 @@ class SettingsWindow(QMainWindow):
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
             msg.show()
 
+
+
+        def exportSettings():
+            nonlocal self
+            try:
+                rawstr = ""
+                for file in glob.glob(os.path.join(os.path.expanduser("~"), ".elevenclock/*")):
+                    if not "Running" in file and not "png" in file and not "PreferredLanguage" in file:
+                        sName = file.replace("\\", "/").split("/")[-1]
+                        rawstr += sName+"|@|"+getSettingsValue(sName)+"|~|"
+                fileName = QFileDialog.getSaveFileName(self, _("Export settings to a local file"), os.path.expanduser("~"), "ElevenClock Settings File (*.esf);;All Files (*.*)")
+                if fileName[0] != "":
+                    esf =  open(fileName[0], "w")
+                    esf.write(rawstr)
+                    esf.close()
+                    subprocess.run("explorer /select,\""+fileName[0].replace('/', '\\')+"\"", shell=True)
+            except Exception as e:
+                report(e)
+
+
+        def importSettings():
+            nonlocal self
+            try:
+                fileName = QFileDialog.getOpenFileName(self, _("Import settings from a local file"), os.path.expanduser("~"), "ElevenClock Settings File (*.esf);;All Files (*.*)")
+                if fileName:
+                    esf = open(fileName[0], "r")
+                    rawstr = esf.read()
+                    esf.close()
+                    resetSettings()
+                    for element in rawstr.split("|~|"):
+                        pairValue = element.split("|@|")
+                        if len(pairValue) == 2:
+                            setSettings(pairValue[0], True, r=False)
+                            if pairValue[1] != "":
+                                setSettingsValue(pairValue[0], pairValue[1], r=False)
+                    os.startfile(sys.executable)
+            except Exception as e:
+                report(e)
+
         self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
@@ -466,6 +505,14 @@ class SettingsWindow(QMainWindow):
         self.CofeeButton.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
         self.CofeeButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.aboutTitle.addWidget(self.CofeeButton)
+        self.importSettings = QSettingsButton(_("Import settings from a local file"), _("Import"))
+        self.importSettings.clicked.connect(lambda: importSettings())
+        self.importSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.aboutTitle.addWidget(self.importSettings)
+        self.exportSettings = QSettingsButton(_("Export settings to a local file"), _("Export"))
+        self.exportSettings.clicked.connect(lambda: exportSettings())
+        self.exportSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.aboutTitle.addWidget(self.exportSettings)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: self.hide())
         self.aboutTitle.addWidget(self.closeButton)
@@ -2420,7 +2467,6 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
     
     def valuechangedEvent(self, i: int):
         self.valueChanged.emit(self.combobox.itemText(i))
-        cprint(self.combobox.itemText(self.combobox.currentIndex()))
         self.combobox.lineEdit().setFont(QFont(self.combobox.itemText(i)))
     
     def stateChangedEvent(self, v: bool):
@@ -2435,7 +2481,6 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
             self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
-            cprint(self.combobox.itemText(self.combobox.currentIndex()))
         
     def setItems(self, items: list):
         self.combobox.clear()
