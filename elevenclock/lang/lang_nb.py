@@ -7,47 +7,47 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClocks oppdaterer",
+    "ElevenClock is downloading updates": "ElevenClock laster ned oppdateringer",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock har suksessfullt oppdatert til versjon {0}\nVennligst se GitHub for endringslogg",
+    "Customize the clock on Windows 11": "Personaliser klokken på Windows 11",
+    "Disable the new instance checker method": "Skru av metoden for å sjekke etter ny instans",
+    "Import settings from a local file": "Importer innstillinger fra lokal fil",
+    "Export settings to a local file": "Eksporter innstillinger til lokal fil",
+    "Export": "Eksporter",
+    "Import": "Importer",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Ugyldig tidsformat\nVennligst følg\nC 1989-standardene",
+    "Nothing to preview": "Ingenting å forhåndsvise",
+    "Invalid time format\nPlease modify it\nin the settings": "Ugyldig tidsformat\nVennligst endre det\ni innstillingene",
+    "Disable the tooltip shown when the clock is hovered": "Skru av verktøystips når musen svever over klokken"
 }
 lang_3_3 = lang_3_3_1 | {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Personlige formateringsregler",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Hvilken som helst tekst kan plasseres her. For å plassere gjenstander som dato og tid, vennligst bruk 1989 C standarden. Mer informasjon på følgende lenke",
+    "Python date and time formats": "Pythons dato- og tidsformat",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "For å deaktivere null-padding-effekten, legg inn en # mellom % og koden: ikke-null-paddede timer vil bli %#H, og null-paddede timer vil bli %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Klikk Bruk for å bruke og forhåndsvise formatet",
+    "Apply": "Bruk",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Hvis du ikke forstår hva som skjer, vennligst fjern merkingen i boksen over tekstområdet",
+    "Set a custom date and time format": "Angi personlig dato- og tidsformat",
+    "(for advanced users only)": "(kun for avanserte brukere)",
+    "Move this clock to the left": "Flytt denne klokken til venstre",
+    "Move this clock to the top": "Flytt denne klokken til toppen",
+    "Move this clock to the right": "Flytt denne klokken til høyre",
+    "Move this clock to the bottom": "Flytt denne klokken til bunnen",
+    "Restore horizontal position": "Gjenopprett horisontal posisjon",
+    "Restore vertical position": "Gjenopprett vertikal posisjon",
 }
 
 lang_3_2_1 = lang_3_3 | {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Åpne tilkoblet hjelp for å feilsøke problemer",
+    "Reset ElevenClock preferences to defaults": "Nullstill til ElevenClocks standardinnstillinger",
+    "Specify a minimum width for the clock": "Spesifiser en minimumsbredde for klokken",
+    "Search on the settings": "Søk i innstillingene",
+    "No results were found": "Ingen resultater ble funnet",
 }
 
 lang_3_2 = lang_3_2_1 | {
@@ -110,7 +110,7 @@ lang_2_9_2 = lang_3 | {
     "Do not show the clock on secondary monitors": "Ikke vil klokken på sekundærskjermer",
     "Disable clock taskbar background color (make clock transparent)": "Skru av oppgavelinjeklokkens bakgrunnsfarge (gjør klokken gjennomsiktig)",
     "Open the welcome wizard": "Åpne veiviseren for installasjon",
-    " (ALPHA STAGE, MAY NOT WORK)": " (ALFA-STADIUM, VIRKER KANSKJE IKKE",
+    " (ALPHA STAGE, MAY NOT WORK)": " (ALFA-STADIUM, VIRKER KANSKJE IKKE)",
     "Welcome to ElevenClock": "Velkommen til ElevenClock",
     "Skip": "Hopp over",
     "Start": "Start",
@@ -161,7 +161,7 @@ lang2_7 = lang2_7_bis | {
 lang2_6 = lang2_7 | {
     "About Qt6 (PySide6)": "Om Qt6 (PySide6)",
     "About": "Om",
-    "Alternative non-SSL update server (This might help with SSL errors)": "Alternativ oppdateringsserver uten SSL (kan hjelpe ved SSL-feilmeldinger)",
+    "Alternative non-SSL update server (This might help with SSL errors)": "Alternativ oppdateringsserver uten SSL (kan hjelpe ved SSL-feil)",
     "Fixes and other experimental features: (Use ONLY if something is not working)": "Diverse fikser og eksperimentelle funksjoner: (Bare aktiver hvis det er noe som ikke fungerer)",
     "Show week number on the clock": "Vis ukenummer på klokken",
 }
