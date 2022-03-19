@@ -1447,10 +1447,10 @@ try:
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
     
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully 
-        sys.exit(0)
+        app.quit()
         
-    cprint(app.exec_())
-    sys.exit()
+    app.exec_()
+    app.quit()
 
 except Exception as e:
     import webbrowser, traceback, platform
@@ -1479,4 +1479,4 @@ except Exception as e:
     traceback_info += str(e)
     webbrowser.open(("https://www.somepythonthings.tk/error-report/?appName=ElevenClock&errorBody="+os_info.replace('\n', '{l}').replace(' ', '{s}')+"{l}{l}{l}{l}ElevenClock Log:{l}"+str("\n\n\n\n"+traceback_info).replace('\n', '{l}').replace(' ', '{s}')).replace("#", "|=|"))
     print(traceback_info)
-    sys.exit(1)
+    
