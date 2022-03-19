@@ -460,9 +460,9 @@ class SettingsWindow(QMainWindow):
                         rawstr += sName+"|@|"+getSettingsValue(sName)+"|~|"
                 fileName = QFileDialog.getSaveFileName(self, _("Export settings to a local file"), os.path.expanduser("~"), "ElevenClock Settings File (*.esf);;All Files (*.*)")
                 if fileName[0] != "":
-                    esf =  open(fileName[0], "w")
-                    esf.write(rawstr)
-                    esf.close()
+                    oFile =  open(fileName[0], "w")
+                    oFile.write(rawstr)
+                    oFile.close()
                     subprocess.run("explorer /select,\""+fileName[0].replace('/', '\\')+"\"", shell=True)
             except Exception as e:
                 report(e)
@@ -473,9 +473,9 @@ class SettingsWindow(QMainWindow):
             try:
                 fileName = QFileDialog.getOpenFileName(self, _("Import settings from a local file"), os.path.expanduser("~"), "ElevenClock Settings File (*.esf);;All Files (*.*)")
                 if fileName:
-                    esf = open(fileName[0], "r")
-                    rawstr = esf.read()
-                    esf.close()
+                    iFile = open(fileName[0], "r")
+                    rawstr = iFile.read()
+                    iFile.close()
                     resetSettings()
                     for element in rawstr.split("|~|"):
                         pairValue = element.split("|@|")
