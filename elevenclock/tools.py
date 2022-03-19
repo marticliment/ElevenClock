@@ -25,8 +25,8 @@ from external.FramelessWindow import QFramelessDialog
 import win32gui
 from win32con import *
 
-version = 3.319
-versionName = "3.3.2-beta"
+version = 3.32
+versionName = "3.3.2"
 
 def _(s): #Translate function
     global lang

@@ -1397,8 +1397,8 @@ try:
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions
 
-    if not(getSettings("Updated3.31Already")) and not(getSettings("EnableSilentUpdates")):
-        setSettings("Updated3.31Already", True, False)
+    if not(getSettings(f"Updated{versionName}Already")) and not(getSettings("EnableSilentUpdates")):
+        setSettings(f"Updated{versionName}Already", True, False)
         if getSettings("DefaultPrefsLoaded"):
             showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
         #msg = QFramelessDialog(parent=None, closeOnClick=False)

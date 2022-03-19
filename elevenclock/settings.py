@@ -448,8 +448,6 @@ class SettingsWindow(QMainWindow):
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, self.styleSheet())
             msg.show()
 
-
-
         def exportSettings():
             nonlocal self
             try:
@@ -466,7 +464,6 @@ class SettingsWindow(QMainWindow):
                     subprocess.run("explorer /select,\""+fileName[0].replace('/', '\\')+"\"", shell=True)
             except Exception as e:
                 report(e)
-
 
         def importSettings():
             nonlocal self
@@ -486,6 +483,14 @@ class SettingsWindow(QMainWindow):
                     os.startfile(sys.executable)
             except Exception as e:
                 report(e)
+
+        def resetSettings():
+            for file in glob.glob(os.path.join(os.path.expanduser("~"), ".elevenclock/*")):
+                if not "Running" in file:
+                    try:
+                        os.remove(file)
+                    except:
+                        pass
 
         self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
@@ -513,6 +518,10 @@ class SettingsWindow(QMainWindow):
         self.exportSettings.clicked.connect(lambda: exportSettings())
         self.exportSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.aboutTitle.addWidget(self.exportSettings)
+        self.resetButton = QSettingsButton(_("Reset ElevenClock preferences to defaults"), _("Reset"))
+        self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable)))
+        self.aboutTitle.addWidget(self.resetButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: self.hide())
         self.aboutTitle.addWidget(self.closeButton)
@@ -524,19 +533,6 @@ class SettingsWindow(QMainWindow):
         self.helpButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.helpButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#Troubleshooting"))
         self.debbuggingTitle.addWidget(self.helpButton)
-        self.resetButton = QSettingsButton(_("Reset ElevenClock preferences to defaults"), _("Reset"))
-        self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-
-        def resetSettings():
-            for file in glob.glob(os.path.join(os.path.expanduser("~"), ".elevenclock/*")):
-                if not "Running" in file:
-                    try:
-                        os.remove(file)
-                    except:
-                        pass
-
-        self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable)))
-        self.debbuggingTitle.addWidget(self.resetButton)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.openLogWindow())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
