@@ -1399,7 +1399,8 @@ try:
 
     if not(getSettings("Updated3.31Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings("Updated3.31Already", True, False)
-        showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
+        if getSettings("DefaultPrefsLoaded"):
+            showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
         #msg = QFramelessDialog(parent=None, closeOnClick=False)
         #msg.setAutoFillBackground(True)
         #msg.setStyleSheet(sw.styleSheet())
@@ -1433,7 +1434,7 @@ try:
         setSettings("AlreadyInstalled", True)
         setSettings("NewFullScreenMethod", True)
         setSettings("ForceClockOnFirstMonitor", True)
-        showMessage("Welcome to ElevenClock", "You can customize Elevenclock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
+        showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
         
