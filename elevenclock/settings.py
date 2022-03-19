@@ -1922,7 +1922,7 @@ class QSettingsTitle(QWidget):
         self.scrollAnim = QVariantAnimation(self)
         self.scrollAnim.setEasingCurve(QEasingCurve.InOutCubic)
         self.scrollAnim.valueChanged.connect(lambda i: self.window().scrollArea.verticalScrollBar().setValue(i))
-        self.scrollAnim.setDuration(300)
+        self.scrollAnim.setDuration(200)
         self.NotAnimated = True
 
         self.button = QPushButton("", self)
@@ -1969,6 +1969,12 @@ class QSettingsTitle(QWidget):
         self.callInMain.emit(lambda: self.setChildFixedHeight(self.compressibleWidget.sizeHint().height()))
         self.callInMain.emit(lambda: self.compressibleWidget.show())
         self.callInMain.emit(self.newShowAnim.start)
+        time.sleep(0.2)
+        if globals.sw.scrollArea.geometry().height() < self.geometry().y()+self.geometry().height()-globals.sw.scrollbar.value():
+            self.scrollAnim.setStartValue(globals.sw.scrollbar.value())
+            val = self.geometry().y()+self.geometry().height()+abs(globals.sw.settingsWidget.geometry().y())-globals.sw.scrollArea.geometry().height()+self.getPx(5)
+            self.scrollAnim.setEndValue(val if val <= globals.sw.scrollbar.maximum() else globals.sw.scrollbar.maximum())
+            self.callInMain.emit(lambda: self.scrollAnim.start())
 
         
     def setChildFixedHeight(self, h: int) -> None:
