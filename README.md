@@ -39,34 +39,23 @@ ElevenClock was an app designed to return this functionality back, but it has ev
 
 ## Features
 
-- Supports all system locales and time formats (they are pulled from the OS)*
-- Shows in all displays except in the primary one (because you have the default system clock)
-- Supports the dark and the light theme both
-- Hides automatically when using a full-screen app (this function can be disabled)
-- Imitates Windows 11's taskbar clock animation on hover
-- Supports taskbars on the top of the screen
-- Supports moving the clock to the left of the screen (and showing in also on the main monitor)
-- Supports different system integrations, like hiding when RDP is active
-- Is compatible with the small taskbars
-- Supports taskbar customizations like Start11
-- Supports seconds (not available in Windows11 by default)
-- Supports also showing the week day
-- ElevenClock downloads and installs updates automatically, so you don't have to worry about keeping yourself updatd with that
-- Clicking the clock shows/hides the notifications and calendar panel
-- Ability to correct the alignment and size on the HiDPi displays (100%, 200%, 300%) and on the fractional HiDPI displays(125%, 150%, 175%, 250%, etc.)*
-- Ability to correct the alignment and the size on Different-scaled monitors (Display1: 100%, Display2: 150%, Display3: 225%, etc.)*
-- The clock updates the time each second, so you will not see different times across all your taskbars
-- The clock also adjusts itself automatically when (dis)connecting monitors
-- Automatically starts at login
-- Supports font and size customization
-- Supports custom font color
-- Supports custom background color
-- Supports replacing the main clock
-- Supports a dynamic background color
-- Supports the notification assistant
-- Supports the unread notifications counter
-- Lots of extra features and tools!
+TL;DR: ElevenClock does everything that Windows 11 clock can't do.
 
+ - Replace all system clocks: seamless experience
+ - The clock starts automatically: You won't have to bother enabling it
+ - Customize date and time format with presets and/or user custom presets (Add seconds, weekday, etc.)
+ - Customize clock look: change font family, font size, font color, background color and text alignment
+ - Customize clock size: change clock height and width, and set also position offsets
+ - Move the clock around: Move the clock to the top and/or to the left.
+ - Hide the clock: Show or hide the clock on specific displays
+ - Show Desktop button: The "Show Desktop" button is present on any screen where ElevenClock is shown
+ 
+ ### Other available features:
+ - Show the clock over fullscreen
+ - Hide the clock when clicked
+ - Show a task manager shortcut on the clock context menu
+ - Disable the notificstions badge
+ - More stuff can be found on ElevenClock Settings
 
 ## Translating ElevenClock to other languages
 In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock) for more info
