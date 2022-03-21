@@ -7,15 +7,15 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClock 更新器",
+    "ElevenClock is downloading updates": "ElevenClock 正在下载更新",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock 已成功更新到版本 {0}\n请参阅 GitHub 获取更新日志",
+    "Customize the clock on Windows 11": "在 Windows 11 上自定义时钟",
+    "Disable the new instance checker method": "禁用新的实例检查器方法",
+    "Import settings from a local file": "从本地文件导入设置",
+    "Export settings to a local file": "将设置导出到本地文件",
+    "Export": "导出",
+    "Import": "导入",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
