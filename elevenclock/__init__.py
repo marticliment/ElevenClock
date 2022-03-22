@@ -437,7 +437,7 @@ try:
         fixHyphen = getSettings("EnableHyphenFix")
         adverted = False
         while True:
-            for integerrrrrrrrrrrrrrrrr in range(36000):
+            for integer in range(36000):
                 try:
                     timeStr = datetime.datetime.now().strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
