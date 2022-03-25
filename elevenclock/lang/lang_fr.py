@@ -8,15 +8,15 @@
 
 
 lang_3_3_2 = {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "Mise à jour ElevenClock",
+    "ElevenClock is downloading updates": "ElevenClock télécharge la mise à jour",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock a été mis à jour en version {0}\nConsulter GitHub pour le journal des modifications",
+    "Customize the clock on Windows 11": "Personnaliser l'horloge sur Windows 11",
+    "Disable the new instance checker method": "Désactiver la nouvelle méthode de détection d'instance",
+    "Import settings from a local file": "Importer les paramètres depuis un fichier",
+    "Export settings to a local file": "Exporter les paramètres dans un fichier",
+    "Export": "Exporter",
+    "Import": "Importer",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
