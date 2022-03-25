@@ -26,7 +26,7 @@ import win32gui
 from win32con import *
 
 version = 3.32
-versionName = "3.3.2"
+versionName = "3.3.3-beta"
 
 def _(s): #Translate function
     global lang
