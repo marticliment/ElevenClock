@@ -691,13 +691,13 @@ try:
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
-                    self.move(self.w, self.h)
-                    self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy))
+                    self.move(self.w, self.h+1)
+                    self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-1)
                 else:
                     print("🟡 Using win32 API positioning system")
                     self.user32 = windll.user32
                     self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                    win32gui.SetWindowPos(self.winId(), 0, int(w), int(h), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy), False)
+                    win32gui.SetWindowPos(self.winId(), 0, int(w), int(h-1), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-1, False)
                 print("🔵 Clock geometry:", self.geometry())
                 self.font: QFont = QFont()
                 customFont = getSettingsValue("UseCustomFont")
