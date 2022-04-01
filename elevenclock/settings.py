@@ -2043,9 +2043,11 @@ class QSettingsTitle(QWidget):
             self.image.setFixedHeight(self.getPx(30))
             self.label.setFixedWidth(self.width()-self.getPx(140))
             self.image.setFixedWidth(self.getPx(30))
+            self.bg70.show()
             self.bg70.move(self.getPx(10), 0)
             self.bg70.resize(self.width()-self.getPx(20), self.getPx(70))
         else:
+            self.bg70.hide()
             self.image.hide()
             self.showHideButton.hide()
             self.button.hide()
