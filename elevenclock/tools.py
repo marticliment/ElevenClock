@@ -11,7 +11,7 @@ from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
 from PySide2.QtWinExtras import QtWin
-
+import platform
 
 from external.blurwindow import GlobalBlur
 import pyautogui
@@ -27,6 +27,13 @@ from win32con import *
 
 version = 3.32
 versionName = "3.3.3-beta"
+
+
+try:
+    winver = int(platform.version().split('.')[2])
+except Exception as e:
+    print(e)
+    winver = 22000
 
 def _(s): #Translate function
     global lang
