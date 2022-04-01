@@ -330,7 +330,16 @@ try:
                         pass
                     else:
                         if(float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
-                            os.remove(file)
+                            try:
+                                os.remove(file)
+                            except FileNotFoundError:
+                                print("🟠 Can't remove lock file, file exist status:", os.path.exists(file))
+                                if os.path.exists(file):
+                                    try:
+                                        os.remove(file)
+                                    except Exception as e:
+                                        print("🟠 Can't delete, tried again")
+                                        report(e)
                         elif float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) > nowTime:
                             if not getSettings("DisableNewInstanceChecker"):
                                 print("🟠 KILLING, NEWER VERSION RUNNING")
@@ -690,13 +699,13 @@ try:
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
-                    self.move(self.w, self.h+1)
-                    self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-1)
+                    self.move(self.w, self.h+self.getPx(1))
+                    self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-self.getPx(2))
                 else:
                     print("🟡 Using win32 API positioning system")
                     self.user32 = windll.user32
                     self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                    win32gui.SetWindowPos(self.winId(), 0, int(w), int(h-1), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-1, False)
+                    win32gui.SetWindowPos(self.winId(), 0, int(w), int(h+self.getPx(1)), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-self.getPx(2), False)
                 print("🔵 Clock geometry:", self.geometry())
                 self.font: QFont = QFont()
                 customFont = getSettingsValue("UseCustomFont")
