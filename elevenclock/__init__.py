@@ -276,10 +276,9 @@ try:
         global isFocusAssist, numOfNotifs
         while True:
             isFocusAssist = isFocusAssistEnabled()
-            time.sleep(0.25)
-            if not isFocusAssist:
-                numOfNotifs = getNotificationNumber()
-            time.sleep(0.25)
+            time.sleep(0.3)
+            numOfNotifs = getNotificationNumber()
+            time.sleep(0.3)
 
 
     def screenCheckThread():
@@ -1041,11 +1040,15 @@ try:
                         if notifs:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                            elif numOfNotifs > 0:
+                            if numOfNotifs > 0:
                                 if oldNotifNumber != numOfNotifs:
-                                    self.callInMainSignal.emit(self.label.enableNotifDot)
+                                    if isFocusAssist:
+                                        self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                                    else:
+                                        self.callInMainSignal.emit(self.label.enableNotifDot)
                             else:
-                                self.callInMainSignal.emit(self.label.disableClockIndicators)
+                                if not isFocusAssist:
+                                    self.callInMainSignal.emit(self.label.disableClockIndicators)
                         oldNotifNumber = numOfNotifs
                         if self.autoHide and not(DisableHideWithTaskbar):
                             mousePos = getMousePos()
@@ -1150,7 +1153,11 @@ try:
         outline = True
         def __init__(self, text, parent):
             super().__init__(text, parent=parent)
-
+            try:
+                self.winver = int(platform.version().split('.')[2])
+            except Exception as e:
+                report(e)
+                self.winver = 22000
             try:
                 self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth"))
             except ValueError:
@@ -1196,7 +1203,13 @@ try:
             self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
             self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
             self.focusAssitantLabel.resize(self.getPx(30), self.height())
-            self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
+            if self.winver < 22581:
+                self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
+            else:
+                if numOfNotifs == 0:
+                    self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_empty_{getTaskbarIconMode()}.png")))
+                else:
+                    self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
             self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
             
             accColors = getColors()
@@ -1207,11 +1220,29 @@ try:
             self.notifDotLabel.setObjectName("notifIndicator")
             self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
             
+
+            self.moonIconBlack = QIcon(getPath("moon_black.png"))
+            self.moonIconWhite = QIcon(getPath("moon_white.png"))
+            self.emptyBellBlack = QIcon(getPath("notif_assist_empty_black.png"))
+            self.emptyBellWhite = QIcon(getPath("notif_assist_empty_white.png"))
+            self.filledBellBlack = QIcon(getPath(f"notif_assist_filled_black.png"))
+            self.filledBellWhite = QIcon(getPath(f"notif_assist_filled_white.png"))
+
+            self.lastFocusAssistIcon = None
             
             self.disableClockIndicators()
             
         def enableFocusAssistant(self):
+            if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
+                if self.winver < 22581:
+                    self.focusAssitantLabel.setIcon(self.moonIconWhite if isTaskbarDark() else self.moonIconBlack)
+                else:
+                    if numOfNotifs == 0:
+                        self.focusAssitantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                    else:
+                        self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
             if not self.focusassitant:
+                cprint("assist", isFocusAssist)
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True
@@ -1220,7 +1251,6 @@ try:
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
                 self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
-                self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
                 self.focusAssitantLabel.show()
                 
         def enableNotifDot(self):
