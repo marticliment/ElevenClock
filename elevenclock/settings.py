@@ -631,10 +631,14 @@ class SettingsWindow(QMainWindow):
         else:
             QtWin.resetExtendedFrame(self)
         self.installEventFilter(self)
-        self.setWindowTitle("‎")
-        pixmap = QPixmap(32, 32)
-        pixmap.fill(Qt.transparent)
-        self.setWindowIcon(QIcon(pixmap))
+        if winver > 22581:
+            self.setWindowTitle("‎")
+            pixmap = QPixmap(32, 32)
+            pixmap.fill(Qt.transparent)
+            self.setWindowIcon(QIcon(pixmap))
+        else:
+            self.setWindowTitle("‎"+_("ElevenClock Settings"))
+            self.setWindowIcon(QIcon(getPath("icon.ico")))
 
     def filter(self, query: str):
         widgets: list[QSettingsTitle] = (
