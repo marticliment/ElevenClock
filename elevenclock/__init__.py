@@ -696,6 +696,25 @@ try:
                 self.h = int(h) + yoff
                 self.dpix = dpix
                 self.dpiy = dpiy
+                
+                self.clockAction = ("win", "n")
+                act = getSettingsValue("CustomClockClickAction")
+                if act != "":
+                    if len(act.split("+")) > 3 or len(act.split("+")) < 1:
+                        print("🟠 Invalid clock custom action")
+                    else:
+                        r = []
+                        for piece in act.split("+"):
+                            piece = piece.lower()
+                            # The following line of code has been taken from https://pyautogui.readthedocs.io/en/latest/keyboard.html the 1st april 2022
+                            if piece in ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7','8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`','a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o','p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~','accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace','browserback', 'browserfavorites', 'browserforward', 'browserhome','browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear','convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete','divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10','f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20','f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9','final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja','kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail','launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack','nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6','num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn','pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn','prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator','shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab','up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen','command', 'option', 'optionleft', 'optionright']:
+                                r.append(piece)
+                            else:
+                                print("🟠 Invalid clock custom action piece:", piece)
+                                r = ("win", "n")
+                                break
+                        self.clockAction = r
+                        print("🟢 Custom valid shortcut specified:", self.clockAction)
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
@@ -1091,7 +1110,12 @@ try:
                 time.sleep(0.1)
 
         def showCalendar(self):
-            pyautogui.hotkey("win", "n")
+            if len(self.clockAction) == 1:
+                pyautogui.hotkey(self.clockAction[0])
+            elif len(self.clockAction) == 2:
+                pyautogui.hotkey(self.clockAction[0], self.clockAction[1])
+            elif len(self.clockAction) == 3:
+                pyautogui.hotkey(self.clockAction[0], self.clockAction[1], self.clockAction[2])
             if self.hideClockWhenClicked:
                 print("🟡 Hiding clock because clicked!")
                 self.clockShouldBeHidden = True
@@ -1163,11 +1187,6 @@ try:
         def __init__(self, text, parent):
             super().__init__(text, parent=parent)
             try:
-                self.winver = int(platform.version().split('.')[2])
-            except Exception as e:
-                report(e)
-                self.winver = 22000
-            try:
                 self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth"))
             except ValueError:
                 self.specifiedMinimumWidth = 0
@@ -1212,7 +1231,7 @@ try:
             self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
             self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
             self.focusAssitantLabel.resize(self.getPx(30), self.height())
-            if self.winver < 22581:
+            if winver < 22581:
                 self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
             else:
                 if numOfNotifs == 0:
@@ -1243,7 +1262,7 @@ try:
             
         def enableFocusAssistant(self):
             if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
-                if self.winver < 22581:
+                if winver < 22581:
                     self.focusAssitantLabel.setIcon(self.moonIconWhite if isTaskbarDark() else self.moonIconBlack)
                 else:
                     if numOfNotifs == 0:
@@ -1251,7 +1270,6 @@ try:
                     else:
                         self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
             if not self.focusassitant:
-                cprint("assist", isFocusAssist)
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True

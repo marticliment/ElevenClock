@@ -155,6 +155,23 @@ class SettingsWindow(QMainWindow):
         self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
         self.clockSettingsTitle.addWidget(self.forceClockToShow)
+        self.customClockAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is clicked"))
+        actions = {
+            _("Show calendar"): "Win+N",
+            _("Disabled"): "f20",
+            _("Open quick settings"): "Win+A",
+            _("Show desktop"): "Win+D",
+            _("Open run dialog"): "Win+R",
+            _("Open task manager"): "Ctrl+Shift+Esc",
+            _("Open start menu"): "Win",
+            _("Open search menu"): "Win+S",
+            _("Change task"): "AltRight+Tab",
+        }
+        self.customClockAction.stateChanged.connect(lambda i: setSettings("CustomClockClickAction", bool(i)))
+        self.customClockAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockClickAction", actions[v]))
+        self.customClockAction.loadItems(actions.keys())
+        self.customClockAction.setChecked(getSettings("CustomClockClickAction"))
+        self.clockSettingsTitle.addWidget(self.customClockAction)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
@@ -2290,9 +2307,13 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
         
-    def loadItems(self):
+    def loadItems(self, items: list = None):
         self.combobox.clear()
-        self.combobox.addItems(str(item) for item in [2, 3, 4, 5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16, 18, 20, 22, 24, 26, 28, 30, 34, 37, 40, 44, 47, 50, 55, 60, 70, 95, 100])
+        if items:
+            self.combobox.addItems(str(item) for item in items)
+
+        else:
+            self.combobox.addItems(str(item) for item in [2, 3, 4, 5, 6, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 16, 18, 20, 22, 24, 26, 28, 30, 34, 37, 40, 44, 47, 50, 55, 60, 70, 95, 100])
 
 class QSettingsSliderWithCheckBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
