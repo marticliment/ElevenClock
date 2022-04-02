@@ -2,6 +2,6 @@ pyautogui
 pywin32
 PySide2
 psutil
-PyInstaller==4.1
+PyInstaller
 win32mica
 python-dateutil
