@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "달력 표시",
+    "Disabled": "사용 안 함",
+    "Open quick settings": "빠른 설정 열기",
+    "Show desktop": "바탕화면 표시",
+    "Open run dialog": "실행 대화 상자 열기",
+    "Open task manager": "작업 관리자 열기",
+    "Open start menu": "시작 메뉴 열기",
+    "Open search menu": "검색 메뉴 열기",
+    "Change task": "작업 변경",
+    "Change the action done when the clock is clicked": "시계를 클릭할 때 수행된 작업 변경",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
