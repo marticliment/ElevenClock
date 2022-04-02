@@ -19,6 +19,7 @@ try:
     import tempfile
     import datetime
     import subprocess
+    from dateutil import tz
     from threading import Thread
     from urllib.request import urlopen
 
@@ -38,6 +39,7 @@ try:
     #from PySide2.QtCore import pyqtSignal as Signal
     import pyautogui
     from external.FramelessWindow import QFramelessDialog
+    from external.timezones import win_tz
 
     from languages import *
     import globals
@@ -496,7 +498,7 @@ try:
         def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0)):
             super().__init__(text)
             self.scr = screen
-            self.setFixedHeight(self.getPx(30))
+            self.setFixedHeight(self.getPx(60))
             self.setMaximumWidth(self.getPx(200))
             self.setContentsMargins(self.getPx(10), self.getPx(5), self.getPx(10), self.getPx(5))
             self.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
@@ -511,8 +513,39 @@ try:
             ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
 
         def show(self):
+            addClocks = ""
+            height = 30
+            if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "Enable", 0) == 1:
+                addClocks += "\n\n"
+                self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                height += 30
+                sDateMode = readRegedit(r"Control Panel\International", "sShortTime", "dd/MM/yyyy")
+                print("🔵 Long date string:", sDateMode)
+                dateMode = ""
+                for i, ministr in enumerate(sDateMode.split("'")):
+                    if i%2==0:
+                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+                    else:
+                        dateMode += ministr
+                addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "DisplayName", "UnknowntimeZone") + ")"
+            
+            if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "Enable", 0) == 1:
+                self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                height += 15
+                addClocks += "\n"
+                sDateMode = readRegedit(r"Control Panel\International", "sShortTime", "dd/MM/yyyy")
+                print("🔵 Long date string:", sDateMode)
+                dateMode = ""
+                for i, ministr in enumerate(sDateMode.split("'")):
+                    if i%2==0:
+                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+                    else:
+                        dateMode += ministr
+                addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "DisplayName", "UnknowntimeZone") + ")"
+            
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
             print("🔵 Long date string:", lDateMode)
+            self.setFixedHeight(self.getPx(height))
             dateMode = ""
             for i, ministr in enumerate(lDateMode.split("'")):
                 if i%2==0:
@@ -520,10 +553,10 @@ try:
                 else:
                     dateMode += ministr
             try:
-                self.setText(str(datetime.datetime.now().strftime(dateMode)))
+                self.setText(str(datetime.datetime.now().strftime(dateMode))+addClocks)
             except Exception as e:
                 report(e)
-                self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y")))
+                self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+addClocks)
             super().show()
             
         def getPx(self, original) -> int:

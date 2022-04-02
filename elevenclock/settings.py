@@ -455,6 +455,8 @@ class SettingsWindow(QMainWindow):
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
                 <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a></li>
+                <li> <b>TzLocal</b>: <a href="https://github.com/regebro/tzlocal/blob/master/LICENSE.txt">MIT License</a></li>
+                <li> <b>Dateutil</b>: <a href="https://github.com/dateutil/dateutil/blob/master/LICENSE">Apache 2 License</a></li>
                 </ul>    """)
             msg.addButton(_("Ok"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
             msg.addButton(_("More Info"), QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#third-party-libraries"))
