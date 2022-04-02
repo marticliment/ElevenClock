@@ -167,10 +167,11 @@ class SettingsWindow(QMainWindow):
             _("Open search menu"): "Win+S",
             _("Change task"): "AltRight+Tab",
         }
-        self.customClockAction.stateChanged.connect(lambda i: setSettings("CustomClockClickAction", bool(i)))
-        self.customClockAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockClickAction", actions[v]))
         self.customClockAction.loadItems(actions.keys())
         self.customClockAction.setChecked(getSettings("CustomClockClickAction"))
+        self.customClockAction.combobox.setCurrentIndex(list(actions.values()).index(getSettingsValue("CustomClockClickAction")))
+        self.customClockAction.stateChanged.connect(lambda i: setSettings("CustomClockClickAction", bool(i)))
+        self.customClockAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockClickAction", actions[v]))
         self.clockSettingsTitle.addWidget(self.customClockAction)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
