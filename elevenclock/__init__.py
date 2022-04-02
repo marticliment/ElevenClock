@@ -19,7 +19,7 @@ try:
     import tempfile
     import datetime
     import subprocess
-    from dateutil import tz
+    import dateutil.tz as tz
     from threading import Thread
     from urllib.request import urlopen
 
