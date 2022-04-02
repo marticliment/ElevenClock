@@ -3,10 +3,22 @@ import glob, os
 
 
 
-OLDSTR = b""""ElevenClock has updated to version {0} successfully
-Please see GitHub for the changelog": "","""
+OLDSTR = b"""lang_3_3_2 = {"""
 
-NEWSTR = b""""ElevenClock has updated to version {0} successfully\\nPlease see GitHub for the changelog": "","""
+NEWSTR = b"""lang_3_4_0 = {
+    "Show calendar": "",
+    "Disabled": "",
+    "Open quick settings": "",
+    "Show desktop": "",
+    "Open run dialog": "",
+    "Open task manager": "",
+    "Open start menu": "",
+    "Open search menu": "",
+    "Change task": "",
+    "Change the action done when the clock is clicked": "",
+}
+
+lang_3_3_2 = lang_3_4_0 | {"""
 
 input(f"Path is \"{os.getcwd()}\" Press [INTRO] to contniue")
 print()

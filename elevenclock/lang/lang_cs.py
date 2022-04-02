@@ -10,7 +10,20 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_3_2 = {
+lang_3_4_0 = {
+    "Show calendar": "",
+    "Disabled": "",
+    "Open quick settings": "",
+    "Show desktop": "",
+    "Open run dialog": "",
+    "Open task manager": "",
+    "Open start menu": "",
+    "Open search menu": "",
+    "Change task": "",
+    "Change the action done when the clock is clicked": "",
+}
+
+lang_3_3_2 = lang_3_4_0 | {
     "ElevenClock Updater": "ElevenClock Updater",
     "ElevenClock is downloading updates": "ElevenClock stahuje aktualizace",
     "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock se úspšně aktualizovat na verzi {0}\nSeznam změn najdete v GitHubu",

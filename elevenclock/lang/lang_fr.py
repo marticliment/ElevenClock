@@ -7,7 +7,20 @@
 # Meke special attention to elements like ":", etc.
 
 
-lang_3_3_2 = {
+lang_3_4_0 = {
+    "Show calendar": "",
+    "Disabled": "",
+    "Open quick settings": "",
+    "Show desktop": "",
+    "Open run dialog": "",
+    "Open task manager": "",
+    "Open start menu": "",
+    "Open search menu": "",
+    "Change task": "",
+    "Change the action done when the clock is clicked": "",
+}
+
+lang_3_3_2 = lang_3_4_0 | {
     "ElevenClock Updater": "Mise à jour ElevenClock",
     "ElevenClock is downloading updates": "ElevenClock télécharge la mise à jour",
     "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock a été mis à jour en version {0}\nConsulter GitHub pour le journal des modifications",

@@ -6,7 +6,20 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_3_2 = {
+lang_3_4_0 = {
+    "Show calendar": "Mostra el calendari",
+    "Disabled": "Desactivat",
+    "Open quick settings": "Obre les accions ràpides",
+    "Show desktop": "Mostra l'escriptori",
+    "Open run dialog": "Obre el diàleg d'excutar",
+    "Open task manager": "Obre l'administrador de tasques",
+    "Open start menu": "Obre el menú d'inici",
+    "Open search menu": "Obre el menú de cerca",
+    "Change task": "Canvia la tasca",
+    "Change the action done when the clock is clicked": "Canvia l'acció feta pel rellotge en ser clicat",
+}
+
+lang_3_3_2 = lang_3_4_0 | {
     "ElevenClock Updater": "Actualitzador de l'ElevenClock",
     "ElevenClock is downloading updates": "L'ElevenClock està descarregant les actualitzacions",
     "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "L'ElevenClock s'ha actualitzat a la versió {0}.\nVeieu a GitHub el registre de canvis",

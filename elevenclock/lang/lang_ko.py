@@ -6,7 +6,20 @@
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
 
-lang_3_3_2 = {
+lang_3_4_0 = {
+    "Show calendar": "",
+    "Disabled": "",
+    "Open quick settings": "",
+    "Show desktop": "",
+    "Open run dialog": "",
+    "Open task manager": "",
+    "Open start menu": "",
+    "Open search menu": "",
+    "Change task": "",
+    "Change the action done when the clock is clicked": "",
+}
+
+lang_3_3_2 = lang_3_4_0 | {
     "ElevenClock Updater": "ElevenClock 업데이트 프로그램",
     "ElevenClock is downloading updates": "Eleven Clock이 업데이트를 다운로드하고 있습니다",
     "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "Eleven Clock이 {0} 버전으로 업데이트되었습니다.\n변경 사항은 GitHub를 참조하십시오.",

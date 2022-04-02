@@ -9,7 +9,20 @@
 # Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
-lang_3_3_2 = {
+lang_3_4_0 = {
+    "Show calendar": "",
+    "Disabled": "",
+    "Open quick settings": "",
+    "Show desktop": "",
+    "Open run dialog": "",
+    "Open task manager": "",
+    "Open start menu": "",
+    "Open search menu": "",
+    "Change task": "",
+    "Change the action done when the clock is clicked": "",
+}
+
+lang_3_3_2 = lang_3_4_0 | {
     "ElevenClock Updater": "",
     "ElevenClock is downloading updates": "",
     "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",

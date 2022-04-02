@@ -1491,29 +1491,6 @@ try:
         setSettings(f"Updated{versionName}Already", True, False)
         if getSettings("DefaultPrefsLoaded"):
             showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
-        #msg = QFramelessDialog(parent=None, closeOnClick=False)
-        #msg.setAutoFillBackground(True)
-        #msg.setStyleSheet(sw.styleSheet())
-        #msg.setAttribute(QtCore.Qt.WA_StyledBackground)
-        #msg.setObjectName("QMessageBox")
-        #msg.setTitle("ElevenClock Updater")
-        #msg.setText(f"""<b>ElevenClock has updated to version {versionName} successfully.</b>
-        #<br><br>This update brings:<br>
-        #<ul><li><b>Lots of fixes!</b></li>
-        #<li> Fixed the "Invaid Time Format" error</li>
-        #3<li> Fixed the clock being black</li>
-        #<li> Fixed the clock changing color</li>
-        #<li> Added the ability to disable tooltips</li>
-        #<li> Other bugfixing and improvements</li></ul>""")
-        #msg.addButton("Ok", QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
-        #msg.addButton("Full changelog", QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/releases"))
-        #def settNClose():
-        #    sw.show()
-        #    msg.close()
-        #msg.addButton("Settings", QDialogButtonBox.ButtonRole.ActionRole, lambda: settNClose())
-        #msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, sw.styleSheet())
-        #msg.setWindowTitle("ElevenClock has updated!")
-        #msg.show()
 
     showSettings = False
     if "--settings" in sys.argv or showSettings:
