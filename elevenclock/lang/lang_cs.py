@@ -11,23 +11,23 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Zobrazit kalendář",
+    "Disabled": "Nedělat nic",
+    "Open quick settings": "Otevřít rychlé nastavení",
+    "Show desktop": "Zobrazit plochu",
+    "Open run dialog": "Otevřít dialog Spustit",
+    "Open task manager": "Otevřít Správce úloh",
+    "Open start menu": "Otevřít Start menu",
+    "Open search menu": "Otevřít Hledání",
+    "Change task": "Změnit úlohu",
+    "Change the action done when the clock is clicked": "Změnit chování při kliku na hodiny",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
     "ElevenClock Updater": "ElevenClock Updater",
     "ElevenClock is downloading updates": "ElevenClock stahuje aktualizace",
     "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock se úspšně aktualizovat na verzi {0}\nSeznam změn najdete v GitHubu",
-    "Customize the clock on Windows 11": "Upravit hodiny na Windows 11",
+    "Customize the clock on Windows 11": "Přizpůsobte si hodiny ve Windows 11",
     "Disable the new instance checker method": "Zakázat novou metodu kontroly instance",
     "Import settings from a local file": "Importovat nastavení z lokálního souboru",
     "Export settings to a local file": "Exportovat nastavení do lokálního souboru",
