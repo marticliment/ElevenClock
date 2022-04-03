@@ -11,23 +11,23 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_5_0 = {
-    "Tooltip Appearance:": "",
-    "Tooltip's font, font size, font color and background": "",
-    "Disable tooltip's blurry background": "",
-    "Sync time with the internet": "",
-    "Internet date and time": "",
-    "Select internet time provider, change sync frequency": "",
-    "Enable atomic clock-based internet time": "",
-    "Paste a URL from the world clock api or equivalent": "",
-    "Help": "",
-    "Internet sync frequency": "",
-    "10 minutes": "",
-    "30 minutes": "",
-    "1 hour": "",
-    "2 hours": "",
-    "4 hours": "",
-    "10 hours": "",
-    "24 hours": "",
+    "Tooltip Appearance:": "Vzhled popisku",
+    "Tooltip's font, font size, font color and background": "Styl, velikost a barva písma, barva pozadí",
+    "Disable tooltip's blurry background": "Vypnout rozmazené pozadí popisku",
+    "Sync time with the internet": "Synchronizovat čas s internetem",
+    "Internet date and time": "Internetové datum a čas",
+    "Select internet time provider, change sync frequency": "Poskytovatel internetového času, změna frekvence synchronizace",
+    "Enable atomic clock-based internet time": "Povolit internetový čas založený na atomových hodinách",
+    "Paste a URL from the world clock api or equivalent": "Vložte URL ze světového časového API",
+    "Help": "Nápověda",
+    "Internet sync frequency": "Frekvence synchronizace",
+    "10 minutes": "10 minut",
+    "30 minutes": "30 minut",
+    "1 hour": "1 hodina",
+    "2 hours": "2 hodiny",
+    "4 hours": "4 hodiny",
+    "10 hours": "10 hodin",
+    "24 hours": "24 hodin",
 }
 
 lang_3_4_0 = lang_3_5_0 | {
@@ -167,7 +167,7 @@ lang_2_9 = lang_2_9_2 | {
     "Date format, Time format, seconds,weekday, weeknumber, regional settings": "Formát data a času, sekundy, dny v týdnu, číslo dne a regionální nastavení",
     "Testing features and error-fixing tools": "Testovací funkce a nástroje pro opravu chyb",
     "Language pack author(s), help translating ElevenClock": "Autoři lokalizace a pomoc s překladem aplikace ElevenClock",
-    "Info, report a bug, submit a feature request, donate, about": "Informace, hlášení chyb, žádosti o nové funknce a darování",
+    "Info, report a bug, submit a feature request, donate, about": "Informace, hlášení chyb, žádosti o nové funknce a podpora projektu",
     "Log, debugging information": "Ladící informace a protokoly",
 }
 
