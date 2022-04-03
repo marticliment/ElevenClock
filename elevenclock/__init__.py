@@ -1233,10 +1233,10 @@ try:
             QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
-            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.01);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
+            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
             if self.window().transparentBackground:
-                colorOffset = .01
+                colorOffset = 0
             else:
                 colorOffset = 0
             self.showBackground = QVariantAnimation()
