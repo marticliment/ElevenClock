@@ -10,28 +10,28 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Показать календарь",
+    "Disabled": "Отключено",
+    "Open quick settings": "Показать панель быстрого доступа",
+    "Show desktop": "Показать рабочий стол",
+    "Open run dialog": "Открыть диалог 'Запустить...'",
+    "Open task manager": "Открыть Диспетчер задач",
+    "Open start menu": "Открыть Пуск",
+    "Open search menu": "Открыть Поиск",
+    "Change task": "Переключить окно",
+    "Change the action done when the clock is clicked": "Действие по нажатию на часы",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "Обновление ElevenClock",
+    "ElevenClock is downloading updates": "ElevenClock загружает обновление",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock успешно обновился до версии {0}.\nСписок изменений на GitHub.",
+    "Customize the clock on Windows 11": "Кастомизация часов на Windows 11",
+    "Disable the new instance checker method": "Отключить проверку уже запущенного процесса",
+    "Import settings from a local file": "Импорт настроек из файла",
+    "Export settings to a local file": "Экспорт настроек в файл",
+    "Export": "Экспортировать",
+    "Import": "Импортировать",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
@@ -77,7 +77,7 @@ lang_3_2 = lang_3_2_1 | {
 }
 
 lang_3_1 = lang_3_2 | {
-    "W": "H", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "W": "H", # The initial of the word week in your language: W for week, S for setmana, etc. !Important! due to tech reasons it is a latin H, not russian Н
     "Disable the notification badge": "Отключить значок уведомлений",
     "Override clock default height": "Высота часов по умолчанию",
     "Adjust horizontal clock position": "Смещение по горизонтали",
