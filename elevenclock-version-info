@@ -31,12 +31,12 @@ StringFileInfo(
     u'040904B0',
     [StringStruct(u'CompanyName', u'The ElevenClock Project'),
     StringStruct(u'FileDescription', u'ElevenClock'),
-    StringStruct(u'FileVersion', u'3.3.2'),
+    StringStruct(u'FileVersion', u'3.4.0.1'),
     StringStruct(u'InternalName', u'ElevenClock'),
     StringStruct(u'LegalCopyright', u'The ElevenClock Project'),
     StringStruct(u'OriginalFilename', u'elevenclock.exe'),
     StringStruct(u'ProductName', u'ElevenClock'),
-    StringStruct(u'ProductVersion', u'3.3.2')])
+    StringStruct(u'ProductVersion', u'3.4.0.1')])
   ]), 
 VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]
