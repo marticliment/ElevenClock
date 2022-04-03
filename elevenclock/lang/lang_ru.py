@@ -10,28 +10,28 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
+    "Show calendar": "Показать календарь",
+    "Disabled": "Отключено",
+    "Open quick settings": "Меню настроек",
+    "Show desktop": "Показать рабочий стол",
+    "Open run dialog": "Запустить...", # just like in Win95/xp
+    "Open task manager": "Открыть Диспетчер задач",
+    "Open start menu": "Открыть Пуск",
+    "Open search menu": "Открыть Поиск",
+    "Change task": "Сменить задачу", # need context
     "Change the action done when the clock is clicked": "",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "Обновление ElevenClock", # ??? need to check context, but I guess that variant should work
+    "ElevenClock is downloading updates": "ElevenClock загружает обновление",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock успешно обновился до версии {0}.\nСписок изменений на GitHub.",
+    "Customize the clock on Windows 11": "Изменять часы на Windows 11", # ??? need to verify context
+    "Disable the new instance checker method": "Отключить метод проверки нового процесса", # ??? need to verify
+    "Import settings from a local file": "Импорт настроек из файла",
+    "Export settings to a local file": "Экспорт настроек в файл",
+    "Export": "Экспорт",
+    "Import": "Импорт",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
