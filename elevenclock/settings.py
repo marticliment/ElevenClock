@@ -169,7 +169,10 @@ class SettingsWindow(QMainWindow):
         }
         self.customClockAction.loadItems(actions.keys())
         self.customClockAction.setChecked(getSettings("CustomClockClickAction"))
-        self.customClockAction.combobox.setCurrentIndex(list(actions.values()).index(getSettingsValue("CustomClockClickAction")))
+        try:
+            self.customClockAction.combobox.setCurrentIndex(list(actions.values()).index(getSettingsValue("CustomClockClickAction")))
+        except ValueError:
+            pass
         self.customClockAction.stateChanged.connect(lambda i: setSettings("CustomClockClickAction", bool(i)))
         self.customClockAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockClickAction", actions[v]))
         self.clockSettingsTitle.addWidget(self.customClockAction)

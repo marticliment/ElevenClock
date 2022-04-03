@@ -25,8 +25,8 @@ from external.FramelessWindow import QFramelessDialog
 import win32gui
 from win32con import *
 
-version = 3.4
-versionName = "3.4.0"
+version = 3.401
+versionName = "3.4.0.1"
 
 
 try:
