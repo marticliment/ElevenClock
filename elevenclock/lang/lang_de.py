@@ -74,7 +74,7 @@ lang_3_2 = lang_3_2_1 | {
 }
 
 lang_3_1 = lang_3_2 | {
-    "W": "W", # The initial of the word week in your language: W for week, S for setmana, etc.
+    "W": "KW", # The initial of the word week in your language: W for week, S for setmana, etc.
     "Disable the notification badge"                           : "Anzeige für Benachrichtigungen deaktiveren",
     "Override clock default height"                            : "Standart-Höhe der Uhr überschreiben",
     "Adjust horizontal clock position"                         : "Horizontale Position der Uhr anpassen",
