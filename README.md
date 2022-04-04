@@ -1,28 +1,26 @@
-
-[![Download@3.2](https://img.shields.io/github/downloads/martinet101/ElevenClock/3.2.0/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
-[![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/latest/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
+[![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
 [![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
 [![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
 [![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
 [![ElevenClock](https://img.shields.io/twitter/follow/elevenclockproj?color=%231DA1F2&style=for-the-badge)](https://twitter.com/ElevenClockProj)
-<br>
+
 # ElevenClock
 
 The whole point of ElevenClock is to have a customizable clock on your Windows 11 taskbars. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. 
-ElevenClock was an app designed to return this functionality back, but it has evolved and it can now replace your system clock in order to let you customize it, adding seconds, moving it around, changing its color and much more, like in the good old days.<br><br>
+ElevenClock was an app designed to return this functionality back, but it has evolved and it can now replace your system clock in order to let you customize it, adding seconds, moving it around, changing its color and much more, like in the good old days.  
 
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 
 ## Support the developer:
 
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)
-<br>
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://ko-fi.com/martinet101)  
+
 ## Table of contents
  - [Table of contents](#table-of-contents)
  - [Installation](#microsoft-store-installation)
  - [Support the developer](#support-the-developer)
  - [Features](#features)
- - [Translating ElevenClock](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock)
+ - [Translating ElevenClock][translating link]
    - [Currently supported languages](#currently-supported-languages)
  - [Screenshots](#screenshots)
    - [Settings window screenshots](#settings-window-screenshots)
@@ -31,9 +29,8 @@ ElevenClock was an app designed to return this functionality back, but it has ev
 
 ## Microsoft store installation:
 
-[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)<br>
-(See the [WIKI](https://github.com/martinet101/ElevenClock/wiki/Installation) for more information)
-
+[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)  
+(See the [WIKI](/martinet101/ElevenClock/wiki/Installation) for more information)
 
 
 
@@ -58,7 +55,7 @@ TL;DR: ElevenClock does everything that Windows 11 clock can't do.
  - More stuff can be found on ElevenClock Settings
 
 ## Translating ElevenClock to other languages
-In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock) for more info
+In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki][translating link] for more info.
 
 
 ### Currently Supported languages
@@ -123,30 +120,31 @@ ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xde
 
 ## Frequently asked questions
 
-**Q: The clock shows over fullscreen**<br>
-A: Enable fullscreen hiding in settings<br>
+**Q: The clock shows over fullscreen**  
+A: Enable fullscreen hiding in settings
 
-**Q: The clock shows over RDP sessions**<br>
-A: Enable RDP hiding in settings (it may consume more CPU)<br>
+**Q: The clock shows over RDP sessions**  
+A: Enable RDP hiding in settings (it may consume more CPU)
 
-**Q: Can ElevenClock be in my language?**<br>
-A: Yes, just take a look at [TRANSLATION.md](https://github.com/martinet101/ElevenClock/wiki/Translating-ElevenClock)<br>
+**Q: Can ElevenClock be in my language?**  
+A: Yes, just take a look at [TRANSLATION.md][translating link]
 
-**Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**<br>
-A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings<br>
+**Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**  
+A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings
 
-**Q: The clock shows seconds when the "Show Seconds" settings is disabled**<br>
-A: Check that you don't have seconds set in your regional settings and disable seconds following this [article's instructions](https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/) (Other guides might not work)<br>
+**Q: The clock shows seconds when the "Show Seconds" settings is disabled**  
+A: Check that you don't have seconds set in your regional settings and disable seconds following this [article's instructions](https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/) (Other guides might not work)
 
-**Q: ElevenClock does not show the correct time zone when time zone is changed**<br>
-A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)<br>
+**Q: ElevenClock does not show the correct time zone when time zone is changed**  
+A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)
 
-**Q: The main clock does not get modified when enabling seconds, etc.**<br>
+**Q: The main clock does not get modified when enabling seconds, etc.**  
 A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
 
 
 ## Legacy Installation
 
-See the wiki:
-https://github.com/martinet101/ElevenClock/wiki/Installation
+See the wiki: https://github.com/martinet101/ElevenClock/wiki/Installation
 
+
+[translating link]: (/martinet101/ElevenClock/wiki#translating-elevenclock)
