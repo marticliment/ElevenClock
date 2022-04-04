@@ -30,7 +30,7 @@ ElevenClock was an app designed to return this functionality back, but it has ev
 ## Microsoft store installation:
 
 [<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)  
-(See the [WIKI](https://github.com/martinet101/ElevenClock/wiki/Installation) for more information)
+(See the [WIKI](https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation) for more information)
 
 
 
