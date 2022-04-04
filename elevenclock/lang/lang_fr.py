@@ -8,16 +8,16 @@
 
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Afficher le calendrier",
+    "Disabled": "Désactiver",
+    "Open quick settings": "Ouvrir les paramètres rapides",
+    "Show desktop": "Afficher le bureau",
+    "Open run dialog": "Ouvrir la boîte de dialogue d'exécution",
+    "Open task manager": "Ouvrir le gestionnaire des tâches",
+    "Open start menu": "Ouvrir le menu démarrer",
+    "Open search menu": "Ouvrir le menu de recherche",
+    "Change task": "Changer de tâche",
+    "Change the action done when the clock is clicked": "Modifier l'action effectuée lorsque l'horloge est cliqué",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
