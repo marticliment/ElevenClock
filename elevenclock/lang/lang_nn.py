@@ -11,60 +11,60 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Vis kalender",
+    "Disabled": "Deaktivert",
+    "Open quick settings": "Åpne hurtiginnstillinger",
+    "Show desktop": "Vis skrivebord",
+    "Open run dialog": "Åpne Kjør-oppgåva",
+    "Open task manager": "Åpne oppgåvebehandling",
+    "Open start menu": "Åpne startmenyen",
+    "Open search menu": "Åpne søkemenyen",
+    "Change task": "Bytt oppgåve",
+    "Change the action done when the clock is clicked": "Endre kva som verte gjere når klokka er klikka på",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClock oppdaterar",
+    "ElevenClock is downloading updates": "ElevenClock lastar ned oppdateringar",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "Elevenclock har suksessfullt oppdatert til versjon {0}\nVenlegst sjå GitHub for endringslogg",
+    "Customize the clock on Windows 11": "Personaliser klokka på Windows 11",
+    "Disable the new instance checker method": "Deaktiver ny oppgave-undersøkingsmetoden",
+    "Import settings from a local file": "Importer innstillingar frå ein lokal fil",
+    "Export settings to a local file": "Eksporter innstillingar til ein lokal fil",
+    "Export": "Eksporter",
+    "Import": "Importer",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Ugyldig tidsformat\nVenlegst følj\nC 1989-standardane",
+    "Nothing to preview": "Ingenting å forhandsvise",
+    "Invalid time format\nPlease modify it\nin the settings": "Ugyldig tidsformat\nVenlegst modifiser det\ni innstillingane",
+    "Disable the tooltip shown when the clock is hovered": "Deaktiver pekerhintet vist når pekaren svevar over klokka"
 }
 lang_3_3 = lang_3_3_1 | {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "Personlige formateringsreglar",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Hvilken som helst tekst kan plasserast her. For å plassere dato og tid, venlegst bruk 1989 C-standarden. Mer informasjon på føljende lenke",
+    "Python date and time formats": "Pythons dato- og tidsformat",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "For å skru av null-padding-effekten, legg inn ein # mellom % og koden: ikke-null-paddede timer er %#H, og null-paddede timer er %H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "Klikk på Bruk for å bruke og forhandsvise formatet",
+    "Apply": "Bruk",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "Hvis du ikkje forstår kva som skjer, vær så snill og av-avhuk boksen over tekstområdet",
+    "Set a custom date and time format": "Sett personleg dato- og tidsformat",
+    "(for advanced users only)": "(kun for avanserte brukarar)",
+    "Move this clock to the left": "Flytt klokka til venstre",
+    "Move this clock to the top": "Flytt klokka til toppen",
+    "Move this clock to the right": "Flytt klokka til høgre",
+    "Move this clock to the bottom": "Flytt klokka til bunnen",
+    "Restore horizontal position": "Gjenopprett horisontal posisjon",
+    "Restore vertical position": "Gjenopprett vertikal posisjon",
 }
 
 lang_3_2_1 = lang_3_3 | {
-    "Open online help to troubleshoot problems": "",
-    "Reset ElevenClock preferences to defaults": "",
-    "Specify a minimum width for the clock": "",
-    "Search on the settings": "",
-    "No results were found": "",
+    "Open online help to troubleshoot problems": "Åpne hjelp på nettet for å feilsøke problemet",
+    "Reset ElevenClock preferences to defaults": "Nullstill ElevenClocks innstillingar til standardinnstillinage",
+    "Specify a minimum width for the clock": "Spesifiser ein minimumsvidde for klokka",
+    "Search on the settings": "Søk i innstillingane",
+    "No results were found": "Ingen resultatar er funnen",
 }
 
 lang_3_2 = lang_3_2_1 | {
