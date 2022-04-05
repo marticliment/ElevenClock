@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Vis kalender",
+    "Disabled": "Deaktiver",
+    "Open quick settings": "Åpne hurtiginnstillinger",
+    "Show desktop": "Vis skrivebord",
+    "Open run dialog": "Åpne Kjør-oppgaven",
+    "Open task manager": "Åpne oppgavebehandling",
+    "Open start menu": "Åpne start-menyen",
+    "Open search menu": "Åpne søkemenyen",
+    "Change task": "Bytt oppgave",
+    "Change the action done when the clock is clicked": "Endre reaksjonen når klokken klikkes på",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
