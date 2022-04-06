@@ -7,28 +7,28 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "カレンダーを表示",
+    "Disabled": "無効",
+    "Open quick settings": "クイック設定を開く",
+    "Show desktop": "デスクトップを表示",
+    "Open run dialog": "ファイル名を指定して実行を表示",
+    "Open task manager": "タスク マネージャーを開く",
+    "Open start menu": "スタート メニューを開く",
+    "Open search menu": "検索メニューを開く",
+    "Change task": "タスクを変更",
+    "Change the action done when the clock is clicked": "時計をクリックしたときのアクションを変更する",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClock アップデーター",
+    "ElevenClock is downloading updates": "ElevenClock は更新をダウンロードしています",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock はバージョン {0} に更新されました\n変更履歴は GitHub を参照してください",
+    "Customize the clock on Windows 11": "Windows 11 の時計をカスタマイズする",
+    "Disable the new instance checker method": "新しいインスタンスの確認方法を無効にする",
+    "Import settings from a local file": "ローカル ファイルから設定をインポートする",
+    "Export settings to a local file": "ローカル ファイルに設定をエクスポートする",
+    "Export": "エクスポート",
+    "Import": "インポート",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
@@ -39,7 +39,7 @@ lang_3_3_1 = lang_3_3_2 | {
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "カスタム形式ルール",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "ここには任意のテキストを配置できます。日付や時刻などを配置するには、1989 C Standard を使用してください。詳細は次のリンクをご参照ください",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "ここには任意のテキストを配置できます。日付や時刻などを配置するには、1989 C Standard の形式を使用してください。詳細は次のリンクをご参照ください",
     "Python date and time formats": "Python の日時形式",
     "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "0の追加を無効化するには、 # を % と文字の間に追加してください: 1桁のときに0の追加をしない「○時」表記 (例:9) は %#H, 1桁のときに0の追加をする「○時」表記 (例:09) は %H のようになります。", # Here please don't modify the %H and %#H values
     "Click on Apply to apply and preview the format": "適用・プレビューするには「適用」をクリックしてください",
