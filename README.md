@@ -95,7 +95,7 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Vietnamese
 
 #### New laguanges that will come with next version:
- - You say!
+ - Thai
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
