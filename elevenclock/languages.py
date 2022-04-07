@@ -1,6 +1,6 @@
 from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_nn, lang_ko, lang_vi, lang_el, lang_zh_TW
 from lang import lang_zh_CN, lang_pt_PT, lang_pt_BR, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv, lang_ua, lang_da, lang_lv, lang_hu, lang_sk
-from lang import lang_he, lang_cs,lang_ar
+from lang import lang_he, lang_cs, lang_ar, lang_th
 
 lang = None
 
@@ -33,6 +33,7 @@ languages = {
     "sk":    lang_sk,
     "sr":    lang_sr,
     "sv":    lang_sv,
+    "th":    lang_th,
     "tr":    lang_tr,
     "ua":    lang_ua,
     "vi":    lang_vi,
@@ -71,6 +72,7 @@ languageReference = {
     "sk"    : "Slovak",
     "es"    : "Spanish",
     "sv"    : "Swedish",
+    "th"    : "Thai",
     "zh_TW" : "Traditional Chinese (Taiwan)",
     "tr"    : "Turkish",
     "ua"    : "Ukranian",
