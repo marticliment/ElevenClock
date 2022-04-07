@@ -215,7 +215,7 @@ lang2_3 = lang2_4 | {
     "Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)": "บายพาสการตรวจสอบความถูกต้องของผู้ให้บริการอัปเดต (ไม่แนะนำ รับความเสี่ยงของคุณเอง)",
     "Show ElevenClock on system tray": "แสดง ElevenClock บนถาดของระบบ",
     "Alternative clock alignment (may not work)": "การจัดตำแหน่งนาฬิกาทางเลือก (อาจใช้งานไม่ได้)",
-    "Change startup behaviour": "เปลี่ยนลักษณะการทำงานในการเริ่มต้นระบบ",
+    "Change startup behaviour": "เปลี่ยนลักษณะการทำงานเมื่อเริ่มต้นระบบ",
     "Change": "เปลี่ยน",
     "<b>Update to the latest version!</b>": "<b>อัปเดตเป็นเวอร์ชันล่าสุด!</b>",
     "Install update": "ติดตั้งการอัปเดต",
