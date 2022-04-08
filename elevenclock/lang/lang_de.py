@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Kalender anzeigen",
+    "Disabled": "Deaktiviert",
+    "Open quick settings": "Schnell-Einstellungen öffnen",
+    "Show desktop": "Desktop anzeigen",
+    "Open run dialog": "Ausführen-Dialog anzeigen",
+    "Open task manager": "Task Manager öffnen",
+    "Open start menu": "Startmenü öffnen",
+    "Open search menu": "Suchmenü öffnen",
+    "Change task": "Aufgabe ändern",
+    "Change the action done when the clock is clicked": "Ändere die Aktion, die ausgeführt wird, wenn die Uhr angeklickt wird.",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
