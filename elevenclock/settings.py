@@ -654,7 +654,7 @@ class SettingsWindow(QMainWindow):
         else:
             QtWin.resetExtendedFrame(self)
         self.installEventFilter(self)
-        if winver > 22581:
+        if winver < 22581:
             self.setWindowTitle("‎")
             pixmap = QPixmap(32, 32)
             pixmap.fill(Qt.transparent)
