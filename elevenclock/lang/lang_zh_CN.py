@@ -7,16 +7,16 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "显示日历",
+    "Disabled": "已禁用",
+    "Open quick settings": "打开快速设置",
+    "Show desktop": "显示桌面",
+    "Open run dialog": "打开运行对话",
+    "Open task manager": "打开任务管理器",
+    "Open start menu": "打开开始菜单",
+    "Open search menu": "打开搜索菜单",
+    "Change task": "更改任务",
+    "Change the action done when the clock is clicked": "更改单击时钟时完成的操作",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
