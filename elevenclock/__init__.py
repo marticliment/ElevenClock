@@ -527,6 +527,7 @@ try:
                         dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
                     else:
                         dateMode += ministr
+                print("🔵 TZ 1 is", tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")]))
                 addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "DisplayName", "UnknowntimeZone") + ")"
             
             if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "Enable", 0) == 1:
@@ -541,6 +542,7 @@ try:
                         dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
                     else:
                         dateMode += ministr
+                print("🔵 TZ 2 is", tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")]))
                 addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "DisplayName", "UnknowntimeZone") + ")"
             
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
