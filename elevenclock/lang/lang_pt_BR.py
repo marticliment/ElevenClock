@@ -204,7 +204,7 @@ lang2_3 = lang2_4 | {
     "Quit ElevenClock" : "Sair do ElevenClock",
     
     #General settings section
-    "General Settings:" : "Definições Gerais:",
+    "General Settings:" : "Configurações Gerais:",
     "Automatically check for updates" : "Procurar atualizações automaticamente",
     "Automatically install available updates" : "Instalar atualizações automaticamente",
     "Enable really silent updates" : "Ligar atualizações silenciosas",
