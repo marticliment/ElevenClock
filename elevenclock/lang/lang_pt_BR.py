@@ -7,35 +7,35 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_4_0 = {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "Mostrar calendário",
+    "Disabled": "Desabilitado",
+    "Open quick settings": "Abrir configurações rápidas",
+    "Show desktop": "Mostrar área de trabalho",
+    "Open run dialog": "Abrir pop-up de executar",
+    "Open task manager": "Abrir gerenciador de tarefas",
+    "Open start menu": "Abrir menu inicial",
+    "Open search menu": "Abrir menu de pesquisa",
+    "Change task": "Mudar tarefa",
+    "Change the action done when the clock is clicked": "Mudar a ação concluída quando o relógio é clicado",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "Atualizador do ElevenClock",
+    "ElevenClock is downloading updates": "ElevenClock está baixando atualizações",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock atualizou para a versão {0} com sucesso\nVeja por gentileza o GitHub para acompanhar as mudanças.",
+    "Customize the clock on Windows 11": "Customize o relógio no Windows 11",
+    "Disable the new instance checker method": "Desabilitar o método verificador de nova instância",
+    "Import settings from a local file": "Importar configurações de um arquivo local",
+    "Export settings to a local file": "Exportar configurações para um arquivo externo",
+    "Export": "Exportar",
+    "Import": "Importar",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
     "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Nothing to preview": "Nada para pré visualizar",
+    "Invalid time format\nPlease modify it\nin the settings": "Formato de data inválido\nPor favor modifique-o nas configurações",
+    "Disable the tooltip shown when the clock is hovered": "Desabilitar ajuda mostrada quando o mouse passa por cima"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Regras de formato personalizado:",
@@ -143,7 +143,7 @@ lang_2_9 = lang_2_9_2 | {
     "Clock's font, font size, font color and background, text alignment" : "Fonte do relógio, tamanho da fonte, cor e fundo da fonte, alinhamento do texto",
     "Date format, Time format, seconds,weekday, weeknumber, regional settings" : "Formato de data, formato de hora, segundos, dia da semana, número da semana, configurações regionais",
     "Testing features and error-fixing tools" : "Recursos de teste e ferramentas de correção de erros",
-    "Language pack author(s), help translating ElevenClock" : "Autor(es) do pacote de idiomas, ajuda na tradução do ElevenClock",
+    "Language pack author(s), help translating ElevenClock" : "Autor(es) do pacote de idiomas, ajude na tradução do ElevenClock",
     "Info, report a bug, submit a feature request, donate, about" : "Informações, relatar bugs, enviar uma solicitação de recurso, doar, sobre",
     "Log, debugging information" : "Registro, informações de depuração",
 }
@@ -172,7 +172,7 @@ lang2_7 = lang2_7_bis | {
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)" : "Acerca de Qt6 (PySide6)",
+    "About Qt6 (PySide6)" : "Sobre o Qt6 (PySide6)",
     "About" : "Sobre",
     "Alternative non-SSL update server (This might help with SSL errors)" : "Servidor de atualização alternativo sem SSL (Pode ajudar com erros de SSL)",
     "Fixes and other experimental features: (Use ONLY if something is not working)" : "Correções e funcionalidades experimentais: (Usar APENAS se algo não funcionar corretamente)",
@@ -196,7 +196,7 @@ lang2_4 = lang2_5 | {
 
 lang2_3 = lang2_4 | {
     #Context menu
-    "ElevenClock Settings" : "Definições ElevenClock", # Also settings title
+    "ElevenClock Settings" : "Configurações do ElevenClock", # Also settings title
     "Reload Clocks" : "Reiniciar relógios",
     "ElevenClock v{0}" : "ElevenClock v{0}",
     "Restart ElevenClock" : "Reiniciar ElevenClock",
@@ -204,7 +204,7 @@ lang2_3 = lang2_4 | {
     "Quit ElevenClock" : "Sair do ElevenClock",
     
     #General settings section
-    "General Settings:" : "Definições Gerais:",
+    "General Settings:" : "Configurações Gerais:",
     "Automatically check for updates" : "Procurar atualizações automaticamente",
     "Automatically install available updates" : "Instalar atualizações automaticamente",
     "Enable really silent updates" : "Ligar atualizações silenciosas",
@@ -212,12 +212,12 @@ lang2_3 = lang2_4 | {
     "Show ElevenClock on system tray" : "Mostrar ElevenClock na área de notificação",
     "Alternative clock alignment (may not work)" : "Alinhamento alternativo (pode não funcionar)",
     "Change startup behaviour" : "Mudar comportamento de inicialização",
-    "Change" : "Definições",
+    "Change" : "Configurações",
     "<b>Update to the latest version!</b>" : "<b>Atualize para a versão mais recente!</b>",
     "Install update" : "Instalar atualização",
     
     #Clock settings
-    "Clock Settings:" : "Definições do relógio:",
+    "Clock Settings:" : "Configurações do relógio:",
     "Hide the clock in fullscreen mode" : "Esconder o relógio quando estiver em tela cheia",
     "Hide the clock when RDP client is active" : "Esconder o relógio quando o Ambiente de Trabalho Remoto estiver sendo usado",
     "Force the clock to be at the bottom of the screen" : "Forçar o relógio a ficar na parte de baixo da tela",
@@ -227,16 +227,16 @@ lang2_3 = lang2_4 | {
     "Show the clock at the left of the screen" : "Mostrar relógio à esquerda da tela",
     
     #Date & time settings
-    "Date & Time Settings:" : "Definições de Data e Hora:",
+    "Date & Time Settings:" : "Configurações de Data e Hora:",
     "Show seconds on the clock" : "Mostrar segundos no relógio",
     "Show date on the clock" : "Mostrar a data no relógio",
     "Show time on the clock" : "Mostrar as horas no relógio",
     "Change date and time format (Regional settings)" : "Mudar formato de data e hora (Formato Regional)",
-    "Regional settings" : "Definições",
+    "Regional settings" : "Configurações",
     
     #About the language pack
     "About the language pack:" : "Sobre o pacote de idiomas:",
-    "Translated to English by martinet101" : "Traduzido para Português do Brasil por Wanderlei Hüttel ", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101" : "Traduzido para Português do Brasil por Wanderlei Hüttel e Gustavo Mauricio de Barros", # Here, make sure to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language" : "Traduzir o ElevenClock para o seu idioma",
     "Get started" : "Traduzir",
     
@@ -250,7 +250,7 @@ lang2_3 = lang2_4 | {
     "Open page" : "Abrir página",
     "Icons by Icons8" : "Ícones por Icons8", # Here, the word "Icons8" should not be translated
     "Webpage" : "Website",
-    "Close settings" : "Fechar definições",
+    "Close settings" : "Fechar configurações",
     "Close" : "Fechar",
 }
 
