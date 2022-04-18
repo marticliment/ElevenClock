@@ -89,13 +89,14 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Slovak
  - Spanish
  - Swedish
+ - Thai
  - Traditional Chinese (Taiwan)
  - Turkish
  - Ukranian
  - Vietnamese
 
 #### New laguanges that will come with next version:
- - Thai
+ - You say!
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
