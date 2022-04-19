@@ -51,7 +51,7 @@ TL;DR: ElevenClock does everything that Windows 11 clock can't do.
  - Show the clock over fullscreen
  - Hide the clock when clicked
  - Show a task manager shortcut on the clock context menu
- - Disable the notificstions badge
+ - Disable the notifications badge
  - More stuff can be found on ElevenClock Settings
 
 ## Translating ElevenClock to other languages
