@@ -51,7 +51,7 @@ TL;DR: ElevenClock does everything that Windows 11 clock can't do.
  - Show the clock over fullscreen
  - Hide the clock when clicked
  - Show a task manager shortcut on the clock context menu
- - Disable the notificstions badge
+ - Disable the notifications badge
  - More stuff can be found on ElevenClock Settings
 
 ## Translating ElevenClock to other languages
@@ -89,13 +89,14 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Slovak
  - Spanish
  - Swedish
+ - Thai
  - Traditional Chinese (Taiwan)
  - Turkish
  - Ukranian
  - Vietnamese
 
 #### New laguanges that will come with next version:
- - Thai
+ - You say!
 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
