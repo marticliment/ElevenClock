@@ -710,7 +710,7 @@ try:
                 if getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignCenter)
 
-                xoff = 0
+                xoff = -self.getPx(1) # See issue: https://github.com/martinet101/ElevenClock/issues/763
                 yoff = 0
 
                 if getSettings("ClockXOffset"):
