@@ -216,7 +216,7 @@ try:
             st.kill()
         except AttributeError:
             pass
-        shouldFixSeconds = not(getSettings("UseCustomFont"))
+        shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang in (lang_zh_CN, lang_zh_TW))
         ForceClockOnFirstMonitor = getSettings("ForceClockOnFirstMonitor")
         HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
@@ -1438,7 +1438,7 @@ try:
     sw: SettingsWindow = None
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
-    shouldFixSeconds = not(getSettings("UseCustomFont"))
+    shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang in (lang_zh_CN, lang_zh_TW))
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
     KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
