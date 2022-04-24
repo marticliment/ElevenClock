@@ -65,6 +65,11 @@ def isWindowDark() -> str:
 def isTaskbarDark() -> str:
     return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0
 
+def getint(s: str, fallback: int) -> int:
+    try:
+        return int(s)
+    except:
+        return fallback
 
 def report(exception) -> None: # Exception reporter
     import traceback

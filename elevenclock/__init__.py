@@ -505,12 +505,19 @@ try:
             self.setWindowFlag(Qt.WindowStaysOnTopHint)
             self.setWindowFlag(Qt.FramelessWindowHint)
             self.setWindowFlag(Qt.Tool)
+            cFont = getSettingsValue("TooltipUseCustomFont")
+            fColor = getSettingsValue("TooltipUseCustomFontColor")
+            bgColor = getSettingsValue("TooltipUseCustomBgColor")
             if isTaskbarDark():
-                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display semib\"; background-color: transparent;color: #eeeeee;}")
+                self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize'), 9)}pt;font-family: \"{'Segoe UI Variable Display semib' if cFont == '' else cFont}\"; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({'238,238,238' if fColor == '' else fColor});}}")
             else:
-                self.setStyleSheet("*{font-size:9pt;font-family: \"Segoe UI Variable Display\"; color: black;background-color: transparent}")
+                self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize'), 9)}pt;font-family: \"{'Segoe UI Variable Display' if cFont == '' else cFont}\"; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({'0,0,0' if fColor == '' else fColor})}}")
             self.move(pos[0], pos[1])
-            ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
+            if not getSettings("TooltipDisableTaskbarBackgroundColor"):
+                ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
+            else:
+                from PySide2.QtWinExtras import QtWin
+                QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
 
         def show(self):
             addClocks = ""
@@ -1426,7 +1433,7 @@ try:
         
         
 
-        
+
 
     # Start of main script
     

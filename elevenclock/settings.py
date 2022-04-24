@@ -387,6 +387,62 @@ class SettingsWindow(QMainWindow):
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         self.dateTimeTitle.addWidget(self.RegionButton)
+        
+        
+        self.toolTipAppearanceTitle = QSettingsTitle(_("Tooltip Appearance:"), getPath(f"tooltip_{self.iconMode}.png"), _("Tooltip's font, font size, font color and background"))
+        layout.addWidget(self.toolTipAppearanceTitle)
+        self.toolTipFontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
+        self.toolTipFontPrefs.setChecked(getSettings("TooltipUseCustomFont"))
+        if self.toolTipFontPrefs.isChecked():
+            customFont = getSettingsValue("TooltipUseCustomFont")
+            if customFont:
+                self.toolTipFontPrefs.combobox.setCurrentText(customFont)
+                self.toolTipFontPrefs.combobox.lineEdit().setFont(QFont(customFont))
+        else:
+            if lang == lang_ko:
+                self.toolTipFontPrefs.combobox.setCurrentText("Malgun Gothic")
+            elif lang == lang_zh_TW:
+                self.toolTipFontPrefs.combobox.setCurrentText("Microsoft JhengHei UI")
+            elif lang == lang_zh_CN:
+                self.toolTipFontPrefs.combobox.setCurrentText("Microsoft YaHei UI")
+            else:
+                self.toolTipFontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
+        self.toolTipFontPrefs.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFont", bool(i)))
+        self.toolTipFontPrefs.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFont", v))
+        self.toolTipAppearanceTitle.addWidget(self.toolTipFontPrefs)
+        
+        self.toolTipFontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
+        self.toolTipFontSize.setChecked(getSettings("TooltipUseCustomFontSize"))
+        self.toolTipFontSize.loadItems()
+        if self.toolTipFontSize.isChecked():
+            customFontSize = getSettingsValue("TooltipUseCustomFontSize")
+            if customFontSize:
+                self.toolTipFontSize.combobox.setCurrentText(customFontSize)
+        else:
+                self.toolTipFontSize.combobox.setCurrentText("9")
+        self.toolTipFontSize.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFontSize", bool(i)))
+        self.toolTipFontSize.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFontSize", v))
+        self.toolTipAppearanceTitle.addWidget(self.toolTipFontSize)
+        
+        self.toolTipFontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
+        self.toolTipFontColor.setChecked(getSettings("TooltipUseCustomFontColor"))
+        if self.toolTipFontColor.isChecked():
+            self.toolTipFontColor.button.setStyleSheet(f"color: rgb({getSettingsValue('TooltipUseCustomFontColor')})")
+        self.toolTipFontColor.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFontColor", bool(i)))
+        self.toolTipFontColor.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFontColor", v))
+        self.toolTipAppearanceTitle.addWidget(self.toolTipFontColor)
+        self.disableBlurryBackground = QSettingsCheckBox(_("Disable tooltip's blurry background"))
+        self.disableBlurryBackground.setChecked(getSettings("TooltipDisableTaskbarBackgroundColor"))
+        self.disableBlurryBackground.stateChanged.connect(lambda i: setSettings("TooltipDisableTaskbarBackgroundColor", bool(i)))
+        self.toolTipAppearanceTitle.addWidget(self.disableBlurryBackground)
+        self.tooltipbackgroundcolor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
+        self.tooltipbackgroundcolor.setChecked(getSettings("TooltipUseCustomBgColor"))
+        self.tooltipbackgroundcolor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
+        if self.tooltipbackgroundcolor.isChecked():
+            self.tooltipbackgroundcolor.button.setStyleSheet(f"background-color: rgba({getSettingsValue('TooltipUseCustomBgColor')})")
+        self.tooltipbackgroundcolor.stateChanged.connect(lambda i: setSettings("TooltipUseCustomBgColor", bool(i)))
+        self.tooltipbackgroundcolor.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomBgColor", v))
+        self.toolTipAppearanceTitle.addWidget(self.tooltipbackgroundcolor)
 
         
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
