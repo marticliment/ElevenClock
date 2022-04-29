@@ -9,7 +9,27 @@
 
 # If you see sth like {0}, {1}, maintain it on the translated sentence
 # Meke special attention to elements like ":", etc.
-lang_3_4_0 = {
+lang_3_5_0 = {
+    "Tooltip Appearance:": "",
+    "Tooltip's font, font size, font color and background": "",
+    "Disable tooltip's blurry background": "",
+    "Sync time with the internet": "",
+    "Internet date and time": "",
+    "Select internet time provider, change sync frequency": "",
+    "Enable atomic clock-based internet time": "",
+    "Paste a URL from the world clock api or equivalent": "",
+    "Help": "",
+    "Internet sync frequency": "",
+    "10 minutes": "",
+    "30 minutes": "",
+    "1 hour": "",
+    "2 hours": "",
+    "4 hours": "",
+    "10 hours": "",
+    "24 hours": "",
+}
+
+lang_3_4_0 = lang_3_5_0 | {
     "Show calendar": "แสดงปฏิทิน",
     "Disabled": "ปิดการใช้งาน",
     "Open quick settings": "เปิดการตั้งค่าด่วน",

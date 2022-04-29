@@ -9,7 +9,27 @@
 # Note from translator about elements with ':' in the end : verify on a live app where the text is placed,
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
-lang_3_4_0 = {
+lang_3_5_0 = {
+    "Tooltip Appearance:": "",
+    "Tooltip's font, font size, font color and background": "",
+    "Disable tooltip's blurry background": "",
+    "Sync time with the internet": "",
+    "Internet date and time": "",
+    "Select internet time provider, change sync frequency": "",
+    "Enable atomic clock-based internet time": "",
+    "Paste a URL from the world clock api or equivalent": "",
+    "Help": "",
+    "Internet sync frequency": "",
+    "10 minutes": "",
+    "30 minutes": "",
+    "1 hour": "",
+    "2 hours": "",
+    "4 hours": "",
+    "10 hours": "",
+    "24 hours": "",
+}
+
+lang_3_4_0 = lang_3_5_0 | {
     "Show calendar": "Показать календарь",
     "Disabled": "Отключено",
     "Open quick settings": "Показать панель быстрого доступа",
