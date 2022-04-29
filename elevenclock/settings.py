@@ -394,11 +394,13 @@ class SettingsWindow(QMainWindow):
         self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable atomic clock-based internet time"))
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
+        self.internetTimeURL.setChecked(getSettings("AtomicClockURL"))
         self.internetTimeURL.stateChanged.connect(lambda e: setSettings("AtomicClockURL", e))
-        self.internetTimeURL.valueChanged.connect(lambda v: setSettingsValue("AtomicClockURL", v))
+        self.internetTimeURL.valueChanged.connect(lambda v: (setSettingsValue("AtomicClockURL", v, r=False), setSettings("ReloadInternetTime", True)))
         self.internetTimeTitle.addWidget(self.internetTimeURL)
         self.internetSyncTime = QSettingsComboBox(_("Internet sync frequency"))
         actions = {
+            _("10 secs"): "10",
             _("10 minutes"): "600",
             _("30 minutes"): "1800",
             _("1 hour"): "3600",
@@ -413,7 +415,7 @@ class SettingsWindow(QMainWindow):
             self.internetSyncTime.combobox.setCurrentIndex(list(actions.values()).index(getSettingsValue("AtomicClockSyncInterval")))
         except ValueError:
             pass
-        self.internetSyncTime.valueChanged.connect(lambda v: setSettingsValue("AtomicClockSyncInterval", actions[v]))
+        self.internetSyncTime.valueChanged.connect(lambda v: (setSettingsValue("AtomicClockSyncInterval", actions[v]), setSettings("ReloadInternetTime", True)))
         self.internetTimeTitle.addWidget(self.internetSyncTime)
         
         self.toolTipAppearanceTitle = QSettingsTitle(_("Tooltip Appearance:"), getPath(f"tooltip_{self.iconMode}.png"), _("Tooltip's font, font size, font color and background"))

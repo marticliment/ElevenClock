@@ -69,6 +69,7 @@ def getint(s: str, fallback: int) -> int:
     try:
         return int(s)
     except:
+        cprint("can't parse", s)
         return fallback
 
 def report(exception) -> None: # Exception reporter
@@ -122,7 +123,7 @@ def getSettings(s: str):
     except Exception as e:
         report(e)
 
-def setSettings(s: str, v: bool, r: bool = True):
+def setSettings(s: str, v: bool, r: bool = True, thread = False):
     try:
         globals.settingsCache = {}
         if(v):
@@ -133,11 +134,12 @@ def setSettings(s: str, v: bool, r: bool = True):
             except FileNotFoundError:
                 pass
         try:
-            globals.loadTimeFormat()
-            globals.sw.updateCheckBoxesStatus()
+            if not thread:
+                globals.loadTimeFormat()
+                globals.sw.updateCheckBoxesStatus()
         except (NotImplementedError, AttributeError):
             pass
-        if(r):
+        if r and not thread:
             globals.restartClocks()
             if(getSettings("DisableSystemTray")):
                 globals.trayIcon.hide()
@@ -266,6 +268,9 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.reloadAction = QAction(_("Reload Clocks"), app)
         self.reloadAction.triggered.connect(lambda: globals.restartClocks())
         menu.addAction(self.reloadAction)
+        self.reloadInternetAction = QAction(_("Sync time with the internet"), app)
+        self.reloadInternetAction.triggered.connect(lambda: setSettings("ReloadInternetTime", True))
+        menu.addAction(self.reloadInternetAction)
         menu.addSeparator()
         self.nameAction = QAction(_("ElevenClock v{0}").format(versionName), app)
         self.nameAction.setEnabled(False)
@@ -591,6 +596,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.hideAction.setIcon(QIcon(getPath(f"hide_{self.iconMode}.png")))
         self.quitAction.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
         self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
+        self.reloadInternetAction.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
         self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
 
 

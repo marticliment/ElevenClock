@@ -311,6 +311,7 @@ try:
         closeClocks()
         loadClocks()
         loadTimeFormat()
+        setSettings("ReloadInternetTime", True, thread=True)
 
         try:
             rdpThread.kill()
@@ -370,6 +371,37 @@ try:
             time.sleep(3)
             if((lastTime+6) < time.time()):
                 os.startfile(sys.executable)
+
+
+    def loadAtomicClockOffset():
+        global timeOffset
+        while True:
+            if getSettings("AtomicClockURL"): # This settings value will be cached, so no CPU/HDD overload ;)
+                try:
+                    import urllib
+                    import json
+                    dict = json.loads(urllib.request.urlopen(getSettingsValue("AtomicClockURL")).read().decode("utf-8"))
+                    if "datetime" in dict.keys(): # worldtimeapi.org
+                        timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["datetime"] else "+"}'.join(dict["datetime"].split("-" if not "+" in dict["datetime"] else "+")[0:-1])).timestamp()
+                        if not "+" in dict["datetime"]: timeOffset = -timeOffset
+                        print("🔵 (worldtimeapi.org) Time offset set to", timeOffset)
+                    elif "currentDateTime" in dict.keys(): # worldclockapi.com
+                        timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["currentDateTime"] else "+"}'.join(dict["currentDateTime"].split("-" if not "+" in dict["currentDateTime"] else "+")[0:-1])).timestamp()
+                        if not "+" in dict["currentDateTime"]: timeOffset = -timeOffset
+                        print("🔵 (worldclockapi.com) Time offset set to", timeOffset)
+                    else:
+                        print("🟠 (Failed) Time offset set to", timeOffset)
+                        showNotif.infoSignal.emit("Invalid Internet clock URL", "Supported internet clock APIs are from worldtimeapi.com and worldclockapi.com")
+                except Exception as e:
+                    report(e)
+                for i in range(getint(getSettingsValue("AtomicClockSyncInterval"), 3600)):
+                    time.sleep(1)
+                    if getSettings("ReloadInternetTime"):
+                        setSettings("ReloadInternetTime", False, thread=True)
+                        break
+            else:
+                timeOffset = 0
+                time.sleep(5)
 
     def loadTimeFormat():
         global dateTimeFormat
@@ -456,12 +488,12 @@ try:
         while True:
             for integer in range(36000):
                 try:
-                    timeStr = datetime.datetime.now().strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
+                    timeStr = datetime.datetime.fromtimestamp(time.time()+timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
                     if fixHyphen:
                         timeStr = timeStr.replace("t-", "t -")
                     try:
-                        secs = datetime.datetime.now().strftime("%S")
+                        secs = datetime.datetime.fromtimestamp(time.time()+timeOffset).strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
                             timeStr = timeStr.replace(" ", " \u200e")
                         else:
@@ -1443,12 +1475,12 @@ try:
 
 
     # Start of main script
+    timeOffset = 0
     
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
     
-    #mController: MouseController = None
     sw: SettingsWindow = None
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
@@ -1483,6 +1515,7 @@ try:
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
+    KillableThread(target=loadAtomicClockOffset, daemon=True, name="Main: Atomic clock sync thread").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
     print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
