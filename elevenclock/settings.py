@@ -388,6 +388,33 @@ class SettingsWindow(QMainWindow):
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         self.dateTimeTitle.addWidget(self.RegionButton)
         
+
+        self.internetTimeTitle = QSettingsTitle(_("Internet date and time"), getPath(f"internet_{self.iconMode}.png"), _("Select internet time provider, change sync frequency"))
+        layout.addWidget(self.internetTimeTitle)
+        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable atomic clock-based internet time"))
+        self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
+        self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
+        self.internetTimeURL.stateChanged.connect(lambda e: setSettings("AtomicClockURL", e))
+        self.internetTimeURL.valueChanged.connect(lambda v: setSettingsValue("AtomicClockURL", v))
+        self.internetTimeTitle.addWidget(self.internetTimeURL)
+        self.internetSyncTime = QSettingsComboBox(_("Internet sync frequency"))
+        actions = {
+            _("10 minutes"): "600",
+            _("30 minutes"): "1800",
+            _("1 hour"): "3600",
+            _("2 hours"): "7200",
+            _("4 hours"): "14400",
+            _("10 hours"): "36000",
+            _("24 hours"): "86400",
+        }
+        self.internetSyncTime.loadItems(actions.keys())
+        self.internetSyncTime.setEnabled(True)
+        try:
+            self.internetSyncTime.combobox.setCurrentIndex(list(actions.values()).index(getSettingsValue("AtomicClockSyncInterval")))
+        except ValueError:
+            pass
+        self.internetSyncTime.valueChanged.connect(lambda v: setSettingsValue("AtomicClockSyncInterval", actions[v]))
+        self.internetTimeTitle.addWidget(self.internetSyncTime)
         
         self.toolTipAppearanceTitle = QSettingsTitle(_("Tooltip Appearance:"), getPath(f"tooltip_{self.iconMode}.png"), _("Tooltip's font, font size, font color and background"))
         layout.addWidget(self.toolTipAppearanceTitle)
@@ -728,6 +755,8 @@ class SettingsWindow(QMainWindow):
             self.dateTimeTitle,
             self.experimentalTitle,
             self.languageSettingsTitle,
+            self.toolTipAppearanceTitle,
+            self.internetTimeTitle,
             self.aboutTitle,
             self.debbuggingTitle
         )
@@ -854,18 +883,20 @@ class SettingsWindow(QMainWindow):
         self.staticVerticalWidget.setMaximumWidth(self.getPx(1000))
         colors = getColors()
         self.iconMode = getAppIconMode()
+        self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
+        self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
+        self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
+        self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
+        self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
+        self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
+        self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
+        self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+        self.toolTipAppearanceTitle.setIcon(QIcon(getPath(f"tooltip_{self.iconMode}.png")))
+        self.internetTimeTitle.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
+        self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
         if isWindowDark():
             if ApplyMica(self.winId().__int__(), MICAMODE.DARK) != 0x0:
                 GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
-            self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
-            self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
-            self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
-            self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
-            self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
-            self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
-            self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
-            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
-            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    
@@ -1335,16 +1366,6 @@ class SettingsWindow(QMainWindow):
         else:
             if ApplyMica(self.winId().__int__(), MICAMODE.LIGHT) != 0x0:
                 GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
-            self.iconMode = getAppIconMode()
-            self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
-            self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
-            self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
-            self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
-            self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
-            self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
-            self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
-            self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
-            self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
             self.setStyleSheet(f"""
                                #backgroundWindow {{
                                    background-color: transparent;
@@ -2195,8 +2216,10 @@ class QSettingsButton(QWidget):
 
 class QSettingsComboBox(QWidget):
     textChanged = Signal(str)
-    def __init__(self, text="", btntext="", parent=None):
+    valueChanged = Signal(str)
+    def __init__(self, text="", unusedArgument="", parent=None, buttonEnabled: bool = True):
         super().__init__(parent)
+        self.buttonOn = buttonEnabled
 
         class QComboBoxWithFluentMenu(QComboBox):
             def __init__(self, parent) -> None:
@@ -2231,23 +2254,29 @@ class QSettingsComboBox(QWidget):
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInchX()/96))
 
-    def setItems(self, items: list, index: int) -> None:
+    def loadItems(self, items: list, index: int = -1) -> None:
+        return self.setItems(items, index)
+
+    def setItems(self, items: list, index: int = -1) -> None:
         self.combobox.addItems(items)
         try:
-            self.combobox.setCurrentIndex(index)
+            if index >= 0:
+                self.combobox.setCurrentIndex(index)
         except Exception as e:
             report(e)
             self.combobox.setCurrentIndex(0)
         self.combobox.currentTextChanged.connect(self.textChanged.emit)
+        self.combobox.currentTextChanged.connect(self.valueChanged.emit)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
         self.label.move(self.getPx(70), self.getPx(10))
         self.label.setFixedWidth(self.width()-self.getPx(480))
         self.label.setFixedHeight(self.getPx(30))
-        self.restartButton.move(self.width()-self.getPx(430), self.getPx(10))
-        self.restartButton.setFixedWidth(self.getPx(150))
-        self.restartButton.setFixedHeight(self.getPx(30))
+        if self.buttonOn:
+            self.restartButton.move(self.width()-self.getPx(430), self.getPx(10))
+            self.restartButton.setFixedWidth(self.getPx(150))
+            self.restartButton.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.combobox.setFixedHeight(self.getPx(30))
         self.combobox.setFixedWidth(self.getPx(250))
@@ -2258,7 +2287,8 @@ class QSettingsComboBox(QWidget):
         #self.button.setIcon(icon)
 
     def showRestartButton(self) -> None:
-        self.restartButton.show()
+        if self.buttonOn:
+            self.restartButton.show()
 
     def text(self) -> str:
         return self.label.text() + " " + self.combobox.currentText()
@@ -2324,6 +2354,65 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
         self.setFixedHeight(self.getPx(50))
         return super().resizeEvent(event)
 
+class QSettingsCheckBoxTextBox(QSettingsCheckBox):
+    stateChanged = Signal(bool)
+    valueChanged = Signal(str)
+    
+    def __init__(self, text: str, parent=None):
+
+        class QLineEditWithFluentMenu(QLineEdit):
+            def __init__(self, parent) -> None:
+                super().__init__(parent)
+            def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
+                menu = self.createStandardContextMenu()
+                ApplyMenuBlur(menu.winId().__int__(), menu)
+                menu.exec_(e.globalPos())
+
+        super().__init__(text=text, parent=parent)
+        self.setAttribute(Qt.WA_StyledBackground)
+        self.lineedit = QLineEditWithFluentMenu(self)
+        self.oldtext = ""
+        self.lineedit.setObjectName("stCmbbx")
+        self.lineedit.textChanged.connect(self.valuechangedEvent)
+        self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.stateChangedEvent(self.checkbox.isChecked())
+        
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.lineedit.move(self.width()-self.getPx(270), self.getPx(10))
+        self.checkbox.move(self.getPx(70), self.getPx(10))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedHeight(self.getPx(30))
+        self.setFixedHeight(self.getPx(50))
+        self.lineedit.setFixedHeight(self.getPx(30))
+        self.lineedit.setFixedWidth(self.getPx(250))
+        return super().resizeEvent(event)
+    
+    def valuechangedEvent(self, text: str):
+        self.valueChanged.emit(text)
+
+    def setPlaceholderText(self, text: str):
+        self.lineedit.setPlaceholderText(text)
+        self.oldtext = text
+
+    def setText(self, text: str):
+        self.lineedit.setText(text)
+    
+    def stateChangedEvent(self, v: bool):
+        self.lineedit.setEnabled(self.checkbox.isChecked())
+        if not self.checkbox.isChecked():
+            self.lineedit.setEnabled(False)
+            self.oldtext = self.lineedit.placeholderText()
+            self.lineedit.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.lineedit.setPlaceholderText(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.stateChanged.emit(v)
+        else:
+            self.stateChanged.emit(v)
+            self.lineedit.setEnabled(True)
+            self.lineedit.setToolTip("")
+            self.lineedit.setPlaceholderText(self.oldtext)
+            self.valueChanged.emit(self.lineedit.text())
+        
+    
 class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
