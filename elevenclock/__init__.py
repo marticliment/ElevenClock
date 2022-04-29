@@ -327,6 +327,13 @@ try:
         setSettings(name, True, False)
         while True:
             try:
+                if os.path.isfile(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ReloadClocks")):
+                    try:
+                        print("🟠 Restart clocks block file found!")
+                        restartClocksSignal.restartSignal.emit()
+                        os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ReloadClocks"))
+                    except Exception as e:
+                        report(e)
                 for file in glob.glob(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning*")):
                     if(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), name) == file):
                         pass
@@ -1467,10 +1474,12 @@ try:
     showNotif = InfoSignal()
     showWarn = InfoSignal()
     killSignal = InfoSignal()
+    restartClocksSignal = RestartSignal()
     showNotif.infoSignal.connect(lambda a, b: showMessage(a, b))
     showWarn.infoSignal.connect(lambda a, b: wanrUserAboutUpdates(a, b))
     killSignal.infoSignal.connect(lambda: app.quit())
     signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
+    restartClocksSignal.restartSignal.connect(lambda: restartClocks())
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
