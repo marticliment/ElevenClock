@@ -318,6 +318,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.monitorInfoAction = QAction(_("Clock on monitor {0}"), app)
         self.monitorInfoAction.setEnabled(False)
         self.toolsMenu.addAction(self.monitorInfoAction)
+        self.toolsMenu.setEnabled(False)
         self.toolsMenu.addSeparator()
 
         self.blacklistAction = QAction(_("Blacklist this monitor"), app)
@@ -423,6 +424,7 @@ class TaskbarIconTray(QSystemTrayIcon):
 
     def execMenu(self, pos: QPoint):
         try:
+            self.toolsMenu.setEnabled(True)
             try:
                 screen = globals.app.screenAt(pos)
                 screenName = screen.name().replace("\\", "_")
