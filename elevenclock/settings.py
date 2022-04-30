@@ -400,7 +400,6 @@ class SettingsWindow(QMainWindow):
         self.internetTimeTitle.addWidget(self.internetTimeURL)
         self.internetSyncTime = QSettingsComboBox(_("Internet sync frequency"))
         actions = {
-            _("10 secs"): "10",
             _("10 minutes"): "600",
             _("30 minutes"): "1800",
             _("1 hour"): "3600",
