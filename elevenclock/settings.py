@@ -391,7 +391,7 @@ class SettingsWindow(QMainWindow):
 
         self.internetTimeTitle = QSettingsTitle(_("Internet date and time"), getPath(f"internet_{self.iconMode}.png"), _("Select internet time provider, change sync frequency"))
         layout.addWidget(self.internetTimeTitle)
-        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable atomic clock-based internet time"))
+        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable atomic clock-based internet time"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
         self.internetTimeURL.setChecked(getSettings("AtomicClockURL"))
@@ -2359,7 +2359,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
     
-    def __init__(self, text: str, parent=None):
+    def __init__(self, text: str, parent=None, helpLabel: str = ""):
 
         class QLineEditWithFluentMenu(QLineEdit):
             def __init__(self, parent) -> None:
@@ -2376,16 +2376,22 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.lineedit.setObjectName("stCmbbx")
         self.lineedit.textChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
+        self.helplabel = QLabel(helpLabel, self)
+        self.helplabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        self.helplabel.setOpenExternalLinks(True)
         self.stateChangedEvent(self.checkbox.isChecked())
         
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.lineedit.move(self.width()-self.getPx(270), self.getPx(10))
+        self.lineedit.move(self.width()-self.getPx(470), self.getPx(10))
+        self.helplabel.move(self.width()-self.getPx(530), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
+        self.checkbox.setFixedWidth(self.width()-self.getPx(480))
         self.checkbox.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
         self.lineedit.setFixedHeight(self.getPx(30))
-        self.lineedit.setFixedWidth(self.getPx(250))
+        self.lineedit.setFixedWidth(self.getPx(450))
+        self.helplabel.setFixedHeight(self.getPx(30))
+        self.helplabel.setFixedWidth(self.getPx(50))
         return super().resizeEvent(event)
     
     def valuechangedEvent(self, text: str):
