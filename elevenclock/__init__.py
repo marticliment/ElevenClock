@@ -383,11 +383,9 @@ try:
                     dict = json.loads(urllib.request.urlopen(getSettingsValue("AtomicClockURL")).read().decode("utf-8"))
                     if "datetime" in dict.keys(): # worldtimeapi.org
                         timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["datetime"] else "+"}'.join(dict["datetime"].split("-" if not "+" in dict["datetime"] else "+")[0:-1])).timestamp()
-                        if not "+" in dict["datetime"]: timeOffset = -timeOffset
                         print("🔵 (worldtimeapi.org) Time offset set to", timeOffset)
                     elif "currentDateTime" in dict.keys(): # worldclockapi.com
                         timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["currentDateTime"] else "+"}'.join(dict["currentDateTime"].split("-" if not "+" in dict["currentDateTime"] else "+")[0:-1])).timestamp()
-                        if not "+" in dict["currentDateTime"]: timeOffset = -timeOffset
                         print("🔵 (worldclockapi.com) Time offset set to", timeOffset)
                     else:
                         print("🟠 (Failed) Time offset set to", timeOffset)
@@ -488,12 +486,12 @@ try:
         while True:
             for integer in range(36000):
                 try:
-                    timeStr = datetime.datetime.fromtimestamp(time.time()+timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
+                    timeStr = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
                     if fixHyphen:
                         timeStr = timeStr.replace("t-", "t -")
                     try:
-                        secs = datetime.datetime.fromtimestamp(time.time()+timeOffset).strftime("%S")
+                        secs = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
                             timeStr = timeStr.replace(" ", " \u200e")
                         else:
@@ -1264,6 +1262,7 @@ try:
 
     class Label(QLabel):
         clicked = Signal()
+        dobuleClicked = Signal()
         outline = True
         def __init__(self, text, parent):
             super().__init__(text, parent=parent)
@@ -1437,6 +1436,11 @@ try:
             else:
                 self.clicked.emit()
             return super().mouseReleaseEvent(ev)
+
+        def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
+            cprint("doubleclick")
+            return super().mouseDoubleClickEvent(event)
+
         
         def paintEvent(self, event: QPaintEvent) -> None:
             w = self.minimumSizeHint().width()
