@@ -9,6 +9,8 @@
 The whole point of ElevenClock is to have a customizable clock on your Windows 11 taskbars. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. 
 ElevenClock was an app designed to return this functionality back, but it has evolved and it can now replace your system clock in order to let you customize it, adding seconds, moving it around, changing its color and much more, like in the good old days.  
 
+Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more info ambou ElevenClock's main capabilities. Thanks to [@NXTWindows](https://twitter.com/nxtwindows) for this nice video!
+
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 
 ## Support the developer:
