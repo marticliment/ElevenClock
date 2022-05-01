@@ -400,9 +400,9 @@ class TaskbarIconTray(QSystemTrayIcon):
             menuHeight = self.contextMenu().height()
         else:
             if getSettings("HideTaskManagerButton"):
-                menuHeight = clock.getPx(260)
+                menuHeight = clock.getPx(290)
             else:
-                menuHeight = clock.getPx(370)
+                menuHeight = clock.getPx(400)
 
         if(self.contextMenu().width() != 640):
             menuWidth = self.contextMenu().width()
