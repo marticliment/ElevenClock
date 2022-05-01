@@ -13,7 +13,6 @@ lang_3_5_0 = {
     "Sync time with the internet": "",
     "Internet date and time": "",
     "Select internet time provider, change sync frequency": "",
-    "Enable atomic clock-based internet time": "",
     "Paste a URL from the world clock api or equivalent": "",
     "Help": "",
     "Internet sync frequency": "",
@@ -24,6 +23,7 @@ lang_3_5_0 = {
     "4 hours": "",
     "10 hours": "",
     "24 hours": "",
+    "Enable internet time sync": "Activa la sincronització de la data i l'hora d'internet",
 }
 
 lang_3_4_0 = lang_3_5_0 | {

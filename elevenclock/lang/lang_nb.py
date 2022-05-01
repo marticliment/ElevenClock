@@ -13,7 +13,7 @@ lang_3_5_0 = {
     "Sync time with the internet": "",
     "Internet date and time": "",
     "Select internet time provider, change sync frequency": "",
-    "Enable atomic clock-based internet time": "",
+    "Enable internet time sync": "",
     "Paste a URL from the world clock api or equivalent": "",
     "Help": "",
     "Internet sync frequency": "",

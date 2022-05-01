@@ -17,7 +17,7 @@ lang_3_5_0 = {
     "Sync time with the internet": "Synchronizovat čas s internetem",
     "Internet date and time": "Internetové datum a čas",
     "Select internet time provider, change sync frequency": "Poskytovatel internetového času, změna frekvence synchronizace",
-    "Enable atomic clock-based internet time": "Povolit internetový čas založený na atomových hodinách",
+    "Enable internet time sync": "Povolit internetový čas založený na atomových hodinách",
     "Paste a URL from the world clock api or equivalent": "Vložte URL ze světového časového API",
     "Help": "Nápověda",
     "Internet sync frequency": "Frekvence synchronizace",

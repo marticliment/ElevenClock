@@ -391,7 +391,7 @@ class SettingsWindow(QMainWindow):
 
         self.internetTimeTitle = QSettingsTitle(_("Internet date and time"), getPath(f"internet_{self.iconMode}.png"), _("Select internet time provider, change sync frequency"))
         layout.addWidget(self.internetTimeTitle)
-        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable atomic clock-based internet time"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
+        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable internet time sync"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
         self.internetTimeURL.setChecked(getSettings("AtomicClockURL"))

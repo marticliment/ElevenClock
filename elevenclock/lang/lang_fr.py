@@ -14,7 +14,7 @@ lang_3_5_0 = {
     "Sync time with the internet": "Synchroniser l'heure avec Internet",
     "Internet date and time": "Date et heure Internet",
     "Select internet time provider, change sync frequency": "Sélectionnez le fournisseur de temps, modifiez la fréquence de synchronisation",
-    "Enable atomic clock-based internet time": "Activer l'heure Internet basée sur l'horloge atomique",
+    "Enable internet time sync": "Activer l'heure Internet basée sur l'horloge atomique",
     "Paste a URL from the world clock api or equivalent": "Collez une URL de l'API de l'horloge mondiale ou équivalent",
     "Help": "Aide",
     "Internet sync frequency": "Fréquence de synchronisation Internet",

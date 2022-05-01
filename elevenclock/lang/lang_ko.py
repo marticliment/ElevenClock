@@ -13,7 +13,7 @@ lang_3_5_0 = {
     "Sync time with the internet": "인터넷과 시간 동기화",
     "Internet date and time": "인터넷 날짜 및 시간",
     "Select internet time provider, change sync frequency": "인터넷 시간 공급자 선택, 동기화 빈도 변경",
-    "Enable atomic clock-based internet time": "원자 시계 기반 인터넷 시간 사용",
+    "Enable internet time sync": "원자 시계 기반 인터넷 시간 사용",
     "Paste a URL from the world clock api or equivalent": "World Clock API 또는 동등한 URL을 붙여넣기",
     "Help": "도움말",
     "Internet sync frequency": "인터넷 동기화 빈도",
