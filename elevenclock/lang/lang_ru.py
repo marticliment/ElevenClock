@@ -10,23 +10,23 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_5_0 = {
-    "Tooltip Appearance:": "",
+    "Tooltip Appearance:": "Внешний вид тултипа",
     "Tooltip's font, font size, font color and background": "",
-    "Disable tooltip's blurry background": "",
-    "Sync time with the internet": "",
-    "Internet date and time": "",
-    "Select internet time provider, change sync frequency": "",
-    "Enable internet time sync": "",
+    "Disable tooltip's blurry background": "Отключить размытие фона в тултипе",
+    "Sync time with the internet": "Синхронизация времени в Интернете",
+    "Internet date and time": "Дата и время в Интернете",
+    "Select internet time provider, change sync frequency": "Выбор поставщика времени, частота обновлений",
+    "Enable internet time sync": "Включить синхронизацию через интернет",
     "Paste a URL from the world clock api or equivalent": "",
-    "Help": "",
-    "Internet sync frequency": "",
-    "10 minutes": "",
-    "30 minutes": "",
-    "1 hour": "",
-    "2 hours": "",
-    "4 hours": "",
-    "10 hours": "",
-    "24 hours": "",
+    "Help": "Помощь",
+    "Internet sync frequency": "Частота синхронизации через интернет",
+    "10 minutes": "10 минут",
+    "30 minutes": "30 минут",
+    "1 hour": "1 час",
+    "2 hours": "2 часа",
+    "4 hours": "4 часа",
+    "10 hours": "10 часов",
+    "24 hours": "24 часа",
 }
 
 lang_3_4_0 = lang_3_5_0 | {
