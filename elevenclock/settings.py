@@ -879,6 +879,14 @@ class SettingsWindow(QMainWindow):
             self.backgroundcolor.setEnabled(True)
             self.backgroundcolor.setToolTip("")
 
+        if self.internetTimeURL.isChecked():
+            self.internetSyncTime.setEnabled(True)
+            self.internetSyncTime.setToolTip("")
+        else:
+            self.internetSyncTime.setEnabled(False)
+            self.internetSyncTime.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Sync time with the internet")))
+            
+
 
     def applyStyleSheet(self):
         self.staticVerticalWidget.setMaximumWidth(self.getPx(1000))
@@ -1035,6 +1043,15 @@ class SettingsWindow(QMainWindow):
                                     border-radius: {self.getPx(6)}px;
                                     border: 0.6px solid #262626;
                                     border-bottom: {self.getPx(2)}px solid rgb({colors[1]});
+                                }}
+                                QLineEdit:disabled {{
+                                    background-color: #303030;
+                                    font-family: "Segoe UI Variable Display";
+                                    font-size: 9pt;
+                                    width: {self.getPx(300)}px;
+                                    padding: {self.getPx(5)}px;
+                                    border-radius: {self.getPx(6)}px;
+                                    border: 0.6px solid #262626;
                                 }}
                                 #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
@@ -1251,11 +1268,11 @@ class SettingsWindow(QMainWindow):
                                 #stCmbbx:disabled {{
                                    width: {self.getPx(100)}px;
                                    background-color: #303030;
+                                   color: #bbbbbb;
                                    border-radius: {self.getPx(6)}px;
-                                   border: {self.getPx(1)}px solidrgba(86, 86, 86, 25%);
+                                   border: 0.6px solid #262626;
                                    height: {self.getPx(25)}px;
                                    padding-left: {self.getPx(10)}px;
-                                   border-top: {self.getPx(1)}px solidrgba(86, 86, 86, 25%);
                                 }}
                                 #stCmbbx:hover {{
                                    background-color:rgba(86, 86, 86, 25%);
@@ -1506,6 +1523,16 @@ class SettingsWindow(QMainWindow):
                                     border-radius: {self.getPx(6)}px;
                                     border: 0.6px solid #eeeeee;
                                     border-bottom: {self.getPx(2)}px solid rgb({colors[4]});
+                                }}
+                                QLineEdit:disabled {{
+                                    background-color: #f5f5f5;
+                                    font-family: "Segoe UI Variable Display";
+                                    font-size: 9pt;
+                                    width: {self.getPx(300)}px;
+                                    padding: {self.getPx(5)}px;
+                                    border-radius: {self.getPx(6)}px;
+                                    border: 0.6px solid #eeeeee;
+                                    /*border-bottom: {self.getPx(2)}px solid rgb({colors[4]});*/
                                 }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
@@ -2373,7 +2400,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.setAttribute(Qt.WA_StyledBackground)
         self.lineedit = QLineEditWithFluentMenu(self)
         self.oldtext = ""
-        self.lineedit.setObjectName("stCmbbx")
+        self.lineedit.setObjectName("")
         self.lineedit.textChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.helplabel = QLabel(helpLabel, self)
@@ -2410,7 +2437,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
             self.lineedit.setEnabled(False)
             self.oldtext = self.lineedit.placeholderText()
             self.lineedit.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
-            self.lineedit.setPlaceholderText(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.lineedit.setPlaceholderText(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())).replace("<b>", "\"").replace("</b>", "\""))
             self.stateChanged.emit(v)
         else:
             self.stateChanged.emit(v)
