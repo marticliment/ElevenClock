@@ -2410,7 +2410,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.lineedit.move(self.width()-self.getPx(470), self.getPx(10))
-        self.helplabel.move(self.width()-self.getPx(530), self.getPx(10))
+        self.helplabel.move(self.width()-self.getPx(580), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
         self.checkbox.setFixedWidth(self.width()-self.getPx(480))
         self.checkbox.setFixedHeight(self.getPx(30))
@@ -2418,7 +2418,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.lineedit.setFixedHeight(self.getPx(30))
         self.lineedit.setFixedWidth(self.getPx(450))
         self.helplabel.setFixedHeight(self.getPx(30))
-        self.helplabel.setFixedWidth(self.getPx(50))
+        self.helplabel.setFixedWidth(self.getPx(100))
         return super().resizeEvent(event)
     
     def valuechangedEvent(self, text: str):
