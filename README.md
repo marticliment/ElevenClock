@@ -46,6 +46,7 @@ TL;DR: ElevenClock does everything that Windows 11 clock can't do.
  - Move the clock around: Move the clock to the top and/or to the left.
  - Hide the clock: Show or hide the clock on specific displays
  - Show Desktop button: The "Show Desktop" button is present on any screen where ElevenClock is shown
+ - [in the next version] Sync time with the internet: set the time server you want
  
  ### Other available features:
  - Show the clock over fullscreen
