@@ -7,72 +7,72 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_5_0 = {
-    "Tooltip Appearance:": "",
-    "Tooltip's font, font size, font color and background": "",
-    "Disable tooltip's blurry background": "",
-    "Sync time with the internet": "",
-    "Internet date and time": "",
-    "Select internet time provider, change sync frequency": "",
-    "Enable internet time sync": "",
-    "Paste a URL from the world clock api or equivalent": "",
-    "Help": "",
-    "Internet sync frequency": "",
-    "10 minutes": "",
-    "30 minutes": "",
-    "1 hour": "",
-    "2 hours": "",
-    "4 hours": "",
-    "10 hours": "",
-    "24 hours": "",
+    "Tooltip Appearance:": "工具提示外觀",
+    "Tooltip's font, font size, font color and background": "工具提示的字型、字型大小、字型顏色及背景",
+    "Disable tooltip's blurry background": "停用工具提示的模糊背景",
+    "Sync time with the internet": "與網際網路同步時間",
+    "Internet date and time": "網際網路日期和時間",
+    "Select internet time provider, change sync frequency": "選擇網際網路時間提供者、更改同步頻率",
+    "Enable internet time sync": "啟用網際網路時間同步",
+    "Paste a URL from the world clock api or equivalent": "貼上世界時間 API 的網址或相似網址",
+    "Help": "幫助",
+    "Internet sync frequency": "網際網路同步間隔",
+    "10 minutes": "10 分鐘",
+    "30 minutes": "30 分鐘",
+    "1 hour": "1 小時",
+    "2 hours": "2 小時",
+    "4 hours": "4 小時",
+    "10 hours": "10 小時",
+    "24 hours": "24 小時",
 }
 
 lang_3_4_0 = lang_3_5_0 | {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar": "顯示月曆",
+    "Disabled": "已停用",
+    "Open quick settings": "開啟快速設定",
+    "Show desktop": "顯示桌面",
+    "Open run dialog": "開啟｢執行｣對話框",
+    "Open task manager": "開啟工作管理員",
+    "Open start menu": "開啟開始選單",
+    "Open search menu": "開啟搜尋選單",
+    "Change task": "更改任務",
+    "Change the action done when the clock is clicked": "更改時鐘被點擊時的動作",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater": "ElevenClock 更新程式",
+    "ElevenClock is downloading updates": "ElevenClock 正在下載更新",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock 已成功更新至版本 {0}\n請前往 GitHub 以查看更新紀錄",
+    "Customize the clock on Windows 11": "自訂 Windows 11 的時鐘",
+    "Disable the new instance checker method": "停用新版執行個體檢查方式",
+    "Import settings from a local file": "從本機檔案匯入設定",
+    "Export settings to a local file": "將設定匯出至本機檔案",
+    "Export": "匯出",
+    "Import": "匯入",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "時間格式無效\n請遵循 \nC 1989 標準",
+    "Nothing to preview": "沒有可預覽的項目",
+    "Invalid time format\nPlease modify it\nin the settings": "時間格式無效\n請在設定\n中更改",
+    "Disable the tooltip shown when the clock is hovered": "停用懸停時鐘時顯示工具提示"
 }
 lang_3_3 = lang_3_3_1 | {
-    "Custom format rules:": "",
-    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "",
-    "Python date and time formats": "",
-    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "", # Here please don't modify the %H and %#H values
-    "Click on Apply to apply and preview the format": "",
-    "Apply": "",
-    "If you don't understand what is happening, please uncheck the checkbox over the text area": "",
-    "Set a custom date and time format": "",
-    "(for advanced users only)": "",
-    "Move this clock to the left": "",
-    "Move this clock to the top": "",
-    "Move this clock to the right": "",
-    "Move this clock to the bottom": "",
-    "Restore horizontal position": "",
-    "Restore vertical position": "",
+    "Custom format rules:": "自訂格式規則",
+    "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "您可以在此置入任何文字。若要置入如時間或日期等項目，請使用 1989 C 標準。詳情請見下方連結",
+    "Python date and time formats": "Python 日期和時間格式",
+    "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H": "若要停用零邊距效果，請在 % 和程式碼之間加入 #。零邊距 (小時)：%H；非零邊距 (小時)：%#H", # Here please don't modify the %H and %#H values
+    "Click on Apply to apply and preview the format": "點擊套用以套用並預覽格式",
+    "Apply": "套用",
+    "If you don't understand what is happening, please uncheck the checkbox over the text area": "如果您不明白發生了什麼事，請取消勾選文字區域的核取方塊",
+    "Set a custom date and time format": "設置自訂日期和時間格式",
+    "(for advanced users only)": "建議由進階使用者使用",
+    "Move this clock to the left": "將這個時鐘移至左邊",
+    "Move this clock to the top": "將這個時鐘移至上方",
+    "Move this clock to the right": "將這個時鐘移至右邊",
+    "Move this clock to the bottom": "將這個時鐘移至下方",
+    "Restore horizontal position": "還原水平位置",
+    "Restore vertical position": "還原垂直位置",
 }
 
 lang_3_2_1 = lang_3_3 | {
@@ -102,8 +102,8 @@ lang_3_1 = lang_3_2 | {
     "Export log as a file": "將日誌匯出為檔案",
     "Copy log to clipboard": "複製日誌到剪貼簿",
     "Announcements:": "公告",
-    "Fetching latest announcement, please wait...": "讀取最新公告中，請稍後...",
-    "Couldn't load the announcements. Please try again later": "無法讀取公告，清稍後重試",
+    "Fetching latest announcement, please wait...": "讀取最新公告中，請稍候...",
+    "Couldn't load the announcements. Please try again later": "無法讀取公告，請稍後重試",
     "ElevenClock's log": "ElevenClock 的日誌",
     "Pick a color": "請選擇顏色"
 }
@@ -257,12 +257,12 @@ lang2_3 = lang2_4 | {
     
     #About the language pack
     "About the language pack:"                  :"關於此語言套件",
-    "Translated to English by martinet101"      :"由 mmis1000、BoyceLig 翻譯為正體中文（台灣）", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
+    "Translated to English by martinet101"      :"由 mmis1000、BoyceLig、SiderealArt 翻譯為正體中文（台灣）", # Here, make sute to give you some credits:  Translated to LANGUAGE by USER/NAME/PSEUDONYM/etc. 
     "Translate ElevenClock to your language"    :"將 ElevenClock 翻譯成你的語言",
     "Get started"                               :"立刻開始",
     
     #About ElevenClock
-    "About ElevenClock version {0}:"            :"關於 ElevenClock 版本 {0}",
+    "About ElevenClock version {0}:"            :"關於 ElevenClock 版本 {0}：",
     "View ElevenClock's homepage"               :"檢視 ElevenClock 專案首頁",
     "Open"                                      :"打開",
     "Report an issue/request a feature"         :"回報錯誤/提出新的功能請求",

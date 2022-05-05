@@ -7,55 +7,55 @@
 # Meke special attention to elements like ":", etc.
 
 lang_3_5_0 = {
-    "Tooltip Appearance:": "",
-    "Tooltip's font, font size, font color and background": "",
-    "Disable tooltip's blurry background": "",
-    "Sync time with the internet": "",
-    "Internet date and time": "",
-    "Select internet time provider, change sync frequency": "",
-    "Enable internet time sync": "",
-    "Paste a URL from the world clock api or equivalent": "",
-    "Help": "",
-    "Internet sync frequency": "",
-    "10 minutes": "",
-    "30 minutes": "",
-    "1 hour": "",
-    "2 hours": "",
-    "4 hours": "",
-    "10 hours": "",
-    "24 hours": "",
+    "Tooltip Appearance:"                                   : "Wygląd okna podpowiedzi",
+    "Tooltip's font, font size, font color and background"  : "Czcionka, wielkość i kolor czcionki, tło okna podpowiedzi",
+    "Disable tooltip's blurry background"                   : "Wyłącz rozmyte tło okna podpowiedzi",
+    "Sync time with the internet"                           : "Synchronizuj czas z internetem",
+    "Internet date and time"                                : "Czas i data z internetu",
+    "Select internet time provider, change sync frequency"  : "Wybierz dostawcę czasu z internetu, zmień częstotliwość synchronizacji",
+    "Enable internet time sync"                             : "Włącz synchronizację czasu z internetem",
+    "Paste a URL from the world clock api or equivalent"    : "Wklej URL zgodny z World Clock API lub podobnym",
+    "Help"                                                  : "Pomoc",
+    "Internet sync frequency"                               : "Częstotliwość synchronizacji z internetem",
+    "10 minutes"                                            : "10 minut",
+    "30 minutes"                                            : "30 minut",
+    "1 hour"                                                : "1 godzina",
+    "2 hours"                                               : "2 godziny",
+    "4 hours"                                               : "4 godziny",
+    "10 hours"                                              : "10 godzin",
+    "24 hours"                                              : "24 godziny",
 }
 
 lang_3_4_0 = lang_3_5_0 | {
-    "Show calendar": "",
-    "Disabled": "",
-    "Open quick settings": "",
-    "Show desktop": "",
-    "Open run dialog": "",
-    "Open task manager": "",
-    "Open start menu": "",
-    "Open search menu": "",
-    "Change task": "",
-    "Change the action done when the clock is clicked": "",
+    "Show calendar"                                         : "Pokaż kalendarz",
+    "Disabled"                                              : "Wyłączony",
+    "Open quick settings"                                   : "Otwórz szybkie ustawienia",
+    "Show desktop"                                          : "Pokaż pulpit",
+    "Open run dialog"                                       : "Otwórz `Uruchom`",
+    "Open task manager"                                     : "Otwórz menedżer zadań",
+    "Open start menu"                                       : "Otwórz menu start",
+    "Open search menu"                                      : "Otwórz menu wyszukiwania",
+    "Change task"                                           : "Zmień zadanie",
+    "Change the action done when the clock is clicked"      : "Zmień akcję wykonywaną po kliknięciu w zegar",
 }
 
 lang_3_3_2 = lang_3_4_0 | {
-    "ElevenClock Updater": "",
-    "ElevenClock is downloading updates": "",
-    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "",
-    "Customize the clock on Windows 11": "",
-    "Disable the new instance checker method": "",
-    "Import settings from a local file": "",
-    "Export settings to a local file": "",
-    "Export": "",
-    "Import": "",
+    "ElevenClock Updater"                                   : "Aktualizator ElevenClock",
+    "ElevenClock is downloading updates"                    : "ElevenClock pobiera aktualizacje",
+    "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog": "ElevenClock został pomyślnie zaktualizowany do wersji {0}\nSprawdź GitHub, aby zobaczyć listę zmian",
+    "Customize the clock on Windows 11"                     : "Dostosuj zegar w Windowsie 11",
+    "Disable the new instance checker method"               : "Wyłącz nową metodę sprawdzania instancji",
+    "Import settings from a local file"                     : "Importuj ustawienia z pliku",
+    "Export settings to a local file"                       : "Eksportuj ustawienia do pliku",
+    "Export"                                                : "Eksport",
+    "Import"                                                : "Import",
 }
 
 lang_3_3_1 = lang_3_3_2 | {
-    "Invalid time format\nPlease follow the\nC 1989 Standards": "",
-    "Nothing to preview": "",
-    "Invalid time format\nPlease modify it\nin the settings": "",
-    "Disable the tooltip shown when the clock is hovered": ""
+    "Invalid time format\nPlease follow the\nC 1989 Standards": "Niewłaściwy format daty\nWprowadź ją zgodnie ze standardem\nC 1989 Standards",
+    "Nothing to preview"                                    : "Brak podglądu",
+    "Invalid time format\nPlease modify it\nin the settings": "Niewłaściwy format daty\nZmień go\nwustawieniach",
+    "Disable the tooltip shown when the clock is hovered"   : "Wyłącz okno podpowiedzi pokazywane gdy kursor najeżdża nad ikonę zegara"
 }
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "",
@@ -181,31 +181,31 @@ lang_2_8 = lang_2_9 | {
 lang2_7_bis = lang_2_8 | {
     "Use a custom font": "",
     "Use a custom font size": "",
-    "Enable hide when multi-monitor fullscreen apps are running": "",
-    "<b>{0}</b> needs to be enabled to change this setting": "",
-    "<b>{0}</b> needs to be disabled to change this setting": "",
+    "Enable hide when multi-monitor fullscreen apps are running"    : "",
+    "<b>{0}</b> needs to be enabled to change this setting"         : "<b>{0}</b> musi zostać włączone aby zmienić to ustawienie",
+    "<b>{0}</b> needs to be disabled to change this setting"        : "<b>{0}</b> musi zostać wyłączone aby zmienić to ustawienie",
 }
 
 lang2_7 = lang2_7_bis | {
-    " (This feature has been disabled because it should work by default. If it is not, please report a bug)": "",
-    "ElevenClock's language": ""
+    " (This feature has been disabled because it should work by default. If it is not, please report a bug)"    : " (Ta funkcja została wyłączona, bo powinna zawsze działać. Jeśli tak nie jest, zgłoś błąd)",
+    "ElevenClock's language"                                                                                    : "Język ElevenClock"
 }
 
 lang2_6 = lang2_7 | {
-    "About Qt6 (PySide6)": "O Qt6 (PySide6)",
-    "About": "Więcej o",
-    "Alternative non-SSL update server (This might help with SSL errors)": "Alternatywny serwer aktualizacji bez SSL (Może pomóc z problemem SSL)",
-    "Fixes and other experimental features: (Use ONLY if something is not working)": "",
-    "Show week number on the clock": "Pokaż numery dni tygodnia na zegarze",
+    "About Qt6 (PySide6)"                                                               : "O Qt6 (PySide6)",
+    "About"                                                                             : "Więcej o",
+    "Alternative non-SSL update server (This might help with SSL errors)"               : "Alternatywny serwer aktualizacji bez SSL (Może pomóc z problemem SSL)",
+    "Fixes and other experimental features: (Use ONLY if something is not working)"     : "Poprawki i inne funkcje eksperymentalne: (korzystaj TYLKO jeśli coś nie działa)",
+    "Show week number on the clock"                                                     : "Pokaż numery dni tygodnia na zegarze",
 }
 
 lang2_5 = lang2_6 | {
-    "Hide the clock when RDP Client or Citrix Workspace are running": "Ukryj zegar, gdy działa klient RDP lub Citrix Workspace",
-    "Clock Appearance:": "Wygląd zegara",
-    "Force the clock to have black text": "Wymuś czarny kolor tekstu zegara",
-    " - It is required that the Dark Text checkbox is disabled": " - Wymagane jest odznaczenie opcji czarnego koloru tekstu zegara",
-    "Debbugging information:": "Informacje debugowania:",
-    "Open ElevenClock's log": "Otwórz plik logów ElevenClock",
+    "Hide the clock when RDP Client or Citrix Workspace are running"    : "Ukryj zegar, gdy działa klient RDP lub Citrix Workspace",
+    "Clock Appearance:"                                                 : "Wygląd zegara",
+    "Force the clock to have black text"                                : "Wymuś czarny kolor tekstu zegara",
+    " - It is required that the Dark Text checkbox is disabled"         : " - Wymagane jest odznaczenie opcji czarnego koloru tekstu zegara",
+    "Debbugging information:"                                           : "Informacje debugowania:",
+    "Open ElevenClock's log"                                            : "Otwórz plik logów ElevenClock",
 }
 
 lang2_4 = lang2_5 | {
@@ -233,7 +233,7 @@ lang2_3 = lang2_4 | {
     "Alternative clock alignment (may not work)"                                        :"Zsynchronizuj zegar z alternatywnym serwerem (może nie działać)",
     "Change startup behaviour"                                                          :"Zmień zachowanie przy uruchamianiu",
     "Change"                                                                            :"Zmień",
-    "<b>Update to the latest version!</b>"                                             :"Zaktualizuj do najnowszej wersji!",
+    "<b>Update to the latest version!</b>"                                              :"<b>Zaktualizuj do najnowszej wersji!</b>",
     "Install update"                                                                    :"Zainstaluj aktualizację",
     
     #Clock settings
@@ -266,7 +266,7 @@ lang2_3 = lang2_4 | {
     "Open"                                      :"Otwórz",
     "Report an issue/request a feature"         :"Zgłoś problem/prośbę o funkcję",
     "Report"                                    :"Zgłoś",
-    "Support the dev: Give me a coffee☕"       :"Wsparcie dla dewelopera: Kup mi kawę☕",
+    "Support the dev: Give me a coffee☕"        :"Wsparcie dla dewelopera: Kup mi kawę ☕",
     "Open page"                                 :"Otwórz stronę",
     "Icons by Icons8"                           :"Ikony z Icons8", # Here, the word "Icons8" should not be translated
     "Webpage"                                   :"Strona internetowa",
