@@ -1,3 +1,6 @@
+## Announcement: ElevenClock development has been paused temporarily. We'll be back soon, so take care :)
+
+
 [![Downloads@latest](https://img.shields.io/github/downloads/martinet101/ElevenClock/total?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
 [![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
 [![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
