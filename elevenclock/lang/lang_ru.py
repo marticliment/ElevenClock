@@ -10,23 +10,23 @@
 # sometimes ':' symbol is redundant, for example in a header of a settings section
 
 lang_3_5_0 = {
-    "Tooltip Appearance:": "",
-    "Tooltip's font, font size, font color and background": "",
-    "Disable tooltip's blurry background": "",
-    "Sync time with the internet": "",
-    "Internet date and time": "",
-    "Select internet time provider, change sync frequency": "",
-    "Enable internet time sync": "",
-    "Paste a URL from the world clock api or equivalent": "",
-    "Help": "",
-    "Internet sync frequency": "",
-    "10 minutes": "",
-    "30 minutes": "",
-    "1 hour": "",
-    "2 hours": "",
-    "4 hours": "",
-    "10 hours": "",
-    "24 hours": "",
+    "Tooltip Appearance:": "Внешний вид всплывающей подсказки",
+    "Tooltip's font, font size, font color and background": "Шрифт, размер, цвет и фон подсказки",
+    "Disable tooltip's blurry background": "Отключить фон в подсказке",
+    "Sync time with the internet": "Синхронизация времени в Интернете",
+    "Internet date and time": "Дата и время в Интернете",
+    "Select internet time provider, change sync frequency": "Выбор поставщика времени, частота обновлений",
+    "Enable internet time sync": "Включить синхронизацию через интернет",
+    "Paste a URL from the world clock api or equivalent": "Адрес API сервиса времени",
+    "Help": "Помощь",
+    "Internet sync frequency": "Частота синхронизации",
+    "10 minutes": "10 минут",
+    "30 minutes": "30 минут",
+    "1 hour": "1 час",
+    "2 hours": "2 часа",
+    "4 hours": "4 часа",
+    "10 hours": "10 часов",
+    "24 hours": "24 часа",
 }
 
 lang_3_4_0 = lang_3_5_0 | {
@@ -58,8 +58,9 @@ lang_3_3_1 = lang_3_3_2 | {
     "Invalid time format\nPlease follow the\nC 1989 Standards": "Неверный формат времени\nСледуйте стандарту\nC 1989 Standards",
     "Nothing to preview": "Нет предпросмотра",
     "Invalid time format\nPlease modify it\nin the settings": "Неверный формат времени\nИзмените формат\nв настройках",
-    "Disable the tooltip shown when the clock is hovered": "Скрывать тултипы при наведении курсора на часы"
+    "Disable the tooltip shown when the clock is hovered": "Скрывать всплывающие подсказки при наведении курсора на часы"
 }
+
 lang_3_3 = lang_3_3_1 | {
     "Custom format rules:": "Настройки формата",
     "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link": "Для форматирования используйте стандарт <b>1989 C</b>. Больше деталей по ссылке",
