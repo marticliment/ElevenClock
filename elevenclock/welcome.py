@@ -666,7 +666,7 @@ class SelectModeSlide(BasicNavWidget):
         self.customClock.setIcon(getPath(f"customClock_{self.iconMode}.png"))
         self.customClock.clicked.connect(lambda: self.toggleClockMode("custom", shouldChangePrefs=True))
         self.customClock.setText("""
-            <h3>Show clocks on every monitor and customize them entierly</h3>
+            <h3>Show clocks on every monitor and customize them entirely</h3>
             Replace every clock and customize it adding seconds, weekday or weeknumber, removing the date, changing the font or the color background, etc...""")
         
         vl.addWidget(label1)
