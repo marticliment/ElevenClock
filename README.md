@@ -16,7 +16,7 @@ Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more
 
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 
-# Suport me :)
+# Support me :)
 <a href='https://ko-fi.com/martinet101' target='_blank'><img style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
  
  
