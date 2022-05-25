@@ -16,9 +16,9 @@ from PySide2 import QtCore
 
 try:
     import psutil
-    importedPsutil = True
+    from psutil._common import bytes2human
 except ImportError:
-    importedPsutil = False
+    print(ImportError)
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
@@ -599,6 +599,15 @@ class SettingsWindow(QMainWindow):
                     except:
                         pass
 
+        def getTotalRAM():
+            try:
+                total_ram = bytes2human(psutil.virtual_memory().total)
+                if total_ram[-1] != "B":
+                    total_ram += "B"
+                return total_ram
+            except:
+                return "Unknown"
+
         self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
@@ -645,16 +654,10 @@ class SettingsWindow(QMainWindow):
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.debbuggingTitle.addWidget(self.logButton)
         try:
-            if importedPsutil:
-                self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {round(psutil.virtual_memory().total/(1024.**3))} GB\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
-            else:
-                self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: Unknown\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
+            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         except Exception as e:
             report(e)
-            if importedPsutil:
-                self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {round(psutil.virtual_memory().total/(1024.**3), 1)} GB\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
-            else:
-                self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: Unknown\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
+            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
 
         self.hiddenButton.button.setVisible(False)
         self.debbuggingTitle.addWidget(self.hiddenButton)
