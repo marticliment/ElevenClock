@@ -599,13 +599,26 @@ class SettingsWindow(QMainWindow):
                     except:
                         pass
 
+        def getAppVersion():
+            return f"{versionName} {platform.architecture()[0]} (version code {version})"
+
+        def getSystemInfo():
+            release = platform.release()
+            try:
+                if int(platform.version().split('.')[-1]) >= 22000:
+                    release = "11"
+            except e:
+                report(e)
+            return f"{platform.system()} {release} {platform.win32_edition()} {platform.version()}"
+
         def getTotalRAM():
             try:
                 total_ram = bytes2human(psutil.virtual_memory().total)
                 if total_ram[-1] != "B":
                     total_ram += "B"
                 return total_ram
-            except:
+            except e:
+                report(e)
                 return "Unknown"
 
         self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
@@ -653,12 +666,7 @@ class SettingsWindow(QMainWindow):
         self.logButton.clicked.connect(lambda: self.openLogWindow())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
         self.debbuggingTitle.addWidget(self.logButton)
-        try:
-            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {str(int(platform.release())+1) if int(platform.version().split('.')[-1])>=22000 else platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
-        except Exception as e:
-            report(e)
-            self.hiddenButton = QSettingsButton(f"ElevenClock Version: {versionName} {platform.architecture()[0]} (version code {version})\nSystem version: {platform.system()} {platform.release()} {platform.win32_edition()} {platform.version()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
-
+        self.hiddenButton = QSettingsButton(f"ElevenClock version: {getAppVersion()}\nSystem version: {getSystemInfo()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         self.hiddenButton.button.setVisible(False)
         self.debbuggingTitle.addWidget(self.hiddenButton)
 
