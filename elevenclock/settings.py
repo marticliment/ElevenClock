@@ -617,7 +617,7 @@ class SettingsWindow(QMainWindow):
                 if total_ram[-1] != "B":
                     total_ram += "B"
                 return total_ram
-            except e:
+            except Exception as e:
                 report(e)
                 return "Unknown"
 
