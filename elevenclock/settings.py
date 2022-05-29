@@ -607,7 +607,7 @@ class SettingsWindow(QMainWindow):
             try:
                 if int(platform.version().split('.')[-1]) >= 22000:
                     release = "11"
-            except e:
+            except Exception as e:
                 report(e)
             return f"{platform.system()} {release} {platform.win32_edition()} {platform.version()}"
 
