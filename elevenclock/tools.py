@@ -25,8 +25,8 @@ from external.FramelessWindow import QFramelessDialog
 import win32gui
 from win32con import *
 
-version = 3.509
-versionName = "3.5.1-beta"
+version = 3.599
+versionName = "3.6.0-beta LTS"
 
 
 try:
@@ -69,7 +69,7 @@ def getint(s: str, fallback: int) -> int:
     try:
         return int(s)
     except:
-        cprint("can't parse", s)
+        cprint("can't parse \""+s+"\"")
         return fallback
 
 def report(exception) -> None: # Exception reporter

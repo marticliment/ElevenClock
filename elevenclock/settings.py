@@ -391,13 +391,20 @@ class SettingsWindow(QMainWindow):
 
         self.internetTimeTitle = QSettingsTitle(_("Internet date and time"), getPath(f"internet_{self.iconMode}.png"), _("Select internet time provider, change sync frequency"))
         layout.addWidget(self.internetTimeTitle)
-        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Enable internet time sync"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
+        
+        self.internetTime = QSettingsCheckBox(_("Enable internet time sync"), None)
+        self.internetTime.setChecked(getSettings("EnableInternetTime"))
+        self.internetTime.stateChanged.connect(lambda e: setSettings("EnableInternetTime", e))
+        self.internetTimeTitle.addWidget(self.internetTime)
+        
+        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Set a custom date and time URL"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
         self.internetTimeURL.setChecked(getSettings("AtomicClockURL"))
         self.internetTimeURL.stateChanged.connect(lambda e: setSettings("AtomicClockURL", e))
         self.internetTimeURL.valueChanged.connect(lambda v: (setSettingsValue("AtomicClockURL", v, r=False), setSettings("ReloadInternetTime", True)))
         self.internetTimeTitle.addWidget(self.internetTimeURL)
+        
         self.internetSyncTime = QSettingsComboBox(_("Internet sync frequency"))
         actions = {
             _("10 minutes"): "600",
@@ -892,12 +899,16 @@ class SettingsWindow(QMainWindow):
             self.backgroundcolor.setEnabled(True)
             self.backgroundcolor.setToolTip("")
 
-        if self.internetTimeURL.isChecked():
+        if self.internetTime.isChecked():
             self.internetSyncTime.setEnabled(True)
             self.internetSyncTime.setToolTip("")
+            self.internetTimeURL.setEnabled(True)
+            self.internetTimeURL.setToolTip("")
         else:
             self.internetSyncTime.setEnabled(False)
             self.internetSyncTime.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Sync time with the internet")))
+            self.internetTimeURL.setEnabled(False)
+            self.internetTimeURL.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Sync time with the internet")))
             
 
 

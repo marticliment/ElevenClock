@@ -376,11 +376,11 @@ try:
     def loadAtomicClockOffset():
         global timeOffset
         while True:
-            if getSettings("AtomicClockURL"): # This settings value will be cached, so no CPU/HDD overload ;)
+            if getSettings("EnableInternetTime"): # This settings value will be cached, so no CPU/HDD overload ;)
                 try:
                     import urllib
                     import json
-                    dict = json.loads(urllib.request.urlopen(getSettingsValue("AtomicClockURL")).read().decode("utf-8"))
+                    dict = json.loads(urllib.request.urlopen(getSettingsValue("AtomicClockURL") if getSettingsValue("AtomicClockURL") else "http://worldtimeapi.org/api/ip").read().decode("utf-8"))
                     if "datetime" in dict.keys(): # worldtimeapi.org
                         timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["datetime"] else "+"}'.join(dict["datetime"].split("-" if not "+" in dict["datetime"] else "+")[0:-1])).timestamp()
                         print("🔵 (worldtimeapi.org) Time offset set to", timeOffset)
