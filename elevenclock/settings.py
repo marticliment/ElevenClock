@@ -796,6 +796,8 @@ class SettingsWindow(QMainWindow):
                 w.searchMode = False
                 self.notFoundLabel.hide()
                 w.resizeEvent(QResizeEvent(w.size(), w.size()))
+                if w.childsVisible:
+                    w.toggleChilds()
 
     def showEvent(self, event: QShowEvent) -> None:
         threading.Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
