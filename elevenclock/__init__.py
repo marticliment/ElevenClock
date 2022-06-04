@@ -231,7 +231,11 @@ try:
             isPrefsWinOpen = globals.sw.isVisible()
         except AttributeError:
             isPrefsWinOpen = True
-        if (restartCount<20 and memOk) or isPrefsWinOpen:
+        try:
+            isWizardOpen = globals.ww.isVisible()
+        except AttributeError:
+            isWizardOpen = True
+        if (restartCount<20 and memOk) or isPrefsWinOpen or isWizardOpen:
             restartCount += 1
             i = 0
             for screen in app.screens():
@@ -1566,12 +1570,12 @@ try:
         showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
-        
-        
-    showWelcomeWizard = False
-    if showWelcomeWizard or "--welcome" in sys.argv:
-        import welcome
-        ww = welcome.WelcomeWindow()
+            
+        showWelcomeWizard = True
+        if showWelcomeWizard or "--welcome" in sys.argv:
+            import welcome
+            ww = welcome.WelcomeWindow()
+            globals.ww = ww
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
     

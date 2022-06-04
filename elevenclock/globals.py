@@ -37,6 +37,7 @@ old_stdout: io.StringIO = None
 mController: object = None
 trayIcon: QSystemTrayIcon = None
 sw: QMainWindow = None
+ww: QMainWindow = None
 tempDir: str = None
 dateTimeFormat: str = "%HH:%M\n%A\n%d/%m/%Y"
 settingsCache = {}
