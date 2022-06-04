@@ -629,8 +629,8 @@ try:
         INTLOOPTIME = 2
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int):
-
             super().__init__()
+
             if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
                 print("🟠 Monitor blacklisted!")
                 self.hide()
@@ -703,7 +703,6 @@ try:
                 
                 self.refresh.connect(self.refreshandShow)
                 self.hideSignal.connect(self.hide)
-                #self.keyboard = Controller()
                 self.setWindowFlag(Qt.WindowStaysOnTopHint)
                 self.setWindowFlag(Qt.FramelessWindowHint)
                 self.setAttribute(Qt.WA_ShowWithoutActivating)
@@ -816,22 +815,27 @@ try:
                         self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable", "sans-serif"]
                     else:
                         self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
-                else:
-                    self.fontfamilies = [customFont]
-                print(f"🔵 Font families: {self.fontfamilies}")
-                customSize = getSettingsValue("UseCustomFontSize")
-                if customSize == "":
+                    self.customFont = ""
                     self.font.setPointSizeF(9.3)
                 else:
-                    try:
-                        self.font.setPointSizeF(float(customSize))
-                    except Exception as e:
-                        self.font.setPointSizeF(9.3)
-                        report(e)
-                print(f"🔵 Font size: {self.font.pointSizeF()}")
+                    self.fontfamilies = []
+                    self.customFont = customFont
+                print(f"🔵 Font families   : {self.fontfamilies}")
+                print(f"🔵 Custom font     : {self.customFont}")
+                customSize = getSettingsValue("UseCustomFontSize")
+                #if customSize == "":
+                #else:
+                #    try:
+                #        self.font.setPointSizeF(float(customSize))
+                #    except Exception as e:
+                #        self.font.setPointSizeF(9.3)
+                #        report(e)
+                #print(f"🔵 Font size: {self.font.pointSizeF()}")
                 self.font.setStyleStrategy(QFont.PreferOutline)
                 self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
                 self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
+                if self.fontfamilies == []:
+                    self.font.fromString(self.customFont)
                 self.label.setFont(self.font)
 
                 accColors = getColors()
@@ -903,7 +907,8 @@ try:
                     self.label.setStyleSheet(style_sheet_string)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                    self.font.setFamilies(self.fontfamilies)
+                    if self.fontfamilies != []:
+                        self.font.setFamilies(self.fontfamilies)
                     if lang == lang_ko:
                         self.font.setWeight(QFont.Weight.Normal)
                     elif lang == lang_zh_TW or lang == lang_zh_CN:
@@ -918,7 +923,8 @@ try:
                     self.label.setStyleSheet(style_sheet_string)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                    self.font.setFamilies(self.fontfamilies)
+                    if self.fontfamilies != []:
+                        self.font.setFamilies(self.fontfamilies)
                     if lang == lang_ko:
                         self.font.setWeight(QFont.Weight.Normal)
                     elif lang == lang_zh_TW or lang == lang_zh_CN:
@@ -933,7 +939,8 @@ try:
                     self.label.setStyleSheet(style_sheet_string)
                     self.label.bgopacity = .5
                     self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                    self.font.setFamilies(self.fontfamilies)
+                    if self.fontfamilies != []:
+                        self.font.setFamilies(self.fontfamilies)
                     self.font.setWeight(QFont.Weight.ExtraLight)
                     self.label.setFont(self.font)
                 self.label.clicked.connect(lambda: self.showCalendar())

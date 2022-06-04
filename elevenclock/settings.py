@@ -290,33 +290,13 @@ class SettingsWindow(QMainWindow):
         if self.fontPrefs.isChecked():
             customFont = getSettingsValue("UseCustomFont")
             if customFont:
-                self.fontPrefs.combobox.setCurrentText(customFont)
-                self.fontPrefs.combobox.lineEdit().setFont(QFont(customFont))
-        else:
-            if lang == lang_ko:
-                self.fontPrefs.combobox.setCurrentText("Malgun Gothic")
-            elif lang == lang_zh_TW:
-                self.fontPrefs.combobox.setCurrentText("Microsoft JhengHei UI")
-            elif lang == lang_zh_CN:
-                self.fontPrefs.combobox.setCurrentText("Microsoft YaHei UI")
-            else:
-                self.fontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
+                f = QFont()
+                f.fromString(getSettingsValue("UseCustomFont"))
+                self.fontPrefs.fontPicker.setCurrentFont(f)
+                self.fontPrefs.button.setFont(f)
         self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
         self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
         self.clockAppearanceTitle.addWidget(self.fontPrefs)
-        
-        self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
-        self.fontSize.setChecked(getSettings("UseCustomFontSize"))
-        self.fontSize.loadItems()
-        if self.fontSize.isChecked():
-            customFontSize = getSettingsValue("UseCustomFontSize")
-            if customFontSize:
-                self.fontSize.combobox.setCurrentText(customFontSize)
-        else:
-                self.fontSize.combobox.setCurrentText("9")
-        self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
-        self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
-        self.clockAppearanceTitle.addWidget(self.fontSize)
         
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
@@ -397,7 +377,7 @@ class SettingsWindow(QMainWindow):
         self.internetTime.stateChanged.connect(lambda e: setSettings("EnableInternetTime", e))
         self.internetTimeTitle.addWidget(self.internetTime)
         
-        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Set a custom date and time URL"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
+        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Set a custom network time provider"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
         self.internetTimeURL.setChecked(getSettings("AtomicClockURL"))
@@ -431,33 +411,13 @@ class SettingsWindow(QMainWindow):
         if self.toolTipFontPrefs.isChecked():
             customFont = getSettingsValue("TooltipUseCustomFont")
             if customFont:
-                self.toolTipFontPrefs.combobox.setCurrentText(customFont)
-                self.toolTipFontPrefs.combobox.lineEdit().setFont(QFont(customFont))
-        else:
-            if lang == lang_ko:
-                self.toolTipFontPrefs.combobox.setCurrentText("Malgun Gothic")
-            elif lang == lang_zh_TW:
-                self.toolTipFontPrefs.combobox.setCurrentText("Microsoft JhengHei UI")
-            elif lang == lang_zh_CN:
-                self.toolTipFontPrefs.combobox.setCurrentText("Microsoft YaHei UI")
-            else:
-                self.toolTipFontPrefs.combobox.setCurrentText("Segoe UI Variable Display")
+                f = QFont()
+                f.fromString(getSettingsValue("UseCustomFont"))
+                self.fontPrefs.fontPicker.setCurrentFont(f)
+                self.fontPrefs.button.setFont(f)
         self.toolTipFontPrefs.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFont", bool(i)))
         self.toolTipFontPrefs.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFont", v))
         self.toolTipAppearanceTitle.addWidget(self.toolTipFontPrefs)
-        
-        self.toolTipFontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
-        self.toolTipFontSize.setChecked(getSettings("TooltipUseCustomFontSize"))
-        self.toolTipFontSize.loadItems()
-        if self.toolTipFontSize.isChecked():
-            customFontSize = getSettingsValue("TooltipUseCustomFontSize")
-            if customFontSize:
-                self.toolTipFontSize.combobox.setCurrentText(customFontSize)
-        else:
-                self.toolTipFontSize.combobox.setCurrentText("9")
-        self.toolTipFontSize.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFontSize", bool(i)))
-        self.toolTipFontSize.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFontSize", v))
-        self.toolTipAppearanceTitle.addWidget(self.toolTipFontSize)
         
         self.toolTipFontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.toolTipFontColor.setChecked(getSettings("TooltipUseCustomFontColor"))
@@ -2681,48 +2641,54 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
 
-        class QFontComboBoxWithFluentMenu(QFontComboBox):
+        class QFluentFontDialog(QFontDialog):
             def __init__(self, parent) -> None:
                 super().__init__(parent)
-                v = self.view().window()
-                ApplyMenuBlur(v.winId().__int__(), v)
+                self.setAutoFillBackground(True)
+                ApplyMica(self.winId().__int__(), isWindowDark())
+                cprint(self.layout().widget())
 
-        self.combobox = QFontComboBoxWithFluentMenu(self)
-        self.combobox.setObjectName("stCmbbx")
-        self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
+        self.fontPicker = QFluentFontDialog(self)
+        self.fontPicker.setObjectName("stCmbbx")
+        self.fontPicker.fontSelected.connect(self.valuechangedEvent)
+        self.button = QPushButton(self)
+        self.button.setObjectName("stCmbbx")
+        self.button.setText(_("Select custom font"))
+        self.button.clicked.connect(self.fontPicker.show)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
         
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
+        self.button.move(self.width()-self.getPx(270), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
         self.checkbox.setFixedWidth(self.width()-self.getPx(280))
         self.checkbox.setFixedHeight(self.getPx(30))
         self.setFixedHeight(self.getPx(50))
-        self.combobox.setFixedHeight(self.getPx(30))
-        self.combobox.setFixedWidth(self.getPx(250))
+        self.button.setFixedHeight(self.getPx(30))
+        self.button.setFixedWidth(self.getPx(250))
         return super().resizeEvent(event)
     
-    def valuechangedEvent(self, i: int):
-        self.valueChanged.emit(self.combobox.itemText(i))
-        self.combobox.lineEdit().setFont(QFont(self.combobox.itemText(i)))
+    def valuechangedEvent(self, font: QFont):
+        self.valueChanged.emit(font.key())
+        self.button.setFont(font)
     
     def stateChangedEvent(self, v: bool):
-        self.combobox.setEnabled(self.checkbox.isChecked())
+        self.button.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
-            self.combobox.setEnabled(False)
-            self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.button.setEnabled(False)
+            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
             self.stateChanged.emit(v)
         else:
             self.stateChanged.emit(v)
-            self.combobox.setEnabled(True)
-            self.combobox.setToolTip("")
-            self.valueChanged.emit(self.combobox.currentText())
-            self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
+            self.button.setEnabled(True)
+            self.button.setToolTip("")
+            self.valueChanged.emit(str(self.fontPicker.currentFont()))
+            #self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
         
     def setItems(self, items: list):
-        self.combobox.clear()
-        self.combobox.addItems(items)
+        pass
+        #self.combobox.clear()
+        #self.combobox.addItems(items)
 
 class QSettingsLineEditCheckBox(QSettingsCheckBox):
     valueChanged = Signal(str)
