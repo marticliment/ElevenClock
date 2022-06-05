@@ -746,6 +746,7 @@ class SettingsWindow(QMainWindow):
                 for item in w.getChildren():
                     if query.lower() in item.text().lower():
                         item.show()
+                        w.childrenOpacity.setOpacity(1)
                         found = True
                     else:
                         item.hide()
@@ -758,6 +759,7 @@ class SettingsWindow(QMainWindow):
         else:
             self.announcements.show()
             for w in widgets:
+                w.childrenOpacity.setOpacity(0)
                 for item in w.getChildren():
                         item.show()
                 w.searchMode = False
@@ -2064,6 +2066,7 @@ class QSettingsTitle(QWidget):
         self.newHideAnim.finished.connect(lambda: (self.compressibleWidget.hide(),self.setChildFixedHeight(self.getPx(70))))
 
         self.childrenOpacity = QGraphicsOpacityEffect(self.compressibleWidget)
+        self.childrenOpacity.setOpacity(0)
         self.compressibleWidget.setGraphicsEffect(self.childrenOpacity)
         
         self.compressibleWidget.move(self.getPx(-1500),self.getPx(-1500))
