@@ -1,4 +1,5 @@
 from ctypes import c_int, windll
+from threading import Thread
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
 import platform
@@ -33,12 +34,12 @@ class WelcomeWindow(QMainWindow):
         self.switched = False
         
         self.widgetOrder = (
-            FirstRunSlide(self),
-            SelectModeSlide(self),
-            SelectFullScreenSlide(self),
-            DateTimeFormat(self),
-            ClockAppearance(self),
-            LastSlide(self),
+            FirstRunSlide(),
+            SelectModeSlide(),
+            SelectFullScreenSlide(),
+            DateTimeFormat(),
+            ClockAppearance(),
+            LastSlide(),
         )
 
         for w in self.widgetOrder:
@@ -67,150 +68,192 @@ class WelcomeWindow(QMainWindow):
 
         ApplyMica(self.winId().__int__(), isWindowDark())
         
-        
-        """self.bgWindow = QMainWindow()
-        self.bgWindow.setFocusPolicy(Qt.NoFocus)
-        self.bgWindow.setWindowFlags(Qt.Window | Qt.FramelessWindowHint | Qt.WindowDoesNotAcceptFocus | Qt.Tool)
-        self.bgWindow.setAttribute(Qt.WA_TranslucentBackground)
-        self.bgWindow.setCentralWidget(QWidget())
-        self.bgWindow.centralWidget().setStyleSheet("background-color: rgba(30, 30, 30, 0.6)")
-        self.bgWindow.hide()
-        self.bgWindow.setWindowTitle("ElenenClock_IgnoreFullscreenEvent")
-        self.bgWindow.move(0, 0)
-        self.bgWindow.resize(1, 1)
-        """
         colors = getColors()
                     
-                    
-        self.bgWidget.setStyleSheet(f"""
-            * {{
-                color: #eeeeee;
-                background-color: transparent;
-                border-radius: 4px;
-                font-family: "Segoe UI Variable Display"
-            }}
-            #BackgroundWidget {{
-                border: 0px solid #121212;
-                padding: 20px;
-                background-color: transparent;
-                border-radius: 0px;
-                padding-left: 30px;
-                padding-right: 30px;
-            }}
-            QLabel {{
-                background-color: none;
-            }}
-            #SampleItem {{
-                font-family: "Segoe UI Variable Display semib";
-                width: 100px;
-                background-color: #303030;
-                padding: 20px;
-                border-radius: {self.getPx(8)}px;
-                border: {self.getPx(1)}px solid #202020;
-                height: {self.getPx(25)}px;
-                border-top: {self.getPx(1)}px solid #252525;
-            }}
-            #FramelessSampleItem {{
-                font-family: "Segoe UI Variable Display semib";
-                width: 100px;
-                background-color: transparent;
-                padding: 20px;
-                border-radius: {self.getPx(8)}px;
-                border: none;
-                height: {self.getPx(25)}px;
-            }}
-            QPushButton {{
-                font-family: "Segoe UI Variable Display semib";
-                font-size: 8pt;
-                width: 100px;
-                background-color: #303030;
-                border-radius: {self.getPx(4)}px;
-                border: {self.getPx(1)}px solid rgba(77, 77, 77, 50%);
-                height: {self.getPx(25)}px;
-                border-top: {self.getPx(1)}px solid rgba(87, 87, 87, 50%);
-            }}
-            QPushButton:hover {{
-                background-color: rgba(77, 77, 77, 50%);
-                border: {self.getPx(1)}px solid rgba(89, 89, 89, 50%);
-                height: {self.getPx(25)}px;
-                border-top: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
-            }}
-            QPushButton:pressed {{
-                background-color: rgba(89, 89, 89, 50%);
-                border: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
-                height: {self.getPx(25)}px;
-                border-top: {self.getPx(1)}px solid rgba(99, 99, 99 , 50%);
-            }}
-            #AccentButton{{
-                color: black;
-                background-color: rgb({colors[1]});
-                border-color: rgb({colors[1]});
-                border-bottom-color: rgb({colors[2]});
-            }}
-            #AccentButton:hover{{
-                background-color: rgba({colors[1]}, 80%);
-                border-color: rgb({colors[1]});
-                border-bottom-color: rgb({colors[2]});
-            }}
-            #AccentButton:disabled{{
-                background-color: #212121;
-                border-color: #303030;
-                border-bottom-color: #363636;
-            }}
-            #FocusSelector {{
-                border: 5px solid rgb({colors[1]});
-                border-radius: 5px;
-                background-color: rgb({colors[1]});
-            }}
-            QLabel {{
-                border: none;
-                border-radius: 6px;
-            }}
-            #TitleLabel {{
-                font-size: 26pt;
-            }}
-            """)
-        
+        if isWindowDark():
+            self.bgWidget.setStyleSheet(f"""
+                * {{
+                    color: #eeeeee;
+                    background-color: transparent;
+                    border-radius: 4px;
+                    font-family: "Segoe UI Variable Display"
+                }}
+                #BackgroundWidget {{
+                    border: 0px solid #121212;
+                    padding: 20px;
+                    background-color: transparent;
+                    border-radius: 0px;
+                    padding-left: 30px;
+                    padding-right: 30px;
+                }}
+                QLabel {{
+                    background-color: none;
+                }}
+                #SampleItem {{
+                    font-family: "Segoe UI Variable Display semib";
+                    width: 100px;
+                    background-color: #303030;
+                    padding: 20px;
+                    border-radius: {self.getPx(8)}px;
+                    border: {self.getPx(1)}px solid #202020;
+                    height: {self.getPx(25)}px;
+                    border-top: {self.getPx(1)}px solid #252525;
+                }}
+                #FramelessSampleItem {{
+                    font-family: "Segoe UI Variable Display semib";
+                    width: 100px;
+                    background-color: transparent;
+                    padding: 20px;
+                    border-radius: {self.getPx(8)}px;
+                    border: none;
+                    height: {self.getPx(25)}px;
+                }}
+                QPushButton {{
+                    font-family: "Segoe UI Variable Display semib";
+                    font-size: 8pt;
+                    width: 100px;
+                    background-color: #303030;
+                    border-radius: {self.getPx(4)}px;
+                    border: {self.getPx(1)}px solid rgba(77, 77, 77, 50%);
+                    height: {self.getPx(25)}px;
+                    border-top: {self.getPx(1)}px solid rgba(87, 87, 87, 50%);
+                }}
+                QPushButton:hover {{
+                    background-color: rgba(77, 77, 77, 50%);
+                    border: {self.getPx(1)}px solid rgba(89, 89, 89, 50%);
+                    height: {self.getPx(25)}px;
+                    border-top: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
+                }}
+                QPushButton:pressed {{
+                    background-color: rgba(89, 89, 89, 50%);
+                    border: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
+                    height: {self.getPx(25)}px;
+                    border-top: {self.getPx(1)}px solid rgba(99, 99, 99 , 50%);
+                }}
+                #AccentButton{{
+                    color: black;
+                    background-color: rgb({colors[1]});
+                    border-color: rgb({colors[1]});
+                    border-bottom-color: rgb({colors[2]});
+                }}
+                #AccentButton:hover{{
+                    background-color: rgba({colors[1]}, 80%);
+                    border-color: rgb({colors[1]});
+                    border-bottom-color: rgb({colors[2]});
+                }}
+                #AccentButton:disabled{{
+                    background-color: #212121;
+                    border-color: #303030;
+                    border-bottom-color: #363636;
+                }}
+                #FocusSelector {{
+                    border: 5px solid rgb({colors[1]});
+                    border-radius: 5px;
+                    background-color: rgb({colors[1]});
+                }}
+                QLabel {{
+                    border: none;
+                    border-radius: 6px;
+                }}
+                #TitleLabel {{
+                    font-size: 26pt;
+                }}
+                """)
+        else:         
+            self.bgWidget.setStyleSheet(f"""
+                * {{
+                    color: black;
+                    background-color: transparent;
+                    border-radius: 4px;
+                    font-family: "Segoe UI Variable Display"
+                }}
+                #BackgroundWidget {{
+                    border: 0px solid #eeeeee;
+                    padding: 20px;
+                    background-color: transparent;
+                    border-radius: 0px;
+                    padding-left: 30px;
+                    padding-right: 30px;
+                }}
+                QLabel {{
+                    background-color: none;
+                }}
+                #SampleItem {{
+                    font-family: "Segoe UI Variable Display";
+                    width: 100px;
+                    background-color: #ffffff;
+                    padding: 20px;
+                    border-radius: {self.getPx(8)}px;
+                    border: {self.getPx(1)}px solid rgba(230, 230, 230, 80%);
+                    height: {self.getPx(25)}px;
+                    border-bottom: {self.getPx(1)}px solid rgba(220, 220, 220, 100%);
+                }}
+                #FramelessSampleItem {{
+                    font-family: "Segoe UI Variable Display semib";
+                    width: 100px;
+                    background-color: transparent;
+                    padding: 20px;
+                    border-radius: {self.getPx(8)}px;
+                    border: none;
+                    height: {self.getPx(25)}px;
+                }}
+                QPushButton {{
+                    font-family: "Segoe UI Variable Display";
+                    font-size: 8pt;
+                    width: 100px;
+                    background-color: #ffffff;
+                    border-radius: {self.getPx(4)}px;
+                    border: {self.getPx(1)}px solid rgba(230, 230, 230, 80%);
+                    height: {self.getPx(25)}px;
+                    border-bottom: {self.getPx(1)}px solid rgba(220, 220, 220, 100%);
+                }}
+                QPushButton:hover {{
+                    background-color: rgba(240, 240, 240, 50%);
+                    border: {self.getPx(1)}px solid rgba(220, 220, 220, 80%);
+                    height: {self.getPx(25)}px;
+                    border-bottom: {self.getPx(1)}px solid rgba(200, 200, 200, 100%);
+                }}
+                QPushButton:pressed {{
+                    background-color: rgba(89, 89, 89, 50%);
+                    border: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
+                    height: {self.getPx(25)}px;
+                    border-top: {self.getPx(1)}px solid rgba(99, 99, 99 , 50%);
+                }}
+                #AccentButton{{
+                    color: white;
+                    background-color: rgb({colors[3]});
+                    border-color: rgb({colors[2]});
+                    border-bottom-color: rgb({colors[4]});
+                }}
+                #AccentButton:hover{{
+                    background-color: rgba({colors[2]}, 80%);
+                    border-color: rgb({colors[1]});
+                    border-bottom-color: rgb({colors[3]});
+                }}
+                #AccentButton:disabled{{
+                    background-color: #212121;
+                    border-color: #303030;
+                    border-bottom-color: #363636;
+                }}
+                #FocusSelector {{
+                    border: 5px solid rgb({colors[1]});
+                    border-radius: 5px;
+                    background-color: rgb({colors[1]});
+                }}
+                QLabel {{
+                    border: none;
+                    border-radius: 6px;
+                }}
+                #TitleLabel {{
+                    font-size: 26pt;
+                }}
+                """)
+  
+
         self.nextWidget(anim=False)
 
         self.show()
         
-    def fillScreen(self) -> None:
-        if not self.switched:
-            """self.switched = True
-            #GlobalBlur(self.bgWindow.winId(), Acrylic=False)
-            fGeometry = QGuiApplication.primaryScreen().geometry()
-            #self.bgWindow.setGeometry(self.geometry())
-            #bgAnim = QPropertyAnimation(self.bgWindow, b"geometry", self)
-            #bgAnim.setStartValue(self.geometry())
-            #bgAnim.setEndValue(fGeometry)
-            #bgAnim.setEasingCurve(QEasingCurve.InOutCirc)
-            #bgAnim.setDuration(400)
-            #bgAnim.start()
-            #self.bgWindow.show()
-            x = (QGuiApplication.primaryScreen().geometry().width()-self.getPx(800))//2
-            y = (QGuiApplication.primaryScreen().geometry().height()-self.getPx(600))//2
-            self.resize(self.getPx(800), self.getPx(600))
-            self.setFixedSize(self.getPx(800), self.getPx(600))
-            self.hide()
-            self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
-            self.show()
-            uiAnim = QPropertyAnimation(self, b"pos", self)
-            uiAnim.setStartValue(self.pos())
-            uiAnim.setEndValue(QPoint(x, y))
-            uiAnim.setEasingCurve(QEasingCurve.InOutCirc)
-            uiAnim.setDuration(400)
-            uiAnim.start()
-            
-            
-            DwmSetWindowAttribute = dwm.DwmSetWindowAttribute
-            DwmSetWindowAttribute(int(self.winId().__int__()), 33, ctypes.byref(ctypes.c_int(2)), ctypes.sizeof(ctypes.c_int))"""
-    
-    def paintEvent(self, event: QMouseEvent) -> None:
-        #self.bgWindow.show()
-        #self.bgWindow.raise_()
-        return super().paintEvent(event)
-    
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
         
@@ -246,11 +289,6 @@ class WelcomeWindow(QMainWindow):
         w: BasicNavWidget = self.widgetOrder[-1]
         self.setWidget(w)
         
-        
-    def closeEvent(self, event: QCloseEvent) -> None:
-        #self.bgWindow.close()
-        return super().closeEvent(event)
-
 class BasicNavWidget(QWidget):
     next = Signal()
     previous = Signal()
@@ -323,7 +361,7 @@ class BasicNavWidget(QWidget):
         pos.setX(pos.x()+self.width())
         bgAnim.setStartValue(pos)
         bgAnim.setEndValue(self.pos())
-        bgAnim.setEasingCurve(QEasingCurve.OutExpo)
+        bgAnim.setEasingCurve(QEasingCurve.OutQuart)
         bgAnim.setDuration(200)
         bgAnim.start()
         
@@ -333,7 +371,7 @@ class BasicNavWidget(QWidget):
         pos.setX(pos.x()-self.width())
         bgAnim.setStartValue(pos)
         bgAnim.setEndValue(self.pos())
-        bgAnim.setEasingCurve(QEasingCurve.OutExpo)
+        bgAnim.setEasingCurve(QEasingCurve.OutQuart)
         bgAnim.setDuration(200)
         bgAnim.start()
         
@@ -343,7 +381,7 @@ class BasicNavWidget(QWidget):
         pos = self.pos()
         pos.setX(pos.x()-self.width())
         bgAnim.setEndValue(pos)
-        bgAnim.setEasingCurve(QEasingCurve.InExpo)
+        bgAnim.setEasingCurve(QEasingCurve.InQuart)
         bgAnim.setDuration(200)
         bgAnim.start()
         bgAnim.finished.connect(f)
@@ -354,7 +392,7 @@ class BasicNavWidget(QWidget):
         pos = self.pos()
         pos.setX(pos.x()+self.width())
         bgAnim.setEndValue(pos)
-        bgAnim.setEasingCurve(QEasingCurve.InExpo)
+        bgAnim.setEasingCurve(QEasingCurve.InQuart)
         bgAnim.setDuration(200)
         bgAnim.start()
         bgAnim.finished.connect(f)
@@ -537,7 +575,6 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))  
 
-
 class ClickableImageWithText(QPushButton):
     def __init__(self, size=96) -> None:
         super().__init__()
@@ -581,7 +618,6 @@ class FirstRunSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, startEnabled=True, closeEnabled=True)
         widget = QWidget()
-        self.next.connect(self.startWin)
         l = QHBoxLayout()
         l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
         widget.setLayout(l)
@@ -589,7 +625,7 @@ class FirstRunSlide(BasicNavWidget):
         vl.setContentsMargins(0, 0, 0, 0)
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
-        vl.addSpacing(self.getPx(30))
+        vl.addSpacing(self.getPx(0))
         
         label1 = IconLabel(size=64, frame=False)
         label1.setIcon("icon.png")
@@ -618,8 +654,6 @@ class FirstRunSlide(BasicNavWidget):
         vl.addStretch()
         self.setCentralWidget(widget)
         
-    def startWin(self) -> None:
-        self.window().fillScreen()
     
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
@@ -736,11 +770,13 @@ class SelectModeSlide(BasicNavWidget):
         if mode == "secondary":
             self.clockMode = "secondary"
             self.moveSelector(self.localTime)
-            setSettings("EnableInternetTime", False, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableInternetTime", False, r=True)
         elif mode == "format":
             self.clockMode = "format"
             self.moveSelector(self.internetTime)
-            setSettings("EnableInternetTime", True, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableInternetTime", True, r=True)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments. Accepted values are: custom, format, secondary")
                 
@@ -828,11 +864,13 @@ class SelectFullScreenSlide(BasicNavWidget):
         if mode == "hide":
             self.clockMode = "hide"
             self.moveSelector(self.secondaryClock)
-            setSettings("DisableHideOnFullScreen", False, r=shouldChangePrefs)
+            if shouldChangePrefs:
+                setSettings("DisableHideOnFullScreen", False, r=shouldChangePrefs)
         elif mode == "show":
             self.clockMode = "show"
             self.moveSelector(self.formattedClock)
-            setSettings("DisableHideOnFullScreen", True, r=shouldChangePrefs)
+            if shouldChangePrefs:
+                setSettings("DisableHideOnFullScreen", True, r=shouldChangePrefs)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments. Accepted values are: hide, show")
                 
@@ -953,51 +991,57 @@ class DateTimeFormat(BasicNavWidget):
         if mode == "Seconds":
             self.clockMode = "Seconds"
             self.moveSelector(self.Seconds)
-            setSettings("EnableSeconds", True, r=False)
-            setSettings("DisableTime", False, r=False)
-            setSettings("DisableDate", False, r=False)
-            setSettings("EnableWeekNumber", False, r=False)
-            setSettings("EnableWeekDay", False, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableSeconds", True, r=False)
+                setSettings("DisableTime", False, r=False)
+                setSettings("DisableDate", False, r=False)
+                setSettings("EnableWeekNumber", False, r=False)
+                setSettings("EnableWeekDay", False, r=True)
         elif mode == "default":
             self.clockMode = "default"
             self.moveSelector(self.noChanges)
-            setSettings("EnableSeconds", False, r=False)
-            setSettings("DisableTime", False, r=False)
-            setSettings("DisableDate", False, r=False)
-            setSettings("EnableWeekNumber", False, r=False)
-            setSettings("EnableWeekDay", False, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableSeconds", False, r=False)
+                setSettings("DisableTime", False, r=False)
+                setSettings("DisableDate", False, r=False)
+                setSettings("EnableWeekNumber", False, r=False)
+                setSettings("EnableWeekDay", False, r=True)
         elif mode == "weekday":
             self.clockMode = "weekday"
             self.moveSelector(self.weekday)
-            setSettings("EnableSeconds", False, r=False)
-            setSettings("DisableTime", False, r=False)
-            setSettings("DisableDate", False, r=False)
-            setSettings("EnableWeekNumber", False, r=False)
-            setSettings("EnableWeekDay", True, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableSeconds", False, r=False)
+                setSettings("DisableTime", False, r=False)
+                setSettings("DisableDate", False, r=False)
+                setSettings("EnableWeekNumber", False, r=False)
+                setSettings("EnableWeekDay", True, r=True)
         elif mode == "OnlyDate":
             self.clockMode = "OnlyDate"
             self.moveSelector(self.OnlyDate)
-            setSettings("EnableSeconds", False, r=False)
-            setSettings("DisableTime", True, r=False)
-            setSettings("DisableDate", False, r=False)
-            setSettings("EnableWeekNumber", False, r=False)
-            setSettings("EnableWeekDay", False, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableSeconds", False, r=False)
+                setSettings("DisableTime", True, r=False)
+                setSettings("DisableDate", False, r=False)
+                setSettings("EnableWeekNumber", False, r=False)
+                setSettings("EnableWeekDay", False, r=True)
         elif mode == "OnlyTime":
             self.clockMode = "OnlyTime"
             self.moveSelector(self.OnlyTime)
-            setSettings("EnableSeconds", False, r=False)
-            setSettings("DisableTime", False, r=False)
-            setSettings("DisableDate", True, r=False)
-            setSettings("EnableWeekNumber", False, r=False)
-            setSettings("EnableWeekDay", False, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableSeconds", False, r=False)
+                setSettings("DisableTime", False, r=False)
+                setSettings("DisableDate", True, r=False)
+                setSettings("EnableWeekNumber", False, r=False)
+                setSettings("EnableWeekDay", False, r=True)
         elif mode == "WeekNumber":
             self.clockMode = "WeekNumber"
             self.moveSelector(self.WeekNumber)
-            setSettings("EnableSeconds", False, r=False)
-            setSettings("DisableTime", False, r=False)
-            setSettings("DisableDate", False, r=False)
-            setSettings("EnableWeekNumber", True, r=False)
-            setSettings("EnableWeekDay", False, r=True)
+            if shouldChangePrefs:
+                setSettings("EnableSeconds", False, r=False)
+                setSettings("DisableTime", False, r=False)
+                setSettings("DisableDate", False, r=False)
+                setSettings("EnableWeekNumber", True, r=False)
+                setSettings("EnableWeekDay", False, r=True)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments ("+mode+"). Accepted values are: default, weekday, OnlyTime, OnlyDate, WeekNumber, Seconds")
                 
@@ -1118,51 +1162,57 @@ class ClockAppearance(BasicNavWidget):
         if mode == "msdos":
             self.clockMode = "msdos"
             self.moveSelector(self.msdos)
-            setSettingsValue("UseCustomFont", "Consolas,10,-1,5,50,0,0,0,0,0,Regular", r=False)
-            setSettingsValue("UseCustomFontColor", "0,255,0", r=False)
-            setSettings("DisableTaskbarBackgroundColor", False, r=False)
-            setSettingsValue("UseCustomBgColor", "0,0,0,100", r=False)
-            setSettings("AccentBackgroundcolor", False, r=True)
+            if shouldChangePrefs:
+                setSettingsValue("UseCustomFont", "Consolas,10,-1,5,50,0,0,0,0,0,Regular", r=False)
+                setSettingsValue("UseCustomFontColor", "0,255,0", r=False)
+                setSettings("DisableTaskbarBackgroundColor", False, r=False)
+                setSettingsValue("UseCustomBgColor", "0,0,0,100", r=False)
+                setSettings("AccentBackgroundcolor", False, r=True)
         elif mode == "default":
             self.clockMode = "default"
             self.moveSelector(self.default)
-            setSettings("UseCustomFont", False, r=False)
-            setSettings("UseCustomFontColor", False, r=False)
-            setSettings("DisableTaskbarBackgroundColor", False, r=False)
-            setSettings("UseCustomBgColor", False, r=False)
-            setSettings("AccentBackgroundcolor", False, r=True)
+            if shouldChangePrefs:
+                setSettings("UseCustomFont", False, r=False)
+                setSettings("UseCustomFontColor", False, r=False)
+                setSettings("DisableTaskbarBackgroundColor", False, r=False)
+                setSettings("UseCustomBgColor", False, r=False)
+                setSettings("AccentBackgroundcolor", False, r=True)
         elif mode == "bw":
             self.clockMode = "bw"
             self.moveSelector(self.bw)
-            setSettings("UseCustomFont", False, r=False)
-            setSettingsValue("UseCustomFontColor", "0,0,0", r=False)
-            setSettings("DisableTaskbarBackgroundColor", False, r=False)
-            setSettingsValue("UseCustomBgColor", "255,255,255,100", r=False)
-            setSettings("AccentBackgroundcolor", False, r=True)
+            if shouldChangePrefs:
+                setSettings("UseCustomFont", False, r=False)
+                setSettingsValue("UseCustomFontColor", "0,0,0", r=False)
+                setSettings("DisableTaskbarBackgroundColor", False, r=False)
+                setSettingsValue("UseCustomBgColor", "255,255,255,100", r=False)
+                setSettings("AccentBackgroundcolor", False, r=True)
         elif mode == "wb":
             self.clockMode = "wb"
             self.moveSelector(self.wb)
-            setSettings("UseCustomFont", False, r=False)
-            setSettingsValue("UseCustomFontColor", "255,255,255", r=False)
-            setSettings("DisableTaskbarBackgroundColor", False, r=False)
-            setSettingsValue("UseCustomBgColor", "0,0,0,100", r=False)
-            setSettings("AccentBackgroundcolor", False, r=True)
+            if shouldChangePrefs:
+                setSettings("UseCustomFont", False, r=False)
+                setSettingsValue("UseCustomFontColor", "255,255,255", r=False)
+                setSettings("DisableTaskbarBackgroundColor", False, r=False)
+                setSettingsValue("UseCustomBgColor", "0,0,0,100", r=False)
+                setSettings("AccentBackgroundcolor", False, r=True)
         elif mode == "accent":
             self.clockMode = "accent"
             self.moveSelector(self.accent)
-            setSettings("UseCustomFont", False, r=False)
-            setSettings("UseCustomFontColor", False, r=False)
-            setSettings("DisableTaskbarBackgroundColor", False, r=False)
-            setSettings("UseCustomBgColor", False, r=False)
-            setSettings("AccentBackgroundcolor", True, r=True)
+            if shouldChangePrefs:
+                setSettings("UseCustomFont", False, r=False)
+                setSettings("UseCustomFontColor", False, r=False)
+                setSettings("DisableTaskbarBackgroundColor", False, r=False)
+                setSettings("UseCustomBgColor", False, r=False)
+                setSettings("AccentBackgroundcolor", True, r=True)
         elif mode == "win95":
             self.clockMode = "win95"
             self.moveSelector(self.win95)
-            setSettingsValue("UseCustomFont", "Segoe UI,11,-1,5,50,0,0,0,0,0,Normal", r=False)
-            setSettingsValue("UseCustomFontColor", "205,205,205", r=False)
-            setSettings("DisableTaskbarBackgroundColor", False, r=False)
-            setSettingsValue("UseCustomBgColor", "1,127,128,100.0", r=False)
-            setSettings("AccentBackgroundcolor", False, r=True)
+            if shouldChangePrefs:
+                setSettingsValue("UseCustomFont", "Segoe UI,11,-1,5,50,0,0,0,0,0,Normal", r=False)
+                setSettingsValue("UseCustomFontColor", "205,205,205", r=False)
+                setSettings("DisableTaskbarBackgroundColor", False, r=False)
+                setSettingsValue("UseCustomBgColor", "1,127,128,100.0", r=False)
+                setSettings("AccentBackgroundcolor", False, r=True)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments ("+mode+"). Accepted values are: default, weekday, OnlyTime, OnlyDate, WeekNumber, Seconds")
                 

@@ -1570,12 +1570,15 @@ try:
         showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
+        import welcome
+        ww = welcome.WelcomeWindow()
+        globals.ww = ww
             
-        showWelcomeWizard = True
-        if showWelcomeWizard or "--welcome" in sys.argv:
-            import welcome
-            ww = welcome.WelcomeWindow()
-            globals.ww = ww
+    showWelcomeWizard = False
+    if showWelcomeWizard or "--welcome" in sys.argv:
+        import welcome
+        ww = welcome.WelcomeWindow()
+        globals.ww = ww
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
     
