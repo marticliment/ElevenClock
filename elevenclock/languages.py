@@ -1,44 +1,40 @@
-from lang import lang_de, lang_fr, lang_ca, lang_es, lang_ru, lang_en, lang_tr, lang_pl, lang_it, lang_nl, lang_nb, lang_nn, lang_ko, lang_vi, lang_el, lang_zh_TW
-from lang import lang_zh_CN, lang_pt_PT, lang_pt_BR, lang_ja, lang_fi, lang_id, lang_sr, lang_lt, lang_sv, lang_ua, lang_da, lang_lv, lang_hu, lang_sk
-from lang import lang_he, lang_cs, lang_ar, lang_th
-
-lang = None
+lang = {}
 
 languages = {
-    "ar":    lang_ar,
-    "ca":    lang_ca,
-    "cs":    lang_cs,    
-    "da":    lang_da,
-    "de":    lang_de,
-    "el":    lang_el,
-    "en":    lang_en,
-    "es":    lang_es,
-    "fi":    lang_fi,
-    "he":    lang_he,
-    "fr":    lang_fr,
-    "hu":    lang_hu,
-    "id":    lang_id,
-    "it":    lang_it,
-    "ja":    lang_ja,
-    "ko":    lang_ko,
-    "lt":    lang_lt,
-    "lv":    lang_lv,
-    "nb":    lang_nb,
-    "nl":    lang_nl,
-    "nn":    lang_nn,
-    "pl":    lang_pl,
-    "pt_PT": lang_pt_PT,
-    "pt_BR": lang_pt_BR,
-    "ru":    lang_ru,
-    "sk":    lang_sk,
-    "sr":    lang_sr,
-    "sv":    lang_sv,
-    "th":    lang_th,
-    "tr":    lang_tr,
-    "ua":    lang_ua,
-    "vi":    lang_vi,
-    "zh_TW": lang_zh_TW,
-    "zh_CN": lang_zh_CN,
+    "ar":    "lang_ar.json",
+    "ca":    "lang_ca.json",
+    "cs":    "lang_cs.json",    
+    "da":    "lang_da.json",
+    "de":    "lang_de.json",
+    "el":    "lang_el.json",
+    "en":    "lang_en.json",
+    "es":    "lang_es.json",
+    "fi":    "lang_fi.json",
+    "he":    "lang_he.json",
+    "fr":    "lang_fr.json",
+    "hu":    "lang_hu.json",
+    "id":    "lang_id.json",
+    "it":    "lang_it.json",
+    "ja":    "lang_ja.json",
+    "ko":    "lang_ko.json",
+    "lt":    "lang_lt.json",
+    "lv":    "lang_lv.json",
+    "nb":    "lang_nb.json",
+    "nl":    "lang_nl.json",
+    "nn":    "lang_nn.json",
+    "pl":    "lang_pl.json",
+    "pt_PT": "lang_pt_PT.json",
+    "pt_BR": "lang_pt_BR.json",
+    "ru":    "lang_ru.json",
+    "sk":    "lang_sk.json",
+    "sr":    "lang_sr.json",
+    "sv":    "lang_sv.json",
+    "th":    "lang_th.json",
+    "tr":    "lang_tr.json",
+    "ua":    "lang_ua.json",
+    "vi":    "lang_vi.json",
+    "zh_TW": "lang_zh_TW.json",
+    "zh_CN": "lang_zh_CN.json",
 }
 
 languageReference = {
@@ -80,3 +76,4 @@ languageReference = {
 }
 
 debugLang = False
+

@@ -1,4 +1,6 @@
 from ctypes import c_int, windll
+import json
+import time
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
 import os
@@ -38,7 +40,7 @@ except Exception as e:
 def _(s): #Translate function
     global lang
     try:
-        t = lang.lang[s]
+        t = lang[s]
         return (t+"✅[Found]✅" if debugLang else t) if t else f"{s}⚠️[UntranslatedString]⚠️" if debugLang else s
     except KeyError:
         if debugLang: print(s)
@@ -618,63 +620,75 @@ except FileNotFoundError:
 if getSettingsValue("PreferredLanguage") == "":
     setSettingsValue("PreferredLanguage", "default", False)
 
+def loadLangFile(file) -> dict:
+    try:
+        with open(getPath("../lang/"+file), "r") as file:
+            return json.load(file)
+    except Exception as e:
+        report(e)
+        return {}
+
+t0 = time.time()
+
 if getSettingsValue("PreferredLanguage") == "default":
     langName = "default"
     try:
         langName = locale.getdefaultlocale()[0][0:2]
         if(langName != "zh" and langName != "pt"):
-            lang = languages[langName]
+            lang = loadLangFile(languages[langName]) | {"locale": langName}
         elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "pt_PT"):
             langName = "pt_PT"
-            lang = languages["pt_PT"]
+            lang = loadLangFile(languages["pt_PT"]) | {"locale": "pt_PT"}
         elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "pt_BR"):
             langName = "pt_BR"
-            lang = languages["pt_BR"]
+            lang = loadLangFile(languages["pt_BR"]) | {"locale": "pt_BR"}
         elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "zh_TW"):
             langName = "zh_TW"
-            lang = languages["zh_TW"]
+            lang = loadLangFile(languages["zh_TW"]) | {"locale": "zh_TW"}
         elif(locale.getdefaultlocale()[0].replace("\n", "").strip() == "zh_CN"):
             langName = "zh_CN"
-            lang = languages["zh_CN"]
+            lang = loadLangFile(languages["zh_CN"]) | {"locale": "zh_CN"}
         else:
             raise KeyError(f"Value not found for {langName}")
     except KeyError:
-        lang = lang_en
+        lang = loadLangFile(languages["en"]) | {"locale": "en"}
         print("unknown language")
     except Exception as e:
         report(e)
-        lang = lang_en
+        lang = loadLangFile(languages["en"]) | {"locale": "en"}
 else:
     try:
         langName = getSettingsValue("PreferredLanguage")[0:2]
         if(langName != "zh" and langName != "pt"):
-            lang = languages[langName]
+            lang = loadLangFile(languages[langName]) | {"locale": langName}
         elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "pt_PT"):
             langName = "pt_PT"
-            lang = languages["pt_PT"]
+            lang = loadLangFile(languages["pt_PT"]) | {"locale": "pt_PT"}
         elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "pt_BR"):
             langName = "pt_BR"
-            lang = languages["pt_BR"]
+            lang = loadLangFile(languages["pt_BR"]) | {"locale": "pt_BR"}
         elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "zh_TW"):
             langName = "zh_TW"
-            lang = languages["zh_TW"]
+            lang = loadLangFile(languages["zh_TW"]) | {"locale": "zh_TW"}
         elif(getSettingsValue("PreferredLanguage").replace("\n", "").strip() == "zh_CN"):
             langName = "zh_CN"
-            lang = languages["zh_CN"]
+            lang = loadLangFile(languages["zh_CN"]) | {"locale": "zh_CN"}
         else:
             raise KeyError(f"Value not found for {langName}")
     except KeyError:
-        lang = lang_en
+        lang = loadLangFile(languages["en"]) | {"locale": "en"}
         langName = "en"
         print("🔴 Unknown language")
     except Exception as e:
         report(e)
-        lang = lang_en
+        lang = loadLangFile(languages["en"]) | {"locale": "en"}
         langName = "en"
 
-if lang == None:
-    lang = lang_en
-    
+if lang == {}:
+    lang = {"locale": "en"}
+
+
+print(f"It took {time.time()-t0} to load all language files")
     
 if __name__ == "__main__":
     import __init__

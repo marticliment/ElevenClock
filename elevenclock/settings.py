@@ -64,9 +64,9 @@ class SettingsWindow(QMainWindow):
         layout.addSpacing(0)
         title = QLabel("\u200e"+_("ElevenClock Settings"))
         title.setObjectName("title")
-        if lang == lang_zh_TW:
+        if lang["locale"] == "zh_TW":
             title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
-        elif lang == lang_zh_CN:
+        elif lang["locale"] == "zh_CN":
             title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
             title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
@@ -1991,10 +1991,10 @@ class QSettingsTitle(QWidget):
         self.bg70.setObjectName("micaRegularBackground")
         self.descLabel.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.descLabel.setObjectName("greyishLabel")
-        if lang == lang_zh_TW:
+        if lang["locale"] == "zh_TW":
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";")
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft JhengHei UI\";")
-        elif lang == lang_zh_CN:
+        elif lang["locale"] == "zh_CN":
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft YaHei UI\";")
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft YaHei UI\";")
         else:
@@ -2198,10 +2198,10 @@ class QSettingsButton(QWidget):
         self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
         self.label = QLabel("\u200e"+text, self)
-        if lang == lang_zh_TW:
+        if lang["locale"] == "zh_TW":
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-        elif lang == lang_zh_CN:
+        elif lang["locale"] == "zh_CN":
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
         else:
@@ -2252,11 +2252,11 @@ class QSettingsComboBox(QWidget):
         self.restartButton.setObjectName("AccentButton")
         self.label = QLabel("\u200e"+text, self)
 
-        if lang == lang_zh_TW:
+        if lang["locale"] == "zh_TW":
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-        elif lang == lang_zh_CN:
+        elif lang["locale"] == "zh_CN":
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
             self.combobox.setStyleSheet("font-size: 11pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
             self.restartButton.setStyleSheet("font-size: 11pt;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
@@ -2315,9 +2315,9 @@ class QSettingsCheckBox(QWidget):
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
         self.checkbox = QCheckBox(text, self)
-        if lang == lang_zh_TW:
+        if lang["locale"] == "zh_TW":
             self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
-        elif lang == lang_zh_CN:
+        elif lang["locale"] == "zh_CN":
             self.checkbox.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft YaHei UI\";font-weight: 450;")
         else:
             self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")

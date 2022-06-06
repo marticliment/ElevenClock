@@ -216,7 +216,7 @@ try:
             st.kill()
         except AttributeError:
             pass
-        shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang in (lang_zh_CN, lang_zh_TW))
+        shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
         ForceClockOnFirstMonitor = getSettings("ForceClockOnFirstMonitor")
         HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
@@ -429,7 +429,7 @@ try:
                 elif not getSettings("EnableWeekNumber"):
                     dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
                 else:
-                    if not lang in (lang_zh_CN, lang_zh_TW):
+                    if not lang["locale"] in ("zh_CN", "zh_TW"):
                         dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
                     else:
                         dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"(第%W{_('W')}) ")
@@ -811,11 +811,11 @@ try:
                 self.font: QFont = QFont()
                 customFont = getSettingsValue("UseCustomFont")
                 if customFont == "":
-                    if lang == lang_ko:
+                    if lang["locale"] == "ko":
                         self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
-                    elif lang == lang_zh_TW:
+                    elif lang["locale"] == "zh_TW":
                         self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
-                    elif lang == lang_zh_CN:
+                    elif lang["locale"] == "zh_CN":
                         self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable", "sans-serif"]
                     else:
                         self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
@@ -913,9 +913,9 @@ try:
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                     if self.fontfamilies != []:
                         self.font.setFamilies(self.fontfamilies)
-                    if lang == lang_ko:
+                    if lang["locale"] == "ko":
                         self.font.setWeight(QFont.Weight.Normal)
-                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                    elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
                         self.font.setWeight(QFont.Weight.Normal)
                     else:
                         self.font.setWeight(QFont.Weight.DemiBold)
@@ -929,9 +929,9 @@ try:
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                     if self.fontfamilies != []:
                         self.font.setFamilies(self.fontfamilies)
-                    if lang == lang_ko:
+                    if lang["locale"] == "ko":
                         self.font.setWeight(QFont.Weight.Normal)
-                    elif lang == lang_zh_TW or lang == lang_zh_CN:
+                    elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
                         self.font.setWeight(QFont.Weight.Normal)
                     else:
                         self.font.setWeight(QFont.Weight.DemiBold)
@@ -1236,9 +1236,9 @@ try:
                             self.label.bgopacity = 0.1
                             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                             self.font.setFamilies(self.fontfamilies)
-                            if lang == lang_ko:
+                            if lang["locale"] == "ko":
                                 self.font.setWeight(QFont.Weight.Normal)
-                            elif lang == lang_zh_TW or lang == lang_zh_CN:
+                            elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
                                 self.font.setWeight(QFont.Weight.Normal)
                             else:
                                 self.font.setWeight(QFont.Weight.DemiBold)
@@ -1499,7 +1499,7 @@ try:
     sw: SettingsWindow = None
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
-    shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang in (lang_zh_CN, lang_zh_TW))
+    shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
     KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
