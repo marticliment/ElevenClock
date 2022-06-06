@@ -41,7 +41,7 @@ languageReference = {
     "default": "System language",
     "ar"    : "Arabic",
     "ca"    : "Catalan",
-    "cs"    : "Čeština",
+    "cs"    : "Czech",
     "da"    : "Danish",
     "nl"    : "Dutch"  ,
     "en"    : "English",
