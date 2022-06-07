@@ -17,3 +17,4 @@ env/
 elevenclock.py
 compile.py
 build_BETA.bat
+elevenclock/lang/APIKEY.txt
