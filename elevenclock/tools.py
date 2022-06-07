@@ -28,7 +28,7 @@ import win32gui
 from win32con import *
 
 version = 3.599
-versionName = "3.6.0-beta LTS"
+versionName = "3.6.0-beta"
 
 
 try:
