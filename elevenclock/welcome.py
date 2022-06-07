@@ -630,21 +630,21 @@ class FirstRunSlide(BasicNavWidget):
         label1 = IconLabel(size=64, frame=False)
         label1.setIcon("icon.png")
         label1.setText(f"""
-             <h1>Welcome to Elevenclock!</h1>
-             If you already know how does this work, or you want to skip the welcome wizard, please click on the bottom-left <i>Skip</i> button.""")
+             <h1>{_("Welcome to Elevenclock!")}</h1>
+             {_("If you already know how does this work, or you want to skip the welcome wizard, please click on the bottom-left <i>Skip</i> button.")}""")
         
         
         label3 = IconLabel(size=64)
         label3.setIcon("msstore_color.png")
-        label3.setText("""
-             <h3>Wait a second!</h3>
-             Please make sure to install ElevenClock from official sources only. Also, using ElevenClock implies the acceptation of the <b>GPLv3 license</b>""")
+        label3.setText(f"""
+             <h3>{_("Wait a second!")}</h3>
+             {_("Please make sure to install ElevenClock from official sources only. Also, using ElevenClock implies the acceptation of the <b>GPLv3 license</b>")}""")
 
         label2 = IconLabel(size=64)
         label2.setIcon("customize_color.png")
-        label2.setText("""
-             <h3>This wizard will help you configure and customize ElevenClock. Click Start to get started!</h3>
-             Remember that this wizard can be run at any time from the Settings Window""")
+        label2.setText(f"""
+             <h3>{_("This wizard will help you configure and customize ElevenClock. Click Start to get started!")}</h3>
+             {_("Remember that this wizard can be run at any time from the Settings Window")}""")
         
         vl.addWidget(label1)
         vl.addStretch()
@@ -672,15 +672,15 @@ class LastSlide(BasicNavWidget):
         
         label1 = IconLabel(size=64, frame=False)
         label1.setIcon("")
-        label1.setText(f"""<h1>You are now ready to go!</h1>
-                       <h3>But here are other things you can do:</h3>""")
+        label1.setText(f"""<h1>{_("You are now ready to go!")}</h1>
+                       <h3>{_("But here are other things you can do:")}</h3>""")
         
         settings = ButtonLabel(size=64)
         settings.setIcon("deskSettings_color.png")
-        settings.setText("""
-             <h3>Customize ElevenClock even more</h3>
-             Open the settings window and customize ElevenClock even more.""")
-        settings.setButtonText("Open")
+        settings.setText(f"""
+             <h3>{_("Customize ElevenClock even more")}</h3>
+             {_("Open the settings window and customize ElevenClock even further.")}""")
+        settings.setButtonText(_("Open"))
         settings.clicked.connect(lambda: closeAndOpenSettings())
         
         def closeAndOpenSettings():
@@ -689,18 +689,18 @@ class LastSlide(BasicNavWidget):
         
         donate = ButtonLabel(size=64)
         donate.setIcon("coffee_color.png")
-        donate.setText("""
-             <h3>Suport the developer</h3>
-             Developing is hard, and this aplication is free. But if you liked the application, you can always <b>buy me a coffee</b> :)""")
-        donate.setButtonText("Make a donation!")
+        donate.setText(f"""
+             <h3>{_("Suport the developer")}</h3>
+             {_("Developing is hard, and this aplication is free. But if you liked the application, you can always <b>buy me a coffee</b> :)")}""")
+        donate.setButtonText(_("Donate"))
         donate.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
         
         report = ButtonLabel(size=64)
         report.setIcon("github_color.png")
-        report.setText("""
-             <h3>View ElevenClock on GitHub</h3>
-             View ElevenClock's source code. From there, you can report bugs or suggest features, or even contribute direcly to The ElevenClock Project""")
-        report.setButtonText("Open GitHub")
+        report.setText(f"""
+             <h3>{_("View ElevenClock on GitHub")}</h3>
+             {_("View ElevenClock's source code. From there, you can report bugs or suggest features, or even contribute direcly to The ElevenClock Project")}""")
+        report.setButtonText(_("Open GitHub"))
         report.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock"))
 
         vl.addWidget(label1)
@@ -734,23 +734,23 @@ class SelectModeSlide(BasicNavWidget):
         
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("clock.png"))
-        label1.setText(f"""<h1>What time do you want to see?</h1>
-                       Please select one of the following and click next. 
-                       If you don't know which one is the best, choose local time""")
+        label1.setText(f"""<h1>{_("What time do you want to see?")}</h1>
+                       {_("Please select one of the following and click next.")} 
+                       {_("If you don't know which one is the best, choose {0}").format(_("Local time"))}""")
         
         self.localTime = ClickableButtonLabelWithBiggerIcon(size=96)
         self.localTime.setIcon(getPath(f"desk.png"))
         self.localTime.clicked.connect(lambda: self.toggleClockMode("secondary", shouldChangePrefs=True))
-        self.localTime.setText("""
-            <h3>Local time</h3>
-            Show the local computer time. The time will not be synced with the internet and might be inaccurate""")
+        self.localTime.setText(f"""
+            <h3>{_("Local time")}</h3>
+            {_("Show the local computer time. The time will not be synced with the internet and might be inaccurate")}""")
         
         self.internetTime = ClickableButtonLabelWithBiggerIcon(size=96)
         self.internetTime.setIcon(getPath(f"globe.png"))
         self.internetTime.clicked.connect(lambda: self.toggleClockMode("format", shouldChangePrefs=True))
-        self.internetTime.setText("""
-             <h3>Internet time</h3>
-             Precise internet time. Ideal if you are <b>not</b> using any kind of vpn or proxy""")
+        self.internetTime.setText(f"""
+             <h3>{_("Internet time")}</h3>
+             {_("Precise internet time. Ideal if you are <b>not</b> using any kind of VPN or proxy")}""")
         
         
         vl.addWidget(label1)
@@ -829,22 +829,22 @@ class SelectFullScreenSlide(BasicNavWidget):
         
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("video_color.png"))
-        label1.setText(f"""<h1>Fullscreen behaviour</h1>
-                       ElevenClock can hide when there's a fullscreen window present (when you are watching a video, you are playing, etc.), but it can also show over those windows (It might be useful if you use fullscreened terminals, etc.).<br><br>Please select one of the following and click next to continue""")
+        label1.setText(f"""<h1>{_("Fullscreen behaviour")}</h1>
+                       {_("ElevenClock can hide when there's a fullscreen window present (when you are watching a video, you are playing, etc.), but it can also show over those windows (It might be useful if you use fullscreened terminals, etc.).<br><br>Please select one of the following and click next to continue")}""")
         
         self.secondaryClock = ClickableButtonLabelWithBiggerIcon(size=96)
         self.secondaryClock.setIcon(getPath(f"hide_color.png"))
         self.secondaryClock.clicked.connect(lambda: self.toggleClockMode("hide", shouldChangePrefs=True))
-        self.secondaryClock.setText("""
-            <h3>Hide the clock (<i>Recommended</i>)</h3>
-            Hide the clock, as the default windows clock would do.""")
+        self.secondaryClock.setText(f"""
+            <h3>{_("Hide the clock (<i>Recommended</i>)")}</h3>
+            {_("Hide the clock, as the default windows clock would do.")}""")
         
         self.formattedClock = ClickableButtonLabelWithBiggerIcon(size=96)
         self.formattedClock.setIcon(getPath(f"show_color.png"))
         self.formattedClock.clicked.connect(lambda: self.toggleClockMode("show", shouldChangePrefs=True))
-        self.formattedClock.setText("""
-            <h3>Show the clock over the fullscreen window</h3>
-            Show the clock over fullscreen windows. This might cover some in-app controls, like youtube's exit fullscreen button, but it might be useful to see the time when playing""")
+        self.formattedClock.setText(f"""
+            <h3>{_("Show the clock over the fullscreen window")}</h3>
+            {_("Show the clock over fullscreen windows. This might cover some in-app controls, like youtube's exit fullscreen button, but it might be useful to see the time when playing")}""")
         
         
         vl.addWidget(label1)
@@ -923,38 +923,38 @@ class DateTimeFormat(BasicNavWidget):
         
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("formatting.png"))
-        label1.setText(f"""<h1>Let's talk: Format</h1>
-                       Please select the date and time format you like the most. You will be able to change this after in the settings window""")
+        label1.setText(f"""<h1>{_("Let's talk: Format")}</h1>
+                       {_("Please select the date and time format you like the most. You will be able to change this after in the settings window")}""")
         
         self.noChanges = ClickableImageWithText(size=96)
         self.noChanges.setIcon(getPath(f"default_format.png"))
         self.noChanges.clicked.connect(lambda: self.toggleClockMode("default", shouldChangePrefs=True))
-        self.noChanges.setText("""<h3>Default</h3>""")
+        self.noChanges.setText(f"""<h3>{_("Default")}</h3>""")
         
         self.weekday = ClickableImageWithText(size=96)
         self.weekday.setIcon(getPath(f"weekday.png"))
         self.weekday.clicked.connect(lambda: self.toggleClockMode("weekday", shouldChangePrefs=True))
-        self.weekday.setText("""<h3>Weekday</h3>""")
+        self.weekday.setText(f"""<h3>{_("Weekday")}</h3>""")
         
         self.OnlyTime = ClickableImageWithText(size=96)
         self.OnlyTime.setIcon(getPath(f"onlytime.png"))
         self.OnlyTime.clicked.connect(lambda: self.toggleClockMode("OnlyTime", shouldChangePrefs=True))
-        self.OnlyTime.setText("""<h3>Only Time</h3>""")
+        self.OnlyTime.setText(f"""<h3>{_("Only Time")}</h3>""")
         
         self.OnlyDate = ClickableImageWithText(size=96)
         self.OnlyDate.setIcon(getPath(f"onlydate.png"))
         self.OnlyDate.clicked.connect(lambda: self.toggleClockMode("OnlyDate", shouldChangePrefs=True))
-        self.OnlyDate.setText("""<h3>Only Date</h3>""")
+        self.OnlyDate.setText(f"""<h3>{_("Only Date")}</h3>""")
         
         self.WeekNumber = ClickableImageWithText(size=96)
         self.WeekNumber.setIcon(getPath(f"weeknumber.png"))
         self.WeekNumber.clicked.connect(lambda: self.toggleClockMode("WeekNumber", shouldChangePrefs=True))
-        self.WeekNumber.setText("""<h3>Week Number</h3>""")
+        self.WeekNumber.setText(f"""<h3>{_("Week Number")}</h3>""")
         
         self.Seconds = ClickableImageWithText(size=96)
         self.Seconds.setIcon(getPath(f"seconds.png"))
         self.Seconds.clicked.connect(lambda: self.toggleClockMode("Seconds", shouldChangePrefs=True))
-        self.Seconds.setText("""<h3>Ft. Seconds</h3>""")
+        self.Seconds.setText(f"""<h3>{_("Ft. Seconds")}</h3>""")
         
         hl1 = QHBoxLayout()
         hl1.addStretch()
@@ -1094,38 +1094,38 @@ class ClockAppearance(BasicNavWidget):
         
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("appearance.png"))
-        label1.setText(f"""<h1>One last thing: Appearance</h1>
-                       Please select the clock style you like the most. You will be able to change this after in the settings window""")
+        label1.setText(f"""<h1>{_("One last thing: Appearance")}</h1>
+                       {_("Please select the clock style you like the most. You will be able to change this after in the settings window")}""")
         
         self.default = ClickableImageWithText(size=96)
         self.default.setIcon(getPath(f"default_style.png"))
         self.default.clicked.connect(lambda: self.toggleClockMode("default", shouldChangePrefs=True))
-        self.default.setText("""<h3>Default</h3>""")
+        self.default.setText(f"""<h3>{_("Default")}</h3>""")
         
         self.msdos = ClickableImageWithText(size=96)
         self.msdos.setIcon(getPath(f"msdos.png"))
         self.msdos.clicked.connect(lambda: self.toggleClockMode("msdos", shouldChangePrefs=True))
-        self.msdos.setText("""<h3>MS DOS</h3>""")
+        self.msdos.setText(f"""<h3>MS-DOS</h3>""")
         
         self.win95 = ClickableImageWithText(size=96)
         self.win95.setIcon(getPath(f"win95.png"))
         self.win95.clicked.connect(lambda: self.toggleClockMode("win95", shouldChangePrefs=True))
-        self.win95.setText("""<h3>Windows 95</h3>""")
+        self.win95.setText(f"""<h3>Windows 95</h3>""")
         
         self.bw = ClickableImageWithText(size=96)
         self.bw.setIcon(getPath(f"bw.png"))
         self.bw.clicked.connect(lambda: self.toggleClockMode("bw", shouldChangePrefs=True))
-        self.bw.setText("""<h3>Black&White</h3>""")
+        self.bw.setText(f"""<h3>{_("Black&White")}</h3>""")
         
         self.wb = ClickableImageWithText(size=96)
         self.wb.setIcon(getPath(f"wb.png"))
         self.wb.clicked.connect(lambda: self.toggleClockMode("wb", shouldChangePrefs=True))
-        self.wb.setText("""<h3>White&Black</h3>""")
+        self.wb.setText(f"""<h3>{_("White&Black")}</h3>""")
         
         self.accent = ClickableImageWithText(size=96)
         self.accent.setIcon(getPath(f"accent.png"))
         self.accent.clicked.connect(lambda: self.toggleClockMode("accent", shouldChangePrefs=True))
-        self.accent.setText("""<h3>Accent</h3>""")
+        self.accent.setText(f"""<h3>{_("Accent")}</h3>""")
         
         hl1 = QHBoxLayout()
         hl1.addStretch()
