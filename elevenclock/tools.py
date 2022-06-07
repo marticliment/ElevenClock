@@ -622,7 +622,7 @@ if getSettingsValue("PreferredLanguage") == "":
 
 def loadLangFile(file) -> dict:
     try:
-        with open(getPath("../lang/"+file), "r") as file:
+        with open(getPath("../lang/"+file), "r", encoding='utf-8') as file:
             return json.load(file)
     except Exception as e:
         report(e)
