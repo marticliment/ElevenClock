@@ -37,6 +37,10 @@ except Exception as e:
     print(e)
     winver = 22000
 
+def ptToPx(value: float, screen: QScreen) -> float:
+    return value/72*screen.logicalDotsPerInch()
+
+
 def _(s): #Translate function
     global lang
     try:

@@ -824,22 +824,23 @@ try:
                 else:
                     self.fontfamilies = []
                     self.customFont = customFont
-                print(f"🔵 Font families   : {self.fontfamilies}")
-                print(f"🔵 Custom font     : {self.customFont}")
-                customSize = getSettingsValue("UseCustomFontSize")
-                #if customSize == "":
-                #else:
-                #    try:
-                #        self.font.setPointSizeF(float(customSize))
-                #    except Exception as e:
-                #        self.font.setPointSizeF(9.3)
-                #        report(e)
-                #print(f"🔵 Font size: {self.font.pointSizeF()}")
                 self.font.setStyleStrategy(QFont.PreferOutline)
                 self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
                 self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
                 if self.fontfamilies == []:
                     self.font.fromString(self.customFont)
+                customSize = getSettingsValue("UseCustomFontSize")
+                if customSize == "":
+                    self.font.setPixelSize(ptToPx(9.3, self.screen()))
+                else:
+                    try:
+                        self.font.setPixelSize(ptToPx(float(customSize), self.screen()))
+                    except Exception as e:
+                        self.font.setPixelSize(ptToPx(9.3, self.screen()))
+                        report(e)
+                print(f"🔵 Font families   : {self.fontfamilies}")
+                print(f"🔵 Custom font     : {self.customFont}")
+                print(f"🔵 Font size: {self.font.pointSizeF()}")
                 self.label.setFont(self.font)
 
                 accColors = getColors()

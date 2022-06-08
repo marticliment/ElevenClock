@@ -298,6 +298,19 @@ class SettingsWindow(QMainWindow):
         self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
         self.clockAppearanceTitle.addWidget(self.fontPrefs)
         
+        self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
+        self.fontSize.setChecked(getSettings("UseCustomFontSize"))
+        self.fontSize.loadItems()
+        if self.fontSize.isChecked():
+            customFontSize = getSettingsValue("UseCustomFontSize")
+            if customFontSize:
+                self.fontSize.combobox.setCurrentText(customFontSize)
+        else:
+                self.fontSize.combobox.setCurrentText("9")
+        self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
+        self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
+        self.clockAppearanceTitle.addWidget(self.fontSize)
+        
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
@@ -418,6 +431,19 @@ class SettingsWindow(QMainWindow):
         self.toolTipFontPrefs.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFont", bool(i)))
         self.toolTipFontPrefs.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFont", v))
         self.toolTipAppearanceTitle.addWidget(self.toolTipFontPrefs)
+        
+        self.toolTipFontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
+        self.toolTipFontSize.setChecked(getSettings("TooltipUseCustomFontSize"))
+        self.toolTipFontSize.loadItems()
+        if self.toolTipFontSize.isChecked():
+            customFontSize = getSettingsValue("TooltipUseCustomFontSize")
+            if customFontSize:
+                self.toolTipFontSize.combobox.setCurrentText(customFontSize)
+        else:
+                self.toolTipFontSize.combobox.setCurrentText("9")
+        self.toolTipFontSize.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFontSize", bool(i)))
+        self.toolTipFontSize.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFontSize", v))
+        self.toolTipAppearanceTitle.addWidget(self.toolTipFontSize)
         
         self.toolTipFontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.toolTipFontColor.setChecked(getSettings("TooltipUseCustomFontColor"))
@@ -2648,6 +2674,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
             def __init__(self, parent) -> None:
                 super().__init__(parent)
                 self.setAutoFillBackground(True)
+                self.setAttribute(Qt.WA_StyledBackground)
                 ApplyMica(self.winId().__int__(), isWindowDark())
                 cprint(self.layout().widget())
 
