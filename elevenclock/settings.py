@@ -112,6 +112,16 @@ class SettingsWindow(QMainWindow):
         self.selectedLanguage.restartButton.clicked.connect(restartElevenClockByLangChange)
         self.selectedLanguage.textChanged.connect(changeLang)
         self.generalSettingsTitle.addWidget(self.selectedLanguage)
+        self.wizardButton = QSettingsButton(_("Open the welcome wizard"), _("Open"))
+        
+        def ww():
+            global welcomewindow
+            welcomewindow = welcome.WelcomeWindow()
+        
+        self.wizardButton.clicked.connect(ww)
+        self.wizardButton.button.setObjectName("AccentButton")
+        self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.generalSettingsTitle.addWidget(self.wizardButton)
         self.enableUpdates = QSettingsCheckBox(_("Automatically check for updates"))
         self.enableUpdates.setChecked(not getSettings("DisableAutoCheckForUpdates"))
         self.enableUpdates.stateChanged.connect(lambda i: setSettings("DisableAutoCheckForUpdates", not bool(i), r = False))
@@ -465,19 +475,9 @@ class SettingsWindow(QMainWindow):
         self.tooltipbackgroundcolor.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomBgColor", v))
         self.toolTipAppearanceTitle.addWidget(self.tooltipbackgroundcolor)
 
-        
+
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
-        self.wizardButton = QSettingsButton(_("Open the welcome wizard")+_(" (ALPHA STAGE, MAY NOT WORK)"), _("Open"))
-        
-        def ww():
-            global welcomewindow
-            welcomewindow = welcome.WelcomeWindow()
-        
-        self.wizardButton.clicked.connect(ww)
-        self.wizardButton.button.setObjectName("AccentButton")
-        self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
-        self.experimentalTitle.addWidget(self.wizardButton)
         self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
         self.fixDash.setChecked(getSettings("EnableHyphenFix"))
         self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
