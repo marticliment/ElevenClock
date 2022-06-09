@@ -138,7 +138,7 @@ class SettingsWindow(QMainWindow):
         self.bypassCNAMECheck.setChecked(getSettings("BypassDomainAuthCheck"))
         self.bypassCNAMECheck.stateChanged.connect(lambda i: setSettings("BypassDomainAuthCheck", bool(i), r = False))
         self.generalSettingsTitle.addWidget(self.bypassCNAMECheck)
-        self.enableSystemTray = QSettingsCheckBox(_("Show ElevenClock on system tray"))
+        self.enableSystemTray = QSettingsCheckBox(_("Show ElevenClock icon on system tray"))
         self.enableSystemTray.setChecked(not getSettings("DisableSystemTray"))
         self.enableSystemTray.stateChanged.connect(lambda i: setSettings("DisableSystemTray", not bool(i)))
         self.generalSettingsTitle.addWidget(self.enableSystemTray)
@@ -351,7 +351,7 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.addWidget(self.centerText)
 
 
-        self.dateTimeTitle = QSettingsTitle(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"), _("Date format, Time format, seconds,weekday, weeknumber, regional settings"))
+        self.dateTimeTitle = QSettingsTitle(_("Date & Time Settings:"), getPath(f"datetime_{self.iconMode}.png"), _("Date format, Time format, seconds, weekday, weeknumber, regional settings"))
         layout.addWidget(self.dateTimeTitle)
         rulesText = f"""<b>{_("Custom format rules:")}</b>
         <ul>

@@ -690,7 +690,7 @@ class LastSlide(BasicNavWidget):
         donate = ButtonLabel(size=64)
         donate.setIcon("coffee_color.png")
         donate.setText(f"""
-             <h3>{_("Suport the developer")}</h3>
+             <h3>{_("Support the developer")}</h3>
              {_("Developing is hard, and this aplication is free. But if you liked the application, you can always <b>buy me a coffee</b> :)")}""")
         donate.setButtonText(_("Donate"))
         donate.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
@@ -699,7 +699,7 @@ class LastSlide(BasicNavWidget):
         report.setIcon("github_color.png")
         report.setText(f"""
              <h3>{_("View ElevenClock on GitHub")}</h3>
-             {_("View ElevenClock's source code. From there, you can report bugs or suggest features, or even contribute direcly to The ElevenClock Project")}""")
+             {_("View ElevenClock's source code. From there, you can report bugs or suggest features, or even contribute directly to The ElevenClock Project")}""")
         report.setButtonText(_("Open GitHub"))
         report.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock"))
 
