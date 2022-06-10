@@ -631,6 +631,7 @@ try:
         clockOnTheLeft = False
         textInputHostHWND = 0
         INTLOOPTIME = 2
+        tempMakeClockTransparent = False
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int):
             super().__init__()
@@ -1073,15 +1074,27 @@ try:
             return round(original*(self.screen().logicalDotsPerInch()/96))
 
         def backgroundLoop(self):
+            alphaUpdated = False
+            shouldBeTransparent = False
             while True:
                 try:
                     if self.taskbarBackgroundColor and not self.isLowCpuMode and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
-                            intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                            if not self.tempMakeClockTransparent:
+                                intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                                alphaUpdated = False
+                                shouldBeTransparent = False
+                            else:
+                                shouldBeTransparent = True
+                                if not alphaUpdated:
+                                    intColor  = self.oldBgColor + 1
+                                    alphaUpdated = True
+                                else:
+                                    intColor = self.oldBgColor
                             if intColor != self.oldBgColor:
                                 self.oldBgColor = intColor
                                 color = QColor(intColor)
-                                self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, 100"))
+                                self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
                 except AttributeError:
                     print("🟣 Expected AttributeError on backgroundLoop thread")
                 time.sleep(0.5)
@@ -1145,6 +1158,7 @@ try:
             newMethod = getSettings("NewFullScreenMethod")
             notifs = not getSettings("DisableNotifications")
             legacyMethod = getSettings("legacyFullScreenMethod")
+            isTransparentOnFS = getSettings("TransparentClockWhenInFullscreen")
             oldNotifNumber = 0
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}, DisableNotifications:{notifs}, legacyFullScreenMethod:{legacyMethod}")
             if self.isLowCpuMode or clockOnFirstMon:
@@ -1191,6 +1205,13 @@ try:
                                 self.refresh.emit()
                     else:
                         self.hideSignal.emit()
+                    if not EnableHideOnFullScreen:
+                        if isFullScreen:
+                            self.tempMakeClockTransparent = isTransparentOnFS
+                        else:
+                            self.tempMakeClockTransparent = False
+                    else:
+                        self.tempMakeClockTransparent = False
                     time.sleep(0.2)
                 time.sleep(0.2)
     
