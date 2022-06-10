@@ -155,16 +155,16 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.clockSettingsTitle)
         self.legacyHideOnFullScreen = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
         self.legacyHideOnFullScreen.setChecked(not getSettings("DisableHideOnFullScreen"))
-        self.legacyHideOnFullScreen.stateChanged.connect(lambda i: setSettings("DisableHideOnFullScreen", not bool(i)))
+        self.legacyHideOnFullScreen.stateChanged.connect(lambda i: (setSettings("DisableHideOnFullScreen", not bool(i)), self.updateCheckBoxesStatus()))
         self.clockSettingsTitle.addWidget(self.legacyHideOnFullScreen)
         self.newFullScreenHide = QSettingsCheckBox(_("Hide the clock when a program occupies all screens"))
         self.newFullScreenHide.setChecked(getSettings("NewFullScreenMethod"))
         self.newFullScreenHide.stateChanged.connect(lambda i: setSettings("NewFullScreenMethod", bool(i)))
         self.clockSettingsTitle.addWidget(self.newFullScreenHide)
-        self.centerText = QSettingsCheckBox(_("Force the clock to be transparent if any window shows in fullscreen"))
-        self.centerText.setChecked(getSettings("TransparentClockWhenInFullscreen"))
-        self.centerText.stateChanged.connect(lambda i: setSettings("TransparentClockWhenInFullscreen", bool(i)))
-        self.clockSettingsTitle.addWidget(self.centerText)
+        self.TransparentClockWhenInFullscreen = QSettingsCheckBox(_("Force the clock to be transparent if any window shows in fullscreen"))
+        self.TransparentClockWhenInFullscreen.setChecked(getSettings("TransparentClockWhenInFullscreen"))
+        self.TransparentClockWhenInFullscreen.stateChanged.connect(lambda i: setSettings("TransparentClockWhenInFullscreen", bool(i)))
+        self.clockSettingsTitle.addWidget(self.TransparentClockWhenInFullscreen)
         self.forceClockToShow = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
         self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
@@ -827,6 +827,7 @@ class SettingsWindow(QMainWindow):
             for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
                 item: QSettingsCheckBox
                 item.setVisible(True)
+
             if not self.showTime.isChecked(): # Check if time is shown
                 self.showSeconds.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show time on the clock")))
                 self.showSeconds.setEnabled(False)
@@ -845,6 +846,17 @@ class SettingsWindow(QMainWindow):
                 item: QSettingsCheckBox
                 item.setVisible(False)    
         self.dateTimeTitle.resizeEvent()
+
+        if not self.legacyHideOnFullScreen.isChecked():
+            self.newFullScreenHide.setEnabled(False)
+            self.newFullScreenHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Hide the clock in fullscreen mode")))
+            self.TransparentClockWhenInFullscreen.setEnabled(True)
+            self.TransparentClockWhenInFullscreen.setToolTip("")
+        else:
+            self.newFullScreenHide.setEnabled(True)
+            self.newFullScreenHide.setToolTip("")
+            self.TransparentClockWhenInFullscreen.setEnabled(False)
+            self.TransparentClockWhenInFullscreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Hide the clock in fullscreen mode")))
             
         if not self.primaryScreen.isChecked(): # Clock is set to be in primary monitor
             self.onlyPrimaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock on the primary screen")))
