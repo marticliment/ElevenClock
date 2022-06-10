@@ -92,7 +92,7 @@ In order to translate ElevenClock to other languages or to update an old transla
  - Russian
  - Simplified Chinese (China)
  - Serbian
- - Slovak
+ - Slovak (Slovenčina)
  - Spanish
  - Swedish
  - Thai
