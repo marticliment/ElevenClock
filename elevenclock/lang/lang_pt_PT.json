@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Forçar o relógio a ficar na parte de baixo do ecrã",
   "Force the clock to be at the top of the screen" : "Forçar o relógio a ficar no topo do ecrã",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Forçar a cor do relógio a preto",
   "Force the clock to have white text" : "Forçar a cor do relógio a branco",
   "Ft. Seconds" : null,

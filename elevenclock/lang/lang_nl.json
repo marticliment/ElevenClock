@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Forceer de klok om onderaan het scherm te staan",
   "Force the clock to be at the top of the screen" : "Forceer de klok om bovenaan het scherm te staan",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Forceer de klok om zwarte tekst te hebben",
   "Force the clock to have white text" : "Forceer de klok om witte tekst te hebben",
   "Ft. Seconds" : null,

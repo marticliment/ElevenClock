@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Tving uret til at være på bunden af skærmen",
   "Force the clock to be at the top of the screen" : null,
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Tving uret til at have sort tekst",
   "Force the clock to have white text" : "Tving uret til at have hvid tekst",
   "Ft. Seconds" : null,

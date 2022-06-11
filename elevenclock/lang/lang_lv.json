@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Piespiest rādīt pulksteni ekrāna apakšpusē",
   "Force the clock to be at the top of the screen" : "Piespiest rādīt pulksteni ekrāna augšpusē",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Rādīt pulksteni ar melnu tekstu",
   "Force the clock to have white text" : "Rādīt pulksteni ar baltu tekstu",
   "Ft. Seconds" : null,

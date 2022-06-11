@@ -92,6 +92,7 @@
   "(for advanced users only)" : "(för avancerade användare)",
   "Force the clock to be at the bottom of the screen" : "Tvinga klockan att vara längst ner på skärmen",
   "Force the clock to be at the top of the screen" : "Tvinga klockan att vara på toppen av skärmen",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Tvinga klockan att ha svart text",
   "Force the clock to have white text" : "Tvinga klockan att ha vit text",
   "Ft. Seconds" : null,

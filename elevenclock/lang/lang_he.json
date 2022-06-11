@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "קבע תצוגת שעון בחלק תחתון של המסך",
   "Force the clock to be at the top of the screen" : "קבע תצוגת שעון בחלק העליון של המסך",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "קבע צבע טקסט שעון לשחור",
   "Force the clock to have white text" : "קבע צבע טקסט שעון ללבן",
   "Ft. Seconds" : null,

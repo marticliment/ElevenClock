@@ -92,6 +92,7 @@
   "(for advanced users only)" : "(Nur für fortgeschrittene Benutzer)",
   "Force the clock to be at the bottom of the screen" : "Uhr immer am unteren Bildschirmrand anzeigen",
   "Force the clock to be at the top of the screen" : "Uhr immer am oberen Rand des Bildschirms anzeigen",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Erzwinge, dass die Uhr schwarzen Text hat",
   "Force the clock to have white text" : "Erzwinge weiße Schriftart der Uhr",
   "Ft. Seconds" : null,

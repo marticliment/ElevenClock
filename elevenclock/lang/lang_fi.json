@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Pakota kello näytön alareunaan",
   "Force the clock to be at the top of the screen" : "Pakota kkello näytön yläreunaan",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Pakota kellon fontti mustaksi",
   "Force the clock to have white text" : "Pakota kellon fontti valkoiseksi",
   "Ft. Seconds" : null,

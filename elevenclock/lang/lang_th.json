@@ -92,6 +92,7 @@
   "(for advanced users only)" : "(สำหรับผู้ใช้ขั้นสูงเท่านั้น)",
   "Force the clock to be at the bottom of the screen" : "บังคับนาฬิกาให้อยู่ด้านล่างหน้าจอ",
   "Force the clock to be at the top of the screen" : "บังคับนาฬิกาให้อยู่ด้านบนของหน้าจอ",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "บังคับนาฬิกาให้มีข้อความสีดำ",
   "Force the clock to have white text" : "บังคับนาฬิกาให้มีข้อความสีขาว",
   "Ft. Seconds" : null,

@@ -92,6 +92,7 @@
   "(for advanced users only)" : "(для продвинутых)",
   "Force the clock to be at the bottom of the screen" : "Установить часы в нижней части экрана",
   "Force the clock to be at the top of the screen" : "Отображать часы в верхней части экрана",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Принудительно Темный Цвет текста",
   "Force the clock to have white text" : "Принудительно белый цвет текста часов",
   "Ft. Seconds" : null,

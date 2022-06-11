@@ -92,6 +92,7 @@
   "(for advanced users only)" : "（仅限高级用户）",
   "Force the clock to be at the bottom of the screen" : "强制时钟区在屏幕底部显示",
   "Force the clock to be at the top of the screen" : "强制时钟区位于屏幕顶部",
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "强制时钟区使用深色文本",
   "Force the clock to have white text" : "强制时钟区使用白色文本",
   "Ft. Seconds" : null,

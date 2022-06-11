@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Saati ekranın alt tarafında olmasına zorla",
   "Force the clock to be at the top of the screen" : null,
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Saatin siyah yazı renginde olmasına zorla",
   "Force the clock to have white text" : "Saati beyaz yazı renginde olmasına zorla",
   "Ft. Seconds" : null,

@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Priverstinai rodyti laikrodį ekrano apačioje",
   "Force the clock to be at the top of the screen" : null,
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Priversti laikrodį rodyti juodą tekstą",
   "Force the clock to have white text" : "Priversti laikrodį rodyti baltą tekstą",
   "Ft. Seconds" : null,

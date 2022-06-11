@@ -92,6 +92,7 @@
   "(for advanced users only)" : null,
   "Force the clock to be at the bottom of the screen" : "Paksa jam untuk berada pada bagian bawah layar",
   "Force the clock to be at the top of the screen" : null,
+  "Force the clock to be transparent if any window shows in fullscreen" : null,
   "Force the clock to have black text" : "Paksakan tulisan pada jam berwarna hitam",
   "Force the clock to have white text" : "Paksa tulisan pada jam berwarna putih",
   "Ft. Seconds" : null,
