@@ -1,4 +1,5 @@
 lang = {}
+englang = {}
 
 languages = {
     "ar":    "lang_ar.json",

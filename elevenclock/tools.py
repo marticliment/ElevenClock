@@ -41,14 +41,24 @@ def ptToPx(value: float, screen: QScreen) -> float:
     return value/72*screen.logicalDotsPerInch()
 
 
-def _(s): #Translate function
+def _(s): # Translate function
     global lang
     try:
         t = lang[s]
-        return (t+"✅[Found]✅" if debugLang else t) if t else f"{s}⚠️[UntranslatedString]⚠️" if debugLang else s
+        return (t+"✅[Found]✅" if debugLang else t) if t else f"{s}⚠️[UntranslatedString]⚠️" if debugLang else eng_(s)
     except KeyError:
         if debugLang: print(s)
-        return f"{s}🔴[MissingString]🔴" if debugLang else s
+        return f"{eng_(s)}🔴[MissingString]🔴" if debugLang else eng_(s)
+
+def eng_(s): # English translate function
+    try:
+        t = englang[s]
+        return t if t else s
+    except KeyError:
+        if debugLang:
+            print(s)
+        return s
+
 
 def cprint(*args):
     """
@@ -690,6 +700,12 @@ else:
 
 if lang == {}:
     lang = {"locale": "en"}
+
+try:
+    englang = loadLangFile(languages["en"]) | {"locale": "en"}
+except Exception as e:
+    report(e)
+    englang = {"locale": "en"}
 
 
 print(f"It took {time.time()-t0} to load all language files")
