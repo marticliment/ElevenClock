@@ -2289,7 +2289,7 @@ class QSettingsComboBox(QWidget):
         self.combobox.setObjectName("stCmbbx")
         self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.setObjectName("stBtn")
-        self.restartButton = QPushButton(_("Restart ElevenClock"), self)
+        self.restartButton = QPushButton("Restart ElevenClock", self)
         self.restartButton.hide()
         self.restartButton.setObjectName("AccentButton")
         self.label = QLabel("\u200e"+text, self)
