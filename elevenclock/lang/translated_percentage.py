@@ -10,8 +10,8 @@ translatedPercentage = {
   "en": "100%",
   "es": "100%",
   "fi": "54%",
-  "he": "29%",
   "fr": "98%",
+  "he": "29%",
   "hu": "67%",
   "id": "22%",
   "it": "53%",
@@ -23,8 +23,8 @@ translatedPercentage = {
   "nl": "50%",
   "nn": "75%",
   "pl": "42%",
-  "pt_PT": "29%",
   "pt_BR": "74%",
+  "pt_PT": "29%",
   "ro": "0%",
   "ru": "81%",
   "si": "0%",
@@ -35,6 +35,6 @@ translatedPercentage = {
   "tr": "22%",
   "ua": "27%",
   "vi": "19%",
-  "zh_TW": "81%",
-  "zh_CN": "75%"
+  "zh_CN": "75%",
+  "zh_TW": "81%"
 }
