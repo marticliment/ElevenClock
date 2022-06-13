@@ -107,9 +107,11 @@ class SettingsWindow(QMainWindow):
 
         def changeLang(text):
             keys = list(languageReference.keys())
-            values = list(languageReference.values())
-            for i in range(len(values)):
-                if(text == values[i]):
+            values = langListWithPercentage
+            self.selectedLanguage.restartButton.setVisible(True)
+            for i in range(len(langListWithPercentage)):
+                cprint(text, langListWithPercentage[i])
+                if(text == langListWithPercentage[i]):
                     setSettingsValue("PreferredLanguage", str(keys[i]), r=False)
                     self.selectedLanguage.showRestartButton()
 
