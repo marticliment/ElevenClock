@@ -105,15 +105,12 @@ class SettingsWindow(QMainWindow):
             report(e)
             self.selectedLanguage.setItems(langListWithPercentage, 0)
 
-        def changeLang(text):
-            keys = list(languageReference.keys())
-            values = langListWithPercentage
+        def changeLang():
             self.selectedLanguage.restartButton.setVisible(True)
-            for i in range(len(langListWithPercentage)):
-                cprint(text, langListWithPercentage[i])
-                if(text == langListWithPercentage[i]):
-                    setSettingsValue("PreferredLanguage", str(keys[i]), r=False)
-                    self.selectedLanguage.showRestartButton()
+            i = self.selectedLanguage.combobox.currentIndex()
+            selectedLang = list(languageReference.keys())[i]
+            self.selectedLanguage.toggleRestartButton(selectedLang != langName)
+            setSettingsValue("PreferredLanguage", selectedLang, r=False)
 
         def restartElevenClockByLangChange():
             subprocess.run(str("start /B \"\" \""+sys.executable)+"\" --settings", shell=True)
@@ -2353,9 +2350,14 @@ class QSettingsComboBox(QWidget):
         pass
         #self.button.setIcon(icon)
 
-    def showRestartButton(self) -> None:
+    def toggleRestartButton(self, force = None) -> None:
         if self.buttonOn:
-            self.restartButton.show()
+            if (force == None):
+                force = self.restartButton.isHidden
+            if (force == True):
+                self.restartButton.show()
+            else:
+                self.restartButton.hide()
 
     def text(self) -> str:
         return self.label.text() + " " + self.combobox.currentText()
