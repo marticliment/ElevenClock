@@ -27,7 +27,7 @@ from PySide2.QtWidgets import *
 import globals
 from win32mica import ApplyMica, MICAMODE
 
-from languages import * 
+from languages import *
 from lang.translated_percentage import *
 from tools import *
 from tools import _
@@ -123,11 +123,11 @@ class SettingsWindow(QMainWindow):
         self.selectedLanguage.textChanged.connect(changeLang)
         self.generalSettingsTitle.addWidget(self.selectedLanguage)
         self.wizardButton = QSettingsButton(_("Open the welcome wizard"), _("Open"))
-        
+
         def ww():
             global welcomewindow
             welcomewindow = welcome.WelcomeWindow()
-        
+
         self.wizardButton.clicked.connect(ww)
         self.wizardButton.button.setObjectName("AccentButton")
         self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
@@ -321,7 +321,7 @@ class SettingsWindow(QMainWindow):
         self.fontPrefs.stateChanged.connect(lambda i: setSettings("UseCustomFont", bool(i)))
         self.fontPrefs.valueChanged.connect(lambda v: setSettingsValue("UseCustomFont", v))
         self.clockAppearanceTitle.addWidget(self.fontPrefs)
-        
+
         self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
         self.fontSize.setChecked(getSettings("UseCustomFontSize"))
         self.fontSize.loadItems()
@@ -334,7 +334,7 @@ class SettingsWindow(QMainWindow):
         self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
         self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
         self.clockAppearanceTitle.addWidget(self.fontSize)
-        
+
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
@@ -404,16 +404,16 @@ class SettingsWindow(QMainWindow):
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
         self.RegionButton.clicked.connect(lambda: os.startfile("intl.cpl"))
         self.dateTimeTitle.addWidget(self.RegionButton)
-        
+
 
         self.internetTimeTitle = QSettingsTitle(_("Internet date and time"), getPath(f"internet_{self.iconMode}.png"), _("Select internet time provider, change sync frequency"))
         layout.addWidget(self.internetTimeTitle)
-        
+
         self.internetTime = QSettingsCheckBox(_("Enable internet time sync"), None)
         self.internetTime.setChecked(getSettings("EnableInternetTime"))
         self.internetTime.stateChanged.connect(lambda e: setSettings("EnableInternetTime", e))
         self.internetTimeTitle.addWidget(self.internetTime)
-        
+
         self.internetTimeURL = QSettingsCheckBoxTextBox(_("Set a custom network time provider"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
@@ -421,7 +421,7 @@ class SettingsWindow(QMainWindow):
         self.internetTimeURL.stateChanged.connect(lambda e: setSettings("AtomicClockURL", e))
         self.internetTimeURL.valueChanged.connect(lambda v: (setSettingsValue("AtomicClockURL", v, r=False), setSettings("ReloadInternetTime", True)))
         self.internetTimeTitle.addWidget(self.internetTimeURL)
-        
+
         self.internetSyncTime = QSettingsComboBox(_("Internet sync frequency"))
         actions = {
             _("10 minutes"): "600",
@@ -440,7 +440,7 @@ class SettingsWindow(QMainWindow):
             pass
         self.internetSyncTime.valueChanged.connect(lambda v: (setSettingsValue("AtomicClockSyncInterval", actions[v]), setSettings("ReloadInternetTime", True)))
         self.internetTimeTitle.addWidget(self.internetSyncTime)
-        
+
         self.toolTipAppearanceTitle = QSettingsTitle(_("Tooltip Appearance:"), getPath(f"tooltip_{self.iconMode}.png"), _("Tooltip's font, font size, font color and background"))
         layout.addWidget(self.toolTipAppearanceTitle)
         self.toolTipFontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
@@ -455,7 +455,7 @@ class SettingsWindow(QMainWindow):
         self.toolTipFontPrefs.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFont", bool(i)))
         self.toolTipFontPrefs.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFont", v))
         self.toolTipAppearanceTitle.addWidget(self.toolTipFontPrefs)
-        
+
         self.toolTipFontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
         self.toolTipFontSize.setChecked(getSettings("TooltipUseCustomFontSize"))
         self.toolTipFontSize.loadItems()
@@ -468,7 +468,7 @@ class SettingsWindow(QMainWindow):
         self.toolTipFontSize.stateChanged.connect(lambda i: setSettings("TooltipUseCustomFontSize", bool(i)))
         self.toolTipFontSize.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomFontSize", v))
         self.toolTipAppearanceTitle.addWidget(self.toolTipFontSize)
-        
+
         self.toolTipFontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.toolTipFontColor.setChecked(getSettings("TooltipUseCustomFontColor"))
         if self.toolTipFontColor.isChecked():
@@ -702,7 +702,7 @@ class SettingsWindow(QMainWindow):
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;}}")
-        
+
         self.searchBox = QLineEdit()
         self.searchBox.setClearButtonEnabled(True)
         self.searchBox.setPlaceholderText(_("Search on the settings"))
@@ -727,7 +727,7 @@ class SettingsWindow(QMainWindow):
 
         self.scrollbar = QScrollBar()
         self.scrollArea.setVerticalScrollBar(self.scrollbar)
-        
+
         shl = QHBoxLayout()
         shl.setSpacing(0)
         shl.setContentsMargins(0, 0, 0, 0)
@@ -739,7 +739,7 @@ class SettingsWindow(QMainWindow):
 
 
         self.vlayout.addLayout(shl)
-        
+
         self.setWindowTitle(_("ElevenClock Settings"))
         self.applyStyleSheet()
         self.updateCheckBoxesStatus()
@@ -813,7 +813,7 @@ class SettingsWindow(QMainWindow):
         return super().showEvent(event)
 
     def updateCheckBoxesStatus(self):
-        
+
         # General settings section
         if not self.enableUpdates.isChecked(): # Check if check for updates enabled
             for checkbox in [self.installUpdates, self.silentUpdates, self.bypassCNAMECheck]:
@@ -831,7 +831,7 @@ class SettingsWindow(QMainWindow):
                 for checkbox in [self.silentUpdates, self.bypassCNAMECheck]:
                     checkbox.setToolTip("")
                     checkbox.setEnabled(True)
-        
+
         # Date & time settings
         if not self.customDateTimeFormat.isChecked():
             for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
@@ -844,7 +844,7 @@ class SettingsWindow(QMainWindow):
             else:
                 self.showSeconds.setToolTip("")
                 self.showSeconds.setEnabled(True)
-                
+
             if not self.showDate.isChecked(): # Check if date is shown
                 self.showWeekCount.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show date on the clock")))
                 self.showWeekCount.setEnabled(False)
@@ -854,7 +854,7 @@ class SettingsWindow(QMainWindow):
         else:
             for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
                 item: QSettingsCheckBox
-                item.setVisible(False)    
+                item.setVisible(False)
         self.dateTimeTitle.resizeEvent()
 
         if not self.legacyHideOnFullScreen.isChecked():
@@ -867,7 +867,7 @@ class SettingsWindow(QMainWindow):
             self.newFullScreenHide.setToolTip("")
             self.TransparentClockWhenInFullscreen.setEnabled(False)
             self.TransparentClockWhenInFullscreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Hide the clock in fullscreen mode")))
-            
+
         if not self.primaryScreen.isChecked(): # Clock is set to be in primary monitor
             self.onlyPrimaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock on the primary screen")))
             self.onlyPrimaryScreen.setEnabled(False)
@@ -923,7 +923,7 @@ class SettingsWindow(QMainWindow):
             self.internetSyncTime.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Sync time with the internet")))
             self.internetTimeURL.setEnabled(False)
             self.internetTimeURL.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Sync time with the internet")))
-            
+
 
 
     def applyStyleSheet(self):
@@ -946,7 +946,7 @@ class SettingsWindow(QMainWindow):
                 GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
             self.setStyleSheet(f"""
                                #backgroundWindow {{
-                                   
+
                                    /*background-color: rgba({colors[3]}, 1);*/
                                    background: transparent;
                                }}
@@ -986,21 +986,21 @@ class SettingsWindow(QMainWindow):
                                     border: {self.getPx(4)}px solid #404040;
                                     margin: {self.getPx(-8)}px {self.getPx(-10)}px;
                                     height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px; 
+                                    border-radius: {self.getPx(9)}px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:hover {{
                                     border: {self.getPx(3)}px solid #404040;
                                     margin: {self.getPx(-8)}px {self.getPx(-10)}px;
                                     height: {self.getPx(7)}px;
-                                    border-radius: {self.getPx(9)}px; 
+                                    border-radius: {self.getPx(9)}px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:disabled {{
                                     border: {self.getPx(4)}px solid #404040;
                                     margin: {self.getPx(-8)}px {self.getPx(-10)}px;
                                     height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px; 
+                                    border-radius: {self.getPx(9)}px;
                                     background: #212121;
                                 }}
                                 QSlider::add-page {{
@@ -1058,7 +1058,7 @@ class SettingsWindow(QMainWindow):
                                     padding-right: {self.getPx(10)}px;
                                     padding-left: {self.getPx(10)}px;
                                     border-radius: {self.getPx(4)}px;
-                                }}  
+                                }}
                                 QMenu::item:selected:disabled{{
                                     background: transparent;
                                     height: {self.getPx(30)}px;
@@ -1459,21 +1459,21 @@ class SettingsWindow(QMainWindow):
                                     border: {self.getPx(4)}px solid #eeeeee;
                                     margin: -{self.getPx(8)}px -{self.getPx(10)}px;
                                     height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px; 
+                                    border-radius: {self.getPx(9)}px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:hover {{
                                     border: {self.getPx(1)}px solid #eeeeee;
                                     margin: -{self.getPx(8)}px -{self.getPx(10)}px;
                                     height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px; 
+                                    border-radius: {self.getPx(9)}px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:disabled {{
                                     border: {self.getPx(4)}px solid #eeeeee;
                                     margin: -{self.getPx(8)}px -{self.getPx(10)}px;
                                     height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px; 
+                                    border-radius: {self.getPx(9)}px;
                                     background: rgba(106, 106, 106, 25%);
                                 }}
                                 QSlider::add-page {{
@@ -1538,7 +1538,7 @@ class SettingsWindow(QMainWindow):
                                     padding-right: {self.getPx(10)}px;
                                     padding-left: {self.getPx(10)}px;
                                     border-radius: {self.getPx(4)}px;
-                                }}  
+                                }}
                                 QMenu::item:selected:disabled{{
                                     background: transparent;
                                     height: {self.getPx(30)}px;
@@ -1876,11 +1876,11 @@ class SettingsWindow(QMainWindow):
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
-        
+
         w = QWidget()
         w.setLayout(QVBoxLayout())
         w.setContentsMargins(0, 0, 0, 0)
-        
+
         textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
         if isWindowDark():
@@ -1889,11 +1889,11 @@ class SettingsWindow(QMainWindow):
             textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: {self.getPx(1)}px solid #dddddd;}}")
 
         textEdit.setPlainText(globals.buffer.getvalue())
-        
+
         reloadButton = QPushButton(_("Reload log"))
         reloadButton.setFixedWidth(self.getPx(200))
         reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
-        
+
         def saveLog():
             try:
                 print("🔵 Saving log...")
@@ -1932,7 +1932,7 @@ class SettingsWindow(QMainWindow):
         copyButton = QPushButton(_("Copy log to clipboard"))
         copyButton.setFixedWidth(self.getPx(200))
         copyButton.clicked.connect(lambda: copyLog())
-         
+
         hl = QHBoxLayout()
         hl.setSpacing(self.getPx(5))
         hl.setContentsMargins(self.getPx(10), self.getPx(10), self.getPx(10), 0)
@@ -1940,12 +1940,12 @@ class SettingsWindow(QMainWindow):
         hl.addWidget(copyButton)
         hl.addStretch()
         hl.addWidget(reloadButton)
-        
+
         w.layout().setSpacing(0)
         w.layout().setContentsMargins(self.getPx(5), self.getPx(5), self.getPx(5), self.getPx(5))
         w.layout().addLayout(hl, stretch=0)
         w.layout().addWidget(textEdit, stretch=1)
-        
+
         win.setCentralWidget(w)
         win.hwnd = win.winId().__int__()
         win.setAutoFillBackground(True)
@@ -1959,9 +1959,9 @@ class SettingsWindow(QMainWindow):
         else:
             QtWin.resetExtendedFrame(win)
 
-        
+
         if ApplyMica(win.hwnd, isWindowDark()) != 0:
-            if isWindowDark():    
+            if isWindowDark():
                 GlobalBlur(win.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
             else:
                 GlobalBlur(win.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
@@ -1983,7 +1983,7 @@ class SettingsWindow(QMainWindow):
             self.updateSize = False
             KillableThread(target=enableUpdateSize, args=(self,)).start()
         super().moveEvent(event)
-            
+
     def mouseReleaseEvent(self, event) -> None:
         if(self.updateSize):
             self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
@@ -1999,7 +1999,7 @@ class SettingsWindow(QMainWindow):
         self.raise_()
         self.activateWindow()
         return super().show()
-    
+
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
             if self.isMaximized():
@@ -2120,7 +2120,7 @@ class QSettingsTitle(QWidget):
         self.childrenOpacity = QGraphicsOpacityEffect(self.compressibleWidget)
         self.childrenOpacity.setOpacity(0)
         self.compressibleWidget.setGraphicsEffect(self.childrenOpacity)
-        
+
         self.compressibleWidget.move(self.getPx(-1500),self.getPx(-1500))
 
     def showHideChildren(self):
@@ -2147,7 +2147,7 @@ class QSettingsTitle(QWidget):
             self.scrollAnim.setEndValue(val if val <= globals.sw.scrollbar.maximum() else globals.sw.scrollbar.maximum())
             self.callInMain.emit(lambda: self.scrollAnim.start())
 
-        
+
     def setChildFixedHeight(self, h: int) -> None:
         self.compressibleWidget.setFixedHeight(h)
         self.setFixedHeight(h+self.getPx(70))
@@ -2171,7 +2171,7 @@ class QSettingsTitle(QWidget):
             self.invertNotAnimated()
             self.childsVisible = True
             threading.Thread(target=self.showChildren).start()
-        
+
     def window(self) -> 'SettingsWindow':
         return super().window()
 
@@ -2195,7 +2195,7 @@ class QSettingsTitle(QWidget):
             self.showHideButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
             self.showHideButton.setFixedSize(self.getPx(30), self.getPx(30))
             self.showHideButton.move(self.width()-self.getPx(55), self.getPx(20))
-            
+
             self.label.move(self.getPx(70), self.getPx(17))
             self.label.setFixedHeight(self.getPx(20))
             self.descLabel.move(self.getPx(70), self.getPx(37))
@@ -2232,14 +2232,14 @@ class QSettingsTitle(QWidget):
             self.compressibleWidget.setFixedWidth(self.width())
         if event:
             return super().resizeEvent(event)
-    
+
     def addWidget(self, widget: QWidget) -> None:
         self.compressibleWidget.layout().addWidget(widget)
         self.childrenw.append(widget)
 
     def getChildren(self) -> list:
         return self.childrenw
-        
+
 class QSettingsButton(QWidget):
     clicked = Signal()
     def __init__(self, text="", btntext="", parent=None, h = 30):
@@ -2406,11 +2406,11 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
         self.infolabel.setObjectName("warningLabel")
         self.infolabel.setVisible(self.checkbox.isChecked())
         self.checkbox.stateChanged.connect(self.stateChangedFun)
-        
+
     def stateChangedFun(self, checked: bool) -> bool:
         self.infolabel.setVisible(checked)
         self.stateChanged.emit(checked)
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.checkbox.move(self.getPx(70), self.getPx(10))
         self.checkbox.setFixedHeight(self.getPx(30))
@@ -2424,7 +2424,7 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
 class QSettingsCheckBoxTextBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
-    
+
     def __init__(self, text: str, parent=None, helpLabel: str = ""):
 
         class QLineEditWithFluentMenu(QLineEdit):
@@ -2446,7 +2446,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.helplabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.helplabel.setOpenExternalLinks(True)
         self.stateChangedEvent(self.checkbox.isChecked())
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.lineedit.move(self.width()-self.getPx(470), self.getPx(10))
         self.helplabel.move(self.width()-self.getPx(580), self.getPx(10))
@@ -2459,7 +2459,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.helplabel.setFixedHeight(self.getPx(30))
         self.helplabel.setFixedWidth(self.getPx(100))
         return super().resizeEvent(event)
-    
+
     def valuechangedEvent(self, text: str):
         self.valueChanged.emit(text)
 
@@ -2469,7 +2469,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
 
     def setText(self, text: str):
         self.lineedit.setText(text)
-    
+
     def stateChangedEvent(self, v: bool):
         self.lineedit.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
@@ -2484,12 +2484,12 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
             self.lineedit.setToolTip("")
             self.lineedit.setPlaceholderText(self.oldtext)
             self.valueChanged.emit(self.lineedit.text())
-        
-    
+
+
 class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
-    
+
     def __init__(self, text: str, parent=None):
 
         class QComboBoxWithFluentMenu(QComboBox):
@@ -2505,7 +2505,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
@@ -2515,10 +2515,10 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.combobox.setFixedHeight(self.getPx(30))
         self.combobox.setFixedWidth(self.getPx(250))
         return super().resizeEvent(event)
-    
+
     def valuechangedEvent(self, i: int):
         self.valueChanged.emit(self.combobox.itemText(i))
-    
+
     def stateChangedEvent(self, v: bool):
         self.combobox.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
@@ -2530,7 +2530,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
             self.combobox.setEnabled(True)
             self.combobox.setToolTip("")
             self.valueChanged.emit(self.combobox.currentText())
-        
+
     def loadItems(self, items: list = None):
         self.combobox.clear()
         if items:
@@ -2542,7 +2542,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
 class QSettingsSliderWithCheckBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(int)
-    
+
     def __init__(self, text: str, parent=None, min: int = 10, max: int = 100):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
@@ -2553,7 +2553,7 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         self.slider.sliderReleased.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.slider.move(self.width()-self.getPx(270), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
@@ -2563,10 +2563,10 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         self.slider.setFixedHeight(self.getPx(30))
         self.slider.setFixedWidth(self.getPx(250))
         return super().resizeEvent(event)
-    
+
     def valuechangedEvent(self):
         self.valueChanged.emit(self.slider.value())
-    
+
     def stateChangedEvent(self, v: bool):
         self.slider.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
@@ -2578,7 +2578,7 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
             self.slider.setEnabled(True)
             self.slider.setToolTip("")
             self.valueChanged.emit(self.slider.value())
-        
+
 class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
@@ -2599,10 +2599,10 @@ class QCustomColorDialog(QColorDialog):
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
             QtWin.resetExtendedFrame(self)
-        
-        
+
+
         if ApplyMica(self.hwnd, isWindowDark()) != 0x0:
-            if isWindowDark():    
+            if isWindowDark():
                 GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
             else:
                 GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
@@ -2616,7 +2616,7 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
     color = "0,0,0"
-    
+
     def __init__(self, text: str, parent=None):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
@@ -2629,7 +2629,7 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
         self.colorDialog.colorSelected.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(270), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
@@ -2639,7 +2639,7 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
         self.button.setFixedHeight(self.getPx(30))
         self.button.setFixedWidth(self.getPx(250))
         return super().resizeEvent(event)
-    
+
     def valuechangedEvent(self, c: QColor):
         r = c.red()
         g = c.green()
@@ -2647,7 +2647,7 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
         self.color = f"{r},{g},{b}"
         self.valueChanged.emit(self.color)
         self.button.setStyleSheet(f"color: rgb({self.color})")
-    
+
     def stateChangedEvent(self, v: bool):
         self.button.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
@@ -2661,7 +2661,7 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
             self.button.setToolTip("")
             self.valueChanged.emit(self.color)
             self.button.setStyleSheet(f"color: rgb({self.color})")
-        
+
 class QSettingsBgBoxColorDialog(QSettingsCheckboxColorDialog):
     color = "0, 0, 0, 100"
 
@@ -2672,7 +2672,7 @@ class QSettingsBgBoxColorDialog(QSettingsCheckboxColorDialog):
         a = c.alpha()
         self.color = f"{r},{g},{b},{a/255*100}"
         self.valueChanged.emit(self.color)
-        self.button.setStyleSheet(f"background-color: rgba({self.color})") 
+        self.button.setStyleSheet(f"background-color: rgba({self.color})")
 
     def stateChangedEvent(self, v: bool):
         self.button.setEnabled(self.checkbox.isChecked())
@@ -2686,12 +2686,12 @@ class QSettingsBgBoxColorDialog(QSettingsCheckboxColorDialog):
             self.button.setEnabled(True)
             self.button.setToolTip("")
             self.valueChanged.emit(self.color)
-            self.button.setStyleSheet(f"background-color: rgba({self.color})")  
+            self.button.setStyleSheet(f"background-color: rgba({self.color})")
 
 class QSettingsFontBoxComboBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
-    
+
     def __init__(self, text: str, parent=None):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
@@ -2713,7 +2713,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.button.clicked.connect(self.fontPicker.show)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
-        
+
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(270), self.getPx(10))
         self.checkbox.move(self.getPx(70), self.getPx(10))
@@ -2723,11 +2723,11 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.button.setFixedHeight(self.getPx(30))
         self.button.setFixedWidth(self.getPx(250))
         return super().resizeEvent(event)
-    
+
     def valuechangedEvent(self, font: QFont):
         self.valueChanged.emit(font.key())
         self.button.setFont(font)
-    
+
     def stateChangedEvent(self, v: bool):
         self.button.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
@@ -2740,7 +2740,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
             self.button.setToolTip("")
             self.valueChanged.emit(str(self.fontPicker.currentFont()))
             #self.combobox.lineEdit().setFont(QFont(self.combobox.currentText()))
-        
+
     def setItems(self, items: list):
         pass
         #self.combobox.clear()
@@ -2776,7 +2776,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         self.button.clicked.connect(lambda: self.valueChanged.emit(self.edit.toPlainText().strip()))
 
     def resizeEvent(self, event: QResizeEvent = None) -> None:
-        if not self.isChecked():  
+        if not self.isChecked():
             self.button.hide()
             self.rulesLabel.hide()
             self.edit.setEnabled(True)
@@ -2789,7 +2789,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         else:
             if not event:
                 self.valueChanged.emit(self.edit.toPlainText().strip())
-            self.edit.setPlaceholderText(globals.dateTimeFormat) 
+            self.edit.setPlaceholderText(globals.dateTimeFormat)
             self.button.show()
             self.edit.setEnabled(True)
             self.rulesLabel.show()
