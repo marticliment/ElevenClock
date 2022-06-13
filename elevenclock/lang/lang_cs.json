@@ -92,7 +92,7 @@
   "(for advanced users only)" : "(pouze pro pokročilé uživatele)",
   "Force the clock to be at the bottom of the screen" : "Vynutit, aby byly hodiny ve spodní části obrazovky",
   "Force the clock to be at the top of the screen" : "Vynutit, aby byly hodiny ve horní části obrazovky",
-  "Force the clock to be transparent if any window shows in fullscreen" : null,
+  "Force the clock to be transparent if any window shows in fullscreen" : "Vynutit, aby byly hodiny průhledné, pokud se některé okno zobrazí na celé obrazovce",
   "Force the clock to have black text" : "Vynutit černý text hodin",
   "Force the clock to have white text" : "Vynutit, aby hodiny měly bílý text",
   "Ft. Seconds" : "Včetně sekund",
