@@ -7,6 +7,7 @@ __init__
 ElevenClock.zip
 *.code-workspace
 elevenclock/.vscode/launch.json
+elevenclock/lang/lang_backup*
 
 # Virtual environments
 venv/
