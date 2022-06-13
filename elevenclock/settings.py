@@ -8,7 +8,6 @@ import subprocess
 import os
 import sys
 import locale
-import tempfile
 import time
 from urllib.request import urlopen
 from PySide2 import QtGui
@@ -29,6 +28,7 @@ import globals
 from win32mica import ApplyMica, MICAMODE
 
 from languages import * 
+from lang.translated_percentage import *
 from tools import *
 from tools import _
 import welcome
@@ -91,11 +91,19 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.generalSettingsTitle)
         self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) # The non-translated (Language) string is there to let people know what the language option is if you accidentaly change the language
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+
+        langListWithPercentage = []
+        for key, value in languageReference.items():
+            if (key in translatedPercentage):
+                langListWithPercentage.append(f"{value} ({translatedPercentage[key]})")
+            else:
+                langListWithPercentage.append(value)
+
         try:
-            self.selectedLanguage.setItems(list(languageReference.values()), list(languageReference.keys()).index(langName))
+            self.selectedLanguage.setItems(langListWithPercentage, list(languageReference.keys()).index(langName))
         except Exception as e:
             report(e)
-            self.selectedLanguage.setItems(list(languageReference.values()), 0)
+            self.selectedLanguage.setItems(langListWithPercentage, 0)
 
         def changeLang(text):
             keys = list(languageReference.keys())
