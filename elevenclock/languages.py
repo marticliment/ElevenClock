@@ -1,80 +1,49 @@
-lang = {}
-englang = {}
-
-languages = {
-    "ar":    "lang_ar.json",
-    "ca":    "lang_ca.json",
-    "cs":    "lang_cs.json",
-    "da":    "lang_da.json",
-    "de":    "lang_de.json",
-    "el":    "lang_el.json",
-    "en":    "lang_en.json",
-    "es":    "lang_es.json",
-    "fi":    "lang_fi.json",
-    "he":    "lang_he.json",
-    "fr":    "lang_fr.json",
-    "hu":    "lang_hu.json",
-    "id":    "lang_id.json",
-    "it":    "lang_it.json",
-    "ja":    "lang_ja.json",
-    "ko":    "lang_ko.json",
-    "lt":    "lang_lt.json",
-    "lv":    "lang_lv.json",
-    "nb":    "lang_nb.json",
-    "nl":    "lang_nl.json",
-    "nn":    "lang_nn.json",
-    "pl":    "lang_pl.json",
-    "pt_PT": "lang_pt_PT.json",
-    "pt_BR": "lang_pt_BR.json",
-    "ru":    "lang_ru.json",
-    "sk":    "lang_sk.json",
-    "sr":    "lang_sr.json",
-    "sv":    "lang_sv.json",
-    "th":    "lang_th.json",
-    "tr":    "lang_tr.json",
-    "ua":    "lang_ua.json",
-    "vi":    "lang_vi.json",
-    "zh_TW": "lang_zh_TW.json",
-    "zh_CN": "lang_zh_CN.json",
-}
-
 languageReference = {
     "default": "System language",
     "ar"    : "Arabic",
     "ca"    : "Catalan - Català",
     "cs"    : "Czech - Čeština",
     "da"    : "Danish",
-    "nl"    : "Dutch",
-    "en"    : "English",
-    "fi"    : "Finnish",
-    "fr"    : "French - Français",
     "de"    : "German",
     "el"    : "Greek",
+    "en"    : "English",
+    "es"    : "Spanish - Español",
+    "fi"    : "Finnish",
+    "fr"    : "French - Français",
     "he"    : "Hebrew",
     "hu"    : "Hungarian",
     "id"    : "Indonesian",
     "it"    : "Italian - Italiano",
     "ja"    : "Japanese",
     "ko"    : "Korean",
-    "lv"    : "Latvian",
     "lt"    : "Lithuanian",
+    "lv"    : "Latvian",
     "nb"    : "Norwegian (bokmål)",
+    "nl"    : "Dutch",
     "nn"    : "Norwegian (nynorsk)",
     "pl"    : "Polish",
-    "pt_PT" : "Portuguese (Portugal)",
     "pt_BR" : "Portuguese (Brazil)",
+    "pt_PT" : "Portuguese (Portugal)",
     "ru"    : "Russian",
-    "zh_CN" : "Simplified Chinese (China)",
-    "sr"    : "Serbian",
     "sk"    : "Slovak - Slovenčina)",
-    "es"    : "Spanish - Español",
+    "sr"    : "Serbian",
     "sv"    : "Swedish",
     "th"    : "Thai",
-    "zh_TW" : "Traditional Chinese (Taiwan)",
     "tr"    : "Turkish",
     "ua"    : "Ukranian",
     "vi"    : "Vietnamese",
+    "zh_CN" : "Simplified Chinese (China)",
+    "zh_TW" : "Traditional Chinese (Taiwan)",
 }
+
+lang = {}
+englang = {}
+languages = {} # will be auto-generated
+
+## auto-generate map of files
+for key in languageReference.keys():
+    if (key != "default"):
+        languages[key] = f"lang_{key}.json"
 
 debugLang = False
 
