@@ -8,7 +8,7 @@ import sys
 import winreg
 import threading
 import locale
- 
+
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
@@ -256,14 +256,14 @@ def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidO
             QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
     else:
         GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True, smallCorners=smallCorners)
-        if shadow: 
+        if shadow:
             QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
 
 class Menu(QMenu):
     def __init__(self, title: str):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
-        
+
 
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -302,7 +302,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.quitAction.triggered.connect(lambda: globals.app.quit())
         menu.addAction(self.quitAction)
         menu.addSeparator()
-        
+
         self.toolsMenu = menu.addMenu(_("Monitor tools"))
         self.toolsMenu.setParent(menu)
         self.toolsMenu.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -357,7 +357,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.moveToLeftAction = QAction("Placeholder text", app)
         self.moveToLeftAction.triggered.connect(lambda: toggleClockHorPosAction())
         self.toolsMenu.addAction(self.moveToLeftAction)
-        
+
         def toggleClockVerPosAction():
             screen = self.contextMenu().screen().name().replace("\\", "_")
             if getSettings("ForceOnTop"):
@@ -375,7 +375,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.moveToTopAction.triggered.connect(lambda: toggleClockVerPosAction())
         self.toolsMenu.addAction(self.moveToTopAction)
 
-        
+
         menu.addSeparator()
         self.takmgr = QAction(_("Task Manager"), app)
         self.takmgr.triggered.connect(lambda: os.startfile('taskmgr'))
@@ -406,7 +406,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.show()
             print("🔵 System tray icon enabled")
         self.applyStyleSheet()
-    
+
 
     def showMenu(self, clock):
         pos = QPoint(0, 0)
@@ -429,12 +429,12 @@ class TaskbarIconTray(QSystemTrayIcon):
             pos.setX(clock.screen().geometry().x()+clock.getPx(5))
         else:
             pos.setX(clock.screen().geometry().x()+clock.screen().geometry().width()-clock.getPx(5)-menuWidth)
-        
+
         if clock.clockOnTop:
             pos.setY(clock.screen().geometry().y()+clock.getPx(5)+clock.height())
         else:
             pos.setY(clock.screen().geometry().y()+clock.screen().geometry().height()-clock.height()-clock.getPx(5)-menuHeight)
-        
+
         self.execMenu(pos)
 
 
@@ -495,7 +495,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                 QWidget{{
                     background-color: transparent;
                     border-radius: {self.getPx(8)}px;
-                }}  
+                }}
                 QMenu {{
                     border: {self.getPx(1)}px solid #111111;
                     padding: {self.getPx(2)}px;
@@ -533,7 +533,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
-                }}  
+                }}
                 QMenu::item:selected:disabled {{
                     background: transparent;
                     height: {self.getPx(30)}px;
@@ -542,7 +542,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
-                }}            
+                }}
                 """)
         else:
             self.iconMode = "black"
@@ -553,7 +553,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.contextMenu().setStyleSheet(f"""
                 QWidget{{
                     background-color: transparent;
-                }}  
+                }}
                 QMenu {{
                     border: {self.getPx(1)}px solid rgb(200, 200, 200);
                     padding: {self.getPx(2)}px;
@@ -590,7 +590,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
-                }}  
+                }}
                 QMenu::item:selected:disabled{{
                     background: transparent;
                     height: {self.getPx(30)}px;
@@ -599,7 +599,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding-right: {self.getPx(20)}px;
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
-                }}            
+                }}
                 """)
         self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
         self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
@@ -671,6 +671,6 @@ except Exception as e:
     englang = {"locale": "en"}
 
 print(f"It took {time.time()-t0} to load all language files")
-    
+
 if __name__ == "__main__":
     import __init__

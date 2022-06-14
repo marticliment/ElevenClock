@@ -16,10 +16,10 @@ def loadTimeFormat():
 
 def updateIfPossible():
     raise NotImplementedError("updateIfPossible function has not been defined!")
-    
+
 def restartClocks():
     raise NotImplementedError("restartClocks function has not been defined!")
-    
+
 def closeClocks():
     raise NotImplementedError("closeClocks function has not been defined!")
 
@@ -29,7 +29,7 @@ def _(a):
     except Exception as e:
         print("🟠", e)
     return a
-    
+
 
 app: QApplication = None
 buffer: io.StringIO = None

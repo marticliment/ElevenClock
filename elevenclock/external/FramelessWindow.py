@@ -17,7 +17,7 @@ from ctypes.wintypes import DWORD, LONG, LPCVOID
 from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, WS_MAXIMIZEBOX, WS_THICKFRAME, \
     WS_CAPTION, HTTOPLEFT, HTBOTTOMRIGHT, HTTOPRIGHT, HTBOTTOMLEFT, \
     HTTOP, HTBOTTOM, HTLEFT, HTRIGHT, HTCAPTION, WS_POPUP, WS_SYSMENU, WS_MINIMIZEBOX
-    
+
 
 from PySide2.QtCore import *
 from PySide2.QtGui import *
@@ -44,7 +44,7 @@ class QFramelessWindow(QMainWindow):
             QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
         else:
             QtWin.resetExtendedFrame(self)
-        
+
 
 
         self.setAutoFillBackground(True)
@@ -133,11 +133,11 @@ class QFramelessWindow(QMainWindow):
                 return True, HTCAPTION
 
         return return_value, result
-    
+
     def moveEvent(self, event) -> None:
         self.repaint()
         return super().moveEvent(event)
-    
+
 
 class QFramelessDialog(QFramelessWindow):
     clicked = Signal(QDialogButtonBox.ButtonRole)
@@ -174,26 +174,26 @@ class QFramelessDialog(QFramelessWindow):
         w.setObjectName("bgDialog")
         w.setLayout(l)
         self.setCentralWidget(w)
-        
+
         self.setWindowModality(Qt.WindowModal)
         self.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
-    
+
     def closeEvent(self, event: QCloseEvent) -> None:
         #self.parent().window().setWindowOpacity(1)
         return super().closeEvent(event)
-        
+
     def click(self, btn: QAbstractButton) -> None:
         btnRole = self.buttonWidget.buttonRole(btn)
         self.clicked.emit(btnRole)
         if self.closeOnClick:
             self.close()
-        
+
     def addButton(self, text: str, btnRole: QDialogButtonBox.ButtonRole, action: object = None) -> None:
         b = self.buttonWidget.addButton(text, btnRole)
         if action:
             b.clicked.connect(action)
-        
+
     def setDefaultButtonRole(self, btnRole: QDialogButtonBox.ButtonRole, stylesheet: str) -> None:
         for btn in self.buttonWidget.buttons():
             btn: QPushButton
@@ -201,25 +201,25 @@ class QFramelessDialog(QFramelessWindow):
                 btn.setObjectName("AccentButton")
                 btn.setStyleSheet(stylesheet+f"QPushButton{{margin: {self.getPx(2)}px;height: {self.getPx(30)}px;}}")
                 break
-            
+
     def getBtn(self, btnRole: QDialogButtonBox.ButtonRole) -> QPushButton:
         for btn in self.buttonWidget.buttons():
             btn: QPushButton
             if self.buttonWidget.buttonRole(btn) == btnRole:
                 return btn
-            
-            
+
+
     def setTitle(self, t: str):
         self.title.setText(t)
         pass
-    
+
     def setText(self, t: str):
         self.body.setText(t)
         pass
-    
+
     def parent(self) -> QWidget:
         return super().parent()
-    
+
     def showEvent(self, event: QShowEvent) -> None:
         self.setFixedSize(self.minimumSizeHint())
         w = self.width()
@@ -236,11 +236,11 @@ class QFramelessDialog(QFramelessWindow):
 
     def getPx(self, i: int):
         return round(i*(self.screen().logicalDotsPerInch()/96))
-    
-    
-    
-    
+
+
+
+
 if __name__ == "__main__":
     from ctypes import c_int, windll
     windll.shcore.SetProcessDpiAwareness(c_int(2))
-    import __init__ 
+    import __init__

@@ -37,7 +37,7 @@ StringFileInfo(
     StringStruct(u'OriginalFilename', u'elevenclock.exe'),
     StringStruct(u'ProductName', u'ElevenClock'),
     StringStruct(u'ProductVersion', u'3.6.0')])
-  ]), 
+  ]),
 VarFileInfo([VarStruct(u'Translation', [1033, 1200])])
   ]
 )

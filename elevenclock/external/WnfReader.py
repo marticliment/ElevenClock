@@ -6,7 +6,7 @@
 #      Some parts have been removed because they were useless in the context this script is intended
 #      Additionally, the script has been optimized
 #
-#      All rights reserved to Alex Ionescu. 
+#      All rights reserved to Alex Ionescu.
 #      See the license here: https://github.com/ionescu007/wnfun/blob/master/LICENSE
 #
 #
@@ -30,10 +30,10 @@ nullBfr = ctypes.c_ulong(0)
 def ReadWnfData(StateName):
     global bufferSize, changeStamp, dataBuffer
     StateName = ctypes.c_longlong(StateName)
-    res = ZwQueryWnfStateData(ctypes.byref(StateName), 
-        0, 0, 
-        ctypes.byref(changeStamp), 
-        ctypes.byref(dataBuffer), 
+    res = ZwQueryWnfStateData(ctypes.byref(StateName),
+        0, 0,
+        ctypes.byref(changeStamp),
+        ctypes.byref(dataBuffer),
         ctypes.byref(bufferSize)
     )
     readAccess = 0 if res !=0 else 1
@@ -45,10 +45,10 @@ def ReadWnfData(StateName):
 def DoRead(StateName) -> bytes:
     _, _, dataBuffer, bufferSize = ReadWnfData(int(StateName, 16))
     return dataBuffer.raw[0:bufferSize]
-    
+
 
 #
-#   End of https://github.com/ionescu007/wnfun code 
+#   End of https://github.com/ionescu007/wnfun code
 #
 #
 #   The following parts are simple definitions
