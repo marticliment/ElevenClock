@@ -25,7 +25,7 @@ languageReference = {
     "pt_BR" : "Portuguese (Brazil)",
     "pt_PT" : "Portuguese (Portugal)",
     "ru"    : "Russian",
-    "sk"    : "Slovak - Slovenčina)",
+    "sk"    : "Slovak - Slovenčina",
     "sr"    : "Serbian",
     "sv"    : "Swedish",
     "th"    : "Thai",
