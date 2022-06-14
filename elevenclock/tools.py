@@ -8,6 +8,8 @@ import sys
 import winreg
 import threading
 import locale
+import glob
+from shutil import rmtree
 
 from PySide2.QtGui import *
 from PySide2.QtCore import *
@@ -230,6 +232,20 @@ def getMousePos() -> QPoint:
     except Exception as e:
         report(e)
         return QPoint(0, 0)
+
+def clearTmpDir():
+    try:
+        base_path = sys._MEIPASS
+    except:
+        return
+    try:
+        temp_path = os.path.abspath(os.path.join(base_path, '..'))
+        mei_folders = glob.glob(os.path.join(temp_path, '_MEI*'), recursive=False)
+        for item in mei_folders:
+            if (item == base_path): continue
+            rmtree(item)
+    except Exception as e:
+        report(e)
 
 def isDark():
     try:
