@@ -1,6 +1,6 @@
 try:
     _globals = globals
-    
+
     from ctypes import c_int, windll
     windll.shcore.SetProcessDpiAwareness(c_int(2))
 
@@ -445,7 +445,7 @@ try:
                         print("🟠 Date/Time string looks to be empty!")
                     except Exception as e:
                         report(e)
-                        
+
 
                 tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
                 print("🔵 tDateMode:", tDateMode)
@@ -455,7 +455,7 @@ try:
                         dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
                     else:
                         dateMode += ministr
-                    
+
                 tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
                 print("🔵 tTimeMode:", tTimeMode)
                 timeMode = ""
@@ -577,7 +577,7 @@ try:
                         dateMode += ministr
                 print("🔵 TZ 1 is", tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")]))
                 addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "DisplayName", "UnknowntimeZone") + ")"
-            
+
             if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "Enable", 0) == 1:
                 self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 height += 15
@@ -592,7 +592,7 @@ try:
                         dateMode += ministr
                 print("🔵 TZ 2 is", tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")]))
                 addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "DisplayName", "UnknowntimeZone") + ")"
-            
+
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
             print("🔵 Long date string:", lDateMode)
             self.setFixedHeight(self.getPx(height))
@@ -608,7 +608,7 @@ try:
                 report(e)
                 self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+addClocks)
             super().show()
-            
+
         def getPx(self, original) -> int:
             return round(original*(self.scr.logicalDotsPerInch()/96))
 
@@ -647,10 +647,10 @@ try:
                 print(f"🔵 Initializing clock {index}...")
                 self.callInMainSignal.connect(lambda f: f())
                 self.styler.connect(self.setStyleSheet)
-                
+
                 self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
                 self.transparentBackground = getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
-                
+
                 if self.taskbarBackgroundColor:
                     print("🔵 Using taskbar background color")
                     self.bgcolor = "0, 0, 0, 0"
@@ -681,7 +681,7 @@ try:
                     report(e)
                     self.prefMargins = self.getPx(3)
                     self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;;padding: {self.getPx(2)}px;"
-                    
+
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
                 if getSettings("ClockFixedHeight"):
@@ -698,14 +698,14 @@ try:
                             self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
                     except Exception as e:
                         report(e)
-                        
+
                 if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
                     os.startfile(sys.executable) # Restart elevenclock
                     app.quit()
-                
+
                 self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
                 print("🔵 Monitor geometry:", self.screenGeometry)
-                
+
                 self.refresh.connect(self.refreshandShow)
                 self.hideSignal.connect(self.hide)
                 self.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -716,7 +716,7 @@ try:
                 hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
                 registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
                 self.autoHide = registry_read_result[8] == 123
-                
+
                 if self.autoHide:
                     print("🟡 ElevenClock set to hide with the taskbar")
 
@@ -754,7 +754,7 @@ try:
                     self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                     print("🟢 Clock on the right")
                     w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
-                    
+
                 if getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignCenter)
 
@@ -779,7 +779,7 @@ try:
                 self.h = int(h) + yoff
                 self.dpix = dpix
                 self.dpiy = dpiy
-                
+
                 self.clockAction = ("win", "n")
                 act = getSettingsValue("CustomClockClickAction")
                 if act != "":
@@ -850,7 +850,7 @@ try:
                     fg = 6 if isTaskbarDark() else 1
                     return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
-                
+
                 self.progressbar = QProgressBar(self)
                 self.progressbar.setFixedHeight(self.getPx(2))
                 self.progressbar.setRange(0, 200)
@@ -863,25 +863,25 @@ try:
                 self.pgsbarleftSlow.setEndValue(200)
                 self.pgsbarleftSlow.setDuration(500)
                 self.pgsbarleftSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                
+
                 self.pgsbarrightSlow = QtCore.QVariantAnimation()
                 self.pgsbarrightSlow.setStartValue(200)
                 self.pgsbarrightSlow.setEndValue(0)
                 self.pgsbarrightSlow.setDuration(500)
                 self.pgsbarrightSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                
+
                 self.pgsbarleftFast = QtCore.QVariantAnimation()
                 self.pgsbarleftFast.setStartValue(0)
                 self.pgsbarleftFast.setEndValue(200)
                 self.pgsbarleftFast.setDuration(200)
                 self.pgsbarleftFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                
+
                 self.pgsbarrightFast = QtCore.QVariantAnimation()
                 self.pgsbarrightFast.setStartValue(200)
                 self.pgsbarrightFast.setEndValue(0)
                 self.pgsbarrightFast.setDuration(200)
                 self.pgsbarrightFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                
+
                 def loadProgressBarLoop():
                     nonlocal self
                     time.sleep(0.5)
@@ -921,7 +921,7 @@ try:
                         self.font.setWeight(QFont.Weight.Normal)
                     else:
                         self.font.setWeight(QFont.Weight.DemiBold)
-                    self.label.setFont(self.font)        
+                    self.label.setFont(self.font)
                 elif isTaskbarDark():
                     print("🟢 Using white text (dark mode)")
                     self.lastTheme = 0
@@ -980,27 +980,27 @@ try:
                 self.loop1.start()
                 self.loop2.start()
 
-                
+
 
                 self.setMouseTracking(True)
 
                 self.tooltip = CustomToolTip(screen, "placeholder")
-                
+
                 class QHoverButton(QPushButton):
                     hovered = Signal()
                     unhovered = Signal()
-                    
+
                     def __init__(self, text: str = "", parent: QObject = None) -> None:
                         super().__init__(text=text, parent=parent)
-                    
+
                     def enterEvent(self, event: QtCore.QEvent) -> None:
                         self.hovered.emit()
                         return super().enterEvent(event)
-                    
+
                     def leaveEvent(self, event: QtCore.QEvent) -> None:
                         self.unhovered.emit()
                         return super().leaveEvent(event)
-                    
+
                 if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
                     print("🟡 Desktop button enabled")
                     self.desktopButton = QHoverButton(parent=self)
@@ -1014,9 +1014,9 @@ try:
                     self.setFixedHeight(self.getPx(self.preferedHeight))
                     self.desktopButton.setStyleSheet(f"""
                         QPushButton{{
-                            background-color: rgba(0, 0, 0, 0.01); 
+                            background-color: rgba(0, 0, 0, 0.01);
                             margin: 0px;
-                            padding: 0px; 
+                            padding: 0px;
                             margin-top: 0px;
                             border-radius: 0px;
                             margin-bottom: 0px;
@@ -1024,7 +1024,7 @@ try:
                             border-right: 0px solid rgba(0, 0, 0, 0.05);
                         }}
                         QPushButton:hover{{
-                            background-color: rgba(127, 127, 127, 1%); 
+                            background-color: rgba(127, 127, 127, 1%);
                             margin: 0px;
                             margin-top: 0px;
                             border-radius: 0px;
@@ -1033,7 +1033,7 @@ try:
                             border-right: 0px solid rgba(0, 0, 0, 0.05);
                         }}
                         QPushButton:pressed{{
-                            background-color: rgba(127, 127, 127, 1%); 
+                            background-color: rgba(127, 127, 127, 1%);
                             margin: 0px;
                             margin-top: 0px;
                             border-radius: 0px;
@@ -1214,7 +1214,7 @@ try:
                         self.tempMakeClockTransparent = False
                     time.sleep(0.2)
                 time.sleep(0.2)
-    
+
         def updateTextLoop(self) -> None:
             global timeStr
             while True:
@@ -1231,12 +1231,12 @@ try:
             if self.hideClockWhenClicked:
                 print("🟡 Hiding clock because clicked!")
                 self.clockShouldBeHidden = True
-                
+
                 def showClockOn10s(self: Clock):
                     time.sleep(10)
                     print("🟢 Showing clock because 10s passed!")
                     self.clockShouldBeHidden = False
-                    
+
                 KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
 
         def showDesktop(self):
@@ -1285,7 +1285,7 @@ try:
                 pass
             event.accept()
             return super().closeEvent(event)
-        
+
 
         def resizeEvent(self, event: QResizeEvent = None):
             self.progressbar.move(self.label.x(), self.height()-self.progressbar.height())
@@ -1303,10 +1303,10 @@ try:
                 self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth"))
             except ValueError:
                 self.specifiedMinimumWidth = 0
-            except Exception as e: 
+            except Exception as e:
                 self.specifiedMinimumWidth = 0
                 report(e)
-                
+
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
@@ -1333,11 +1333,11 @@ try:
             self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
             self.setAutoFillBackground(True)
             self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
-            
+
             self.opacity=QGraphicsOpacityEffect(self)
             self.opacity.setOpacity(1.00)
             self.backgroundwidget.setGraphicsEffect(self.opacity)
-            
+
             self.focusassitant = True
             self.focusAssitantLabel = QPushButton(self)
             self.focusAssitantLabel.move(self.width(), 0)
@@ -1352,15 +1352,15 @@ try:
                 else:
                     self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
             self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
-            
+
             accColors = getColors()
-            
+
             self.notifdot = True
             self.notifDotLabel = QLabel("", self)
             self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
             self.notifDotLabel.setObjectName("notifIndicator")
             self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
-            
+
 
             self.moonIconBlack = QIcon(getPath("moon_black.png"))
             self.moonIconWhite = QIcon(getPath("moon_white.png"))
@@ -1370,9 +1370,9 @@ try:
             self.filledBellWhite = QIcon(getPath(f"notif_assist_filled_white.png"))
 
             self.lastFocusAssistIcon = None
-            
+
             self.disableClockIndicators()
-            
+
         def enableFocusAssistant(self):
             if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
                 if winver < 22581:
@@ -1392,7 +1392,7 @@ try:
                 self.focusAssitantLabel.setFixedHeight(self.height())
                 self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
                 self.focusAssitantLabel.show()
-                
+
         def enableNotifDot(self):
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
@@ -1404,7 +1404,7 @@ try:
                 self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
                 self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
                 self.notifDotLabel.show()
-            
+
         def disableClockIndicators(self):
             if self.focusassitant:
                 self.focusassitant = False
@@ -1414,8 +1414,8 @@ try:
                 self.notifdot = False
                 self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
                 self.notifDotLabel.hide()
-                
-            
+
+
         def getPx(self, i: int) -> int:
             return round(i*(self.screen().logicalDotsPerInch()/96))
 
@@ -1474,7 +1474,7 @@ try:
             cprint("doubleclick")
             return super().mouseDoubleClickEvent(event)
 
-        
+
         def paintEvent(self, event: QPaintEvent) -> None:
             w = self.minimumSizeHint().width()
             mw = self.specifiedMinimumWidth
@@ -1488,7 +1488,7 @@ try:
                 self.resize(w, self.height())
 
             return super().paintEvent(event)
-        
+
         def resizeEvent(self, event: QResizeEvent) -> None:
             if self.focusassitant:
                 self.focusassitant = False
@@ -1506,18 +1506,18 @@ try:
         def window(self) -> Clock:
             return super().window()
 
-        
-        
+
+
 
 
 
     # Start of main script
     timeOffset = 0
-    
+
     QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
-    
+
     sw: SettingsWindow = None
     i: TaskbarIconTray = None
     st: KillableThread = None # Will be defined on loadClocks
@@ -1525,17 +1525,17 @@ try:
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
     KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
-    
+
     loadClocks()
-    
+
     print(f"🟢 Loaded clocks in {time.time()-FirstTime}")
-    
+
     tdir = tempfile.TemporaryDirectory()
     tempDir = tdir.name
     sw = SettingsWindow() # Declare settings window
     i = TaskbarIconTray(app)
     #mController = MouseController()
-    
+
     app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
     app.screenAdded.connect(lambda: os.startfile(sys.executable))
     app.screenRemoved.connect(lambda: os.startfile(sys.executable))
@@ -1556,12 +1556,12 @@ try:
     if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
     print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
-    
+
     rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
     if getSettings("EnableHideOnRDP"):
         pass
         rdpThread.start()
-    
+
 
     globals.tempDir = tempDir # Register global variables
     globals.old_stdout = old_stdout # Register global variables
@@ -1584,7 +1584,7 @@ try:
     if "--settings" in sys.argv or showSettings:
         sw.show()
 
-        
+
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("AlreadyInstalled", True)
         setSettings("NewFullScreenMethod", True)
@@ -1595,7 +1595,7 @@ try:
         import welcome
         ww = welcome.WelcomeWindow()
         globals.ww = ww
-            
+
     showWelcomeWizard = False
     if showWelcomeWizard or "--welcome" in sys.argv:
         import welcome
@@ -1603,10 +1603,10 @@ try:
         globals.ww = ww
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
-    
-    if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully 
+
+    if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()
-        
+
     app.exec_()
     app.quit()
 
@@ -1637,4 +1637,4 @@ except Exception as e:
     traceback_info += str(e)
     webbrowser.open(("https://www.somepythonthings.tk/error-report/?appName=ElevenClock&errorBody="+os_info.replace('\n', '{l}').replace(' ', '{s}')+"{l}{l}{l}{l}ElevenClock Log:{l}"+str("\n\n\n\n"+traceback_info).replace('\n', '{l}').replace(' ', '{s}')).replace("#", "|=|"))
     print(traceback_info)
-    
+

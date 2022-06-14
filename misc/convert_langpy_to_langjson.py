@@ -8,7 +8,7 @@ lang = None
 languages = {
     "ar":    lang_ar,
     "ca":    lang_ca,
-    "cs":    lang_cs,    
+    "cs":    lang_cs,
     "da":    lang_da,
     "de":    lang_de,
     "el":    lang_el,
@@ -45,6 +45,6 @@ languages = {
 import json
 
 for lng in languages.keys():
-    contents = languages[lng].lang    
+    contents = languages[lng].lang
     with open(f"lang_{lng}.json", "w") as outfile:
         json.dump(contents, outfile)

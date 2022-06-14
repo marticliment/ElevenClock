@@ -36,11 +36,11 @@ for ext in ["py", "txt", "md", "html", "js"]:
                 if OLDSTR in contents:
                     with open(file, "wb") as f:
                         f.write(contents.replace(OLDSTR, NEWSTR))
-                    
+
                     print("🟢", file, "has been updated successfully")
                 else:
                     print("⚪", file, "has no occurrences of the substring")
             except Exception as e:
                 print("🟥", file, "has not been updated:", str(e))
-            
+
 input("Finished, press [INTRO] to close")

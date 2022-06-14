@@ -51,9 +51,9 @@ for file in glob.glob("lang_*.py"):
             contents = f.read()
         with open(file, "wb") as f:
             f.write(contents.replace(OLDSTR, NEWSTR))
-            
+
         print(file, "has been updated successfully")
     except:
         print("🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥🟥", file, "has been updated successfully")
-        
+
 input("Finished, press [INTRO] to close")

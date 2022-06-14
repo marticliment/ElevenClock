@@ -18,7 +18,7 @@ import external.FramelessWindow as FramelessWindow
 
 import globals
 
-from languages import * 
+from languages import *
 from tools import *
 from tools import _
 
@@ -30,9 +30,9 @@ dwm = ctypes.windll.dwmapi
 class WelcomeWindow(QMainWindow):
     def __init__(self, parent: QObject = None, flags: Qt.WindowFlags = Qt.WindowFlags()) -> None:
         super().__init__()
-        
+
         self.switched = False
-        
+
         self.widgetOrder = (
             FirstRunSlide(),
             SelectModeSlide(),
@@ -44,16 +44,16 @@ class WelcomeWindow(QMainWindow):
 
         for w in self.widgetOrder:
             w.hide()
-        
+
         for w in self.widgetOrder:
             w.next.connect(self.nextWidget)
             w.previous.connect(self.previousWidget)
             w.skipped.connect(self.lastWidget)
             w.finished.connect(self.close)
-            
-        
+
+
         self.currentIndex = -1
-        
+
         self.setFixedSize(self.getPx(800), self.getPx(600))
         self.bgWidget = QStackedWidget(self)
         self.bgWidget.setObjectName("BackgroundWidget")
@@ -67,9 +67,9 @@ class WelcomeWindow(QMainWindow):
         self.setCentralWidget(self.bgWidget)
 
         ApplyMica(self.winId().__int__(), isWindowDark())
-        
+
         colors = getColors()
-                    
+
         if isWindowDark():
             self.bgWidget.setStyleSheet(f"""
                 * {{
@@ -159,7 +159,7 @@ class WelcomeWindow(QMainWindow):
                     font-size: 26pt;
                 }}
                 """)
-        else:         
+        else:
             self.bgWidget.setStyleSheet(f"""
                 * {{
                     color: black;
@@ -248,15 +248,15 @@ class WelcomeWindow(QMainWindow):
                     font-size: 26pt;
                 }}
                 """)
-  
+
 
         self.nextWidget(anim=False)
 
         self.show()
-        
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
-        
+
     def setWidget(self, w: QWidget, back=False, anim=True) -> None:
         self.bgWidget.setCurrentIndex(self.bgWidget.addWidget(w))
         if anim:
@@ -264,7 +264,7 @@ class WelcomeWindow(QMainWindow):
                 w.invertedinAnim()
             else:
                 w.inAnim()
-        
+
     def nextWidget(self, anim=True) -> None:
         if self.currentIndex == len(self.widgetOrder)-1:
             self.close()
@@ -272,7 +272,7 @@ class WelcomeWindow(QMainWindow):
             self.currentIndex += 1
             w: BasicNavWidget = self.widgetOrder[self.currentIndex]
             self.setWidget(w, anim=anim)
-    
+
     def previousWidget(self) -> None:
         if self.currentIndex == 0:
             try:
@@ -283,30 +283,30 @@ class WelcomeWindow(QMainWindow):
             self.currentIndex -= 1
             w: BasicNavWidget = self.widgetOrder[self.currentIndex]
             self.setWidget(w, back=True)
-    
+
     def lastWidget(self) -> None:
         self.currentIndex = len(self.widgetOrder)-1
         w: BasicNavWidget = self.widgetOrder[-1]
         self.setWidget(w)
-        
+
 class BasicNavWidget(QWidget):
     next = Signal()
     previous = Signal()
     finished = Signal()
     skipped = Signal()
-    
+
     def __init__(self, parent=None, startEnabled=False, closeEnabled=False, finishEnabled=False, nextGreyed=False) -> None:
         super().__init__(parent=parent)
         self.l = QVBoxLayout()
         self.setLayout(self.l)
-        
+
         if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0):
             self.iconMode = "white"
             self.negIconMode = "black"
         else:
             self.iconMode = "black"
             self.negIconMode = "white"
-        
+
         self.navLayout = QHBoxLayout()
         if closeEnabled:
             closeButton = QPushButton(_("Skip"))
@@ -344,17 +344,17 @@ class BasicNavWidget(QWidget):
                 self.nextButton.setIcon(QIcon(getPath(f"next_{self.negIconMode}.png")))
                 self.nextButton.setObjectName("AccentButton")
                 self.navLayout.addWidget(self.nextButton)
-                
+
     def enableNextButton(self) -> None:
         self.nextButton.setEnabled(True)
-           
+
     def nextWidget(self):
         self.outAnim(self.next.emit)
-    
+
     def setCentralWidget(self, w: QWidget) -> QWidget:
         self.l.addWidget(w, stretch=1)
         self.l.addLayout(self.navLayout, stretch=0)
-        
+
     def inAnim(self) -> None:
         bgAnim = QPropertyAnimation(self, b"pos", self)
         pos = self.pos()
@@ -364,7 +364,7 @@ class BasicNavWidget(QWidget):
         bgAnim.setEasingCurve(QEasingCurve.OutQuart)
         bgAnim.setDuration(200)
         bgAnim.start()
-        
+
     def invertedinAnim(self) -> None:
         bgAnim = QPropertyAnimation(self, b"pos", self)
         pos = self.pos()
@@ -374,7 +374,7 @@ class BasicNavWidget(QWidget):
         bgAnim.setEasingCurve(QEasingCurve.OutQuart)
         bgAnim.setDuration(200)
         bgAnim.start()
-        
+
     def outAnim(self, f) -> None:
         bgAnim = QPropertyAnimation(self, b"pos", self)
         bgAnim.setStartValue(self.pos())
@@ -385,7 +385,7 @@ class BasicNavWidget(QWidget):
         bgAnim.setDuration(200)
         bgAnim.start()
         bgAnim.finished.connect(f)
-    
+
     def invertedOutAnim(self, f) -> None:
         bgAnim = QPropertyAnimation(self, b"pos", self)
         bgAnim.setStartValue(self.pos())
@@ -396,10 +396,10 @@ class BasicNavWidget(QWidget):
         bgAnim.setDuration(200)
         bgAnim.start()
         bgAnim.finished.connect(f)
-    
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
-    
+
     def window(self) -> WelcomeWindow:
         return super().window()
 
@@ -428,13 +428,13 @@ class IconLabel(QWidget):
         self.layout().addSpacing(self.getPx(30/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
         if frame: self.layout().addSpacing(self.getPx(30/96*self.iconSize))
-        
+
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
-        
+
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize)))
-        
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
@@ -465,16 +465,16 @@ class ButtonLabel(QWidget):
         self.layout().addSpacing(self.getPx(20/96*self.iconSize))
         self.layout().addWidget(self.button, stretch=0)
         self.layout().addSpacing(self.getPx(40/96*self.iconSize))
-        
+
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
-    
+
     def setButtonText(self, t: str) -> None:
         self.button.setText(t)
-        
+
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize)))
-        
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
@@ -483,11 +483,11 @@ class ClickableLabel(QLabel):
     def __init__(self) -> None:
         super().__init__()
         self.setMouseTracking(True)
-    
+
     def mousePressEvent(self, ev) -> None:
         self.clicked.emit()
         return super().mousePressEvent(ev)
-    
+
 class ClickableButtonLabel(QPushButton):
     clicked = Signal()
     def __init__(self, size=96) -> None:
@@ -512,16 +512,16 @@ class ClickableButtonLabel(QPushButton):
         self.layout().addSpacing(self.getPx(20/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
         self.layout().addSpacing(self.getPx(40/96*self.iconSize))
-        
+
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
-    
+
     def setButtonText(self, t: str) -> None:
         self.button.setText(t)
-        
+
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize), Mode=Qt.KeepAspectRatio))
-        
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
@@ -529,10 +529,10 @@ class MovableFocusSelector(QLabel):
     def __init__(self, parent: QWidget = None) -> None:
         super().__init__(parent=parent)
         self.setObjectName("FocusSelector")
-        
+
     def move(self, x: int, y: int) -> None:
         return super().move(x, y)
-    
+
     def resize(self, w: int, h: int) -> None:
         return super().resize(w+17, h+17)
 
@@ -562,18 +562,18 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.layout().addSpacing(self.getPx(20/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
         self.layout().addSpacing(self.getPx(40/96*self.iconSize))
-        
+
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
-    
+
     def setButtonText(self, t: str) -> None:
         self.button.setText(t)
-        
+
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
-        
+
     def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))  
+        return round(original*(self.screen().logicalDotsPerInch()/96))
 
 class ClickableImageWithText(QPushButton):
     def __init__(self, size=96) -> None:
@@ -601,19 +601,19 @@ class ClickableImageWithText(QPushButton):
         self.layout().addWidget(self.iconLabel, stretch=0)
         self.layout().addWidget(self.textLabel, stretch=1)
         self.layout().addStretch()
-        
+
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
-    
+
     def setButtonText(self, t: str) -> None:
         self.button.setText(t)
-        
+
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
-        
+
     def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))  
-   
+        return round(original*(self.screen().logicalDotsPerInch()/96))
+
 class FirstRunSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, startEnabled=True, closeEnabled=True)
@@ -626,14 +626,14 @@ class FirstRunSlide(BasicNavWidget):
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
         vl.addSpacing(self.getPx(0))
-        
+
         label1 = IconLabel(size=64, frame=False)
         label1.setIcon("icon.png")
         label1.setText(f"""
              <h1>{_("Welcome to Elevenclock!")}</h1>
              {_("If you already know how does this work, or you want to skip the welcome wizard, please click on the bottom-left <i>Skip</i> button.")}""")
-        
-        
+
+
         label3 = IconLabel(size=64)
         label3.setIcon("msstore_color.png")
         label3.setText(f"""
@@ -645,7 +645,7 @@ class FirstRunSlide(BasicNavWidget):
         label2.setText(f"""
              <h3>{_("This wizard will help you configure and customize ElevenClock. Click Start to get started!")}</h3>
              {_("Remember that this wizard can be run at any time from the Settings Window")}""")
-        
+
         vl.addWidget(label1)
         vl.addStretch()
         vl.addWidget(label2)
@@ -653,11 +653,11 @@ class FirstRunSlide(BasicNavWidget):
         vl.addWidget(label3)
         vl.addStretch()
         self.setCentralWidget(widget)
-        
-    
+
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
-           
+
 class LastSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, finishEnabled=True)
@@ -669,12 +669,12 @@ class LastSlide(BasicNavWidget):
         vl.setContentsMargins(0, 0, 0, 0)
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
-        
+
         label1 = IconLabel(size=64, frame=False)
         label1.setIcon("")
         label1.setText(f"""<h1>{_("You are now ready to go!")}</h1>
                        <h3>{_("But here are other things you can do:")}</h3>""")
-        
+
         settings = ButtonLabel(size=64)
         settings.setIcon("deskSettings_color.png")
         settings.setText(f"""
@@ -682,11 +682,11 @@ class LastSlide(BasicNavWidget):
              {_("Open the settings window and customize ElevenClock even further.")}""")
         settings.setButtonText(_("Open"))
         settings.clicked.connect(lambda: closeAndOpenSettings())
-        
+
         def closeAndOpenSettings():
             globals.sw.show()
             self.finished.emit()
-        
+
         donate = ButtonLabel(size=64)
         donate.setIcon("coffee_color.png")
         donate.setText(f"""
@@ -694,7 +694,7 @@ class LastSlide(BasicNavWidget):
              {_("Developing is hard, and this aplication is free. But if you liked the application, you can always <b>buy me a coffee</b> :)")}""")
         donate.setButtonText(_("Donate"))
         donate.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
-        
+
         report = ButtonLabel(size=64)
         report.setIcon("github_color.png")
         report.setText(f"""
@@ -712,11 +712,11 @@ class LastSlide(BasicNavWidget):
         vl.addWidget(report)
         vl.addStretch()
         self.setCentralWidget(widget)
-        
-    
+
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
-        
+
 class SelectModeSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, nextGreyed=True)
@@ -731,28 +731,28 @@ class SelectModeSlide(BasicNavWidget):
         vl.setContentsMargins(0, 0, 0, 0)
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
-        
+
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("clock.png"))
         label1.setText(f"""<h1>{_("What time do you want to see?")}</h1>
-                       {_("Please select one of the following and click next.")} 
+                       {_("Please select one of the following and click next.")}
                        {_("If you don't know which one is the best, choose {0}").format(_("Local time"))}""")
-        
+
         self.localTime = ClickableButtonLabelWithBiggerIcon(size=96)
         self.localTime.setIcon(getPath(f"desk.png"))
         self.localTime.clicked.connect(lambda: self.toggleClockMode("secondary", shouldChangePrefs=True))
         self.localTime.setText(f"""
             <h3>{_("Local time")}</h3>
             {_("Show the local computer time. The time will not be synced with the internet and might be inaccurate")}""")
-        
+
         self.internetTime = ClickableButtonLabelWithBiggerIcon(size=96)
         self.internetTime.setIcon(getPath(f"globe.png"))
         self.internetTime.clicked.connect(lambda: self.toggleClockMode("format", shouldChangePrefs=True))
         self.internetTime.setText(f"""
              <h3>{_("Internet time")}</h3>
              {_("Precise internet time. Ideal if you are <b>not</b> using any kind of VPN or proxy")}""")
-        
-        
+
+
         vl.addWidget(label1)
         vl.addStretch()
         vl.addWidget(self.internetTime)
@@ -760,9 +760,9 @@ class SelectModeSlide(BasicNavWidget):
         vl.addWidget(self.localTime)
         vl.addStretch()
         self.setCentralWidget(widget)
-        
+
         self.clockMode = ""
-        
+
     def toggleClockMode(self, mode: str, shouldChangePrefs: bool = False) -> None:
         self.enableNextButton()
         if shouldChangePrefs:
@@ -779,12 +779,12 @@ class SelectModeSlide(BasicNavWidget):
                 setSettings("EnableInternetTime", True, r=True)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments. Accepted values are: custom, format, secondary")
-                
+
     def showEvent(self, event) -> None:
         if not self.defaultSelected:
             self.toggleClockMode("format")
         return super().showEvent(event)
-    
+
     def moveSelector(self, w: QWidget) -> None:
         if not self.selector.isVisible():
             self.selector.show()
@@ -796,7 +796,7 @@ class SelectModeSlide(BasicNavWidget):
             posAnim.setEndValue(w.pos())
             posAnim.setEasingCurve(QEasingCurve.InOutCirc)
             posAnim.setDuration(200)
-            
+
             sizeAnim = QPropertyAnimation(self.selector, b"size", self)
             sizeAnim.setStartValue(self.selector.size())
             s = w.size()
@@ -805,10 +805,10 @@ class SelectModeSlide(BasicNavWidget):
             sizeAnim.setEndValue(s)
             sizeAnim.setEasingCurve(QEasingCurve.InOutCirc)
             sizeAnim.setDuration(200)
-            
+
             posAnim.start()
             sizeAnim.start()
-    
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
@@ -826,27 +826,27 @@ class SelectFullScreenSlide(BasicNavWidget):
         vl.setContentsMargins(0, 0, 0, 0)
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
-        
+
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("video_color.png"))
         label1.setText(f"""<h1>{_("Fullscreen behaviour")}</h1>
                        {_("ElevenClock can hide when there's a fullscreen window present (when you are watching a video, you are playing, etc.), but it can also show over those windows (It might be useful if you use fullscreened terminals, etc.).<br><br>Please select one of the following and click next to continue")}""")
-        
+
         self.secondaryClock = ClickableButtonLabelWithBiggerIcon(size=96)
         self.secondaryClock.setIcon(getPath(f"hide_color.png"))
         self.secondaryClock.clicked.connect(lambda: self.toggleClockMode("hide", shouldChangePrefs=True))
         self.secondaryClock.setText(f"""
             <h3>{_("Hide the clock (<i>Recommended</i>)")}</h3>
             {_("Hide the clock, as the default windows clock would do.")}""")
-        
+
         self.formattedClock = ClickableButtonLabelWithBiggerIcon(size=96)
         self.formattedClock.setIcon(getPath(f"show_color.png"))
         self.formattedClock.clicked.connect(lambda: self.toggleClockMode("show", shouldChangePrefs=True))
         self.formattedClock.setText(f"""
             <h3>{_("Show the clock over the fullscreen window")}</h3>
             {_("Show the clock over fullscreen windows. This might cover some in-app controls, like youtube's exit fullscreen button, but it might be useful to see the time when playing")}""")
-        
-        
+
+
         vl.addWidget(label1)
         vl.addStretch()
         vl.addWidget(self.secondaryClock)
@@ -854,9 +854,9 @@ class SelectFullScreenSlide(BasicNavWidget):
         vl.addWidget(self.formattedClock)
         vl.addStretch()
         self.setCentralWidget(widget)
-        
+
         self.clockMode = ""
-        
+
     def toggleClockMode(self, mode: str, shouldChangePrefs: bool = False) -> None:
         self.enableNextButton()
         if shouldChangePrefs:
@@ -873,12 +873,12 @@ class SelectFullScreenSlide(BasicNavWidget):
                 setSettings("DisableHideOnFullScreen", True, r=shouldChangePrefs)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments. Accepted values are: hide, show")
-                
+
     def showEvent(self, event) -> None:
         if not self.defaultSelected:
             self.toggleClockMode("hide")
         return super().showEvent(event)
-    
+
     def moveSelector(self, w: QWidget) -> None:
         if not self.selector.isVisible():
             self.selector.show()
@@ -890,7 +890,7 @@ class SelectFullScreenSlide(BasicNavWidget):
             posAnim.setEndValue(w.pos())
             posAnim.setEasingCurve(QEasingCurve.InOutCirc)
             posAnim.setDuration(200)
-            
+
             sizeAnim = QPropertyAnimation(self.selector, b"size", self)
             sizeAnim.setStartValue(self.selector.size())
             s = w.size()
@@ -899,10 +899,10 @@ class SelectFullScreenSlide(BasicNavWidget):
             sizeAnim.setEndValue(s)
             sizeAnim.setEasingCurve(QEasingCurve.InOutCirc)
             sizeAnim.setDuration(200)
-            
+
             posAnim.start()
             sizeAnim.start()
-    
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
@@ -920,42 +920,42 @@ class DateTimeFormat(BasicNavWidget):
         vl.setContentsMargins(0, 0, 0, 0)
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
-        
+
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("formatting.png"))
         label1.setText(f"""<h1>{_("Let's talk: Format")}</h1>
                        {_("Please select the date and time format you like the most. You will be able to change this after in the settings window")}""")
-        
+
         self.noChanges = ClickableImageWithText(size=96)
         self.noChanges.setIcon(getPath(f"default_format.png"))
         self.noChanges.clicked.connect(lambda: self.toggleClockMode("default", shouldChangePrefs=True))
         self.noChanges.setText(f"""<h3>{_("Default")}</h3>""")
-        
+
         self.weekday = ClickableImageWithText(size=96)
         self.weekday.setIcon(getPath(f"weekday.png"))
         self.weekday.clicked.connect(lambda: self.toggleClockMode("weekday", shouldChangePrefs=True))
         self.weekday.setText(f"""<h3>{_("Weekday")}</h3>""")
-        
+
         self.OnlyTime = ClickableImageWithText(size=96)
         self.OnlyTime.setIcon(getPath(f"onlytime.png"))
         self.OnlyTime.clicked.connect(lambda: self.toggleClockMode("OnlyTime", shouldChangePrefs=True))
         self.OnlyTime.setText(f"""<h3>{_("Only Time")}</h3>""")
-        
+
         self.OnlyDate = ClickableImageWithText(size=96)
         self.OnlyDate.setIcon(getPath(f"onlydate.png"))
         self.OnlyDate.clicked.connect(lambda: self.toggleClockMode("OnlyDate", shouldChangePrefs=True))
         self.OnlyDate.setText(f"""<h3>{_("Only Date")}</h3>""")
-        
+
         self.WeekNumber = ClickableImageWithText(size=96)
         self.WeekNumber.setIcon(getPath(f"weeknumber.png"))
         self.WeekNumber.clicked.connect(lambda: self.toggleClockMode("WeekNumber", shouldChangePrefs=True))
         self.WeekNumber.setText(f"""<h3>{_("Week Number")}</h3>""")
-        
+
         self.Seconds = ClickableImageWithText(size=96)
         self.Seconds.setIcon(getPath(f"seconds.png"))
         self.Seconds.clicked.connect(lambda: self.toggleClockMode("Seconds", shouldChangePrefs=True))
         self.Seconds.setText(f"""<h3>{_("Ft. Seconds")}</h3>""")
-        
+
         hl1 = QHBoxLayout()
         hl1.addStretch()
         hl1.addWidget(self.weekday)
@@ -981,9 +981,9 @@ class DateTimeFormat(BasicNavWidget):
         vl.addLayout(hl2)
         vl.addStretch()
         self.setCentralWidget(widget)
-        
+
         self.clockMode = ""
-        
+
     def toggleClockMode(self, mode: str, shouldChangePrefs: bool = False) -> None:
         self.enableNextButton()
         if shouldChangePrefs:
@@ -1044,12 +1044,12 @@ class DateTimeFormat(BasicNavWidget):
                 setSettings("EnableWeekDay", False, r=True)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments ("+mode+"). Accepted values are: default, weekday, OnlyTime, OnlyDate, WeekNumber, Seconds")
-                
+
     def showEvent(self, event) -> None:
         if not self.defaultSelected:
             self.toggleClockMode("default")
         return super().showEvent(event)
-    
+
     def moveSelector(self, w: QWidget) -> None:
         if not self.selector.isVisible():
             self.selector.show()
@@ -1061,7 +1061,7 @@ class DateTimeFormat(BasicNavWidget):
             posAnim.setEndValue(w.pos())
             posAnim.setEasingCurve(QEasingCurve.InOutCirc)
             posAnim.setDuration(200)
-            
+
             sizeAnim = QPropertyAnimation(self.selector, b"size", self)
             sizeAnim.setStartValue(self.selector.size())
             s = w.size()
@@ -1070,10 +1070,10 @@ class DateTimeFormat(BasicNavWidget):
             sizeAnim.setEndValue(s)
             sizeAnim.setEasingCurve(QEasingCurve.InOutCirc)
             sizeAnim.setDuration(200)
-            
+
             posAnim.start()
             sizeAnim.start()
-    
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
@@ -1091,42 +1091,42 @@ class ClockAppearance(BasicNavWidget):
         vl.setContentsMargins(0, 0, 0, 0)
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
-        
+
         label1 = IconLabel(size=self.getPx(96), frame=False)
         label1.setIcon(getPath("appearance.png"))
         label1.setText(f"""<h1>{_("One last thing: Appearance")}</h1>
                        {_("Please select the clock style you like the most. You will be able to change this after in the settings window")}""")
-        
+
         self.default = ClickableImageWithText(size=96)
         self.default.setIcon(getPath(f"default_style.png"))
         self.default.clicked.connect(lambda: self.toggleClockMode("default", shouldChangePrefs=True))
         self.default.setText(f"""<h3>{_("Default")}</h3>""")
-        
+
         self.msdos = ClickableImageWithText(size=96)
         self.msdos.setIcon(getPath(f"msdos.png"))
         self.msdos.clicked.connect(lambda: self.toggleClockMode("msdos", shouldChangePrefs=True))
         self.msdos.setText(f"""<h3>MS-DOS</h3>""")
-        
+
         self.win95 = ClickableImageWithText(size=96)
         self.win95.setIcon(getPath(f"win95.png"))
         self.win95.clicked.connect(lambda: self.toggleClockMode("win95", shouldChangePrefs=True))
         self.win95.setText(f"""<h3>Windows 95</h3>""")
-        
+
         self.bw = ClickableImageWithText(size=96)
         self.bw.setIcon(getPath(f"bw.png"))
         self.bw.clicked.connect(lambda: self.toggleClockMode("bw", shouldChangePrefs=True))
         self.bw.setText(f"""<h3>{_("Black&White")}</h3>""")
-        
+
         self.wb = ClickableImageWithText(size=96)
         self.wb.setIcon(getPath(f"wb.png"))
         self.wb.clicked.connect(lambda: self.toggleClockMode("wb", shouldChangePrefs=True))
         self.wb.setText(f"""<h3>{_("White&Black")}</h3>""")
-        
+
         self.accent = ClickableImageWithText(size=96)
         self.accent.setIcon(getPath(f"accent.png"))
         self.accent.clicked.connect(lambda: self.toggleClockMode("accent", shouldChangePrefs=True))
         self.accent.setText(f"""<h3>{_("Accent")}</h3>""")
-        
+
         hl1 = QHBoxLayout()
         hl1.addStretch()
         hl1.addWidget(self.msdos)
@@ -1152,9 +1152,9 @@ class ClockAppearance(BasicNavWidget):
         vl.addLayout(hl2)
         vl.addStretch()
         self.setCentralWidget(widget)
-        
+
         self.clockMode = ""
-        
+
     def toggleClockMode(self, mode: str, shouldChangePrefs: bool = False) -> None:
         self.enableNextButton()
         if shouldChangePrefs:
@@ -1215,12 +1215,12 @@ class ClockAppearance(BasicNavWidget):
                 setSettings("AccentBackgroundcolor", False, r=True)
         else:
             raise ValueError("Function toggleCheckMode() called with invalid arguments ("+mode+"). Accepted values are: default, weekday, OnlyTime, OnlyDate, WeekNumber, Seconds")
-                
+
     def showEvent(self, event) -> None:
         if not self.defaultSelected:
             self.toggleClockMode("default")
         return super().showEvent(event)
-    
+
     def moveSelector(self, w: QWidget) -> None:
         if not self.selector.isVisible():
             self.selector.show()
@@ -1232,7 +1232,7 @@ class ClockAppearance(BasicNavWidget):
             posAnim.setEndValue(w.pos())
             posAnim.setEasingCurve(QEasingCurve.InOutCirc)
             posAnim.setDuration(200)
-            
+
             sizeAnim = QPropertyAnimation(self.selector, b"size", self)
             sizeAnim.setStartValue(self.selector.size())
             s = w.size()
@@ -1241,10 +1241,10 @@ class ClockAppearance(BasicNavWidget):
             sizeAnim.setEndValue(s)
             sizeAnim.setEasingCurve(QEasingCurve.InOutCirc)
             sizeAnim.setDuration(200)
-            
+
             posAnim.start()
             sizeAnim.start()
-    
+
     def getPx(self, original) -> int:
         return round(original*(self.screen().logicalDotsPerInch()/96))
 
