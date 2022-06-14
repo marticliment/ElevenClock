@@ -1,6 +1,6 @@
 languageReference = {
     "default": "System language",
-    "ar"    : "Arabic - عربي",
+    "ar"    : "Arabic - عربي‎",
     "ca"    : "Catalan - Català",
     "cs"    : "Czech - Čeština",
     "da"    : "Danish - Dansk",
