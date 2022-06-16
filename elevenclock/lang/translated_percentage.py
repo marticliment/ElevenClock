@@ -19,7 +19,7 @@ translatedPercentage = {
   "ko": "99%",
   "lt": "25%",
   "lv": "35%",
-  "nb": "75%",
+  "nb": "77%",
   "nl": "50%",
   "nn": "75%",
   "pl": "42%",
@@ -36,5 +36,5 @@ translatedPercentage = {
   "ua": "27%",
   "vi": "19%",
   "zh_CN": "75%",
-  "zh_TW": "81%"
+  "zh_TW": "85%"
 }
