@@ -11,7 +11,7 @@ rmdir /Q /S external\__pycache__
 rmdir /Q /S lang\__pycache__
 rmdir /Q /S build
 rmdir /Q /S dist
-python -m PyInstaller ../elevenclock/__init__.py --runtime-tmpdir "%tmp%/elevenclock_tmp" --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --onefile --windowed --version-file ../elevenclock-version-info --exclude-module PySide6 --exclude-module tk
+python -m PyInstaller ../elevenclock/__init__.py --runtime-tmpdir "%appdata%/ElevenClock/runtime-files" --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --onefile --windowed --version-file ../elevenclock-version-info --exclude-module PySide6 --exclude-module tk
 rem --add-data "%homedrive%%homepath%\AppData\Local\Programs\Python\Python39\Lib\site-packages\PySide6\plugins;PySide6/plugins"
 cd dist
 move __init__.exe ../../
