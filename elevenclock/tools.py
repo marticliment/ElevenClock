@@ -9,7 +9,7 @@ import winreg
 import threading
 import locale
 import glob
-from shutil import rmtree
+import shutil
 
 from PySide2.QtGui import *
 from PySide2.QtCore import *
@@ -26,7 +26,6 @@ import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
 
-import win32gui
 from win32con import *
 
 version = 3.609
@@ -234,18 +233,19 @@ def getMousePos() -> QPoint:
         return QPoint(0, 0)
 
 def clearTmpDir():
-    try:
+    if hasattr(sys, 'frozen'):
         base_path = sys._MEIPASS
-    except:
-        return
-    try:
-        temp_path = os.path.abspath(os.path.join(base_path, '..'))
-        mei_folders = glob.glob(os.path.join(temp_path, '_MEI*'), recursive=False)
-        for item in mei_folders:
-            if (item == base_path): continue
-            rmtree(item)
-    except Exception as e:
-        report(e)
+        try:
+            temp_path = os.path.abspath(os.path.join(base_path, '..'))
+            mei_folders = glob.glob(os.path.join(temp_path, '_MEI*'), recursive=False)
+            for item in mei_folders:
+                if (item == base_path): continue
+                try:
+                    shutil.rmtree(item)
+                except Exception as e:
+                    report(e)
+        except Exception as e:
+            report(e)
 
 def isDark():
     try:
