@@ -1,4 +1,5 @@
 import json
+import os
 
 try:
     apikey = open("APIKEY.txt", "r").read()
@@ -33,44 +34,15 @@ print("  Making a backup of the old files...")
 
 
 
-file_equivalent = {
-    "ar.json":    "ar",
-    "ca.json":    "ca",
-    "cs.json":    "cs",
-    "da.json":    "da",
-    "de.json":    "de",
-    "el.json":    "el",
-    "en.json":    "en",
-    "es.json":    "es",
-    "fi.json":    "fi",
-    "he.json":    "he",
-    "fr.json":    "fr",
-    "hu.json":    "hu",
-    "id.json":    "id",
-    "it.json":    "it",
-    "ja.json":    "ja",
-    "ko.json":    "ko",
-    "lt.json":    "lt",
-    "lv.json":    "lv",
-    "nb.json":    "nb",
-    "nl.json":    "nl",
-    "nn.json":    "nn",
-    "pl.json":    "pl",
-    "pt-PT.json": "pt_PT",
-    "pt-BR.json": "pt_BR",
-    "ro.json":    "ro",
-    "ru.json":    "ru",
-    "si.json":    "si",
-    "sk.json":    "sk",
-    "sr.json":    "sr",
-    "sv.json":    "sv",
-    "th.json":    "th",
-    "tr.json":    "tr",
-    "uk.json":    "ua",
-    "vi.json":    "vi",
-    "zh-Hant-TW.json": "zh_TW",
-    "zh-Hans-CN.json": "zh_CN",
+languageRemap = {
+    "pt-PT":      "pt_PT",
+    "pt-BR":      "pt_BR",
+    "uk":         "ua",
+    "zh-Hant-TW": "zh_TW",
+    "zh-Hans-CN": "zh_CN",
 }
+
+downloadedLanguages = []
 
 
 
@@ -88,19 +60,25 @@ print("  Extracting language files...")
 
 zip_file = zipfile.ZipFile("langs.zip")
 for name in zip_file.namelist():
-    new_filename = f"lang_{file_equivalent[str(name)]}.json"
+    lang = os.path.splitext(name)[0]
+    if (lang in languageRemap):
+        lang = languageRemap[lang]
+    newFilename = f"lang_{lang}.json"
+    downloadedLanguages.append(lang)
+
     try:
         zip_file.extract(name, "./")
-        os.rename(name, new_filename)
+        os.rename(name, newFilename)
 
-        print(f"  Extracted {new_filename}")
+        print(f"  Extracted {newFilename}")
     except KeyError as e:
         print(type(name))
         f = input(f"  The file {name} was not expected to be in here. Please write the name for the file. It should follow the following structure: lang_[CODE].json: ")
         zip_file.extract(f, "./")
-        os.rename(f, new_filename)
+        os.rename(f, newFilename)
         print(f"  Extracted {f}")
 zip_file.close()
+downloadedLanguages.sort()
 os.remove("langs.zip")
 
 print("  Process complete!")
@@ -111,7 +89,7 @@ print("  Generatting translation done file...")
 
 
 langPerc = {}
-for lang in file_equivalent.values():
+for lang in downloadedLanguages:
     if (lang == "en"): # FIXME: REMOVE this, after en lang includes truth translation
         langPerc[lang] = "100%"
         continue
