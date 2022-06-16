@@ -1604,6 +1604,8 @@ try:
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
 
+    Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
+
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()
 
