@@ -1,8 +1,8 @@
 {
-  "10 hours" : null,
-  "10 minutes" : null,
-  "1 hour" : null,
-  "24 hours" : null,
+  "10 hours" : "10 ώρες",
+  "10 minutes" : "10 λεπτά",
+  "1 hour" : "1 ώρα",
+  "24 hours" : "24 ώρες",
   "2 hours" : null,
   "30 minutes" : null,
   "4 hours" : null,

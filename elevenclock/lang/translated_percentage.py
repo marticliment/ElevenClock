@@ -2,10 +2,9 @@
 # The following list includes ONLY non-full translated files.
 
 untranslatedPercentage = {
-  "ar": "54%",
+  "ar": "69%",
   "da": "26%",
-  "de": "81%",
-  "el": "19%",
+  "el": "21%",
   "fi": "54%",
   "fr": "98%",
   "he": "29%",
@@ -22,7 +21,7 @@ untranslatedPercentage = {
   "pl": "42%",
   "pt_BR": "74%",
   "pt_PT": "29%",
-  "ro": "0%",
+  "ro": "41%",
   "ru": "81%",
   "si": "0%",
   "sk": "33%",
