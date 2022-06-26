@@ -67,7 +67,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Language | Translated | |
 | :-- | :-- | --- |
 | Arabic - عربي‎ | 69% | <img src='https://flagcdn.com/ar.svg' width=20> |
-| Catalan - Català | 100% | <img src='https://flagcdn.com/ca.svg' width=20> |
+| Catalan - Català | 100% | <img src='https://flagcdn.com/ad.svg' width=20> |
 | Czech - Čeština | 100% | <img src='https://flagcdn.com/cz.svg' width=20> |
 | Danish - Dansk | 26% | <img src='https://flagcdn.com/dk.svg' width=20> |
 | German - Deutsch | 100% | <img src='https://flagcdn.com/de.svg' width=20> |
