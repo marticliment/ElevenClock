@@ -19,7 +19,7 @@ languageReference = {
     "lt"    : "Lithuanian - Lietuvių",
     "lv"    : "Latvian - Latviski",
     "nb"    : "Norwegian (bokmål)",
-    "nl"    : "Dutch - Nederlandse",
+    "nl"    : "Dutch - Nederlands",
     "nn"    : "Norwegian (nynorsk)",
     "pl"    : "Polish - Polski",
     "pt_BR" : "Portuguese (Brazil)",
