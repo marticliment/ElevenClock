@@ -33,9 +33,9 @@ open("langs.zip", "wb").write(zipcontent.content)
 
 print("  Download complete!")
 print()
-print("-------------------------------------------------------")
-print()
-print("  Making a backup of the old files...")
+#print("-------------------------------------------------------")
+#print()
+#print("  Making a backup of the old files...")
 
 
 
@@ -69,13 +69,14 @@ downloadedLanguages = []
 
 
 
-olddir = "lang_backup"+str(int(time.time()))
-os.mkdir(olddir)
+#olddir = "lang_backup"+str(int(time.time()))
+#os.mkdir(olddir)
 for file in glob.glob('lang_*.json'):
-    shutil.move(file, olddir)
+    os.remove(file)
+#    shutil.move(file, olddir)
 
-print(f"  Backup complete. The old files were moved to {olddir}")
-print()
+#print(f"  Backup complete. The old files were moved to {olddir}")
+#print()
 print("-------------------------------------------------------")
 print()
 print("  Extracting language files...")
