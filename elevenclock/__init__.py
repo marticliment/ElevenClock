@@ -218,7 +218,7 @@ try:
         except AttributeError:
             pass
         shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
-        ForceClockOnFirstMonitor = getSettings("ForceClockOnFirstMonitor")
+        ForceCLOCK_ON_FIRST_MONITORitor = getSettings("ForceCLOCK_ON_FIRST_MONITORitor")
         HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
         clocks = []
@@ -242,7 +242,7 @@ try:
             for screen in app.screens():
                 screen: QScreen
                 oldScreens.append(getGeometry(screen))
-                if not screen == QGuiApplication.primaryScreen() or ForceClockOnFirstMonitor: # Check if we are not on the primary screen
+                if not screen == QGuiApplication.primaryScreen() or ForceCLOCK_ON_FIRST_MONITORitor: # Check if we are not on the primary screen
                     if not HideClockOnSecondaryMonitors or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
                         clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
                         i += 1
@@ -707,7 +707,7 @@ try:
                 self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
                 print("🔵 Monitor geometry:", self.screenGeometry)
 
-                self.refresh.connect(self.refreshandShow)
+                self.refresh.connect(self.refreshAndShow)
                 self.hideSignal.connect(self.hide)
                 if not getSettings("PinClockToTheDesktop"):
                     self.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -717,9 +717,9 @@ try:
                 self.setAttribute(Qt.WA_ShowWithoutActivating)
                 self.setAttribute(Qt.WA_TranslucentBackground)
                 self.setWindowFlag(Qt.Tool)
-                hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
-                registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
-                self.autoHide = registry_read_result[8] == 123
+                hexBlob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
+                registryReadResult = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hexBlob)
+                self.autoHide = registryReadResult[8] == 123
 
                 if self.autoHide:
                     print("🟡 ElevenClock set to hide with the taskbar")
@@ -736,7 +736,7 @@ try:
                         print(f"🟡 Clock {screenName} on the right (forced)")
 
                 try:
-                    if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
+                    if (registryReadResult[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
                         h = self.screenGeometry.y()
                         self.clockOnTop = True
                         print("🟡 Clock on the top")
@@ -803,13 +803,13 @@ try:
                         print("🟢 Custom valid shortcut specified:", self.clickAction)
 
                 self.doubleClickAction = ("f20")
-                act2 = getSettingsValue("CustomClockDoubleClickAction")
-                if act2 != "":
-                    if len(act2.split("+")) > 3 or len(act2.split("+")) < 1:
+                doubleAction = getSettingsValue("CustomClockDoubleClickAction")
+                if doubleAction != "":
+                    if len(doubleAction.split("+")) > 3 or len(doubleAction.split("+")) < 1:
                         print("🟠 Invalid double click action piece")
                     else:
                         r = []
-                        for piece in act2.split("+"):
+                        for piece in doubleAction.split("+"):
                             piece = piece.lower()
                             if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm"]:
                                 r.append(piece)
@@ -866,7 +866,7 @@ try:
                 self.label.setFont(self.font)
 
                 accColors = getColors()
-                def make_style_sheet(a, b, c, d, color):
+                def makeStyleSheet(a, b, c, d, color):
                     bg = 1 if isTaskbarDark() else 4
                     fg = 6 if isTaskbarDark() else 1
                     return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
@@ -930,8 +930,8 @@ try:
                 if getSettings("UseCustomFontColor"):
                     print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                     self.lastTheme = -1
-                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
-                    self.label.setStyleSheet(style_sheet_string)
+                    styleSheetString = makeStyleSheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+                    self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                     if self.fontfamilies != []:
@@ -946,8 +946,8 @@ try:
                 elif isTaskbarDark():
                     print("🟢 Using white text (dark mode)")
                     self.lastTheme = 0
-                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
-                    self.label.setStyleSheet(style_sheet_string)
+                    styleSheetString = makeStyleSheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
+                    self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                     if self.fontfamilies != []:
@@ -962,8 +962,8 @@ try:
                 else:
                     print("🟢 Using black text (light mode)")
                     self.lastTheme = 1
-                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
-                    self.label.setStyleSheet(style_sheet_string)
+                    styleSheetString = makeStyleSheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
+                    self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .5
                     self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
                     if self.fontfamilies != []:
@@ -982,15 +982,15 @@ try:
                 self.setFocus()
 
 
-                self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
-                print("🔵 Full screen rect: ", self.full_screen_rect)
+                self.fullScreenRect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
+                print("🔵 Full screen rect: ", self.fullScreenRect)
 
 
                 self.forceDarkTheme = getSettings("ForceDarkTheme")
                 self.forceLightTheme = getSettings("ForceLightTheme")
                 self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
-                self.isLowCpuMode = getSettings("EnableLowCpuMode")
-                self.primary_screen = QGuiApplication.primaryScreen()
+                self.IS_LOW_CPU_MODE = getSettings("EnableLowCpuMode")
+                self.primaryScreen = QGuiApplication.primaryScreen()
                 self.oldBgColor = 0
 
                 self.user32 = windll.user32
@@ -1100,10 +1100,10 @@ try:
             shouldBeTransparent = False
             while True:
                 try:
-                    if self.taskbarBackgroundColor and not self.isLowCpuMode and not globals.trayIcon.contextMenu().isVisible():
+                    if self.taskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
-                                intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                                intColor = self.primaryScreen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
@@ -1121,13 +1121,13 @@ try:
                     print("🟣 Expected AttributeError on backgroundLoop thread")
                 time.sleep(0.5)
 
-        def theresFullScreenWin(self, clockOnFirstMon, newMethod, legacyMethod):
+        def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, NEW_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD):
             try:
                 fullscreen = False
 
-                def compareFullScreenRects(window, screen, newMethod):
+                def compareFullScreenRects(window, screen, NEW_FULLSCREEN_METHOD):
                     try:
-                        if(newMethod):
+                        if(NEW_FULLSCREEN_METHOD):
                             return  window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3] and window[0]+8 != screen[0] and window[1]+8 != screen[1]
                         else:
                             return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
@@ -1137,8 +1137,8 @@ try:
                 def winEnumHandler(hwnd, _):
                     nonlocal fullscreen
                     if win32gui.IsWindowVisible(hwnd):
-                        if compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod):
-                            if clockOnFirstMon and self.textInputHostHWND == 0:
+                        if compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, NEW_FULLSCREEN_METHOD):
+                            if CLOCK_ON_FIRST_MONITOR and self.textInputHostHWND == 0:
                                     pythoncom.CoInitialize()
                                     _, pid = win32process.GetWindowThreadProcessId(hwnd)
                                     _wmi = win32com.client.GetObject('winmgmts:')
@@ -1148,7 +1148,7 @@ try:
                                     for p in processes:
                                         if p.Name != "TextInputHost.exe":
                                             if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                                                 fullscreen = True
                                         else:
                                             print("🟢 Cached text input host hwnd:", hwnd)
@@ -1156,15 +1156,15 @@ try:
                                             self.INTLOOPTIME = 2
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
-                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                                     fullscreen = True
-                if not legacyMethod:
+                if not LEGACY_FULLSCREEN_METHOD:
                     win32gui.EnumWindows(winEnumHandler, 0)
                 else:
                     hwnd = win32gui.GetForegroundWindow()
-                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod)):
+                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, NEW_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                            print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                             fullscreen = True
                 return fullscreen
             except Exception as e:
@@ -1173,26 +1173,26 @@ try:
 
         def mainClockLoop(self):
             global isRDPRunning, numOfNotifs
-            EnableHideOnFullScreen = not(getSettings("DisableHideOnFullScreen"))
-            DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
-            EnableHideOnRDP = getSettings("EnableHideOnRDP")
-            clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
-            newMethod = getSettings("NewFullScreenMethod")
-            notifs = not getSettings("DisableNotifications")
-            legacyMethod = getSettings("legacyFullScreenMethod")
-            isTransparentOnFS = getSettings("TransparentClockWhenInFullscreen")
+            ENABLE_HIDE_ON_FULLSCREEN = not getSettings("DisableHideOnFullScreen")
+            DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
+            ENABLE_HIDE_FROM_RDP = getSettings("EnableHideOnRDP")
+            CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnFirstMonitor")
+            NEW_FULLSCREEN_METHOD = getSettings("NewFullScreenMethod")
+            SHOW_NOTIFICATIONS = not getSettings("DisableNotifications")
+            LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
+            MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = getSettings("TransparentClockWhenInFullscreen")
             oldNotifNumber = 0
-            print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}, DisableNotifications:{notifs}, legacyFullScreenMethod:{legacyMethod}")
-            if self.isLowCpuMode or clockOnFirstMon:
+            print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{NEW_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
+            if self.IS_LOW_CPU_MODE or CLOCK_ON_FIRST_MONITOR:
                 self.INTLOOPTIME = 15
             else:
                 self.INTLOOPTIME = 2
             while True:
                 self.isRDPRunning = isRDPRunning
-                isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod, legacyMethod)
+                isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, NEW_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD)
                 for i in range(self.INTLOOPTIME):
-                    if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
-                        if notifs:
+                    if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
+                        if SHOW_NOTIFICATIONS:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
                             if numOfNotifs > 0:
@@ -1205,7 +1205,7 @@ try:
                                 if not isFocusAssist:
                                     self.callInMainSignal.emit(self.label.disableClockIndicators)
                         oldNotifNumber = numOfNotifs
-                        if self.autoHide and not(DisableHideWithTaskbar):
+                        if self.autoHide and not(DISABLE_HIDE_WITH_TASKBAR):
                             mousePos = getMousePos()
                             if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
                                 if self.isHidden():
@@ -1221,15 +1221,15 @@ try:
                                 else:
                                     self.hideSignal.emit()
                         else:
-                            if(self.isRDPRunning and EnableHideOnRDP):
+                            if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
                                 self.hideSignal.emit()
                             else:
                                 self.refresh.emit()
                     else:
                         self.hideSignal.emit()
-                    if not EnableHideOnFullScreen:
+                    if not ENABLE_HIDE_ON_FULLSCREEN:
                         if isFullScreen:
-                            self.tempMakeClockTransparent = isTransparentOnFS
+                            self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
                         else:
                             self.tempMakeClockTransparent = False
                     else:
@@ -1283,7 +1283,7 @@ try:
         def focusOutEvent(self, event: QFocusEvent) -> None:
             self.refresh.emit()
 
-        def refreshandShow(self):
+        def refreshAndShow(self):
             if(self.shouldBeVisible):
                 self.show()
                 self.raise_()
@@ -1626,7 +1626,7 @@ try:
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("AlreadyInstalled", True)
         setSettings("NewFullScreenMethod", True)
-        setSettings("ForceClockOnFirstMonitor", True)
+        setSettings("ForceCLOCK_ON_FIRST_MONITORitor", True)
         showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
