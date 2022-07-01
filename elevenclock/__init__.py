@@ -18,6 +18,7 @@ try:
     import hashlib
     import tempfile
     import datetime
+    import winshell
     import subprocess
     import dateutil.tz as tz
     from threading import Thread
@@ -783,7 +784,7 @@ try:
                 self.dpix = dpix
                 self.dpiy = dpiy
 
-                self.clockAction = ("win", "n")
+                self.clickAction = ("win", "n")
                 act = getSettingsValue("CustomClockClickAction")
                 if act != "":
                     if len(act.split("+")) > 3 or len(act.split("+")) < 1:
@@ -792,15 +793,32 @@ try:
                         r = []
                         for piece in act.split("+"):
                             piece = piece.lower()
-                            # The following line of code has been taken from https://pyautogui.readthedocs.io/en/latest/keyboard.html the 1st april 2022
-                            if piece in ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7','8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`','a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o','p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~','accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace','browserback', 'browserfavorites', 'browserforward', 'browserhome','browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear','convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete','divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10','f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20','f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9','final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja','kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail','launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack','nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6','num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn','pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn','prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator','shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab','up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen','command', 'option', 'optionleft', 'optionright']:
+                            if piece in pyautogui.KEYBOARD_KEYS:
                                 r.append(piece)
                             else:
                                 print("🟠 Invalid clock custom action piece:", piece)
                                 r = ("win", "n")
                                 break
-                        self.clockAction = r
-                        print("🟢 Custom valid shortcut specified:", self.clockAction)
+                        self.clickAction = r
+                        print("🟢 Custom valid shortcut specified:", self.clickAction)
+
+                self.doubleClickAction = ("f20")
+                act2 = getSettingsValue("CustomClockDoubleClickAction")
+                if act2 != "":
+                    if len(act2.split("+")) > 3 or len(act2.split("+")) < 1:
+                        print("🟠 Invalid double click action piece")
+                    else:
+                        r = []
+                        for piece in act2.split("+"):
+                            piece = piece.lower()
+                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm"]:
+                                r.append(piece)
+                            else:
+                                print("🟠 Invalid double click action piece:", piece)
+                                r = ("win", "n")
+                                break
+                        self.doubleClickAction = r
+                        print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
@@ -952,7 +970,8 @@ try:
                         self.font.setFamilies(self.fontfamilies)
                     self.font.setWeight(QFont.Weight.ExtraLight)
                     self.label.setFont(self.font)
-                self.label.clicked.connect(lambda: self.showCalendar())
+                self.label.clicked.connect(lambda: self.singleClickAction())
+                self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
                 self.label.move(0, 0)
                 self.label.setFixedHeight(self.height())
                 self.label.resize(self.width()-self.getPx(8), self.height())
@@ -1224,13 +1243,13 @@ try:
                 self.callInMainSignal.emit(lambda: self.label.setText(timeStr))
                 time.sleep(0.1)
 
-        def showCalendar(self):
-            if len(self.clockAction) == 1:
-                pyautogui.hotkey(self.clockAction[0])
-            elif len(self.clockAction) == 2:
-                pyautogui.hotkey(self.clockAction[0], self.clockAction[1])
-            elif len(self.clockAction) == 3:
-                pyautogui.hotkey(self.clockAction[0], self.clockAction[1], self.clockAction[2])
+        def singleClickAction(self):
+            if len(self.clickAction) == 1:
+                pyautogui.hotkey(self.clickAction[0])
+            elif len(self.clickAction) == 2:
+                pyautogui.hotkey(self.clickAction[0], self.clickAction[1])
+            elif len(self.clickAction) == 3:
+                pyautogui.hotkey(self.clickAction[0], self.clickAction[1], self.clickAction[2])
             if self.hideClockWhenClicked:
                 print("🟡 Hiding clock because clicked!")
                 self.clockShouldBeHidden = True
@@ -1241,6 +1260,22 @@ try:
                     self.clockShouldBeHidden = False
 
                 KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
+
+        def doDoubleClickAction(self):
+            try:
+                if len(self.doubleClickAction) == 1:
+                    if self.doubleClickAction[0] == "trashcan":
+                        winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
+                    elif self.doubleClickAction[0] == "trashcan_noconfirm":
+                        winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
+                    else:
+                        pyautogui.hotkey(self.doubleClickAction[0])
+                elif len(self.doubleClickAction) == 2:
+                    pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1])
+                elif len(self.doubleClickAction) == 3:
+                    pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1], self.doubleClickAction[2])
+            except Exception as e:
+                report(e)
 
         def showDesktop(self):
             pyautogui.hotkey("win", "d")
@@ -1298,7 +1333,7 @@ try:
 
     class Label(QLabel):
         clicked = Signal()
-        dobuleClicked = Signal()
+        doubleClicked = Signal()
         outline = True
         def __init__(self, text, parent):
             super().__init__(text, parent=parent)
@@ -1474,7 +1509,7 @@ try:
             return super().mouseReleaseEvent(ev)
 
         def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
-            cprint("doubleclick")
+            self.doubleClicked.emit()
             return super().mouseDoubleClickEvent(event)
 
 
