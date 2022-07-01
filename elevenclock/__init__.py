@@ -708,7 +708,10 @@ try:
 
                 self.refresh.connect(self.refreshandShow)
                 self.hideSignal.connect(self.hide)
-                self.setWindowFlag(Qt.WindowStaysOnTopHint)
+                if not getSettings("PinClockToTheDesktop"):
+                    self.setWindowFlag(Qt.WindowStaysOnTopHint)
+                else:
+                    self.setWindowFlag(Qt.WindowStaysOnBottomHint)
                 self.setWindowFlag(Qt.FramelessWindowHint)
                 self.setAttribute(Qt.WA_ShowWithoutActivating)
                 self.setAttribute(Qt.WA_TranslucentBackground)

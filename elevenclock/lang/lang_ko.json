@@ -160,6 +160,7 @@
   "Override clock default height" : "시계 기본 높이 재정의",
   "Paste a URL from the world clock api or equivalent" : "World Clock API 또는 동등한 URL을 붙여넣기",
   "Pick a color" : "색상 선택",
+  "Pin the clock to the desktop" : null,
   "Please make sure to install ElevenClock from official sources only. Also, using ElevenClock implies the acceptation of the <b>GPLv3 license</b>" : "공식 소스에서만 ElevenClock을 설치하십시오. 또한 ElevenClock 사용은 <b>GPLV3 라이센스</b>의 수락을 의미합니다.",
   "Please select one of the following and click next." : "다음 중 하나를 선택하고 다음을 클릭하십시오.",
   "Please select the clock style you like the most. You will be able to change this after in the settings window" : "가장 좋아하는 시계 스타일을 선택하십시오. 설정 창에서 나중에 변경할 수 있습니다",

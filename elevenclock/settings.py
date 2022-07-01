@@ -242,6 +242,10 @@ class SettingsWindow(QMainWindow):
         self.clockAtTop.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;border-bottom: {self.getPx(1)}px;}}")
         self.clockAtTop.stateChanged.connect(lambda i: setSettings("ForceOnTop", bool(i)))
         self.clockPosTitle.addWidget(self.clockAtTop)
+        self.PinClockToDesktop = QSettingsCheckBox(_("Pin the clock to the desktop"))
+        self.PinClockToDesktop.setChecked(getSettings("PinClockToTheDesktop"))
+        self.PinClockToDesktop.stateChanged.connect(lambda i: setSettings("PinClockToTheDesktop", bool(i)))
+        self.clockPosTitle.addWidget(self.PinClockToDesktop)
         self.clockFixedHeight = QSettingsSliderWithCheckBox(_("Override clock default height"), self, 20, 105)
         self.clockFixedHeight.setChecked(getSettings("ClockFixedHeight"))
         if self.clockFixedHeight.isChecked():

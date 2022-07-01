@@ -160,6 +160,7 @@
   "Override clock default height" : "Standart-Höhe der Uhr überschreiben",
   "Paste a URL from the world clock api or equivalent" : "Fügen Sie eine URL aus der Weltzeituhr-API oder eine Gleichwertige ein",
   "Pick a color" : "Wähle eine Farbe",
+  "Pin the clock to the desktop" : null,
   "Please make sure to install ElevenClock from official sources only. Also, using ElevenClock implies the acceptation of the <b>GPLv3 license</b>" : "Bitte stellen Sie sicher, dass Sie ElevenClock nur von offiziellen Quellen installieren. Außerdem setzt die Verwendung von ElevenClock die Annahme der <b>GPLv3-Lizenz</b> voraus",
   "Please select one of the following and click next." : "Bitte wählen Sie eine der folgenden Optionen aus und klicken Sie auf Weiter.",
   "Please select the clock style you like the most. You will be able to change this after in the settings window" : "Bitte wählen Sie den Uhrenstil, der Ihnen am besten gefällt. Sie können dies später im Einstellungsfenster ändern",
