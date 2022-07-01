@@ -218,8 +218,8 @@ try:
         except AttributeError:
             pass
         shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
-        ForceCLOCK_ON_FIRST_MONITORitor = getSettings("ForceCLOCK_ON_FIRST_MONITORitor")
-        HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
+        CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnfirstMonitor")
+        HIDE_CLOCK_ON_SECONDARY_DISPLAY = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
         clocks = []
         if importedPsutil:
@@ -242,8 +242,8 @@ try:
             for screen in app.screens():
                 screen: QScreen
                 oldScreens.append(getGeometry(screen))
-                if not screen == QGuiApplication.primaryScreen() or ForceCLOCK_ON_FIRST_MONITORitor: # Check if we are not on the primary screen
-                    if not HideClockOnSecondaryMonitors or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
+                if not screen == QGuiApplication.primaryScreen() or CLOCK_ON_FIRST_MONITOR: # Check if we are not on the primary screen
+                    if not HIDE_CLOCK_ON_SECONDARY_DISPLAY or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
                         clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
                         i += 1
                     else:
@@ -1626,7 +1626,7 @@ try:
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("AlreadyInstalled", True)
         setSettings("NewFullScreenMethod", True)
-        setSettings("ForceCLOCK_ON_FIRST_MONITORitor", True)
+        setSettings("ForceClockOnfirstMonitor", True)
         showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
