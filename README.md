@@ -81,18 +81,17 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Indonesian - Bahasa Indonesia | 22% | <img src='https://flagcdn.com/id.svg' width=20> |
 | Italian - Italiano | 53% | <img src='https://flagcdn.com/it.svg' width=20> |
 | Japanese - 日本語 | 83% | <img src='https://flagcdn.com/jp.svg' width=20> |
-| Korean - 한국어 | 99% | <img src='https://flagcdn.com/kr.svg' width=20> |
+| Korean - 한국어 | 100% | <img src='https://flagcdn.com/kr.svg' width=20> |
 | Lithuanian - Lietuvių | 25% | <img src='https://flagcdn.com/lt.svg' width=20> |
 | Latvian - Latviski | 35% | <img src='https://flagcdn.com/lv.svg' width=20> |
-| Norwegian (bokmål) | 77% | <img src='https://flagcdn.com/no.svg' width=20> |
-| Dutch - Nederlandse | 50% | <img src='https://flagcdn.com/nl.svg' width=20> |
+| Norwegian (bokmål) | 100% | <img src='https://flagcdn.com/no.svg' width=20> |
+| Dutch - Nederlands | 54% | <img src='https://flagcdn.com/nl.svg' width=20> |
 | Norwegian (nynorsk) | 75% | <img src='https://flagcdn.com/no.svg' width=20> |
 | Polish - Polski | 42% | <img src='https://flagcdn.com/pl.svg' width=20> |
 | Portuguese (Brazil) | 74% | <img src='https://flagcdn.com/br.svg' width=20> |
 | Portuguese (Portugal) | 29% | <img src='https://flagcdn.com/pt.svg' width=20> |
 | Romanian - Română | 41% | <img src='https://flagcdn.com/ro.svg' width=20> |
 | Russian - Русский | 81% | <img src='https://flagcdn.com/ru.svg' width=20> |
-| Sinhala - සිංහල | 0% | <img src='https://flagcdn.com/si.svg' width=20> |
 | Slovak - Slovenčina | 33% | <img src='https://flagcdn.com/sk.svg' width=20> |
 | Serbian - Srpski | 25% | <img src='https://flagcdn.com/sr.svg' width=20> |
 | Swedish - Svenska | 81% | <img src='https://flagcdn.com/sv.svg' width=20> |
@@ -168,4 +167,17 @@ ck
 ck
 
 ck
+
+martinet101/ElevenClock/wiki#translating-elevenclock
+
+ck
+
+ck
+
+
+
+ck
+
+ck
+
 
