@@ -2527,6 +2527,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
     valueChanged = Signal(str)
 
     def __init__(self, text: str, parent=None):
+        super().__init__(text=text, parent=parent)
 
         class QComboBoxWithFluentMenu(QComboBox):
             def __init__(self, parent) -> None:
@@ -2534,10 +2535,10 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
                 v = self.view().window()
                 ApplyMenuBlur(v.winId().__int__(), v)
 
-        super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
         self.combobox = QComboBoxWithFluentMenu(self)
         self.combobox.setObjectName("stCmbbx")
+        self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
