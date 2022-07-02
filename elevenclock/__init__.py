@@ -675,13 +675,13 @@ try:
                             self.preferedwidth = 200
                     else:
                         print("🟢 Regular sized taskbar")
-                        self.prefMargins = self.getPx(3)
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;padding: {self.getPx(2)}px;"
+                        self.prefMargins = self.getPx(1)
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(6)}px;padding: {self.getPx(2)}px;"
                 except Exception as e:
                     print("🟡 Regular sized taskbar")
                     report(e)
-                    self.prefMargins = self.getPx(3)
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;;padding: {self.getPx(2)}px;"
+                    self.prefMargins = self.getPx(1)
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(6)}px;padding: {self.getPx(2)}px;"
 
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -760,7 +760,7 @@ try:
                     w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
 
                 if getSettings("CenterAlignment"):
-                    self.label.setAlignment(Qt.AlignCenter)
+                    self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
                 xoff = -self.getPx(1) # See issue: https://github.com/martinet101/ElevenClock/issues/763
                 yoff = 0
@@ -972,7 +972,7 @@ try:
                     self.label.setFont(self.font)
                 self.label.clicked.connect(lambda: self.singleClickAction())
                 self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
-                self.label.move(0, 0)
+                self.label.move(0, self.getPx(2))
                 self.label.setFixedHeight(self.height())
                 self.label.resize(self.width()-self.getPx(8), self.height())
                 self.label.show()
@@ -1348,10 +1348,11 @@ try:
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
+            self.sidesColor = "0, 0, 0"
             QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
-            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
+            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
             if self.window().transparentBackground:
                 colorOffset = 0
@@ -1362,7 +1363,7 @@ try:
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
             self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
