@@ -33,10 +33,9 @@ open("langs.zip", "wb").write(zipcontent.content)
 
 print("  Download complete!")
 print()
-#print("-------------------------------------------------------")
-#print()
-#print("  Making a backup of the old files...")
-
+print("-------------------------------------------------------")
+print()
+print("  Extracting language files...")
 
 
 languageRemap = {
@@ -46,27 +45,7 @@ languageRemap = {
     "zh-Hant-TW": "zh_TW",
     "zh-Hans-CN": "zh_CN",
 }
-
-# ISO 3166-1
-languageFlagsRemap = {
-    "ca": "ad",
-    "cs": "cz",
-    "da": "dk",
-    "en": "gb",
-    "el": "gr",
-    "he": "il",
-    "ja": "jp",
-    "ko": "kr",
-    "nb": "no",
-    "nn": "no",
-    "pt_BR": "br",
-    "pt_PT": "pt",
-    "zh_CN": "cn",
-    "zh_TW": "tw",
-}
-
 downloadedLanguages = []
-
 
 
 #olddir = "lang_backup"+str(int(time.time()))
@@ -92,18 +71,19 @@ for name in zip_file.namelist():
 
     try:
         zip_file.extract(name, "./")
-        os.rename(name, newFilename)
+        os.replace(name, newFilename)
 
         print(f"  Extracted {newFilename}")
     except KeyError as e:
         print(type(name))
         f = input(f"  The file {name} was not expected to be in here. Please write the name for the file. It should follow the following structure: lang_[CODE].json: ")
         zip_file.extract(f, "./")
-        os.rename(f, newFilename)
+        os.replace(f, newFilename)
         print(f"  Extracted {f}")
 zip_file.close()
 downloadedLanguages.sort()
 os.remove("langs.zip")
+
 
 print("  Process complete!")
 print()
@@ -147,11 +127,29 @@ print()
 print("  Updating README.md...")
 
 
+# ISO 3166-1
+languageFlagsRemap = {
+    "ca": "ad",
+    "cs": "cz",
+    "da": "dk",
+    "en": "gb",
+    "el": "gr",
+    "he": "il",
+    "ja": "jp",
+    "ko": "kr",
+    "nb": "no",
+    "nn": "no",
+    "pt_BR": "br",
+    "pt_PT": "pt",
+    "zh_CN": "cn",
+    "zh_TW": "tw",
+}
 readmeFilename = "../../README.md"
 readmeLangs = """
 | Language | Translated | |
 | :-- | :-- | --- |
 """
+
 for lang in downloadedLanguages:
     perc = "100%"
     langName = lang
