@@ -13,7 +13,6 @@ untranslatedPercentage = {
   "hu": "66%",
   "id": "21%",
   "it": "52%",
-  "ja": "82%",
   "ko": "98%",
   "lt": "24%",
   "lv": "35%",

@@ -80,7 +80,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Hungarian - Magyar | 66% | <img src='https://flagcdn.com/hu.svg' width=20> |
 | Indonesian - Bahasa Indonesia | 21% | <img src='https://flagcdn.com/id.svg' width=20> |
 | Italian - Italiano | 52% | <img src='https://flagcdn.com/it.svg' width=20> |
-| Japanese - 日本語 | 82% | <img src='https://flagcdn.com/jp.svg' width=20> |
+| Japanese - 日本語 | 100% | <img src='https://flagcdn.com/jp.svg' width=20> |
 | Korean - 한국어 | 98% | <img src='https://flagcdn.com/kr.svg' width=20> |
 | Lithuanian - Lietuvių | 24% | <img src='https://flagcdn.com/lt.svg' width=20> |
 | Latvian - Latviski | 35% | <img src='https://flagcdn.com/lv.svg' width=20> |
