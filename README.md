@@ -56,7 +56,7 @@ TL;DR: ElevenClock does everything that Windows 11 clock can't do.
  - Show a task manager shortcut on the clock context menu
  - Disable the notifications badge
  - More stuff can be found on ElevenClock Settings
-
+ 
 ## Translating ElevenClock to other languages
 In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki][translating link] for more info.
 
@@ -106,6 +106,12 @@ In order to translate ElevenClock to other languages or to update an old transla
 #### New laguanges that will come with next version:
  - You say!
 
+## Contributors
+ ElevenClock wouldn't have been possible with all the help from every single contributor. From the person who fixed a typo to the person who improved half of the code, ElevenClock wouldn't have been possible without you :)<br><br>
+ 
+### Contributors list
+ ![GitHub Contributors Image](https://contrib.rocks/image?repo=martinet101/ElevenClock)
+ 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
 
@@ -157,29 +163,4 @@ See the wiki: https://github.com/martinet101/ElevenClock/wiki/Installation
 
 
 [translating link]: https://github.com/martinet101/ElevenClock/wiki#translating-elevenclock
-
-ck
-
-ck
-
-
-
-ck
-
-ck
-
-martinet101/ElevenClock/wiki#translating-elevenclock
-
-ck
-
-ck
-
-
-
-ck
-
-ck
-
-
-
 
