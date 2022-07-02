@@ -762,8 +762,8 @@ try:
                 if getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
-                xoff = -self.getPx(1) # See issue: https://github.com/martinet101/ElevenClock/issues/763
-                yoff = 0
+                xoff = -self.getPx(4)
+                yoff = self.getPx(1)
 
                 if getSettings("ClockXOffset"):
                     print("🟡 X offset being used!")
@@ -866,10 +866,10 @@ try:
                 self.label.setFont(self.font)
 
                 accColors = getColors()
-                def makeStyleSheet(a, b, c, d, color):
+                def makeStyleSheet(padding, rightPadding, rightMargin, leftPadding, color):
                     bg = 1 if isTaskbarDark() else 4
                     fg = 6 if isTaskbarDark() else 1
-                    return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
+                    return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
 
                 self.progressbar = QProgressBar(self)
@@ -930,7 +930,7 @@ try:
                 if getSettings("UseCustomFontColor"):
                     print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                     self.lastTheme = -1
-                    styleSheetString = makeStyleSheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+                    styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
                     self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -946,7 +946,7 @@ try:
                 elif isTaskbarDark():
                     print("🟢 Using white text (dark mode)")
                     self.lastTheme = 0
-                    styleSheetString = makeStyleSheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
+                    styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "white")
                     self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -962,7 +962,7 @@ try:
                 else:
                     print("🟢 Using black text (light mode)")
                     self.lastTheme = 1
-                    styleSheetString = makeStyleSheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
+                    styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "black")
                     self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .5
                     self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
@@ -974,7 +974,7 @@ try:
                 self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
                 self.label.move(0, self.getPx(2))
                 self.label.setFixedHeight(self.height())
-                self.label.resize(self.width()-self.getPx(8), self.height())
+                self.label.resize(self.width()-self.getPx(8), self.height()-self.getPx(1))
                 self.label.show()
                 loadTimeFormat()
                 self.show()
@@ -1292,7 +1292,7 @@ try:
                     if(theme != self.lastTheme):
                         if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
                             self.lastTheme = 0
-                            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
+                            self.label.setStyleSheet(f"padding: {self.getPx(0)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
                             self.label.bgopacity = 0.1
                             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                             self.font.setFamilies(self.fontfamilies)
@@ -1305,7 +1305,7 @@ try:
                             self.label.setFont(self.font)
                         else:
                             self.lastTheme = 1
-                            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
+                            self.label.setStyleSheet(f"padding: {self.getPx(0)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
                             self.label.bgopacity = .5
                             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
                             self.font.setFamilies(self.fontfamilies)
@@ -1363,15 +1363,15 @@ try:
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {self.getPx(6)}px;"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
             self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {self.getPx(6)}px;"))
             self.setAutoFillBackground(True)
-            self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
+            self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-self.getPx(2))
 
             self.opacity=QGraphicsOpacityEffect(self)
             self.opacity.setOpacity(1.00)
@@ -1425,7 +1425,7 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True
-                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
+                self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
                 self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
@@ -1436,7 +1436,7 @@ try:
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
-                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
+                self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
                 topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
                 self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding))
@@ -1447,11 +1447,11 @@ try:
         def disableClockIndicators(self):
             if self.focusassitant:
                 self.focusassitant = False
-                self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
+                self.setContentsMargins(self.getPx(6), self.getPx(0), self.getPx(13), self.getPx(4))
                 self.focusAssitantLabel.hide()
             if self.notifdot:
                 self.notifdot = False
-                self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
+                self.setContentsMargins(self.getPx(6), self.getPx(0), self.getPx(13), self.getPx(4))
                 self.notifDotLabel.hide()
 
 
@@ -1463,11 +1463,11 @@ try:
             self.showBackground.setStartValue(.01)
             self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
             if not self.window().clockOnTheLeft:
-                self.backgroundwidget.move(0, 2)
-                self.backgroundwidget.resize(geometry, self.height()-4)
+                self.backgroundwidget.move(0, self.getPx(1))
+                self.backgroundwidget.resize(geometry, self.height()-3)
             else:
-                self.backgroundwidget.move(0, 2)
-                self.backgroundwidget.resize(geometry, self.height()-4)
+                self.backgroundwidget.move(0, self.getPx(1))
+                self.backgroundwidget.resize(geometry, self.height()-3)
             self.showBackground.start()
             if not r:
                 self.enterEvent(event, r=True)
@@ -1521,11 +1521,10 @@ try:
                 w = mw
             if w<self.window().getPx(self.window().preferedwidth) and not self.window().clockOnTheLeft:
                 self.move(self.window().getPx(self.window().preferedwidth)-w+self.getPx(2), 0)
-                self.resize(w, self.height())
+                self.resize(w, self.height()-self.getPx(1))
             else:
                 self.move(0, 0)
-                self.resize(w, self.height())
-
+                self.resize(w, self.height()-self.getPx(1))
             return super().paintEvent(event)
 
         def resizeEvent(self, event: QResizeEvent) -> None:
