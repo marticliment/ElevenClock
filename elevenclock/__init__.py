@@ -18,6 +18,7 @@ try:
     import hashlib
     import tempfile
     import datetime
+    import winshell
     import subprocess
     import dateutil.tz as tz
     from threading import Thread
@@ -217,8 +218,8 @@ try:
         except AttributeError:
             pass
         shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
-        ForceClockOnFirstMonitor = getSettings("ForceClockOnFirstMonitor")
-        HideClockOnSecondaryMonitors = getSettings("HideClockOnSecondaryMonitors")
+        CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnfirstMonitor")
+        HIDE_CLOCK_ON_SECONDARY_DISPLAY = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
         clocks = []
         if importedPsutil:
@@ -241,8 +242,8 @@ try:
             for screen in app.screens():
                 screen: QScreen
                 oldScreens.append(getGeometry(screen))
-                if not screen == QGuiApplication.primaryScreen() or ForceClockOnFirstMonitor: # Check if we are not on the primary screen
-                    if not HideClockOnSecondaryMonitors or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
+                if not screen == QGuiApplication.primaryScreen() or CLOCK_ON_FIRST_MONITOR: # Check if we are not on the primary screen
+                    if not HIDE_CLOCK_ON_SECONDARY_DISPLAY or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
                         clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
                         i += 1
                     else:
@@ -674,13 +675,13 @@ try:
                             self.preferedwidth = 200
                     else:
                         print("🟢 Regular sized taskbar")
-                        self.prefMargins = self.getPx(3)
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;padding: {self.getPx(2)}px;"
+                        self.prefMargins = self.getPx(1)
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(6)}px;padding: {self.getPx(2)}px;"
                 except Exception as e:
                     print("🟡 Regular sized taskbar")
                     report(e)
-                    self.prefMargins = self.getPx(3)
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(4)}px;;padding: {self.getPx(2)}px;"
+                    self.prefMargins = self.getPx(1)
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(6)}px;padding: {self.getPx(2)}px;"
 
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -706,16 +707,19 @@ try:
                 self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
                 print("🔵 Monitor geometry:", self.screenGeometry)
 
-                self.refresh.connect(self.refreshandShow)
+                self.refresh.connect(self.refreshAndShow)
                 self.hideSignal.connect(self.hide)
-                self.setWindowFlag(Qt.WindowStaysOnTopHint)
+                if not getSettings("PinClockToTheDesktop"):
+                    self.setWindowFlag(Qt.WindowStaysOnTopHint)
+                else:
+                    self.setWindowFlag(Qt.WindowStaysOnBottomHint)
                 self.setWindowFlag(Qt.FramelessWindowHint)
                 self.setAttribute(Qt.WA_ShowWithoutActivating)
                 self.setAttribute(Qt.WA_TranslucentBackground)
                 self.setWindowFlag(Qt.Tool)
-                hex_blob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
-                registry_read_result = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hex_blob)
-                self.autoHide = registry_read_result[8] == 123
+                hexBlob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
+                registryReadResult = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hexBlob)
+                self.autoHide = registryReadResult[8] == 123
 
                 if self.autoHide:
                     print("🟡 ElevenClock set to hide with the taskbar")
@@ -732,7 +736,7 @@ try:
                         print(f"🟡 Clock {screenName} on the right (forced)")
 
                 try:
-                    if (registry_read_result[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
+                    if (registryReadResult[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
                         h = self.screenGeometry.y()
                         self.clockOnTop = True
                         print("🟡 Clock on the top")
@@ -756,10 +760,10 @@ try:
                     w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
 
                 if getSettings("CenterAlignment"):
-                    self.label.setAlignment(Qt.AlignCenter)
+                    self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
-                xoff = -self.getPx(1) # See issue: https://github.com/martinet101/ElevenClock/issues/763
-                yoff = 0
+                xoff = -self.getPx(4)
+                yoff = self.getPx(1)
 
                 if getSettings("ClockXOffset"):
                     print("🟡 X offset being used!")
@@ -780,7 +784,7 @@ try:
                 self.dpix = dpix
                 self.dpiy = dpiy
 
-                self.clockAction = ("win", "n")
+                self.clickAction = ("win", "n")
                 act = getSettingsValue("CustomClockClickAction")
                 if act != "":
                     if len(act.split("+")) > 3 or len(act.split("+")) < 1:
@@ -789,15 +793,32 @@ try:
                         r = []
                         for piece in act.split("+"):
                             piece = piece.lower()
-                            # The following line of code has been taken from https://pyautogui.readthedocs.io/en/latest/keyboard.html the 1st april 2022
-                            if piece in ['\t', '\n', '\r', ' ', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7','8', '9', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`','a', 'b', 'c', 'd', 'e','f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o','p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~','accept', 'add', 'alt', 'altleft', 'altright', 'apps', 'backspace','browserback', 'browserfavorites', 'browserforward', 'browserhome','browserrefresh', 'browsersearch', 'browserstop', 'capslock', 'clear','convert', 'ctrl', 'ctrlleft', 'ctrlright', 'decimal', 'del', 'delete','divide', 'down', 'end', 'enter', 'esc', 'escape', 'execute', 'f1', 'f10','f11', 'f12', 'f13', 'f14', 'f15', 'f16', 'f17', 'f18', 'f19', 'f2', 'f20','f21', 'f22', 'f23', 'f24', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9','final', 'fn', 'hanguel', 'hangul', 'hanja', 'help', 'home', 'insert', 'junja','kana', 'kanji', 'launchapp1', 'launchapp2', 'launchmail','launchmediaselect', 'left', 'modechange', 'multiply', 'nexttrack','nonconvert', 'num0', 'num1', 'num2', 'num3', 'num4', 'num5', 'num6','num7', 'num8', 'num9', 'numlock', 'pagedown', 'pageup', 'pause', 'pgdn','pgup', 'playpause', 'prevtrack', 'print', 'printscreen', 'prntscrn','prtsc', 'prtscr', 'return', 'right', 'scrolllock', 'select', 'separator','shift', 'shiftleft', 'shiftright', 'sleep', 'space', 'stop', 'subtract', 'tab','up', 'volumedown', 'volumemute', 'volumeup', 'win', 'winleft', 'winright', 'yen','command', 'option', 'optionleft', 'optionright']:
+                            if piece in pyautogui.KEYBOARD_KEYS:
                                 r.append(piece)
                             else:
                                 print("🟠 Invalid clock custom action piece:", piece)
                                 r = ("win", "n")
                                 break
-                        self.clockAction = r
-                        print("🟢 Custom valid shortcut specified:", self.clockAction)
+                        self.clickAction = r
+                        print("🟢 Custom valid shortcut specified:", self.clickAction)
+
+                self.doubleClickAction = ("f20")
+                doubleAction = getSettingsValue("CustomClockDoubleClickAction")
+                if doubleAction != "":
+                    if len(doubleAction.split("+")) > 3 or len(doubleAction.split("+")) < 1:
+                        print("🟠 Invalid double click action piece")
+                    else:
+                        r = []
+                        for piece in doubleAction.split("+"):
+                            piece = piece.lower()
+                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm"]:
+                                r.append(piece)
+                            else:
+                                print("🟠 Invalid double click action piece:", piece)
+                                r = ("win", "n")
+                                break
+                        self.doubleClickAction = r
+                        print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
 
                 if not(getSettings("EnableWin32API")):
                     print("🟢 Using qt's default positioning system")
@@ -845,10 +866,10 @@ try:
                 self.label.setFont(self.font)
 
                 accColors = getColors()
-                def make_style_sheet(a, b, c, d, color):
+                def makeStyleSheet(padding, rightPadding, rightMargin, leftPadding, color):
                     bg = 1 if isTaskbarDark() else 4
                     fg = 6 if isTaskbarDark() else 1
-                    return f"*{{padding: {a}px;padding-right: {b}px;margin-right: {c}px;padding-left: {d}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
+                    return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
 
                 self.progressbar = QProgressBar(self)
@@ -909,8 +930,8 @@ try:
                 if getSettings("UseCustomFontColor"):
                     print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                     self.lastTheme = -1
-                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
-                    self.label.setStyleSheet(style_sheet_string)
+                    styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+                    self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                     if self.fontfamilies != []:
@@ -925,8 +946,8 @@ try:
                 elif isTaskbarDark():
                     print("🟢 Using white text (dark mode)")
                     self.lastTheme = 0
-                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "white")
-                    self.label.setStyleSheet(style_sheet_string)
+                    styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "white")
+                    self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .1
                     self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                     if self.fontfamilies != []:
@@ -941,18 +962,19 @@ try:
                 else:
                     print("🟢 Using black text (light mode)")
                     self.lastTheme = 1
-                    style_sheet_string = make_style_sheet(self.getPx(1), self.getPx(3), self.getPx(12), self.getPx(5), "black")
-                    self.label.setStyleSheet(style_sheet_string)
+                    styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "black")
+                    self.label.setStyleSheet(styleSheetString)
                     self.label.bgopacity = .5
                     self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
                     if self.fontfamilies != []:
                         self.font.setFamilies(self.fontfamilies)
                     self.font.setWeight(QFont.Weight.ExtraLight)
                     self.label.setFont(self.font)
-                self.label.clicked.connect(lambda: self.showCalendar())
-                self.label.move(0, 0)
+                self.label.clicked.connect(lambda: self.singleClickAction())
+                self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
+                self.label.move(0, self.getPx(2))
                 self.label.setFixedHeight(self.height())
-                self.label.resize(self.width()-self.getPx(8), self.height())
+                self.label.resize(self.width()-self.getPx(8), self.height()-self.getPx(1))
                 self.label.show()
                 loadTimeFormat()
                 self.show()
@@ -960,15 +982,15 @@ try:
                 self.setFocus()
 
 
-                self.full_screen_rect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
-                print("🔵 Full screen rect: ", self.full_screen_rect)
+                self.fullScreenRect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
+                print("🔵 Full screen rect: ", self.fullScreenRect)
 
 
                 self.forceDarkTheme = getSettings("ForceDarkTheme")
                 self.forceLightTheme = getSettings("ForceLightTheme")
                 self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
-                self.isLowCpuMode = getSettings("EnableLowCpuMode")
-                self.primary_screen = QGuiApplication.primaryScreen()
+                self.IS_LOW_CPU_MODE = getSettings("EnableLowCpuMode")
+                self.primaryScreen = QGuiApplication.primaryScreen()
                 self.oldBgColor = 0
 
                 self.user32 = windll.user32
@@ -1078,10 +1100,10 @@ try:
             shouldBeTransparent = False
             while True:
                 try:
-                    if self.taskbarBackgroundColor and not self.isLowCpuMode and not globals.trayIcon.contextMenu().isVisible():
+                    if self.taskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
-                                intColor = self.primary_screen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                                intColor = self.primaryScreen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
@@ -1099,13 +1121,13 @@ try:
                     print("🟣 Expected AttributeError on backgroundLoop thread")
                 time.sleep(0.5)
 
-        def theresFullScreenWin(self, clockOnFirstMon, newMethod, legacyMethod):
+        def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, NEW_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD):
             try:
                 fullscreen = False
 
-                def compareFullScreenRects(window, screen, newMethod):
+                def compareFullScreenRects(window, screen, NEW_FULLSCREEN_METHOD):
                     try:
-                        if(newMethod):
+                        if(NEW_FULLSCREEN_METHOD):
                             return  window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3] and window[0]+8 != screen[0] and window[1]+8 != screen[1]
                         else:
                             return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
@@ -1115,8 +1137,8 @@ try:
                 def winEnumHandler(hwnd, _):
                     nonlocal fullscreen
                     if win32gui.IsWindowVisible(hwnd):
-                        if compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod):
-                            if clockOnFirstMon and self.textInputHostHWND == 0:
+                        if compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, NEW_FULLSCREEN_METHOD):
+                            if CLOCK_ON_FIRST_MONITOR and self.textInputHostHWND == 0:
                                     pythoncom.CoInitialize()
                                     _, pid = win32process.GetWindowThreadProcessId(hwnd)
                                     _wmi = win32com.client.GetObject('winmgmts:')
@@ -1126,7 +1148,7 @@ try:
                                     for p in processes:
                                         if p.Name != "TextInputHost.exe":
                                             if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                                                 fullscreen = True
                                         else:
                                             print("🟢 Cached text input host hwnd:", hwnd)
@@ -1134,15 +1156,15 @@ try:
                                             self.INTLOOPTIME = 2
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
-                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                                     fullscreen = True
-                if not legacyMethod:
+                if not LEGACY_FULLSCREEN_METHOD:
                     win32gui.EnumWindows(winEnumHandler, 0)
                 else:
                     hwnd = win32gui.GetForegroundWindow()
-                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.full_screen_rect, newMethod)):
+                    if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, NEW_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.full_screen_rect)
+                            print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                             fullscreen = True
                 return fullscreen
             except Exception as e:
@@ -1151,26 +1173,26 @@ try:
 
         def mainClockLoop(self):
             global isRDPRunning, numOfNotifs
-            EnableHideOnFullScreen = not(getSettings("DisableHideOnFullScreen"))
-            DisableHideWithTaskbar = getSettings("DisableHideWithTaskbar")
-            EnableHideOnRDP = getSettings("EnableHideOnRDP")
-            clockOnFirstMon = getSettings("ForceClockOnFirstMonitor")
-            newMethod = getSettings("NewFullScreenMethod")
-            notifs = not getSettings("DisableNotifications")
-            legacyMethod = getSettings("legacyFullScreenMethod")
-            isTransparentOnFS = getSettings("TransparentClockWhenInFullscreen")
+            ENABLE_HIDE_ON_FULLSCREEN = not getSettings("DisableHideOnFullScreen")
+            DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
+            ENABLE_HIDE_FROM_RDP = getSettings("EnableHideOnRDP")
+            CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnFirstMonitor")
+            NEW_FULLSCREEN_METHOD = getSettings("NewFullScreenMethod")
+            SHOW_NOTIFICATIONS = not getSettings("DisableNotifications")
+            LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
+            MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = getSettings("TransparentClockWhenInFullscreen")
             oldNotifNumber = 0
-            print(f"🔵 Show/hide loop started with parameters: HideonFS:{EnableHideOnFullScreen}, NotHideOnTB:{DisableHideWithTaskbar}, HideOnRDP:{EnableHideOnRDP}, ClockOn1Mon:{clockOnFirstMon}, NefWSMethod:{newMethod}, DisableNotifications:{notifs}, legacyFullScreenMethod:{legacyMethod}")
-            if self.isLowCpuMode or clockOnFirstMon:
+            print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{NEW_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
+            if self.IS_LOW_CPU_MODE or CLOCK_ON_FIRST_MONITOR:
                 self.INTLOOPTIME = 15
             else:
                 self.INTLOOPTIME = 2
             while True:
                 self.isRDPRunning = isRDPRunning
-                isFullScreen = self.theresFullScreenWin(clockOnFirstMon, newMethod, legacyMethod)
+                isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, NEW_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD)
                 for i in range(self.INTLOOPTIME):
-                    if (not(isFullScreen) or not(EnableHideOnFullScreen)) and not self.clockShouldBeHidden:
-                        if notifs:
+                    if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
+                        if SHOW_NOTIFICATIONS:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
                             if numOfNotifs > 0:
@@ -1183,7 +1205,7 @@ try:
                                 if not isFocusAssist:
                                     self.callInMainSignal.emit(self.label.disableClockIndicators)
                         oldNotifNumber = numOfNotifs
-                        if self.autoHide and not(DisableHideWithTaskbar):
+                        if self.autoHide and not(DISABLE_HIDE_WITH_TASKBAR):
                             mousePos = getMousePos()
                             if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
                                 if self.isHidden():
@@ -1199,15 +1221,15 @@ try:
                                 else:
                                     self.hideSignal.emit()
                         else:
-                            if(self.isRDPRunning and EnableHideOnRDP):
+                            if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
                                 self.hideSignal.emit()
                             else:
                                 self.refresh.emit()
                     else:
                         self.hideSignal.emit()
-                    if not EnableHideOnFullScreen:
+                    if not ENABLE_HIDE_ON_FULLSCREEN:
                         if isFullScreen:
-                            self.tempMakeClockTransparent = isTransparentOnFS
+                            self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
                         else:
                             self.tempMakeClockTransparent = False
                     else:
@@ -1221,13 +1243,13 @@ try:
                 self.callInMainSignal.emit(lambda: self.label.setText(timeStr))
                 time.sleep(0.1)
 
-        def showCalendar(self):
-            if len(self.clockAction) == 1:
-                pyautogui.hotkey(self.clockAction[0])
-            elif len(self.clockAction) == 2:
-                pyautogui.hotkey(self.clockAction[0], self.clockAction[1])
-            elif len(self.clockAction) == 3:
-                pyautogui.hotkey(self.clockAction[0], self.clockAction[1], self.clockAction[2])
+        def singleClickAction(self):
+            if len(self.clickAction) == 1:
+                pyautogui.hotkey(self.clickAction[0])
+            elif len(self.clickAction) == 2:
+                pyautogui.hotkey(self.clickAction[0], self.clickAction[1])
+            elif len(self.clickAction) == 3:
+                pyautogui.hotkey(self.clickAction[0], self.clickAction[1], self.clickAction[2])
             if self.hideClockWhenClicked:
                 print("🟡 Hiding clock because clicked!")
                 self.clockShouldBeHidden = True
@@ -1239,13 +1261,29 @@ try:
 
                 KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
 
+        def doDoubleClickAction(self):
+            try:
+                if len(self.doubleClickAction) == 1:
+                    if self.doubleClickAction[0] == "trashcan":
+                        winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
+                    elif self.doubleClickAction[0] == "trashcan_noconfirm":
+                        winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
+                    else:
+                        pyautogui.hotkey(self.doubleClickAction[0])
+                elif len(self.doubleClickAction) == 2:
+                    pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1])
+                elif len(self.doubleClickAction) == 3:
+                    pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1], self.doubleClickAction[2])
+            except Exception as e:
+                report(e)
+
         def showDesktop(self):
             pyautogui.hotkey("win", "d")
 
         def focusOutEvent(self, event: QFocusEvent) -> None:
             self.refresh.emit()
 
-        def refreshandShow(self):
+        def refreshAndShow(self):
             if(self.shouldBeVisible):
                 self.show()
                 self.raise_()
@@ -1254,7 +1292,7 @@ try:
                     if(theme != self.lastTheme):
                         if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
                             self.lastTheme = 0
-                            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
+                            self.label.setStyleSheet(f"padding: {self.getPx(0)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
                             self.label.bgopacity = 0.1
                             self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
                             self.font.setFamilies(self.fontfamilies)
@@ -1267,7 +1305,7 @@ try:
                             self.label.setFont(self.font)
                         else:
                             self.lastTheme = 1
-                            self.label.setStyleSheet(f"padding: {self.getPx(1)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
+                            self.label.setStyleSheet(f"padding: {self.getPx(0)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
                             self.label.bgopacity = .5
                             self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
                             self.font.setFamilies(self.fontfamilies)
@@ -1295,7 +1333,7 @@ try:
 
     class Label(QLabel):
         clicked = Signal()
-        dobuleClicked = Signal()
+        doubleClicked = Signal()
         outline = True
         def __init__(self, text, parent):
             super().__init__(text, parent=parent)
@@ -1310,10 +1348,11 @@ try:
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
+            self.sidesColor = "0, 0, 0"
             QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
-            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
+            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
             if self.window().transparentBackground:
                 colorOffset = 0
@@ -1324,15 +1363,15 @@ try:
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {self.getPx(6)}px;"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
             self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/2});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {self.getPx(6)}px;"))
             self.setAutoFillBackground(True)
-            self.backgroundwidget.setGeometry(0, 0, self.width(), self.height())
+            self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-self.getPx(2))
 
             self.opacity=QGraphicsOpacityEffect(self)
             self.opacity.setOpacity(1.00)
@@ -1386,7 +1425,7 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True
-                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
+                self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
                 self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
@@ -1397,7 +1436,7 @@ try:
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
-                self.setContentsMargins(self.getPx(5), self.getPx(2), self.getPx(43), self.getPx(2))
+                self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
                 topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
                 self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding))
@@ -1408,11 +1447,11 @@ try:
         def disableClockIndicators(self):
             if self.focusassitant:
                 self.focusassitant = False
-                self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
+                self.setContentsMargins(self.getPx(6), self.getPx(0), self.getPx(13), self.getPx(4))
                 self.focusAssitantLabel.hide()
             if self.notifdot:
                 self.notifdot = False
-                self.setContentsMargins(self.getPx(6), self.getPx(2), self.getPx(13), self.getPx(2))
+                self.setContentsMargins(self.getPx(6), self.getPx(0), self.getPx(13), self.getPx(4))
                 self.notifDotLabel.hide()
 
 
@@ -1424,11 +1463,11 @@ try:
             self.showBackground.setStartValue(.01)
             self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
             if not self.window().clockOnTheLeft:
-                self.backgroundwidget.move(0, 2)
-                self.backgroundwidget.resize(geometry, self.height()-4)
+                self.backgroundwidget.move(0, self.getPx(1))
+                self.backgroundwidget.resize(geometry, self.height()-3)
             else:
-                self.backgroundwidget.move(0, 2)
-                self.backgroundwidget.resize(geometry, self.height()-4)
+                self.backgroundwidget.move(0, self.getPx(1))
+                self.backgroundwidget.resize(geometry, self.height()-3)
             self.showBackground.start()
             if not r:
                 self.enterEvent(event, r=True)
@@ -1471,7 +1510,7 @@ try:
             return super().mouseReleaseEvent(ev)
 
         def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
-            cprint("doubleclick")
+            self.doubleClicked.emit()
             return super().mouseDoubleClickEvent(event)
 
 
@@ -1482,11 +1521,10 @@ try:
                 w = mw
             if w<self.window().getPx(self.window().preferedwidth) and not self.window().clockOnTheLeft:
                 self.move(self.window().getPx(self.window().preferedwidth)-w+self.getPx(2), 0)
-                self.resize(w, self.height())
+                self.resize(w, self.height()-self.getPx(1))
             else:
                 self.move(0, 0)
-                self.resize(w, self.height())
-
+                self.resize(w, self.height()-self.getPx(1))
             return super().paintEvent(event)
 
         def resizeEvent(self, event: QResizeEvent) -> None:
@@ -1588,7 +1626,7 @@ try:
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("AlreadyInstalled", True)
         setSettings("NewFullScreenMethod", True)
-        setSettings("ForceClockOnFirstMonitor", True)
+        setSettings("ForceClockOnfirstMonitor", True)
         showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)

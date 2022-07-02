@@ -5,3 +5,4 @@ psutil
 PyInstaller==4.9
 win32mica
 python-dateutil
+winshell

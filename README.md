@@ -56,7 +56,7 @@ TL;DR: ElevenClock does everything that Windows 11 clock can't do.
  - Show a task manager shortcut on the clock context menu
  - Disable the notifications badge
  - More stuff can be found on ElevenClock Settings
-
+ 
 ## Translating ElevenClock to other languages
 In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki][translating link] for more info.
 
@@ -66,47 +66,52 @@ In order to translate ElevenClock to other languages or to update an old transla
 
 | Language | Translated | |
 | :-- | :-- | --- |
-| Arabic - عربي‎ | 69% | <img src='https://flagcdn.com/ar.svg' width=20> |
+| Arabic - عربي‎ | 67% | <img src='https://flagcdn.com/ar.svg' width=20> |
 | Catalan - Català | 100% | <img src='https://flagcdn.com/ad.svg' width=20> |
-| Czech - Čeština | 100% | <img src='https://flagcdn.com/cz.svg' width=20> |
+| Czech - Čeština | 98% | <img src='https://flagcdn.com/cz.svg' width=20> |
 | Danish - Dansk | 26% | <img src='https://flagcdn.com/dk.svg' width=20> |
-| German - Deutsch | 100% | <img src='https://flagcdn.com/de.svg' width=20> |
-| Greek - Ελληνικά | 21% | <img src='https://flagcdn.com/gr.svg' width=20> |
+| German - Deutsch | 98% | <img src='https://flagcdn.com/de.svg' width=20> |
+| Greek - Ελληνικά | 20% | <img src='https://flagcdn.com/gr.svg' width=20> |
 | English - English | 100% | <img src='https://flagcdn.com/gb.svg' width=20> |
 | Spanish - Español | 100% | <img src='https://flagcdn.com/es.svg' width=20> |
-| Finnish - Suomi | 54% | <img src='https://flagcdn.com/fi.svg' width=20> |
-| French - Français | 98% | <img src='https://flagcdn.com/fr.svg' width=20> |
+| Finnish - Suomi | 58% | <img src='https://flagcdn.com/fi.svg' width=20> |
+| French - Français | 96% | <img src='https://flagcdn.com/fr.svg' width=20> |
 | Hebrew - עִבְרִית‎ | 29% | <img src='https://flagcdn.com/il.svg' width=20> |
-| Hungarian - Magyar | 67% | <img src='https://flagcdn.com/hu.svg' width=20> |
-| Indonesian - Bahasa Indonesia | 22% | <img src='https://flagcdn.com/id.svg' width=20> |
-| Italian - Italiano | 53% | <img src='https://flagcdn.com/it.svg' width=20> |
-| Japanese - 日本語 | 83% | <img src='https://flagcdn.com/jp.svg' width=20> |
-| Korean - 한국어 | 99% | <img src='https://flagcdn.com/kr.svg' width=20> |
-| Lithuanian - Lietuvių | 25% | <img src='https://flagcdn.com/lt.svg' width=20> |
+| Hungarian - Magyar | 66% | <img src='https://flagcdn.com/hu.svg' width=20> |
+| Indonesian - Bahasa Indonesia | 21% | <img src='https://flagcdn.com/id.svg' width=20> |
+| Italian - Italiano | 52% | <img src='https://flagcdn.com/it.svg' width=20> |
+| Japanese - 日本語 | 82% | <img src='https://flagcdn.com/jp.svg' width=20> |
+| Korean - 한국어 | 98% | <img src='https://flagcdn.com/kr.svg' width=20> |
+| Lithuanian - Lietuvių | 24% | <img src='https://flagcdn.com/lt.svg' width=20> |
 | Latvian - Latviski | 35% | <img src='https://flagcdn.com/lv.svg' width=20> |
-| Norwegian (bokmål) | 77% | <img src='https://flagcdn.com/no.svg' width=20> |
-| Dutch - Nederlandse | 50% | <img src='https://flagcdn.com/nl.svg' width=20> |
-| Norwegian (nynorsk) | 75% | <img src='https://flagcdn.com/no.svg' width=20> |
-| Polish - Polski | 42% | <img src='https://flagcdn.com/pl.svg' width=20> |
-| Portuguese (Brazil) | 74% | <img src='https://flagcdn.com/br.svg' width=20> |
+| Norwegian (bokmål) | 98% | <img src='https://flagcdn.com/no.svg' width=20> |
+| Dutch - Nederlands | 53% | <img src='https://flagcdn.com/nl.svg' width=20> |
+| Norwegian (nynorsk) | 73% | <img src='https://flagcdn.com/no.svg' width=20> |
+| Polish - Polski | 41% | <img src='https://flagcdn.com/pl.svg' width=20> |
+| Portuguese (Brazil) | 73% | <img src='https://flagcdn.com/br.svg' width=20> |
 | Portuguese (Portugal) | 29% | <img src='https://flagcdn.com/pt.svg' width=20> |
-| Romanian - Română | 41% | <img src='https://flagcdn.com/ro.svg' width=20> |
-| Russian - Русский | 81% | <img src='https://flagcdn.com/ru.svg' width=20> |
-| Sinhala - සිංහල | 0% | <img src='https://flagcdn.com/si.svg' width=20> |
+| Romanian - Română | 40% | <img src='https://flagcdn.com/ro.svg' width=20> |
+| Russian - Русский | 80% | <img src='https://flagcdn.com/ru.svg' width=20> |
 | Slovak - Slovenčina | 33% | <img src='https://flagcdn.com/sk.svg' width=20> |
-| Serbian - Srpski | 25% | <img src='https://flagcdn.com/sr.svg' width=20> |
-| Swedish - Svenska | 81% | <img src='https://flagcdn.com/sv.svg' width=20> |
-| Thai - ภาษาไทย | 81% | <img src='https://flagcdn.com/th.svg' width=20> |
-| Turkish - Türkçe | 22% | <img src='https://flagcdn.com/tr.svg' width=20> |
-| Ukranian - Yкраї́нська | 27% | <img src='https://flagcdn.com/ua.svg' width=20> |
-| Vietnamese - Tiếng Việt | 19% | <img src='https://flagcdn.com/vi.svg' width=20> |
-| Simplified Chinese (China) | 75% | <img src='https://flagcdn.com/cn.svg' width=20> |
-| Traditional Chinese (Taiwan) | 85% | <img src='https://flagcdn.com/tw.svg' width=20> |
+| Serbian - Srpski | 24% | <img src='https://flagcdn.com/sr.svg' width=20> |
+| Swedish - Svenska | 80% | <img src='https://flagcdn.com/sv.svg' width=20> |
+| Thai - ภาษาไทย | 80% | <img src='https://flagcdn.com/th.svg' width=20> |
+| Turkish - Türkçe | 21% | <img src='https://flagcdn.com/tr.svg' width=20> |
+| Ukranian - Yкраї́нська | 26% | <img src='https://flagcdn.com/ua.svg' width=20> |
+| Vietnamese - Tiếng Việt | 18% | <img src='https://flagcdn.com/vi.svg' width=20> |
+| Simplified Chinese (China) | 73% | <img src='https://flagcdn.com/cn.svg' width=20> |
+| Traditional Chinese (Taiwan) | 84% | <img src='https://flagcdn.com/tw.svg' width=20> |
 <!-- END Autogenerated translations -->
 
 #### New laguanges that will come with next version:
  - You say!
 
+## Contributors
+ ElevenClock wouldn't have been possible with all the help from every single contributor. From the person who fixed a typo to the person who improved half of the code, ElevenClock wouldn't have been possible without you :)<br><br>
+ 
+### Contributors list
+ ![GitHub Contributors Image](https://contrib.rocks/image?repo=martinet101/ElevenClock)
+ 
 ## The icon:
 ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
 
@@ -157,4 +162,5 @@ A: ElevenClock can't modify or update  the main clock due to Windows 11's restri
 See the wiki: https://github.com/martinet101/ElevenClock/wiki/Installation
 
 
-[translating link]: https://github.com/martinet101/ElevenClock/wiki#translating-elevenclocklock
+[translating link]: https://github.com/martinet101/ElevenClock/wiki#translating-elevenclock
+
