@@ -1379,7 +1379,7 @@ try:
 
             self.focusassitant = True
             self.focusAssitantLabel = QPushButton(self)
-            self.focusAssitantLabel.move(self.width(), 0)
+            self.focusAssitantLabel.move(self.width(), self.getPx(-1))
             self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
             self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
             self.focusAssitantLabel.resize(self.getPx(30), self.height())
@@ -1426,7 +1426,7 @@ try:
                     self.disableClockIndicators()
                 self.focusassitant = True
                 self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
-                self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), 0)
+                self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), self.getPx(-1))
                 self.focusAssitantLabel.setFixedWidth(self.getPx(30))
                 self.focusAssitantLabel.setFixedHeight(self.height())
                 self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
@@ -1439,7 +1439,7 @@ try:
                 self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
                 topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
                 leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
-                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding))
+                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+self.getPx(-1))
                 self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
                 self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
                 self.notifDotLabel.show()
