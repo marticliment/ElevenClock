@@ -141,6 +141,7 @@ languageFlagsRemap = {
     "nn": "no",
     "pt_BR": "br",
     "pt_PT": "pt",
+    "si": "lk",
     "zh_CN": "cn",
     "zh_TW": "tw",
 }

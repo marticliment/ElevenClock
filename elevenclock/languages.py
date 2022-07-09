@@ -26,6 +26,7 @@ languageReference = {
     "pt_PT" : "Portuguese (Portugal)",
     "ro"    : "Romanian - Română",
     "ru"    : "Russian - Русский",
+    "si"    : "Sinhala - සිංහල",
     "sk"    : "Slovak - Slovenčina",
     "sr"    : "Serbian - Srpski",
     "sv"    : "Swedish - Svenska",

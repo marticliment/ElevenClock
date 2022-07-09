@@ -1,6 +1,6 @@
 {
-  "10 hours" : null,
-  "10 minutes" : null,
+  "10 hours" : "10 horas",
+  "10 minutes" : "10 minutos",
   "1 hour" : null,
   "24 hours" : null,
   "2 hours" : null,
@@ -12,7 +12,7 @@
   "About Qt6 (PySide6)" : "Sobre o Qt6 (PySide6)",
   "About the language pack:" : "Sobre o pacote de idiomas:",
   "Accent" : null,
-  "Add the \"Show Desktop\" button on the left corner of every clock" : "Adicione o botão \"Mostrar área de trabalho\" no canto esquerdo de cada relógio",
+  "Add the \"Show Desktop\" button on the left corner of every clock" : "Adicione o botão \"Mostrar área de trabalho\" no canto esquerdo de todos relógios",
   "Adjust horizontal clock position" : "Ajustar a posição horizontal do relógio",
   "Adjust vertical clock position" : "Ajustar a posição vertical do relógio",
   "Align the clock text to the center" : "Alinhar o texto do relógio ao centro",

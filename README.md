@@ -68,7 +68,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | :-- | :-- | --- |
 | Arabic - عربي‎ | 67% | <img src='https://flagcdn.com/ar.svg' width=20> |
 | Catalan - Català | 100% | <img src='https://flagcdn.com/ad.svg' width=20> |
-| Czech - Čeština | 98% | <img src='https://flagcdn.com/cz.svg' width=20> |
+| Czech - Čeština | 100% | <img src='https://flagcdn.com/cz.svg' width=20> |
 | Danish - Dansk | 26% | <img src='https://flagcdn.com/dk.svg' width=20> |
 | German - Deutsch | 98% | <img src='https://flagcdn.com/de.svg' width=20> |
 | Greek - Ελληνικά | 20% | <img src='https://flagcdn.com/gr.svg' width=20> |
@@ -81,18 +81,18 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Indonesian - Bahasa Indonesia | 21% | <img src='https://flagcdn.com/id.svg' width=20> |
 | Italian - Italiano | 52% | <img src='https://flagcdn.com/it.svg' width=20> |
 | Japanese - 日本語 | 100% | <img src='https://flagcdn.com/jp.svg' width=20> |
-| Korean - 한국어 | 98% | <img src='https://flagcdn.com/kr.svg' width=20> |
+| Korean - 한국어 | 100% | <img src='https://flagcdn.com/kr.svg' width=20> |
 | Lithuanian - Lietuvių | 24% | <img src='https://flagcdn.com/lt.svg' width=20> |
 | Latvian - Latviski | 35% | <img src='https://flagcdn.com/lv.svg' width=20> |
 | Norwegian (bokmål) | 98% | <img src='https://flagcdn.com/no.svg' width=20> |
 | Dutch - Nederlands | 53% | <img src='https://flagcdn.com/nl.svg' width=20> |
 | Norwegian (nynorsk) | 73% | <img src='https://flagcdn.com/no.svg' width=20> |
 | Polish - Polski | 100% | <img src='https://flagcdn.com/pl.svg' width=20> |
-| Portuguese (Brazil) | 73% | <img src='https://flagcdn.com/br.svg' width=20> |
+| Portuguese (Brazil) | 74% | <img src='https://flagcdn.com/br.svg' width=20> |
 | Portuguese (Portugal) | 29% | <img src='https://flagcdn.com/pt.svg' width=20> |
 | Romanian - Română | 40% | <img src='https://flagcdn.com/ro.svg' width=20> |
 | Russian - Русский | 80% | <img src='https://flagcdn.com/ru.svg' width=20> |
-| si | 0% | <img src='https://flagcdn.com/si.svg' width=20> |
+| Sinhala - සිංහල | 0% | <img src='https://flagcdn.com/lk.svg' width=20> |
 | Slovak - Slovenčina | 33% | <img src='https://flagcdn.com/sk.svg' width=20> |
 | Serbian - Srpski | 24% | <img src='https://flagcdn.com/sr.svg' width=20> |
 | Swedish - Svenska | 80% | <img src='https://flagcdn.com/sv.svg' width=20> |
