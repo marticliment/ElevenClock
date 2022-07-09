@@ -1152,7 +1152,7 @@ try:
                                     for p in processes:
                                         if p.Name != "TextInputHost.exe":
                                             if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                                                 fullscreen = True
                                         else:
                                             print("🟢 Cached text input host hwnd:", hwnd)
@@ -1160,7 +1160,7 @@ try:
                                             self.INTLOOPTIME = 2
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
-                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                                     fullscreen = True
                 if not LEGACY_FULLSCREEN_METHOD:
                     win32gui.EnumWindows(winEnumHandler, 0)
@@ -1168,7 +1168,7 @@ try:
                     hwnd = win32gui.GetForegroundWindow()
                     if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, NEW_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", win32gui.GetWindowText(hwnd), win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                            print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
                             fullscreen = True
                 return fullscreen
             except Exception as e:
