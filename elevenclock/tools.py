@@ -233,6 +233,9 @@ def getMousePos() -> QPoint:
         return QPoint(0, 0)
 
 def clearTmpDir():
+    while not globals.canEraseTempDirs:
+        time.sleep(0.1)
+    print("🟢 Green lignt to rease temp dirs")
     if hasattr(sys, 'frozen'):
         base_path = sys._MEIPASS
         try:
@@ -241,7 +244,8 @@ def clearTmpDir():
             for item in mei_folders:
                 if (item == base_path): continue
                 try:
-                    shutil.rmtree(item)
+                    if not globals.newInstanceLaunched:
+                        shutil.rmtree(item)
                 except Exception as e:
                     report(e)
         except Exception as e:

@@ -41,3 +41,5 @@ ww: QMainWindow = None
 tempDir: str = None
 dateTimeFormat: str = "%HH:%M\n%A\n%d/%m/%Y"
 settingsCache = {}
+canEraseTempDirs: bool = False
+newInstanceLaunched: bool = False

@@ -356,12 +356,16 @@ try:
                                         print("🟠 Can't delete, tried again")
                                         report(e)
                         elif float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) > nowTime:
+                            globals.newInstanceLaunched = True
                             if not getSettings("DisableNewInstanceChecker"):
                                 print("🟠 KILLING, NEWER VERSION RUNNING")
                                 killSignal.infoSignal.emit("", "")
                 if not(getSettings(name)):
+                    globals.newInstanceLaunched = True
                     print("🟠 KILLING, NEWER VERSION RUNNING")
                     killSignal.infoSignal.emit("", "")
+                if not globals.newInstanceLaunched:
+                    globals.canEraseTempDirs = True
             except Exception as e:
                 report(e)
             time.sleep(2)
