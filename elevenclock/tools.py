@@ -28,8 +28,8 @@ from external.FramelessWindow import QFramelessDialog
 
 from win32con import *
 
-version = 3.62
-versionName = "3.6.2"
+version = 3.63
+versionName = "3.6.3"
 
 
 try:
