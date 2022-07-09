@@ -80,7 +80,7 @@
   "ElevenClock Updater" : null,
   "ElevenClock v{0}" : null,
   "Empty the recycle bin" : null,
-  "Empty the recycle bin (Without confirmation)" : null,
+  "Empty the recycle bin (Without confirmation)" : "Empty the recycle bin (No confirmation)",
   "Enable hide when multi-monitor fullscreen apps are running" : null,
   "Enable internet time sync" : null,
   "Enable low-cpu mode" : null,
