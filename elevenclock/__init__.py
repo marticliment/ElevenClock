@@ -1646,7 +1646,8 @@ try:
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
 
-    Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
+    if not getSettings("DisableDirRemovingThread"):
+        Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
 
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()
@@ -1654,6 +1655,8 @@ try:
     app.exec_()
     app.quit()
 
+except FileNotFoundError as e:
+    sys.exit(402)
 except Exception as e:
     import webbrowser, traceback, platform
     if not "versionName" in locals() and not "versionName" in _globals():
