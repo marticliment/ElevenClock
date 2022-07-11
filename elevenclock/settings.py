@@ -516,7 +516,7 @@ class SettingsWindow(QMainWindow):
 
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
-        self.fixDir = QSettingsCheckBox(_("Fix crashes relating to FileNotFoundError"))
+        self.fixDir = QSettingsCheckBox(_("Fix crashes relating to the \"FileNotFoundError\" error"))
         self.fixDir.setChecked(getSettings("DisableDirRemovingThread"))
         self.fixDir.stateChanged.connect(lambda i: setSettings("DisableDirRemovingThread", bool(i)))
         self.experimentalTitle.addWidget(self.fixDir)
