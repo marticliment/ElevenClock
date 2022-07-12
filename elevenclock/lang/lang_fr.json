@@ -90,6 +90,7 @@
   "Export settings to a local file" : "Exporter les paramètres dans un fichier",
   "Fetching latest announcement, please wait..." : "Récupération des dernières annonces, veuillez patienter...",
   "Finish" : "Terminer",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Corrections et autres fonctions expérimentales (Utiliser SEULEMENT si quelque chose ne fonctionne pas)",
   "Fix the hyphen/dash showing over the month" : "Corriger le trait d'union affiché au-dessus du mois",
   "(for advanced users only)" : "(utilisateurs avancés uniquement)",

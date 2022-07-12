@@ -90,6 +90,7 @@
   "Export settings to a local file" : "Eksporter innstillinger til lokal fil",
   "Fetching latest announcement, please wait..." : "Henter siste kunngjøring, vennligst vent...",
   "Finish" : "Fullfør",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Diverse fikser og eksperimentelle funksjoner: (Bare aktiver hvis det er noe som ikke fungerer)",
   "Fix the hyphen/dash showing over the month" : "Fjern eventuell bindestrek som vises over månedsnummer",
   "(for advanced users only)" : "(kun for avanserte brukere)",

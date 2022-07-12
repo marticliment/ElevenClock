@@ -90,6 +90,7 @@
   "Export settings to a local file" : "ローカル ファイルに設定をエクスポートする",
   "Fetching latest announcement, please wait..." : "最新のお知らせを取得中です。しばらくお待ちください。",
   "Finish" : "完了",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "修正やその他の試験機能: (うまく動作しない場合のみ使用してください)",
   "Fix the hyphen/dash showing over the month" : "月の上に表示されるハイフンやダッシュを修正する",
   "(for advanced users only)" : "(上級者向け)",

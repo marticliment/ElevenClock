@@ -90,6 +90,7 @@
   "Export settings to a local file" : null,
   "Fetching latest announcement, please wait..." : null,
   "Finish" : null,
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Експерементальні налаштування для виправлення помилок (Викорстовувати лише, коли щось не працює)",
   "Fix the hyphen/dash showing over the month" : "Виправлення показу дефісу/тире над відображенням місяця",
   "(for advanced users only)" : null,

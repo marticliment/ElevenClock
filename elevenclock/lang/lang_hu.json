@@ -90,6 +90,7 @@
   "Export settings to a local file" : null,
   "Fetching latest announcement, please wait..." : "Legutóbbi bejelentések betöltése, kis türelmet...",
   "Finish" : "Befejezés",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Javítások és egyéb kísérleti funkciók (Csak hibás működés esetén használja)",
   "Fix the hyphen/dash showing over the month" : "A per/kötőjel megjavítása, ha a hónap felett jelenik meg",
   "(for advanced users only)" : "(Csak haladó felhasználóknak)",

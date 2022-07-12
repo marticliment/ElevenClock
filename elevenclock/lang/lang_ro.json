@@ -90,6 +90,7 @@
   "Export settings to a local file" : "Exportați setările într-un fișier local",
   "Fetching latest announcement, please wait..." : "Se preiau cel mai recente anunțuri, va rugăm așteptați...",
   "Finish" : "Finializare",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Remedieri și alte caracteristici experimentale: (Folosiți NUMAI dacă ceva nu funcționează)",
   "Fix the hyphen/dash showing over the month" : null,
   "(for advanced users only)" : "(doar pentru utilizatori avansați)",

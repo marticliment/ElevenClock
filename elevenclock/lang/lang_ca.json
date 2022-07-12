@@ -90,6 +90,7 @@
   "Export settings to a local file" : "Exporta la configuració a un fitxer local",
   "Fetching latest announcement, please wait..." : "Carregant l'últim anunci, espereu-vos si us plau...",
   "Finish" : "Finalitzar",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : "Arregla els errors relacionats amb l'error \"FileNotFoundError\"",
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Característiques experimentals i solucions (Utilitzar només si quelcom no funciona)",
   "Fix the hyphen/dash showing over the month" : "Arregla el guió mostrant -se sobre el mes (format de la data)",
   "(for advanced users only)" : "(només per a usuaris avançats)",

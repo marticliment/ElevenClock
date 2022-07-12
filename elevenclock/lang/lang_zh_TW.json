@@ -90,6 +90,7 @@
   "Export settings to a local file" : "將設定匯出至本機檔案",
   "Fetching latest announcement, please wait..." : "讀取最新公告中，請稍候...",
   "Finish" : "完成",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "錯誤修正以及其他實驗性更新（請「只」在有東西無法正常運作時使用）",
   "Fix the hyphen/dash showing over the month" : "修正連字符以及底線會壓住月份的問題",
   "(for advanced users only)" : "建議由進階使用者使用",

@@ -90,6 +90,7 @@
   "Export settings to a local file" : "Экспорт настроек в файл",
   "Fetching latest announcement, please wait..." : "Загружаются объявления, ждите...",
   "Finish" : "Завершить",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Исправления/экспериментальные возможности: (Используйте, если ТОЛЬКО что-то не работает)",
   "Fix the hyphen/dash showing over the month" : "Исправить наложение дефиса/тире на текст месяца",
   "(for advanced users only)" : "(для продвинутых)",

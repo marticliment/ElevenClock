@@ -90,6 +90,7 @@
   "Export settings to a local file" : null,
   "Fetching latest announcement, please wait..." : null,
   "Finish" : null,
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Pataisymai ir kitos eksperimentinės funkcijos: (Naudokite TIK tuomet kai kažkas neveikia)",
   "Fix the hyphen/dash showing over the month" : "Sutaisyti brūkšnelį rodomą ant mėnesio",
   "(for advanced users only)" : null,

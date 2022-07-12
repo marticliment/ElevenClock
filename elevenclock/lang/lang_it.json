@@ -90,6 +90,7 @@
   "Export settings to a local file" : null,
   "Fetching latest announcement, please wait..." : "Recuperando l'ultimo annuncio, per favore aspetta ...",
   "Finish" : "Fine",
+  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "Correzioni e altre funzionalità sperimentali: (Usale SOLO se qualcosa non funziona)",
   "Fix the hyphen/dash showing over the month" : "Corregge la visualizzazione del trattino sul mese",
   "(for advanced users only)" : null,
