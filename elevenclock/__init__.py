@@ -1352,7 +1352,7 @@ try:
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
-            self.sidesColor = "0, 0, 0"
+            self.sidesColor = "0, 0, 0" if isTaskbarDark() else "200,200,200"
             QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
