@@ -173,6 +173,7 @@ for line in f.readlines():
     if (not skip): data += line
 f.seek(0)
 f.write(data)
+f.truncate()
 f.close()
 
 
