@@ -78,7 +78,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | French - Français | 99% | <img src='https://flagcdn.com/fr.svg' width=20> |
 | Hebrew - עִבְרִית‎ | 29% | <img src='https://flagcdn.com/il.svg' width=20> |
 | Hungarian - Magyar | 66% | <img src='https://flagcdn.com/hu.svg' width=20> |
-| Indonesian - Bahasa Indonesia | 74% | <img src='https://flagcdn.com/id.svg' width=20> |
+| Indonesian - Bahasa Indonesia | 100% | <img src='https://flagcdn.com/id.svg' width=20> |
 | Italian - Italiano | 52% | <img src='https://flagcdn.com/it.svg' width=20> |
 | Japanese - 日本語 | 100% | <img src='https://flagcdn.com/jp.svg' width=20> |
 | Korean - 한국어 | 100% | <img src='https://flagcdn.com/kr.svg' width=20> |
@@ -92,7 +92,6 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Portuguese (Portugal) | 97% | <img src='https://flagcdn.com/pt.svg' width=20> |
 | Romanian - Română | 40% | <img src='https://flagcdn.com/ro.svg' width=20> |
 | Russian - Русский | 80% | <img src='https://flagcdn.com/ru.svg' width=20> |
-| Sinhala - සිංහල | 0% | <img src='https://flagcdn.com/lk.svg' width=20> |
 | Slovak - Slovenčina | 32% | <img src='https://flagcdn.com/sk.svg' width=20> |
 | Serbian - Srpski | 24% | <img src='https://flagcdn.com/sr.svg' width=20> |
 | Swedish - Svenska | 80% | <img src='https://flagcdn.com/sv.svg' width=20> |

@@ -152,12 +152,10 @@ readmeLangs = """
 """
 
 for lang in downloadedLanguages:
-    perc = "100%"
-    langName = lang
-    flag = lang
-    if (lang in langPerc): perc = langPerc[lang]
-    if (lang in languageReference): langName = languageReference[lang]
-    if (lang in languageFlagsRemap): flag = languageFlagsRemap[lang]
+    perc = langPerc[lang] if (lang in langPerc) else "100%"
+    if (perc == "0%"): continue
+    langName = languageReference[lang] if (lang in languageReference) else lang
+    flag = languageFlagsRemap[lang] if (lang in languageFlagsRemap) else lang
     readmeLangs += f"| {langName} | {perc} | <img src='https://flagcdn.com/{flag}.svg' width=20> |\n"
 
 f = open(readmeFilename, "r+", encoding="utf-8")
@@ -173,6 +171,7 @@ for line in f.readlines():
     if (not skip): data += line
 f.seek(0)
 f.write(data)
+f.truncate()
 f.close()
 
 
