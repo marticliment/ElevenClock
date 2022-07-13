@@ -23,13 +23,11 @@ import pyautogui
 
 
 import globals
+from versions import *
 from languages import *
 from external.FramelessWindow import QFramelessDialog
 
 from win32con import *
-
-version = 3.64
-versionName = "3.6.4"
 
 
 try:

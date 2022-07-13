@@ -43,6 +43,7 @@ try:
     from external.timezones import win_tz
 
     from languages import *
+    from versions import *
     import globals
 
     old_stdout = sys.stdout
