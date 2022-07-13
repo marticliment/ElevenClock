@@ -95,7 +95,9 @@ class SettingsWindow(QMainWindow):
         langListWithPercentage = []
         for key, value in languageReference.items():
             if (key in untranslatedPercentage):
-                langListWithPercentage.append(f"{value} ({untranslatedPercentage[key]})")
+                perc = untranslatedPercentage[key]
+                if (perc == "0%"): continue
+                langListWithPercentage.append(f"{value} ({perc})")
             else:
                 langListWithPercentage.append(value)
 
