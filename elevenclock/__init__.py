@@ -9,6 +9,7 @@ try:
     FirstTime = time.time()
 
     import os
+    from versions import *
     import io
     import sys
     import time
