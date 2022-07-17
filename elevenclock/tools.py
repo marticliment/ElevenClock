@@ -3,6 +3,7 @@ import json
 import time
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
+from versions import *
 import os
 import sys
 import winreg
@@ -23,7 +24,6 @@ import pyautogui
 
 
 import globals
-from versions import *
 from languages import *
 from external.FramelessWindow import QFramelessDialog
 
