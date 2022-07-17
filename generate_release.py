@@ -9,13 +9,46 @@ from languages import languageReference
 from translated_percentage import untranslatedPercentage
 
 
+languageFlagsRemap = {
+    "ca": "ad",
+    "cs": "cz",
+    "da": "dk",
+    "en": "gb",
+    "el": "gr",
+    "he": "il",
+    "ja": "jp",
+    "ko": "kr",
+    "nb": "no",
+    "nn": "no",
+    "pt_BR": "br",
+    "pt_PT": "pt",
+    "si": "lk",
+    "zh_CN": "cn",
+    "zh_TW": "tw",
+}
+
 # generate list of translations
-availableLangs = ""
+availableLangs = []
 for lang, langName in languageReference.items():
     if (not exists(f"elevenclock/lang/lang_{lang}.json")): continue
     if (lang in untranslatedPercentage):
         if (untranslatedPercentage[lang] == "0%"): continue
-    availableLangs += f"* {langName}\n"
+    availableLangs.append(langName)
+
+readmeLangs = """
+| Language | Translated | |
+| :-- | :-- | --- |
+"""
+print(availableLangs,"\n\n", languageReference)
+
+for lang in availableLangs:
+    langName = lang
+    lang = list(languageReference.keys())[list(languageReference.values()).index(lang)]
+    perc = untranslatedPercentage[lang] if (lang in untranslatedPercentage) else "100%"
+    if (perc == "0%"): continue
+    flag = languageFlagsRemap[lang] if (lang in languageFlagsRemap) else lang
+    readmeLangs += f"| {langName} | {perc} | <img src='https://flagcdn.com/{flag}.svg' width=20> |\n"
+
 
 
 # generate checksum
@@ -38,10 +71,11 @@ release = f"""
 
 
 # Available languages:
-{availableLangs}
+{readmeLangs}
 
-
-SHA256: `{checksum}`
+<br><br>
+Executable SHA256: `{checksum}`
+<br>Installer  SHA256: `insert-sha256-here`
 """
 
 # write output
@@ -56,4 +90,3 @@ print()
 print(release)
 print()
 print()
-input("Press any key to close")
