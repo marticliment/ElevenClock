@@ -11,6 +11,8 @@ ElevenClock was an app designed to return this functionality back, but it has ev
 
 Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more info ambou ElevenClock's main capabilities. Thanks to [@NXTWindows](https://twitter.com/nxtwindows) for this nice video!
 
+[![Status](https://img.shields.io/badge/Project%20current%20development%20status-Active-brightgreen?style=for-the-badge)]()
+
 ![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.webp)
 
 # Support me :)
