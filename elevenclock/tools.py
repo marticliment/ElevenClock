@@ -3,6 +3,7 @@ import json
 import time
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
+from versions import *
 import os
 import sys
 import winreg
@@ -27,9 +28,6 @@ from languages import *
 from external.FramelessWindow import QFramelessDialog
 
 from win32con import *
-
-version = 3.64
-versionName = "3.6.4"
 
 
 try:

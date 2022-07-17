@@ -9,6 +9,9 @@ ElevenClock.zip
 elevenclock/.vscode/launch.json
 elevenclock/lang/lang_backup*
 
+# generate_release.py
+RELEASE.md
+
 # Virtual environments
 venv/
 env/

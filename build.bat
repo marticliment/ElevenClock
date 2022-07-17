@@ -24,5 +24,6 @@ rmdir /Q /S elevenclock_bin
 taskkill /im ElevenClock.exe /f
 del ElevenClock.exe
 rename __init__.exe ElevenClock.exe
+python generate_release.py
 ElevenClock.exe
 pause
