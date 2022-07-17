@@ -48,3 +48,12 @@ SHA256: `{checksum}`
 f = open("RELEASE.md", "w", encoding="utf-8")
 f.write(release)
 f.close()
+
+print()
+print("MD result has been saved to RELEASE.md: The contents are:")
+print()
+print()
+print(release)
+print()
+print()
+input("Press any key to close")
