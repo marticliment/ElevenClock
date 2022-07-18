@@ -1,53 +1,14 @@
 import sys
 import hashlib
-from os.path import exists
 
 sys.path.append("elevenclock")
 sys.path.append("elevenclock/lang")
 from versions import versionName
-from languages import languageReference
-from translated_percentage import untranslatedPercentage
+from lang_tools import *
 
-
-languageFlagsRemap = {
-    "ca": "ad",
-    "cs": "cz",
-    "da": "dk",
-    "en": "gb",
-    "el": "gr",
-    "he": "il",
-    "ja": "jp",
-    "ko": "kr",
-    "nb": "no",
-    "nn": "no",
-    "pt_BR": "br",
-    "pt_PT": "pt",
-    "si": "lk",
-    "zh_CN": "cn",
-    "zh_TW": "tw",
-}
 
 # generate list of translations
-availableLangs = []
-for lang, langName in languageReference.items():
-    if (not exists(f"elevenclock/lang/lang_{lang}.json")): continue
-    if (lang in untranslatedPercentage):
-        if (untranslatedPercentage[lang] == "0%"): continue
-    availableLangs.append(langName)
-
-readmeLangs = """
-| Language | Translated | |
-| :-- | :-- | --- |
-"""
-print(availableLangs,"\n\n", languageReference)
-
-for lang in availableLangs:
-    langName = lang
-    lang = list(languageReference.keys())[list(languageReference.values()).index(lang)]
-    perc = untranslatedPercentage[lang] if (lang in untranslatedPercentage) else "100%"
-    if (perc == "0%"): continue
-    flag = languageFlagsRemap[lang] if (lang in languageFlagsRemap) else lang
-    readmeLangs += f"| {langName} | {perc} | <img src='https://flagcdn.com/{flag}.svg' width=20> |\n"
+readmeLangs = getMarkdownSupportLangs()
 
 
 

@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./elevenclock",
+        "./elevenclock/lang"
+    ]
+}
