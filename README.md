@@ -90,7 +90,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Norwegian (nynorsk) | 73% | <img src='https://flagcdn.com/no.svg' width=20> |
 | Polish - Polski | 100% | <img src='https://flagcdn.com/pl.svg' width=20> |
 | Portuguese (Brazil) | 85% | <img src='https://flagcdn.com/br.svg' width=20> |
-| Portuguese (Portugal) | 97% | <img src='https://flagcdn.com/pt.svg' width=20> |
+| Portuguese (Portugal) | 100% | <img src='https://flagcdn.com/pt.svg' width=20> |
 | Romanian - Română | 100% | <img src='https://flagcdn.com/ro.svg' width=20> |
 | Russian - Русский | 80% | <img src='https://flagcdn.com/ru.svg' width=20> |
 | Slovak - Slovenčina | 32% | <img src='https://flagcdn.com/sk.svg' width=20> |
