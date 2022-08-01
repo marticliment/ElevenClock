@@ -652,6 +652,9 @@ try:
             if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
                 print("🟠 Monitor blacklisted!")
                 self.hide()
+            elif isCover and getSettings("DisableSystemClockCover"):
+                self.hide()
+                self.close()
             else:
 
                 self.index = index
