@@ -24,6 +24,7 @@ rmdir /Q /S elevenclock_bin
 taskkill /im ElevenClock.exe /f
 del ElevenClock.exe
 rename __init__.exe ElevenClock.exe
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "ElevenClock.iss"
+ElevenClock.Installer.exe
 python generate_release.py
-ElevenClock.exe
 pause

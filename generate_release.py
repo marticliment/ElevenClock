@@ -14,7 +14,7 @@ readmeLangs = getMarkdownSupportLangs()
 
 # generate checksum
 sha256_hash = hashlib.sha256()
-f = open("ElevenClock.exe", "rb")
+f = open("ElevenClock.Installer.exe", "rb")
 for byte_block in iter(lambda: f.read(4096),b""):
     sha256_hash.update(byte_block)
 checksum = sha256_hash.hexdigest()
@@ -35,8 +35,7 @@ release = f"""
 {readmeLangs}
 
 <br><br>
-Executable SHA256: `{checksum}`
-<br>Installer  SHA256: `insert-sha256-here`
+SHA256: {checksum}
 """
 
 # write output

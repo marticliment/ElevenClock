@@ -22,3 +22,5 @@ elevenclock.py
 compile.py
 build_BETA.bat
 elevenclock/lang/APIKEY.txt
+ElevenClock.Installer.exe
+__init__.exe
