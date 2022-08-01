@@ -16,8 +16,8 @@ from PySide2 import QtCore
 try:
     import psutil
     from psutil._common import bytes2human
-except ImportError:
-    print(ImportError)
+except ImportError as e:
+    print(e)
 from PySide2.QtGui import *
 from PySide2.QtCore import *
 from PySide2.QtWidgets import *
@@ -2919,9 +2919,9 @@ class QAnnouncements(QLabel):
 
 
 
-    def loadAnnouncements(self):
+    def loadAnnouncements(self, useHttps: bool = True):
         try:
-            response = urlopen("http://www.somepythonthings.tk/resources/elevenclock.announcement")
+            response = urlopen(f"http{'s' if useHttps else ''}://www.somepythonthings.tk/resources/elevenclock.announcement")
             print("🔵 Announcement URL:", response.url)
             response = response.read().decode("utf8")
             self.callInMain.emit(lambda: self.setTtext(""))
@@ -2947,10 +2947,13 @@ class QAnnouncements(QLabel):
                 print("🟠 Unable to retrieve announcement image")
                 report(ex)
         except Exception as e:
-            s = _("Couldn't load the announcements. Please try again later")+"\n\n"+str(e)
-            self.callInMain.emit(lambda: self.setTtext(s))
-            print("🟠 Unable to retrieve latest announcement")
-            report(e)
+            if useHttps:
+                self.loadAnnouncements(useHttps=False)
+            else:
+                s = _("Couldn't load the announcements. Please try again later")+"\n\n"+str(e)
+                self.callInMain.emit(lambda: self.setTtext(s))
+                print("🟠 Unable to retrieve latest announcement")
+                report(e)
 
     def showEvent(self, a0: QShowEvent) -> None:
         return super().showEvent(a0)
