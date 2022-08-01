@@ -15,7 +15,7 @@ untranslatedPercentage = {
   "nl": "53%",
   "nn": "73%",
   "pt_BR": "85%",
-  "ru": "80%",
+  "ru": "99%",
   "si": "0%",
   "sk": "32%",
   "sr": "24%",
