@@ -655,10 +655,10 @@ try:
                 self.callInMainSignal.connect(lambda f: f())
                 self.styler.connect(self.setStyleSheet)
 
-                self.taskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
+                self.UseTaskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
                 self.transparentBackground = getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
 
-                if self.taskbarBackgroundColor:
+                if self.UseTaskbarBackgroundColor:
                     print("🔵 Using taskbar background color")
                     self.bgcolor = "0, 0, 0, 0"
                 else:
@@ -1106,7 +1106,7 @@ try:
             shouldBeTransparent = False
             while True:
                 try:
-                    if self.taskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
+                    if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
                                 intColor = self.primaryScreen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
