@@ -1285,14 +1285,14 @@ try:
             ADVANCED_FULLSCREEN_METHOD = getSettings("NewFullScreenMethod")
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not getSettings("DisableHideOnFullScreen")
-                DISABLE_HIDE_WITH_TASKBAR = getSettings("DifssableHideWithTaskbar")
+                DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
                 ENABLE_HIDE_FROM_RDP = getSettings("EnableHideOnRDP")
                 SHOW_NOTIFICATIONS = not getSettings("DisableNotifications")
                 LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = getSettings("TransparentClockWhenInFullscreen")
             else:
                 ENABLE_HIDE_ON_FULLSCREEN = True
-                DISABLE_HIDE_WITH_TASKBAR = True
+                DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
                 ENABLE_HIDE_FROM_RDP = True
                 SHOW_NOTIFICATIONS = True
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
