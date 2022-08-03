@@ -138,7 +138,7 @@ try:
                 provided_hash = response.split("///")[2].replace("\n", "").lower()
                 if float(new_version_number) > version:
                     print("🟢 Updates found!")
-                    if(not(getSettings("DisableAutoInstallUpdates")) or force):
+                    if((not(getSettings("DisableAutoInstallUpdates")) and not not(getSettings("DisableAutoCheckForUpdates"))) or force):
                         if not getSettings("EnableSilentUpdates"):
                             showNotif.infoSignal.emit(_("ElevenClock Updater"), _("ElevenClock is downloading updates"))
                         try:
@@ -151,7 +151,7 @@ try:
                             filedata = urlopen(url)
                             datatowrite = filedata.read()
                             filename = ""
-                            with open(os.path.join(tempDir, "SomePythonThings-ElevenClock-Updater.exe"), 'wb') as f:
+                            with open(os.path.join(tempDir, "elevenclock-updater.exe"), 'wb') as f:
                                 f.write(datatowrite)
                                 filename = f.name
                             if(hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash):
