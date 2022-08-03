@@ -5,32 +5,29 @@ sys.path.append("elevenclock")
 from versions import *
 
 
-f = open("ElevenClock.iss", "r+", encoding="utf-8")
-data = ""
-l1 = "#define MyAppVersion"
-for line in f.readlines():
-    if (line.startswith(l1)):
-        data += f"{l1} \"{versionName}\"\n"
-    else: data += line
-print(data)
-f.seek(0)
-f.write(data)
-f.truncate()
-f.close()
+def fileReplaceLinesWith(filename: str, list: dict[str, str]):
+    f = open(filename, "r+", encoding="utf-8")
+    data = ""
+    for line in f.readlines():
+        match = False
+        for key, value in list.items():
+            if (line.startswith(key)):
+                data += f"{key}{value}"
+                match = True
+                continue
+        if (not match):
+            data += line
+    f.seek(0)
+    f.write(data)
+    f.truncate()
+    f.close()
 
 
-f = open("elevenclock-version-info", "r+", encoding="utf-8")
-data = ""
-l1 = "      StringStruct(u'FileVersion'"
-l2 = "      StringStruct(u'ProductVersion'"
-for line in f.readlines():
-    if (line.startswith(l1)):
-        data += f"{l1}, u'{versionName}'),\n"
-    elif (line.startswith(l2)):
-        data += f"{l2}, u'{versionName}'),\n"
-    else: data += line
-print(data)
-f.seek(0)
-f.write(data)
-f.truncate()
-f.close()
+fileReplaceLinesWith("ElevenClock.iss", {
+    "#define MyAppVersion": f" \"{versionName}\"\n",
+})
+
+fileReplaceLinesWith("elevenclock-version-info", {
+    "      StringStruct(u'FileVersion'": f", u'{versionName}'),\n",
+    "      StringStruct(u'ProductVersion'": f", u'{versionName}'),\n",
+})

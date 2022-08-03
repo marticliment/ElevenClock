@@ -1,5 +1,6 @@
 import sys
 import hashlib
+from os.path import exists
 
 sys.path.append("elevenclock")
 sys.path.append("elevenclock/lang")
@@ -11,14 +12,21 @@ from lang_tools import *
 readmeLangs = getMarkdownSupportLangs()
 
 
-
 # generate checksum
 sha256_hash = hashlib.sha256()
-f = open("ElevenClock.Installer.exe", "rb")
-for byte_block in iter(lambda: f.read(4096),b""):
-    sha256_hash.update(byte_block)
-checksum = sha256_hash.hexdigest()
-f.close()
+checksum = "missing"
+shafiles = [
+    "ElevenClock.exe",
+    "ElevenClock.Installer.exe",
+]
+for filename in shafiles:
+    if (not exists(filename)): continue
+    f = open(filename, "rb")
+    for byte_block in iter(lambda: f.read(4096),b""):
+        sha256_hash.update(byte_block)
+    checksum = sha256_hash.hexdigest()
+    f.close()
+    break
 
 
 # output
@@ -35,7 +43,7 @@ release = f"""
 {readmeLangs}
 
 <br><br>
-SHA256: {checksum}
+SHA256: `{checksum}`
 """
 
 # write output
