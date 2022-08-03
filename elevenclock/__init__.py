@@ -138,12 +138,12 @@ try:
                 provided_hash = response.split("///")[2].replace("\n", "").lower()
                 if float(new_version_number) > version:
                     print("🟢 Updates found!")
-                    if((not(getSettings("DisableAutoInstallUpdates")) and not not(getSettings("DisableAutoCheckForUpdates"))) or force):
+                    if((not(getSettings("DisableAutoInstallUpdates")) and not(getSettings("DisableAutoCheckForUpdates"))) or force):
                         if not getSettings("EnableSilentUpdates"):
                             showNotif.infoSignal.emit(_("ElevenClock Updater"), _("ElevenClock is downloading updates"))
                         try:
                             for clock in clocks:
-                                clock.progressbar.show()
+                                clock.callInMainSignal.emit(clock.progressbar.show)
                         except Exception as e:
                             report(e)
                         if(integrityPass):
@@ -944,7 +944,7 @@ try:
                 self.progressbar.setRange(0, 200)
                 self.progressbar.setValue(0)
                 self.progressbar.setStyleSheet(f"*{{border: 0px;margin:0px;padding:0px;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
-                self.progressbar.hide()
+                self.progressbar.show()
 
                 self.pgsbarleftSlow = QtCore.QVariantAnimation()
                 self.pgsbarleftSlow.setStartValue(0)
@@ -1458,7 +1458,7 @@ try:
             return super().close()
 
         def resizeEvent(self, event: QResizeEvent = None):
-            self.progressbar.move(self.label.x(), self.height()-self.progressbar.height())
+            self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-self.getPx(2))
             self.progressbar.setFixedWidth(self.label.width())
             if event:
                 return super().resizeEvent(event)
