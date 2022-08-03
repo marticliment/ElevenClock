@@ -90,7 +90,7 @@
   "Export settings to a local file" : "로컬 파일로 설정 내보내기",
   "Fetching latest announcement, please wait..." : "최신 공지사항을 가져오는 중입니다. 잠시 기다려 주십시오...",
   "Finish" : "마침",
-  "Fix crashes relating to the \"FileNotFoundError\" error" : null,
+  "Fix crashes relating to the \"FileNotFoundError\" error" : "\"FileNotFoundError\" 오류와 관련된 충돌 수정",
   "Fixes and other experimental features: (Use ONLY if something is not working)" : "수정 및 기타 실험 기능: (작동하지 않는 경우에만 사용)",
   "Fix the hyphen/dash showing over the month" : "월 다음에 표시되는 하이픈/대시 수정",
   "(for advanced users only)" : "(고급 사용자만 해당)",
