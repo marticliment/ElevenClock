@@ -16,8 +16,8 @@ readmeLangs = getMarkdownSupportLangs()
 sha256_hash = hashlib.sha256()
 checksum = "missing"
 shafiles = [
-    "ElevenClock.exe",
     "ElevenClock.Installer.exe",
+    "ElevenClock.exe",
 ]
 for filename in shafiles:
     if (not exists(filename)): continue
