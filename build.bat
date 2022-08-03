@@ -3,7 +3,7 @@ python -m pip install setuptools==49.1.3
 python -m pip uninstall python-dateutil -y
 python -m easy_install python-dateutil
 python apply_version.py
-xcopy elevenclock elevenclock_bin  /E /H /C /I
+xcopy elevenclock elevenclock_bin /E /H /C /I /Y
 cd elevenclock_bin
 python -m compileall -b .
 del /S *.py
@@ -29,10 +29,10 @@ set INSTALLATOR="%SYSTEMDRIVE%\Program Files (x86)\Inno Setup 6\ISCC.exe"
 if exist %INSTALLATOR% (
     %INSTALLATOR% "ElevenClock.iss"
     ElevenClock.Installer.exe
-    python generate_release.py
 ) else (
     echo "Make installer is skipped, because installator missing."
     echo "Running app..."
-    ElevenClock.exe
+    start /b ElevenClock.exe
 )
+python generate_release.py
 pause
