@@ -84,6 +84,8 @@ class SettingsWindow(QMainWindow):
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
+        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-radius: {self.getPx(8)}px;}}")
+
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
 
