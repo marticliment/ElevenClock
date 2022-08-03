@@ -944,7 +944,7 @@ try:
                 self.progressbar.setRange(0, 200)
                 self.progressbar.setValue(0)
                 self.progressbar.setStyleSheet(f"*{{border: 0px;margin:0px;padding:0px;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
-                self.progressbar.show()
+                self.progressbar.hide()
 
                 self.pgsbarleftSlow = QtCore.QVariantAnimation()
                 self.pgsbarleftSlow.setStartValue(0)
