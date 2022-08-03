@@ -707,6 +707,7 @@ try:
                     print("🟡 Custom height being used!")
                     try:
                         self.preferedHeight = int(getSettingsValue("ClockFixedHeight"))
+                        self.coverPreferedHeight = int(getSettingsValue("ClockFixedHeight"))
                     except ValueError as e:
                         report(e)
 
