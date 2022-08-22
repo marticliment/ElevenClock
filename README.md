@@ -85,7 +85,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Korean - 한국어 | 100% | <img src='https://flagcdn.com/kr.svg' width=20> |
 | Lithuanian - Lietuvių | 24% | <img src='https://flagcdn.com/lt.svg' width=20> |
 | Latvian - Latviski | 34% | <img src='https://flagcdn.com/lv.svg' width=20> |
-| Norwegian (bokmål) | 98% | <img src='https://flagcdn.com/no.svg' width=20> |
+| Norwegian (bokmål) | 100% | <img src='https://flagcdn.com/no.svg' width=20> |
 | Dutch - Nederlands | 77% | <img src='https://flagcdn.com/nl.svg' width=20> |
 | Norwegian (nynorsk) | 73% | <img src='https://flagcdn.com/no.svg' width=20> |
 | Polish - Polski | 100% | <img src='https://flagcdn.com/pl.svg' width=20> |
