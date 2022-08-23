@@ -69,6 +69,7 @@ languageFlagsRemap = {
     "si": "lk",
     "zh_CN": "cn",
     "zh_TW": "tw",
+    "vi": "vn",
 }
 
 
