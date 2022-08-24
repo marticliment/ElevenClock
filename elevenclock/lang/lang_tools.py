@@ -54,6 +54,7 @@ languageRemap = {
 
 # ISO 3166-1
 languageFlagsRemap = {
+    "ar": "ae",
     "ca": "ad",
     "cs": "cz",
     "da": "dk",
