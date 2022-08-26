@@ -7,10 +7,10 @@ from lang_tools import *
 
 isAction = False
 
-if len(sys.argv)>3:
+if len(sys.argv)>4:
     if (sys.argv[1] == "--autocommit"):
-        apikey = sys.argv[2]
-        githubkey = sys.argv[3]
+        apikey = sys.argv[3]
+        githubkey = sys.argv[4]
         isAction = True
 
 if not isAction:
