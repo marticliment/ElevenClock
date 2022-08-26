@@ -26,4 +26,5 @@ jobs:
           git clone https://github.com/martinet101/ElevenClock/
           dir
           cd ElevenClock/elevenclock/lang
-          python download_translations.py --autocommit aaa aaa
+          python download_translations.py --autocommit ${{ secrets.TOLGEE_TOKEN }} ${{ secrets.GIT_TOKEN }} 
+
