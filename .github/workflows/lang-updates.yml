@@ -10,10 +10,12 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  main:
     # The type of runner that the job will run on
     runs-on: windows-latest
-
+    env:
+        TOLGEE_TOKEN: ${{ secrets.TOLGEE_TOKEN }} 
+        GIT_TOKEN: ${{ secrets.GIT_TOKEN }} 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -26,5 +28,5 @@ jobs:
           git clone https://github.com/martinet101/ElevenClock/
           dir
           cd ElevenClock/elevenclock/lang
-          python download_translations.py --autocommit ${{ secrets.TOLGEE_TOKEN }} ${{ secrets.GIT_TOKEN }} 
+          python download_translations.py --autocommit $TOLGEE_TOKEN $GIT_TOKEN
 
