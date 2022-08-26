@@ -5,12 +5,20 @@ import os
 sys.path.append('../');
 from lang_tools import *
 
+isAction = False
 
-try:
-    apikey = open("APIKEY.txt", "r").read()
-    print("  API key found in APIKEY.txt")
-except FileNotFoundError:
-    apikey = input("Write api key and press enter: ")
+if len(sys.argv)>3:
+    if (sys.argv[1] == "--autocommit"):
+        apikey = sys.argv[2]
+        githubkey = sys.argv[3]
+        isAction = True
+
+if not isAction:
+    try:
+        apikey = open("APIKEY.txt", "r").read()
+        print("  API key found in APIKEY.txt")
+    except FileNotFoundError:
+        apikey = input("Write api key and press enter: ")
 
 apiurl = f"https://app.tolgee.io/v2/projects/688/export?format=JSON&splitByScope=false&splitByScopeDelimiter=~&splitByScopeDepth=0&filterState=UNTRANSLATED&filterState=TRANSLATED&filterState=REVIEWED&zip=true&ak={apikey}"
 
@@ -88,6 +96,8 @@ print("  Generating translation done file...")
 langPerc = {}
 for lang in downloadedLanguages:
     f = open(f"lang_{lang}.json", "r", encoding='utf-8')
+    if(isAction):
+        os.system("git add "+f.name)
     data = json.load(f)
     f.close()
     c = 0
@@ -143,4 +153,10 @@ print("  Process complete!")
 print()
 print("-------------------------------------------------------")
 print()
-os.system("pause")
+
+if(isAction):
+    os.system("git commit -m \"[BOT] Load updated translations from Tolgee\"")
+    os.system(f"git push https://{githubkey}@github.com/martinet101/ElevenClock.git")
+else:
+    os.system("pause")
+
