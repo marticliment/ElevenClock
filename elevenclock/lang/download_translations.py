@@ -12,6 +12,13 @@ if len(sys.argv)>4:
         apikey = sys.argv[3]
         githubkey = sys.argv[4]
         isAction = True
+    else:
+        print("nocommit")
+        print(sys.argv[2])
+else:
+    print("noargv")
+    print(len(sys.argv))
+    print(sys.argv[0])
 
 if not isAction:
     try:
