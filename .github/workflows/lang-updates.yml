@@ -1,0 +1,32 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Retrieve latest trabnslations from tolgee
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  main:
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    env:
+        TOLGEE_TOKEN: ${{ secrets.TOLGEE_TOKEN }} 
+        GIT_TOKEN: ${{ secrets.GIT_TOKEN }} 
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          cd /
+          git clone https://github.com/martinet101/ElevenClock/
+          dir
+          cd ElevenClock/elevenclock/lang
+          python download_translations.py --autocommit $TOLGEE_TOKEN $GIT_TOKEN
+
