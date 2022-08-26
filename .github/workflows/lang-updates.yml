@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Retrieve latest trabnslations from tolgee
 
 # Controls when the workflow will run
 on:
@@ -25,5 +25,5 @@ jobs:
           cd /
           git clone https://github.com/martinet101/ElevenClock/
           dir
-          cd ElevenClock-main/elevenclock/lang
+          cd ElevenClock/elevenclock/lang
           python download_translations.py --autocommit aaa aaa
