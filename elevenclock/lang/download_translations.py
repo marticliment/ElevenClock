@@ -157,5 +157,6 @@ print()
 if(isAction):
     os.system("git commit -m \"[BOT] Load updated translations from Tolgee\"")
     os.system(f"git push https://{githubkey}@github.com/martinet101/ElevenClock.git")
-os.system("pause")
+else:
+    os.system("pause")
 
