@@ -24,8 +24,10 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Download tolgee translations
         run: |
+          mkdir tempfolder
+          cd tempfolder/
           git clone https://github.com/martinet101/ElevenClock/
           dir
           cd ElevenClock/elevenclock/lang
-          python download_translations.py --autocommit $TOLGEE_TOKEN $TOLGEE_TOKEN
+          python download_translations.py --autocommit $TOLGEE_TOKEN $GIT_TOKEN
 
