@@ -12,11 +12,7 @@ jobs:
         run: |
           mkdir tempfolder
           cd tempfolder/
-      - name: Clone repo  
-        run: |
           git clone https://github.com/martinet101/ElevenClock/
           cd ElevenClock/elevenclock/lang
-      - name: run update script  
-        run: |
           python download_translations.py --autocommit
 
