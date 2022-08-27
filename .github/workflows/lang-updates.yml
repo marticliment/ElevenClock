@@ -15,7 +15,7 @@ jobs:
     runs-on: windows-latest
     env:
         TOLGEE_KEY: '${{ secrets.TOLGEE_TOKEN }}' 
-        GIT_KEY: '${{ secrets.TOLGEE_TOKEN }}'
+        GIT_KEY: '${{ secrets.GIT_TOKEN }}'
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
