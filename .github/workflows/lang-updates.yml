@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Download tolgee translations
         run: |
+          git config --global user.name "Tolgee bot"
+          git config --global user.email "noemail@github.com"
           mkdir tempfolder
           cd tempfolder/
           git clone https://github.com/martinet101/ElevenClock/
