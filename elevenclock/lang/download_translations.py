@@ -7,10 +7,10 @@ from lang_tools import *
 
 isAction = False
 
-if len(sys.argv)>4:
+if len(sys.argv)>2:
     if (sys.argv[2] == "--autocommit"):
-        apikey = sys.argv[3]
-        githubkey = sys.argv[4]
+        apikey = os.environ["TOLGEE_KEY"]
+        githubkey = os.environ["GIT_KEY"]
         isAction = True
     else:
         print("nocommit")
