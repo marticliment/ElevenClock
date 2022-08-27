@@ -14,12 +14,12 @@ jobs:
     # The type of runner that the job will run on
     runs-on: windows-latest
     env:
-        TOLGEE_TOKEN: '${{ secrets.TOLGEE_TOKEN }}' 
-        GIT_TOKEN: '${{ secrets.TOLGEE_TOKEN }}'
+        TOLGEE_KEY: '${{ secrets.TOLGEE_TOKEN }}' 
+        GIT_KEY: '${{ secrets.TOLGEE_TOKEN }}'
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+      # - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
       - name: Download tolgee translations
@@ -28,5 +28,5 @@ jobs:
           cd tempfolder/
           git clone https://github.com/martinet101/ElevenClock/
           cd ElevenClock/elevenclock/lang
-          python download_translations.py --autocommit $TOLGEE_TOKEN $GIT_TOKEN
+          python download_translations.py --autocommit
 
