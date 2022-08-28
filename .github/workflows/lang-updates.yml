@@ -16,7 +16,9 @@ jobs:
           git config --global user.email "noemail@github.com"
           mkdir tempfolder
           cd tempfolder/
-          git clone https://github.com/martinet101/ElevenClock/
+          git clone https://%GIT_KEY%@github.com/martinet101/ElevenClock/
           cd ElevenClock/elevenclock/lang
+          echo %TOLGEE_KEY% > APIKEY.txt
           python download_translations.py --autocommit
-
+          git commit -am "[BOT] Load updated translations from Tolgee"
+          git push
