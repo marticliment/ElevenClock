@@ -64,10 +64,35 @@ print("-------------------------------------------------------")
 print()
 print("  Extracting language files...")
 
+import hashlib
+
+def hash_file(filename):
+   """"This function returns the SHA-1 hash
+   of the file passed into it"""
+
+   # make a hash object
+   h = hashlib.sha1()
+
+   # open file for reading in binary mode
+   with open(filename,'rb') as file:
+
+       # loop till the end of the file
+       chunk = 0
+       while chunk != b'':
+           # read only 1024 bytes at a time
+           chunk = file.read(1024)
+           h.update(chunk)
+
+   # return the hex representation of digest
+   return h.hexdigest()
+
+print("SHA1 of langs.zip:", hash_file(fname))
+
+zip_file = zipfile.ZipFile(fname)
+
 for file in glob.glob('lang_*.json'):
     os.remove(file)
 
-zip_file = zipfile.ZipFile(fname)
 for name in zip_file.namelist():
     lang = os.path.splitext(name)[0]
     if (lang in languageRemap):
