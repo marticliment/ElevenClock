@@ -44,7 +44,6 @@ print("  Downloading updated translations...")
 
 zipcontent = requests.get(apiurl)
 open("langs.zip", "wb").write(zipcontent.content)
-print(zipcontents.content)
 print("  Download complete!")
 print()
 print("-------------------------------------------------------")
