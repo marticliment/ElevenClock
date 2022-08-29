@@ -46,7 +46,7 @@ zipcontent = requests.get(apiurl)
 f = open("langs.zip", "wb")
 f.write(zipcontent.content)
 fname = f.name
-#f.close()
+f.close()
 print("  Download complete!")
 print()
 
