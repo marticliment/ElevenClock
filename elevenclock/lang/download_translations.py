@@ -43,7 +43,10 @@ print()
 print("  Downloading updated translations...")
 
 zipcontent = requests.get(apiurl)
-open("langs.zip", "wb").write(zipcontent.content)
+f = open("langs.zip", "wb")
+f.write(zipcontent.content)
+fname = f.name
+f.close()
 print("  Download complete!")
 print()
 print("-------------------------------------------------------")
@@ -66,8 +69,9 @@ print("-------------------------------------------------------")
 print()
 print("  Extracting language files...")
 
+print("Zip path:", fname)
 
-zip_file = zipfile.ZipFile("langs.zip")
+zip_file = zipfile.ZipFile(fname)
 for name in zip_file.namelist():
     lang = os.path.splitext(name)[0]
     if (lang in languageRemap):
