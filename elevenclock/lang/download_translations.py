@@ -46,21 +46,16 @@ zipcontent = requests.get(apiurl)
 f = open("langs.zip", "wb")
 f.write(zipcontent.content)
 fname = f.name
-f.close()
+#f.close()
 print("  Download complete!")
 print()
-print("-------------------------------------------------------")
-print()
-print("  Extracting language files...")
-
 
 downloadedLanguages = []
 
-
 #olddir = "lang_backup"+str(int(time.time()))
 #os.mkdir(olddir)
-for file in glob.glob('lang_*.json'):
-    os.remove(file)
+#for file in glob.glob('lang_*.json'):
+#    os.remove(file)
 #    shutil.move(file, olddir)
 
 #print(f"  Backup complete. The old files were moved to {olddir}")
@@ -69,7 +64,8 @@ print("-------------------------------------------------------")
 print()
 print("  Extracting language files...")
 
-print("Zip path:", fname)
+for file in glob.glob('lang_*.json'):
+    os.remove(file)
 
 zip_file = zipfile.ZipFile(fname)
 for name in zip_file.namelist():
