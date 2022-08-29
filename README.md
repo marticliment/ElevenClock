@@ -113,28 +113,30 @@ Last updated: Mon Aug 29 01:44:07 2022
  ElevenClock wouldn't have been possible with all the help from every single contributor. From the person who fixed a typo to the person who improved half of the code, ElevenClock wouldn't have been possible without you :)<br><br>
 
 ### Contributors list
- ![GitHub Contributors Image](https://contrib.rocks/image?repo=martinet101/ElevenClock)
+ ![My dear contributors](https://contrib.rocks/image?repo=martinet101/ElevenClock)
 
 ## The icon:
-ElevenClock's icon was designed by [Xavier Delugo](https://www.instagram.com/xdelugo/)
+ElevenClock's icon is a collaboration with [Xavier Delugo](https://www.instagram.com/xdelugo/)
 
 ## Screenshots
 
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img2.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img3.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img4.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img5.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img6.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img7.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img8.webp?raw=true)
-![100%](https://github.com/martinet101/ElevenClock/blob/main/media/img9.webp?raw=true)
+ElevenClock's promo media
 
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img2.webp?raw=true)
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img3.webp?raw=true)
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img4.webp?raw=true)
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img5.webp?raw=true)
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img6.webp?raw=true)
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img7.webp?raw=true)
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img8.webp?raw=true)
+
+<!--
 ### Settings window screenshots
 ![image](https://user-images.githubusercontent.com/53119851/143274707-f7bc549c-de11-4745-b3b5-2e7b4b4b98a5.png)
 ![image](https://user-images.githubusercontent.com/53119851/143274793-25718b30-5e0a-4d5e-b81c-f13e9187db0c.png)
 ![image](https://user-images.githubusercontent.com/53119851/143274997-eb13bac7-e2fc-4521-a6bd-e56a7f19426e.png)
 ![image](https://user-images.githubusercontent.com/53119851/143275189-cdfa92aa-7d57-441e-8cc5-3805bc5d2b63.png)
-
+-->
 
 ## Frequently asked questions
 
