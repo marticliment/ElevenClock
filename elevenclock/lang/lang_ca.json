@@ -16,7 +16,7 @@
   "Adjust horizontal clock position" : "Ajusta la posició horitzontal del rellotge",
   "Adjust vertical clock position" : "Ajusta la posició vertical del rellotge",
   "Align the clock text to the center" : "Alinea el text del rellotge al centre",
-  " (ALPHA STAGE, MAY NOT WORK)" : " (EN ESTAT ALFA, POT NO FUNCIONAR)",
+  " (ALPHA STAGE, MAY NOT WORK)" : " (EN ESTAT \"ALPHA\", POT NO FUNCIONAR)",
   "Alternative clock alignment (may not work)" : "Alineació alternativa (pot no funcionar)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Servidor d'actualitzacions alternatiu sense SSL (Pot ajudar a resoldre problemes amb les actualitzacions)",
   "Announcements:" : "Taulell d'anuncis:",
