@@ -18,7 +18,6 @@ if len(sys.argv)>1:
 
 try:
     apikey = open("APIKEY.txt", "r").read()
-    print(len(apikey))
     print("  API key found in APIKEY.txt")
 except FileNotFoundError:
     if (isAutoCommit):
@@ -45,7 +44,6 @@ print("  Downloading updated translations...")
 
 zipcontent = requests.get(apiurl)
 open("langs.zip", "wb").write(zipcontent.content)
-print(zipcontent.content)
 print("  Download complete!")
 print()
 print("-------------------------------------------------------")
