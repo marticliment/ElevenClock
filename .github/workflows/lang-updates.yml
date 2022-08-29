@@ -12,14 +12,13 @@ jobs:
     steps:
       - name: Download tolgee translations
         run: |
-          git config --global user.name "Tolgee bot"
-          git config --global user.email "noemail@github.com"
+          git config user.name "Tolgee bot"
+          git config user.email "noemail@github.com"
           mkdir tempfolder
           cd tempfolder/
           git clone https://${Env:GIT_KEY}@github.com/martinet101/ElevenClock/
           cd ElevenClock/elevenclock/lang
           echo ${Env:TOLGEE_KEY} > APIKEY.txt
-          type APIKEY.txt
           python download_translations.py --autocommit
           git commit -am "[BOT] Load updated translations from Tolgee"
           git push
