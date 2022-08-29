@@ -17,8 +17,11 @@ if len(sys.argv)>1:
         print(sys.argv[1])
 
 try:
-    apikey = open("APIKEY.txt", "r").read()
-    print("  API key found in APIKEY.txt")
+    if(isAutoCommit):
+        apikey = os.environ["TOLGEE_KEY"]
+    else:
+        apikey = open("APIKEY.txt", "r").read()
+        print("  API key found in APIKEY.txt")
 except FileNotFoundError:
     if (isAutoCommit):
         print("  Error: APIKEY.txt missing")
