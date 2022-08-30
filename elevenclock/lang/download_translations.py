@@ -17,16 +17,11 @@ if len(sys.argv)>1:
         print(sys.argv[1])
 
 try:
-    if(isAutoCommit):
-        apikey = os.environ["TOLGEE_KEY"]
-    else:
-        apikey = open("APIKEY.txt", "r").read()
-        print("  API key found in APIKEY.txt")
+    apikey = open("APIKEY.txt", "r").read()
+    print("  API key found in APIKEY.txt")
 except FileNotFoundError:
-    if (isAutoCommit):
-        print("  Error: APIKEY.txt missing")
-        exit(1)
-    else:
+    apikey = os.environ.get("TOLGEE_KEY", "")
+    if (apikey == ""):
         apikey = input("Write api key and press enter: ")
 
 apiurl = f"https://app.tolgee.io/v2/projects/688/export?format=JSON&splitByScope=false&splitByScopeDelimiter=~&splitByScopeDepth=0&filterState=UNTRANSLATED&filterState=TRANSLATED&filterState=REVIEWED&zip=true&ak={apikey}"
@@ -45,36 +40,26 @@ print("-------------------------------------------------------")
 print()
 print("  Downloading updated translations...")
 
+
 zipcontent = requests.get(apiurl)
 f = open("langs.zip", "wb")
 f.write(zipcontent.content)
-fname = f.name
+langArchiveName = f.name
 f.close()
+
+
 print("  Download complete!")
 print()
-
-downloadedLanguages = []
-
-#olddir = "lang_backup"+str(int(time.time()))
-#os.mkdir(olddir)
-#for file in glob.glob('lang_*.json'):
-#    os.remove(file)
-#    shutil.move(file, olddir)
-
-#print(f"  Backup complete. The old files were moved to {olddir}")
-#print()
 print("-------------------------------------------------------")
 print()
 print("  Extracting language files...")
 
 
-print("size of langs.zip:", os.path.getsize(fname))
-
-zip_file = zipfile.ZipFile(fname)
-
 for file in glob.glob('lang_*.json'):
     os.remove(file)
 
+downloadedLanguages = []
+zip_file = zipfile.ZipFile(langArchiveName)
 for name in zip_file.namelist():
     lang = os.path.splitext(name)[0]
     if (lang in languageRemap):
@@ -138,7 +123,6 @@ f.write(outputString.strip())
 f.close()
 
 
-
 print("  Process complete!")
 print()
 print("-------------------------------------------------------")
@@ -176,4 +160,3 @@ if (isAutoCommit):
         os.system("git reset --hard") # prevent clean
 else:
     os.system("pause")
-

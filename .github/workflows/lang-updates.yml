@@ -8,15 +8,12 @@ jobs:
   main:
     runs-on: windows-latest
     env:
-        TOLGEE_KEY: '${{ secrets.TOLGEE_TOKEN }}' 
-        GIT_KEY: '${{ secrets.GIT_TOKEN }}'
+        TOLGEE_KEY: '${{ secrets.TOLGEE_TOKEN }}'
     steps:
+      - uses: actions/checkout@v3
       - name: Download tolgee translations
         run: |
-          mkdir tempfolder
-          cd tempfolder/
-          git clone https://${Env:GIT_KEY}@github.com/martinet101/ElevenClock/
-          cd ElevenClock/elevenclock/lang
+          cd elevenclock/lang
           git config user.name "Tolgee bot"
           git config user.email "noemail@github.com"
           python download_translations.py --autocommit
