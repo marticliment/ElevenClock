@@ -55,11 +55,13 @@ print()
 print("  Extracting language files...")
 
 
-for file in glob.glob('lang_*.json'):
-    os.remove(file)
 
 downloadedLanguages = []
 zip_file = zipfile.ZipFile(langArchiveName)
+
+for file in glob.glob('lang_*.json'): # If the downloaded zip file is valid, delete old language files and extract the new ones
+    os.remove(file)
+
 for name in zip_file.namelist():
     lang = os.path.splitext(name)[0]
     if (lang in languageRemap):
