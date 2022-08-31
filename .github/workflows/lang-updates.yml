@@ -8,14 +8,21 @@ jobs:
   main:
     runs-on: windows-latest
     env:
-        TOLGEE_KEY: '${{ secrets.TOLGEE_TOKEN }}'
+        TOLGEE_KEY: "${{ secrets.TOLGEE_TOKEN }}"
     steps:
-      - uses: actions/checkout@v3
-      - name: Download tolgee translations
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Download Tolgee translations
         run: |
           cd elevenclock/lang
-          git config user.name "Tolgee bot"
-          git config user.email "noemail@github.com"
           python download_translations.py --autocommit
-          git commit -am "[BOT] Load updated translations from Tolgee"
-          git push
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          delete-branch: true
+          base: main
+          title: "Update translations from Tolgee"
+          reviewers: "${{ github.repository_owner }}"
+          author: "Tolgee Bot <tolgee-bot@users.noreply.github.com>"
+          commit-message: "Update translations from Tolgee"
+          branch: pull-request/update-translation
