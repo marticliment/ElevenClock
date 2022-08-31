@@ -800,7 +800,22 @@ try:
                     self.shouldCoverWindowsClock = False
                     print("🟠 Clock on the bottom (by exception)")
 
+                self.colorWidget = QWidget(self)
+                self.colorWidget.setStyleSheet("border: 0px; margin: 0px;")
+
+                self.backgroundTexture = QLabel(self)
+                self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
+                self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0px;")
+                self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
+                if(not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")):
+                    if(isTaskbarDark()):
+                        self.backgroundTexture.setPixmap(getPath("taskbarbg_black.png"))
+                    else:
+                        self.backgroundTexture.setPixmap(getPath("taskbarbg_white.png"))
+
                 self.label = Label(timeStr, self, self.isCover)
+
+
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
                     coverX = self.screenGeometry.x()+self.screenGeometry.width()-((self.coverPreferedWidth)*dpix) # Windows clock position
@@ -815,7 +830,7 @@ try:
                 if getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
-                xoff = -self.getPx(4)
+                xoff = 0
                 yoff = self.getPx(2)
 
                 if getSettings("ClockXOffset"):
@@ -934,10 +949,10 @@ try:
                 self.label.setFont(self.font)
 
                 accColors = getColors()
-                def makeStyleSheet(padding, rightPadding, rightMargin, leftPadding, color):
+                def makeLabelStyleSheet(padding, rightPadding, rightMargin, leftPadding, color):
                     bg = 1 if isTaskbarDark() else 4
                     fg = 6 if isTaskbarDark() else 1
-                    return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
+                    return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};background-color: transparent;}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
 
                 self.progressbar = QProgressBar(self)
@@ -997,7 +1012,7 @@ try:
                     if getSettings("UseCustomFontColor"):
                         print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                         self.lastTheme = -1
-                        styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+                        styleSheetString = makeLabelStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1013,7 +1028,7 @@ try:
                     elif isTaskbarDark():
                         print("🟢 Using white text (dark mode)")
                         self.lastTheme = 0
-                        styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "white")
+                        styleSheetString = makeLabelStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "white")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1029,7 +1044,7 @@ try:
                     else:
                         print("🟢 Using black text (light mode)")
                         self.lastTheme = 1
-                        styleSheetString = makeStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "black")
+                        styleSheetString = makeLabelStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "black")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .5
                         self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
@@ -1040,7 +1055,7 @@ try:
                     self.label.clicked.connect(lambda: self.singleClickAction())
                     self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
                 else:
-                    styleSheetString = makeStyleSheet(0, 0, 0, 0, f"transparent")
+                    styleSheetString = makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
                     self.fontfamilies = ["Segoe UI Variable Display"]
                     if self.fontfamilies != []:
                         self.font.setFamilies(self.fontfamilies)
@@ -1461,6 +1476,8 @@ try:
         def resizeEvent(self, event: QResizeEvent = None):
             self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-self.getPx(2))
             self.progressbar.setFixedWidth(self.label.width())
+            self.colorWidget.setGeometry(self.label.geometry())
+            self.backgroundTexture.setGeometry(self.colorWidget.geometry())
             if event:
                 return super().resizeEvent(event)
 
