@@ -1702,10 +1702,6 @@ try:
             return super().window()
 
 
-
-
-
-
     # Start of main script
     timeOffset = 0
 
