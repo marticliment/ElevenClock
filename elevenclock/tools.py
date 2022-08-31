@@ -243,7 +243,8 @@ def clearTmpDir():
                 if (item == base_path): continue
                 try:
                     if not globals.newInstanceLaunched:
-                        shutil.rmtree(item)
+                        os.rename(item, item.replace("_MEI", "_OLDMEI")) # If some files are being used, the function will fail and code dirs won't be partially removed
+                        shutil.rmtree(item.replace("_MEI", "_OLDMEI"))
                 except Exception as e:
                     report(e)
         except Exception as e:
