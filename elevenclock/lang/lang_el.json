@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Εναλλακτική ευθυγράμμιση ρολογιού (ίσως να μην λειτουργεί)",
   "Alternative non-SSL update server (This might help with SSL errors)" : null,
   "Announcements:" : null,
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : null,
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : null,
   "Apply" : null,
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : null,
   "Automatically check for updates" : "Αυτόματος έλεγχος για ενημερώσεις",

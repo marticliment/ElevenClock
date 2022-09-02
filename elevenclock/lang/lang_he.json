@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "יישור חלופי לשעון (עלול לא לעבוד)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "עדכון שרת חליפי non-SSL (יכול לעזור עם בעיות SSL)",
   "Announcements:" : "הודעות:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "אפשר לשים פה כל טקסט. כדי לשים אלמנטים נוספים כמו תאריכים ושעות השתמש ב-1989 C Standard. עוד מידע בקישור הבא",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "אפשר לשים פה כל טקסט. כדי לשים אלמנטים נוספים כמו תאריכים ושעות השתמש ב-1989 C Standard. עוד מידע בקישור הבא",
   "Apply" : "החל",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "אתה בטוח שתרצה להחריג את מסך {0}?",
   "Automatically check for updates" : "בדוק עדכונים באופן אוטומטי",

@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Alternatív óra elrendezés (nem mindig működik)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Alternatív, nem-SSL frissítési szerver (Ez segíthet SSL hibák esetén)",
   "Announcements:" : "Bejelentések:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Bármilyen szöveg beilleszthető ide. A dátum és idő beillesztéséhez használja a 1989 C szabványt. További információ a következő linken található",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Bármilyen szöveg beilleszthető ide. A dátum és idő beillesztéséhez használja a 1989 C szabványt. További információ a következő linken található",
   "Apply" : "Alkalmaz",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Biztosan letiltja a következő monitort: \"{0}\"?",
   "Automatically check for updates" : "Frissítések automatikus keresése",

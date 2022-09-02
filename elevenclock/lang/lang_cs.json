@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Alternativní zarovnání hodin (nemusí fungovat)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Alternativní aktualizační server bez SSL (Může pomoci s SSL chybami)",
   "Announcements:" : "Oznámení:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Zde můžete vložit jakýkoliv text. Chcete-li umístit hodnoty jako je datum a čas, použijte standard 1989 C. Více informací se dozvíte na následujícím odkaze",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Zde můžete vložit jakýkoliv text. Chcete-li umístit hodnoty jako je datum a čas, použijte standard 1989 C. Více informací se dozvíte na následujícím odkaze",
   "Apply" : "Použít",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Jste si jistí, že chcete umístit monitor \"{0}\" na blacklist?",
   "Automatically check for updates" : "Automaticky kontrolovat aktualizace",

@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "時計の配置方法を代替の方法に変更する（動作しない場合があります）",
   "Alternative non-SSL update server (This might help with SSL errors)" : "非SSLの代替サーバーでアップデートする（SSLエラーの対処に役立つ場合があります）",
   "Announcements:" : "お知らせ:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "ここには任意のテキストを配置できます。日付や時刻などを配置するには、1989 C Standard の形式を使用してください。詳細は次のリンクをご参照ください",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "ここには任意のテキストを配置できます。日付や時刻などを配置するには、1989 C Standard の形式を使用してください。詳細は次のリンクをご参照ください",
   "Apply" : "適用",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "モニター \"{0}\"をブラックリストに登録しますか",
   "Automatically check for updates" : "アップデートを自動で確認する",

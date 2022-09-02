@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "محاذاة الساعة البديلة (قد لا تعمل)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "خادم تحديث بديل بدون SSL (يمكن ان يساعد ذلك في حل مشاكل SSL)",
   "Announcements:" : "اعلانات",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : null,
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : null,
   "Apply" : "تطبيق",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "هل انت متأكد من انك تريد اضافة الشاشة الي القائمة السوداء \"{0}\"?",
   "Automatically check for updates" : "البحث عن التحديثات تلقائيا",

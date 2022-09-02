@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Alternativ klokkeplassering (fungerer ikke nødvendigvis)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Alternativ oppdateringsserver uten SSL (kan hjelpe ved SSL-feil)",
   "Announcements:" : "Kunngjøringer:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Hvilken som helst tekst kan plasseres her. For å plassere gjenstander som dato og tid, vennligst bruk 1989 C standarden. Mer informasjon på følgende lenke",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Hvilken som helst tekst kan plasseres her. For å plassere gjenstander som dato og tid, vennligst bruk 1989 C standarden. Mer informasjon på følgende lenke",
   "Apply" : "Bruk",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Er du sikker på at du vil svarteliste skjerm \"{0}\"?",
   "Automatically check for updates" : "Se etter oppdateringer automatisk",

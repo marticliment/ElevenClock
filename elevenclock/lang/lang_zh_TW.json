@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "替代的時鐘對齊方式（可能不能正常運作）",
   "Alternative non-SSL update server (This might help with SSL errors)" : "選用的無 SSL 更新伺服器（可能對 SSL 錯誤的情況有用）",
   "Announcements:" : "公告",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "您可以在此置入任何文字。若要置入如時間或日期等項目，請使用 1989 C 標準。詳情請見下方連結",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "您可以在此置入任何文字。若要置入如時間或日期等項目，請使用 1989 C 標準。詳情請見下方連結",
   "Apply" : "套用",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "你確定要黑名單這個螢幕 \"{0}\"？",
   "Automatically check for updates" : "自動檢查更新",

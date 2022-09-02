@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Alineació alternativa (pot no funcionar)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Servidor d'actualitzacions alternatiu sense SSL (Pot ajudar a resoldre problemes amb les actualitzacions)",
   "Announcements:" : "Taulell d'anuncis:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Qualsevol text pot avar aquí. Per a afegir elements com la data i l'hora, useu l'estàndard C del 1989. Més informació aquí",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Qualsevol text pot avar aquí. Per a afegir elements com la data i l'hora, useu l'estàndard C del 1989. Més informació aquí",
   "Apply" : "Aplica",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Esteu segurs de que voleu afegir la pantalla {0} a la llista negra?",
   "Automatically check for updates" : "Cercar actualitzacions automàticament",

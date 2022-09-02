@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Vị trí khác cho đồng hồ (có thể không hoạt động)",
   "Alternative non-SSL update server (This might help with SSL errors)" : null,
   "Announcements:" : "Thông báo ",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : null,
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : null,
   "Apply" : "Áp dụng ",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : null,
   "Automatically check for updates" : "Tự động kiểm tra phiên bản cập nhật mới",

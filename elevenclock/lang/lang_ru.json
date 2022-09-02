@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Синхронизация часов с альтернативным сервером (может не работать)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Сервер обновлений без SSL (если есть ошибки SSL)",
   "Announcements:" : "Объявления:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Для форматирования используйте стандарт <b>1989 C</b>. Больше деталей по ссылке",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Для форматирования используйте стандарт <b>1989 C</b>. Больше деталей по ссылке",
   "Apply" : "Применить",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Добавить монитор \"{0}\" в черный список?",
   "Automatically check for updates" : "Автоматически проверять обновления",

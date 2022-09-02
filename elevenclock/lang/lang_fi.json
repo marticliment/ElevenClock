@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Vaihtoehtoinen kellon tasaus (ei välttämättä toimi)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Vaihtoehtoinen ei-SSL-päivityspalvelin (Tämä saattaa auttaa SSL-virheiden kanssa)",
   "Announcements:" : "Tiedotteet",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Tähän voidaan sijoittaa mitä tahansa tekstiä. Päivämäärän ja kellonajan kaltaisten kohtien sijoittamiseen käytä 1989 C-standardia. Lisätietoja seuraavasta linkistä",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Tähän voidaan sijoittaa mitä tahansa tekstiä. Päivämäärän ja kellonajan kaltaisten kohtien sijoittamiseen käytä 1989 C-standardia. Lisätietoja seuraavasta linkistä",
   "Apply" : "Käytä",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Oletko varma että haluat lisätä näytön \"{0}\" mustalle listalle?",
   "Automatically check for updates" : "Tarkista päivitykset automaattisesti",

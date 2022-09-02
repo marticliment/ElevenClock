@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Alternatīvi pulksteņa novietojumi (var nedarboties)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Alternatīvs ne-SSL atjauninājumu serveris (tas varētu palīdzēt ar SSL kļūdām)",
   "Announcements:" : null,
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "Jebkuru tekstu var ievietot šeit. Lai ievietotu, piemēram, datumu un laiku, izmantojiet 1989. gada C standartu. Vairāk informācijas šajā saitē",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "Jebkuru tekstu var ievietot šeit. Lai ievietotu, piemēram, datumu un laiku, izmantojiet 1989. gada C standartu. Vairāk informācijas šajā saitē",
   "Apply" : "Piemērot",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Vai esat pārliecināts, ka vēlaties monitoru \"{0}\" iekļaut melnajā sarakstā?",
   "Automatically check for updates" : "Automātiski pārbaudīt atjauninājumus",

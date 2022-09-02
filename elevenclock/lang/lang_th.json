@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "การจัดตำแหน่งนาฬิกาทางเลือก (อาจใช้งานไม่ได้)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "เซิร์ฟเวอร์ non-SSL ทางเลือกสำหรับการอัปเดต (อาจช่วยเรื่องข้อผิดพลาด SSL)",
   "Announcements:" : "ประกาศ:",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "สามารถใส่ข้อความใด ๆ ได้ที่นี่ หากต้องใส่รายการต่าง ๆ เช่น วันที่และเวลา โปรดใช้มาตรฐาน 1989 C ข้อมูลเพิ่มเติมตามลิงก์ต่อไปนี้",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "สามารถใส่ข้อความใด ๆ ได้ที่นี่ หากต้องใส่รายการต่าง ๆ เช่น วันที่และเวลา โปรดใช้มาตรฐาน 1989 C ข้อมูลเพิ่มเติมตามลิงก์ต่อไปนี้",
   "Apply" : "นำมาใช้",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "คุณแน่ใจหรือว่าต้องการขึ้นบัญชีดำจอมอนิเตอร์ \"{0}\"?",
   "Automatically check for updates" : "ตรวจสอบการอัปเดตโดยอัตโนมัติ",

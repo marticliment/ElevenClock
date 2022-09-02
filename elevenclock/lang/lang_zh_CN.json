@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "使用替代的时钟对齐方式 (可能不起作用)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "使用替代的非SSL更新服务器(出现SSL错误时可尝试)",
   "Announcements:" : "公告：",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "任何文字都可以放在这里。 要放置日期和时间等项目，请使用 1989 C 标准。 以下链接有关更多信息",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "任何文字都可以放在这里。 要放置日期和时间等项目，请使用 1989 C 标准。 以下链接有关更多信息",
   "Apply" : "应用",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "您确定要将监视器\"{0}\"列入黑名单吗？",
   "Automatically check for updates" : "自动检测更新",

@@ -20,7 +20,7 @@
   "Alternative clock alignment (may not work)" : "Alignement alternatif de l'horloge (peut ne pas fonctionner)",
   "Alternative non-SSL update server (This might help with SSL errors)" : "Serveur de mise à jour alternatif non-SSL (Peut aider à résoudre les erreurs de SSL)",
   "Announcements:" : "Annonces :",
-  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link" : "N'importe quel texte peut être placé ici. Pour placer des éléments tels que la date et l'heure, veuillez utiliser la norme 1989 C. Plus d'infos sur le lien suivant",
+  "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. More info on the following link:" : "N'importe quel texte peut être placé ici. Pour placer des éléments tels que la date et l'heure, veuillez utiliser la norme 1989 C. Plus d'infos sur le lien suivant",
   "Apply" : "Appliquer",
   "Are you sure do you want to blacklist the monitor \"{0}\"?" : "Êtes-vous sûr de ne plus vouloir afficher l'horloge sur l'écran \"{0}\" ?",
   "Automatically check for updates" : "Rechercher automatiquement les mises à jour",
