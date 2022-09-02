@@ -5,6 +5,7 @@ from pathlib import Path
 languageReference = {
     "default": "System language",
     "ar"    : "Arabic - عربي‎",
+    "bg"    : "Bulgarian - български",
     "ca"    : "Catalan - Català",
     "cs"    : "Czech - Čeština",
     "da"    : "Danish - Dansk",
@@ -12,6 +13,7 @@ languageReference = {
     "el"    : "Greek - Ελληνικά",
     "en"    : "English - English",
     "es"    : "Spanish - Español",
+    "et"    : "Estonian - eesti",
     "fi"    : "Finnish - Suomi",
     "fr"    : "French - Français",
     "he"    : "Hebrew - עִבְרִית‎",
