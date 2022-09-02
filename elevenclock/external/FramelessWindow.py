@@ -22,8 +22,7 @@ from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, W
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from PySide2.QtWinExtras import QtWin
-#from PySide2.QtCore import pyqtSignal as Signal
+from external.blurwindow import ExtendFrameIntoClientArea
 
 
 
@@ -39,13 +38,7 @@ class QFramelessWindow(QMainWindow):
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX)
 
-        if QtWin.isCompositionEnabled():
-            # Aero Shadow
-            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(self)
-
-
+        ExtendFrameIntoClientArea(self.winId().__int__())
 
         self.setAutoFillBackground(True)
 
