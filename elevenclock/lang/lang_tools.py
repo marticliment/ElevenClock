@@ -62,6 +62,7 @@ languageFlagsRemap = {
     "da": "dk",
     "en": "gb",
     "el": "gr",
+    "et": "ee",
     "he": "il",
     "ja": "jp",
     "ko": "kr",
