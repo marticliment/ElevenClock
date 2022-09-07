@@ -1219,6 +1219,7 @@ try:
                                     alphaUpdated = False
                                     shouldBeTransparent = False
                                 else:
+                                    self.callInMainSignal.emit(self.backgroundTexture.hide)
                                     shouldBeTransparent = True
                                     if not alphaUpdated:
                                         intColor  = self.oldBgColor + 1
@@ -1228,6 +1229,7 @@ try:
                                 if intColor != self.oldBgColor:
                                     self.oldBgColor = intColor
                                     color = QColor(intColor)
+                                    self.callInMainSignal.emit(self.backgroundTexture.show)
                                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
                     except AttributeError:
                         print("🟣 Expected AttributeError on backgroundLoop thread")
@@ -1239,7 +1241,7 @@ try:
                     try:
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
-                                intColor = self.primaryScreen.grabWindow(self.winId().__int__(), 0, 0, 2, 2).toImage().pixel(0, 0)#self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
