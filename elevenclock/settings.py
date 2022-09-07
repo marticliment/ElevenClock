@@ -581,7 +581,7 @@ class SettingsWindow(QMainWindow):
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
-                <li> <b>PySide6 (Qt5)</b>: <a href="https://www.qt.io/licensing/">LGPL-v3</a></li>
+                <li> <b>PySide6 (Qt6)</b>: <a href="https://www.qt.io/download-open-source">GPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
