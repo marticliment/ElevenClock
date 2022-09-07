@@ -80,7 +80,8 @@ end;
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "elevenClock"; ValueData: """{app}\ElevenClock.exe"""; Flags: uninsdeletevalue
 
 [Files]
-Source: "ElevenClock.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit; BeforeInstall: TaskKill('ElevenClock.exe')
+Source: "ElevenClockBin/ElevenClock.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit ; BeforeInstall: TaskKill('ElevenClock.exe')
+Source: "ElevenClockBin/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

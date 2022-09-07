@@ -12,19 +12,38 @@ rmdir /Q /S external\__pycache__
 rmdir /Q /S lang\__pycache__
 rmdir /Q /S build
 rmdir /Q /S dist
-python -m PyInstaller ../elevenclock/__init__.py --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --onefile --windowed --version-file ../elevenclock-version-info --exclude-module PySide6 --exclude-module tk
-rem --add-data "%homedrive%%homepath%\AppData\Local\Programs\Python\Python39\Lib\site-packages\PySide6\plugins;PySide6/plugins"
+del lang/APIKEY.txt
+python -m PyInstaller ../elevenclock/__init__.py --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --exclude-module PySide2 --windowed --version-file ../elevenclock-version-info --name ElevenClock
 cd dist
-move __init__.exe ../../
+rename ElevenClock ElevenClockBin
+move ElevenClockBin ../../
 cd ..
 rmdir /Q /S build
 rmdir /Q /S dist
-del __init__.spec
+del ElevenClock.spec
 cd ..
 rmdir /Q /S elevenclock_bin
-taskkill /im ElevenClock.exe /f
-del ElevenClock.exe
-rename __init__.exe ElevenClock.exe
+cd ElevenClockBin
+cd tcl
+rmdir /Q /S tzdata
+cd ..
+cd lang
+del APIKEY.txt
+del download_translations.pyc
+cd ..
+del opengl32sw.dll
+del Qt6Quick.dll
+del Qt6Qml.dll
+del Qt6OpenGL.dll
+del Qt6QmlModels.dll
+del Qt6Network.dll
+del Qt6DataVisualization.dll
+del Qt6VirtualKeyboard.dll
+cd PySide6
+del QtDataVisualization.pyd
+del QtOpenGL.pyd
+cd ..
+cd ..
 set INSTALLATOR="%SYSTEMDRIVE%\Program Files (x86)\Inno Setup 6\ISCC.exe"
 if exist %INSTALLATOR% (
     %INSTALLATOR% "ElevenClock.iss"
@@ -32,7 +51,7 @@ if exist %INSTALLATOR% (
 ) else (
     echo "Make installer is skipped, because installator missing."
     echo "Running app..."
-    start /b ElevenClock.exe
+    start /b ElevenClockBin/ElevenClock.exe
 )
 python generate_release.py
 pause

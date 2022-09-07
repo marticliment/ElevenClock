@@ -20,10 +20,17 @@ move ElevenClockBin ../../
 cd ..
 rmdir /Q /S build
 rmdir /Q /S dist
-del ElevenClockBin.spec
+del ElevenClock.spec
 cd ..
 rmdir /Q /S elevenclock_bin
 cd ElevenClockBin
+cd tcl
+rmdir /Q /S tzdata
+cd ..
+cd lang
+del APIKEY.txt
+del download_translations.pyc
+cd ..
 del opengl32sw.dll
 del Qt6Quick.dll
 del Qt6Qml.dll
