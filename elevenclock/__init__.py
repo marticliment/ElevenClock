@@ -1426,27 +1426,7 @@ try:
                     if(self.lastTheme >= 0): # If the color is not customized
                         theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
                         if(theme != self.lastTheme):
-                            if (theme == 0 or self.forceDarkTheme) and not self.forceLightTheme:
-                                self.lastTheme = 0
-                                self.label.setStyleSheet(f"padding: {self.getPx(0)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: white;")#background-color: rgba({self.bgcolor}%)")
-                                self.label.bgopacity = 0.1
-                                self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                                self.font.setFamilies(self.fontfamilies)
-                                if lang["locale"] == "ko":
-                                    self.font.setWeight(QFont.Weight.Normal)
-                                elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
-                                    self.font.setWeight(QFont.Weight.Normal)
-                                else:
-                                    self.font.setWeight(QFont.Weight.DemiBold)
-                                self.label.setFont(self.font)
-                            else:
-                                self.lastTheme = 1
-                                self.label.setStyleSheet(f"padding: {self.getPx(0)}px;padding-right: {self.getPx(3)}px;margin-right: {self.getPx(12)}px;padding-left: {self.getPx(5)}px; color: black;")#background-color: rgba({self.bgcolor}%)")
-                                self.label.bgopacity = .5
-                                self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                                self.font.setFamilies(self.fontfamilies)
-                                self.font.setWeight(QFont.Weight.ExtraLight)
-                                self.label.setFont(self.font)
+                            self.callInMainSignal.emit(restartClocks)
 
         def closeEvent(self, event: QCloseEvent) -> None:
             self.shouldBeVisible = False
