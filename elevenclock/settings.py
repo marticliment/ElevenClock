@@ -520,14 +520,14 @@ class SettingsWindow(QMainWindow):
 
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
-        self.fixDir = QSettingsCheckBox(_("Fix crashes relating to the \"FileNotFoundError\" error"))
-        self.fixDir.setChecked(getSettings("DisableDirRemovingThread"))
-        self.fixDir.stateChanged.connect(lambda i: setSettings("DisableDirRemovingThread", bool(i)))
-        self.experimentalTitle.addWidget(self.fixDir)
-        self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
-        self.fixDash.setChecked(getSettings("EnableHyphenFix"))
-        self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
-        self.experimentalTitle.addWidget(self.fixDash)
+        #self.fixDir = QSettingsCheckBox(_("Fix crashes relating to the \"FileNotFoundError\" error"))
+        #self.fixDir.setChecked(getSettings("DisableDirRemovingThread"))
+        #self.fixDir.stateChanged.connect(lambda i: setSettings("DisableDirRemovingThread", bool(i)))
+        #self.experimentalTitle.addWidget(self.fixDir)
+        #self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
+        #self.fixDash.setChecked(getSettings("EnableHyphenFix"))
+        #self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
+        #self.experimentalTitle.addWidget(self.fixDash)
         #self.fixSSL = QSettingsCheckBox(_("Alternative non-SSL update server (This might help with SSL errors)"))
         #self.fixSSL.setChecked(getSettings("AlternativeUpdateServerProvider"))
         #self.fixSSL.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
@@ -2053,8 +2053,11 @@ class SettingsWindow(QMainWindow):
         self.hide()
         event.ignore()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 
 class QSettingsTitle(QWidget):
@@ -2214,9 +2217,12 @@ class QSettingsTitle(QWidget):
 
     def window(self) -> 'SettingsWindow':
         return super().window()
+    
+    def getPx(self, i: int) -> int:
+        return i
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def setIcon(self, icon: str) -> None:
         self.image.setPixmap(QIcon(icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
@@ -2302,8 +2308,11 @@ class QSettingsButton(QWidget):
         self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(170), self.getPx(10))
@@ -2358,8 +2367,11 @@ class QSettingsComboBox(QWidget):
             self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def loadItems(self, items: list, index: int = -1) -> None:
         return self.setItems(items, index)
@@ -2427,8 +2439,11 @@ class QSettingsCheckBox(QWidget):
     def isChecked(self) -> bool:
         return self.checkbox.isChecked()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.checkbox.move(self.getPx(70), self.getPx(10))
@@ -2652,9 +2667,12 @@ class QCustomColorDialog(QColorDialog):
 
         self.setWindowIcon(self.window().windowIcon())
 
-    def getPx(self, i: int):
-        return round(i*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
 
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
+    
 class QSettingsCheckboxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
@@ -2959,7 +2977,10 @@ class QAnnouncements(QLabel):
         return super().showEvent(a0)
 
     def getPx(self, i: int) -> int:
-        return round(i*(self.screen().logicalDotsPerInch()/96))
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def setTtext(self, a0: str) -> None:
         return super().setText(a0)

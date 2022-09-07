@@ -254,8 +254,11 @@ class WelcomeWindow(QMainWindow):
 
         self.show()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def setWidget(self, w: QWidget, back=False, anim=True) -> None:
         self.bgWidget.setCurrentIndex(self.bgWidget.addWidget(w))
@@ -397,8 +400,11 @@ class BasicNavWidget(QWidget):
         bgAnim.start()
         bgAnim.finished.connect(f)
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def window(self) -> WelcomeWindow:
         return super().window()
@@ -435,8 +441,11 @@ class IconLabel(QWidget):
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize)))
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class ButtonLabel(QWidget):
     clicked = Signal()
@@ -475,8 +484,11 @@ class ButtonLabel(QWidget):
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize)))
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class ClickableLabel(QLabel):
     clicked = Signal()
@@ -522,8 +534,11 @@ class ClickableButtonLabel(QPushButton):
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize), Mode=Qt.KeepAspectRatio))
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class MovableFocusSelector(QLabel):
     def __init__(self, parent: QWidget = None) -> None:
@@ -572,8 +587,11 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class ClickableImageWithText(QPushButton):
     def __init__(self, size=96) -> None:
@@ -611,8 +629,11 @@ class ClickableImageWithText(QPushButton):
     def setIcon(self, path: str) -> None:
         self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class FirstRunSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
@@ -654,9 +675,11 @@ class FirstRunSlide(BasicNavWidget):
         vl.addStretch()
         self.setCentralWidget(widget)
 
+    def getPx(self, i: int) -> int:
+        return i
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class LastSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
@@ -713,9 +736,11 @@ class LastSlide(BasicNavWidget):
         vl.addStretch()
         self.setCentralWidget(widget)
 
+    def getPx(self, i: int) -> int:
+        return i
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class SelectModeSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
@@ -809,8 +834,11 @@ class SelectModeSlide(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class SelectFullScreenSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
@@ -903,8 +931,11 @@ class SelectFullScreenSlide(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class DateTimeFormat(BasicNavWidget):
     def __init__(self, parent=None) -> None:
@@ -1074,8 +1105,11 @@ class DateTimeFormat(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 class ClockAppearance(BasicNavWidget):
     def __init__(self, parent=None) -> None:
@@ -1245,8 +1279,11 @@ class ClockAppearance(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 
 if __name__ == "__main__":

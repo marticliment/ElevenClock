@@ -493,15 +493,15 @@ try:
 
     def timeStrThread():
         global timeStr, dateTimeFormat
-        fixHyphen = getSettings("EnableHyphenFix")
+        #fixHyphen = getSettings("EnableHyphenFix")
         adverted = False
         while True:
             for integer in range(36000):
                 try:
                     timeStr = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
-                    if fixHyphen:
-                        timeStr = timeStr.replace("t-", "t -")
+                    #if fixHyphen:
+                    #    timeStr = timeStr.replace("t-", "t -")
                     try:
                         secs = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
@@ -620,8 +620,11 @@ try:
                 self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+addClocks)
             super().show()
 
-        def getPx(self, original) -> int:
-            return round(original*(self.scr.logicalDotsPerInch()/96))
+        def getPx(self, i: int) -> int:
+            return i
+
+        def get6px(self, i: int) -> int:
+            return round(i*self.screen().devicePixelRatio())
 
     class Clock(QWidget):
 
@@ -715,17 +718,17 @@ try:
                     except ValueError as e:
                         report(e)
 
-                self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
-                for win32screen in win32api.EnumDisplayMonitors():
-                    try:
-                        if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
-                            self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
-                    except Exception as e:
-                        report(e)
+                #self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
+                #for win32screen in win32api.EnumDisplayMonitors():
+                #    try:
+                #        if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
+                #            self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
+                #    except Exception as e:
+                #        report(e)
 
-                if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
-                    os.startfile(sys.executable) # Restart elevenclock
-                    app.quit()
+                #if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
+                #    os.startfile(sys.executable) # Restart elevenclock
+                #    app.quit()
 
                 #self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
                 #print("🔵 Monitor geometry:", self.screenGeometry)
@@ -759,6 +762,7 @@ try:
 
                 self.clockOnTheLeft = getSettings("ClockOnTheLeft")
                 screenName = screen.name().replace("\\", "_")
+                self.setScreen(screen)
                 if not self.clockOnTheLeft:
                     if getSettings(f"SpecificClockOnTheLeft{screenName}"):
                         self.clockOnTheLeft = True
@@ -1195,8 +1199,8 @@ try:
             yPos = self.pos().y()-self.getPx(5)-self.tooltip.height() if not self.clockOnTop else self.pos().y()+self.getPx(5)+self.height()
             self.tooltip.move(xPos, yPos)
 
-        def getPx(self, original) -> int:
-            return round(original*(self.screen().logicalDotsPerInch()/96))
+        def getPx(self, i: int) -> int:
+            return i
 
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
@@ -1618,7 +1622,10 @@ try:
 
 
         def getPx(self, i: int) -> int:
-            return round(i*(self.screen().logicalDotsPerInch()/96))
+            return i
+
+        def get6px(self, i: int) -> int:
+            return round(i*self.screen().devicePixelRatio())
 
         def enterEvent(self, event: QEvent, r=False) -> None:
             if not self.isCover:
@@ -1804,8 +1811,8 @@ try:
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
 
-    if not getSettings("DisableDirRemovingThread"):
-        Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
+    #if not getSettings("DisableDirRemovingThread"):
+    #    Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
 
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()

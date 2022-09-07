@@ -227,8 +227,11 @@ class QFramelessDialog(QFramelessWindow):
         #self.parent().window().setWindowOpacity(0.7)
         return super().showEvent(event)
 
-    def getPx(self, i: int):
-        return round(i*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 
 

@@ -229,7 +229,7 @@ def getMousePos() -> QPoint:
         report(e)
         return QPoint(0, 0)
 
-def clearTmpDir():
+"""def clearTmpDir():
     while not globals.canEraseTempDirs:
         time.sleep(0.1)
     print("🟢 Green lignt to erase temp dirs")
@@ -247,7 +247,7 @@ def clearTmpDir():
                 except Exception as e:
                     report(e)
         except Exception as e:
-            report(e)
+            report(e)"""
 
 def isDark():
     try:
@@ -495,8 +495,11 @@ class TaskbarIconTray(QSystemTrayIcon):
         except Exception as e:
             report(e)
 
-    def getPx(self, original) -> int:
-        return round(original*(self.menuScreen.logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def applyStyleSheet(self) -> None:
         if isTaskbarDark():
