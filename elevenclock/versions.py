@@ -1,2 +1,2 @@
-version = 3.74
-versionName = "3.7.4-beta"
+version = 3.79
+versionName = "3.8.0-beta (Qt6)"

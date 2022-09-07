@@ -10,18 +10,18 @@ import sys
 import locale
 import time
 from urllib.request import urlopen
-from PySide2 import QtGui
-from PySide2 import QtCore
+from PySide6 import QtGui
+from PySide6 import QtCore
 
 try:
     import psutil
     from psutil._common import bytes2human
 except ImportError as e:
     print(e)
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-#from PySide2.QtCore import pyqtSignal as Signal
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
+#from PySide6.QtCore import pyqtSignal as Signal
 
 
 import globals
@@ -581,7 +581,7 @@ class SettingsWindow(QMainWindow):
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
-                <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/">LGPL-v3</a></li>
+                <li> <b>PySide6 (Qt5)</b>: <a href="https://www.qt.io/licensing/">LGPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
@@ -787,11 +787,8 @@ class SettingsWindow(QMainWindow):
         self.setMouseTracking(True)
         self.resize(self.getPx(1100), self.getPx(700))
         self.hwnd = self.winId().__int__()
-        #self.setAttribute(Qt.WA_TranslucentBackground)
-        if QtWin.isCompositionEnabled():
-            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(self)
+        
+        ExtendFrameIntoClientArea(self.winId().__int__())
         self.installEventFilter(self)
         if winver < 22581:
             self.setWindowTitle("‎")
@@ -1155,7 +1152,7 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
-                                    border-radius: {self.getPx(4)}px;
+                                    border-radius: {self.getPx(6)}px;
                                     border: {self.getPx(1)}px solid #161616;
                                     selection-background-color: rgb({colors[4]});
                                 }}
@@ -1544,7 +1541,7 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: {self.getPx(4)}px;
+                                    border-radius: {self.getPx(6)}px;
                                     border: {self.getPx(1)}px solid #dddddd;
                                     selection-background-color: rgb({colors[3]});
                                 }}
@@ -1888,6 +1885,7 @@ class SettingsWindow(QMainWindow):
                                """)
 
     def openLogWindow(self):
+        global old_stdout, buffer
 
         class QPlainTextEditWithFluentMenu(QPlainTextEdit):
             def __init__(self):
@@ -1915,7 +1913,6 @@ class SettingsWindow(QMainWindow):
                 ApplyMenuBlur(menu.winId().__int__(), menu)
                 menu.exec_(e.globalPos())
 
-        global old_stdout, buffer
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
@@ -1927,9 +1924,9 @@ class SettingsWindow(QMainWindow):
         textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
         if isWindowDark():
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: {self.getPx(1)}px solid #161616;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(6)}px;border: {self.getPx(1)}px solid #161616;}}")
         else:
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: {self.getPx(1)}px solid #dddddd;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(6)}px;border: {self.getPx(1)}px solid #dddddd;}}")
 
         textEdit.setPlainText(globals.buffer.getvalue())
 
@@ -1997,10 +1994,8 @@ class SettingsWindow(QMainWindow):
         window_style = win32gui.GetWindowLong(win.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(win.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
 
-        if QtWin.isCompositionEnabled():
-            QtWin.extendFrameIntoClientArea(win, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(win)
+        
+        ExtendFrameIntoClientArea(self.winId().__int__())
 
 
         if ApplyMica(win.hwnd, isWindowDark()) != 0:
@@ -2010,10 +2005,12 @@ class SettingsWindow(QMainWindow):
                 GlobalBlur(win.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         win.show()
-        win.setWindowTitle("‎")
+        win.setWindowTitle(_("ElevenClock's log"))
+        """
         pixmap = QPixmap(32, 32)
         pixmap.fill(Qt.transparent)
-        win.setWindowIcon(QIcon(pixmap))
+        """
+        win.setWindowIcon(QIcon(getPath("icon.png")))
 
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
@@ -2644,10 +2641,7 @@ class QCustomColorDialog(QColorDialog):
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
 
-        if QtWin.isCompositionEnabled():
-            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(self)
+        ExtendFrameIntoClientArea(self.winId().__int__())
 
 
         if ApplyMica(self.hwnd, isWindowDark()) != 0x0:

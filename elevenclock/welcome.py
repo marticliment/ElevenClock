@@ -9,11 +9,11 @@ import sys
 import locale
 import time
 import ctypes
-from PySide2 import QtGui
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-#from PySide2.QtCore import pyqtSignal as Signal
+from PySide6 import QtGui
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
+#from PySide6.QtCore import pyqtSignal as Signal
 import external.FramelessWindow as FramelessWindow
 
 import globals
