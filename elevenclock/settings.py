@@ -2651,21 +2651,23 @@ class QCustomColorDialog(QColorDialog):
         pixmap = QPixmap(32, 32)
         pixmap.fill(Qt.transparent)
         self.setWindowIcon(QIcon(pixmap))
-
         self.hwnd = self.winId().__int__()
+
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+        self.setWindowTitle(_("Pick a color"))
 
+    def showEvent(self, arg__1: QShowEvent) -> None:
         ExtendFrameIntoClientArea(self.winId().__int__())
-
-
+        self.setWindowIcon(globals.sw.windowIcon())
+        self.hwnd = self.winId().__int__()
         if ApplyMica(self.hwnd, isWindowDark()) != 0x0:
             if isWindowDark():
-                GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
+                GlobalBlur(self.hwnd, Dark=True, Acrylic=True, hexColor="#333333ff")
             else:
-                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
+                GlobalBlur(self.hwnd, Dark=False, Acrylic=True, hexColor="#ffffffdd")
+        return super().showEvent(arg__1)
 
-        self.setWindowIcon(self.window().windowIcon())
 
     def getPx(self, i: int) -> int:
         return i
@@ -2762,8 +2764,11 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
                 super().__init__(parent)
                 self.setAutoFillBackground(True)
                 self.setAttribute(Qt.WA_StyledBackground)
+
+            def showEvent(self, arg__1: QShowEvent) -> None:
                 ApplyMica(self.winId().__int__(), isWindowDark())
                 cprint(self.layout().widget())
+                return super().showEvent(arg__1)
 
         self.fontPicker = QFluentFontDialog(self)
         self.fontPicker.setObjectName("stCmbbx")
