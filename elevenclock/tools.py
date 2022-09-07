@@ -514,6 +514,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                 * {{
                     border-radius: {self.getPx(8)}px;
                     background-color: transparent;
+                    font-family: "Segoe UI Variable Display";
                 }}
                 QWidget{{
                     background-color: transparent;

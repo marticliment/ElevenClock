@@ -69,7 +69,7 @@ class SettingsWindow(QMainWindow):
         elif lang["locale"] == "zh_CN":
             title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
-            title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
+            title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 700;")
         layout.setSpacing(self.getPx(5))
         layout.setContentsMargins(10, 0, 0, 0)
         layout.addSpacing(0)
@@ -1136,12 +1136,12 @@ class SettingsWindow(QMainWindow):
                                    background: transparent;
                                 }}
                                 QLabel {{
-                                    font-family: "Segoe UI Variable Display Semib";
                                     font-weight: medium;
                                 }}
                                 * {{
                                    color: white;
                                    font-size: 8pt;
+                                    font-family: "Segoe UI Variable Display";
                                 }}
                                 #greyishLabel {{
                                     color: #aaaaaa;

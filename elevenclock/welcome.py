@@ -90,7 +90,7 @@ class WelcomeWindow(QMainWindow):
                     background-color: none;
                 }}
                 #SampleItem {{
-                    font-family: "Segoe UI Variable Display semib";
+                    font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: #303030;
                     padding: 20px;
@@ -100,7 +100,7 @@ class WelcomeWindow(QMainWindow):
                     border-top: {self.getPx(1)}px solid #252525;
                 }}
                 #FramelessSampleItem {{
-                    font-family: "Segoe UI Variable Display semib";
+                    font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: transparent;
                     padding: 20px;
@@ -109,7 +109,7 @@ class WelcomeWindow(QMainWindow):
                     height: {self.getPx(25)}px;
                 }}
                 QPushButton {{
-                    font-family: "Segoe UI Variable Display semib";
+                    font-family: "Segoe UI Variable Display";
                     font-size: 8pt;
                     width: 100px;
                     background-color: #303030;
@@ -189,7 +189,7 @@ class WelcomeWindow(QMainWindow):
                     border-bottom: {self.getPx(1)}px solid rgba(220, 220, 220, 100%);
                 }}
                 #FramelessSampleItem {{
-                    font-family: "Segoe UI Variable Display semib";
+                    font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: transparent;
                     padding: 20px;
