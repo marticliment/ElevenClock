@@ -1818,7 +1818,7 @@ try:
 
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()
-    app.exec_()
+    app.exec()
     app.quit()
 
 except FileNotFoundError as e:

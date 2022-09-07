@@ -490,7 +490,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                 else:
                     self.moveToTopAction.setText(_("Move this clock to the top"))
             self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screenName.replace("_", "\\")))
-            self.contextMenu().exec_(pos)
+            self.contextMenu().exec(pos)
             self.applyStyleSheet()
         except Exception as e:
             report(e)

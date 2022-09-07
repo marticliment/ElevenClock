@@ -1911,7 +1911,7 @@ class SettingsWindow(QMainWindow):
                 menu.addAction(a3)
 
                 ApplyMenuBlur(menu.winId().__int__(), menu)
-                menu.exec_(e.globalPos())
+                menu.exec(e.globalPos())
 
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
@@ -2493,7 +2493,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
             def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
                 menu = self.createStandardContextMenu()
                 ApplyMenuBlur(menu.winId().__int__(), menu)
-                menu.exec_(e.globalPos())
+                menu.exec(e.globalPos())
 
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
@@ -2818,7 +2818,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
                 def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
                     menu = self.createStandardContextMenu()
                     ApplyMenuBlur(menu.winId().__int__(), menu)
-                    menu.exec_(e.globalPos())
+                    menu.exec(e.globalPos())
 
         super().__init__(text, parent)
         self.button = QPushButton(_("Apply"), self)
