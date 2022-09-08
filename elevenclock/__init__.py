@@ -1259,7 +1259,7 @@ try:
                         print("🟣 Expected AttributeError on backgroundLoop thread")
                     time.sleep(0.5)
 
-        def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD):
+        def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
             try:
                 fullscreen = False
 
@@ -1287,6 +1287,8 @@ try:
                                         if p.Name != "TextInputHost.exe":
                                             if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
                                                 print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                                                if LOG_FULLSCREEN_WINDOW_TITLE:
+                                                    print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                                                 fullscreen = True
                                         else:
                                             print("🟢 Cached text input host hwnd:", hwnd)
@@ -1295,6 +1297,8 @@ try:
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
                                     print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                                    if LOG_FULLSCREEN_WINDOW_TITLE:
+                                        print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                                     fullscreen = True
                 if not LEGACY_FULLSCREEN_METHOD:
                     win32gui.EnumWindows(winEnumHandler, 0)
@@ -1303,6 +1307,8 @@ try:
                     if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
                             print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                            if LOG_FULLSCREEN_WINDOW_TITLE:
+                                print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                             fullscreen = True
                 return fullscreen
             except Exception as e:
@@ -1314,6 +1320,7 @@ try:
             CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnFirstMonitor")
             LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
             ADVANCED_FULLSCREEN_METHOD = getSettings("NewFullScreenMethod")
+            LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not getSettings("DisableHideOnFullScreen")
                 DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
@@ -1335,7 +1342,7 @@ try:
                 self.INTLOOPTIME = 2
             while True:
                 self.isRDPRunning = isRDPRunning
-                isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD)
+                isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
                 for i in range(self.INTLOOPTIME):
                     if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
                         if SHOW_NOTIFICATIONS:
