@@ -1335,9 +1335,11 @@ try:
                 self.INTLOOPTIME = 15
             else:
                 self.INTLOOPTIME = 2
+            loopCount = 0
             while True:
                 self.isRDPRunning = isRDPRunning
                 isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
+                hideClock = False
                 for i in range(self.INTLOOPTIME):
                     if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
                         if SHOW_NOTIFICATIONS:
@@ -1366,15 +1368,19 @@ try:
                                         self.refresh.emit()
                                     else:
                                         self.hideSignal.emit()
+                                        hideClock = True
                                 else:
                                     self.hideSignal.emit()
+                                    hideClock = True
                         else:
                             if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
                                 self.hideSignal.emit()
+                                hideClock = True
                             else:
                                 self.refresh.emit()
                     else:
                         self.hideSignal.emit()
+                        hideClock = True
                     if not ENABLE_HIDE_ON_FULLSCREEN:
                         if isFullScreen:
                             self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
@@ -1383,7 +1389,14 @@ try:
                     else:
                         self.tempMakeClockTransparent = False
                     time.sleep(0.2)
-                self.checkAndUpdateBackground()
+                if not hideClock:
+                    if loopCount >= 2:
+                        self.checkAndUpdateBackground()
+                        loopCount = 0
+                    else:
+                        loopCount += 1
+                else:
+                    loopCount = 0
                 time.sleep(0.2)
 
         def updateTextLoop(self) -> None:
