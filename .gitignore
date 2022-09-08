@@ -1,5 +1,6 @@
 ElevenClock.exe
 elevenclock_bin/
+ElevenClockBin/
 elevenclock\__init__.spec
 elevenclock\lang\__pycache__\*
 *.pyc
@@ -25,3 +26,4 @@ build_BETA.bat
 elevenclock/lang/APIKEY.txt
 ElevenClock.Installer.exe
 __init__.exe
+ElevenClock.Installer.exe.zip

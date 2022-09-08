@@ -1,6 +1,6 @@
 pyautogui
 pywin32
-PySide2
+PySide6
 psutil
 PyInstaller==5.3
 win32mica

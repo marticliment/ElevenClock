@@ -35,10 +35,10 @@ try:
     import pythoncom
     import win32process
     import win32com.client
-    from PySide2.QtGui import *
-    from PySide2.QtCore import *
-    from PySide2.QtWidgets import *
-    #from PySide2.QtCore import pyqtSignal as Signal
+    from PySide6.QtGui import *
+    from PySide6.QtCore import *
+    from PySide6.QtWidgets import *
+    #from PySide6.QtCore import pyqtSignal as Signal
     import pyautogui
     from external.FramelessWindow import QFramelessDialog
     from external.timezones import win_tz
@@ -56,6 +56,7 @@ try:
     import tools
 
     from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
+    from external.blurwindow import ExtendFrameIntoClientArea
 
     blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe", "vmware.exe"]
     blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay", "NVIDIA GeForce Overlay DT", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
@@ -492,15 +493,15 @@ try:
 
     def timeStrThread():
         global timeStr, dateTimeFormat
-        fixHyphen = getSettings("EnableHyphenFix")
+        #fixHyphen = getSettings("EnableHyphenFix")
         adverted = False
         while True:
             for integer in range(36000):
                 try:
                     timeStr = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
                     adverted = False
-                    if fixHyphen:
-                        timeStr = timeStr.replace("t-", "t -")
+                    #if fixHyphen:
+                    #    timeStr = timeStr.replace("t-", "t -")
                     try:
                         secs = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime("%S")
                         if secs[-1] == "1" and shouldFixSeconds:
@@ -564,12 +565,15 @@ try:
             if not getSettings("TooltipDisableTaskbarBackgroundColor"):
                 ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
             else:
-                from PySide2.QtWinExtras import QtWin
-                QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
+                ExtendFrameIntoClientArea(self.winId().__int__())
 
         def show(self):
             addClocks = ""
             height = 30
+            if not getSettings("TooltipDisableTaskbarBackgroundColor"):
+                ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
+            else:
+                ExtendFrameIntoClientArea(self.winId().__int__())
             if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "Enable", 0) == 1:
                 addClocks += "\n\n"
                 self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
@@ -616,8 +620,11 @@ try:
                 self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+addClocks)
             super().show()
 
-        def getPx(self, original) -> int:
-            return round(original*(self.scr.logicalDotsPerInch()/96))
+        def getPx(self, i: int) -> int:
+            return i
+
+        def get6px(self, i: int) -> int:
+            return round(i*self.screen().devicePixelRatio())
 
     class Clock(QWidget):
 
@@ -711,20 +718,21 @@ try:
                     except ValueError as e:
                         report(e)
 
-                self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
-                for win32screen in win32api.EnumDisplayMonitors():
-                    try:
-                        if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
-                            self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
-                    except Exception as e:
-                        report(e)
+                #self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
+                #for win32screen in win32api.EnumDisplayMonitors():
+                #    try:
+                #        if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
+                #            self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
+                #    except Exception as e:
+                #        report(e)
 
-                if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
-                    os.startfile(sys.executable) # Restart elevenclock
-                    app.quit()
+                #if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
+                #    os.startfile(sys.executable) # Restart elevenclock
+                #    app.quit()
 
-                self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
-                print("🔵 Monitor geometry:", self.screenGeometry)
+                #self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
+                #print("🔵 Monitor geometry:", self.screenGeometry)
+                self.screenGeometry = screen.geometry()
 
 
                 self.refresh.connect(self.refreshAndShow)
@@ -754,6 +762,7 @@ try:
 
                 self.clockOnTheLeft = getSettings("ClockOnTheLeft")
                 screenName = screen.name().replace("\\", "_")
+                self.setScreen(screen)
                 if not self.clockOnTheLeft:
                     if getSettings(f"SpecificClockOnTheLeft{screenName}"):
                         self.clockOnTheLeft = True
@@ -809,9 +818,9 @@ try:
                 self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
                 if(not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")):
                     if(isTaskbarDark()):
-                        self.backgroundTexture.setPixmap(getPath("taskbarbg_black.png"))
+                        self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_black.png")))
                     else:
-                        self.backgroundTexture.setPixmap(getPath("taskbarbg_white.png"))
+                        self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_white.png")))
 
                 self.label = Label(timeStr, self, self.isCover)
 
@@ -1190,8 +1199,11 @@ try:
             yPos = self.pos().y()-self.getPx(5)-self.tooltip.height() if not self.clockOnTop else self.pos().y()+self.getPx(5)+self.height()
             self.tooltip.move(xPos, yPos)
 
-        def getPx(self, original) -> int:
-            return round(original*(self.screen().logicalDotsPerInch()/96))
+        def getPx(self, i: int) -> int:
+            return i
+
+        def get6px(self, i: int) -> int:
+            return round(i*self.screen().devicePixelRatio())
 
         def backgroundLoop(self):
             if not self.isCover: 
@@ -1202,10 +1214,12 @@ try:
                         if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
                             if self.isVisible():
                                 if not self.tempMakeClockTransparent:
-                                    intColor = self.primaryScreen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                                    g = self.screen().geometry()
+                                    intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                     alphaUpdated = False
                                     shouldBeTransparent = False
                                 else:
+                                    self.callInMainSignal.emit(self.backgroundTexture.hide)
                                     shouldBeTransparent = True
                                     if not alphaUpdated:
                                         intColor  = self.oldBgColor + 1
@@ -1215,6 +1229,7 @@ try:
                                 if intColor != self.oldBgColor:
                                     self.oldBgColor = intColor
                                     color = QColor(intColor)
+                                    self.callInMainSignal.emit(self.backgroundTexture.show)
                                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
                     except AttributeError:
                         print("🟣 Expected AttributeError on backgroundLoop thread")
@@ -1226,7 +1241,7 @@ try:
                     try:
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
-                                intColor = self.primaryScreen.grabWindow(0, self.x()+self.label.x()-1, self.y()+2, 1, 1).toImage().pixel(0, 0)
+                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
@@ -1589,7 +1604,10 @@ try:
 
 
         def getPx(self, i: int) -> int:
-            return round(i*(self.screen().logicalDotsPerInch()/96))
+            return i
+
+        def get6px(self, i: int) -> int:
+            return round(i*self.screen().devicePixelRatio())
 
         def enterEvent(self, event: QEvent, r=False) -> None:
             if not self.isCover:
@@ -1685,7 +1703,7 @@ try:
     # Start of main script
     timeOffset = 0
 
-    QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
+    #QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
 
@@ -1775,12 +1793,12 @@ try:
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
 
-    if not getSettings("DisableDirRemovingThread"):
-        Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
+    #if not getSettings("DisableDirRemovingThread"):
+    #    Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
 
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()
-    app.exec_()
+    app.exec()
     app.quit()
 
 except FileNotFoundError as e:

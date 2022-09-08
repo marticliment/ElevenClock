@@ -12,13 +12,12 @@ import locale
 import glob
 import shutil
 
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-from PySide2.QtWinExtras import QtWin
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
 import platform
 
-from external.blurwindow import GlobalBlur
+from external.blurwindow import GlobalBlur, ExtendFrameIntoClientArea
 import pyautogui
 
 
@@ -230,10 +229,10 @@ def getMousePos() -> QPoint:
         report(e)
         return QPoint(0, 0)
 
-def clearTmpDir():
+"""def clearTmpDir():
     while not globals.canEraseTempDirs:
         time.sleep(0.1)
-    print("🟢 Green lignt to rease temp dirs")
+    print("🟢 Green lignt to erase temp dirs")
     if hasattr(sys, 'frozen'):
         base_path = sys._MEIPASS
         try:
@@ -248,7 +247,7 @@ def clearTmpDir():
                 except Exception as e:
                     report(e)
         except Exception as e:
-            report(e)
+            report(e)"""
 
 def isDark():
     try:
@@ -271,12 +270,11 @@ def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidO
         window.setStyleSheet("background-color: transparent;")
     if mode:
         GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True, smallCorners=smallCorners)
-        if shadow:
-            QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
+        ExtendFrameIntoClientArea(hwnd)
+
     else:
         GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True, smallCorners=smallCorners)
-        if shadow:
-            QtWin.extendFrameIntoClientArea(window, -1, -1, -1, -1)
+        ExtendFrameIntoClientArea(hwnd)
 
 class Menu(QMenu):
     def __init__(self, title: str):
@@ -327,6 +325,8 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.toolsMenu.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.toolsMenu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)
         self.toolsMenu.setAttribute(Qt.WA_TranslucentBackground)
+        self.toolsMenu.aboutToShow.connect(self.applyStyleSheet)
+        menu.aboutToShow.connect(self.applyStyleSheet)
 
         def blacklist():
             setSettingsValue("BlacklistedMonitors", getSettingsValue("BlacklistedMonitors")+f"_{self.toolsMenu.screen().name()}_")
@@ -347,7 +347,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             msg.addButton(_("Yes"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: blacklist())
             msg.addButton(_("No"), QDialogButtonBox.ButtonRole.RejectRole)
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, globals.sw.styleSheet())
-            msg.setWindowTitle("ElevenClock has updated!")
+            msg.setWindowTitle("ElevenClock was updated!")
             msg.show()
 
         self.monitorInfoAction = QAction(_("Clock on monitor {0}"), app)
@@ -490,26 +490,31 @@ class TaskbarIconTray(QSystemTrayIcon):
                 else:
                     self.moveToTopAction.setText(_("Move this clock to the top"))
             self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screenName.replace("_", "\\")))
-            self.contextMenu().exec_(pos)
+            self.contextMenu().exec(pos)
             self.applyStyleSheet()
         except Exception as e:
             report(e)
 
-    def getPx(self, original) -> int:
-        return round(original*(self.menuScreen.logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def applyStyleSheet(self) -> None:
         if isTaskbarDark():
             self.iconMode = "white"
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#21212140", Dark=True)
-            QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
-            QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
+            ExtendFrameIntoClientArea(self.toolsMenu.winId())
+            ExtendFrameIntoClientArea(self.contextMenu().winId())
+
 
             self.contextMenu().setStyleSheet(f"""
                 * {{
                     border-radius: {self.getPx(8)}px;
                     background-color: transparent;
+                    font-family: "Segoe UI Variable Display";
                 }}
                 QWidget{{
                     background-color: transparent;
@@ -553,6 +558,16 @@ class TaskbarIconTray(QSystemTrayIcon):
                     padding-left: {self.getPx(0)}px;
                     border-radius: {self.getPx(4)}px;
                 }}
+                QMenu::item:disabled {{
+                    background: transparent;
+                    height: {self.getPx(30)}px;
+                    outline: none;
+                    border: none;
+                    color: grey;
+                    padding-right: {self.getPx(20)}px;
+                    padding-left: {self.getPx(0)}px;
+                    border-radius: {self.getPx(4)}px;
+                }}
                 QMenu::item:selected:disabled {{
                     background: transparent;
                     height: {self.getPx(30)}px;
@@ -567,8 +582,8 @@ class TaskbarIconTray(QSystemTrayIcon):
             self.iconMode = "black"
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
-            QtWin.extendFrameIntoClientArea(self.contextMenu(), -1, -1, -1, -1)
-            QtWin.extendFrameIntoClientArea(self.toolsMenu, -1, -1, -1, -1)
+            ExtendFrameIntoClientArea(self.toolsMenu.winId())
+            ExtendFrameIntoClientArea(self.contextMenu().winId())
             self.contextMenu().setStyleSheet(f"""
                 QWidget{{
                     background-color: transparent;

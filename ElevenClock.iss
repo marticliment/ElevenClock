@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ElevenClock"
-#define MyAppVersion "3.7.3"
+#define MyAppVersion "3.8.0-beta (Qt6)"
 #define MyAppPublisher "Martí Climent"
 #define MyAppURL "https://github.com/martinet101/ElevenClock"
 #define MyAppExeName "ElevenClock.exe"
@@ -80,7 +80,8 @@ end;
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "elevenClock"; ValueData: """{app}\ElevenClock.exe"""; Flags: uninsdeletevalue
 
 [Files]
-Source: "ElevenClock.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit; BeforeInstall: TaskKill('ElevenClock.exe')
+Source: "ElevenClockBin/ElevenClock.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit ; BeforeInstall: TaskKill('ElevenClock.exe')
+Source: "ElevenClockBin/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

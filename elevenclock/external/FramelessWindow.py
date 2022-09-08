@@ -19,9 +19,9 @@ from win32con import PAN_SERIF_SQUARE, WM_NCCALCSIZE, GWL_STYLE, WM_NCHITTEST, W
     HTTOP, HTBOTTOM, HTLEFT, HTRIGHT, HTCAPTION, WS_POPUP, WS_SYSMENU, WS_MINIMIZEBOX
 
 
-from PySide2.QtCore import *
-from PySide2.QtGui import *
-from PySide2.QtWidgets import *
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+from PySide6.QtWidgets import *
 from external.blurwindow import ExtendFrameIntoClientArea
 
 
@@ -227,8 +227,11 @@ class QFramelessDialog(QFramelessWindow):
         #self.parent().window().setWindowOpacity(0.7)
         return super().showEvent(event)
 
-    def getPx(self, i: int):
-        return round(i*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 
 

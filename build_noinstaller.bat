@@ -44,14 +44,4 @@ del QtDataVisualization.pyd
 del QtOpenGL.pyd
 cd ..
 cd ..
-set INSTALLATOR="%SYSTEMDRIVE%\Program Files (x86)\Inno Setup 6\ISCC.exe"
-if exist %INSTALLATOR% (
-    %INSTALLATOR% "ElevenClock.iss"
-    ElevenClock.Installer.exe
-) else (
-    echo "Make installer is skipped, because installator missing."
-    echo "Running app..."
-    start /b ElevenClockBin/ElevenClock.exe
-)
-python generate_release.py
 pause

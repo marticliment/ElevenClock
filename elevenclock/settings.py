@@ -10,18 +10,18 @@ import sys
 import locale
 import time
 from urllib.request import urlopen
-from PySide2 import QtGui
-from PySide2 import QtCore
+from PySide6 import QtGui
+from PySide6 import QtCore
 
 try:
     import psutil
     from psutil._common import bytes2human
 except ImportError as e:
     print(e)
-from PySide2.QtGui import *
-from PySide2.QtCore import *
-from PySide2.QtWidgets import *
-#from PySide2.QtCore import pyqtSignal as Signal
+from PySide6.QtGui import *
+from PySide6.QtCore import *
+from PySide6.QtWidgets import *
+#from PySide6.QtCore import pyqtSignal as Signal
 
 
 import globals
@@ -69,7 +69,7 @@ class SettingsWindow(QMainWindow):
         elif lang["locale"] == "zh_CN":
             title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
-            title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 600;")
+            title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 700;")
         layout.setSpacing(self.getPx(5))
         layout.setContentsMargins(10, 0, 0, 0)
         layout.addSpacing(0)
@@ -520,14 +520,14 @@ class SettingsWindow(QMainWindow):
 
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
-        self.fixDir = QSettingsCheckBox(_("Fix crashes relating to the \"FileNotFoundError\" error"))
-        self.fixDir.setChecked(getSettings("DisableDirRemovingThread"))
-        self.fixDir.stateChanged.connect(lambda i: setSettings("DisableDirRemovingThread", bool(i)))
-        self.experimentalTitle.addWidget(self.fixDir)
-        self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
-        self.fixDash.setChecked(getSettings("EnableHyphenFix"))
-        self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
-        self.experimentalTitle.addWidget(self.fixDash)
+        #self.fixDir = QSettingsCheckBox(_("Fix crashes relating to the \"FileNotFoundError\" error"))
+        #self.fixDir.setChecked(getSettings("DisableDirRemovingThread"))
+        #self.fixDir.stateChanged.connect(lambda i: setSettings("DisableDirRemovingThread", bool(i)))
+        #self.experimentalTitle.addWidget(self.fixDir)
+        #self.fixDash = QSettingsCheckBox(_("Fix the hyphen/dash showing over the month"))
+        #self.fixDash.setChecked(getSettings("EnableHyphenFix"))
+        #self.fixDash.stateChanged.connect(lambda i: setSettings("EnableHyphenFix", bool(i)))
+        #self.experimentalTitle.addWidget(self.fixDash)
         #self.fixSSL = QSettingsCheckBox(_("Alternative non-SSL update server (This might help with SSL errors)"))
         #self.fixSSL.setChecked(getSettings("AlternativeUpdateServerProvider"))
         #self.fixSSL.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
@@ -581,7 +581,7 @@ class SettingsWindow(QMainWindow):
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
-                <li> <b>PySide2 (Qt5)</b>: <a href="https://www.qt.io/licensing/">LGPL-v3</a></li>
+                <li> <b>PySide6 (Qt6)</b>: <a href="https://www.qt.io/download-open-source">GPL-v3</a></li>
                 <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
                 <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
                 <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
@@ -787,11 +787,8 @@ class SettingsWindow(QMainWindow):
         self.setMouseTracking(True)
         self.resize(self.getPx(1100), self.getPx(700))
         self.hwnd = self.winId().__int__()
-        #self.setAttribute(Qt.WA_TranslucentBackground)
-        if QtWin.isCompositionEnabled():
-            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(self)
+        
+        ExtendFrameIntoClientArea(self.winId().__int__())
         self.installEventFilter(self)
         if winver < 22581:
             self.setWindowTitle("‎")
@@ -1139,12 +1136,12 @@ class SettingsWindow(QMainWindow):
                                    background: transparent;
                                 }}
                                 QLabel {{
-                                    font-family: "Segoe UI Variable Display Semib";
                                     font-weight: medium;
                                 }}
                                 * {{
                                    color: white;
                                    font-size: 8pt;
+                                    font-family: "Segoe UI Variable Display";
                                 }}
                                 #greyishLabel {{
                                     color: #aaaaaa;
@@ -1155,7 +1152,7 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
-                                    border-radius: {self.getPx(4)}px;
+                                    border-radius: {self.getPx(6)}px;
                                     border: {self.getPx(1)}px solid #161616;
                                     selection-background-color: rgb({colors[4]});
                                 }}
@@ -1544,7 +1541,7 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: {self.getPx(4)}px;
+                                    border-radius: {self.getPx(6)}px;
                                     border: {self.getPx(1)}px solid #dddddd;
                                     selection-background-color: rgb({colors[3]});
                                 }}
@@ -1888,6 +1885,7 @@ class SettingsWindow(QMainWindow):
                                """)
 
     def openLogWindow(self):
+        global old_stdout, buffer
 
         class QPlainTextEditWithFluentMenu(QPlainTextEdit):
             def __init__(self):
@@ -1913,9 +1911,8 @@ class SettingsWindow(QMainWindow):
                 menu.addAction(a3)
 
                 ApplyMenuBlur(menu.winId().__int__(), menu)
-                menu.exec_(e.globalPos())
+                menu.exec(e.globalPos())
 
-        global old_stdout, buffer
         win = QMainWindow(self)
         win.resize(self.getPx(900), self.getPx(600))
         win.setObjectName("background")
@@ -1927,9 +1924,9 @@ class SettingsWindow(QMainWindow):
         textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
         if isWindowDark():
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: {self.getPx(1)}px solid #161616;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(6)}px;border: {self.getPx(1)}px solid #161616;}}")
         else:
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(4)}px;border: {self.getPx(1)}px solid #dddddd;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(6)}px;border: {self.getPx(1)}px solid #dddddd;}}")
 
         textEdit.setPlainText(globals.buffer.getvalue())
 
@@ -1997,10 +1994,8 @@ class SettingsWindow(QMainWindow):
         window_style = win32gui.GetWindowLong(win.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(win.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
 
-        if QtWin.isCompositionEnabled():
-            QtWin.extendFrameIntoClientArea(win, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(win)
+        
+        ExtendFrameIntoClientArea(self.winId().__int__())
 
 
         if ApplyMica(win.hwnd, isWindowDark()) != 0:
@@ -2010,10 +2005,12 @@ class SettingsWindow(QMainWindow):
                 GlobalBlur(win.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
 
         win.show()
-        win.setWindowTitle("‎")
+        win.setWindowTitle(_("ElevenClock's log"))
+        """
         pixmap = QPixmap(32, 32)
         pixmap.fill(Qt.transparent)
-        win.setWindowIcon(QIcon(pixmap))
+        """
+        win.setWindowIcon(QIcon(getPath("icon.png")))
 
     def moveEvent(self, event: QMoveEvent) -> None:
         if(self.updateSize):
@@ -2056,8 +2053,11 @@ class SettingsWindow(QMainWindow):
         self.hide()
         event.ignore()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
 
 class QSettingsTitle(QWidget):
@@ -2217,9 +2217,12 @@ class QSettingsTitle(QWidget):
 
     def window(self) -> 'SettingsWindow':
         return super().window()
+    
+    def getPx(self, i: int) -> int:
+        return i
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def setIcon(self, icon: str) -> None:
         self.image.setPixmap(QIcon(icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
@@ -2305,8 +2308,11 @@ class QSettingsButton(QWidget):
         self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.button.move(self.width()-self.getPx(170), self.getPx(10))
@@ -2361,8 +2367,11 @@ class QSettingsComboBox(QWidget):
             self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def loadItems(self, items: list, index: int = -1) -> None:
         return self.setItems(items, index)
@@ -2430,8 +2439,11 @@ class QSettingsCheckBox(QWidget):
     def isChecked(self) -> bool:
         return self.checkbox.isChecked()
 
-    def getPx(self, original) -> int:
-        return round(original*(self.screen().logicalDotsPerInchX()/96))
+    def getPx(self, i: int) -> int:
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
         self.checkbox.move(self.getPx(70), self.getPx(10))
@@ -2481,7 +2493,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
             def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
                 menu = self.createStandardContextMenu()
                 ApplyMenuBlur(menu.winId().__int__(), menu)
-                menu.exec_(e.globalPos())
+                menu.exec(e.globalPos())
 
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
@@ -2639,28 +2651,30 @@ class QCustomColorDialog(QColorDialog):
         pixmap = QPixmap(32, 32)
         pixmap.fill(Qt.transparent)
         self.setWindowIcon(QIcon(pixmap))
-
         self.hwnd = self.winId().__int__()
+
         window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
         win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU)
+        self.setWindowTitle(_("Pick a color"))
 
-        if QtWin.isCompositionEnabled():
-            QtWin.extendFrameIntoClientArea(self, -1, -1, -1, -1)
-        else:
-            QtWin.resetExtendedFrame(self)
-
-
+    def showEvent(self, arg__1: QShowEvent) -> None:
+        ExtendFrameIntoClientArea(self.winId().__int__())
+        self.setWindowIcon(globals.sw.windowIcon())
+        self.hwnd = self.winId().__int__()
         if ApplyMica(self.hwnd, isWindowDark()) != 0x0:
             if isWindowDark():
-                GlobalBlur(self.winId().__int__(), Dark=True, Acrylic=True, hexColor="#333333ff")
+                GlobalBlur(self.hwnd, Dark=True, Acrylic=True, hexColor="#333333ff")
             else:
-                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
+                GlobalBlur(self.hwnd, Dark=False, Acrylic=True, hexColor="#ffffffdd")
+        return super().showEvent(arg__1)
 
-        self.setWindowIcon(self.window().windowIcon())
 
-    def getPx(self, i: int):
-        return round(i*(self.screen().logicalDotsPerInch()/96))
+    def getPx(self, i: int) -> int:
+        return i
 
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
+    
 class QSettingsCheckboxColorDialog(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(str)
@@ -2750,8 +2764,11 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
                 super().__init__(parent)
                 self.setAutoFillBackground(True)
                 self.setAttribute(Qt.WA_StyledBackground)
+
+            def showEvent(self, arg__1: QShowEvent) -> None:
                 ApplyMica(self.winId().__int__(), isWindowDark())
                 cprint(self.layout().widget())
+                return super().showEvent(arg__1)
 
         self.fontPicker = QFluentFontDialog(self)
         self.fontPicker.setObjectName("stCmbbx")
@@ -2806,7 +2823,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
                 def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
                     menu = self.createStandardContextMenu()
                     ApplyMenuBlur(menu.winId().__int__(), menu)
-                    menu.exec_(e.globalPos())
+                    menu.exec(e.globalPos())
 
         super().__init__(text, parent)
         self.button = QPushButton(_("Apply"), self)
@@ -2965,7 +2982,10 @@ class QAnnouncements(QLabel):
         return super().showEvent(a0)
 
     def getPx(self, i: int) -> int:
-        return round(i*(self.screen().logicalDotsPerInch()/96))
+        return i
+
+    def get6px(self, i: int) -> int:
+        return round(i*self.screen().devicePixelRatio())
 
     def setTtext(self, a0: str) -> None:
         return super().setText(a0)
