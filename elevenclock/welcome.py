@@ -565,7 +565,7 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.iconLabel.setMinimumWidth(self.getPx(size))
         self.iconLabel.clicked.connect(self.animateClick)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setMinimumHeight(self.getPx(self.iconSize))
+        self.setMinimumHeight(self.getPx(self.iconSize*1.5))
         self.textLabel = ClickableLabel()
         self.textLabel.clicked.connect(self.animateClick)
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
@@ -648,7 +648,7 @@ class FirstRunSlide(BasicNavWidget):
         l.addLayout(vl)
         vl.addSpacing(self.getPx(0))
 
-        label1 = IconLabel(size=64, frame=False)
+        label1 = IconLabel(size=96, frame=False)
         label1.setIcon("icon.png")
         label1.setText(f"""
              <h1>{_("Welcome to Elevenclock!")}</h1>
@@ -656,13 +656,13 @@ class FirstRunSlide(BasicNavWidget):
 
 
         label3 = IconLabel(size=64)
-        label3.setIcon("msstore_color.png")
+        label3.setIcon("license_color.png")
         label3.setText(f"""
              <h3>{_("Wait a second!")}</h3>
              {_("Please make sure to install ElevenClock from official sources only. Also, using ElevenClock implies the acceptation of the <b>GPLv3 license</b>")}""")
 
         label2 = IconLabel(size=64)
-        label2.setIcon("customize_color.png")
+        label2.setIcon("rocket_color.png")
         label2.setText(f"""
              <h3>{_("This wizard will help you configure and customize ElevenClock. Click Start to get started!")}</h3>
              {_("Remember that this wizard can be run at any time from the Settings Window")}""")
@@ -693,13 +693,13 @@ class LastSlide(BasicNavWidget):
         l.addSpacing(self.getPx(10))
         l.addLayout(vl)
 
-        label1 = IconLabel(size=64, frame=False)
-        label1.setIcon("")
+        label1 = IconLabel(size=96, frame=False)
+        label1.setIcon("finish_color.png")
         label1.setText(f"""<h1>{_("You are now ready to go!")}</h1>
                        <h3>{_("But here are other things you can do:")}</h3>""")
 
         settings = ButtonLabel(size=64)
-        settings.setIcon("deskSettings_color.png")
+        settings.setIcon("further_custom_color.png")
         settings.setText(f"""
              <h3>{_("Customize ElevenClock even more")}</h3>
              {_("Open the settings window and customize ElevenClock even further.")}""")
@@ -711,7 +711,7 @@ class LastSlide(BasicNavWidget):
             self.finished.emit()
 
         donate = ButtonLabel(size=64)
-        donate.setIcon("coffee_color.png")
+        donate.setIcon("cafe_color.png")
         donate.setText(f"""
              <h3>{_("Suport the developer")}</h3>
              {_("Developing is hard, and this aplication is free. But if you liked the application, you can always <b>buy me a coffee</b> :)")}""")
@@ -758,19 +758,19 @@ class SelectModeSlide(BasicNavWidget):
         l.addLayout(vl)
 
         label1 = IconLabel(size=self.getPx(96), frame=False)
-        label1.setIcon(getPath("clock.png"))
+        label1.setIcon(getPath("timespan_color.png"))
         label1.setText(f"""<h1>{_("What time do you want to see?")}</h1>
                        {_("Please select one of the following and click next.")}
                        {_("If you don't know which one is the best, choose {0}").format(_("Local time"))}""")
 
-        self.localTime = ClickableButtonLabelWithBiggerIcon(size=96)
-        self.localTime.setIcon(getPath(f"desk.png"))
+        self.localTime = ClickableButtonLabelWithBiggerIcon(size=64)
+        self.localTime.setIcon(getPath(f"desktop_cactus.png"))
         self.localTime.clicked.connect(lambda: self.toggleClockMode("secondary", shouldChangePrefs=True))
         self.localTime.setText(f"""
             <h3>{_("Local time")}</h3>
             {_("Show the local computer time. The time will not be synced with the internet and might be inaccurate")}""")
 
-        self.internetTime = ClickableButtonLabelWithBiggerIcon(size=96)
+        self.internetTime = ClickableButtonLabelWithBiggerIcon(size=64)
         self.internetTime.setIcon(getPath(f"globe.png"))
         self.internetTime.clicked.connect(lambda: self.toggleClockMode("format", shouldChangePrefs=True))
         self.internetTime.setText(f"""
@@ -860,14 +860,14 @@ class SelectFullScreenSlide(BasicNavWidget):
         label1.setText(f"""<h1>{_("Fullscreen behaviour")}</h1>
                        {_("ElevenClock can hide when there's a fullscreen window present (when you are watching a video, you are playing, etc.), but it can also show over those windows (It might be useful if you use fullscreened terminals, etc.).<br><br>Please select one of the following and click next to continue")}""")
 
-        self.secondaryClock = ClickableButtonLabelWithBiggerIcon(size=96)
+        self.secondaryClock = ClickableButtonLabelWithBiggerIcon(size=64)
         self.secondaryClock.setIcon(getPath(f"hide_color.png"))
         self.secondaryClock.clicked.connect(lambda: self.toggleClockMode("hide", shouldChangePrefs=True))
         self.secondaryClock.setText(f"""
             <h3>{_("Hide the clock (<i>Recommended</i>)")}</h3>
             {_("Hide the clock, as the default windows clock would do.")}""")
 
-        self.formattedClock = ClickableButtonLabelWithBiggerIcon(size=96)
+        self.formattedClock = ClickableButtonLabelWithBiggerIcon(size=64)
         self.formattedClock.setIcon(getPath(f"show_color.png"))
         self.formattedClock.clicked.connect(lambda: self.toggleClockMode("show", shouldChangePrefs=True))
         self.formattedClock.setText(f"""
