@@ -2188,11 +2188,11 @@ class QSettingsTitle(QWidget):
         self.callInMain.emit(lambda: self.compressibleWidget.show())
         self.callInMain.emit(self.newShowAnim.start)
         time.sleep(0.2)
-        if globals.sw.scrollArea.geometry().height() < self.geometry().y()+self.geometry().height()-globals.sw.scrollbar.value():
-            self.scrollAnim.setStartValue(globals.sw.scrollbar.value())
-            val = self.geometry().y()+self.geometry().height()+abs(globals.sw.settingsWidget.geometry().y())-globals.sw.scrollArea.geometry().height()+self.getPx(5)
-            self.scrollAnim.setEndValue(val if val <= globals.sw.scrollbar.maximum() else globals.sw.scrollbar.maximum())
-            self.callInMain.emit(lambda: self.scrollAnim.start())
+        #if globals.sw.scrollArea.geometry().height() < self.geometry().y()+self.geometry().height()-globals.sw.scrollbar.value():
+        #    self.scrollAnim.setStartValue(globals.sw.scrollbar.value())
+        #    val = self.geometry().y()+self.geometry().height()+abs(globals.sw.settingsWidget.geometry().y())-globals.sw.scrollArea.geometry().height()+self.getPx(5)
+        #    self.scrollAnim.setEndValue(val if val <= globals.sw.scrollbar.maximum() else globals.sw.scrollbar.maximum())
+        #    self.callInMain.emit(lambda: self.scrollAnim.start())
 
 
     def setChildFixedHeight(self, h: int) -> None:
@@ -2208,8 +2208,7 @@ class QSettingsTitle(QWidget):
             self.childsVisible = False
             self.invertNotAnimated()
             self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
-            self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")
-            self.bg70.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")
+            threading.Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")), daemon=True).start()
             threading.Thread(target=self.hideChildren).start()
         else:
             self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
