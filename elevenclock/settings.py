@@ -323,7 +323,7 @@ class SettingsWindow(QMainWindow):
             msg.setStyleSheet(globals.sw.styleSheet())
             msg.setAttribute(Qt.WA_StyledBackground)
             msg.setObjectName("QMessageBox")
-            msg.setTitle(_("Success"))
+            msg.setTitle(_("Success")+"!")
             msg.setText(f"""{_("The monitors were unblacklisted successfully.")}<br>
     {_("Now you should see the clock everywhere")}""")
             msg.addButton(_("Ok"), QDialogButtonBox.ButtonRole.ApplyRole)
@@ -396,7 +396,7 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.dateTimeTitle)
         rulesText = f"""<b>{_("Custom format rules:")}</b>
         <ul>
-        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes  on the following link")}: <a href="https://strftime.org" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
+        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes on the following link:")} <a href="https://strftime.org" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
         <li>{_("To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>
         <li>{_("Click on Apply to apply and preview the format")}</li></ul>
         {_("If you don't understand what is happening, please uncheck the checkbox over the text area")}
@@ -532,7 +532,7 @@ class SettingsWindow(QMainWindow):
         #self.fixSSL.setChecked(getSettings("AlternativeUpdateServerProvider"))
         #self.fixSSL.stateChanged.connect(lambda i: setSettings("AlternativeUpdateServerProvider", bool(i)))
         #self.experimentalTitle.addWidget(self.fixSSL)
-        self.showFullScreenTitle = QSettingsCheckBox(_("Show the title of the fullscreened apps in the log"))
+        self.showFullScreenTitle = QSettingsCheckBox(_("Show the title of the fullscreened apps on the log"))
         self.showFullScreenTitle.setChecked(getSettings("LogFullScreenAppTitle"))
         self.showFullScreenTitle.stateChanged.connect(lambda i: setSettings("LogFullScreenAppTitle", bool(i)))
         self.experimentalTitle.addWidget(self.showFullScreenTitle)
@@ -2775,6 +2775,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
                 return super().showEvent(arg__1)
 
         self.fontPicker = QFluentFontDialog(self)
+        self.fontPicker.setWindowTitle(_("Select font"))
         self.fontPicker.setObjectName("stCmbbx")
         self.fontPicker.fontSelected.connect(self.valuechangedEvent)
         self.button = QPushButton(self)

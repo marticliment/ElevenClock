@@ -9,8 +9,6 @@ import sys
 import winreg
 import threading
 import locale
-import glob
-import shutil
 
 from PySide6.QtGui import *
 from PySide6.QtCore import *
