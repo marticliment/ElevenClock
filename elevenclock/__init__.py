@@ -1336,7 +1336,7 @@ try:
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
             oldNotifNumber = 0
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{ADVANCED_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
-            if self.IS_LOW_CPU_MODE or CLOCK_ON_FIRST_MONITOR:
+            if self.IS_LOW_CPU_MODE:
                 self.INTLOOPTIME = 15
             else:
                 self.INTLOOPTIME = 2
