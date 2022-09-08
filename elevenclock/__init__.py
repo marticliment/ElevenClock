@@ -1101,10 +1101,8 @@ try:
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
                 self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
                 self.loop1 = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
-                self.loop2 = KillableThread(target=self.backgroundLoop, daemon=True, name=f"Clock[{index}]: Background color loop")
                 self.loop0.start()
                 self.loop1.start()
-                self.loop2.start()
 
                 if self.shouldCoverWindowsClock:
                     if not self.isCover:
@@ -1205,46 +1203,20 @@ try:
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
 
-        def backgroundLoop(self):
+        def checkAndUpdateBackground(self):
             if not self.isCover: 
                 alphaUpdated = False
                 shouldBeTransparent = False
-                while True:
-                    try:
-                        if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
-                            if self.isVisible():
-                                if not self.tempMakeClockTransparent:
-                                    g = self.screen().geometry()
-                                    intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                                    alphaUpdated = False
-                                    shouldBeTransparent = False
-                                else:
-                                    self.callInMainSignal.emit(self.backgroundTexture.hide)
-                                    shouldBeTransparent = True
-                                    if not alphaUpdated:
-                                        intColor  = self.oldBgColor + 1
-                                        alphaUpdated = True
-                                    else:
-                                        intColor = self.oldBgColor
-                                if intColor != self.oldBgColor:
-                                    self.oldBgColor = intColor
-                                    color = QColor(intColor)
-                                    self.callInMainSignal.emit(self.backgroundTexture.show)
-                                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                    except AttributeError:
-                        print("🟣 Expected AttributeError on backgroundLoop thread")
-                    time.sleep(0.5)
-            else:
-                alphaUpdated = False
-                shouldBeTransparent = False
-                while True:
-                    try:
+                try:
+                    if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
+                                g = self.screen().geometry()
                                 intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
+                                self.callInMainSignal.emit(self.backgroundTexture.hide)
                                 shouldBeTransparent = True
                                 if not alphaUpdated:
                                     intColor  = self.oldBgColor + 1
@@ -1254,10 +1226,32 @@ try:
                             if intColor != self.oldBgColor:
                                 self.oldBgColor = intColor
                                 color = QColor(intColor)
+                                self.callInMainSignal.emit(self.backgroundTexture.show)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                    except AttributeError:
-                        print("🟣 Expected AttributeError on backgroundLoop thread")
-                    time.sleep(0.5)
+                except AttributeError:
+                    print("🟣 Expected AttributeError on checkAndUpdateBackground")
+            else:
+                alphaUpdated = False
+                shouldBeTransparent = False
+                try:
+                    if self.isVisible():
+                        if not self.tempMakeClockTransparent:
+                            intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                            alphaUpdated = False
+                            shouldBeTransparent = False
+                        else:
+                            shouldBeTransparent = True
+                            if not alphaUpdated:
+                                intColor  = self.oldBgColor + 1
+                                alphaUpdated = True
+                            else:
+                                intColor = self.oldBgColor
+                        if intColor != self.oldBgColor:
+                            self.oldBgColor = intColor
+                            color = QColor(intColor)
+                            self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
+                except AttributeError:
+                    print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
         def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
             try:
@@ -1389,6 +1383,7 @@ try:
                     else:
                         self.tempMakeClockTransparent = False
                     time.sleep(0.2)
+                self.checkAndUpdateBackground()
                 time.sleep(0.2)
 
         def updateTextLoop(self) -> None:
@@ -1461,7 +1456,6 @@ try:
                             self.clockCover.close()
                 self.loop0.kill()
                 self.loop1.kill()
-                self.loop2.kill()
             except AttributeError:
                 pass
             event.accept()
