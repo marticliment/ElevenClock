@@ -79,7 +79,7 @@ class WelcomeWindow(QMainWindow):
                     font-family: "Segoe UI Variable Display"
                 }}
                 #BackgroundWidget {{
-                    border: 0px solid #121212;
+                    border: 0px solid rgba(80, 80, 80, 25%);
                     padding: 20px;
                     background-color: transparent;
                     border-radius: 0px;
@@ -87,17 +87,17 @@ class WelcomeWindow(QMainWindow):
                     padding-right: 30px;
                 }}
                 QLabel {{
-                    background-color: none;
+                    background-color: transparent;
                 }}
                 #SampleItem {{
                     font-family: "Segoe UI Variable Display";
                     width: 100px;
-                    background-color: #303030;
+                    background-color: rgba(80, 80, 80, 15%);
                     padding: 20px;
                     border-radius: {self.getPx(8)}px;
-                    border: {self.getPx(1)}px solid #202020;
+                    border: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
+                    border-top: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
                     height: {self.getPx(25)}px;
-                    border-top: {self.getPx(1)}px solid #252525;
                 }}
                 #FramelessSampleItem {{
                     font-family: "Segoe UI Variable Display";
@@ -112,11 +112,11 @@ class WelcomeWindow(QMainWindow):
                     font-family: "Segoe UI Variable Display";
                     font-size: 8pt;
                     width: 100px;
-                    background-color: #303030;
+                    background-color: rgba(60, 60, 60, 25%);
+                    border: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
+                    border-top: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
                     border-radius: {self.getPx(4)}px;
-                    border: {self.getPx(1)}px solid rgba(77, 77, 77, 50%);
                     height: {self.getPx(25)}px;
-                    border-top: {self.getPx(1)}px solid rgba(87, 87, 87, 50%);
                 }}
                 QPushButton:hover {{
                     background-color: rgba(77, 77, 77, 50%);
