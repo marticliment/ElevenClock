@@ -16,6 +16,11 @@ del lang/APIKEY.txt
 python -m PyInstaller ../elevenclock/__init__.py --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --exclude-module PySide2 --windowed --version-file ../elevenclock-version-info --name ElevenClock
 cd dist
 rename ElevenClock ElevenClockBin
+cd ..
+cd ..
+rmdir /Q /S ElevenClockBin
+cd elevenclock_bin
+cd dist
 move ElevenClockBin ../../
 cd ..
 rmdir /Q /S build
