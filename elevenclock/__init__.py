@@ -1101,10 +1101,8 @@ try:
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
                 self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
                 self.loop1 = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
-                self.loop2 = KillableThread(target=self.backgroundLoop, daemon=True, name=f"Clock[{index}]: Background color loop")
                 self.loop0.start()
                 self.loop1.start()
-                self.loop2.start()
 
                 if self.shouldCoverWindowsClock:
                     if not self.isCover:
@@ -1205,46 +1203,20 @@ try:
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
 
-        def backgroundLoop(self):
+        def checkAndUpdateBackground(self):
             if not self.isCover: 
                 alphaUpdated = False
                 shouldBeTransparent = False
-                while True:
-                    try:
-                        if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
-                            if self.isVisible():
-                                if not self.tempMakeClockTransparent:
-                                    g = self.screen().geometry()
-                                    intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                                    alphaUpdated = False
-                                    shouldBeTransparent = False
-                                else:
-                                    self.callInMainSignal.emit(self.backgroundTexture.hide)
-                                    shouldBeTransparent = True
-                                    if not alphaUpdated:
-                                        intColor  = self.oldBgColor + 1
-                                        alphaUpdated = True
-                                    else:
-                                        intColor = self.oldBgColor
-                                if intColor != self.oldBgColor:
-                                    self.oldBgColor = intColor
-                                    color = QColor(intColor)
-                                    self.callInMainSignal.emit(self.backgroundTexture.show)
-                                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                    except AttributeError:
-                        print("🟣 Expected AttributeError on backgroundLoop thread")
-                    time.sleep(0.5)
-            else:
-                alphaUpdated = False
-                shouldBeTransparent = False
-                while True:
-                    try:
+                try:
+                    if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
+                                g = self.screen().geometry()
                                 intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
+                                self.callInMainSignal.emit(self.backgroundTexture.hide)
                                 shouldBeTransparent = True
                                 if not alphaUpdated:
                                     intColor  = self.oldBgColor + 1
@@ -1254,21 +1226,44 @@ try:
                             if intColor != self.oldBgColor:
                                 self.oldBgColor = intColor
                                 color = QColor(intColor)
+                                self.callInMainSignal.emit(self.backgroundTexture.show)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                    except AttributeError:
-                        print("🟣 Expected AttributeError on backgroundLoop thread")
-                    time.sleep(0.5)
+                except AttributeError:
+                    print("🟣 Expected AttributeError on checkAndUpdateBackground")
+            else:
+                alphaUpdated = False
+                shouldBeTransparent = False
+                try:
+                    if self.isVisible():
+                        if not self.tempMakeClockTransparent:
+                            intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                            alphaUpdated = False
+                            shouldBeTransparent = False
+                        else:
+                            shouldBeTransparent = True
+                            if not alphaUpdated:
+                                intColor  = self.oldBgColor + 1
+                                alphaUpdated = True
+                            else:
+                                intColor = self.oldBgColor
+                        if intColor != self.oldBgColor:
+                            self.oldBgColor = intColor
+                            color = QColor(intColor)
+                            self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
+                except AttributeError:
+                    print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
         def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
             try:
                 fullscreen = False
 
                 def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
+                    screenInPixel = [self.get6px(screen[0]), self.get6px(screen[1]), self.get6px(screen[2]), self.get6px(screen[3])]
                     try:
                         if(ADVANCED_FULLSCREEN_METHOD):
-                            return  window[0] <= screen[0] and window[1] <= screen[1] and window[2] >= screen[2] and window[3] >= screen[3] and window[0]+8 != screen[0] and window[1]+8 != screen[1]
+                            return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
                         else:
-                            return  window[0] == screen[0] and window[1] == screen[1] and window[2] == screen[2] and window[3] == screen[3]
+                            return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
                     except Exception as e:
                         report(e)
 
@@ -1286,7 +1281,7 @@ try:
                                     for p in processes:
                                         if p.Name != "TextInputHost.exe":
                                             if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect, f"with {self.screen().devicePixelRatio()}x scaling")
                                                 if LOG_FULLSCREEN_WINDOW_TITLE:
                                                     print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                                                 fullscreen = True
@@ -1296,7 +1291,7 @@ try:
                                             self.INTLOOPTIME = 2
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
-                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect, f"with {self.screen().devicePixelRatio()}x scaling")
                                     if LOG_FULLSCREEN_WINDOW_TITLE:
                                         print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                                     fullscreen = True
@@ -1306,7 +1301,7 @@ try:
                     hwnd = win32gui.GetForegroundWindow()
                     if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect)
+                            print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect, f"with {self.screen().devicePixelRatio()}x scaling")
                             if LOG_FULLSCREEN_WINDOW_TITLE:
                                 print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                             fullscreen = True
@@ -1340,9 +1335,11 @@ try:
                 self.INTLOOPTIME = 15
             else:
                 self.INTLOOPTIME = 2
+            loopCount = 0
             while True:
                 self.isRDPRunning = isRDPRunning
                 isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
+                hideClock = False
                 for i in range(self.INTLOOPTIME):
                     if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
                         if SHOW_NOTIFICATIONS:
@@ -1371,15 +1368,19 @@ try:
                                         self.refresh.emit()
                                     else:
                                         self.hideSignal.emit()
+                                        hideClock = True
                                 else:
                                     self.hideSignal.emit()
+                                    hideClock = True
                         else:
                             if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
                                 self.hideSignal.emit()
+                                hideClock = True
                             else:
                                 self.refresh.emit()
                     else:
                         self.hideSignal.emit()
+                        hideClock = True
                     if not ENABLE_HIDE_ON_FULLSCREEN:
                         if isFullScreen:
                             self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
@@ -1388,6 +1389,14 @@ try:
                     else:
                         self.tempMakeClockTransparent = False
                     time.sleep(0.2)
+                if not hideClock:
+                    if loopCount >= 2:
+                        self.checkAndUpdateBackground()
+                        loopCount = 0
+                    else:
+                        loopCount += 1
+                else:
+                    loopCount = 0
                 time.sleep(0.2)
 
         def updateTextLoop(self) -> None:
@@ -1460,7 +1469,6 @@ try:
                             self.clockCover.close()
                 self.loop0.kill()
                 self.loop1.kill()
-                self.loop2.kill()
             except AttributeError:
                 pass
             event.accept()
