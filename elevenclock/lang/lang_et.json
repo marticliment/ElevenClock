@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Lubamatu ajaformaat. Palun järgi C 1989 standardeid",
   "Invalid time format\nPlease modify it\nin the settings" : "Lubamatu ajaformaat. Palun muuda seda seadetes",
   " - It is required that the Dark Text checkbox is disabled" : "- On nõutav, et märkeruut Tume tekst on välja lülitatud.",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Keelepaketi autor(id), abi ElevenClocki tõlkimisel",
   "Let's talk: Format" : "Räägime: Formaat",
   "Local time" : "Kohalik aeg",

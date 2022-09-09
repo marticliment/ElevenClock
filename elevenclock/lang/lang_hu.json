@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Hibás idő formátum\nKérem kövesse a\nC 1989 szabványt",
   "Invalid time format\nPlease modify it\nin the settings" : "Hibás idő formátum\nKérem módosítsa\na beállításokban",
   " - It is required that the Dark Text checkbox is disabled" : " - A sötét szöveg letiltása kötelező",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Nyelvi csomagok készítői, segítségnyújtás az ElevenClock fordításában",
   "Let's talk: Format" : "Beszéljünk: Formátum",
   "Local time" : "Helyi idő",

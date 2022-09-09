@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Ongeldige formattering, gebruik de C 1989 standaard",
   "Invalid time format\nPlease modify it\nin the settings" : "Ongeldig tijd formaat, pas de instellingen aan",
   " - It is required that the Dark Text checkbox is disabled" : "- Het is vereist dat het selectievakje Donkere tekst is uitgeschakeld",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Auteur(s) van het taalpakket, help het vertalen van ElevenClock",
   "Let's talk: Format" : "Let's talk: Format",
   "Local time" : "Lokale tijd",

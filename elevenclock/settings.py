@@ -544,7 +544,7 @@ class SettingsWindow(QMainWindow):
         self.legacyRDPHide.setChecked(getSettings("EnableHideOnRDP"))
         self.legacyRDPHide.stateChanged.connect(lambda i: setSettings("EnableHideOnRDP", bool(i)))
         self.experimentalTitle.addWidget(self.legacyRDPHide)
-        self.legacyFullScreenHide = QSettingsCheckBox(_("Check only the focused window on the fullscreen check"))
+        self.legacyFullScreenHide = QSettingsCheckBox(_("Check only the focused window on the fullscreen check")+". "+_("(It might help to solve issues with Netflix)"))
         self.legacyFullScreenHide.setChecked(getSettings("legacyFullScreenMethod"))
         self.legacyFullScreenHide.stateChanged.connect(lambda i: setSettings("legacyFullScreenMethod", bool(i)))
         self.experimentalTitle.addWidget(self.legacyFullScreenHide)

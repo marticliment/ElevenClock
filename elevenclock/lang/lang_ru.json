@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Неверный формат времени\nСледуйте стандарту\nC 1989 Standards",
   "Invalid time format\nPlease modify it\nin the settings" : "Неверный формат времени\nИзмените формат\nв настройках",
   " - It is required that the Dark Text checkbox is disabled" : " - Необходимо, чтобы настройка Темный Цвет была выключена",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Авторы переводов, помощь в переводе ElevenClock",
   "Let's talk: Format" : "Формат часов",
   "Local time" : "Время компьютера",

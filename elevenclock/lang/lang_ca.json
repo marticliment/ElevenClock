@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Format de data invàlid\nSeguiu l'estàndard\nde C del 1989",
   "Invalid time format\nPlease modify it\nin the settings" : "Format de data invàlid\nModifiqueu-lo\na la configuració",
   " - It is required that the Dark Text checkbox is disabled" : " - Es necessita que la opció de Text de Color Negre estigui desactivada",
+  "(It might help to solve issues with Netflix)" : "(Pot ajudar a solucionar problemes amb el Netflix)",
   "Language pack author(s), help translating ElevenClock" : "Autor(s) del paquet d'idioma, ajudeu a traduir l'ElevenClock",
   "Let's talk: Format" : "Parlem: el format",
   "Local time" : "Hora local",

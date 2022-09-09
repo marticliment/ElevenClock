@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Format invalid de timp Vă rugăm să vă conformați Standardului C 1989",
   "Invalid time format\nPlease modify it\nin the settings" : "Format invalid de timp Vă rugăm modificați-l in setări",
   " - It is required that the Dark Text checkbox is disabled" : "- Este necesară debifarea căsuței Text Întunecat",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Autorul/Autorii pachetului lingvistic, ajută traducerea ElevenClock",
   "Let's talk: Format" : "Hai să discutăm: Format",
   "Local time" : "Ora locală",

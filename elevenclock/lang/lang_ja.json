@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "時刻形式の誤り\nC 1989標準形式に\n従ってください",
   "Invalid time format\nPlease modify it\nin the settings" : "時刻形式の誤り\n設定画面にて\n変更してください",
   " - It is required that the Dark Text checkbox is disabled" : " - 暗い文字色のチェックボックスが無効になっている必要があります",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "言語パックの編集者、ElevenClock の翻訳を手伝う",
   "Let's talk: Format" : "日時形式の設定",
   "Local time" : "ローカル時刻",

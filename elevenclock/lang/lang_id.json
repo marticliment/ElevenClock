@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Format waktu yang tidak sah Mohon patuhi Standar C 1989",
   "Invalid time format\nPlease modify it\nin the settings" : "Format waktu yang tidak sah Mohon ubah format tersebut di dalam pengaturan",
   " - It is required that the Dark Text checkbox is disabled" : " - Kotak pilihan Dark Text dilarang dicentang",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Penulis paket bahasa, bantu menerjemahkan ElevenClock",
   "Let's talk: Format" : "Mari berbincang: Format",
   "Local time" : "Waktu lokal",

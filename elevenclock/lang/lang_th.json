@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "รูปแบบเวลาไม่ถูกต้อง\nโปรดปฏิบัติตาม\nมาตรฐาน C 1989",
   "Invalid time format\nPlease modify it\nin the settings" : "รูปแบบเวลาไม่ถูกต้อง\nโปรดแก้ไข\nในการตั้งค่า",
   " - It is required that the Dark Text checkbox is disabled" : " - จำเป็นต้องปิดการใช้งานช่องทำเครื่องหมายข้อความสีเข้ม",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "ผู้เขียนชุดภาษา, ช่วยแปล ElevenClock",
   "Let's talk: Format" : null,
   "Local time" : "เวลาท้องถิ่น",

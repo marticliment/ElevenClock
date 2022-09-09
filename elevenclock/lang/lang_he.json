@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "פורמט זמן לא תקין. הצמד ל-C 1989 Standards",
   "Invalid time format\nPlease modify it\nin the settings" : "פורמט זמן לא תקין. ערוך אותו בהגדרות",
   " - It is required that the Dark Text checkbox is disabled" : "תיבת טקסט כהה חייבת להיות כבויה בשביל פעולה זאת",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "המחברים שעזרו לתרגם את ElevenClock",
   "Let's talk: Format" : "בוא נבחר: פורמט",
   "Local time" : "זמן מקומי",

@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Format d'heure invalide\nVeuillez suivre le\nStandard C 1989",
   "Invalid time format\nPlease modify it\nin the settings" : "Format d'heure invalide\nVeuillez le modifier\ndans les paramètres",
   " - It is required that the Dark Text checkbox is disabled" : " - Forcer le texte de l'horloge en noir doit être désactivé",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Auteur(s) du pack de langue aidant à traduire ElevenClock",
   "Let's talk: Format" : "Parlons de : Format",
   "Local time" : "Heure locale",

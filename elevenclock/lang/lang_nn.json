@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Ugyldig tidsformat\nVenlegst følj\nC 1989-standardane",
   "Invalid time format\nPlease modify it\nin the settings" : "Ugyldig tidsformat\nVenlegst modifiser det\ni innstillingane",
   " - It is required that the Dark Text checkbox is disabled" : " - Det er påkrevt at Mørk Tekst-avkrysningsboksen ikkje er huka av på",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Språkpakkens forfattar(ar), hjelp til med å oversetje ElevenClock",
   "Let's talk: Format" : null,
   "Local time" : null,

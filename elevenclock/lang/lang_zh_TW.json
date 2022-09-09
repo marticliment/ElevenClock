@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "時間格式無效\n請遵循 \nC 1989 標準",
   "Invalid time format\nPlease modify it\nin the settings" : "時間格式無效\n請在設定\n中更改",
   " - It is required that the Dark Text checkbox is disabled" : " - 必須關閉「強制時鐘使用黑色文字」",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "語言套件作者（翻譯協助者）",
   "Let's talk: Format" : "讓我們談談：格式",
   "Local time" : "本地時間",

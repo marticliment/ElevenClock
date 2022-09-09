@@ -129,6 +129,7 @@
   "Invalid time format\nPlease follow the\nC 1989 Standards" : "Nederīgs laika formāts Lūdzu, ievērojiet C 1989 standartus",
   "Invalid time format\nPlease modify it\nin the settings" : "Nederīgs laika formāts Lūdzu, mainiet to iestatījumos",
   " - It is required that the Dark Text checkbox is disabled" : " - ir nepieciešams, lai tumšā teksta opcija būtu atspējota",
+  "(It might help to solve issues with Netflix)" : null,
   "Language pack author(s), help translating ElevenClock" : "Valodas pakas autors(i), palīdzēt iztulkot ElevenClock",
   "Let's talk: Format" : null,
   "Local time" : "Vietējais laiks",
