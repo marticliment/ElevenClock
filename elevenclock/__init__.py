@@ -1340,55 +1340,53 @@ try:
                 self.isRDPRunning = isRDPRunning
                 isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
                 hideClock = False
-                for i in range(self.INTLOOPTIME):
-                    if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
-                        if SHOW_NOTIFICATIONS:
-                            if isFocusAssist:
-                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                            if numOfNotifs > 0:
-                                if oldNotifNumber != numOfNotifs:
-                                    if isFocusAssist:
-                                        self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                                    else:
-                                        self.callInMainSignal.emit(self.label.enableNotifDot)
-                            else:
-                                if not isFocusAssist:
-                                    self.callInMainSignal.emit(self.label.disableClockIndicators)
-                        oldNotifNumber = numOfNotifs
-                        if self.autoHide and not(DISABLE_HIDE_WITH_TASKBAR):
-                            mousePos = getMousePos()
-                            if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
-                                if self.isHidden():
-                                    time.sleep(0.22)
-                                self.refresh.emit()
-                            elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
-                                if globals.trayIcon != None:
-                                    menu = globals.trayIcon.contextMenu()
-                                    if menu.isVisible():
-                                        self.refresh.emit()
-                                    else:
-                                        self.hideSignal.emit()
-                                        hideClock = True
+                if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
+                    if SHOW_NOTIFICATIONS:
+                        if isFocusAssist:
+                            self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                        if numOfNotifs > 0:
+                            if oldNotifNumber != numOfNotifs:
+                                if isFocusAssist:
+                                    self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                                else:
+                                    self.callInMainSignal.emit(self.label.enableNotifDot)
+                        else:
+                            if not isFocusAssist:
+                                self.callInMainSignal.emit(self.label.disableClockIndicators)
+                    oldNotifNumber = numOfNotifs
+                    if self.autoHide and not(DISABLE_HIDE_WITH_TASKBAR):
+                        mousePos = getMousePos()
+                        if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
+                            if self.isHidden():
+                                time.sleep(0.22)
+                            self.refresh.emit()
+                        elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
+                            if globals.trayIcon != None:
+                                menu = globals.trayIcon.contextMenu()
+                                if menu.isVisible():
+                                    self.refresh.emit()
                                 else:
                                     self.hideSignal.emit()
                                     hideClock = True
-                        else:
-                            if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
+                            else:
                                 self.hideSignal.emit()
                                 hideClock = True
-                            else:
-                                self.refresh.emit()
                     else:
-                        self.hideSignal.emit()
-                        hideClock = True
-                    if not ENABLE_HIDE_ON_FULLSCREEN:
-                        if isFullScreen:
-                            self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
+                        if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
+                            self.hideSignal.emit()
+                            hideClock = True
                         else:
-                            self.tempMakeClockTransparent = False
+                            self.refresh.emit()
+                else:
+                    self.hideSignal.emit()
+                    hideClock = True
+                if not ENABLE_HIDE_ON_FULLSCREEN:
+                    if isFullScreen:
+                        self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
                     else:
                         self.tempMakeClockTransparent = False
-                    time.sleep(0.2)
+                else:
+                    self.tempMakeClockTransparent = False
                 if not hideClock:
                     if loopCount >= 2:
                         self.checkAndUpdateBackground()
