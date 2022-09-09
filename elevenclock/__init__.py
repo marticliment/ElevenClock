@@ -1257,8 +1257,11 @@ try:
             try:
                 fullscreen = False
 
+                def screenGeometryToPixel(screen):
+                    return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
+
                 def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
-                    screenInPixel = [self.get6px(screen[0]), self.get6px(screen[1]), self.get6px(screen[2]), self.get6px(screen[3])]
+                    screenInPixel = screenGeometryToPixel(screen)
                     try:
                         if(ADVANCED_FULLSCREEN_METHOD):
                             return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
@@ -1281,7 +1284,7 @@ try:
                                     for p in processes:
                                         if p.Name != "TextInputHost.exe":
                                             if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect, f"with {self.screen().devicePixelRatio()}x scaling")
+                                                print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                                                 if LOG_FULLSCREEN_WINDOW_TITLE:
                                                     print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                                                 fullscreen = True
@@ -1291,7 +1294,7 @@ try:
                                             self.INTLOOPTIME = 2
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
-                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect, f"with {self.screen().devicePixelRatio()}x scaling")
+                                    print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                                     if LOG_FULLSCREEN_WINDOW_TITLE:
                                         print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                                     fullscreen = True
@@ -1301,7 +1304,7 @@ try:
                     hwnd = win32gui.GetForegroundWindow()
                     if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", self.fullScreenRect, f"with {self.screen().devicePixelRatio()}x scaling")
+                            print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                             if LOG_FULLSCREEN_WINDOW_TITLE:
                                 print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                             fullscreen = True
