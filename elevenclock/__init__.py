@@ -1717,6 +1717,9 @@ try:
     timeOffset = 0
 
     #QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
+    if "zh" in langName:
+        sys.argv.append("-platform")
+        sys.argv.append("windows:fontengine=freetype")
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False)
 
