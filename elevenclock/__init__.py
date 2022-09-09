@@ -649,6 +649,7 @@ try:
         INTLOOPTIME = 2
         tempMakeClockTransparent = False
         clockCover = None
+        previousFullscreenHwnd = None
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False):
             super().__init__()
@@ -1302,12 +1303,28 @@ try:
                     win32gui.EnumWindows(winEnumHandler, 0)
                 else:
                     hwnd = win32gui.GetForegroundWindow()
+                    previousFullscreenRect = None
+                    if self.previousFullscreenHwnd != None:
+                        try:
+                            previousFullscreenRect = win32gui.GetWindowRect(self.previousFullscreenHwnd)
+                        except Exception as e:
+                            self.previousFullscreenHwnd = None
+                    if (self.previousFullscreenHwnd is not None and compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                        if(win32gui.GetWindowText(self.previousFullscreenHwnd) not in blacklistedFullscreenApps):
+                            print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                            if LOG_FULLSCREEN_WINDOW_TITLE:
+                                print("🟡 Fullscreen window title:", win32gui.GetWindowText(self.previousFullscreenHwnd))
+                            fullscreen = True
+                    else:
+                        if self.previousFullscreenHwnd is not None:
+                            self.previousFullscreenHwnd = None
                     if(compareFullScreenRects(win32gui.GetWindowRect(hwnd), self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
                         if(win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps):
                             print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                             if LOG_FULLSCREEN_WINDOW_TITLE:
                                 print("🟡 Fullscreen window title:", win32gui.GetWindowText(hwnd))
                             fullscreen = True
+                            self.previousFullscreenHwnd = hwnd
                 return fullscreen
             except Exception as e:
                 report(e)
