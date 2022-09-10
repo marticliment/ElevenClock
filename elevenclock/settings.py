@@ -95,16 +95,22 @@ class SettingsWindow(QMainWindow):
         self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
 
         langListWithPercentage = []
+        langDictWithPercentage = {}
+        invertedLangDict = {}
         for key, value in languageReference.items():
             if (key in untranslatedPercentage):
                 perc = untranslatedPercentage[key]
                 if (perc == "0%"): continue
                 langListWithPercentage.append(f"{value} ({perc})")
+                langDictWithPercentage[key] = f"{value} ({perc})"
+                invertedLangDict[f"{value} ({perc})"] = key
             else:
+                invertedLangDict[value] = key
+                langDictWithPercentage[key] = value
                 langListWithPercentage.append(value)
-
         try:
-            self.selectedLanguage.setItems(langListWithPercentage, list(languageReference.keys()).index(langName))
+            cprint(invertedLangDict)
+            self.selectedLanguage.setItems(langListWithPercentage, langListWithPercentage.index(langDictWithPercentage[langName]))
         except Exception as e:
             report(e)
             self.selectedLanguage.setItems(langListWithPercentage, 0)
@@ -112,7 +118,8 @@ class SettingsWindow(QMainWindow):
         def changeLang():
             self.selectedLanguage.restartButton.setVisible(True)
             i = self.selectedLanguage.combobox.currentIndex()
-            selectedLang = list(languageReference.keys())[i]
+            selectedLang = invertedLangDict[self.selectedLanguage.combobox.currentText()] # list(languageReference.keys())[i]
+            cprint(invertedLangDict[self.selectedLanguage.combobox.currentText()])
             self.selectedLanguage.toggleRestartButton(selectedLang != langName)
             setSettingsValue("PreferredLanguage", selectedLang, r=False)
 
