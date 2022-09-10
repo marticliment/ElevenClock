@@ -410,11 +410,16 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.setContextMenu(menu)
         self.menuScreen = self.contextMenu().screen()
 
-        def reloadClocksIfRequired(reason: QSystemTrayIcon.ActivationReason) -> None:
-            if(reason != QSystemTrayIcon.ActivationReason.Context):
-                globals.restartClocks()
+        def activationHandler(reason: QSystemTrayIcon.ActivationReason) -> None:
+            match reason:
+                case QSystemTrayIcon.ActivationReason.DoubleClick:
+                    globals.sw.show()
+                case QSystemTrayIcon.ActivationReason.Context:
+                    return
+                case _:
+                    globals.restartClocks()
 
-        self.activated.connect(lambda r: reloadClocksIfRequired(r))
+        self.activated.connect(lambda r: activationHandler(r))
 
         if(getSettings("DisableSystemTray")):
             self.hide()
