@@ -231,7 +231,7 @@
   "To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H" : "若要停用零邊距效果，請在 % 和程式碼之間加入 #。零邊距 (小時)：%H；非零邊距 (小時)：%#H",
   "Tooltip Appearance:" : "工具提示外觀",
   "Tooltip's font, font size, font color and background" : "工具提示的字型、字型大小、字型顏色及背景",
-  "Translated to English by martinet101" : "由 mmis1000、BoyceLig、SiderealArt 翻譯為正體中文（台灣）",
+  "Translated to English by martinet101" : "由 mmis1000、BoyceLig、SiderealArt、CnYeSheng 翻譯為正體中文（台灣）",
   "Translate ElevenClock to your language" : "將 ElevenClock 翻譯成你的語言",
   "Updates, icon tray, language" : "更新、系統匣、語言",
   "Use a custom background color" : "使用自訂背景顏色",
