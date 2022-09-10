@@ -41,9 +41,15 @@ print()
 print("  Downloading updated translations...")
 
 
-zipcontent = requests.get(apiurl)
+response = requests.get(apiurl)
+if (not response.ok):
+    statusCode = response.status_code
+    print(f"  Error {statusCode}: {response.text}")
+    if (statusCode == 403):
+        print(f"  APIKEY is probably wrong!")
+    exit(1)
 f = open("langs.zip", "wb")
-f.write(zipcontent.content)
+f.write(response.content)
 langArchiveName = f.name
 f.close()
 
