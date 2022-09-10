@@ -114,7 +114,7 @@ Last updated: Sat Sep 10 10:00:30 2022
  ElevenClock wouldn't have been possible with all the help from every single contributor. From the person who fixed a typo to the person who improved half of the code, ElevenClock wouldn't have been possible without you :)<br><br>
 
 ### Contributors list
- ![My dear contributors](https://contrib.rocks/image?repo=martinet101/ElevenClock)
+ [![My dear contributors](https://contrib.rocks/image?repo=martinet101/ElevenClock)](https://github.com/martinet101/ElevenClock/graphs/contributors)
 
 ## The icon:
 ElevenClock's icon is a collaboration with [Xavier Delugo](https://www.instagram.com/xdelugo/)
