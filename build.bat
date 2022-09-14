@@ -1,7 +1,35 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+set "option="
+for %%a in (%*) do (
+   if not defined option (
+      set arg=%%a
+      echo %arg%
+      if "!arg:~0,2!" equ "--" (
+        set "option!arg!=1"
+        set "option="
+      ) else (
+        if "!arg:~0,1!" equ "-" set "option=!arg!"
+      )
+   ) else (
+      set "option!option!=%%a"
+      set "option="
+   )
+)
+
+set option
+
+@echo on
+
 python -m pip install -r requirements.txt
 python -m pip install setuptools==49.1.3
 python -m pip uninstall python-dateutil -y
 python -m easy_install python-dateutil
+if defined option--only-requirements (
+    goto :end
+)
+
 python apply_version.py
 xcopy elevenclock elevenclock_bin /E /H /C /I /Y
 cd elevenclock_bin
@@ -49,6 +77,11 @@ del QtDataVisualization.pyd
 del QtOpenGL.pyd
 cd ..
 cd ..
+
+if defined option--no-installer (
+    goto :skip-installer
+)
+
 set INSTALLATOR="%SYSTEMDRIVE%\Program Files (x86)\Inno Setup 6\ISCC.exe"
 if exist %INSTALLATOR% (
     %INSTALLATOR% "ElevenClock.iss"
@@ -58,5 +91,11 @@ if exist %INSTALLATOR% (
     echo "Running app..."
     start /b ElevenClockBin/ElevenClock.exe
 )
-python generate_release.py
+:skip-installer
+
+if defined option--release (
+    python generate_release.py
+)
+
+:end
 pause
