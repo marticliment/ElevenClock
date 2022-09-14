@@ -20,15 +20,21 @@ for %%a in (%*) do (
 
 set option
 
-@echo on
-
 python -m pip install -r requirements.txt
 python -m pip install setuptools==49.1.3
+python -m pip install packaging
 python -m pip uninstall python-dateutil -y
 python -m easy_install python-dateutil
 if defined option--only-requirements (
     goto :end
 )
+
+python check_python_version.py --min-version "3.10.7"
+if %errorlevel% neq 0 (
+    exit /b %errorlevel%
+)
+
+@echo on
 
 python apply_version.py
 xcopy elevenclock elevenclock_bin /E /H /C /I /Y
