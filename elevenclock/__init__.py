@@ -1193,7 +1193,7 @@ try:
                 alphaUpdated = False
                 shouldBeTransparent = False
                 try:
-                    if self.UseTaskbarBackgroundColor and not self.IS_LOW_CPU_MODE and not globals.trayIcon.contextMenu().isVisible():
+                    if self.UseTaskbarBackgroundColor and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
                                 g = self.screen().geometry()
@@ -1276,7 +1276,6 @@ try:
                                         else:
                                             print("🟢 Cached text input host hwnd:", hwnd)
                                             self.textInputHostHWND = hwnd
-                                            self.INTLOOPTIME = 2
                             else:
                                 if win32gui.GetWindowText(hwnd) not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
                                     print("🟡 Fullscreen window detected!", win32gui.GetWindowRect(hwnd), "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
@@ -1336,9 +1335,9 @@ try:
             oldNotifNumber = 0
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{ADVANCED_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
             if self.IS_LOW_CPU_MODE:
-                self.INTLOOPTIME = 15
+                self.WAITLOOPTIME = 0.8
             else:
-                self.INTLOOPTIME = 2
+                self.WAITLOOPTIME = 0.2
             loopCount = 0
             while True:
                 self.isRDPRunning = isRDPRunning
@@ -1399,7 +1398,7 @@ try:
                         loopCount += 1
                 else:
                     loopCount = 0
-                time.sleep(0.2)
+                time.sleep(self.WAITLOOPTIME)
 
         def updateTextLoop(self) -> None:
             global timeStr
