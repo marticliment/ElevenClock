@@ -1119,7 +1119,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QLineEdit {{
                                     background-color: #212121;
-                                    font-family: "Segoe UI Variable Display";
+                                    font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
                                     width: {self.getPx(300)}px;
                                     padding: {self.getPx(5)}px;
@@ -1129,7 +1129,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QLineEdit:disabled {{
                                     background-color: #303030;
-                                    font-family: "Segoe UI Variable Display";
+                                    font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
                                     width: {self.getPx(300)}px;
                                     padding: {self.getPx(5)}px;
@@ -1152,7 +1152,7 @@ class SettingsWindow(QMainWindow):
                                 * {{
                                    color: white;
                                    font-size: 8pt;
-                                    font-family: "Segoe UI Variable Display";
+                                    font-family: "Segoe UI Variable Text";
                                 }}
                                 #greyishLabel {{
                                     color: #aaaaaa;
