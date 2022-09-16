@@ -972,51 +972,36 @@ try:
                 self.progressbar.setStyleSheet(f"*{{border: 0px;margin:0px;padding:0px;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
                 self.progressbar.hide()
 
-                self.pgsbarleftSlow = QtCore.QVariantAnimation()
-                self.pgsbarleftSlow.setStartValue(0)
-                self.pgsbarleftSlow.setEndValue(200)
-                self.pgsbarleftSlow.setDuration(500)
-                self.pgsbarleftSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                self.leftSlow = QVariantAnimation()
+                self.leftSlow.setStartValue(0)
+                self.leftSlow.setEndValue(200)
+                self.leftSlow.setDuration(500)
+                self.leftSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                self.leftSlow.finished.connect(lambda: (self.rightSlow.start(), self.progressbar.setInvertedAppearance(True)))
+                
+                self.rightSlow = QVariantAnimation()
+                self.rightSlow.setStartValue(200)
+                self.rightSlow.setEndValue(0)
+                self.rightSlow.setDuration(500)
+                self.rightSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                self.rightSlow.finished.connect(lambda: (self.leftFast.start(), self.progressbar.setInvertedAppearance(False)))
+                
+                self.leftFast = QVariantAnimation()
+                self.leftFast.setStartValue(0)
+                self.leftFast.setEndValue(200)
+                self.leftFast.setDuration(200)
+                self.leftFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                self.leftFast.finished.connect(lambda: (self.rightFast.start(), self.progressbar.setInvertedAppearance(True)))
 
-                self.pgsbarrightSlow = QtCore.QVariantAnimation()
-                self.pgsbarrightSlow.setStartValue(200)
-                self.pgsbarrightSlow.setEndValue(0)
-                self.pgsbarrightSlow.setDuration(500)
-                self.pgsbarrightSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-
-                self.pgsbarleftFast = QtCore.QVariantAnimation()
-                self.pgsbarleftFast.setStartValue(0)
-                self.pgsbarleftFast.setEndValue(200)
-                self.pgsbarleftFast.setDuration(200)
-                self.pgsbarleftFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-
-                self.pgsbarrightFast = QtCore.QVariantAnimation()
-                self.pgsbarrightFast.setStartValue(200)
-                self.pgsbarrightFast.setEndValue(0)
-                self.pgsbarrightFast.setDuration(200)
-                self.pgsbarrightFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-
-                def loadProgressBarLoop():
-                    nonlocal self
-                    time.sleep(0.5)
-                    while True:
-                        if self.progressbar.isVisible():
-                            self.callInMainSignal.emit(self.pgsbarleftSlow.start)
-                            time.sleep(0.7)
-                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
-                            self.callInMainSignal.emit(self.pgsbarrightSlow.start)
-                            time.sleep(0.7)
-                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
-                            self.callInMainSignal.emit(self.pgsbarleftFast.start)
-                            time.sleep(0.3)
-                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
-                            self.callInMainSignal.emit(self.pgsbarrightFast.start)
-                            time.sleep(0.3)
-                            self.callInMainSignal.emit(lambda: self.progressbar.setInvertedAppearance(not(self.progressbar.invertedAppearance())))
-                        else:
-                            time.sleep(0.1)
-
-                if not self.isCover: Thread(target=loadProgressBarLoop, daemon=True).start()
+                self.rightFast = QVariantAnimation()
+                self.rightFast.setStartValue(200)
+                self.rightFast.setEndValue(0)
+                self.rightFast.setDuration(200)
+                self.rightFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
+                self.rightFast.finished.connect(lambda: (self.leftSlow.start(), self.progressbar.setInvertedAppearance(False)))
+                
+                if not self.isCover:
+                    self.leftSlow.start()
 
                 if not self.isCover:
                     if getSettings("UseCustomFontColor"):
@@ -1120,11 +1105,11 @@ try:
                     def __init__(self, text: str = "", parent: QObject = None) -> None:
                         super().__init__(text=text, parent=parent)
 
-                    def enterEvent(self, event: QtCore.QEvent) -> None:
+                    def enterEvent(self, event: QEvent) -> None:
                         self.hovered.emit()
                         return super().enterEvent(event)
 
-                    def leaveEvent(self, event: QtCore.QEvent) -> None:
+                    def leaveEvent(self, event: QEvent) -> None:
                         self.unhovered.emit()
                         return super().leaveEvent(event)
 
@@ -1190,7 +1175,6 @@ try:
                     self.callInMainSignal.emit(lambda: self.showToolTip())
                 else:
                     print("🟡 NOT showing tooltip, it has been disabled")
-
 
         def showToolTip(self):
             self.tooltip.show()
@@ -1485,6 +1469,9 @@ try:
                     if self.shouldCoverWindowsClock:
                         if self.clockCover:
                             self.clockCover.close()
+            except AttributeError:
+                pass
+            try:
                 self.loop0.kill()
                 self.loop1.kill()
             except AttributeError:
