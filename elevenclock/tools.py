@@ -7,7 +7,6 @@ from versions import *
 import os
 import sys
 import winreg
-import threading
 import locale
 
 from PySide6.QtGui import *
@@ -23,6 +22,8 @@ import pyautogui
 import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
+from threading import Thread
+from urllib.request import urlopen
 
 from win32con import *
 
@@ -187,15 +188,15 @@ def setSettingsValue(s: str, v: str, r: bool = True):
         report(e)
 
 
-class KillableThread(threading.Thread):
+class KillableThread(Thread):
     def __init__(self, *args, **keywords):
-        threading.Thread.__init__(self, *args, **keywords)
+        Thread.__init__(self, *args, **keywords)
         self.shouldBeRuning = True
 
     def start(self):
         self._run = self.run
         self.run = self.settrace_and_run
-        threading.Thread.start(self)
+        Thread.start(self)
 
     def settrace_and_run(self):
         sys.settrace(self.globaltrace)
@@ -674,11 +675,53 @@ if getSettingsValue("PreferredLanguage") == "":
 
 def loadLangFile(file) -> dict:
     try:
-        with open(getPath("../lang/"+file), "r", encoding='utf-8') as file:
+        path = os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file)
+        if not os.path.exists(path) or getSettings("DisableLangAutoUpdater"):
+            print("🟡 Using bundled lang file")
+            path = getPath("../lang/"+file)
+        else:
+            print("🟢 Using cached lang file")
+        with open(path, "r", encoding='utf-8') as file:
             return json.load(file)
     except Exception as e:
         report(e)
         return {}
+
+def resetSettingsWindow():
+    ow = globals.sw
+    from settings import SettingsWindow
+    globals.sw = SettingsWindow()
+    if ow.isVisible():
+        globals.sw.show()
+    ow.hide()
+    ow.close()
+    del ow
+
+def updateLangFile(file: str):
+    global lang
+    try:
+        try:
+            oldlang = open(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file), "rb").read()
+        except FileNotFoundError:
+            oldlang = ""
+        newlang = urlopen("https://cdn.jsdelivr.net/gh/martinet101/ElevenClock/elevenclock/lang/"+file)
+        if newlang.status == 200:
+            langdata: bytes = newlang.read()
+            if not os.path.isdir(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/")):
+                os.makedirs(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"))
+            if oldlang != langdata:
+                print("🟢 Updating outdated language file...")
+                time.sleep(10)
+                with open(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file), "wb") as f:
+                    f.write(langdata)
+                    f.close()
+                    lang = loadLangFile(file) | {"locale": lang["locale"] if "locale" in lang.keys() else "en"}
+                    globals.sw.callInMain.emit(resetSettingsWindow)
+            else:
+                print("🔵 Language file up-to-date")
+                
+    except Exception as e:
+        report(e)
 
 t0 = time.time()
 
@@ -692,6 +735,8 @@ try:
         if (ln in languages):
             lang = loadLangFile(languages[ln]) | {"locale": ln}
             langFound = True
+            if not getSettings("DisableLangAutoUpdater"):
+                Thread(target=updateLangFile, args=(languages[ln],), name=f"DAEMON: Update lang_{ln}.json").start()
             break
     if (langFound == False):
         raise Exception(f"Value not found for {langNames}")

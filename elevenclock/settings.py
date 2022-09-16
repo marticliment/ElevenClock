@@ -41,8 +41,10 @@ from external.FramelessWindow import QFramelessWindow, QFramelessDialog
 from external.blurwindow import ExtendFrameIntoClientArea, GlobalBlur
 
 class SettingsWindow(QMainWindow):
+    callInMain = Signal(object)
     def __init__(self):
         super().__init__()
+        self.callInMain.connect(lambda f: f())
         self.scrollArea = QScrollArea()
         sp = QScrollerProperties()
         sp.setScrollMetric( QScrollerProperties.DragVelocitySmoothingFactor,   1 )
@@ -854,7 +856,7 @@ class SettingsWindow(QMainWindow):
                     w.toggleChilds()
 
     def showEvent(self, event: QShowEvent) -> None:
-        threading.Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
+        Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
         return super().showEvent(event)
 
     def updateCheckBoxesStatus(self):
@@ -2215,15 +2217,15 @@ class QSettingsTitle(QWidget):
             self.childsVisible = False
             self.invertNotAnimated()
             self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
-            threading.Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")), daemon=True).start()
-            threading.Thread(target=self.hideChildren).start()
+            Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")), daemon=True).start()
+            Thread(target=self.hideChildren).start()
         else:
             self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
             self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
             self.bg70.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
             self.invertNotAnimated()
             self.childsVisible = True
-            threading.Thread(target=self.showChildren).start()
+            Thread(target=self.showChildren).start()
 
     def window(self) -> 'SettingsWindow':
         return super().window()
