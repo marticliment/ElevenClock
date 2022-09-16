@@ -188,7 +188,7 @@ class SettingsWindow(QMainWindow):
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
         self.clockSettingsTitle.addWidget(self.forceClockToShow)
         self.customClockAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is clicked"))
-        actions = {
+        clkactions = {
             _("Show calendar"): "Win+N",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
@@ -199,14 +199,14 @@ class SettingsWindow(QMainWindow):
             _("Open search menu"): "Win+S",
             _("Change task"): "AltRight+Tab",
         }
-        self.customClockAction.loadItems(actions.keys())
+        self.customClockAction.loadItems(clkactions.keys())
         self.customClockAction.setChecked(getSettings("CustomClockClickAction"))
         try:
-            self.customClockAction.combobox.setCurrentIndex(list(actions.values()).index(getSettingsValue("CustomClockClickAction")))
+            self.customClockAction.combobox.setCurrentIndex(list(clkactions.values()).index(getSettingsValue("CustomClockClickAction")))
         except ValueError:
             pass
         self.customClockAction.stateChanged.connect(lambda i: setSettings("CustomClockClickAction", bool(i)))
-        self.customClockAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockClickAction", actions[v]))
+        self.customClockAction.valueChanged.connect(lambda v: (setSettingsValue("CustomClockClickAction", clkactions[str(v)])))
         self.clockSettingsTitle.addWidget(self.customClockAction)
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is double-clicked"))
         dblactions = {
