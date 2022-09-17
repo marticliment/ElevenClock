@@ -9,5 +9,5 @@ for key in languageReference.keys():
     if (key != "default"):
         languages[key] = f"lang_{key}.json"
 
-debugLang = False
+debugLang = True
 
