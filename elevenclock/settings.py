@@ -103,9 +103,17 @@ class SettingsWindow(QMainWindow):
             if (key in untranslatedPercentage):
                 perc = untranslatedPercentage[key]
                 if (perc == "0%"): continue
-                langListWithPercentage.append(f"{value} ({perc})")
-                langDictWithPercentage[key] = f"{value} ({perc})"
-                invertedLangDict[f"{value} ({perc})"] = key
+                if not key in lang["locale"]:
+                    langListWithPercentage.append(f"{value} ({perc})")
+                    langDictWithPercentage[key] = f"{value} ({perc})"
+                    invertedLangDict[f"{value} ({perc})"] = key
+                else:
+                    k = len(lang.keys())
+                    v = len([val for val in lang.values() if val != None])
+                    perc = f"{int(v/k*100)}%"
+                    langListWithPercentage.append(f"{value} ({perc})")
+                    langDictWithPercentage[key] = f"{value} ({perc})"
+                    invertedLangDict[f"{value} ({perc})"] = key
             else:
                 invertedLangDict[value] = key
                 langDictWithPercentage[key] = value
