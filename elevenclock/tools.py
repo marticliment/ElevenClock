@@ -1,6 +1,7 @@
 from ctypes import c_int, windll
 import json
 import time
+from turtle import isvisible
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
 from versions import *
@@ -673,11 +674,11 @@ except FileNotFoundError:
 if getSettingsValue("PreferredLanguage") == "":
     setSettingsValue("PreferredLanguage", "default", False)
 
-def loadLangFile(file) -> dict:
+def loadLangFile(file: str, bundled: bool = False) -> dict:
     try:
         path = os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file)
-        if not os.path.exists(path) or getSettings("DisableLangAutoUpdater"):
-            print("🟡 Using bundled lang file")
+        if not os.path.exists(path) or getSettings("DisableLangAutoUpdater") or bundled:
+            print(f"🟡 Using bundled lang file (forced={bundled})")
             path = getPath("../lang/"+file)
         else:
             print("🟢 Using cached lang file")
@@ -691,8 +692,6 @@ def resetSettingsWindow():
     ow = globals.sw
     from settings import SettingsWindow
     globals.sw = SettingsWindow()
-    if ow.isVisible():
-        globals.sw.show()
     ow.hide()
     ow.close()
     del ow
@@ -704,18 +703,23 @@ def updateLangFile(file: str):
             oldlang = open(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file), "rb").read()
         except FileNotFoundError:
             oldlang = ""
-        newlang = urlopen("https://cdn.jsdelivr.net/gh/martinet101/ElevenClock/elevenclock/lang/"+file)
+        newlang = urlopen("https://raw.githubusercontent.com/martinet101/ElevenClock/main/elevenclock/lang/"+file)
         if newlang.status == 200:
             langdata: bytes = newlang.read()
             if not os.path.isdir(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/")):
                 os.makedirs(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"))
             if oldlang != langdata:
                 print("🟢 Updating outdated language file...")
-                time.sleep(10)
                 with open(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file), "wb") as f:
                     f.write(langdata)
                     f.close()
                     lang = loadLangFile(file) | {"locale": lang["locale"] if "locale" in lang.keys() else "en"}
+                    while globals.sw == None:
+                        time.sleep(0.1)
+                        print("🟠 Waiting for sw to not be null")
+                    while globals.sw.isVisible():
+                        time.sleep(0.1)
+                        print("🟠 Waiting for sw to be hidden")
                     globals.sw.callInMain.emit(resetSettingsWindow)
             else:
                 print("🔵 Language file up-to-date")
@@ -748,7 +752,7 @@ except Exception as e:
 langName = lang['locale']
 
 try:
-    englang = loadLangFile(languages["en"]) | {"locale": "en"}
+    englang = loadLangFile(languages["en"], bundled=True) | {"locale": "en"}
 except Exception as e:
     report(e)
     englang = {"locale": "en"}
