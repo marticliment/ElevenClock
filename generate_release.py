@@ -40,6 +40,7 @@ release = f"""
 
 
 # Available languages:
+(Please note that this languages might be updated in the future by the app itself. The languages listed here are the bundled ones)
 {readmeLangs}
 
 <br><br>
