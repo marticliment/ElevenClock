@@ -487,7 +487,7 @@ class SettingsWindow(QMainWindow):
 
         self.toolTipAppearanceTitle = QSettingsTitle(_("Tooltip Appearance:"), getPath(f"tooltip_{self.iconMode}.png"), _("Tooltip's font, font size, font color and background"))
         layout.addWidget(self.toolTipAppearanceTitle)
-        self.toolTipFontPrefs = QSettingsFontBoxComboBox(_("Use a custom font"))
+        self.toolTipFontPrefs = QSettingsNewFontBoxComboBox(_("Use a custom font"))
         self.toolTipFontPrefs.setChecked(getSettings("TooltipUseCustomFont"))
         if self.toolTipFontPrefs.isChecked():
             customFont = getSettingsValue("TooltipUseCustomFont")
@@ -2832,6 +2832,12 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         pass
         #self.combobox.clear()
         #self.combobox.addItems(items)
+
+class QSettingsNewFontBoxComboBox(QSettingsFontBoxComboBox):
+
+    def valuechangedEvent(self, font: QFont):
+        self.valueChanged.emit(font.toString())
+        self.button.setFont(font)
 
 class QSettingsLineEditCheckBox(QSettingsCheckBox):
     valueChanged = Signal(str)

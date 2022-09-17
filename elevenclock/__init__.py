@@ -557,10 +557,19 @@ try:
             cFont = getSettingsValue("TooltipUseCustomFont")
             fColor = getSettingsValue("TooltipUseCustomFontColor")
             bgColor = getSettingsValue("TooltipUseCustomBgColor")
-            if isTaskbarDark():
-                self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize'), 9)}pt;font-family: \"{'Segoe UI Variable Display semib' if cFont == '' else cFont}\"; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({'238,238,238' if fColor == '' else fColor});}}")
+            if cFont == "":
+                cprint(lang["locale"])
+                if "zh_TW" in lang["locale"]:
+                    fontStr = "font-family: \"SimSun\""
+                elif "zh_CN" in lang["locale"]:
+                    fontStr = "font-family: \"Microsoft YaHei UI\""
+                else:
+                    fontStr = "font-family: \"Segoe UI Variable Text\""
             else:
-                self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize'), 9)}pt;font-family: \"{'Segoe UI Variable Display' if cFont == '' else cFont}\"; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({'0,0,0' if fColor == '' else fColor})}}")
+                f = QFont()
+                f.fromString(cFont)
+                fontStr = f"font-family: \"{f.family()}\""
+            self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize'), 9)}pt;{fontStr}; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({('255,255,255' if isTaskbarDark() else '0,0,0') if fColor == '' else fColor})}}")
             self.move(pos[0], pos[1])
             if not getSettings("TooltipDisableTaskbarBackgroundColor"):
                 ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
