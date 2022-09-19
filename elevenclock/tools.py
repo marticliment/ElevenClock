@@ -514,13 +514,19 @@ class TaskbarIconTray(QSystemTrayIcon):
             ExtendFrameIntoClientArea(self.toolsMenu.winId())
             ExtendFrameIntoClientArea(self.contextMenu().winId())
 
-
+            if "zh_TW" in lang["locale"]:
+                fontStr = "font-family: \"Microsoft Jhenghei UI\""
+            elif "zh_CN" in lang["locale"]:
+                fontStr = "font-family: \"Microsoft YaHei UI\""
+            else:
+                fontStr = "font-family: \"Segoe UI Variable Text\""
+            
             self.contextMenu().setStyleSheet(f"""
                 * {{
                     border-radius: {self.getPx(8)}px;
                     background-color: transparent;
                     font-size: 9pt;
-                    font-family: "Segoe UI Variable Text";
+                    {fontStr};
                 }}
                 QWidget{{
                     background-color: transparent;
@@ -590,7 +596,18 @@ class TaskbarIconTray(QSystemTrayIcon):
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             ExtendFrameIntoClientArea(self.toolsMenu.winId())
             ExtendFrameIntoClientArea(self.contextMenu().winId())
+            
+            if "zh_TW" in lang["locale"]:
+                fontStr = "font-family: \"Microsoft Jhenghei UI\""
+            elif "zh_CN" in lang["locale"]:
+                fontStr = "font-family: \"Microsoft YaHei UI\""
+            else:
+                fontStr = "font-family: \"Segoe UI Variable Text\""
+            
             self.contextMenu().setStyleSheet(f"""
+                * {{
+                    {fontStr};
+                }}
                 QWidget{{
                     background-color: transparent;
                 }}

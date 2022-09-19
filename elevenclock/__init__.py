@@ -558,9 +558,8 @@ try:
             fColor = getSettingsValue("TooltipUseCustomFontColor")
             bgColor = getSettingsValue("TooltipUseCustomBgColor")
             if cFont == "":
-                cprint(lang["locale"])
                 if "zh_TW" in lang["locale"]:
-                    fontStr = "font-family: \"SimSun\""
+                    fontStr = "font-family: \"Microsoft Jhenghei UI\""
                 elif "zh_CN" in lang["locale"]:
                     fontStr = "font-family: \"Microsoft YaHei UI\""
                 else:
