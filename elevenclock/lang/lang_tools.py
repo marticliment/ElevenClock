@@ -5,6 +5,7 @@ from pathlib import Path
 languageReference = {
     "default": "System language",
     "ar"    : "Arabic - عربي‎",
+    "bs"    : "Bosnian - Bosanski",
     "bg"    : "Bulgarian - български",
     "ca"    : "Catalan - Català",
     "cs"    : "Czech - Čeština",
@@ -18,6 +19,7 @@ languageReference = {
     "fi"    : "Finnish - Suomi",
     "fr"    : "French - Français",
     "he"    : "Hebrew - עִבְרִית‎",
+    "hr"    : "Croatian - Hrvatski",
     "hu"    : "Hungarian - Magyar",
     "id"    : "Indonesian - Bahasa Indonesia",
     "it"    : "Italian - Italiano",
@@ -58,6 +60,7 @@ languageRemap = {
 # ISO 3166-1
 languageFlagsRemap = {
     "ar": "sa",
+    "bs": "ba",
     "ca": "ad",
     "cs": "cz",
     "da": "dk",
