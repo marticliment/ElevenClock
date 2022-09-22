@@ -1135,21 +1135,15 @@ try:
                         self.desktopButton = QHoverButton(parent=self)
                         self.desktopButton.clicked.connect(lambda: self.showDesktop())
                         self.desktopButton.show()
-                        self.desktopButton.setFixedWidth(6)
-                        self.desktopButton.setIconSize(QSize(6, 48))
-                        self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath(f"showdesktop_{'white' if isTaskbarDark() else 'black'}{'_left' if self.clockOnTheLeft else ''}.png"))))
-                        self.desktopButton.pressed.connect(lambda: self.desktopButton.setIcon(QIcon(getPath(f"showdesktop_light_{'white' if isTaskbarDark() else 'black'}{'_left' if self.clockOnTheLeft else ''}.png"))))
-                        self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(QIcon(getPath(f"showdesktop_{'white' if isTaskbarDark() else 'black'}{'_left' if self.clockOnTheLeft else ''}.png"))))
+                        self.desktopButton.setFixedWidth(8)
+                        self.desktopButton.setIconSize(QSize(8, 48))
+                        hoverIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 128)
+                        pressIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 70)
+                        self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(hoverIcon))
+                        self.desktopButton.pressed.connect(lambda: self.desktopButton.setIcon(pressIcon))
+                        self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
-                        self.setFixedHeight(self.getPx(self.preferedHeight))
-                        self.desktopButton.setStyleSheet(f"""
-                            QPushButton{{
-                                background-color: rgba(0, 0, 0, 0.01);
-                                margin: 0px;
-                                padding: 0px;
-                                border-radius: 0px;
-                            }}
-                        """)
+                        self.setFixedHeight(self.preferedHeight)
 
         def updateToolTipStatus(self, mouseIn: bool =False) -> None:
             if mouseIn:
@@ -1492,8 +1486,8 @@ try:
                 if self.clockOnTheLeft:
                     self.desktopButton.move(0, 0)
                 else:
-                    self.desktopButton.move(self.width()-6, 0)
-                self.desktopButton.setFixedSize(6, self.height())
+                    self.desktopButton.move(self.width()-self.desktopButton.width(), 0)
+                self.desktopButton.setFixedSize(self.desktopButton.width(), self.height())
             except AttributeError:
                 print("🟣 Expected AttributteError on resizeEvent")
             if event:

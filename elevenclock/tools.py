@@ -713,6 +713,19 @@ def resetSettingsWindow():
     ow.close()
     del ow
 
+def drawVerticalLine(canvas: QSize, lineHeight: int, alpha = 255):
+    width = canvas.width()
+    height = canvas.height()
+    pixmap = QPixmap(canvas)
+    pixmap.fill(Qt.transparent)
+    qP = QPainter(pixmap)
+    qC = QColor(255, 255, 255, alpha) if isTaskbarDark() else QColor(0, 0, 0, alpha)
+    qP.setPen(qC)
+    y = (height-lineHeight)/2-1
+    qP.drawLine(width/2, y, width/2, y+lineHeight)
+    qP.end()
+    return pixmap
+
 def updateLangFile(file: str):
     global lang
     try:
