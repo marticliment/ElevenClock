@@ -38,8 +38,8 @@ try:
     from PySide6.QtGui import *
     from PySide6.QtCore import *
     from PySide6.QtWidgets import *
-    #from PySide6.QtCore import pyqtSignal as Signal
     import pyautogui
+    pyautogui.FAILSAFE = False # Prevent pyautogui from blocking the bottom-right corner click.
     from external.FramelessWindow import QFramelessDialog
     from external.timezones import win_tz
 
@@ -791,8 +791,6 @@ try:
                         if self.isCover:
                             self.clockOnTheLeft = False
 
-
-
                 coverX = 0
                 coverY = 0
                 try:
@@ -837,7 +835,7 @@ try:
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
                     coverX = self.screenGeometry.x()+self.screenGeometry.width()-((self.coverPreferedWidth)*dpix) # Windows clock position
-                    w = self.screenGeometry.x()+8*dpix
+                    w = self.screenGeometry.x()
                     self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 else:
                     self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
@@ -1109,6 +1107,8 @@ try:
                 class QHoverButton(QPushButton):
                     hovered = Signal()
                     unhovered = Signal()
+                    pressed = Signal()
+                    unpressed = Signal()
 
                     def __init__(self, text: str = "", parent: QObject = None) -> None:
                         super().__init__(text=text, parent=parent)
@@ -1121,16 +1121,25 @@ try:
                         self.unhovered.emit()
                         return super().leaveEvent(event)
 
+                    def mousePressEvent(self, e: QMouseEvent) -> None:
+                        self.pressed.emit()
+                        return super().mousePressEvent(e)
+
+                    def mouseReleaseEvent(self, e: QMouseEvent) -> None:
+                        self.unpressed.emit()
+                        return super().mouseReleaseEvent(e)
+
                 if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
                     if not self.isCover:
                         print("🟡 Desktop button enabled")
                         self.desktopButton = QHoverButton(parent=self)
                         self.desktopButton.clicked.connect(lambda: self.showDesktop())
                         self.desktopButton.show()
-                        self.desktopButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-                        self.desktopButton.move(self.width()-self.getPx(10), 0)
-                        self.desktopButton.resize(self.getPx(10), self.getPx(self.preferedHeight))
-                        self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath("showdesktop.png"))))
+                        self.desktopButton.setFixedWidth(6)
+                        self.desktopButton.setIconSize(QSize(6, 48))
+                        self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(QIcon(getPath(f"showdesktop_{'white' if isTaskbarDark() else 'black'}{'_left' if self.clockOnTheLeft else ''}.png"))))
+                        self.desktopButton.pressed.connect(lambda: self.desktopButton.setIcon(QIcon(getPath(f"showdesktop_light_{'white' if isTaskbarDark() else 'black'}{'_left' if self.clockOnTheLeft else ''}.png"))))
+                        self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(QIcon(getPath(f"showdesktop_{'white' if isTaskbarDark() else 'black'}{'_left' if self.clockOnTheLeft else ''}.png"))))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
                         self.setFixedHeight(self.getPx(self.preferedHeight))
                         self.desktopButton.setStyleSheet(f"""
@@ -1138,29 +1147,7 @@ try:
                                 background-color: rgba(0, 0, 0, 0.01);
                                 margin: 0px;
                                 padding: 0px;
-                                margin-top: 0px;
                                 border-radius: 0px;
-                                margin-bottom: 0px;
-                                border-left: 0px solid rgba(0, 0, 0, 0.05);
-                                border-right: 0px solid rgba(0, 0, 0, 0.05);
-                            }}
-                            QPushButton:hover{{
-                                background-color: rgba(127, 127, 127, 1%);
-                                margin: 0px;
-                                margin-top: 0px;
-                                border-radius: 0px;
-                                margin-bottom: 0px;
-                                border-left: 0px solid rgba(0, 0, 0, 0.05);
-                                border-right: 0px solid rgba(0, 0, 0, 0.05);
-                            }}
-                            QPushButton:pressed{{
-                                background-color: rgba(127, 127, 127, 1%);
-                                margin: 0px;
-                                margin-top: 0px;
-                                border-radius: 0px;
-                                margin-bottom: 0px;
-                                border-left: 0px solid rgba(0, 0, 0, 0.05);
-                                border-right: 0px solid rgba(0, 0, 0, 0.05);
                             }}
                         """)
 
@@ -1205,7 +1192,7 @@ try:
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
                                 g = self.screen().geometry()
-                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
@@ -1229,6 +1216,7 @@ try:
                 try:
                     if self.isVisible():
                         if not self.tempMakeClockTransparent:
+                            g = self.screen().geometry()
                             intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                             alphaUpdated = False
                             shouldBeTransparent = False
@@ -1410,7 +1398,7 @@ try:
 
         def updateTextLoop(self) -> None:
             global timeStr
-            self.callInMainSignal.emit(lambda: self.label.setText("00:00\n0/0/0000"))
+            self.callInMainSignal.emit(lambda: self.label.setText("00:00 AM\n00/00/0000"))
             if not self.isCover:
                 while True:
                     self.callInMainSignal.emit(lambda: self.label.setText(timeStr))
@@ -1500,6 +1488,14 @@ try:
             self.progressbar.setFixedWidth(self.label.width())
             self.colorWidget.setGeometry(self.label.geometry())
             self.backgroundTexture.setGeometry(self.colorWidget.geometry())
+            try:
+                if self.clockOnTheLeft:
+                    self.desktopButton.move(0, 0)
+                else:
+                    self.desktopButton.move(self.width()-6, 0)
+                self.desktopButton.setFixedSize(6, self.height())
+            except AttributeError:
+                print("🟣 Expected AttributteError on resizeEvent")
             if event:
                 return super().resizeEvent(event)
 
@@ -1705,7 +1701,7 @@ try:
                 self.move(self.window().getPx(self.window().preferedwidth)-w+self.getPx(2), 0)
                 self.resize(w, self.height()-self.getPx(1))
             else:
-                self.move(0, 0)
+                self.move(6, 0)
                 self.resize(w, self.height()-self.getPx(1))
             return super().paintEvent(event)
 
