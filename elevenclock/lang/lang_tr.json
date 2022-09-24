@@ -18,7 +18,7 @@
   "Align the clock text to the center" : "Saat metnini ortada hizala",
   " (ALPHA STAGE, MAY NOT WORK)" : "(ALFA AŞAMASINDA, DÜZGÜN ÇALIŞMAYABİLİR)",
   "Alternative clock alignment (may not work)" : "Alternatif saat hizalaması (çalışmayabilir)",
-  "Alternative non-SSL update server (This might help with SSL errors)" : null,
+  "Alternative non-SSL update server (This might help with SSL errors)" : "Alternatif SSL olmayan güncelleme sunucusu (Bu, SSL hatalarına yardımcı olabilir)",
   "Announcements:" : "Duyurular",
   "Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes on the following link:" : null,
   "Apply" : "Uygula",
