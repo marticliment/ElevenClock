@@ -11,6 +11,8 @@ from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
 
+
+
 def loadTimeFormat():
     raise NotImplementedError("loadTimeFormat function has not been defined!")
 
@@ -43,3 +45,10 @@ dateTimeFormat: str = "%HH:%M\n%A\n%d/%m/%Y"
 settingsCache = {}
 canEraseTempDirs: bool = False
 newInstanceLaunched: bool = False
+
+windowRects: dict[int, tuple[int, int, int, int]] = {}
+windowTexts: dict[int, str] = {}
+windowVisible: dict[int, bool] = {}
+windowList: list[int] = []
+newWindowList: list[int] = []
+foregroundHwnd: int = 0

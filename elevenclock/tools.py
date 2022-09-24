@@ -14,6 +14,7 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 import platform
+import win32gui
 
 from external.blurwindow import GlobalBlur, ExtendFrameIntoClientArea
 import pyautogui
@@ -725,6 +726,29 @@ def drawVerticalLine(canvas: QSize, lineHeight: int, alpha = 255):
     qP.drawLine(width/2, y, width/2, y+lineHeight)
     qP.end()
     return pixmap
+
+def appendWindowList(hwnd, _):
+    rect = win32gui.GetWindowRect(hwnd)
+    if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
+        text = win32gui.GetWindowText(hwnd)
+        isVisible = win32gui.IsWindowVisible(hwnd)
+        globals.newWindowList.append(hwnd)
+        globals.windowTexts[hwnd] = text
+        globals.windowRects[hwnd] = rect
+        globals.windowVisible[hwnd] = isVisible
+
+def loadWindowsInfoThread():
+    import win32gui
+    while True:
+        globals.newWindowList = []
+        globals.foregroundHwnd = win32gui.GetForegroundWindow()
+        win32gui.EnumWindows(appendWindowList, 0)
+        globals.windowList = globals.newWindowList
+        time.sleep(0.2)
+        cprint(globals.windowList)
+        cprint(globals.windowRects)
+        cprint(globals.windowTexts)
+
 
 def updateLangFile(file: str):
     global lang
