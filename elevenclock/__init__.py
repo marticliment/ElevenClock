@@ -547,9 +547,9 @@ try:
         def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0)):
             super().__init__(text)
             self.scr = screen
-            self.setFixedHeight(self.getPx(60))
-            self.setMaximumWidth(self.getPx(200))
-            self.setContentsMargins(self.getPx(10), self.getPx(5), self.getPx(10), self.getPx(5))
+            self.setFixedHeight((60))
+            self.setMaximumWidth((200))
+            self.setContentsMargins(10, 5, 10, 5)
             self.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
             self.setWindowFlag(Qt.WindowStaysOnTopHint)
             self.setWindowFlag(Qt.FramelessWindowHint)
@@ -614,7 +614,7 @@ try:
 
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
             print("🔵 Long date string:", lDateMode)
-            self.setFixedHeight(self.getPx(height))
+            self.setFixedHeight((height))
             dateMode = ""
             for i, ministr in enumerate(lDateMode.split("'")):
                 if i%2==0:
@@ -627,9 +627,6 @@ try:
                 report(e)
                 self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+addClocks)
             super().show()
-
-        def getPx(self, i: int) -> int:
-            return i
 
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
@@ -699,8 +696,8 @@ try:
 
                 try:
                     if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
-                        self.prefMargins = self.getPx(1)
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {self.getPx(0)}px;margin-top: 0px;margin-bottom: 0px; border-radius: {self.getPx(4)}px;"
+                        self.prefMargins = 1
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {0}px;margin-top: 0px;margin-bottom: 0px; border-radius: {4}px;"
                         if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                             print("🟡 Small sized taskbar")
                             self.preferedHeight = 32
@@ -709,13 +706,13 @@ try:
                             self.coverPreferedWidth = 200
                     else:
                         print("🟢 Regular sized taskbar")
-                        self.prefMargins = self.getPx(1)
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(6)}px;padding: {self.getPx(2)}px;"
+                        self.prefMargins = 1
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {0}px;border-radius: {6}px;padding: {2}px;"
                 except Exception as e:
                     print("🟡 Regular sized taskbar")
                     report(e)
-                    self.prefMargins = self.getPx(1)
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {self.getPx(0)}px;border-radius: {self.getPx(6)}px;padding: {self.getPx(2)}px;"
+                    self.prefMargins = 1
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {0}px;border-radius: {6}px;padding: {2}px;"
 
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -847,7 +844,7 @@ try:
                     self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
                 xoff = 0
-                yoff = self.getPx(2)
+                yoff = 2
 
                 if getSettings("ClockXOffset"):
                     print("🟡 X offset being used!")
@@ -910,23 +907,23 @@ try:
                     if not(getSettings("EnableWin32API")):
                         print("🟢 Using qt's default positioning system")
                         self.move(self.coverX, self.coverY)
-                        self.resize(int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-self.getPx(2))
+                        self.resize(int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2)
                     else:
                         print("🟡 Using win32 API positioning system")
                         self.user32 = windll.user32
                         self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                        win32gui.SetWindowPos(self.winId(), 0, int(coverX), int(coverY), int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-self.getPx(2), False)
+                        win32gui.SetWindowPos(self.winId(), 0, int(coverX), int(coverY), int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2, False)
                     print("🔵 Clock cover geometry:", self.geometry())
                 else:
                     if not(getSettings("EnableWin32API")):
                         print("🟢 Using qt's default positioning system")
                         self.move(self.X, self.Y)
-                        self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-self.getPx(2))
+                        self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2)
                     else:
                         print("🟡 Using win32 API positioning system")
                         self.user32 = windll.user32
                         self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                        win32gui.SetWindowPos(self.winId(), 0, int(self.X), int(self.Y), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-self.getPx(2), False)
+                        win32gui.SetWindowPos(self.winId(), 0, int(self.X), int(self.Y), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2, False)
                     print("🔵 Clock geometry:", self.geometry())
 
                 self.font: QFont = QFont()
@@ -972,7 +969,7 @@ try:
 
 
                 self.progressbar = QProgressBar(self)
-                self.progressbar.setFixedHeight(self.getPx(2))
+                self.progressbar.setFixedHeight(2)
                 self.progressbar.setRange(0, 200)
                 self.progressbar.setValue(0)
                 self.progressbar.setStyleSheet(f"*{{border: 0px;margin:0px;padding:0px;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
@@ -1013,7 +1010,7 @@ try:
                     if getSettings("UseCustomFontColor"):
                         print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                         self.lastTheme = -1
-                        styleSheetString = makeLabelStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), f"rgb({getSettingsValue('UseCustomFontColor')})")
+                        styleSheetString = makeLabelStyleSheet(0, 3, 9, 5, f"rgb({getSettingsValue('UseCustomFontColor')})")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1029,7 +1026,7 @@ try:
                     elif isTaskbarDark():
                         print("🟢 Using white text (dark mode)")
                         self.lastTheme = 0
-                        styleSheetString = makeLabelStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "white")
+                        styleSheetString = makeLabelStyleSheet(0, 3, 9, 5, "white")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1045,7 +1042,7 @@ try:
                     else:
                         print("🟢 Using black text (light mode)")
                         self.lastTheme = 1
-                        styleSheetString = makeLabelStyleSheet(self.getPx(0), self.getPx(3), self.getPx(9), self.getPx(5), "black")
+                        styleSheetString = makeLabelStyleSheet(0, 3, 9, 5, "black")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .5
                         self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
@@ -1068,9 +1065,9 @@ try:
                         self.font.setWeight(QFont.Weight.DemiBold)
                     self.label.setFont(self.font)
                     self.label.setStyleSheet(styleSheetString)
-                self.label.move(0, self.getPx(2))
+                self.label.move(0, 2)
                 self.label.setFixedHeight(self.height())
-                self.label.resize(self.width()-self.getPx(8), self.height()-self.getPx(1))
+                self.label.resize(self.width()-8, self.height()-1)
                 self.label.show()
                 loadTimeFormat()
                 self.show()
@@ -1167,12 +1164,9 @@ try:
 
         def showToolTip(self):
             self.tooltip.show()
-            xPos = self.screen().geometry().x()+self.screen().size().width()-self.getPx(10)-self.tooltip.width() if not self.clockOnTheLeft else self.screen().geometry().x()+self.getPx(10)
-            yPos = self.pos().y()-self.getPx(5)-self.tooltip.height() if not self.clockOnTop else self.pos().y()+self.getPx(5)+self.height()
+            xPos = self.screen().geometry().x()+self.screen().size().width()-10-self.tooltip.width() if not self.clockOnTheLeft else self.screen().geometry().x()+10
+            yPos = self.pos().y()-5-self.tooltip.height() if not self.clockOnTop else self.pos().y()+5+self.height()
             self.tooltip.move(xPos, yPos)
-
-        def getPx(self, i: int) -> int:
-            return i
 
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
@@ -1244,37 +1238,34 @@ try:
                             return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
                     except Exception as e:
                         report(e)
-
-                def winEnumHandler(hwnd, _):
-                    nonlocal fullscreen
-                    if globals.windowVisible[hwnd]:
-                        if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):
-                            if CLOCK_ON_FIRST_MONITOR and self.textInputHostHWND == 0:
-                                    pythoncom.CoInitialize()
-                                    _, pid = win32process.GetWindowThreadProcessId(hwnd)
-                                    _wmi = win32com.client.GetObject('winmgmts:')
-
-                                    # collect all the running processes
-                                    processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
-                                    for p in processes:
-                                        if p.Name != "TextInputHost.exe":
-                                            if(globals.windowTexts[hwnd] not in blacklistedFullscreenApps):
-                                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                                if LOG_FULLSCREEN_WINDOW_TITLE:
-                                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                                fullscreen = True
-                                        else:
-                                            print("🟢 Cached text input host hwnd:", hwnd)
-                                            self.textInputHostHWND = hwnd
-                            else:
-                                if globals.windowTexts[hwnd] not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
-                                    print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                    if LOG_FULLSCREEN_WINDOW_TITLE:
-                                        print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                    fullscreen = True
+                
                 if not LEGACY_FULLSCREEN_METHOD:
-                    for window in globals.windowList:
-                        winEnumHandler(window, 0)
+                    for hwnd in globals.windowList:
+                        if globals.windowVisible[hwnd]:
+                            if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):
+                                if CLOCK_ON_FIRST_MONITOR and self.textInputHostHWND == 0:
+                                        pythoncom.CoInitialize()
+                                        _, pid = win32process.GetWindowThreadProcessId(hwnd)
+                                        _wmi = win32com.client.GetObject('winmgmts:')
+
+                                        # collect all the running processes
+                                        processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
+                                        for p in processes:
+                                            if p.Name != "TextInputHost.exe":
+                                                if(globals.windowTexts[hwnd] not in blacklistedFullscreenApps):
+                                                    print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                                    if LOG_FULLSCREEN_WINDOW_TITLE:
+                                                        print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                                    fullscreen = True
+                                            else:
+                                                print("🟢 Cached text input host hwnd:", hwnd)
+                                                self.textInputHostHWND = hwnd
+                                else:
+                                    if globals.windowTexts[hwnd] not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
+                                        print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                        if LOG_FULLSCREEN_WINDOW_TITLE:
+                                            print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                        fullscreen = True
                 else:
                     hwnd = globals.foregroundHwnd
                     previousFullscreenRect = None
@@ -1479,7 +1470,7 @@ try:
             return super().close()
 
         def resizeEvent(self, event: QResizeEvent = None):
-            self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-self.getPx(2))
+            self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
             self.progressbar.setFixedWidth(self.label.width())
             self.colorWidget.setGeometry(self.label.geometry())
             self.backgroundTexture.setGeometry(self.colorWidget.geometry())
@@ -1516,7 +1507,7 @@ try:
             QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
-            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: {self.getPx(1)}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
+            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: {1}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
             if self.window().transparentBackground:
                 colorOffset = 0
@@ -1527,15 +1518,15 @@ try:
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {self.getPx(6)}px;"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {1}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {6}px;"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
             self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: {self.getPx(1)}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {self.getPx(6)}px;"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: {1}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {6}px;"))
             self.setAutoFillBackground(True)
-            self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-self.getPx(2))
+            self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-2)
 
             self.opacity=QGraphicsOpacityEffect(self)
             self.opacity.setOpacity(1.00)
@@ -1543,10 +1534,10 @@ try:
 
             self.focusassitant = True
             self.focusAssitantLabel = QPushButton(self)
-            self.focusAssitantLabel.move(self.width(), self.getPx(-1))
+            self.focusAssitantLabel.move(self.width(), -1)
             self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
             self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
-            self.focusAssitantLabel.resize(self.getPx(30), self.height())
+            self.focusAssitantLabel.resize(30, self.height())
             if winver < 22581:
                 self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
             else:
@@ -1554,7 +1545,7 @@ try:
                     self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_empty_{getTaskbarIconMode()}.png")))
                 else:
                     self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
-            self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
+            self.focusAssitantLabel.setIconSize(QSize(16, 16))
 
             accColors = getColors()
 
@@ -1562,7 +1553,7 @@ try:
             self.notifDotLabel = QLabel("", self)
             self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
             self.notifDotLabel.setObjectName("notifIndicator")
-            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
+            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {8}px;padding: 0px;padding-bottom: {2}px;padding-left: {3}px;padding-right: {2}px;margin: 0px;border:0px;")
 
 
             self.moonIconBlack = QIcon(getPath("moon_black.png"))
@@ -1589,11 +1580,11 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                 self.focusassitant = True
-                self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
-                self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), self.getPx(-1))
-                self.focusAssitantLabel.setFixedWidth(self.getPx(30))
+                self.setContentsMargins(5, 0, (43), 4)
+                self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), -1)
+                self.focusAssitantLabel.setFixedWidth(30)
                 self.focusAssitantLabel.setFixedHeight(self.height())
-                self.focusAssitantLabel.setIconSize(QSize(self.getPx(16), self.getPx(16)))
+                self.focusAssitantLabel.setIconSize(QSize(16, 16))
                 if not self.isCover:
                     self.focusAssitantLabel.show()
 
@@ -1601,28 +1592,24 @@ try:
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
-                self.setContentsMargins(self.getPx(5), self.getPx(0), self.getPx(43), self.getPx(4))
-                topBottomPadding = (self.height()-self.getPx(16))/2 # top-bottom margin
-                leftRightPadding = (self.getPx(30)-self.getPx(16))/2 # left-right margin
-                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+self.getPx(-1))
-                self.notifDotLabel.resize(self.getPx(16), self.getPx(16))
-                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {self.getPx(8)}px;padding: 0px;padding-bottom: {self.getPx(2)}px;padding-left: {self.getPx(3)}px;padding-right: {self.getPx(2)}px;margin: 0px;border:0px;")
+                self.setContentsMargins(5, 0, (43), 4)
+                topBottomPadding = (self.height()-16)/2 # top-bottom margin
+                leftRightPadding = (30-16)/2 # left-right margin
+                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
+                self.notifDotLabel.resize(16, 16)
+                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {8}px;padding: 0px;padding-bottom: {2}px;padding-left: {3}px;padding-right: {2}px;margin: 0px;border:0px;")
                 if not self.isCover:
                     self.notifDotLabel.show()
 
         def disableClockIndicators(self):
             if self.focusassitant:
                 self.focusassitant = False
-                self.setContentsMargins(self.getPx(6), self.getPx(0), self.getPx(13), self.getPx(4))
+                self.setContentsMargins(6, 0, 13, 4)
                 self.focusAssitantLabel.hide()
             if self.notifdot:
                 self.notifdot = False
-                self.setContentsMargins(self.getPx(6), self.getPx(0), self.getPx(13), self.getPx(4))
+                self.setContentsMargins(6, 0, 13, 4)
                 self.notifDotLabel.hide()
-
-
-        def getPx(self, i: int) -> int:
-            return i
 
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
@@ -1633,10 +1620,10 @@ try:
                 self.showBackground.setStartValue(.01)
                 self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
                 if not self.window().clockOnTheLeft:
-                    self.backgroundwidget.move(0, self.getPx(1))
+                    self.backgroundwidget.move(0, 1)
                     self.backgroundwidget.resize(geometry, self.height()-3)
                 else:
-                    self.backgroundwidget.move(0, self.getPx(1))
+                    self.backgroundwidget.move(0, 1)
                     self.backgroundwidget.resize(geometry, self.height()-3)
                 self.showBackground.start()
                 if not r:
@@ -1692,12 +1679,12 @@ try:
             mw = self.specifiedMinimumWidth
             if mw > w:
                 w = mw
-            if w<self.window().getPx(self.window().preferedwidth) and not self.window().clockOnTheLeft:
-                self.move(self.window().getPx(self.window().preferedwidth)-w+self.getPx(2), 0)
-                self.resize(w, self.height()-self.getPx(1))
+            if w<(self.window().preferedwidth) and not self.window().clockOnTheLeft:
+                self.move((self.window().preferedwidth)-w+2, 0)
+                self.resize(w, self.height()-1)
             else:
                 self.move(6, 0)
-                self.resize(w, self.height()-self.getPx(1))
+                self.resize(w, self.height()-1)
             return super().paintEvent(event)
 
         def resizeEvent(self, event: QResizeEvent) -> None:

@@ -54,7 +54,7 @@ class WelcomeWindow(QMainWindow):
 
         self.currentIndex = -1
 
-        self.setFixedSize(self.getPx(800), self.getPx(600))
+        self.setFixedSize((800), (600))
         self.bgWidget = QStackedWidget(self)
         self.bgWidget.setObjectName("BackgroundWidget")
         self.setWindowFlag(Qt.WindowMinimizeButtonHint, False)
@@ -94,41 +94,41 @@ class WelcomeWindow(QMainWindow):
                     width: 100px;
                     background-color: rgba(80, 80, 80, 15%);
                     padding: 20px;
-                    border-radius: {self.getPx(8)}px;
-                    border: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
-                    border-top: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
-                    height: {self.getPx(25)}px;
+                    border-radius: {8}px;
+                    border: {1}px solid rgba(100, 100, 100, 25%);
+                    border-top: {1}px solid rgba(100, 100, 100, 25%);
+                    height: {25}px;
                 }}
                 #FramelessSampleItem {{
                     font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: transparent;
                     padding: 20px;
-                    border-radius: {self.getPx(8)}px;
+                    border-radius: {8}px;
                     border: none;
-                    height: {self.getPx(25)}px;
+                    height: {25}px;
                 }}
                 QPushButton {{
                     font-family: "Segoe UI Variable Display";
                     font-size: 8pt;
                     width: 100px;
                     background-color: rgba(60, 60, 60, 25%);
-                    border: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
-                    border-top: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
-                    border-radius: {self.getPx(4)}px;
-                    height: {self.getPx(25)}px;
+                    border: {1}px solid rgba(100, 100, 100, 25%);
+                    border-top: {1}px solid rgba(100, 100, 100, 25%);
+                    border-radius: {4}px;
+                    height: {25}px;
                 }}
                 QPushButton:hover {{
                     background-color: rgba(77, 77, 77, 50%);
-                    border: {self.getPx(1)}px solid rgba(89, 89, 89, 50%);
-                    height: {self.getPx(25)}px;
-                    border-top: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
+                    border: {1}px solid rgba(89, 89, 89, 50%);
+                    height: {25}px;
+                    border-top: {1}px solid rgba(95, 95, 95, 50%);
                 }}
                 QPushButton:pressed {{
                     background-color: rgba(89, 89, 89, 50%);
-                    border: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
-                    height: {self.getPx(25)}px;
-                    border-top: {self.getPx(1)}px solid rgba(99, 99, 99 , 50%);
+                    border: {1}px solid rgba(95, 95, 95, 50%);
+                    height: {25}px;
+                    border-top: {1}px solid rgba(99, 99, 99 , 50%);
                 }}
                 #AccentButton{{
                     color: black;
@@ -183,41 +183,41 @@ class WelcomeWindow(QMainWindow):
                     width: 100px;
                     background-color: #ffffff;
                     padding: 20px;
-                    border-radius: {self.getPx(8)}px;
-                    border: {self.getPx(1)}px solid rgba(230, 230, 230, 80%);
-                    height: {self.getPx(25)}px;
-                    border-bottom: {self.getPx(1)}px solid rgba(220, 220, 220, 100%);
+                    border-radius: {8}px;
+                    border: {1}px solid rgba(230, 230, 230, 80%);
+                    height: {25}px;
+                    border-bottom: {1}px solid rgba(220, 220, 220, 100%);
                 }}
                 #FramelessSampleItem {{
                     font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: transparent;
                     padding: 20px;
-                    border-radius: {self.getPx(8)}px;
+                    border-radius: {8}px;
                     border: none;
-                    height: {self.getPx(25)}px;
+                    height: {25}px;
                 }}
                 QPushButton {{
                     font-family: "Segoe UI Variable Display";
                     font-size: 8pt;
                     width: 100px;
                     background-color: #ffffff;
-                    border-radius: {self.getPx(4)}px;
-                    border: {self.getPx(1)}px solid rgba(230, 230, 230, 80%);
-                    height: {self.getPx(25)}px;
-                    border-bottom: {self.getPx(1)}px solid rgba(220, 220, 220, 100%);
+                    border-radius: {4}px;
+                    border: {1}px solid rgba(230, 230, 230, 80%);
+                    height: {25}px;
+                    border-bottom: {1}px solid rgba(220, 220, 220, 100%);
                 }}
                 QPushButton:hover {{
                     background-color: rgba(240, 240, 240, 50%);
-                    border: {self.getPx(1)}px solid rgba(220, 220, 220, 80%);
-                    height: {self.getPx(25)}px;
-                    border-bottom: {self.getPx(1)}px solid rgba(200, 200, 200, 100%);
+                    border: {1}px solid rgba(220, 220, 220, 80%);
+                    height: {25}px;
+                    border-bottom: {1}px solid rgba(200, 200, 200, 100%);
                 }}
                 QPushButton:pressed {{
                     background-color: rgba(89, 89, 89, 50%);
-                    border: {self.getPx(1)}px solid rgba(95, 95, 95, 50%);
-                    height: {self.getPx(25)}px;
-                    border-top: {self.getPx(1)}px solid rgba(99, 99, 99 , 50%);
+                    border: {1}px solid rgba(95, 95, 95, 50%);
+                    height: {25}px;
+                    border-top: {1}px solid rgba(99, 99, 99 , 50%);
                 }}
                 #AccentButton{{
                     color: white;
@@ -253,9 +253,6 @@ class WelcomeWindow(QMainWindow):
         self.nextWidget(anim=False)
 
         self.show()
-
-    def getPx(self, i: int) -> int:
-        return i
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -313,7 +310,7 @@ class BasicNavWidget(QWidget):
         self.navLayout = QHBoxLayout()
         if closeEnabled:
             closeButton = QPushButton(_("Skip"))
-            closeButton.setFixedSize(self.getPx(96), self.getPx(36))
+            closeButton.setFixedSize((96), (36))
             closeButton.setIcon(QIcon(getPath(f"close_{self.iconMode}.png")))
             closeButton.clicked.connect(lambda: self.outAnim(self.skipped.emit))
             self.navLayout.addWidget(closeButton)
@@ -321,28 +318,28 @@ class BasicNavWidget(QWidget):
         if startEnabled:
             startButton = QPushButton(_("Start"))
             startButton.setLayoutDirection(Qt.RightToLeft)
-            startButton.setFixedSize(self.getPx(96), self.getPx(36))
+            startButton.setFixedSize((96), (36))
             startButton.setIcon(QIcon(getPath(f"next_{self.negIconMode}.png")))
             startButton.clicked.connect(lambda: self.outAnim(self.next.emit))
             startButton.setObjectName("AccentButton")
             self.navLayout.addWidget(startButton)
         else:
             backButton = QPushButton("")
-            backButton.setFixedSize(self.getPx(36), self.getPx(36))
+            backButton.setFixedSize((36), (36))
             backButton.clicked.connect(lambda: self.invertedOutAnim(self.previous.emit))
             backButton.setIcon(QIcon(getPath(f"previous_{self.iconMode}.png")))
             self.navLayout.addWidget(backButton)
             if finishEnabled:
                 finishButton = QPushButton(_("Finish"))
                 finishButton.setObjectName("AccentButton")
-                finishButton.setFixedSize(self.getPx(96), self.getPx(36))
+                finishButton.setFixedSize((96), (36))
                 finishButton.setLayoutDirection(Qt.RightToLeft)
                 finishButton.clicked.connect(lambda: self.outAnim(self.finished.emit))
                 self.navLayout.addWidget(finishButton)
             else:
                 self.nextButton = QPushButton("")
                 self.nextButton.setEnabled(not nextGreyed)
-                self.nextButton.setFixedSize(self.getPx(36), self.getPx(36))
+                self.nextButton.setFixedSize((36), (36))
                 self.nextButton.clicked.connect(lambda:self.outAnim(self.next.emit))
                 self.nextButton.setIcon(QIcon(getPath(f"next_{self.negIconMode}.png")))
                 self.nextButton.setObjectName("AccentButton")
@@ -400,9 +397,6 @@ class BasicNavWidget(QWidget):
         bgAnim.start()
         bgAnim.finished.connect(f)
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -421,28 +415,25 @@ class IconLabel(QWidget):
         self.setLayout(QHBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = QLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize+40))
+        self.iconLabel.setMinimumHeight((self.iconSize+40))
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setMinimumHeight(self.getPx(self.iconSize))
+        self.setMinimumHeight((self.iconSize))
         self.textLabel = QLabel()
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         self.textLabel.setWordWrap(True)
         self.textLabel.setStyleSheet("font-size: 10pt;")
         self.textLabel.setOpenExternalLinks(True)
-        if frame: self.layout().addSpacing(self.getPx(40/96*self.iconSize))
+        if frame: self.layout().addSpacing((40/96*self.iconSize))
         self.layout().addWidget(self.iconLabel, stretch=0)
-        self.layout().addSpacing(self.getPx(30/96*self.iconSize))
+        self.layout().addSpacing((30/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
-        if frame: self.layout().addSpacing(self.getPx(30/96*self.iconSize))
+        if frame: self.layout().addSpacing((30/96*self.iconSize))
 
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
 
     def setIcon(self, path: str) -> None:
-        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize)))
-
-    def getPx(self, i: int) -> int:
-        return i
+        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap((self.iconSize), (self.iconSize)))
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -457,9 +448,9 @@ class ButtonLabel(QWidget):
         self.setLayout(QHBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = QLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize+40))
+        self.iconLabel.setMinimumHeight((self.iconSize+40))
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setMinimumHeight(self.getPx(self.iconSize))
+        self.setMinimumHeight((self.iconSize))
         self.textLabel = QLabel()
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         self.textLabel.setWordWrap(True)
@@ -467,13 +458,13 @@ class ButtonLabel(QWidget):
         self.textLabel.setOpenExternalLinks(True)
         self.button = QPushButton()
         self.button.clicked.connect(self.clicked.emit)
-        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
+        self.layout().addSpacing((40/96*self.iconSize))
         self.layout().addWidget(self.iconLabel, stretch=0)
-        self.layout().addSpacing(self.getPx(20/96*self.iconSize))
+        self.layout().addSpacing((20/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
-        self.layout().addSpacing(self.getPx(20/96*self.iconSize))
+        self.layout().addSpacing((20/96*self.iconSize))
         self.layout().addWidget(self.button, stretch=0)
-        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
+        self.layout().addSpacing((40/96*self.iconSize))
 
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
@@ -482,10 +473,7 @@ class ButtonLabel(QWidget):
         self.button.setText(t)
 
     def setIcon(self, path: str) -> None:
-        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize)))
-
-    def getPx(self, i: int) -> int:
-        return i
+        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap((self.iconSize), (self.iconSize)))
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -510,20 +498,20 @@ class ClickableButtonLabel(QPushButton):
         self.setLayout(QHBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = QLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize))
-        self.iconLabel.setMinimumWidth(self.getPx(size))
+        self.iconLabel.setMinimumHeight((self.iconSize))
+        self.iconLabel.setMinimumWidth((size))
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setMinimumHeight(self.getPx(self.iconSize))
+        self.setMinimumHeight((self.iconSize))
         self.textLabel = QLabel()
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         self.textLabel.setWordWrap(True)
         self.textLabel.setStyleSheet("font-size: 10pt;")
         self.textLabel.setOpenExternalLinks(True)
-        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
+        self.layout().addSpacing((40/96*self.iconSize))
         self.layout().addWidget(self.iconLabel, stretch=0)
-        self.layout().addSpacing(self.getPx(20/96*self.iconSize))
+        self.layout().addSpacing((20/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
-        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
+        self.layout().addSpacing((40/96*self.iconSize))
 
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
@@ -532,10 +520,7 @@ class ClickableButtonLabel(QPushButton):
         self.button.setText(t)
 
     def setIcon(self, path: str) -> None:
-        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(self.getPx(self.iconSize), self.getPx(self.iconSize), Mode=Qt.KeepAspectRatio))
-
-    def getPx(self, i: int) -> int:
-        return i
+        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap((self.iconSize), (self.iconSize), Mode=Qt.KeepAspectRatio))
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -561,22 +546,22 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.setLayout(QHBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = ClickableLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(self.iconSize))
-        self.iconLabel.setMinimumWidth(self.getPx(size))
+        self.iconLabel.setMinimumHeight((self.iconSize))
+        self.iconLabel.setMinimumWidth((size))
         self.iconLabel.clicked.connect(self.animateClick)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setMinimumHeight(self.getPx(self.iconSize*1.5))
+        self.setMinimumHeight((self.iconSize*1.5))
         self.textLabel = ClickableLabel()
         self.textLabel.clicked.connect(self.animateClick)
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
         self.textLabel.setWordWrap(True)
         self.textLabel.setStyleSheet("font-size: 10pt;")
         self.textLabel.setOpenExternalLinks(True)
-        self.layout().addSpacing(self.getPx(20/96*self.iconSize))
+        self.layout().addSpacing((20/96*self.iconSize))
         self.layout().addWidget(self.iconLabel, stretch=0)
-        self.layout().addSpacing(self.getPx(20/96*self.iconSize))
+        self.layout().addSpacing((20/96*self.iconSize))
         self.layout().addWidget(self.textLabel, stretch=1)
-        self.layout().addSpacing(self.getPx(40/96*self.iconSize))
+        self.layout().addSpacing((40/96*self.iconSize))
 
     def setText(self, text: str) -> None:
         self.textLabel.setText(text)
@@ -585,10 +570,7 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.button.setText(t)
 
     def setIcon(self, path: str) -> None:
-        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
-
-    def getPx(self, i: int) -> int:
-        return i
+        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize((self.iconSize+20), (self.iconSize+20)), mode=QIcon.Normal))
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -603,11 +585,11 @@ class ClickableImageWithText(QPushButton):
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = ClickableLabel()
-        self.iconLabel.setMinimumHeight(self.getPx(size))
-        self.setMinimumWidth(self.getPx(size) * 2)
+        self.iconLabel.setMinimumHeight((size))
+        self.setMinimumWidth((size) * 2)
         self.iconLabel.clicked.connect(self.animateClick)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setMinimumHeight(self.getPx(self.iconSize + 50))
+        self.setMinimumHeight((self.iconSize + 50))
         self.textLabel = ClickableLabel()
         self.textLabel.clicked.connect(self.animateClick)
         self.textLabel.setTextInteractionFlags(Qt.LinksAccessibleByMouse)
@@ -627,10 +609,7 @@ class ClickableImageWithText(QPushButton):
         self.button.setText(t)
 
     def setIcon(self, path: str) -> None:
-        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize(self.getPx(self.iconSize+20), self.getPx(self.iconSize+20)), mode=QIcon.Normal))
-
-    def getPx(self, i: int) -> int:
-        return i
+        self.iconLabel.setPixmap(QIcon(getPath(path)).pixmap(QSize((self.iconSize+20), (self.iconSize+20)), mode=QIcon.Normal))
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -640,13 +619,13 @@ class FirstRunSlide(BasicNavWidget):
         super().__init__(parent=parent, startEnabled=True, closeEnabled=True)
         widget = QWidget()
         l = QHBoxLayout()
-        l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
+        l.setContentsMargins(0, 10, 0, 10)
         widget.setLayout(l)
         vl = QVBoxLayout()
         vl.setContentsMargins(0, 0, 0, 0)
-        l.addSpacing(self.getPx(10))
+        l.addSpacing(10)
         l.addLayout(vl)
-        vl.addSpacing(self.getPx(0))
+        vl.addSpacing(0)
 
         label1 = IconLabel(size=96, frame=False)
         label1.setIcon("icon.png")
@@ -675,9 +654,6 @@ class FirstRunSlide(BasicNavWidget):
         vl.addStretch()
         self.setCentralWidget(widget)
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -686,11 +662,11 @@ class LastSlide(BasicNavWidget):
         super().__init__(parent=parent, finishEnabled=True)
         widget = QWidget()
         l = QHBoxLayout()
-        l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
+        l.setContentsMargins(0, 10, 0, 10)
         widget.setLayout(l)
         vl = QVBoxLayout()
         vl.setContentsMargins(0, 0, 0, 0)
-        l.addSpacing(self.getPx(10))
+        l.addSpacing(10)
         l.addLayout(vl)
 
         label1 = IconLabel(size=96, frame=False)
@@ -736,9 +712,6 @@ class LastSlide(BasicNavWidget):
         vl.addStretch()
         self.setCentralWidget(widget)
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -748,16 +721,16 @@ class SelectModeSlide(BasicNavWidget):
         self.defaultSelected = False
         widget = QWidget()
         l = QHBoxLayout()
-        l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
+        l.setContentsMargins(0, 10, 0, 10)
         widget.setLayout(l)
         self.selector = MovableFocusSelector(self)
         self.selector.hide()
         vl = QVBoxLayout()
         vl.setContentsMargins(0, 0, 0, 0)
-        l.addSpacing(self.getPx(10))
+        l.addSpacing(10)
         l.addLayout(vl)
 
-        label1 = IconLabel(size=self.getPx(96), frame=False)
+        label1 = IconLabel(size=(96), frame=False)
         label1.setIcon(getPath("timespan_color.png"))
         label1.setText(f"""<h1>{_("What time do you want to see?")}</h1>
                        {_("Please select one of the following and click next.")}
@@ -834,9 +807,6 @@ class SelectModeSlide(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -846,16 +816,16 @@ class SelectFullScreenSlide(BasicNavWidget):
         self.defaultSelected = False
         widget = QWidget()
         l = QHBoxLayout()
-        l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
+        l.setContentsMargins(0, 10, 0, 10)
         widget.setLayout(l)
         self.selector = MovableFocusSelector(self)
         self.selector.hide()
         vl = QVBoxLayout()
         vl.setContentsMargins(0, 0, 0, 0)
-        l.addSpacing(self.getPx(10))
+        l.addSpacing(10)
         l.addLayout(vl)
 
-        label1 = IconLabel(size=self.getPx(96), frame=False)
+        label1 = IconLabel(size=(96), frame=False)
         label1.setIcon(getPath("video_color.png"))
         label1.setText(f"""<h1>{_("Fullscreen behaviour")}</h1>
                        {_("ElevenClock can hide when there's a fullscreen window present (when you are watching a video, you are playing, etc.), but it can also show over those windows (It might be useful if you use fullscreened terminals, etc.).<br><br>Please select one of the following and click next to continue")}""")
@@ -931,9 +901,6 @@ class SelectFullScreenSlide(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -943,16 +910,16 @@ class DateTimeFormat(BasicNavWidget):
         self.defaultSelected = False
         widget = QWidget()
         l = QHBoxLayout()
-        l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
+        l.setContentsMargins(0, 10, 0, 10)
         widget.setLayout(l)
         self.selector = MovableFocusSelector(self)
         self.selector.hide()
         vl = QVBoxLayout()
         vl.setContentsMargins(0, 0, 0, 0)
-        l.addSpacing(self.getPx(10))
+        l.addSpacing(10)
         l.addLayout(vl)
 
-        label1 = IconLabel(size=self.getPx(96), frame=False)
+        label1 = IconLabel(size=(96), frame=False)
         label1.setIcon(getPath("formatting.png"))
         label1.setText(f"""<h1>{_("Let's talk: Format")}</h1>
                        {_("Please select the date and time format you like the most. You will be able to change this after in the settings window")}""")
@@ -1105,9 +1072,6 @@ class DateTimeFormat(BasicNavWidget):
             posAnim.start()
             sizeAnim.start()
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -1117,16 +1081,16 @@ class ClockAppearance(BasicNavWidget):
         self.defaultSelected = False
         widget = QWidget()
         l = QHBoxLayout()
-        l.setContentsMargins(0, self.getPx(10), 0, self.getPx(10))
+        l.setContentsMargins(0, 10, 0, 10)
         widget.setLayout(l)
         self.selector = MovableFocusSelector(self)
         self.selector.hide()
         vl = QVBoxLayout()
         vl.setContentsMargins(0, 0, 0, 0)
-        l.addSpacing(self.getPx(10))
+        l.addSpacing(10)
         l.addLayout(vl)
 
-        label1 = IconLabel(size=self.getPx(96), frame=False)
+        label1 = IconLabel(size=(96), frame=False)
         label1.setIcon(getPath("appearance.png"))
         label1.setText(f"""<h1>{_("One last thing: Appearance")}</h1>
                        {_("Please select the clock style you like the most. You will be able to change this after in the settings window")}""")
@@ -1278,9 +1242,6 @@ class ClockAppearance(BasicNavWidget):
 
             posAnim.start()
             sizeAnim.start()
-
-    def getPx(self, i: int) -> int:
-        return i
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())

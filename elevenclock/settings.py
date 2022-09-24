@@ -72,7 +72,7 @@ class SettingsWindow(QMainWindow):
             title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
             title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 700;")
-        layout.setSpacing(self.getPx(5))
+        layout.setSpacing(5)
         layout.setContentsMargins(10, 0, 0, 0)
         layout.addSpacing(0)
         self.resize(900, 600)
@@ -86,7 +86,7 @@ class SettingsWindow(QMainWindow):
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
-        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-radius: {self.getPx(8)}px;}}")
+        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-radius: {8}px;}}")
 
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
@@ -261,7 +261,7 @@ class SettingsWindow(QMainWindow):
         self.disableTooltip.stateChanged.connect(lambda i: setSettings("DisableToolTip", bool(i)))
         self.clockSettingsTitle.addWidget(self.disableTooltip)
         self.enableLowCpuMode = QSettingsCheckBoxWithWarning(_("Enable low-cpu mode"), _("You might lose functionalities, like the notification counter or the dynamic background"))
-        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;border-bottom: {self.getPx(1)}px;}}")
+        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
         self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
         self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
         self.disableNotificationBadge = QSettingsCheckBox(_("Disable the notification badge"))
@@ -404,7 +404,7 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.addWidget(self.accentBgColor)
         self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         self.centerText.setChecked(getSettings("CenterAlignment"))
-        self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;border-bottom: {self.getPx(1)}px;}}")
+        self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
         self.centerText.stateChanged.connect(lambda i: setSettings("CenterAlignment", bool(i)))
         self.clockAppearanceTitle.addWidget(self.centerText)
 
@@ -531,7 +531,7 @@ class SettingsWindow(QMainWindow):
             self.tooltipbackgroundcolor.button.setStyleSheet(f"background-color: rgba({getSettingsValue('TooltipUseCustomBgColor')})")
         self.tooltipbackgroundcolor.stateChanged.connect(lambda i: setSettings("TooltipUseCustomBgColor", bool(i)))
         self.tooltipbackgroundcolor.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomBgColor", v))
-        self.tooltipbackgroundcolor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;border-bottom: {self.getPx(1)}px;}}")
+        self.tooltipbackgroundcolor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
         self.toolTipAppearanceTitle.addWidget(self.tooltipbackgroundcolor)
 
 
@@ -568,7 +568,7 @@ class SettingsWindow(QMainWindow):
         self.disableClockCover = QSettingsCheckBox(_("Disable hiding the default windows clock"))
         self.disableClockCover.setChecked(getSettings("DisableSystemClockCover"))
         self.disableClockCover.stateChanged.connect(lambda i: setSettings("DisableSystemClockCover", bool(i)))
-        self.disableClockCover.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;border-bottom: {self.getPx(1)}px;}}")
+        self.disableClockCover.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
         self.experimentalTitle.addWidget(self.disableClockCover)
         #self.disableNewQuitMode = QSettingsCheckBox(_("Disable the new instance checker method"))
         #self.disableNewQuitMode.setChecked(getSettings("DisableNewInstanceChecker"))
@@ -737,9 +737,9 @@ class SettingsWindow(QMainWindow):
 
         self.notFoundLabel = QLabel(_("No results were found"))
         if isWindowDark():
-            self.notFoundLabel.setStyleSheet(f"padding-top: {self.getPx(30)}px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
+            self.notFoundLabel.setStyleSheet(f"padding-top: {30}px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
         else:
-            self.notFoundLabel.setStyleSheet(f"padding-top: {self.getPx(30)}px;font-size: 16pt; font-weight: bold; color: rgba(0, 0, 0, 50%)")
+            self.notFoundLabel.setStyleSheet(f"padding-top: {30}px;font-size: 16pt; font-weight: bold; color: rgba(0, 0, 0, 50%)")
 
         self.notFoundLabel.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.notFoundLabel)
@@ -759,7 +759,7 @@ class SettingsWindow(QMainWindow):
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;}}")
+        self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;}}")
 
         self.searchBox = QLineEdit()
         self.searchBox.setClearButtonEnabled(True)
@@ -780,7 +780,7 @@ class SettingsWindow(QMainWindow):
         svl.addWidget(self.scrollArea, stretch=1)
 
         self.staticVerticalWidget = QWidget()
-        self.staticVerticalWidget.setMaximumWidth(self.getPx(1000))
+        self.staticVerticalWidget.setMaximumWidth((1000))
         self.staticVerticalWidget.setLayout(svl)
 
         self.scrollbar = QScrollBar()
@@ -806,7 +806,7 @@ class SettingsWindow(QMainWindow):
         w.setLayout(self.vlayout)
         self.setCentralWidget(w)
         self.setMouseTracking(True)
-        self.resize(self.getPx(1100), self.getPx(700))
+        self.resize((1100), (700))
         self.hwnd = self.winId().__int__()
         
         ExtendFrameIntoClientArea(self.winId().__int__())
@@ -982,7 +982,7 @@ class SettingsWindow(QMainWindow):
 
 
     def applyStyleSheet(self):
-        self.staticVerticalWidget.setMaximumWidth(self.getPx(1000))
+        self.staticVerticalWidget.setMaximumWidth((1000))
         colors = getColors()
         self.iconMode = getAppIconMode()
         self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
@@ -1026,102 +1026,102 @@ class SettingsWindow(QMainWindow):
 
                                 QSlider {{
                                     background: transparent;
-                                    height: {self.getPx(20)}px;
-                                    margin-left: {self.getPx(10)}px;
-                                    margin-right: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(2)}px;
+                                    height: {(20)}px;
+                                    margin-left: {10}px;
+                                    margin-right: {10}px;
+                                    border-radius: {2}px;
                                 }}
                                 QSlider::groove {{
-                                    height: {self.getPx(4)}px;
-                                    border: {self.getPx(1)}px solid #212121;
+                                    height: {4}px;
+                                    border: {1}px solid #212121;
                                     background: #212121;
-                                    border-radius: {self.getPx(2)}px;
+                                    border-radius: {2}px;
                                 }}
                                 QSlider::handle {{
-                                    border: {self.getPx(4)}px solid #404040;
-                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
-                                    height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px;
+                                    border: {4}px solid #404040;
+                                    margin: {(-8)}px {(-10)}px;
+                                    height: {8}px;
+                                    border-radius: {9}px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:hover {{
-                                    border: {self.getPx(3)}px solid #404040;
-                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
-                                    height: {self.getPx(7)}px;
-                                    border-radius: {self.getPx(9)}px;
+                                    border: {3}px solid #404040;
+                                    margin: {(-8)}px {(-10)}px;
+                                    height: {7}px;
+                                    border-radius: {9}px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:disabled {{
-                                    border: {self.getPx(4)}px solid #404040;
-                                    margin: {self.getPx(-8)}px {self.getPx(-10)}px;
-                                    height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px;
+                                    border: {4}px solid #404040;
+                                    margin: {(-8)}px {(-10)}px;
+                                    height: {8}px;
+                                    border-radius: {9}px;
                                     background: #212121;
                                 }}
                                 QSlider::add-page {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {3}px;
                                     background: #303030;
                                 }}
                                 QSlider::sub-page {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {3}px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::add-page:disabled {{
-                                    border-radius: {self.getPx(2)}px;
+                                    border-radius: {2}px;
                                     background: #212121;
                                 }}
                                 QSlider::sub-page:disabled {{
-                                    border-radius: {self.getPx(2)}px;
+                                    border-radius: {2}px;
                                     background: #212121;
                                 }}
                                 QToolTip {{
-                                    border: {self.getPx(1)}px solid #222222;
-                                    padding: {self.getPx(4)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    border: {1}px solid #222222;
+                                    padding: {4}px;
+                                    border-radius: {8}px;
                                     background-color: #262626;
                                 }}
                                 QMenu {{
-                                    border: {self.getPx(1)}px solid rgb(60, 60, 60);
-                                    padding: {self.getPx(2)}px;
+                                    border: {1}px solid rgb(60, 60, 60);
+                                    padding: {2}px;
                                     outline: 0px;
                                     color: white;
                                     background: #262626;
-                                    border-radius: {self.getPx(8)}px;
+                                    border-radius: {8}px;
                                 }}
                                 QMenu::separator {{
-                                    margin: {self.getPx(2)}px;
-                                    height: {self.getPx(1)}px;
+                                    margin: {2}px;
+                                    height: {1}px;
                                     background: rgb(60, 60, 60);
                                 }}
                                 QMenu::icon{{
-                                    padding-left: {self.getPx(10)}px;
+                                    padding-left: {10}px;
                                 }}
                                 QMenu::item{{
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     border: none;
                                     background: transparent;
-                                    padding-right: {self.getPx(10)}px;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
-                                    margin: {self.getPx(2)}px;
+                                    padding-right: {10}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
+                                    margin: {2}px;
                                 }}
                                 QMenu::item:selected{{
                                     background: rgba(255, 255, 255, 10%);
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {self.getPx(10)}px;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-right: {10}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 QMenu::item:selected:disabled{{
                                     background: transparent;
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {self.getPx(10)}px;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-right: {10}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 QColorDialog {{
                                     background-color: transparent;
@@ -1131,19 +1131,19 @@ class SettingsWindow(QMainWindow):
                                     background-color: #212121;
                                     font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
-                                    width: {self.getPx(300)}px;
-                                    padding: {self.getPx(5)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    width: {(300)}px;
+                                    padding: {5}px;
+                                    border-radius: {8}px;
                                     border: 0.6px solid #262626;
-                                    border-bottom: {self.getPx(2)}px solid rgb({colors[1]});
+                                    border-bottom: {2}px solid rgb({colors[1]});
                                 }}
                                 QLineEdit:disabled {{
                                     background-color: #303030;
                                     font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
-                                    width: {self.getPx(300)}px;
-                                    padding: {self.getPx(5)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    width: {(300)}px;
+                                    padding: {5}px;
+                                    border-radius: {8}px;
                                     border: 0.6px solid #262626;
                                 }}
                                 #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
@@ -1173,31 +1173,31 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
-                                    border-radius: {self.getPx(6)}px;
-                                    border: {self.getPx(1)}px solid #161616;
+                                    border-radius: {6}px;
+                                    border: {1}px solid #161616;
                                     selection-background-color: rgb({colors[4]});
                                 }}
                                 QSpinBox {{
                                    background-color: rgba(81, 81, 81, 25%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(86, 86, 86, 25%);
-                                   height: {self.getPx(25)}px;
-                                   border-top: {self.getPx(1)}px solid rgba(99, 99, 99, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(86, 86, 86, 25%);
+                                   height: {(25)}px;
+                                   border-top: {1}px solid rgba(99, 99, 99, 25%);
                                 }}
                                 QPushButton,#FocusLabel {{
-                                   width: {self.getPx(100)}px;
+                                   width: {(100)}px;
                                    background-color:rgba(81, 81, 81, 25%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(86, 86, 86, 25%);
-                                   height: {self.getPx(25)}px;
-                                   border-top: {self.getPx(1)}px solid rgba(99, 99, 99, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(86, 86, 86, 25%);
+                                   height: {(25)}px;
+                                   border-top: {1}px solid rgba(99, 99, 99, 25%);
                                 }}
                                 QPushButton:hover {{
                                    background-color:rgba(86, 86, 86, 25%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(100, 100, 100, 25%);
-                                   height: {self.getPx(25)}px;
-                                   border-top: {self.getPx(1)}px solid rgba(107, 107, 107, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(100, 100, 100, 25%);
+                                   height: {(25)}px;
+                                   border-top: {1}px solid rgba(107, 107, 107, 25%);
                                 }}
                                 #AccentButton{{
                                     color: black;
@@ -1217,203 +1217,203 @@ class SettingsWindow(QMainWindow):
                                     border-bottom-color: rgb({colors[2]});
                                 }}
                                 #title{{
-                                   margin: {self.getPx(2)}px;
+                                   margin: {2}px;
                                    margin-bottom: 0px;
                                    font-weight: bold;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(15)}px;
-                                   padding-bottom: {self.getPx(15)}px;
+                                   padding-left: {(20)}px;
+                                   padding-top: {(15)}px;
+                                   padding-bottom: {(15)}px;
                                    font-size: 13pt;
-                                   border-radius: {self.getPx(4)}px;
+                                   border-radius: {4}px;
                                 }}
                                 #subtitleLabelHover {{
                                    background-color: rgba(20, 20, 20, 0.01);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-top: 0px;
                                    margin-bottom: 0px;
-                                   border-radius: {self.getPx(4)}px;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid transparent;
+                                   border-radius: {4}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
+                                   border: {1}px solid transparent;
                                 }}
                                 #subtitleLabelHover:hover{{
                                    background-color: rgba(255, 255, 255, 3%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-top: 0px;
                                    margin-bottom: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(0)}px;
-                                   padding-bottom: {self.getPx(0)}px;
-                                   border: {self.getPx(1)}px solid rgba(255, 255, 255, 7%);
+                                   padding-left: {(20)}px;
+                                   padding-top: {0}px;
+                                   padding-bottom: {0}px;
+                                   border: {1}px solid rgba(255, 255, 255, 7%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
                                 }}
                                 #subtitleLabelHover:pressed{{
                                    background-color: rgba(0, 0, 0, 12%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-top: 0px;
                                    margin-bottom: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(0)}px;
-                                   padding-bottom: {self.getPx(0)}px;
-                                   border: {self.getPx(1)}px solid rgba(255, 255, 255, 7%);
+                                   padding-left: {(20)}px;
+                                   padding-top: {0}px;
+                                   padding-bottom: {0}px;
+                                   border: {1}px solid rgba(255, 255, 255, 7%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
                                 }}
                                 #micaRegularBackground {{
-                                    border: {self.getPx(0)}px solid transparent;
+                                    border: {0}px solid transparent;
                                     margin: 1px;
                                    background-color: rgba(255, 255, 255, 5%);
-                                   border-radius: {self.getPx(8)}px;
+                                   border-radius: {8}px;
                                 }}
                                 #subtitleLabel{{
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(15)}px;
-                                   padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 50%);
+                                   padding-left: {(20)}px;
+                                   padding-top: {(15)}px;
+                                   padding-bottom: {(15)}px;
+                                   border: {1}px solid rgba(25, 25, 25, 50%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
                                 }}
                                 #StLbl{{
                                    padding: 0px;
                                    background-color: rgba(71, 71, 71, 0%);
                                    margin: 0px;
                                    border:none;
-                                   font-size: {self.getPx(11)}px;
+                                   font-size: {(11)}px;
                                 }}
                                 #stBtn{{
                                    background-color: rgba(255, 255, 255, 5%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 50%);
-                                   border-bottom-left-radius: {self.getPx(8)}px;
-                                   border-bottom-right-radius: {self.getPx(8)}px;
+                                   border: {1}px solid rgba(25, 25, 25, 50%);
+                                   border-bottom-left-radius: {8}px;
+                                   border-bottom-right-radius: {8}px;
                                 }}
                                 #lastWidget{{
-                                   border-bottom-left-radius: {self.getPx(4)}px;
-                                   border-bottom-right-radius: {self.getPx(4)}px;
+                                   border-bottom-left-radius: {4}px;
+                                   border-bottom-right-radius: {4}px;
                                 }}
                                 #stChkBg{{
-                                   padding: {self.getPx(15)}px;
-                                   padding-left: {self.getPx(45)}px;
+                                   padding: {(15)}px;
+                                   padding-left: {(45)}px;
                                    background-color: rgba(255, 255, 255, 5%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid rgba(25, 25, 25, 50%);
+                                   border: {1}px solid rgba(25, 25, 25, 50%);
                                    border-bottom: 0px;
                                 }}
                                 #stChk::indicator{{
-                                   height: {self.getPx(20)}px;
-                                   width: {self.getPx(20)}px;
+                                   height: {(20)}px;
+                                   width: {(20)}px;
                                 }}
                                 #stChk::indicator:unchecked {{
                                     background-color: rgba(30, 30, 30, 25%);
-                                    border: {self.getPx(1)}px solid #444444;
-                                    border-radius: {self.getPx(6)}px;
+                                    border: {1}px solid #444444;
+                                    border-radius: {6}px;
                                 }}
                                 #stChk::indicator:disabled {{
                                     background-color: rgba(71, 71, 71, 0%);
                                     color: #bbbbbb;
-                                    border: {self.getPx(1)}px solid #444444;
-                                    border-radius: {self.getPx(6)}px;
+                                    border: {1}px solid #444444;
+                                    border-radius: {6}px;
                                 }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #2a2a2a;
-                                    border: {self.getPx(1)}px solid #444444;
-                                    border-radius: {self.getPx(6)}px;
+                                    border: {1}px solid #444444;
+                                    border-radius: {6}px;
                                 }}
                                 #stChk::indicator:checked {{
-                                    border: {self.getPx(1)}px solid #444444;
+                                    border: {1}px solid #444444;
                                     background-color: rgb({colors[1]});
-                                    border-radius: {self.getPx(6)}px;
+                                    border-radius: {6}px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stChk::indicator:checked:disabled {{
-                                    border: {self.getPx(1)}px solid #444444;
+                                    border: {1}px solid #444444;
                                     background-color: #303030;
                                     color: #bbbbbb;
-                                    border-radius: {self.getPx(6)}px;
+                                    border-radius: {6}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
-                                    border: {self.getPx(1)}px solid #444444;
+                                    border: {1}px solid #444444;
                                     background-color: rgb({colors[2]});
-                                    border-radius: {self.getPx(6)}px;
+                                    border-radius: {6}px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
-                                   width: {self.getPx(100)}px;
+                                   width: {(100)}px;
                                    background-color:rgba(81, 81, 81, 25%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solidrgba(86, 86, 86, 25%);
-                                   height: {self.getPx(25)}px;
-                                   padding-left: {self.getPx(10)}px;
-                                   border-top: {self.getPx(1)}px solidrgba(99, 99, 99, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solidrgba(86, 86, 86, 25%);
+                                   height: {(25)}px;
+                                   padding-left: {10}px;
+                                   border-top: {1}px solidrgba(99, 99, 99, 25%);
                                 }}
                                 #stCmbbx:disabled {{
-                                   width: {self.getPx(100)}px;
+                                   width: {(100)}px;
                                    background-color: #303030;
                                    color: #bbbbbb;
-                                   border-radius: {self.getPx(8)}px;
+                                   border-radius: {8}px;
                                    border: 0.6px solid #262626;
-                                   height: {self.getPx(25)}px;
-                                   padding-left: {self.getPx(10)}px;
+                                   height: {(25)}px;
+                                   padding-left: {10}px;
                                 }}
                                 #stCmbbx:hover {{
                                    background-color:rgba(86, 86, 86, 25%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solidrgba(100, 100, 100, 25%);
-                                   height: {self.getPx(25)}px;
-                                   padding-left: {self.getPx(10)}px;
-                                   border-top: {self.getPx(1)}px solid rgba(107, 107, 107, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solidrgba(100, 100, 100, 25%);
+                                   height: {(25)}px;
+                                   padding-left: {10}px;
+                                   border-top: {1}px solid rgba(107, 107, 107, 25%);
                                 }}
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
                                     subcontrol-position: top right;
-                                    padding: {self.getPx(5)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    padding: {5}px;
+                                    border-radius: {8}px;
                                     border: none;
-                                    width: {self.getPx(30)}px;
+                                    width: {30}px;
                                 }}
                                 #stCmbbx::down-arrow {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {self.getPx(8)}px;
-                                    width: {self.getPx(8)}px;
+                                    height: {8}px;
+                                    width: {8}px;
                                 }}
                                 #stCmbbx::down-arrow:disabled {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {self.getPx(2)}px;
-                                    width: {self.getPx(2)}px;
+                                    height: {2}px;
+                                    width: {2}px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
-                                    border: {self.getPx(1)}px solid rgba(36, 36, 36, 50%);
-                                    padding: {self.getPx(4)}px;
+                                    border: {1}px solid rgba(36, 36, 36, 50%);
+                                    padding: {4}px;
                                     outline: 0px;
-                                    padding-right: {self.getPx(0)}px;
+                                    padding-right: {0}px;
                                     background-color: #303030;
-                                    border-radius: {self.getPx(8)}px;
+                                    border-radius: {8}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     border: none;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item:selected{{
                                     background: rgba(255, 255, 255, 6%);
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     outline: none;
                                     border: none;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 QSCrollArea, QVBoxLayout{{
                                     border: none;
@@ -1423,28 +1423,28 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QScrollBar {{
                                     background: rgba(71, 71, 71, 25%);
-                                    margin: {self.getPx(4)}px;
+                                    margin: {4}px;
                                     margin-left: 0px;
-                                    width: {self.getPx(16)}px;
-                                    height: {self.getPx(20)}px;
+                                    width: {16}px;
+                                    height: {(20)}px;
                                     border: none;
-                                    border-radius: {self.getPx(5)}px;
+                                    border-radius: {5}px;
                                 }}
                                 QScrollBar:horizontal {{
                                     margin-bottom: 0px;
                                     padding-bottom: 0px;
-                                    height: {self.getPx(12)}px;
+                                    height: {(12)}px;
                                 }}
                                 QScrollBar::handle {{
-                                    margin: {self.getPx(3)}px;
-                                    min-height: {self.getPx(20)}px;
-                                    min-width: {self.getPx(20)}px;
-                                    border-radius: {self.getPx(3)}px;
+                                    margin: {3}px;
+                                    min-height: {(20)}px;
+                                    min-width: {(20)}px;
+                                    border-radius: {3}px;
                                     background: rgba(80, 80, 80, 25%);
                                 }}
                                 QScrollBar::handle:hover {{
-                                    margin: {self.getPx(3)}px;
-                                    border-radius: {self.getPx(3)}px;
+                                    margin: {3}px;
+                                    border-radius: {3}px;
                                     background: rgba(112, 112, 112, 25%);
                                 }}
                                 QScrollBar::add-line {{
@@ -1487,10 +1487,10 @@ class SettingsWindow(QMainWindow):
                                    background-color: rgba(0, 0, 0, 0.01);
                                }}
                                 #micaRegularBackground {{
-                                    border: {self.getPx(0)}px solid transparent;
+                                    border: {0}px solid transparent;
                                     margin: 1px;
                                    background-color: rgba(0, 0, 0, 5%);
-                                   border-radius: {self.getPx(8)}px;
+                                   border-radius: {8}px;
                                 }}
                                #titlebarButton:hover {{
                                    border-radius: 0px;
@@ -1506,108 +1506,108 @@ class SettingsWindow(QMainWindow):
                                    background-color: rgba(196, 43, 28, 1);
                                }}
                                 QSlider {{
-                                    height: {self.getPx(20)}px;
-                                    margin-left: {self.getPx(10)}px;
-                                    margin-right: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(2)}px;
+                                    height: {(20)}px;
+                                    margin-left: {10}px;
+                                    margin-right: {10}px;
+                                    border-radius: {2}px;
                                 }}
                                 QSlider::groove {{
-                                    height: {self.getPx(4)}px;
-                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
+                                    height: {4}px;
+                                    border: {1}px solid rgba(196, 196, 196, 25%);
                                     background: #303030;
                                 }}
                                 QSlider::handle {{
-                                    border: {self.getPx(4)}px solid #eeeeee;
-                                    margin: -{self.getPx(8)}px -{self.getPx(10)}px;
-                                    height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px;
+                                    border: {4}px solid #eeeeee;
+                                    margin: -{8}px -{10}px;
+                                    height: {8}px;
+                                    border-radius: {9}px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:hover {{
-                                    border: {self.getPx(1)}px solid #eeeeee;
-                                    margin: -{self.getPx(8)}px -{self.getPx(10)}px;
-                                    height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px;
+                                    border: {1}px solid #eeeeee;
+                                    margin: -{8}px -{10}px;
+                                    height: {8}px;
+                                    border-radius: {9}px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:disabled {{
-                                    border: {self.getPx(4)}px solid #eeeeee;
-                                    margin: -{self.getPx(8)}px -{self.getPx(10)}px;
-                                    height: {self.getPx(8)}px;
-                                    border-radius: {self.getPx(9)}px;
+                                    border: {4}px solid #eeeeee;
+                                    margin: -{8}px -{10}px;
+                                    height: {8}px;
+                                    border-radius: {9}px;
                                     background: rgba(106, 106, 106, 25%);
                                 }}
                                 QSlider::add-page {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {3}px;
                                     background: #eeeeee;
                                 }}
                                 QSlider::sub-page {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {3}px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::add-page:disabled {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {3}px;
                                     background: #eeeeee;
                                 }}
                                 QSlider::sub-page:disabled {{
-                                    border-radius: {self.getPx(3)}px;
+                                    border-radius: {3}px;
                                     background: #eeeeee;
                                 }}
                                 QToolTip{{
-                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                    padding: {self.getPx(4)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    border: {1}px solid rgba(196, 196, 196, 25%);
+                                    padding: {4}px;
+                                    border-radius: {8}px;
                                     background-color: #eeeeee;
                                 }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: {self.getPx(6)}px;
-                                    border: {self.getPx(1)}px solid #dddddd;
+                                    border-radius: {6}px;
+                                    border: {1}px solid #dddddd;
                                     selection-background-color: rgb({colors[3]});
                                 }}
                                 QMenu {{
-                                    border: {self.getPx(1)}px solid rgb(200, 200, 200);
-                                    padding: {self.getPx(2)}px;
+                                    border: {1}px solid rgb(200, 200, 200);
+                                    padding: {2}px;
                                     outline: 0px;
                                     color: black;
                                     background: #eeeeee;
-                                    border-radius: {self.getPx(8)}px;
+                                    border-radius: {8}px;
                                 }}
                                 QMenu::separator {{
-                                    margin: {self.getPx(2)}px;
-                                    height: {self.getPx(1)}px;
+                                    margin: {2}px;
+                                    height: {1}px;
                                     background: rgb(200, 200, 200);
                                 }}
                                 QMenu::icon{{
-                                    padding-left: {self.getPx(10)}px;
+                                    padding-left: {10}px;
                                 }}
                                 QMenu::item{{
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     border: none;
                                     background: transparent;
-                                    padding-right: {self.getPx(10)}px;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
-                                    margin: {self.getPx(2)}px;
+                                    padding-right: {10}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
+                                    margin: {2}px;
                                 }}
                                 QMenu::item:selected{{
                                     background: rgba(0, 0, 0, 10%);
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {self.getPx(10)}px;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-right: {10}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 QMenu::item:selected:disabled{{
                                     background: transparent;
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {self.getPx(10)}px;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-right: {10}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 QColorDialog {{
                                     background-color: transparent;
@@ -1617,21 +1617,21 @@ class SettingsWindow(QMainWindow):
                                     background-color: #fefefe;
                                     font-family: "Segoe UI Variable Display";
                                     font-size: 9pt;
-                                    width: {self.getPx(300)}px;
-                                    padding: {self.getPx(5)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    width: {(300)}px;
+                                    padding: {5}px;
+                                    border-radius: {8}px;
                                     border: 0.6px solid #eeeeee;
-                                    border-bottom: {self.getPx(2)}px solid rgb({colors[4]});
+                                    border-bottom: {2}px solid rgb({colors[4]});
                                 }}
                                 QLineEdit:disabled {{
                                     background-color: #f5f5f5;
                                     font-family: "Segoe UI Variable Display";
                                     font-size: 9pt;
-                                    width: {self.getPx(300)}px;
-                                    padding: {self.getPx(5)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    width: {(300)}px;
+                                    padding: {5}px;
+                                    border-radius: {8}px;
                                     border: 0.6px solid #eeeeee;
-                                    /*border-bottom: {self.getPx(2)}px solid rgb({colors[4]});*/
+                                    /*border-bottom: {2}px solid rgb({colors[4]});*/
                                 }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
@@ -1647,19 +1647,19 @@ class SettingsWindow(QMainWindow):
                                     background-color: transparent;
                                 }}
                                 QPushButton,#FocusLabel {{
-                                   width: {self.getPx(100)}px;
+                                   width: {(100)}px;
                                    background-color: rgba(255, 255, 255, 70%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                   height: {self.getPx(25)}px;
-                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   height: {(25)}px;
+                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 QPushButton:hover {{
                                    background-color: rgba(238, 238, 238, 100%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                   height: {self.getPx(25)}px;
-                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   height: {(25)}px;
+                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #AccentButton{{
                                     background-color: rgb({colors[3]});
@@ -1675,187 +1675,187 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 #title{{
                                    /*background-color: rgba(255, 255, 255, 10%);
-                                   */margin: {self.getPx(2)}px;
+                                   */margin: {2}px;
                                    margin-bottom: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(15)}px;
-                                   padding-bottom: {self.getPx(15)}px;
+                                   padding-left: {(20)}px;
+                                   padding-top: {(15)}px;
+                                   padding-bottom: {(15)}px;
                                    font-size: 13pt;
-                                   border-radius: {self.getPx(8)}px;
+                                   border-radius: {8}px;
                                 }}
                                 #subtitleLabel{{
                                    background-color: rgba(255, 255, 255, 100%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(15)}px;
-                                   padding-bottom: {self.getPx(15)}px;
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(0)}px solid rgba(196, 196, 196, 25%);
+                                   padding-left: {(20)}px;
+                                   padding-top: {(15)}px;
+                                   padding-bottom: {(15)}px;
+                                   border-radius: {8}px;
+                                   border: {0}px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
                                 }}
                                 #subtitleLabelHover {{
                                    background-color: rgba(0, 0, 0, 1%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-top: 0px;
                                    margin-bottom: 0px;
-                                   border-radius: {self.getPx(8)}px;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid transparent;
+                                   border-radius: {8}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
+                                   border: {1}px solid transparent;
                                 }}
                                 #subtitleLabelHover:hover{{
                                    background-color: rgba(0, 0, 0, 6%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-top: 0px;
                                    margin-bottom: 0px;
-                                   padding-left: {self.getPx(20)}px;
-                                   padding-top: {self.getPx(15)}px;
-                                   padding-bottom: {self.getPx(15)}px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
+                                   padding-left: {(20)}px;
+                                   padding-top: {(15)}px;
+                                   padding-bottom: {(15)}px;
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {self.getPx(8)}px;
-                                   border-top-right-radius: {self.getPx(8)}px;
+                                   border-top-left-radius: {8}px;
+                                   border-top-right-radius: {8}px;
                                 }}
                                 #StLbl{{
                                    padding: 0px;
                                    background-color: rgba(255, 255, 255, 10%);
                                    margin: 0px;
                                    border:none;
-                                   font-size: {self.getPx(11)}px;
+                                   font-size: {(11)}px;
                                 }}
                                 #stBtn{{
                                    background-color: rgba(255, 255, 255, 10%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 0px;
-                                   border-bottom-left-radius: {self.getPx(0)}px;
-                                   border-bottom-right-radius: {self.getPx(0)}px;
+                                   border-bottom-left-radius: {0}px;
+                                   border-bottom-right-radius: {0}px;
                                 }}
                                 #lastWidget{{
-                                   border-bottom-left-radius: {self.getPx(4)}px;
-                                   border-bottom-right-radius: {self.getPx(4)}px;
-                                   border-bottom: {self.getPx(1)}px;
+                                   border-bottom-left-radius: {4}px;
+                                   border-bottom-right-radius: {4}px;
+                                   border-bottom: {1}px;
                                 }}
                                 #stChkBg{{
-                                   padding: {self.getPx(15)}px;
-                                   padding-left: {self.getPx(45)}px;
+                                   padding: {(15)}px;
+                                   padding-left: {(45)}px;
                                    background-color: rgba(255, 255, 255, 10%);
-                                   margin: {self.getPx(10)}px;
+                                   margin: {10}px;
                                    margin-bottom: 0px;
                                    margin-top: 0px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
                                    border-bottom: 0px;
                                 }}
                                 #stChk::indicator{{
-                                   height: {self.getPx(20)}px;
-                                   width: {self.getPx(20)}px;
+                                   height: {(20)}px;
+                                   width: {(20)}px;
                                 }}
                                 #stChk::indicator:unchecked {{
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
-                                    border-radius: {self.getPx(6)}px;
+                                    border: {1}px solid rgba(136, 136, 136, 25%);
+                                    border-radius: {6}px;
                                 }}
                                 #stChk::indicator:disabled {{
                                     background-color: #eeeeee;
                                     color: rgba(136, 136, 136, 25%);
-                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
-                                    border-radius: {self.getPx(6)}px;
+                                    border: {1}px solid rgba(136, 136, 136, 25%);
+                                    border-radius: {6}px;
                                 }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #eeeeee;
-                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
-                                    border-radius: {self.getPx(6)}px;
+                                    border: {1}px solid rgba(136, 136, 136, 25%);
+                                    border-radius: {6}px;
                                 }}
                                 #stChk::indicator:checked {{
-                                    border: {self.getPx(0)}px solid rgba(136, 136, 136, 25%);
+                                    border: {0}px solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[4]});
-                                    border-radius: {self.getPx(5)}px;
+                                    border-radius: {5}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
-                                    border: {self.getPx(0)}px solid rgba(136, 136, 136, 25%);
+                                    border: {0}px solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[3]});
-                                    border-radius: {self.getPx(5)}px;
+                                    border-radius: {5}px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:disabled {{
-                                    border: {self.getPx(1)}px solid rgba(136, 136, 136, 25%);
+                                    border: {1}px solid rgba(136, 136, 136, 25%);
                                     background-color: #eeeeee;
                                     color: rgba(136, 136, 136, 25%);
-                                    border-radius: {self.getPx(6)}px;
+                                    border-radius: {6}px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
-                                   width: {self.getPx(100)}px;
+                                   width: {(100)}px;
                                    background-color: rgba(255, 255, 255, 10%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                   height: {self.getPx(25)}px;
-                                   padding-left: {self.getPx(10)}px;
-                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   height: {(25)}px;
+                                   padding-left: {10}px;
+                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx:disabled {{
-                                   width: {self.getPx(100)}px;
+                                   width: {(100)}px;
                                    background-color: #eeeeee;
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                   height: {self.getPx(25)}px;
-                                   padding-left: {self.getPx(10)}px;
-                                   border-top: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   height: {(25)}px;
+                                   padding-left: {10}px;
+                                   border-top: {1}px solid rgba(196, 196, 196, 25%);
                                 }}
                                 #stCmbbx:hover {{
                                    background-color: rgba(238, 238, 238, 25%);
-                                   border-radius: {self.getPx(8)}px;
-                                   border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                   height: {self.getPx(25)}px;
-                                   padding-left: {self.getPx(10)}px;
-                                   border-bottom: {self.getPx(1)}px solid rgba(204, 204, 204, 25%);
+                                   border-radius: {8}px;
+                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   height: {(25)}px;
+                                   padding-left: {10}px;
+                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
                                     subcontrol-position: top right;
-                                    padding: {self.getPx(5)}px;
-                                    border-radius: {self.getPx(8)}px;
+                                    padding: {5}px;
+                                    border-radius: {8}px;
                                     border: none;
-                                    width: {self.getPx(30)}px;
+                                    width: {30}px;
                                 }}
                                 #stCmbbx::down-arrow {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {self.getPx(8)}px;
-                                    width: {self.getPx(8)}px;
+                                    height: {8}px;
+                                    width: {8}px;
                                 }}
                                 #stCmbbx::down-arrow:disabled {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {self.getPx(2)}px;
-                                    width: {self.getPx(2)}px;
+                                    height: {2}px;
+                                    width: {2}px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
-                                    border: {self.getPx(1)}px solid rgba(196, 196, 196, 25%);
-                                    padding: {self.getPx(4)}px;
+                                    border: {1}px solid rgba(196, 196, 196, 25%);
+                                    padding: {4}px;
                                     outline: 0px;
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: {self.getPx(8)}px;
+                                    border-radius: {8}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     border: none;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 #stCmbbx QAbstractItemView::item:selected{{
                                     background: rgba(0, 0, 0, 6%);
-                                    height: {self.getPx(30)}px;
+                                    height: {30}px;
                                     outline: none;
                                     color: black;
                                     border: none;
-                                    padding-left: {self.getPx(10)}px;
-                                    border-radius: {self.getPx(4)}px;
+                                    padding-left: {10}px;
+                                    border-radius: {4}px;
                                 }}
                                 QSCrollArea,QVBoxLayout{{
                                     border: none;
@@ -1865,20 +1865,20 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QScrollBar:vertical {{
                                     background: rgba(255, 255, 255, 10%);
-                                    margin: {self.getPx(4)}px;
-                                    width: {self.getPx(20)}px;
+                                    margin: {4}px;
+                                    width: {(20)}px;
                                     border: none;
-                                    border-radius: {self.getPx(5)}px;
+                                    border-radius: {5}px;
                                 }}
                                 QScrollBar::handle:vertical {{
-                                    margin: {self.getPx(3)}px;
-                                    border-radius: {self.getPx(3)}px;
-                                    min-height: {self.getPx(20)}px;
+                                    margin: {3}px;
+                                    border-radius: {3}px;
+                                    min-height: {(20)}px;
                                     background: rgba(196, 196, 196, 25%);
                                 }}
                                 QScrollBar::handle:vertical:hover {{
-                                    margin: {self.getPx(3)}px;
-                                    border-radius: {self.getPx(3)}px;
+                                    margin: {3}px;
+                                    border-radius: {3}px;
                                     background: rgba(136, 136, 136, 25%);
                                 }}
                                 QScrollBar::add-line:vertical {{
@@ -1935,7 +1935,7 @@ class SettingsWindow(QMainWindow):
                 menu.exec(e.globalPos())
 
         win = QMainWindow(self)
-        win.resize(self.getPx(900), self.getPx(600))
+        win.resize((900), (600))
         win.setObjectName("background")
 
         w = QWidget()
@@ -1945,14 +1945,14 @@ class SettingsWindow(QMainWindow):
         textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
         if isWindowDark():
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(6)}px;border: {self.getPx(1)}px solid #161616;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {10}px;border-radius: {6}px;border: {1}px solid #161616;}}")
         else:
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {self.getPx(10)}px;border-radius: {self.getPx(6)}px;border: {self.getPx(1)}px solid #dddddd;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {10}px;border-radius: {6}px;border: {1}px solid #dddddd;}}")
 
         textEdit.setPlainText(globals.buffer.getvalue())
 
         reloadButton = QPushButton(_("Reload log"))
-        reloadButton.setFixedWidth(self.getPx(200))
+        reloadButton.setFixedWidth((200))
         reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
 
         def saveLog():
@@ -1977,7 +1977,7 @@ class SettingsWindow(QMainWindow):
                 textEdit.setPlainText(globals.buffer.getvalue())
 
         exportButtom = QPushButton(_("Export log as a file"))
-        exportButtom.setFixedWidth(self.getPx(200))
+        exportButtom.setFixedWidth((200))
         exportButtom.clicked.connect(lambda: saveLog())
 
         def copyLog():
@@ -1991,19 +1991,19 @@ class SettingsWindow(QMainWindow):
                 textEdit.setPlainText(globals.buffer.getvalue())
 
         copyButton = QPushButton(_("Copy log to clipboard"))
-        copyButton.setFixedWidth(self.getPx(200))
+        copyButton.setFixedWidth((200))
         copyButton.clicked.connect(lambda: copyLog())
 
         hl = QHBoxLayout()
-        hl.setSpacing(self.getPx(5))
-        hl.setContentsMargins(self.getPx(10), self.getPx(10), self.getPx(10), 0)
+        hl.setSpacing(5)
+        hl.setContentsMargins(10, 10, 10, 0)
         hl.addWidget(exportButtom)
         hl.addWidget(copyButton)
         hl.addStretch()
         hl.addWidget(reloadButton)
 
         w.layout().setSpacing(0)
-        w.layout().setContentsMargins(self.getPx(5), self.getPx(5), self.getPx(5), self.getPx(5))
+        w.layout().setContentsMargins(5, 5, 5, 5)
         w.layout().addLayout(hl, stretch=0)
         w.layout().addWidget(textEdit, stretch=1)
 
@@ -2047,10 +2047,10 @@ class SettingsWindow(QMainWindow):
 
     def mouseReleaseEvent(self, event) -> None:
         if(self.updateSize):
-            self.settingsWidget.resize(self.width()-self.getPx(17), self.settingsWidget.height())
+            self.settingsWidget.resize(self.width()-(17), self.settingsWidget.height())
             self.applyStyleSheet()
             if not self.isMaximized():
-                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;}}")
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {4}px;border-bottom-right-radius: {4}px;}}")
             self.updateSize = False
         return super().mouseReleaseEvent(event)
 
@@ -2066,16 +2066,13 @@ class SettingsWindow(QMainWindow):
             if self.isMaximized():
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
             else:
-                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;}}")
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {4}px;border-bottom-right-radius: {4}px;}}")
         return super().eventFilter(watched, event)
 
 
     def closeEvent(self, event: QCloseEvent) -> None:
         self.hide()
         event.ignore()
-
-    def getPx(self, i: int) -> int:
-        return i
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -2101,7 +2098,7 @@ class QSettingsTitle(QWidget):
         self.label = QLabel("\u200e"+text, self)
         self.label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.label.setAlignment(Qt.AlignLeft)
-        self.setMaximumWidth(self.getPx(1000))
+        self.setMaximumWidth((1000))
         self.descLabel = QLabel(descText, self)
         self.bg70 = QWidget(self)
         self.bg70.setObjectName("micaRegularBackground")
@@ -2118,7 +2115,7 @@ class QSettingsTitle(QWidget):
             self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
 
         self.image = QLabel(self)
-        self.image.setStyleSheet(f"padding: {self.getPx(1)}px;background: none;")
+        self.image.setStyleSheet(f"padding: {1}px;background: none;")
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
         self.compressibleWidget.show()
@@ -2136,8 +2133,8 @@ class QSettingsTitle(QWidget):
         self.childsVisible = False
         self.compressibleWidget.setLayout(l)
 
-        self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;}}")
-        self.bg70.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;}}")
+        self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;}}")
+        self.bg70.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;}}")
 
 
         self.showAnim = QVariantAnimation(self.compressibleWidget)
@@ -2163,29 +2160,29 @@ class QSettingsTitle(QWidget):
         self.button.setObjectName("subtitleLabelHover")
         self.button.clicked.connect(self.toggleChilds)
         self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
-        self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")
+        self.button.setStyleSheet(f"border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;")
         self.setChildFixedHeight(0)
 
         self.newShowAnim = QVariantAnimation(self)
         self.newShowAnim.setEasingCurve(QEasingCurve.OutQuart)
-        self.newShowAnim.setStartValue(self.getPx(50))
-        self.newShowAnim.setEndValue(self.getPx(70))
+        self.newShowAnim.setStartValue((50))
+        self.newShowAnim.setEndValue((70))
         self.newShowAnim.setDuration(200)
         self.newShowAnim.valueChanged.connect(lambda i: (self.compressibleWidget.move(0, i),self.childrenOpacity.setOpacity((i-50)/20)))
 
         self.newHideAnim = QVariantAnimation(self)
         self.newHideAnim.setEasingCurve(QEasingCurve.InQuart)
-        self.newHideAnim.setStartValue(self.getPx(70))
-        self.newHideAnim.setEndValue(self.getPx(50))
+        self.newHideAnim.setStartValue((70))
+        self.newHideAnim.setEndValue((50))
         self.newHideAnim.setDuration(200)
         self.newHideAnim.valueChanged.connect(lambda i: (self.compressibleWidget.move(0, i),self.childrenOpacity.setOpacity((i-50)/20)))
-        self.newHideAnim.finished.connect(lambda: (self.compressibleWidget.hide(),self.setChildFixedHeight(self.getPx(70))))
+        self.newHideAnim.finished.connect(lambda: (self.compressibleWidget.hide(),self.setChildFixedHeight((70))))
 
         self.childrenOpacity = QGraphicsOpacityEffect(self.compressibleWidget)
         self.childrenOpacity.setOpacity(0)
         self.compressibleWidget.setGraphicsEffect(self.childrenOpacity)
 
-        self.compressibleWidget.move(self.getPx(-1500),self.getPx(-1500))
+        self.compressibleWidget.move((-1500),(-1500))
 
     def showHideChildren(self):
         self.hideChildren()
@@ -2196,25 +2193,25 @@ class QSettingsTitle(QWidget):
         self.callInMain.emit(lambda: self.setChildFixedHeight(self.compressibleWidget.sizeHint().height()))
         self.callInMain.emit(self.newHideAnim.start)
         time.sleep(0.2)
-        self.callInMain.emit(lambda: self.compressibleWidget.move(self.getPx(-1500), self.getPx(-1500)))
-        self.callInMain.emit(lambda: self.setChildFixedHeight(self.getPx(70)))
+        self.callInMain.emit(lambda: self.compressibleWidget.move((-1500), (-1500)))
+        self.callInMain.emit(lambda: self.setChildFixedHeight((70)))
 
     def showChildren(self) -> None:
-        self.callInMain.emit(lambda: self.compressibleWidget.move(0, self.getPx(50)))
+        self.callInMain.emit(lambda: self.compressibleWidget.move(0, (50)))
         self.callInMain.emit(lambda: self.setChildFixedHeight(self.compressibleWidget.sizeHint().height()))
         self.callInMain.emit(lambda: self.compressibleWidget.show())
         self.callInMain.emit(self.newShowAnim.start)
         time.sleep(0.2)
         #if globals.sw.scrollArea.geometry().height() < self.geometry().y()+self.geometry().height()-globals.sw.scrollbar.value():
         #    self.scrollAnim.setStartValue(globals.sw.scrollbar.value())
-        #    val = self.geometry().y()+self.geometry().height()+abs(globals.sw.settingsWidget.geometry().y())-globals.sw.scrollArea.geometry().height()+self.getPx(5)
+        #    val = self.geometry().y()+self.geometry().height()+abs(globals.sw.settingsWidget.geometry().y())-globals.sw.scrollArea.geometry().height()+5
         #    self.scrollAnim.setEndValue(val if val <= globals.sw.scrollbar.maximum() else globals.sw.scrollbar.maximum())
         #    self.callInMain.emit(lambda: self.scrollAnim.start())
 
 
     def setChildFixedHeight(self, h: int) -> None:
         self.compressibleWidget.setFixedHeight(h)
-        self.setFixedHeight(h+self.getPx(70))
+        self.setFixedHeight(h+(70))
 
     def invertNotAnimated(self):
         self.NotAnimated = not self.NotAnimated
@@ -2225,7 +2222,7 @@ class QSettingsTitle(QWidget):
             self.childsVisible = False
             self.invertNotAnimated()
             self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
-            Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: {self.getPx(8)}px;border-bottom-right-radius: {self.getPx(8)}px;")), daemon=True).start()
+            Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;")), daemon=True).start()
             Thread(target=self.hideChildren).start()
         else:
             self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
@@ -2238,14 +2235,12 @@ class QSettingsTitle(QWidget):
     def window(self) -> 'SettingsWindow':
         return super().window()
     
-    def getPx(self, i: int) -> int:
-        return i
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
     def setIcon(self, icon: str) -> None:
-        self.image.setPixmap(QIcon(icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
+        self.image.setPixmap(QIcon(icon).pixmap(QSize((24), (24))))
 
     def resizeEvent(self, event: QResizeEvent = None) -> None:
         if not self.searchMode:
@@ -2255,34 +2250,34 @@ class QSettingsTitle(QWidget):
             self.image.show()
             self.label.show()
             self.descLabel.show()
-            self.image.setPixmap(QIcon(self.icon).pixmap(QSize(self.getPx(24), self.getPx(24))))
+            self.image.setPixmap(QIcon(self.icon).pixmap(QSize((24), (24))))
             self.button.move(0, 0)
-            self.button.resize(self.width(), self.getPx(70))
-            self.showHideButton.setIconSize(QSize(self.getPx(12), self.getPx(12)))
-            self.showHideButton.setFixedSize(self.getPx(30), self.getPx(30))
-            self.showHideButton.move(self.width()-self.getPx(55), self.getPx(20))
+            self.button.resize(self.width(), (70))
+            self.showHideButton.setIconSize(QSize((12), (12)))
+            self.showHideButton.setFixedSize(30, 30)
+            self.showHideButton.move(self.width()-(55), (20))
 
-            self.label.move(self.getPx(70), self.getPx(17))
-            self.label.setFixedHeight(self.getPx(20))
-            self.descLabel.move(self.getPx(70), self.getPx(37))
-            self.descLabel.setFixedHeight(self.getPx(20))
-            self.descLabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(70))
+            self.label.move((70), (17))
+            self.label.setFixedHeight((20))
+            self.descLabel.move((70), (37))
+            self.descLabel.setFixedHeight((20))
+            self.descLabel.setFixedWidth(self.width()-(70)-(70))
 
-            self.image.move(self.getPx(27), self.getPx(20))
-            self.image.setFixedHeight(self.getPx(30))
+            self.image.move((27), (20))
+            self.image.setFixedHeight(30)
             if self.childsVisible and self.NotAnimated:
-                self.setFixedHeight(self.compressibleWidget.sizeHint().height()+self.getPx(70))
+                self.setFixedHeight(self.compressibleWidget.sizeHint().height()+(70))
                 self.compressibleWidget.setFixedHeight(self.compressibleWidget.sizeHint().height())
             elif self.NotAnimated:
-                self.setFixedHeight(self.getPx(70))
-            self.compressibleWidget.move(0, self.getPx(70))
+                self.setFixedHeight((70))
+            self.compressibleWidget.move(0, (70))
             self.compressibleWidget.setFixedWidth(self.width())
-            self.image.setFixedHeight(self.getPx(30))
-            self.label.setFixedWidth(self.width()-self.getPx(140))
-            self.image.setFixedWidth(self.getPx(30))
+            self.image.setFixedHeight(30)
+            self.label.setFixedWidth(self.width()-(140))
+            self.image.setFixedWidth(30)
             self.bg70.show()
-            self.bg70.move(self.getPx(10), 0)
-            self.bg70.resize(self.width()-self.getPx(20), self.getPx(70))
+            self.bg70.move(10, 0)
+            self.bg70.resize(self.width()-(20), (70))
         else:
             self.bg70.hide()
             self.image.hide()
@@ -2328,20 +2323,17 @@ class QSettingsButton(QWidget):
         self.label.setObjectName("StLbl")
         self.button.clicked.connect(self.clicked.emit)
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-self.getPx(170), self.getPx(10))
-        self.label.move(self.getPx(70), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(250))
-        self.label.setFixedHeight(self.getPx(self.fh))
-        self.setFixedHeight(self.getPx(50+(self.fh-30)))
-        self.button.setFixedHeight(self.getPx(self.fh))
-        self.button.setFixedWidth(self.getPx(150))
+        self.button.move(self.width()-(170), 10)
+        self.label.move((70), 10)
+        self.label.setFixedWidth(self.width()-(250))
+        self.label.setFixedHeight((self.fh))
+        self.setFixedHeight((50+(self.fh-30)))
+        self.button.setFixedHeight((self.fh))
+        self.button.setFixedWidth((150))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -2387,9 +2379,6 @@ class QSettingsComboBox(QWidget):
             self.restartButton.setStyleSheet("font-size: 9pt;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.label.setObjectName("StLbl")
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -2408,17 +2397,17 @@ class QSettingsComboBox(QWidget):
         self.combobox.currentTextChanged.connect(self.valueChanged.emit)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
-        self.label.move(self.getPx(70), self.getPx(10))
-        self.label.setFixedWidth(self.width()-self.getPx(480))
-        self.label.setFixedHeight(self.getPx(30))
+        self.combobox.move(self.width()-(270), 10)
+        self.label.move((70), 10)
+        self.label.setFixedWidth(self.width()-(480))
+        self.label.setFixedHeight(30)
         if self.buttonOn:
-            self.restartButton.move(self.width()-self.getPx(430), self.getPx(10))
-            self.restartButton.setFixedWidth(self.getPx(150))
-            self.restartButton.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.combobox.setFixedHeight(self.getPx(30))
-        self.combobox.setFixedWidth(self.getPx(250))
+            self.restartButton.move(self.width()-(430), 10)
+            self.restartButton.setFixedWidth((150))
+            self.restartButton.setFixedHeight(30)
+        self.setFixedHeight((50))
+        self.combobox.setFixedHeight(30)
+        self.combobox.setFixedWidth((250))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -2459,17 +2448,14 @@ class QSettingsCheckBox(QWidget):
     def isChecked(self) -> bool:
         return self.checkbox.isChecked()
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(70))
-        self.setFixedHeight(self.getPx(50))
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedHeight(30)
+        self.checkbox.setFixedWidth(self.width()-(70))
+        self.setFixedHeight((50))
         return super().resizeEvent(event)
 
     def text(self) -> str:
@@ -2492,13 +2478,13 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
         self.stateChanged.emit(checked)
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(70))
-        self.infolabel.move(self.getPx(150), self.getPx(10))
-        self.infolabel.setFixedHeight(self.getPx(30))
-        self.infolabel.setFixedWidth(self.width()-self.getPx(70)-self.getPx(150))
-        self.setFixedHeight(self.getPx(50))
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedHeight(30)
+        self.checkbox.setFixedWidth(self.width()-(70))
+        self.infolabel.move((150), 10)
+        self.infolabel.setFixedHeight(30)
+        self.infolabel.setFixedWidth(self.width()-(70)-(150))
+        self.setFixedHeight((50))
         return super().resizeEvent(event)
 
 class QSettingsCheckBoxTextBox(QSettingsCheckBox):
@@ -2528,16 +2514,16 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.lineedit.move(self.width()-self.getPx(470), self.getPx(10))
-        self.helplabel.move(self.width()-self.getPx(580), self.getPx(10))
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(480))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.lineedit.setFixedHeight(self.getPx(30))
-        self.lineedit.setFixedWidth(self.getPx(450))
-        self.helplabel.setFixedHeight(self.getPx(30))
-        self.helplabel.setFixedWidth(self.getPx(100))
+        self.lineedit.move(self.width()-(470), 10)
+        self.helplabel.move(self.width()-(580), 10)
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedWidth(self.width()-(480))
+        self.checkbox.setFixedHeight(30)
+        self.setFixedHeight((50))
+        self.lineedit.setFixedHeight(30)
+        self.lineedit.setFixedWidth((450))
+        self.helplabel.setFixedHeight(30)
+        self.helplabel.setFixedWidth((100))
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, text: str):
@@ -2588,13 +2574,13 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-self.getPx(270), self.getPx(10))
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.combobox.setFixedHeight(self.getPx(30))
-        self.combobox.setFixedWidth(self.getPx(250))
+        self.combobox.move(self.width()-(270), 10)
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedWidth(self.width()-(280))
+        self.checkbox.setFixedHeight(30)
+        self.setFixedHeight((50))
+        self.combobox.setFixedHeight(30)
+        self.combobox.setFixedWidth((250))
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, i: int):
@@ -2636,13 +2622,13 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.slider.move(self.width()-self.getPx(270), self.getPx(10))
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.slider.setFixedHeight(self.getPx(30))
-        self.slider.setFixedWidth(self.getPx(250))
+        self.slider.move(self.width()-(270), 10)
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedWidth(self.width()-(280))
+        self.checkbox.setFixedHeight(30)
+        self.setFixedHeight((50))
+        self.slider.setFixedHeight(30)
+        self.slider.setFixedWidth((250))
         return super().resizeEvent(event)
 
     def valuechangedEvent(self):
@@ -2664,7 +2650,7 @@ class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
         self.setWindowModality(Qt.WindowModality.WindowModal)
-        self.setStyleSheet(f"*{{border-radius: {self.getPx(4)}px;}}  QColorLuminancePicker {{background-color: transparent; border: {self.getPx(4)}px solid black;margin: none; border: none; padding: none;}} ")
+        self.setStyleSheet(f"*{{border-radius: {4}px;}}  QColorLuminancePicker {{background-color: transparent; border: {4}px solid black;margin: none; border: none; padding: none;}} ")
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
         self.setWindowTitle("‎")
@@ -2688,10 +2674,6 @@ class QCustomColorDialog(QColorDialog):
                 GlobalBlur(self.hwnd, Dark=False, Acrylic=True, hexColor="#ffffffdd")
         return super().showEvent(arg__1)
 
-
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
     
@@ -2714,13 +2696,13 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-self.getPx(270), self.getPx(10))
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.button.setFixedHeight(self.getPx(30))
-        self.button.setFixedWidth(self.getPx(250))
+        self.button.move(self.width()-(270), 10)
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedWidth(self.width()-(280))
+        self.checkbox.setFixedHeight(30)
+        self.setFixedHeight((50))
+        self.button.setFixedHeight(30)
+        self.button.setFixedWidth((250))
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, c: QColor):
@@ -2802,13 +2784,13 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-self.getPx(270), self.getPx(10))
-        self.checkbox.move(self.getPx(70), self.getPx(10))
-        self.checkbox.setFixedWidth(self.width()-self.getPx(280))
-        self.checkbox.setFixedHeight(self.getPx(30))
-        self.setFixedHeight(self.getPx(50))
-        self.button.setFixedHeight(self.getPx(30))
-        self.button.setFixedWidth(self.getPx(250))
+        self.button.move(self.width()-(270), 10)
+        self.checkbox.move((70), 10)
+        self.checkbox.setFixedWidth(self.width()-(280))
+        self.checkbox.setFixedHeight(30)
+        self.setFixedHeight((50))
+        self.button.setFixedHeight(30)
+        self.button.setFixedWidth((250))
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, font: QFont):
@@ -2875,10 +2857,10 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.edit.setEnabled(True)
             self.edit.hide()
             self.preview.hide()
-            self.checkbox.move(self.getPx(70), self.getPx(10))
-            self.checkbox.setFixedHeight(self.getPx(30))
-            self.checkbox.setFixedWidth(self.width()-self.getPx(70))
-            self.setFixedHeight(self.getPx(50))
+            self.checkbox.move((70), 10)
+            self.checkbox.setFixedHeight(30)
+            self.checkbox.setFixedWidth(self.width()-(70))
+            self.setFixedHeight((50))
         else:
             if not event:
                 self.valueChanged.emit(self.edit.toPlainText().strip())
@@ -2888,22 +2870,22 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.rulesLabel.show()
             self.edit.show()
             self.preview.show()
-            self.checkbox.move(self.getPx(70), self.getPx(10))
-            self.checkbox.setFixedWidth(self.width()-self.getPx(250))
-            self.checkbox.setFixedHeight(self.getPx(30))
-            self.setFixedHeight(self.getPx(300))
-            self.button.move(self.width()-self.getPx(170), self.getPx(10))
-            self.button.setFixedHeight(self.getPx(30))
-            self.button.setFixedWidth(self.getPx(150))
-            self.edit.setFixedHeight(self.getPx(80))
-            self.edit.setFixedWidth(self.width()-self.getPx(90)-self.getPx(160))
-            self.edit.move(self.getPx(70), self.getPx(50))
-            self.preview.setFixedHeight(self.getPx(80))
-            self.preview.setFixedWidth(self.getPx(150))
-            self.preview.move(self.width()-self.getPx(170), self.getPx(50))
-            self.rulesLabel.move(self.getPx(70), self.getPx(130))
-            self.rulesLabel.setFixedHeight(self.getPx(100))
-            self.rulesLabel.setFixedWidth(self.width()-self.getPx(90))
+            self.checkbox.move((70), 10)
+            self.checkbox.setFixedWidth(self.width()-(250))
+            self.checkbox.setFixedHeight(30)
+            self.setFixedHeight((300))
+            self.button.move(self.width()-(170), 10)
+            self.button.setFixedHeight(30)
+            self.button.setFixedWidth((150))
+            self.edit.setFixedHeight((80))
+            self.edit.setFixedWidth(self.width()-(90)-(160))
+            self.edit.move((70), (50))
+            self.preview.setFixedHeight((80))
+            self.preview.setFixedWidth((150))
+            self.preview.move(self.width()-(170), (50))
+            self.rulesLabel.move((70), (130))
+            self.rulesLabel.setFixedHeight((100))
+            self.rulesLabel.setFixedWidth(self.width()-(90))
 
     def setLabelText(self, s: str) -> None:
         self.rulesLabel.setText(s)
@@ -2926,11 +2908,11 @@ class QAnnouncements(QLabel):
     def __init__(self):
         super().__init__()
         self.area = QScrollArea()
-        self.setMaximumWidth(self.getPx(1000))
+        self.setMaximumWidth((1000))
         self.callInMain.connect(lambda f: f())
-        self.setFixedHeight(self.getPx(110))
+        self.setFixedHeight((110))
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {self.getPx(4)}px;border-bottom-right-radius: {self.getPx(4)}px;border-bottom: {self.getPx(1)}px;font-size: 12pt;}}*{{padding: 3px;}}")
+        self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {4}px;border-bottom-right-radius: {4}px;border-bottom: {1}px;font-size: 12pt;}}*{{padding: 3px;}}")
         self.setTtext(_("Fetching latest announcement, please wait..."))
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -2941,7 +2923,7 @@ class QAnnouncements(QLabel):
         self.pictureLabel.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.textLabel = QLabel()
         self.textLabel.setOpenExternalLinks(True)
-        self.textLabel.setContentsMargins(self.getPx(10), 0, self.getPx(10), 0)
+        self.textLabel.setContentsMargins(10, 0, 10, 0)
         self.textLabel.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
         layout.addStretch()
         layout.addWidget(self.textLabel, stretch=0)
@@ -2954,7 +2936,7 @@ class QAnnouncements(QLabel):
         self.area.setWidget(self.w)
         l = QVBoxLayout()
         l.setSpacing(0)
-        l.setContentsMargins(0, self.getPx(5), 0, self.getPx(5))
+        l.setContentsMargins(0, 5, 0, 5)
         l.addWidget(self.area, stretch=1)
         self.area.setWidgetResizable(True)
         self.area.setContentsMargins(0, 0, 0, 0)
@@ -2992,7 +2974,7 @@ class QAnnouncements(QLabel):
                 h = self.area.height()
                 self.callInMain.emit(lambda: self.pictureLabel.setFixedHeight(h))
                 self.callInMain.emit(lambda: self.textLabel.setFixedHeight(h))
-                self.callInMain.emit(lambda: self.pictureLabel.setPixmap(QPixmap(self.file.name).scaledToHeight(h-self.getPx(8), Qt.SmoothTransformation)))
+                self.callInMain.emit(lambda: self.pictureLabel.setPixmap(QPixmap(self.file.name).scaledToHeight(h-8, Qt.SmoothTransformation)))
             except Exception as ex:
                 s = _("Couldn't load the announcement image")+"\n\n"+str(ex)
                 self.callInMain.emit(lambda: self.pictureLabel.setText(s))
@@ -3009,9 +2991,6 @@ class QAnnouncements(QLabel):
 
     def showEvent(self, a0: QShowEvent) -> None:
         return super().showEvent(a0)
-
-    def getPx(self, i: int) -> int:
-        return i
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())

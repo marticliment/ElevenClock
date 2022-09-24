@@ -441,24 +441,24 @@ class TaskbarIconTray(QSystemTrayIcon):
             menuHeight = self.contextMenu().height()
         else:
             if getSettings("HideTaskManagerButton"):
-                menuHeight = clock.getPx(290)
+                menuHeight = (290)
             else:
-                menuHeight = clock.getPx(400)
+                menuHeight = (400)
 
         if(self.contextMenu().width() != 640):
             menuWidth = self.contextMenu().width()
         else:
-            menuWidth = clock.getPx(225)
+            menuWidth = (225)
 
         if clock.clockOnTheLeft:
-            pos.setX(clock.screen().geometry().x()+clock.getPx(5))
+            pos.setX(clock.screen().geometry().x()+(5))
         else:
-            pos.setX(clock.screen().geometry().x()+clock.screen().geometry().width()-clock.getPx(5)-menuWidth)
+            pos.setX(clock.screen().geometry().x()+clock.screen().geometry().width()-(5)-menuWidth)
 
         if clock.clockOnTop:
-            pos.setY(clock.screen().geometry().y()+clock.getPx(5)+clock.height())
+            pos.setY(clock.screen().geometry().y()+(5)+clock.height())
         else:
-            pos.setY(clock.screen().geometry().y()+clock.screen().geometry().height()-clock.height()-clock.getPx(5)-menuHeight)
+            pos.setY(clock.screen().geometry().y()+clock.screen().geometry().height()-clock.height()-(5)-menuHeight)
 
         self.execMenu(pos)
 
@@ -501,9 +501,6 @@ class TaskbarIconTray(QSystemTrayIcon):
         except Exception as e:
             report(e)
 
-    def getPx(self, i: int) -> int:
-        return i
-
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
@@ -524,71 +521,71 @@ class TaskbarIconTray(QSystemTrayIcon):
             
             self.contextMenu().setStyleSheet(f"""
                 * {{
-                    border-radius: {self.getPx(8)}px;
+                    border-radius: {8}px;
                     background-color: transparent;
                     font-size: 9pt;
                     {fontStr};
                 }}
                 QWidget{{
                     background-color: transparent;
-                    border-radius: {self.getPx(8)}px;
+                    border-radius: {8}px;
                 }}
                 QMenu {{
-                    border: {self.getPx(1)}px solid #111111;
-                    padding: {self.getPx(2)}px;
+                    border: {1}px solid #111111;
+                    padding: {2}px;
                     outline: 0px;
                     color: white;
-                    icon-size: {self.getPx(32)}px;
+                    icon-size: {(32)}px;
                     background: rgba(0, 0, 0, 0.01%);
-                    border-radius: {self.getPx(8)}px;
+                    border-radius: {8}px;
                 }}
                 QMenu::separator {{
-                    margin: {self.getPx(-2)}px;
-                    margin-top: {self.getPx(2)}px;
-                    margin-bottom: {self.getPx(2)}px;
-                    height: {self.getPx(1)}px;
+                    margin: {(-2)}px;
+                    margin-top: {2}px;
+                    margin-bottom: {2}px;
+                    height: {1}px;
                     background-color: rgba(255, 255, 255, 20%);
                 }}
                 QMenu::icon {{
-                    padding-left: {self.getPx(10)}px;
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {10}px;
+                    padding-left: {10}px;
                 }}
                 QMenu::item {{
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     border: none;
                     background: transparent;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
-                    margin: {self.getPx(2)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
+                    margin: {2}px;
                 }}
                 QMenu::item:selected {{
                     background: rgba(255, 255, 255, 6%);
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
                 }}
                 QMenu::item:disabled {{
                     background: transparent;
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     outline: none;
                     border: none;
                     color: grey;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
                 }}
                 QMenu::item:selected:disabled {{
                     background: transparent;
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
                 }}
                 """)
         else:
@@ -613,50 +610,50 @@ class TaskbarIconTray(QSystemTrayIcon):
                     background-color: transparent;
                 }}
                 QMenu {{
-                    border: {self.getPx(1)}px solid rgb(200, 200, 200);
-                    padding: {self.getPx(2)}px;
+                    border: {1}px solid rgb(200, 200, 200);
+                    padding: {2}px;
                     outline: 0px;
                     color: black;
-                    icon-size: {self.getPx(32)}px;
+                    icon-size: {(32)}px;
                     background: rgba(220, 220, 220, 1%)/*#262626*/;
-                    border-radius: {self.getPx(8)}px;
+                    border-radius: {8}px;
                 }}
                 QMenu::separator {{
-                    margin: {self.getPx(-2)}px;
-                    margin-top: {self.getPx(2)}px;
-                    margin-bottom: {self.getPx(2)}px;
-                    height: {self.getPx(1)}px;
+                    margin: {(-2)}px;
+                    margin-top: {2}px;
+                    margin-bottom: {2}px;
+                    height: {1}px;
                     background-color: rgba(0, 0, 0, 20%);
                 }}
                 QMenu::icon{{
-                    padding-left: {self.getPx(10)}px;
+                    padding-left: {10}px;
                 }}
                 QMenu::item{{
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     border: none;
                     background: transparent;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
-                    margin: {self.getPx(2)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
+                    margin: {2}px;
                 }}
                 QMenu::item:selected{{
                     background: rgba(0, 0, 0, 10%);
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
                 }}
                 QMenu::item:selected:disabled{{
                     background: transparent;
-                    height: {self.getPx(30)}px;
+                    height: {30}px;
                     outline: none;
                     border: none;
-                    padding-right: {self.getPx(20)}px;
-                    padding-left: {self.getPx(0)}px;
-                    border-radius: {self.getPx(4)}px;
+                    padding-right: {(20)}px;
+                    padding-left: {0}px;
+                    border-radius: {4}px;
                 }}
                 """)
         self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
@@ -738,16 +735,12 @@ def appendWindowList(hwnd, _):
         globals.windowVisible[hwnd] = isVisible
 
 def loadWindowsInfoThread():
-    import win32gui
     while True:
         globals.newWindowList = []
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
         win32gui.EnumWindows(appendWindowList, 0)
         globals.windowList = globals.newWindowList
-        time.sleep(0.2)
-        cprint(globals.windowList)
-        cprint(globals.windowRects)
-        cprint(globals.windowTexts)
+        time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
 
 
 def updateLangFile(file: str):
