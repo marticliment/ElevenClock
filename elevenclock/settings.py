@@ -86,7 +86,7 @@ class SettingsWindow(QMainWindow):
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
         self.updateButton.setStyleSheet("")
         self.updateButton.clicked.connect(lambda: KillableThread(target=globals.updateIfPossible, args=((True,))).start())
-        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-radius: {8}px;}}")
+        self.updateButton.setStyleSheet(f"QWidget#stBtn{{border-radius: 8px;}}")
 
         self.updateButton.hide()
         layout.addWidget(self.updateButton)
@@ -94,7 +94,7 @@ class SettingsWindow(QMainWindow):
         self.generalSettingsTitle = QSettingsTitle(_("General Settings:"), getPath(f"settings_{self.iconMode}.png"), _("Updates, icon tray, language"))
         layout.addWidget(self.generalSettingsTitle)
         self.selectedLanguage = QSettingsComboBox(_("ElevenClock's language")+" (Language)", _("Change")) # The non-translated (Language) string is there to let people know what the language option is if you accidentaly change the language
-        self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.selectedLanguage.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
 
         langListWithPercentage = []
         langDictWithPercentage = {}
@@ -148,7 +148,7 @@ class SettingsWindow(QMainWindow):
 
         self.wizardButton.clicked.connect(ww)
         self.wizardButton.button.setObjectName("AccentButton")
-        self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.generalSettingsTitle.addWidget(self.wizardButton)
         self.enableUpdates = QSettingsCheckBox(_("Automatically check for updates"))
         self.enableUpdates.setChecked(not getSettings("DisableAutoCheckForUpdates"))
@@ -261,7 +261,7 @@ class SettingsWindow(QMainWindow):
         self.disableTooltip.stateChanged.connect(lambda i: setSettings("DisableToolTip", bool(i)))
         self.clockSettingsTitle.addWidget(self.disableTooltip)
         self.enableLowCpuMode = QSettingsCheckBoxWithWarning(_("Enable low-cpu mode"), _("You might lose functionalities, like the notification counter or the dynamic background"))
-        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
+        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
         self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
         self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
         self.disableNotificationBadge = QSettingsCheckBox(_("Disable the notification badge"))
@@ -404,7 +404,7 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.addWidget(self.accentBgColor)
         self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         self.centerText.setChecked(getSettings("CenterAlignment"))
-        self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
+        self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
         self.centerText.stateChanged.connect(lambda i: setSettings("CenterAlignment", bool(i)))
         self.clockAppearanceTitle.addWidget(self.centerText)
 
@@ -531,7 +531,7 @@ class SettingsWindow(QMainWindow):
             self.tooltipbackgroundcolor.button.setStyleSheet(f"background-color: rgba({getSettingsValue('TooltipUseCustomBgColor')})")
         self.tooltipbackgroundcolor.stateChanged.connect(lambda i: setSettings("TooltipUseCustomBgColor", bool(i)))
         self.tooltipbackgroundcolor.valueChanged.connect(lambda v: setSettingsValue("TooltipUseCustomBgColor", v))
-        self.tooltipbackgroundcolor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
+        self.tooltipbackgroundcolor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
         self.toolTipAppearanceTitle.addWidget(self.tooltipbackgroundcolor)
 
 
@@ -568,7 +568,7 @@ class SettingsWindow(QMainWindow):
         self.disableClockCover = QSettingsCheckBox(_("Disable hiding the default windows clock"))
         self.disableClockCover.setChecked(getSettings("DisableSystemClockCover"))
         self.disableClockCover.stateChanged.connect(lambda i: setSettings("DisableSystemClockCover", bool(i)))
-        self.disableClockCover.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;border-bottom: {1}px;}}")
+        self.disableClockCover.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
         self.experimentalTitle.addWidget(self.disableClockCover)
         #self.disableNewQuitMode = QSettingsCheckBox(_("Disable the new instance checker method"))
         #self.disableNewQuitMode.setChecked(getSettings("DisableNewInstanceChecker"))
@@ -579,7 +579,7 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.languageSettingsTitle)
         self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
         self.PackInfoButton.button.hide()
-        self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.languageSettingsTitle.addWidget(self.PackInfoButton)
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
         self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki/#translating-elevenclock"))
@@ -690,30 +690,30 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
         self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
-        self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.WebPageButton)
         self.ThirdParty = QSettingsButton(_("Third party licenses"), _("View"))
         self.ThirdParty.clicked.connect(lambda: thirdPartyLicenses())
-        self.ThirdParty.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.ThirdParty.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.ThirdParty)
         self.IssueButton = QSettingsButton(_("Report an issue/request a feature"), _("Report"))
         self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
-        self.IssueButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.IssueButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.IssueButton)
         self.CofeeButton = QSettingsButton(_("Support the dev: Give me a coffee☕"), _("Open page"))
         self.CofeeButton.clicked.connect(lambda: os.startfile("https://ko-fi.com/martinet101"))
-        self.CofeeButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.CofeeButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.CofeeButton)
         self.importSettings = QSettingsButton(_("Import settings from a local file"), _("Import"))
         self.importSettings.clicked.connect(lambda: importSettings())
-        self.importSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.importSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.importSettings)
         self.exportSettings = QSettingsButton(_("Export settings to a local file"), _("Export"))
         self.exportSettings.clicked.connect(lambda: exportSettings())
-        self.exportSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.exportSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.exportSettings)
         self.resetButton = QSettingsButton(_("Reset ElevenClock preferences to defaults"), _("Reset"))
-        self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable)))
         self.aboutTitle.addWidget(self.resetButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
@@ -724,12 +724,12 @@ class SettingsWindow(QMainWindow):
         self.debbuggingTitle = QSettingsTitle(_("Debbugging information:"), getPath(f"bug_{self.iconMode}.png"), _("Log, debugging information"))
         layout.addWidget(self.debbuggingTitle)
         self.helpButton = QSettingsButton(_("Open online help to troubleshoot problems"), _("Open"))
-        self.helpButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.helpButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.helpButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#Troubleshooting"))
         self.debbuggingTitle.addWidget(self.helpButton)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.openLogWindow())
-        self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;border-bottom: 0px;}")
+        self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.debbuggingTitle.addWidget(self.logButton)
         self.hiddenButton = QSettingsButton(f"ElevenClock version: {getAppVersion()}\nSystem version: {getSystemInfo()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
         self.hiddenButton.button.setVisible(False)
@@ -737,9 +737,9 @@ class SettingsWindow(QMainWindow):
 
         self.notFoundLabel = QLabel(_("No results were found"))
         if isWindowDark():
-            self.notFoundLabel.setStyleSheet(f"padding-top: {30}px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
+            self.notFoundLabel.setStyleSheet(f"padding-top: 30px;font-size: 16pt; font-weight: bold; color: rgba(255, 255, 255, 50%)")
         else:
-            self.notFoundLabel.setStyleSheet(f"padding-top: {30}px;font-size: 16pt; font-weight: bold; color: rgba(0, 0, 0, 50%)")
+            self.notFoundLabel.setStyleSheet(f"padding-top: 30px;font-size: 16pt; font-weight: bold; color: rgba(0, 0, 0, 50%)")
 
         self.notFoundLabel.setAlignment(Qt.AlignCenter)
         layout.addWidget(self.notFoundLabel)
@@ -759,7 +759,7 @@ class SettingsWindow(QMainWindow):
         self.scrollArea.setWidget(self.settingsWidget)
         self.scrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;}}")
+        self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;}}")
 
         self.searchBox = QLineEdit()
         self.searchBox.setClearButtonEnabled(True)
@@ -780,7 +780,7 @@ class SettingsWindow(QMainWindow):
         svl.addWidget(self.scrollArea, stretch=1)
 
         self.staticVerticalWidget = QWidget()
-        self.staticVerticalWidget.setMaximumWidth((1000))
+        self.staticVerticalWidget.setMaximumWidth(1000)
         self.staticVerticalWidget.setLayout(svl)
 
         self.scrollbar = QScrollBar()
@@ -982,7 +982,7 @@ class SettingsWindow(QMainWindow):
 
 
     def applyStyleSheet(self):
-        self.staticVerticalWidget.setMaximumWidth((1000))
+        self.staticVerticalWidget.setMaximumWidth(1000)
         colors = getColors()
         self.iconMode = getAppIconMode()
         self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
@@ -1006,122 +1006,122 @@ class SettingsWindow(QMainWindow):
                                    background: transparent;
                                }}
                                #titlebarButton {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    border:none;
                                    background-color: rgba(0, 0, 0, 0.01);
                                }}
                                #titlebarButton:hover {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    background-color: rgba(80, 80, 80, 25%);
                                }}
                                #closeButton {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    border:none;
                                    background-color: rgba(0, 0, 0, 0.01);
                                }}
                                #closeButton:hover {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    background-color: rgba(196, 43, 28, 25%);
                                }}
 
                                 QSlider {{
                                     background: transparent;
                                     height: {(20)}px;
-                                    margin-left: {10}px;
-                                    margin-right: {10}px;
-                                    border-radius: {2}px;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    border-radius: 2px;
                                 }}
                                 QSlider::groove {{
-                                    height: {4}px;
-                                    border: {1}px solid #212121;
+                                    height: 4px;
+                                    border: 1px solid #212121;
                                     background: #212121;
-                                    border-radius: {2}px;
+                                    border-radius: 2px;
                                 }}
                                 QSlider::handle {{
-                                    border: {4}px solid #404040;
+                                    border: 4px solid #404040;
                                     margin: {(-8)}px {(-10)}px;
-                                    height: {8}px;
-                                    border-radius: {9}px;
+                                    height: 8px;
+                                    border-radius: 9px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:hover {{
-                                    border: {3}px solid #404040;
+                                    border: 3px solid #404040;
                                     margin: {(-8)}px {(-10)}px;
-                                    height: {7}px;
-                                    border-radius: {9}px;
+                                    height: 7px;
+                                    border-radius: 9px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::handle:disabled {{
-                                    border: {4}px solid #404040;
+                                    border: 4px solid #404040;
                                     margin: {(-8)}px {(-10)}px;
-                                    height: {8}px;
-                                    border-radius: {9}px;
+                                    height: 8px;
+                                    border-radius: 9px;
                                     background: #212121;
                                 }}
                                 QSlider::add-page {{
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: #303030;
                                 }}
                                 QSlider::sub-page {{
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: rgb({colors[0]});
                                 }}
                                 QSlider::add-page:disabled {{
-                                    border-radius: {2}px;
+                                    border-radius: 2px;
                                     background: #212121;
                                 }}
                                 QSlider::sub-page:disabled {{
-                                    border-radius: {2}px;
+                                    border-radius: 2px;
                                     background: #212121;
                                 }}
                                 QToolTip {{
-                                    border: {1}px solid #222222;
-                                    padding: {4}px;
-                                    border-radius: {8}px;
+                                    border: 1px solid #222222;
+                                    padding: 4px;
+                                    border-radius: 8px;
                                     background-color: #262626;
                                 }}
                                 QMenu {{
-                                    border: {1}px solid rgb(60, 60, 60);
-                                    padding: {2}px;
-                                    outline: 0px;
+                                    border: 1px solid rgb(60, 60, 60);
+                                    padding: 2px;
+                                    outline: 0;
                                     color: white;
                                     background: #262626;
-                                    border-radius: {8}px;
+                                    border-radius: 8px;
                                 }}
                                 QMenu::separator {{
-                                    margin: {2}px;
-                                    height: {1}px;
+                                    margin: 2px;
+                                    height: 1px;
                                     background: rgb(60, 60, 60);
                                 }}
                                 QMenu::icon{{
-                                    padding-left: {10}px;
+                                    padding-left: 10px;
                                 }}
                                 QMenu::item{{
-                                    height: {30}px;
+                                    height: 30px;
                                     border: none;
                                     background: transparent;
-                                    padding-right: {10}px;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
-                                    margin: {2}px;
+                                    padding-right: 10px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
+                                    margin: 2px;
                                 }}
                                 QMenu::item:selected{{
                                     background: rgba(255, 255, 255, 10%);
-                                    height: {30}px;
+                                    height: 30px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {10}px;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-right: 10px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 QMenu::item:selected:disabled{{
                                     background: transparent;
-                                    height: {30}px;
+                                    height: 30px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {10}px;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-right: 10px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 QColorDialog {{
                                     background-color: transparent;
@@ -1132,18 +1132,18 @@ class SettingsWindow(QMainWindow):
                                     font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
                                     width: {(300)}px;
-                                    padding: {5}px;
-                                    border-radius: {8}px;
+                                    padding: 5px;
+                                    border-radius: 8px;
                                     border: 0.6px solid #262626;
-                                    border-bottom: {2}px solid rgb({colors[1]});
+                                    border-bottom: 2px solid rgb({colors[1]});
                                 }}
                                 QLineEdit:disabled {{
                                     background-color: #303030;
                                     font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
                                     width: {(300)}px;
-                                    padding: {5}px;
-                                    border-radius: {8}px;
+                                    padding: 5px;
+                                    border-radius: 8px;
                                     border: 0.6px solid #262626;
                                 }}
                                 #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
@@ -1173,31 +1173,31 @@ class SettingsWindow(QMainWindow):
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: #212121;
-                                    border-radius: {6}px;
-                                    border: {1}px solid #161616;
+                                    border-radius: 6px;
+                                    border: 1px solid #161616;
                                     selection-background-color: rgb({colors[4]});
                                 }}
                                 QSpinBox {{
                                    background-color: rgba(81, 81, 81, 25%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(86, 86, 86, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(86, 86, 86, 25%);
                                    height: {(25)}px;
-                                   border-top: {1}px solid rgba(99, 99, 99, 25%);
+                                   border-top: 1px solid rgba(99, 99, 99, 25%);
                                 }}
                                 QPushButton,#FocusLabel {{
                                    width: {(100)}px;
                                    background-color:rgba(81, 81, 81, 25%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(86, 86, 86, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(86, 86, 86, 25%);
                                    height: {(25)}px;
-                                   border-top: {1}px solid rgba(99, 99, 99, 25%);
+                                   border-top: 1px solid rgba(99, 99, 99, 25%);
                                 }}
                                 QPushButton:hover {{
                                    background-color:rgba(86, 86, 86, 25%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(100, 100, 100, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(100, 100, 100, 25%);
                                    height: {(25)}px;
-                                   border-top: {1}px solid rgba(107, 107, 107, 25%);
+                                   border-top: 1px solid rgba(107, 107, 107, 25%);
                                 }}
                                 #AccentButton{{
                                     color: black;
@@ -1217,98 +1217,98 @@ class SettingsWindow(QMainWindow):
                                     border-bottom-color: rgb({colors[2]});
                                 }}
                                 #title{{
-                                   margin: {2}px;
-                                   margin-bottom: 0px;
+                                   margin: 2px;
+                                   margin-bottom: 0;
                                    font-weight: bold;
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
                                    font-size: 13pt;
-                                   border-radius: {4}px;
+                                   border-radius: 4px;
                                 }}
                                 #subtitleLabelHover {{
                                    background-color: rgba(20, 20, 20, 0.01);
-                                   margin: {10}px;
-                                   margin-top: 0px;
-                                   margin-bottom: 0px;
-                                   border-radius: {4}px;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
-                                   border: {1}px solid transparent;
+                                   margin: 10px;
+                                   margin-top: 0;
+                                   margin-bottom: 0;
+                                   border-radius: 4px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
+                                   border: 1px solid transparent;
                                 }}
                                 #subtitleLabelHover:hover{{
                                    background-color: rgba(255, 255, 255, 3%);
-                                   margin: {10}px;
-                                   margin-top: 0px;
-                                   margin-bottom: 0px;
+                                   margin: 10px;
+                                   margin-top: 0;
+                                   margin-bottom: 0;
                                    padding-left: {(20)}px;
-                                   padding-top: {0}px;
-                                   padding-bottom: {0}px;
-                                   border: {1}px solid rgba(255, 255, 255, 7%);
+                                   padding-top: 0;
+                                   padding-bottom: 0;
+                                   border: 1px solid rgba(255, 255, 255, 7%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
                                 }}
                                 #subtitleLabelHover:pressed{{
                                    background-color: rgba(0, 0, 0, 12%);
-                                   margin: {10}px;
-                                   margin-top: 0px;
-                                   margin-bottom: 0px;
+                                   margin: 10px;
+                                   margin-top: 0;
+                                   margin-bottom: 0;
                                    padding-left: {(20)}px;
-                                   padding-top: {0}px;
-                                   padding-bottom: {0}px;
-                                   border: {1}px solid rgba(255, 255, 255, 7%);
+                                   padding-top: 0;
+                                   padding-bottom: 0;
+                                   border: 1px solid rgba(255, 255, 255, 7%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
                                 }}
                                 #micaRegularBackground {{
-                                    border: {0}px solid transparent;
+                                    border: 0 solid transparent;
                                     margin: 1px;
                                    background-color: rgba(255, 255, 255, 5%);
-                                   border-radius: {8}px;
+                                   border-radius: 8px;
                                 }}
                                 #subtitleLabel{{
-                                   margin: {10}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
+                                   margin: 10px;
+                                   margin-bottom: 0;
+                                   margin-top: 0;
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
-                                   border: {1}px solid rgba(25, 25, 25, 50%);
+                                   border: 1px solid rgba(25, 25, 25, 50%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
                                 }}
                                 #StLbl{{
-                                   padding: 0px;
+                                   padding: 0;
                                    background-color: rgba(71, 71, 71, 0%);
-                                   margin: 0px;
+                                   margin: 0;
                                    border:none;
                                    font-size: {(11)}px;
                                 }}
                                 #stBtn{{
                                    background-color: rgba(255, 255, 255, 5%);
-                                   margin: {10}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
-                                   border: {1}px solid rgba(25, 25, 25, 50%);
-                                   border-bottom-left-radius: {8}px;
-                                   border-bottom-right-radius: {8}px;
+                                   margin: 10px;
+                                   margin-bottom: 0;
+                                   margin-top: 0;
+                                   border: 1px solid rgba(25, 25, 25, 50%);
+                                   border-bottom-left-radius: 8px;
+                                   border-bottom-right-radius: 8px;
                                 }}
                                 #lastWidget{{
-                                   border-bottom-left-radius: {4}px;
-                                   border-bottom-right-radius: {4}px;
+                                   border-bottom-left-radius: 4px;
+                                   border-bottom-right-radius: 4px;
                                 }}
                                 #stChkBg{{
                                    padding: {(15)}px;
                                    padding-left: {(45)}px;
                                    background-color: rgba(255, 255, 255, 5%);
-                                   margin: {10}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
-                                   border: {1}px solid rgba(25, 25, 25, 50%);
-                                   border-bottom: 0px;
+                                   margin: 10px;
+                                   margin-bottom: 0;
+                                   margin-top: 0;
+                                   border: 1px solid rgba(25, 25, 25, 50%);
+                                   border-bottom: 0;
                                 }}
                                 #stChk::indicator{{
                                    height: {(20)}px;
@@ -1316,104 +1316,104 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 #stChk::indicator:unchecked {{
                                     background-color: rgba(30, 30, 30, 25%);
-                                    border: {1}px solid #444444;
-                                    border-radius: {6}px;
+                                    border: 1px solid #444444;
+                                    border-radius: 6px;
                                 }}
                                 #stChk::indicator:disabled {{
                                     background-color: rgba(71, 71, 71, 0%);
                                     color: #bbbbbb;
-                                    border: {1}px solid #444444;
-                                    border-radius: {6}px;
+                                    border: 1px solid #444444;
+                                    border-radius: 6px;
                                 }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #2a2a2a;
-                                    border: {1}px solid #444444;
-                                    border-radius: {6}px;
+                                    border: 1px solid #444444;
+                                    border-radius: 6px;
                                 }}
                                 #stChk::indicator:checked {{
-                                    border: {1}px solid #444444;
+                                    border: 1px solid #444444;
                                     background-color: rgb({colors[1]});
-                                    border-radius: {6}px;
+                                    border-radius: 6px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stChk::indicator:checked:disabled {{
-                                    border: {1}px solid #444444;
+                                    border: 1px solid #444444;
                                     background-color: #303030;
                                     color: #bbbbbb;
-                                    border-radius: {6}px;
+                                    border-radius: 6px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
-                                    border: {1}px solid #444444;
+                                    border: 1px solid #444444;
                                     background-color: rgb({colors[2]});
-                                    border-radius: {6}px;
+                                    border-radius: 6px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
                                    width: {(100)}px;
                                    background-color:rgba(81, 81, 81, 25%);
-                                   border-radius: {8}px;
-                                   border: {1}px solidrgba(86, 86, 86, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solidrgba(86, 86, 86, 25%);
                                    height: {(25)}px;
-                                   padding-left: {10}px;
-                                   border-top: {1}px solidrgba(99, 99, 99, 25%);
+                                   padding-left: 10px;
+                                   border-top: 1px solidrgba(99, 99, 99, 25%);
                                 }}
                                 #stCmbbx:disabled {{
                                    width: {(100)}px;
                                    background-color: #303030;
                                    color: #bbbbbb;
-                                   border-radius: {8}px;
+                                   border-radius: 8px;
                                    border: 0.6px solid #262626;
                                    height: {(25)}px;
-                                   padding-left: {10}px;
+                                   padding-left: 10px;
                                 }}
                                 #stCmbbx:hover {{
                                    background-color:rgba(86, 86, 86, 25%);
-                                   border-radius: {8}px;
-                                   border: {1}px solidrgba(100, 100, 100, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solidrgba(100, 100, 100, 25%);
                                    height: {(25)}px;
-                                   padding-left: {10}px;
-                                   border-top: {1}px solid rgba(107, 107, 107, 25%);
+                                   padding-left: 10px;
+                                   border-top: 1px solid rgba(107, 107, 107, 25%);
                                 }}
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
                                     subcontrol-position: top right;
-                                    padding: {5}px;
-                                    border-radius: {8}px;
+                                    padding: 5px;
+                                    border-radius: 8px;
                                     border: none;
-                                    width: {30}px;
+                                    width: 30px;
                                 }}
                                 #stCmbbx::down-arrow {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {8}px;
-                                    width: {8}px;
+                                    height: 8px;
+                                    width: 8px;
                                 }}
                                 #stCmbbx::down-arrow:disabled {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {2}px;
-                                    width: {2}px;
+                                    height: 2px;
+                                    width: 2px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
-                                    border: {1}px solid rgba(36, 36, 36, 50%);
-                                    padding: {4}px;
-                                    outline: 0px;
-                                    padding-right: {0}px;
+                                    border: 1px solid rgba(36, 36, 36, 50%);
+                                    padding: 4px;
+                                    outline: 0;
+                                    padding-right: 0;
                                     background-color: #303030;
-                                    border-radius: {8}px;
+                                    border-radius: 8px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
-                                    height: {30}px;
+                                    height: 30px;
                                     border: none;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 #stCmbbx QAbstractItemView::item:selected{{
                                     background: rgba(255, 255, 255, 6%);
-                                    height: {30}px;
+                                    height: 30px;
                                     outline: none;
                                     border: none;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 QSCrollArea, QVBoxLayout{{
                                     border: none;
@@ -1423,28 +1423,28 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QScrollBar {{
                                     background: rgba(71, 71, 71, 25%);
-                                    margin: {4}px;
-                                    margin-left: 0px;
-                                    width: {16}px;
+                                    margin: 4px;
+                                    margin-left: 0;
+                                    width: 16px;
                                     height: {(20)}px;
                                     border: none;
-                                    border-radius: {5}px;
+                                    border-radius: 5px;
                                 }}
                                 QScrollBar:horizontal {{
-                                    margin-bottom: 0px;
-                                    padding-bottom: 0px;
+                                    margin-bottom: 0;
+                                    padding-bottom: 0;
                                     height: {(12)}px;
                                 }}
                                 QScrollBar::handle {{
-                                    margin: {3}px;
+                                    margin: 3px;
                                     min-height: {(20)}px;
                                     min-width: {(20)}px;
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: rgba(80, 80, 80, 25%);
                                 }}
                                 QScrollBar::handle:hover {{
-                                    margin: {3}px;
-                                    border-radius: {3}px;
+                                    margin: 3px;
+                                    border-radius: 3px;
                                     background: rgba(112, 112, 112, 25%);
                                 }}
                                 QScrollBar::add-line {{
@@ -1482,132 +1482,132 @@ class SettingsWindow(QMainWindow):
                                    background-color: transparent;
                                }}
                                #titlebarButton {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    border:none;
                                    background-color: rgba(0, 0, 0, 0.01);
                                }}
                                 #micaRegularBackground {{
-                                    border: {0}px solid transparent;
+                                    border: 0 solid transparent;
                                     margin: 1px;
                                    background-color: rgba(0, 0, 0, 5%);
-                                   border-radius: {8}px;
+                                   border-radius: 8px;
                                 }}
                                #titlebarButton:hover {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    background-color: rgba({colors[4]}, 1);
                                }}
                                #closeButton {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    border:none;
                                    background-color: rgba(0, 0, 0, 0.01);
                                }}
                                #closeButton:hover {{
-                                   border-radius: 0px;
+                                   border-radius: 0;
                                    background-color: rgba(196, 43, 28, 1);
                                }}
                                 QSlider {{
                                     height: {(20)}px;
-                                    margin-left: {10}px;
-                                    margin-right: {10}px;
-                                    border-radius: {2}px;
+                                    margin-left: 10px;
+                                    margin-right: 10px;
+                                    border-radius: 2px;
                                 }}
                                 QSlider::groove {{
-                                    height: {4}px;
-                                    border: {1}px solid rgba(196, 196, 196, 25%);
+                                    height: 4px;
+                                    border: 1px solid rgba(196, 196, 196, 25%);
                                     background: #303030;
                                 }}
                                 QSlider::handle {{
-                                    border: {4}px solid #eeeeee;
-                                    margin: -{8}px -{10}px;
-                                    height: {8}px;
-                                    border-radius: {9}px;
+                                    border: 4px solid #eeeeee;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: 9px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:hover {{
-                                    border: {1}px solid #eeeeee;
-                                    margin: -{8}px -{10}px;
-                                    height: {8}px;
-                                    border-radius: {9}px;
+                                    border: 1px solid #eeeeee;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: 9px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::handle:disabled {{
-                                    border: {4}px solid #eeeeee;
-                                    margin: -{8}px -{10}px;
-                                    height: {8}px;
-                                    border-radius: {9}px;
+                                    border: 4px solid #eeeeee;
+                                    margin: -8px -10px;
+                                    height: 8px;
+                                    border-radius: 9px;
                                     background: rgba(106, 106, 106, 25%);
                                 }}
                                 QSlider::add-page {{
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: #eeeeee;
                                 }}
                                 QSlider::sub-page {{
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: rgb({colors[4]});
                                 }}
                                 QSlider::add-page:disabled {{
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: #eeeeee;
                                 }}
                                 QSlider::sub-page:disabled {{
-                                    border-radius: {3}px;
+                                    border-radius: 3px;
                                     background: #eeeeee;
                                 }}
                                 QToolTip{{
-                                    border: {1}px solid rgba(196, 196, 196, 25%);
-                                    padding: {4}px;
-                                    border-radius: {8}px;
+                                    border: 1px solid rgba(196, 196, 196, 25%);
+                                    padding: 4px;
+                                    border-radius: 8px;
                                     background-color: #eeeeee;
                                 }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: {6}px;
-                                    border: {1}px solid #dddddd;
+                                    border-radius: 6px;
+                                    border: 1px solid #dddddd;
                                     selection-background-color: rgb({colors[3]});
                                 }}
                                 QMenu {{
-                                    border: {1}px solid rgb(200, 200, 200);
-                                    padding: {2}px;
-                                    outline: 0px;
+                                    border: 1px solid rgb(200, 200, 200);
+                                    padding: 2px;
+                                    outline: 0;
                                     color: black;
                                     background: #eeeeee;
-                                    border-radius: {8}px;
+                                    border-radius: 8px;
                                 }}
                                 QMenu::separator {{
-                                    margin: {2}px;
-                                    height: {1}px;
+                                    margin: 2px;
+                                    height: 1px;
                                     background: rgb(200, 200, 200);
                                 }}
                                 QMenu::icon{{
-                                    padding-left: {10}px;
+                                    padding-left: 10px;
                                 }}
                                 QMenu::item{{
-                                    height: {30}px;
+                                    height: 30px;
                                     border: none;
                                     background: transparent;
-                                    padding-right: {10}px;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
-                                    margin: {2}px;
+                                    padding-right: 10px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
+                                    margin: 2px;
                                 }}
                                 QMenu::item:selected{{
                                     background: rgba(0, 0, 0, 10%);
-                                    height: {30}px;
+                                    height: 30px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {10}px;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-right: 10px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 QMenu::item:selected:disabled{{
                                     background: transparent;
-                                    height: {30}px;
+                                    height: 30px;
                                     outline: none;
                                     border: none;
-                                    padding-right: {10}px;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-right: 10px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 QColorDialog {{
                                     background-color: transparent;
@@ -1618,20 +1618,20 @@ class SettingsWindow(QMainWindow):
                                     font-family: "Segoe UI Variable Display";
                                     font-size: 9pt;
                                     width: {(300)}px;
-                                    padding: {5}px;
-                                    border-radius: {8}px;
+                                    padding: 5px;
+                                    border-radius: 8px;
                                     border: 0.6px solid #eeeeee;
-                                    border-bottom: {2}px solid rgb({colors[4]});
+                                    border-bottom: 2px solid rgb({colors[4]});
                                 }}
                                 QLineEdit:disabled {{
                                     background-color: #f5f5f5;
                                     font-family: "Segoe UI Variable Display";
                                     font-size: 9pt;
                                     width: {(300)}px;
-                                    padding: {5}px;
-                                    border-radius: {8}px;
+                                    padding: 5px;
+                                    border-radius: 8px;
                                     border: 0.6px solid #eeeeee;
-                                    /*border-bottom: {2}px solid rgb({colors[4]});*/
+                                    /*border-bottom: 2px solid rgb({colors[4]});*/
                                 }}
                                 #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
                                    color: white;
@@ -1649,17 +1649,17 @@ class SettingsWindow(QMainWindow):
                                 QPushButton,#FocusLabel {{
                                    width: {(100)}px;
                                    background-color: rgba(255, 255, 255, 70%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
                                    height: {(25)}px;
-                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
+                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
                                 }}
                                 QPushButton:hover {{
                                    background-color: rgba(238, 238, 238, 100%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
                                    height: {(25)}px;
-                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
+                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #AccentButton{{
                                     background-color: rgb({colors[3]});
@@ -1675,82 +1675,82 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 #title{{
                                    /*background-color: rgba(255, 255, 255, 10%);
-                                   */margin: {2}px;
-                                   margin-bottom: 0px;
+                                   */margin: 2px;
+                                   margin-bottom: 0;
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
                                    font-size: 13pt;
-                                   border-radius: {8}px;
+                                   border-radius: 8px;
                                 }}
                                 #subtitleLabel{{
                                    background-color: rgba(255, 255, 255, 100%);
-                                   margin: {10}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
+                                   margin: 10px;
+                                   margin-bottom: 0;
+                                   margin-top: 0;
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
-                                   border-radius: {8}px;
-                                   border: {0}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: 8px;
+                                   border: 0 solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
                                 }}
                                 #subtitleLabelHover {{
                                    background-color: rgba(0, 0, 0, 1%);
-                                   margin: {10}px;
-                                   margin-top: 0px;
-                                   margin-bottom: 0px;
-                                   border-radius: {8}px;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
-                                   border: {1}px solid transparent;
+                                   margin: 10px;
+                                   margin-top: 0;
+                                   margin-bottom: 0;
+                                   border-radius: 8px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
+                                   border: 1px solid transparent;
                                 }}
                                 #subtitleLabelHover:hover{{
                                    background-color: rgba(0, 0, 0, 6%);
-                                   margin: {10}px;
-                                   margin-top: 0px;
-                                   margin-bottom: 0px;
+                                   margin: 10px;
+                                   margin-top: 0;
+                                   margin-bottom: 0;
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   border: 1px solid rgba(196, 196, 196, 25%);
                                    font-size: 13pt;
-                                   border-top-left-radius: {8}px;
-                                   border-top-right-radius: {8}px;
+                                   border-top-left-radius: 8px;
+                                   border-top-right-radius: 8px;
                                 }}
                                 #StLbl{{
-                                   padding: 0px;
+                                   padding: 0;
                                    background-color: rgba(255, 255, 255, 10%);
-                                   margin: 0px;
+                                   margin: 0;
                                    border:none;
                                    font-size: {(11)}px;
                                 }}
                                 #stBtn{{
                                    background-color: rgba(255, 255, 255, 10%);
-                                   margin: {10}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
-                                   border-bottom: 0px;
-                                   border-bottom-left-radius: {0}px;
-                                   border-bottom-right-radius: {0}px;
+                                   margin: 10px;
+                                   margin-bottom: 0;
+                                   margin-top: 0;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
+                                   border-bottom: 0;
+                                   border-bottom-left-radius: 0;
+                                   border-bottom-right-radius: 0;
                                 }}
                                 #lastWidget{{
-                                   border-bottom-left-radius: {4}px;
-                                   border-bottom-right-radius: {4}px;
-                                   border-bottom: {1}px;
+                                   border-bottom-left-radius: 4px;
+                                   border-bottom-right-radius: 4px;
+                                   border-bottom: 1px;
                                 }}
                                 #stChkBg{{
                                    padding: {(15)}px;
                                    padding-left: {(45)}px;
                                    background-color: rgba(255, 255, 255, 10%);
-                                   margin: {10}px;
-                                   margin-bottom: 0px;
-                                   margin-top: 0px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
-                                   border-bottom: 0px;
+                                   margin: 10px;
+                                   margin-bottom: 0;
+                                   margin-top: 0;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
+                                   border-bottom: 0;
                                 }}
                                 #stChk::indicator{{
                                    height: {(20)}px;
@@ -1758,104 +1758,104 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 #stChk::indicator:unchecked {{
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border: {1}px solid rgba(136, 136, 136, 25%);
-                                    border-radius: {6}px;
+                                    border: 1px solid rgba(136, 136, 136, 25%);
+                                    border-radius: 6px;
                                 }}
                                 #stChk::indicator:disabled {{
                                     background-color: #eeeeee;
                                     color: rgba(136, 136, 136, 25%);
-                                    border: {1}px solid rgba(136, 136, 136, 25%);
-                                    border-radius: {6}px;
+                                    border: 1px solid rgba(136, 136, 136, 25%);
+                                    border-radius: 6px;
                                 }}
                                 #stChk::indicator:unchecked:hover {{
                                     background-color: #eeeeee;
-                                    border: {1}px solid rgba(136, 136, 136, 25%);
-                                    border-radius: {6}px;
+                                    border: 1px solid rgba(136, 136, 136, 25%);
+                                    border-radius: 6px;
                                 }}
                                 #stChk::indicator:checked {{
-                                    border: {0}px solid rgba(136, 136, 136, 25%);
+                                    border: 0 solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[4]});
-                                    border-radius: {5}px;
+                                    border-radius: 5px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:hover {{
-                                    border: {0}px solid rgba(136, 136, 136, 25%);
+                                    border: 0 solid rgba(136, 136, 136, 25%);
                                     background-color: rgb({colors[3]});
-                                    border-radius: {5}px;
+                                    border-radius: 5px;
                                     image: url("{getPath("tick_black.png")}");
                                 }}
                                 #stChk::indicator:checked:disabled {{
-                                    border: {1}px solid rgba(136, 136, 136, 25%);
+                                    border: 1px solid rgba(136, 136, 136, 25%);
                                     background-color: #eeeeee;
                                     color: rgba(136, 136, 136, 25%);
-                                    border-radius: {6}px;
+                                    border-radius: 6px;
                                     image: url("{getPath("tick_white.png")}");
                                 }}
                                 #stCmbbx {{
                                    width: {(100)}px;
                                    background-color: rgba(255, 255, 255, 10%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
                                    height: {(25)}px;
-                                   padding-left: {10}px;
-                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
+                                   padding-left: 10px;
+                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx:disabled {{
                                    width: {(100)}px;
                                    background-color: #eeeeee;
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
                                    height: {(25)}px;
-                                   padding-left: {10}px;
-                                   border-top: {1}px solid rgba(196, 196, 196, 25%);
+                                   padding-left: 10px;
+                                   border-top: 1px solid rgba(196, 196, 196, 25%);
                                 }}
                                 #stCmbbx:hover {{
                                    background-color: rgba(238, 238, 238, 25%);
-                                   border-radius: {8}px;
-                                   border: {1}px solid rgba(196, 196, 196, 25%);
+                                   border-radius: 8px;
+                                   border: 1px solid rgba(196, 196, 196, 25%);
                                    height: {(25)}px;
-                                   padding-left: {10}px;
-                                   border-bottom: {1}px solid rgba(204, 204, 204, 25%);
+                                   padding-left: 10px;
+                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
                                 }}
                                 #stCmbbx::drop-down {{
                                     subcontrol-origin: padding;
                                     subcontrol-position: top right;
-                                    padding: {5}px;
-                                    border-radius: {8}px;
+                                    padding: 5px;
+                                    border-radius: 8px;
                                     border: none;
-                                    width: {30}px;
+                                    width: 30px;
                                 }}
                                 #stCmbbx::down-arrow {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {8}px;
-                                    width: {8}px;
+                                    height: 8px;
+                                    width: 8px;
                                 }}
                                 #stCmbbx::down-arrow:disabled {{
                                     image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: {2}px;
-                                    width: {2}px;
+                                    height: 2px;
+                                    width: 2px;
                                 }}
                                 #stCmbbx QAbstractItemView {{
-                                    border: {1}px solid rgba(196, 196, 196, 25%);
-                                    padding: {4}px;
-                                    outline: 0px;
+                                    border: 1px solid rgba(196, 196, 196, 25%);
+                                    padding: 4px;
+                                    outline: 0;
                                     background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: {8}px;
+                                    border-radius: 8px;
                                 }}
                                 #stCmbbx QAbstractItemView::item{{
-                                    height: {30}px;
+                                    height: 30px;
                                     border: none;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 #stCmbbx QAbstractItemView::item:selected{{
                                     background: rgba(0, 0, 0, 6%);
-                                    height: {30}px;
+                                    height: 30px;
                                     outline: none;
                                     color: black;
                                     border: none;
-                                    padding-left: {10}px;
-                                    border-radius: {4}px;
+                                    padding-left: 10px;
+                                    border-radius: 4px;
                                 }}
                                 QSCrollArea,QVBoxLayout{{
                                     border: none;
@@ -1865,20 +1865,20 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QScrollBar:vertical {{
                                     background: rgba(255, 255, 255, 10%);
-                                    margin: {4}px;
+                                    margin: 4px;
                                     width: {(20)}px;
                                     border: none;
-                                    border-radius: {5}px;
+                                    border-radius: 5px;
                                 }}
                                 QScrollBar::handle:vertical {{
-                                    margin: {3}px;
-                                    border-radius: {3}px;
+                                    margin: 3px;
+                                    border-radius: 3px;
                                     min-height: {(20)}px;
                                     background: rgba(196, 196, 196, 25%);
                                 }}
                                 QScrollBar::handle:vertical:hover {{
-                                    margin: {3}px;
-                                    border-radius: {3}px;
+                                    margin: 3px;
+                                    border-radius: 3px;
                                     background: rgba(136, 136, 136, 25%);
                                 }}
                                 QScrollBar::add-line:vertical {{
@@ -1945,14 +1945,14 @@ class SettingsWindow(QMainWindow):
         textEdit = QPlainTextEditWithFluentMenu()
         textEdit.setReadOnly(True)
         if isWindowDark():
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {10}px;border-radius: {6}px;border: {1}px solid #161616;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: 10px;border-radius: 6px;border: 1px solid #161616;}}")
         else:
-            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: {10}px;border-radius: {6}px;border: {1}px solid #dddddd;}}")
+            textEdit.setStyleSheet(f"QPlainTextEdit{{margin: 10px;border-radius: 6px;border: 1px solid #dddddd;}}")
 
         textEdit.setPlainText(globals.buffer.getvalue())
 
         reloadButton = QPushButton(_("Reload log"))
-        reloadButton.setFixedWidth((200))
+        reloadButton.setFixedWidth(200)
         reloadButton.clicked.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
 
         def saveLog():
@@ -1977,7 +1977,7 @@ class SettingsWindow(QMainWindow):
                 textEdit.setPlainText(globals.buffer.getvalue())
 
         exportButtom = QPushButton(_("Export log as a file"))
-        exportButtom.setFixedWidth((200))
+        exportButtom.setFixedWidth(200)
         exportButtom.clicked.connect(lambda: saveLog())
 
         def copyLog():
@@ -1991,7 +1991,7 @@ class SettingsWindow(QMainWindow):
                 textEdit.setPlainText(globals.buffer.getvalue())
 
         copyButton = QPushButton(_("Copy log to clipboard"))
-        copyButton.setFixedWidth((200))
+        copyButton.setFixedWidth(200)
         copyButton.clicked.connect(lambda: copyLog())
 
         hl = QHBoxLayout()
@@ -2050,7 +2050,7 @@ class SettingsWindow(QMainWindow):
             self.settingsWidget.resize(self.width()-(17), self.settingsWidget.height())
             self.applyStyleSheet()
             if not self.isMaximized():
-                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {4}px;border-bottom-right-radius: {4}px;}}")
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;}}")
             self.updateSize = False
         return super().mouseReleaseEvent(event)
 
@@ -2064,9 +2064,9 @@ class SettingsWindow(QMainWindow):
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
             if self.isMaximized():
-                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;}}")
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0;border-bottom-right-radius: 0;}}")
             else:
-                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: {4}px;border-bottom-right-radius: {4}px;}}")
+                self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;}}")
         return super().eventFilter(watched, event)
 
 
@@ -2098,7 +2098,7 @@ class QSettingsTitle(QWidget):
         self.label = QLabel("\u200e"+text, self)
         self.label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.label.setAlignment(Qt.AlignLeft)
-        self.setMaximumWidth((1000))
+        self.setMaximumWidth(1000)
         self.descLabel = QLabel(descText, self)
         self.bg70 = QWidget(self)
         self.bg70.setObjectName("micaRegularBackground")
@@ -2115,7 +2115,7 @@ class QSettingsTitle(QWidget):
             self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
 
         self.image = QLabel(self)
-        self.image.setStyleSheet(f"padding: {1}px;background: none;")
+        self.image.setStyleSheet(f"padding: 1px;background: none;")
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
         self.compressibleWidget.show()
@@ -2133,8 +2133,8 @@ class QSettingsTitle(QWidget):
         self.childsVisible = False
         self.compressibleWidget.setLayout(l)
 
-        self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;}}")
-        self.bg70.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;}}")
+        self.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;}}")
+        self.bg70.setStyleSheet(f"QWidget#subtitleLabel{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;}}")
 
 
         self.showAnim = QVariantAnimation(self.compressibleWidget)
@@ -2159,24 +2159,24 @@ class QSettingsTitle(QWidget):
         self.button = QPushButton("", self)
         self.button.setObjectName("subtitleLabelHover")
         self.button.clicked.connect(self.toggleChilds)
-        self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
-        self.button.setStyleSheet(f"border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;")
+        self.button.setStyleSheet(f"border-bottom-left-radius: 0;border-bottom-right-radius: 0;")
+        self.button.setStyleSheet(f"border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;")
         self.setChildFixedHeight(0)
 
         self.newShowAnim = QVariantAnimation(self)
         self.newShowAnim.setEasingCurve(QEasingCurve.OutQuart)
-        self.newShowAnim.setStartValue((50))
-        self.newShowAnim.setEndValue((70))
+        self.newShowAnim.setStartValue(50)
+        self.newShowAnim.setEndValue(70)
         self.newShowAnim.setDuration(200)
         self.newShowAnim.valueChanged.connect(lambda i: (self.compressibleWidget.move(0, i),self.childrenOpacity.setOpacity((i-50)/20)))
 
         self.newHideAnim = QVariantAnimation(self)
         self.newHideAnim.setEasingCurve(QEasingCurve.InQuart)
-        self.newHideAnim.setStartValue((70))
-        self.newHideAnim.setEndValue((50))
+        self.newHideAnim.setStartValue(70)
+        self.newHideAnim.setEndValue(50)
         self.newHideAnim.setDuration(200)
         self.newHideAnim.valueChanged.connect(lambda i: (self.compressibleWidget.move(0, i),self.childrenOpacity.setOpacity((i-50)/20)))
-        self.newHideAnim.finished.connect(lambda: (self.compressibleWidget.hide(),self.setChildFixedHeight((70))))
+        self.newHideAnim.finished.connect(lambda: (self.compressibleWidget.hide(),self.setChildFixedHeight(70)))
 
         self.childrenOpacity = QGraphicsOpacityEffect(self.compressibleWidget)
         self.childrenOpacity.setOpacity(0)
@@ -2194,7 +2194,7 @@ class QSettingsTitle(QWidget):
         self.callInMain.emit(self.newHideAnim.start)
         time.sleep(0.2)
         self.callInMain.emit(lambda: self.compressibleWidget.move((-1500), (-1500)))
-        self.callInMain.emit(lambda: self.setChildFixedHeight((70)))
+        self.callInMain.emit(lambda: self.setChildFixedHeight(70))
 
     def showChildren(self) -> None:
         self.callInMain.emit(lambda: self.compressibleWidget.move(0, (50)))
@@ -2222,12 +2222,12 @@ class QSettingsTitle(QWidget):
             self.childsVisible = False
             self.invertNotAnimated()
             self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
-            Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: {8}px;border-bottom-right-radius: {8}px;")), daemon=True).start()
+            Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;")), daemon=True).start()
             Thread(target=self.hideChildren).start()
         else:
             self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
-            self.button.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
-            self.bg70.setStyleSheet(f"border-bottom-left-radius: 0px;border-bottom-right-radius: 0px;")
+            self.button.setStyleSheet(f"border-bottom-left-radius: 0;border-bottom-right-radius: 0;")
+            self.bg70.setStyleSheet(f"border-bottom-left-radius: 0;border-bottom-right-radius: 0;")
             self.invertNotAnimated()
             self.childsVisible = True
             Thread(target=self.showChildren).start()
@@ -2258,9 +2258,9 @@ class QSettingsTitle(QWidget):
             self.showHideButton.move(self.width()-(55), (20))
 
             self.label.move((70), (17))
-            self.label.setFixedHeight((20))
+            self.label.setFixedHeight(20)
             self.descLabel.move((70), (37))
-            self.descLabel.setFixedHeight((20))
+            self.descLabel.setFixedHeight(20)
             self.descLabel.setFixedWidth(self.width()-(70)-(70))
 
             self.image.move((27), (20))
@@ -2269,7 +2269,7 @@ class QSettingsTitle(QWidget):
                 self.setFixedHeight(self.compressibleWidget.sizeHint().height()+(70))
                 self.compressibleWidget.setFixedHeight(self.compressibleWidget.sizeHint().height())
             elif self.NotAnimated:
-                self.setFixedHeight((70))
+                self.setFixedHeight(70)
             self.compressibleWidget.move(0, (70))
             self.compressibleWidget.setFixedWidth(self.width())
             self.image.setFixedHeight(30)
@@ -2333,7 +2333,7 @@ class QSettingsButton(QWidget):
         self.label.setFixedHeight((self.fh))
         self.setFixedHeight((50+(self.fh-30)))
         self.button.setFixedHeight((self.fh))
-        self.button.setFixedWidth((150))
+        self.button.setFixedWidth(150)
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -2403,11 +2403,11 @@ class QSettingsComboBox(QWidget):
         self.label.setFixedHeight(30)
         if self.buttonOn:
             self.restartButton.move(self.width()-(430), 10)
-            self.restartButton.setFixedWidth((150))
+            self.restartButton.setFixedWidth(150)
             self.restartButton.setFixedHeight(30)
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         self.combobox.setFixedHeight(30)
-        self.combobox.setFixedWidth((250))
+        self.combobox.setFixedWidth(250)
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -2455,7 +2455,7 @@ class QSettingsCheckBox(QWidget):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedHeight(30)
         self.checkbox.setFixedWidth(self.width()-(70))
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         return super().resizeEvent(event)
 
     def text(self) -> str:
@@ -2484,7 +2484,7 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
         self.infolabel.move((150), 10)
         self.infolabel.setFixedHeight(30)
         self.infolabel.setFixedWidth(self.width()-(70)-(150))
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         return super().resizeEvent(event)
 
 class QSettingsCheckBoxTextBox(QSettingsCheckBox):
@@ -2519,11 +2519,11 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedWidth(self.width()-(480))
         self.checkbox.setFixedHeight(30)
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         self.lineedit.setFixedHeight(30)
-        self.lineedit.setFixedWidth((450))
+        self.lineedit.setFixedWidth(450)
         self.helplabel.setFixedHeight(30)
-        self.helplabel.setFixedWidth((100))
+        self.helplabel.setFixedWidth(100)
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, text: str):
@@ -2578,9 +2578,9 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedWidth(self.width()-(280))
         self.checkbox.setFixedHeight(30)
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         self.combobox.setFixedHeight(30)
-        self.combobox.setFixedWidth((250))
+        self.combobox.setFixedWidth(250)
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, i: int):
@@ -2626,9 +2626,9 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedWidth(self.width()-(280))
         self.checkbox.setFixedHeight(30)
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         self.slider.setFixedHeight(30)
-        self.slider.setFixedWidth((250))
+        self.slider.setFixedWidth(250)
         return super().resizeEvent(event)
 
     def valuechangedEvent(self):
@@ -2650,7 +2650,7 @@ class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
         self.setWindowModality(Qt.WindowModality.WindowModal)
-        self.setStyleSheet(f"*{{border-radius: {4}px;}}  QColorLuminancePicker {{background-color: transparent; border: {4}px solid black;margin: none; border: none; padding: none;}} ")
+        self.setStyleSheet(f"*{{border-radius: 4px;}}  QColorLuminancePicker {{background-color: transparent; border: 4px solid black;margin: none; border: none; padding: none;}} ")
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
         self.setWindowTitle("‎")
@@ -2700,9 +2700,9 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedWidth(self.width()-(280))
         self.checkbox.setFixedHeight(30)
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         self.button.setFixedHeight(30)
-        self.button.setFixedWidth((250))
+        self.button.setFixedWidth(250)
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, c: QColor):
@@ -2788,9 +2788,9 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedWidth(self.width()-(280))
         self.checkbox.setFixedHeight(30)
-        self.setFixedHeight((50))
+        self.setFixedHeight(50)
         self.button.setFixedHeight(30)
-        self.button.setFixedWidth((250))
+        self.button.setFixedWidth(250)
         return super().resizeEvent(event)
 
     def valuechangedEvent(self, font: QFont):
@@ -2860,7 +2860,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.checkbox.move((70), 10)
             self.checkbox.setFixedHeight(30)
             self.checkbox.setFixedWidth(self.width()-(70))
-            self.setFixedHeight((50))
+            self.setFixedHeight(50)
         else:
             if not event:
                 self.valueChanged.emit(self.edit.toPlainText().strip())
@@ -2873,18 +2873,18 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.checkbox.move((70), 10)
             self.checkbox.setFixedWidth(self.width()-(250))
             self.checkbox.setFixedHeight(30)
-            self.setFixedHeight((300))
+            self.setFixedHeight(300)
             self.button.move(self.width()-(170), 10)
             self.button.setFixedHeight(30)
-            self.button.setFixedWidth((150))
-            self.edit.setFixedHeight((80))
+            self.button.setFixedWidth(150)
+            self.edit.setFixedHeight(80)
             self.edit.setFixedWidth(self.width()-(90)-(160))
             self.edit.move((70), (50))
-            self.preview.setFixedHeight((80))
-            self.preview.setFixedWidth((150))
+            self.preview.setFixedHeight(80)
+            self.preview.setFixedWidth(150)
             self.preview.move(self.width()-(170), (50))
             self.rulesLabel.move((70), (130))
-            self.rulesLabel.setFixedHeight((100))
+            self.rulesLabel.setFixedHeight(100)
             self.rulesLabel.setFixedWidth(self.width()-(90))
 
     def setLabelText(self, s: str) -> None:
@@ -2908,11 +2908,11 @@ class QAnnouncements(QLabel):
     def __init__(self):
         super().__init__()
         self.area = QScrollArea()
-        self.setMaximumWidth((1000))
+        self.setMaximumWidth(1000)
         self.callInMain.connect(lambda f: f())
-        self.setFixedHeight((110))
+        self.setFixedHeight(110)
         self.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: {4}px;border-bottom-right-radius: {4}px;border-bottom: {1}px;font-size: 12pt;}}*{{padding: 3px;}}")
+        self.setStyleSheet(f"#subtitleLabel{{border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;border-bottom: 1px;font-size: 12pt;}}*{{padding: 3px;}}")
         self.setTtext(_("Fetching latest announcement, please wait..."))
         layout = QHBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
@@ -2941,7 +2941,7 @@ class QAnnouncements(QLabel):
         self.area.setWidgetResizable(True)
         self.area.setContentsMargins(0, 0, 0, 0)
         self.area.setObjectName("backgroundWindow")
-        self.area.setStyleSheet("border: 0px solid black; padding: 0px; margin: 0px;")
+        self.area.setStyleSheet("border: 0 solid black; padding: 0; margin: 0;")
         self.area.setFrameShape(QFrame.NoFrame)
         self.area.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
         self.area.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)

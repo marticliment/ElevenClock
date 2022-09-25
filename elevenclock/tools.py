@@ -521,71 +521,71 @@ class TaskbarIconTray(QSystemTrayIcon):
             
             self.contextMenu().setStyleSheet(f"""
                 * {{
-                    border-radius: {8}px;
+                    border-radius: 8px;
                     background-color: transparent;
                     font-size: 9pt;
                     {fontStr};
                 }}
                 QWidget{{
                     background-color: transparent;
-                    border-radius: {8}px;
+                    border-radius: 8px;
                 }}
                 QMenu {{
-                    border: {1}px solid #111111;
-                    padding: {2}px;
-                    outline: 0px;
+                    border: 1px solid #111111;
+                    padding: 2px;
+                    outline: 0;
                     color: white;
                     icon-size: {(32)}px;
                     background: rgba(0, 0, 0, 0.01%);
-                    border-radius: {8}px;
+                    border-radius: 8px;
                 }}
                 QMenu::separator {{
                     margin: {(-2)}px;
-                    margin-top: {2}px;
-                    margin-bottom: {2}px;
-                    height: {1}px;
+                    margin-top: 2px;
+                    margin-bottom: 2px;
+                    height: 1px;
                     background-color: rgba(255, 255, 255, 20%);
                 }}
                 QMenu::icon {{
-                    padding-left: {10}px;
-                    padding-left: {10}px;
+                    padding-left: 10px;
+                    padding-left: 10px;
                 }}
                 QMenu::item {{
-                    height: {30}px;
+                    height: 30px;
                     border: none;
                     background: transparent;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
-                    margin: {2}px;
+                    padding-left: 0;
+                    border-radius: 4px;
+                    margin: 2px;
                 }}
                 QMenu::item:selected {{
                     background: rgba(255, 255, 255, 6%);
-                    height: {30}px;
+                    height: 30px;
                     outline: none;
                     border: none;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
+                    padding-left: 0;
+                    border-radius: 4px;
                 }}
                 QMenu::item:disabled {{
                     background: transparent;
-                    height: {30}px;
+                    height: 30px;
                     outline: none;
                     border: none;
                     color: grey;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
+                    padding-left: 0;
+                    border-radius: 4px;
                 }}
                 QMenu::item:selected:disabled {{
                     background: transparent;
-                    height: {30}px;
+                    height: 30px;
                     outline: none;
                     border: none;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
+                    padding-left: 0;
+                    border-radius: 4px;
                 }}
                 """)
         else:
@@ -610,50 +610,50 @@ class TaskbarIconTray(QSystemTrayIcon):
                     background-color: transparent;
                 }}
                 QMenu {{
-                    border: {1}px solid rgb(200, 200, 200);
-                    padding: {2}px;
-                    outline: 0px;
+                    border: 1px solid rgb(200, 200, 200);
+                    padding: 2px;
+                    outline: 0;
                     color: black;
                     icon-size: {(32)}px;
                     background: rgba(220, 220, 220, 1%)/*#262626*/;
-                    border-radius: {8}px;
+                    border-radius: 8px;
                 }}
                 QMenu::separator {{
                     margin: {(-2)}px;
-                    margin-top: {2}px;
-                    margin-bottom: {2}px;
-                    height: {1}px;
+                    margin-top: 2px;
+                    margin-bottom: 2px;
+                    height: 1px;
                     background-color: rgba(0, 0, 0, 20%);
                 }}
                 QMenu::icon{{
-                    padding-left: {10}px;
+                    padding-left: 10px;
                 }}
                 QMenu::item{{
-                    height: {30}px;
+                    height: 30px;
                     border: none;
                     background: transparent;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
-                    margin: {2}px;
+                    padding-left: 0;
+                    border-radius: 4px;
+                    margin: 2px;
                 }}
                 QMenu::item:selected{{
                     background: rgba(0, 0, 0, 10%);
-                    height: {30}px;
+                    height: 30px;
                     outline: none;
                     border: none;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
+                    padding-left: 0;
+                    border-radius: 4px;
                 }}
                 QMenu::item:selected:disabled{{
                     background: transparent;
-                    height: {30}px;
+                    height: 30px;
                     outline: none;
                     border: none;
                     padding-right: {(20)}px;
-                    padding-left: {0}px;
-                    border-radius: {4}px;
+                    padding-left: 0;
+                    border-radius: 4px;
                 }}
                 """)
         self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))

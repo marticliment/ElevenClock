@@ -547,8 +547,8 @@ try:
         def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0)):
             super().__init__(text)
             self.scr = screen
-            self.setFixedHeight((60))
-            self.setMaximumWidth((200))
+            self.setFixedHeight(60)
+            self.setMaximumWidth(200)
             self.setContentsMargins(10, 5, 10, 5)
             self.setAlignment(Qt.AlignCenter | Qt.AlignVCenter)
             self.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -614,7 +614,7 @@ try:
 
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
             print("🔵 Long date string:", lDateMode)
-            self.setFixedHeight((height))
+            self.setFixedHeight(height)
             dateMode = ""
             for i, ministr in enumerate(lDateMode.split("'")):
                 if i%2==0:
@@ -697,7 +697,7 @@ try:
                 try:
                     if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                         self.prefMargins = 1
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: {0}px;margin-top: 0px;margin-bottom: 0px; border-radius: {4}px;"
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: 0;margin-top: 0;margin-bottom: 0; border-radius: 4px;"
                         if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
                             print("🟡 Small sized taskbar")
                             self.preferedHeight = 32
@@ -707,12 +707,12 @@ try:
                     else:
                         print("🟢 Regular sized taskbar")
                         self.prefMargins = 1
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {0}px;border-radius: {6}px;padding: {2}px;"
+                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: 0;border-radius: 6px;padding: 2px;"
                 except Exception as e:
                     print("🟡 Regular sized taskbar")
                     report(e)
                     self.prefMargins = 1
-                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: {0}px;border-radius: {6}px;padding: {2}px;"
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: 0;border-radius: 6px;padding: 2px;"
 
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -814,11 +814,11 @@ try:
                     print("🟠 Clock on the bottom (by exception)")
 
                 self.colorWidget = QWidget(self)
-                self.colorWidget.setStyleSheet("border: 0px; margin: 0px;")
+                self.colorWidget.setStyleSheet("border: 0; margin: 0;")
 
                 self.backgroundTexture = QLabel(self)
                 self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
-                self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0px;")
+                self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0;")
                 self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
                 if(not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")):
                     if(isTaskbarDark()):
@@ -972,7 +972,7 @@ try:
                 self.progressbar.setFixedHeight(2)
                 self.progressbar.setRange(0, 200)
                 self.progressbar.setValue(0)
-                self.progressbar.setStyleSheet(f"*{{border: 0px;margin:0px;padding:0px;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
+                self.progressbar.setStyleSheet(f"*{{border: 0;margin:0;padding:0;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
                 self.progressbar.hide()
 
                 self.leftSlow = QVariantAnimation()
@@ -1507,7 +1507,7 @@ try:
             QGuiApplication.instance().installEventFilter(self)
             self.bgopacity = 0.2
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
-            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: {1}px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
+            self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: 1px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
             if self.window().transparentBackground:
                 colorOffset = 0
@@ -1518,13 +1518,13 @@ try:
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: {1}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {6}px;"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: 1px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
             self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: {1}px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: {6}px;"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
             self.setAutoFillBackground(True)
             self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-2)
 
@@ -1553,7 +1553,7 @@ try:
             self.notifDotLabel = QLabel("", self)
             self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
             self.notifDotLabel.setObjectName("notifIndicator")
-            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {8}px;padding: 0px;padding-bottom: {2}px;padding-left: {3}px;padding-right: {2}px;margin: 0px;border:0px;")
+            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
 
 
             self.moonIconBlack = QIcon(getPath("moon_black.png"))
@@ -1597,7 +1597,7 @@ try:
                 leftRightPadding = (30-16)/2 # left-right margin
                 self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
                 self.notifDotLabel.resize(16, 16)
-                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: {8}px;padding: 0px;padding-bottom: {2}px;padding-left: {3}px;padding-right: {2}px;margin: 0px;border:0px;")
+                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
                 if not self.isCover:
                     self.notifDotLabel.show()
 
