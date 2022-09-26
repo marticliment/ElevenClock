@@ -1502,7 +1502,7 @@ try:
 
             self.timer = QTimer()
             self.timer.setSingleShot(True)
-            self.timer.setInterval(250)
+            self.timer.setInterval(150 if getSettings("CustomClockDoubleClickAction") else 0)
             self.timer.timeout.connect(self.timeout)
             #self.installEventFilter(self)
 
