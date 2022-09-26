@@ -2,7 +2,7 @@ pyautogui
 pywin32
 PySide6
 psutil
-PyInstaller==5.3
+PyInstaller==5.4
 win32mica
 python-dateutil
 winshell
