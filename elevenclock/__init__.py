@@ -1504,7 +1504,7 @@ try:
             self.timer.setSingleShot(True)
             self.timer.setInterval(250)
             self.timer.timeout.connect(self.timeout)
-            self.installEventFilter(self)
+            #self.installEventFilter(self)
 
             self.isMouseButtonDouble = False
             self.isMouseButtonReleased = False
@@ -1653,22 +1653,23 @@ try:
             return self.fontMetrics().boundingRect(text).width()*mult
 
         def eventFilter(self, obj, event):
-            match event.type():
-                case QEvent.MouseButtonPress:
-                    self.isMouseButtonReleased = False
-                    self.isMouseButtonLeftClick = False
-                    self.isMouseButtonDouble = False
-                    if not self.timer.isActive():
-                        self.timer.start()
-                    if event.button() == Qt.LeftButton:
-                        self.isMouseButtonLeftClick = True
-                case QEvent.MouseButtonRelease:
-                    if not self.isMouseButtonDouble and not self.timer.isActive():
-                        self.timer.start()
-                    self.isMouseButtonReleased = True
-                case QEvent.MouseButtonDblClick:
-                    self.isMouseButtonDouble = True
-                    return True
+            if obj == self:
+                match event.type():
+                    case QEvent.MouseButtonPress:
+                        self.isMouseButtonReleased = False
+                        self.isMouseButtonLeftClick = False
+                        self.isMouseButtonDouble = False
+                        if not self.timer.isActive():
+                            self.timer.start()
+                        if event.button() == Qt.LeftButton:
+                            self.isMouseButtonLeftClick = True
+                    case QEvent.MouseButtonRelease:
+                        if not self.isMouseButtonDouble and not self.timer.isActive():
+                            self.timer.start()
+                        self.isMouseButtonReleased = True
+                    case QEvent.MouseButtonDblClick:
+                        self.isMouseButtonDouble = True
+                        return True
             return False
 
         def timeout(self):
@@ -1677,7 +1678,10 @@ try:
                 self.timer.stop()
             if self.isMouseButtonReleased:
                 if self.isMouseButtonLeftClick:
-                    self.clicked.emit()
+                    if self.isMouseButtonDouble:
+                        pass # The clock was double-clicked
+                    else:
+                        self.clicked.emit()
                 else:
                     i.showMenu(self.window())
 
@@ -1693,7 +1697,7 @@ try:
             if not self.isCover:
                 self.setWindowOpacity(1)
                 self.setWindowOpacity(1)
-                self.opacity.setOpacity(1.00)
+                self.opacity.setOpacity(1)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
                 return super().mouseReleaseEvent(ev)
 
