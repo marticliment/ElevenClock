@@ -221,6 +221,7 @@ class SettingsWindow(QMainWindow):
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is double-clicked"))
         dblactions = {
             _("Show calendar"): "Win+N",
+            _("Copy date/time"): "copy_datetime",
             _("Empty the recycle bin"): "trashcan",
             _("Empty the recycle bin (Without confirmation)"): "trashcan_noconfirm",
             _("Disabled"): "f20",
@@ -1993,7 +1994,7 @@ class SettingsWindow(QMainWindow):
         def copyLog():
             try:
                 print("🔵 Copying log to the clipboard...")
-                globals.app.clipboard().setText(globals.buffer.getvalue())
+                textToClipboard(globals.buffer.getvalue())
                 print("🟢 Log copied to the clipboard successfully!")
                 textEdit.setPlainText(globals.buffer.getvalue())
             except Exception as e:
