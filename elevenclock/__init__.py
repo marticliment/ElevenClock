@@ -1500,6 +1500,16 @@ try:
                 self.specifiedMinimumWidth = 0
                 report(e)
 
+            self.timer = QTimer()
+            self.timer.setSingleShot(True)
+            self.timer.setInterval(250)
+            self.timer.timeout.connect(self.timeout)
+            self.installEventFilter(self)
+
+            self.isMouseButtonDouble = False
+            self.isMouseButtonReleased = False
+            self.isMouseButtonLeftClick = True
+
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
@@ -1509,22 +1519,18 @@ try:
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
             self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: 1px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
-            if self.window().transparentBackground:
-                colorOffset = 0
-            else:
-                colorOffset = 0
             self.showBackground = QVariantAnimation()
-            self.showBackground.setStartValue(0+colorOffset) # Not 0 to prevent white flashing on the border
+            self.showBackground.setStartValue(0)
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: 1px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
-            self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
+            self.hideBackground.setEndValue(0)
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
             self.setAutoFillBackground(True)
             self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-2)
 
@@ -1547,14 +1553,11 @@ try:
                     self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
             self.focusAssitantLabel.setIconSize(QSize(16, 16))
 
-            accColors = getColors()
-
             self.notifdot = True
             self.notifDotLabel = QLabel("", self)
             self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
             self.notifDotLabel.setObjectName("notifIndicator")
             self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
-
 
             self.moonIconBlack = QIcon(getPath("moon_black.png"))
             self.moonIconWhite = QIcon(getPath("moon_white.png"))
@@ -1649,6 +1652,35 @@ try:
                 mult = 1.5
             return self.fontMetrics().boundingRect(text).width()*mult
 
+        def eventFilter(self, obj, event):
+            match event.type():
+                case QEvent.MouseButtonPress:
+                    self.isMouseButtonReleased = False
+                    self.isMouseButtonLeftClick = False
+                    self.isMouseButtonDouble = False
+                    if not self.timer.isActive():
+                        self.timer.start()
+                    if event.button() == Qt.LeftButton:
+                        self.isMouseButtonLeftClick = True
+                case QEvent.MouseButtonRelease:
+                    if not self.isMouseButtonDouble and not self.timer.isActive():
+                        self.timer.start()
+                    self.isMouseButtonReleased = True
+                case QEvent.MouseButtonDblClick:
+                    self.isMouseButtonDouble = True
+                    return True
+            return False
+
+        def timeout(self):
+            if self.isMouseButtonDouble:
+                self.doubleClicked.emit()
+                self.timer.stop()
+            if self.isMouseButtonReleased:
+                if self.isMouseButtonLeftClick:
+                    self.clicked.emit()
+                else:
+                    i.showMenu(self.window())
+
         def mousePressEvent(self, ev: QMouseEvent) -> None:
             if not self.isCover:
                 self.setWindowOpacity(0.7)
@@ -1658,21 +1690,12 @@ try:
                 return super().mousePressEvent(ev)
 
         def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
-            if not self.isCover: 
+            if not self.isCover:
                 self.setWindowOpacity(1)
                 self.setWindowOpacity(1)
                 self.opacity.setOpacity(1.00)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
-                if(ev.button() == Qt.RightButton):
-                    i.showMenu(self.window())
-                else:
-                    self.clicked.emit()
                 return super().mouseReleaseEvent(ev)
-
-        def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
-            self.doubleClicked.emit()
-            return super().mouseDoubleClickEvent(event)
-
 
         def paintEvent(self, event: QPaintEvent) -> None:
             w = self.minimumSizeHint().width()
