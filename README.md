@@ -97,8 +97,8 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Romanian - Română | 97% | <img src='https://flagcdn.com/ro.svg' width=20> |
 | Russian - Русский | 97% | <img src='https://flagcdn.com/ru.svg' width=20> |
 | Slovak - Slovenčina | 31% | <img src='https://flagcdn.com/sk.svg' width=20> |
-| Serbian - Srpski | 23% | <img src='https://flagcdn.com/sr.svg' width=20> |
-| Swedish - Svenska | 77% | <img src='https://flagcdn.com/sv.svg' width=20> |
+| Serbian - Srpski | 23% | <img src='https://flagcdn.com/rs.svg' width=20> |
+| Swedish - Svenska | 77% | <img src='https://flagcdn.com/se.svg' width=20> |
 | Thai - ภาษาไทย | 84% | <img src='https://flagcdn.com/th.svg' width=20> |
 | Turkish - Türkçe | 39% | <img src='https://flagcdn.com/tr.svg' width=20> |
 | Ukranian - Yкраї́нська | 98% | <img src='https://flagcdn.com/ua.svg' width=20> |
