@@ -1416,7 +1416,7 @@ try:
                         elif self.doubleClickAction[0] == "trashcan_noconfirm":
                             winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
                         elif self.doubleClickAction[0] == "copy_datetime":
-                            textToClipboard(self.label.text()) # TODO: Copy date/time @martinet101
+                            textToClipboard(self.label.text())
                         else:
                             pyautogui.hotkey(self.doubleClickAction[0])
                     elif len(self.doubleClickAction) == 2:
