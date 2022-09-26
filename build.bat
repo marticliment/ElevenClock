@@ -23,8 +23,6 @@ set option
 python -m pip install -r requirements.txt
 python -m pip install setuptools==49.1.3
 python -m pip install packaging
-python -m pip uninstall python-dateutil -y
-python -m easy_install python-dateutil
 if defined option--only-requirements (
     goto :end
 )
