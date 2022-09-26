@@ -731,7 +731,17 @@ class SettingsWindow(QMainWindow):
         self.logButton.clicked.connect(lambda: self.openLogWindow())
         self.logButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.debbuggingTitle.addWidget(self.logButton)
-        self.hiddenButton = QSettingsButton(f"ElevenClock version: {getAppVersion()}\nSystem version: {getSystemInfo()}\nSystem architecture: {platform.machine()}\n\nTotal RAM: {getTotalRAM()}\n\nSystem locale: {locale.getdefaultlocale()[0]}\nElevenClock language locale: lang_{langName}", _(""), h=140)
+        hiddenButtonList = [
+            _("ElevenClock version:") + " " + getAppVersion(),
+            _("System version:") + " " + getSystemInfo(),
+            _("System architecture:") + " " + platform.machine(),
+            "",
+            _("Total RAM:") + " " + getTotalRAM(),
+            "",
+            _("System locale:") + " " + locale.getdefaultlocale()[0],
+            _("ElevenClock language locale:") + f" lang_{langName}",
+        ]
+        self.hiddenButton = QSettingsButton("\n".join(hiddenButtonList), "", h=len(hiddenButtonList)*17.5)
         self.hiddenButton.button.setVisible(False)
         self.debbuggingTitle.addWidget(self.hiddenButton)
 
