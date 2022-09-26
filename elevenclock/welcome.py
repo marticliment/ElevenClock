@@ -79,10 +79,10 @@ class WelcomeWindow(QMainWindow):
                     font-family: "Segoe UI Variable Display"
                 }}
                 #BackgroundWidget {{
-                    border: 0px solid rgba(80, 80, 80, 25%);
+                    border: 0 solid rgba(80, 80, 80, 25%);
                     padding: 20px;
                     background-color: transparent;
-                    border-radius: 0px;
+                    border-radius: 0;
                     padding-left: 30px;
                     padding-right: 30px;
                 }}
@@ -94,41 +94,41 @@ class WelcomeWindow(QMainWindow):
                     width: 100px;
                     background-color: rgba(80, 80, 80, 15%);
                     padding: 20px;
-                    border-radius: {8}px;
-                    border: {1}px solid rgba(100, 100, 100, 25%);
-                    border-top: {1}px solid rgba(100, 100, 100, 25%);
-                    height: {25}px;
+                    border-radius: 8px;
+                    border: 1px solid rgba(100, 100, 100, 25%);
+                    border-top: 1px solid rgba(100, 100, 100, 25%);
+                    height: 25px;
                 }}
                 #FramelessSampleItem {{
                     font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: transparent;
                     padding: 20px;
-                    border-radius: {8}px;
+                    border-radius: 8px;
                     border: none;
-                    height: {25}px;
+                    height: 25px;
                 }}
                 QPushButton {{
                     font-family: "Segoe UI Variable Display";
                     font-size: 8pt;
                     width: 100px;
                     background-color: rgba(60, 60, 60, 25%);
-                    border: {1}px solid rgba(100, 100, 100, 25%);
-                    border-top: {1}px solid rgba(100, 100, 100, 25%);
-                    border-radius: {4}px;
-                    height: {25}px;
+                    border: 1px solid rgba(100, 100, 100, 25%);
+                    border-top: 1px solid rgba(100, 100, 100, 25%);
+                    border-radius: 4px;
+                    height: 25px;
                 }}
                 QPushButton:hover {{
                     background-color: rgba(77, 77, 77, 50%);
-                    border: {1}px solid rgba(89, 89, 89, 50%);
-                    height: {25}px;
-                    border-top: {1}px solid rgba(95, 95, 95, 50%);
+                    border: 1px solid rgba(89, 89, 89, 50%);
+                    height: 25px;
+                    border-top: 1px solid rgba(95, 95, 95, 50%);
                 }}
                 QPushButton:pressed {{
                     background-color: rgba(89, 89, 89, 50%);
-                    border: {1}px solid rgba(95, 95, 95, 50%);
-                    height: {25}px;
-                    border-top: {1}px solid rgba(99, 99, 99 , 50%);
+                    border: 1px solid rgba(95, 95, 95, 50%);
+                    height: 25px;
+                    border-top: 1px solid rgba(99, 99, 99 , 50%);
                 }}
                 #AccentButton{{
                     color: black;
@@ -168,10 +168,10 @@ class WelcomeWindow(QMainWindow):
                     font-family: "Segoe UI Variable Display"
                 }}
                 #BackgroundWidget {{
-                    border: 0px solid #eeeeee;
+                    border: 0 solid #eeeeee;
                     padding: 20px;
                     background-color: transparent;
-                    border-radius: 0px;
+                    border-radius: 0;
                     padding-left: 30px;
                     padding-right: 30px;
                 }}
@@ -183,41 +183,41 @@ class WelcomeWindow(QMainWindow):
                     width: 100px;
                     background-color: #ffffff;
                     padding: 20px;
-                    border-radius: {8}px;
-                    border: {1}px solid rgba(230, 230, 230, 80%);
-                    height: {25}px;
-                    border-bottom: {1}px solid rgba(220, 220, 220, 100%);
+                    border-radius: 8px;
+                    border: 1px solid rgba(230, 230, 230, 80%);
+                    height: 25px;
+                    border-bottom: 1px solid rgba(220, 220, 220, 100%);
                 }}
                 #FramelessSampleItem {{
                     font-family: "Segoe UI Variable Display";
                     width: 100px;
                     background-color: transparent;
                     padding: 20px;
-                    border-radius: {8}px;
+                    border-radius: 8px;
                     border: none;
-                    height: {25}px;
+                    height: 25px;
                 }}
                 QPushButton {{
                     font-family: "Segoe UI Variable Display";
                     font-size: 8pt;
                     width: 100px;
                     background-color: #ffffff;
-                    border-radius: {4}px;
-                    border: {1}px solid rgba(230, 230, 230, 80%);
-                    height: {25}px;
-                    border-bottom: {1}px solid rgba(220, 220, 220, 100%);
+                    border-radius: 4px;
+                    border: 1px solid rgba(230, 230, 230, 80%);
+                    height: 25px;
+                    border-bottom: 1px solid rgba(220, 220, 220, 100%);
                 }}
                 QPushButton:hover {{
                     background-color: rgba(240, 240, 240, 50%);
-                    border: {1}px solid rgba(220, 220, 220, 80%);
-                    height: {25}px;
-                    border-bottom: {1}px solid rgba(200, 200, 200, 100%);
+                    border: 1px solid rgba(220, 220, 220, 80%);
+                    height: 25px;
+                    border-bottom: 1px solid rgba(200, 200, 200, 100%);
                 }}
                 QPushButton:pressed {{
                     background-color: rgba(89, 89, 89, 50%);
-                    border: {1}px solid rgba(95, 95, 95, 50%);
-                    height: {25}px;
-                    border-top: {1}px solid rgba(99, 99, 99 , 50%);
+                    border: 1px solid rgba(95, 95, 95, 50%);
+                    height: 25px;
+                    border-top: 1px solid rgba(99, 99, 99 , 50%);
                 }}
                 #AccentButton{{
                     color: white;
@@ -499,7 +499,7 @@ class ClickableButtonLabel(QPushButton):
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = QLabel()
         self.iconLabel.setMinimumHeight((self.iconSize))
-        self.iconLabel.setMinimumWidth((size))
+        self.iconLabel.setMinimumWidth(size)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setMinimumHeight((self.iconSize))
         self.textLabel = QLabel()
@@ -547,7 +547,7 @@ class ClickableButtonLabelWithBiggerIcon(QPushButton):
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = ClickableLabel()
         self.iconLabel.setMinimumHeight((self.iconSize))
-        self.iconLabel.setMinimumWidth((size))
+        self.iconLabel.setMinimumWidth(size)
         self.iconLabel.clicked.connect(self.animateClick)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
         self.setMinimumHeight((self.iconSize*1.5))
@@ -585,7 +585,7 @@ class ClickableImageWithText(QPushButton):
         self.setLayout(QVBoxLayout())
         self.layout().setContentsMargins(0, 0, 0, 0)
         self.iconLabel = ClickableLabel()
-        self.iconLabel.setMinimumHeight((size))
+        self.iconLabel.setMinimumHeight(size)
         self.setMinimumWidth((size) * 2)
         self.iconLabel.clicked.connect(self.animateClick)
         self.iconLabel.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
