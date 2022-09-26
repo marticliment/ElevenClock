@@ -774,6 +774,9 @@ def updateLangFile(file: str):
     except Exception as e:
         report(e)
 
+def textToClipboard(text: str):
+    globals.app.clipboard().setText(text.strip())
+
 t0 = time.time()
 
 langName = getSettingsValue("PreferredLanguage")

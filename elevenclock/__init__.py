@@ -892,7 +892,7 @@ try:
                         r = []
                         for piece in doubleAction.split("+"):
                             piece = piece.lower()
-                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm"]:
+                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"]:
                                 r.append(piece)
                             else:
                                 print("🟠 Invalid double click action piece:", piece)
@@ -1415,6 +1415,8 @@ try:
                             winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
                         elif self.doubleClickAction[0] == "trashcan_noconfirm":
                             winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
+                        elif self.doubleClickAction[0] == "copy_datetime":
+                            textToClipboard("DATE/TIME") # TODO: Copy date/time @martinet101
                         else:
                             pyautogui.hotkey(self.doubleClickAction[0])
                     elif len(self.doubleClickAction) == 2:
