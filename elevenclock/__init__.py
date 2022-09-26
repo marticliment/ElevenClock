@@ -576,43 +576,41 @@ try:
                 ExtendFrameIntoClientArea(self.winId().__int__())
 
         def show(self):
-            addClocks = ""
+            additionalClocks = ""
             height = 30
             if not getSettings("TooltipDisableTaskbarBackgroundColor"):
                 ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
             else:
                 ExtendFrameIntoClientArea(self.winId().__int__())
-            if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "Enable", 0) == 1:
-                addClocks += "\n\n"
-                self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-                height += 30
-                sDateMode = readRegedit(r"Control Panel\International", "sShortTime", "dd/MM/yyyy")
-                print("🔵 Long date string:", sDateMode)
-                dateMode = ""
-                for i, ministr in enumerate(sDateMode.split("'")):
-                    if i%2==0:
-                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-                    else:
-                        dateMode += ministr
-                print("🔵 TZ 1 is", tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")]))
-                addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\1", "DisplayName", "UnknowntimeZone") + ")"
-
-            if readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "Enable", 0) == 1:
-                self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-                height += 15
-                addClocks += "\n"
-                sDateMode = readRegedit(r"Control Panel\International", "sShortTime", "dd/MM/yyyy")
-                print("🔵 Long date string:", sDateMode)
-                dateMode = ""
-                for i, ministr in enumerate(sDateMode.split("'")):
-                    if i%2==0:
-                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-                    else:
-                        dateMode += ministr
-                print("🔵 TZ 2 is", tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")]))
-                addClocks += str(datetime.datetime.now(tz=tz.gettz(win_tz[readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "TzRegKeyName", "UTC")])).strftime("%a "+dateMode)) + " (" + readRegedit(r"Control Panel\TimeDate\AdditionalClocks\2", "DisplayName", "UnknowntimeZone") + ")"
 
             lDateMode = readRegedit(r"Control Panel\International", "sLongDate", "dd/MM/yyyy")
+            sDateMode = readRegedit(r"Control Panel\International", "sShortTime", "dd/MM/yyyy")
+
+            for additionalClockNum in ["1", "2"]:
+                regKey = f"Control Panel\\TimeDate\\AdditionalClocks\\{additionalClockNum}"
+                if readRegedit(regKey, "Enable", 0) == 1:
+                    additionalClocks += "\n"
+                    height += 15
+                    self.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                    print("🔵 Short date string:", sDateMode)
+                    dateMode = ""
+                    for i, ministr in enumerate(sDateMode.split("'")):
+                        if i%2==0:
+                            dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y").replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+                        else:
+                            dateMode += ministr
+                    timezoneName = win_tz[readRegedit(regKey, "TzRegKeyName", "UTC")]
+                    tzInfo = tz.gettz(timezoneName)
+                    print(f"🔵 TZ {additionalClockNum} is", tzInfo)
+                    additionalClocks += str(datetime.datetime.now(tz=tzInfo).strftime("%a "+dateMode))
+                    additionalClockName = str(readRegedit(regKey, "DisplayName", "")).strip()
+                    if additionalClockName == "": additionalClockName = timezoneName
+                    additionalClocks += f" ({additionalClockName})"
+
+            if not additionalClocks == "":
+                additionalClocks = f"\n{additionalClocks}"
+                height += 15
+
             print("🔵 Long date string:", lDateMode)
             self.setFixedHeight(height)
             dateMode = ""
@@ -622,10 +620,10 @@ try:
                 else:
                     dateMode += ministr
             try:
-                self.setText(str(datetime.datetime.now().strftime(dateMode))+addClocks)
+                self.setText(str(datetime.datetime.now().strftime(dateMode))+additionalClocks)
             except Exception as e:
                 report(e)
-                self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+addClocks)
+                self.setText(str(datetime.datetime.now().strftime("%A, %#d %B %Y"))+additionalClocks)
             super().show()
 
         def get6px(self, i: int) -> int:
