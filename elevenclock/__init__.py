@@ -1390,41 +1390,44 @@ try:
 
         def singleClickAction(self):
             if not self.isCover:
-                if len(self.clickAction) == 1:
-                    pyautogui.hotkey(self.clickAction[0])
-                elif len(self.clickAction) == 2:
-                    pyautogui.hotkey(self.clickAction[0], self.clickAction[1])
-                elif len(self.clickAction) == 3:
-                    pyautogui.hotkey(self.clickAction[0], self.clickAction[1], self.clickAction[2])
-                if self.hideClockWhenClicked:
-                    print("🟡 Hiding clock because clicked!")
-                    self.clockShouldBeHidden = True
+                self.doClickAction(self.clickAction)
+                try:
+                    if self.hideClockWhenClicked:
+                        print("🟡 Hiding clock because clicked!")
+                        self.clockShouldBeHidden = True
 
-                    def showClockOn10s(self: Clock):
-                        time.sleep(10)
-                        print("🟢 Showing clock because 10s passed!")
-                        self.clockShouldBeHidden = False
+                        def showClockOn10s(self: Clock):
+                            time.sleep(10)
+                            print("🟢 Showing clock because 10s passed!")
+                            self.clockShouldBeHidden = False
 
-                    KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
+                        KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
+                except Exception as e:
+                    report(e)
 
         def doDoubleClickAction(self):
             if not self.isCover:
-                try:
-                    if len(self.doubleClickAction) == 1:
-                        if self.doubleClickAction[0] == "trashcan":
+                self.doClickAction(self.doubleClickAction)
+
+        def doClickAction(self, actions):
+            print("Action:", actions)
+            try:
+                match len(actions):
+                    case 1:
+                        if actions[0] == "trashcan":
                             winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
-                        elif self.doubleClickAction[0] == "trashcan_noconfirm":
+                        elif actions[0] == "trashcan_noconfirm":
                             winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
-                        elif self.doubleClickAction[0] == "copy_datetime":
+                        elif actions[0] == "copy_datetime":
                             textToClipboard(self.label.text())
                         else:
-                            pyautogui.hotkey(self.doubleClickAction[0])
-                    elif len(self.doubleClickAction) == 2:
-                        pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1])
-                    elif len(self.doubleClickAction) == 3:
-                        pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1], self.doubleClickAction[2])
-                except Exception as e:
-                    report(e)
+                            pyautogui.hotkey(actions[0])
+                    case 2:
+                        pyautogui.hotkey(actions[0], actions[1])
+                    case 3:
+                        pyautogui.hotkey(actions[0], actions[1], actions[2])
+            except Exception as e:
+                report(e)
 
         def showDesktop(self):
             pyautogui.hotkey("win", "d")
