@@ -200,6 +200,7 @@ class SettingsWindow(QMainWindow):
         self.customClockAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is clicked"))
         clkactions = {
             _("Show calendar"): "Win+N",
+            _("Copy date/time"): "copy_datetime",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
             _("Show desktop"): "Win+D",
