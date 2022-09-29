@@ -1390,41 +1390,44 @@ try:
 
         def singleClickAction(self):
             if not self.isCover:
-                if len(self.clickAction) == 1:
-                    pyautogui.hotkey(self.clickAction[0])
-                elif len(self.clickAction) == 2:
-                    pyautogui.hotkey(self.clickAction[0], self.clickAction[1])
-                elif len(self.clickAction) == 3:
-                    pyautogui.hotkey(self.clickAction[0], self.clickAction[1], self.clickAction[2])
-                if self.hideClockWhenClicked:
-                    print("🟡 Hiding clock because clicked!")
-                    self.clockShouldBeHidden = True
+                self.doClickAction(self.clickAction)
+                try:
+                    if self.hideClockWhenClicked:
+                        print("🟡 Hiding clock because clicked!")
+                        self.clockShouldBeHidden = True
 
-                    def showClockOn10s(self: Clock):
-                        time.sleep(10)
-                        print("🟢 Showing clock because 10s passed!")
-                        self.clockShouldBeHidden = False
+                        def showClockOn10s(self: Clock):
+                            time.sleep(10)
+                            print("🟢 Showing clock because 10s passed!")
+                            self.clockShouldBeHidden = False
 
-                    KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
+                        KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 10s thread").start()
+                except Exception as e:
+                    report(e)
 
         def doDoubleClickAction(self):
             if not self.isCover:
-                try:
-                    if len(self.doubleClickAction) == 1:
-                        if self.doubleClickAction[0] == "trashcan":
+                self.doClickAction(self.doubleClickAction)
+
+        def doClickAction(self, actions):
+            print("Action:", actions)
+            try:
+                match len(actions):
+                    case 1:
+                        if actions[0] == "trashcan":
                             winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
-                        elif self.doubleClickAction[0] == "trashcan_noconfirm":
+                        elif actions[0] == "trashcan_noconfirm":
                             winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
-                        elif self.doubleClickAction[0] == "copy_datetime":
+                        elif actions[0] == "copy_datetime":
                             textToClipboard(self.label.text())
                         else:
-                            pyautogui.hotkey(self.doubleClickAction[0])
-                    elif len(self.doubleClickAction) == 2:
-                        pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1])
-                    elif len(self.doubleClickAction) == 3:
-                        pyautogui.hotkey(self.doubleClickAction[0], self.doubleClickAction[1], self.doubleClickAction[2])
-                except Exception as e:
-                    report(e)
+                            pyautogui.hotkey(actions[0])
+                    case 2:
+                        pyautogui.hotkey(actions[0], actions[1])
+                    case 3:
+                        pyautogui.hotkey(actions[0], actions[1], actions[2])
+            except Exception as e:
+                report(e)
 
         def showDesktop(self):
             pyautogui.hotkey("win", "d")
@@ -1500,6 +1503,15 @@ try:
                 self.specifiedMinimumWidth = 0
                 report(e)
 
+            self.mouseButtonTimer = QTimer()
+            self.mouseButtonTimer.setSingleShot(True)
+            self.mouseButtonTimer.setInterval(150 if getSettings("CustomClockDoubleClickAction") else 0)
+            self.mouseButtonTimer.timeout.connect(self.mouseButtonTimeout)
+
+            self.isMouseButtonDouble = False
+            self.isMouseButtonReleased = False
+            self.isMouseButtonLeftClick = True
+
             self.setMouseTracking(True)
             self.backgroundwidget = QWidget(self)
             self.color = "255, 255, 255"
@@ -1509,22 +1521,18 @@ try:
             self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
             self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: 1px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
             self.backgroundwidget.show()
-            if self.window().transparentBackground:
-                colorOffset = 0
-            else:
-                colorOffset = 0
             self.showBackground = QVariantAnimation()
-            self.showBackground.setStartValue(0+colorOffset) # Not 0 to prevent white flashing on the border
+            self.showBackground.setStartValue(0)
             self.showBackground.setEndValue(self.bgopacity)
             self.showBackground.setDuration(100)
             self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity+colorOffset});border-top: 1px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
+            self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
             self.hideBackground = QVariantAnimation()
             self.hideBackground.setStartValue(self.bgopacity)
-            self.hideBackground.setEndValue(0+colorOffset) # Not 0 to prevent white flashing on the border
+            self.hideBackground.setEndValue(0)
             self.hideBackground.setDuration(100)
             self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
-            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity+colorOffset});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
+            self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
             self.setAutoFillBackground(True)
             self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-2)
 
@@ -1547,14 +1555,11 @@ try:
                     self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
             self.focusAssitantLabel.setIconSize(QSize(16, 16))
 
-            accColors = getColors()
-
             self.notifdot = True
             self.notifDotLabel = QLabel("", self)
             self.notifDotLabel.setAlignment(Qt.AlignVCenter | Qt.AlignHCenter)
             self.notifDotLabel.setObjectName("notifIndicator")
             self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
-
 
             self.moonIconBlack = QIcon(getPath("moon_black.png"))
             self.moonIconWhite = QIcon(getPath("moon_white.png"))
@@ -1649,6 +1654,39 @@ try:
                 mult = 1.5
             return self.fontMetrics().boundingRect(text).width()*mult
 
+        def eventFilter(self, obj, event):
+            if obj == self:
+                match event.type():
+                    case QEvent.MouseButtonPress:
+                        self.isMouseButtonReleased = False
+                        self.isMouseButtonLeftClick = False
+                        self.isMouseButtonDouble = False
+                        if not self.mouseButtonTimer.isActive():
+                            self.mouseButtonTimer.start()
+                        if event.button() == Qt.LeftButton:
+                            self.isMouseButtonLeftClick = True
+                    case QEvent.MouseButtonRelease:
+                        if not self.isMouseButtonDouble and not self.mouseButtonTimer.isActive():
+                            self.mouseButtonTimer.start()
+                        self.isMouseButtonReleased = True
+                    case QEvent.MouseButtonDblClick:
+                        self.isMouseButtonDouble = True
+                        return True
+            return False
+
+        def mouseButtonTimeout(self):
+            if self.isMouseButtonDouble:
+                self.doubleClicked.emit()
+                self.mouseButtonTimer.stop()
+            if self.isMouseButtonReleased:
+                if self.isMouseButtonLeftClick:
+                    if self.isMouseButtonDouble:
+                        pass # The clock was double-clicked
+                    else:
+                        self.clicked.emit()
+                else:
+                    i.showMenu(self.window())
+
         def mousePressEvent(self, ev: QMouseEvent) -> None:
             if not self.isCover:
                 self.setWindowOpacity(0.7)
@@ -1658,21 +1696,12 @@ try:
                 return super().mousePressEvent(ev)
 
         def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
-            if not self.isCover: 
+            if not self.isCover:
                 self.setWindowOpacity(1)
                 self.setWindowOpacity(1)
-                self.opacity.setOpacity(1.00)
+                self.opacity.setOpacity(1)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
-                if(ev.button() == Qt.RightButton):
-                    i.showMenu(self.window())
-                else:
-                    self.clicked.emit()
                 return super().mouseReleaseEvent(ev)
-
-        def mouseDoubleClickEvent(self, event: QMouseEvent) -> None:
-            self.doubleClicked.emit()
-            return super().mouseDoubleClickEvent(event)
-
 
         def paintEvent(self, event: QPaintEvent) -> None:
             w = self.minimumSizeHint().width()
