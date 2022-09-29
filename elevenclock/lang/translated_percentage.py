@@ -20,7 +20,6 @@ untranslatedPercentage = {
   "id": "94%",
   "it": "49%",
   "ja": "96%",
-  "ko": "97%",
   "lt": "23%",
   "lv": "62%",
   "nb": "94%",
@@ -38,6 +37,5 @@ untranslatedPercentage = {
   "tr": "39%",
   "ua": "96%",
   "vi": "39%",
-  "zh_CN": "96%",
-  "zh_TW": "97%"
+  "zh_CN": "96%"
 }
