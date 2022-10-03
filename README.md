@@ -165,7 +165,7 @@ A: ElevenClock can't modify or update  the main clock due to Windows 11's restri
 
 ## Legacy Installation
 
-See the wiki: https://github.com/martinet101/ElevenClock/wiki/Installation
+See the wiki: https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation
 
 
 [translating link]: https://github.com/martinet101/ElevenClock/wiki#translating-elevenclock
