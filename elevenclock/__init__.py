@@ -828,11 +828,15 @@ try:
                 self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
                 self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0;")
                 self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
-                if(not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")):
+                if(not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")) and not getSettings("DisableBlurryTexture"):
                     if(isTaskbarDark()):
+                        self.showBlurryBackground = True
                         self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_black.png")))
                     else:
+                        self.showBlurryBackground = True
                         self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_white.png")))
+                else:
+                    self.showBlurryBackground = False
 
                 self.label = Label(timeStr, self, self.isCover)
 
@@ -1195,12 +1199,15 @@ try:
                     if self.UseTaskbarBackgroundColor and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
                             if not self.tempMakeClockTransparent:
+                                if self.showBlurryBackground:
+                                    self.callInMainSignal.emit(lambda: self.backgroundTexture.show())
                                 g = self.screen().geometry()
                                 intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
-                                self.callInMainSignal.emit(self.backgroundTexture.hide)
+                                if self.showBlurryBackground:
+                                    self.callInMainSignal.emit(lambda: self.backgroundTexture.hide())
                                 shouldBeTransparent = True
                                 if not alphaUpdated:
                                     intColor  = self.oldBgColor + 1
@@ -1210,7 +1217,6 @@ try:
                             if intColor != self.oldBgColor:
                                 self.oldBgColor = intColor
                                 color = QColor(intColor)
-                                self.callInMainSignal.emit(self.backgroundTexture.show)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
                 except AttributeError:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
@@ -1220,11 +1226,15 @@ try:
                 try:
                     if self.isVisible():
                         if not self.tempMakeClockTransparent:
+                            if self.showBlurryBackground:
+                                self.callInMainSignal.emit(lambda: self.backgroundTexture.show())
                             g = self.screen().geometry()
                             intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                             alphaUpdated = False
                             shouldBeTransparent = False
                         else:
+                            if self.showBlurryBackground:
+                                self.callInMainSignal.emit(lambda: self.backgroundTexture.hide())
                             shouldBeTransparent = True
                             if not alphaUpdated:
                                 intColor  = self.oldBgColor + 1

@@ -408,6 +408,11 @@ class SettingsWindow(QMainWindow):
         self.accentBgColor.setChecked(getSettings("AccentBackgroundcolor"))
         self.accentBgColor.stateChanged.connect(lambda i: setSettings("AccentBackgroundcolor", bool(i)))
         self.clockAppearanceTitle.addWidget(self.accentBgColor)
+        
+        self.disableClocckBlurryBackgound = QSettingsCheckBox(_("Disable clock blurry texture"))
+        self.disableClocckBlurryBackgound.setChecked(getSettings("DisableBlurryTexture"))
+        self.disableClocckBlurryBackgound.stateChanged.connect(lambda i: setSettings("DisableBlurryTexture", bool(i)))
+        self.clockAppearanceTitle.addWidget(self.disableClocckBlurryBackgound)
         self.centerText = QSettingsCheckBox(_("Align the clock text to the center"))
         self.centerText.setChecked(getSettings("CenterAlignment"))
         self.centerText.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
