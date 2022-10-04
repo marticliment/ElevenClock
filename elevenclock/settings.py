@@ -181,6 +181,10 @@ class SettingsWindow(QMainWindow):
 
         self.clockSettingsTitle = QSettingsTitle(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"), _("Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"))
         layout.addWidget(self.clockSettingsTitle)
+        self.addSecondClock = QSettingsCheckBox(_("Show a second clock on the other end of the taskbar"))
+        self.addSecondClock.setChecked(getSettings("EnableSecondClock"))
+        self.addSecondClock.stateChanged.connect(lambda i: setSettings("EnableSecondClock", bool(i)))
+        self.clockSettingsTitle.addWidget(self.addSecondClock)
         self.legacyHideOnFullScreen = QSettingsCheckBox(_("Hide the clock in fullscreen mode"))
         self.legacyHideOnFullScreen.setChecked(not getSettings("DisableHideOnFullScreen"))
         self.legacyHideOnFullScreen.stateChanged.connect(lambda i: (setSettings("DisableHideOnFullScreen", not bool(i)), self.updateCheckBoxesStatus()))

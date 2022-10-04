@@ -654,11 +654,18 @@ try:
         clockCover = None
         previousFullscreenHwnd = None
 
-        def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False):
+        def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
 
             self.shouldCoverWindowsClock = False
             self.isCover = isCover
+            self.isSecondary = isSecondary
+
+            if isCover:
+                self.shouldAddSecondaryClock = False
+            else:
+                self.shouldAddSecondaryClock = getSettings("EnableSecondClock")
+
 
             if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
                 print("🟠 Monitor blacklisted!")
@@ -785,6 +792,9 @@ try:
                         self.shouldCoverWindowsClock = True
                         if self.isCover:
                             self.clockOnTheLeft = False
+                
+                if self.isSecondary:
+                    self.clockOnTheLeft = not self.clockOnTheLeft
 
                 coverX = 0
                 coverY = 0
@@ -1091,9 +1101,17 @@ try:
                 self.loop0.start()
                 self.loop1.start()
 
+                    
+                if self.shouldAddSecondaryClock:
+                    self.shouldCoverWindowsClock = False
+
                 if self.shouldCoverWindowsClock:
                     if not self.isCover:
                         self.clockCover = Clock(dpix, dpiy, screen, index, isCover=True)
+                if self.shouldAddSecondaryClock:
+                    if not self.isSecondary:
+                        self.clockCover = Clock(dpix, dpiy, screen, index, isSecondary=True)
+
 
                 self.setMouseTracking(True)
 
