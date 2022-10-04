@@ -915,6 +915,26 @@ try:
                         self.doubleClickAction = r
                         print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
 
+                
+                self.middleClickAction = ("f20")
+                middleAction = getSettingsValue("CustomClockMiddleClickAction")
+                if middleAction != "":
+                    if len(middleAction.split("+")) > 3 or len(middleAction.split("+")) < 1:
+                        print("🟠 Invalid double click action piece")
+                    else:
+                        r = []
+                        for piece in middleAction.split("+"):
+                            piece = piece.lower()
+                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"]:
+                                r.append(piece)
+                            else:
+                                print("🟠 Invalid middle click action piece:", piece)
+                                r = ("win", "n")
+                                break
+                        self.middleClickAction = r
+                        print("🟢 Custom valid shortcut specified (for middle click):", self.middleClickAction)
+
+
                 if self.isCover:
                     if not(getSettings("EnableWin32API")):
                         print("🟢 Using qt's default positioning system")
@@ -1064,6 +1084,7 @@ try:
                         self.label.setFont(self.font)
                     self.label.clicked.connect(lambda: self.singleClickAction())
                     self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
+                    self.label.middleClicked.connect(lambda: self.doMiddleClickAction())
                 else:
                     styleSheetString = makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
                     self.fontfamilies = ["Segoe UI Variable Display"]
@@ -1437,6 +1458,10 @@ try:
             if not self.isCover:
                 self.doClickAction(self.doubleClickAction)
 
+        def doMiddleClickAction(self):
+            if not self.isCover:
+                self.doClickAction(self.middleClickAction)
+
         def doClickAction(self, actions):
             print("Action:", actions)
             try:
@@ -1519,6 +1544,7 @@ try:
     class Label(QLabel):
         clicked = Signal()
         doubleClicked = Signal()
+        middleClicked = Signal()
         outline = True
         def __init__(self, text, parent, isCover: bool = False):
             super().__init__(text, parent=parent)
@@ -1695,7 +1721,10 @@ try:
                             self.isMouseButtonLeftClick = True
                     case QEvent.MouseButtonRelease:
                         if not self.isMouseButtonDouble and not self.mouseButtonTimer.isActive():
-                            self.mouseButtonTimer.start()
+                            if event.button() == Qt.MiddleButton:
+                                self.middleClicked.emit()
+                            else:
+                                self.mouseButtonTimer.start()
                         self.isMouseButtonReleased = True
                     case QEvent.MouseButtonDblClick:
                         self.isMouseButtonDouble = True

@@ -247,6 +247,30 @@ class SettingsWindow(QMainWindow):
         self.customDoubleClickAction.stateChanged.connect(lambda i: setSettings("CustomClockDoubleClickAction", bool(i)))
         self.customDoubleClickAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockDoubleClickAction", dblactions[v]))
         self.clockSettingsTitle.addWidget(self.customDoubleClickAction)
+        self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is middle-clicked"))
+        dblactions = {
+            _("Show calendar"): "Win+N",
+            _("Copy date/time"): "copy_datetime",
+            _("Empty the recycle bin"): "trashcan",
+            _("Empty the recycle bin (Without confirmation)"): "trashcan_noconfirm",
+            _("Disabled"): "f20",
+            _("Open quick settings"): "Win+A",
+            _("Show desktop"): "Win+D",
+            _("Open run dialog"): "Win+R",
+            _("Open task manager"): "Ctrl+Shift+Esc",
+            _("Open start menu"): "Win",
+            _("Open search menu"): "Win+S",
+            _("Change task"): "AltRight+Tab",
+        }
+        self.customDoubleClickAction.loadItems(dblactions.keys())
+        self.customDoubleClickAction.setChecked(getSettings("CustomClockMiddleClickAction"))
+        try:
+            self.customDoubleClickAction.combobox.setCurrentIndex(list(dblactions.values()).index(getSettingsValue("CustomClockMiddleClickAction")))
+        except ValueError:
+            pass
+        self.customDoubleClickAction.stateChanged.connect(lambda i: setSettings("CustomClockMiddleClickAction", bool(i)))
+        self.customDoubleClickAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockMiddleClickAction", dblactions[v]))
+        self.clockSettingsTitle.addWidget(self.customDoubleClickAction)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
