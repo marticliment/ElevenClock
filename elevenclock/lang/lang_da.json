@@ -75,7 +75,7 @@
   "Do NOT update the language files dynamically" : "Opdater IKKE sprog filerne dynamisk",
   "ElevenClock" : "ElevenClock",
   "ElevenClock can hide when there's a fullscreen window present (when you are watching a video, you are playing, etc.), but it can also show over those windows (It might be useful if you use fullscreened terminals, etc.).<br><br>Please select one of the following and click next to continue" : null,
-  "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog" : "ElevenClock opdateret til version {0} vellykket Venligst se på GitHub for at se ændringerne",
+  "ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog" : "ElevenClock er opdateret til version {0} vellykket Venligst se på GitHub for at se ændringerne",
   "ElevenClock is an Open-Source application made with the help of other libraries made by the community:" : "ElevenClock er et Open-Source program lavet ved anvendelse af andre bibloteker lavet af fælleskabet.",
   "ElevenClock is downloading updates" : "ElevenClock henter opdateringer",
   "ElevenClock language locale:" : "ElevenClock sprog landestandard:",
