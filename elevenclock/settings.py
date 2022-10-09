@@ -1047,13 +1047,10 @@ class SettingsWindow(QMainWindow):
         self.internetTimeTitle.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
         self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
         if isWindowDark():
-            if ApplyMica(self.winId().__int__(), MICAMODE.DARK) != 0x0:
-                GlobalBlur(self.winId(), Dark=True, Acrylic=True, hexColor="#333333ff")
             self.setStyleSheet(f"""
                                #backgroundWindow {{
 
-                                   /*background-color: rgba({colors[3]}, 1);*/
-                                   background: transparent;
+                                   background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.DARK) == 0x1 else "#262626"};
                                }}
                                #titlebarButton {{
                                    border-radius: 0;
@@ -1211,7 +1208,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 * {{
                                    color: white;
-                                   font-size: 8pt;
+                                   font-size: 9pt;
                                     font-family: "Segoe UI Variable Text";
                                 }}
                                 #greyishLabel {{
@@ -1269,12 +1266,13 @@ class SettingsWindow(QMainWindow):
                                 #title{{
                                    margin: 2px;
                                    margin-bottom: 0;
-                                   font-weight: bold;
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
                                    font-size: 13pt;
                                    border-radius: 4px;
+                                   font-family: "Segoe UI Variable Display";
+                                   font-weight: bold;
                                 }}
                                 #subtitleLabelHover {{
                                    background-color: rgba(20, 20, 20, 0.01);
@@ -1525,11 +1523,9 @@ class SettingsWindow(QMainWindow):
                                 }}
                                """)
         else:
-            if ApplyMica(self.winId().__int__(), MICAMODE.LIGHT) != 0x0:
-                GlobalBlur(self.winId().__int__(), Dark=False, Acrylic=True, hexColor="#ffffffdd")
             self.setStyleSheet(f"""
                                #backgroundWindow {{
-                                   background-color: transparent;
+                                   background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.LIGHT) == 0x0 else "#ffffff"};
                                }}
                                #titlebarButton {{
                                    border-radius: 0;
@@ -1537,9 +1533,9 @@ class SettingsWindow(QMainWindow):
                                    background-color: rgba(0, 0, 0, 0.01);
                                }}
                                 #micaRegularBackground {{
-                                    border: 0 solid transparent;
+                                    border: 0 solid #dddddd;
                                     margin: 1px;
-                                   background-color: rgba(0, 0, 0, 5%);
+                                   background-color: rgba(0, 0, 0, 0%);
                                    border-radius: 8px;
                                 }}
                                #titlebarButton:hover {{
@@ -1611,7 +1607,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QPlainTextEdit{{
                                     font-family: "Cascadia Mono";
-                                    background-color: rgba(255, 255, 255, 10%);
+                                    background-color: rgba(255, 255, 255, 100%);
                                     border-radius: 6px;
                                     border: 1px solid #dddddd;
                                     selection-background-color: rgb({colors[3]});
@@ -1665,7 +1661,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QLineEdit {{
                                     background-color: #fefefe;
-                                    font-family: "Segoe UI Variable Display";
+                                    font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
                                     width: {(300)}px;
                                     padding: 5px;
@@ -1675,7 +1671,7 @@ class SettingsWindow(QMainWindow):
                                 }}
                                 QLineEdit:disabled {{
                                     background-color: #f5f5f5;
-                                    font-family: "Segoe UI Variable Display";
+                                    font-family: "Segoe UI Variable Text";
                                     font-size: 9pt;
                                     width: {(300)}px;
                                     padding: 5px;
@@ -1690,7 +1686,8 @@ class SettingsWindow(QMainWindow):
                                 * {{
                                    background-color: transparent;
                                    color: black;
-                                   font-size: 8pt;
+                                   font-size: 9pt;
+                                   font-family: "Segoe UI Variable Text";
                                 }}
                                 #warningLabel {{
                                     color: #bd0000;
@@ -1730,11 +1727,13 @@ class SettingsWindow(QMainWindow):
                                    padding-left: {(20)}px;
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
+                                   font-family: "Segoe UI Variable Display";
+                                   font-weight: bold;
                                    font-size: 13pt;
                                    border-radius: 8px;
                                 }}
                                 #subtitleLabel{{
-                                   background-color: rgba(255, 255, 255, 100%);
+                                   background-color: white;
                                    margin: 10px;
                                    margin-bottom: 0;
                                    margin-top: 0;
@@ -1742,13 +1741,13 @@ class SettingsWindow(QMainWindow):
                                    padding-top: {(15)}px;
                                    padding-bottom: {(15)}px;
                                    border-radius: 8px;
-                                   border: 0 solid rgba(196, 196, 196, 25%);
+                                   border: 1 solid rgba(222, 222, 222, 50%);
                                    font-size: 13pt;
                                    border-top-left-radius: 8px;
                                    border-top-right-radius: 8px;
                                 }}
                                 #subtitleLabelHover {{
-                                   background-color: rgba(0, 0, 0, 1%);
+                                   background-color: rgba(255, 255, 255, 1%);
                                    margin: 10px;
                                    margin-top: 0;
                                    margin-bottom: 0;
@@ -1758,7 +1757,7 @@ class SettingsWindow(QMainWindow):
                                    border: 1px solid transparent;
                                 }}
                                 #subtitleLabelHover:hover{{
-                                   background-color: rgba(0, 0, 0, 6%);
+                                   background-color: rgba(0, 0, 0, 3%);
                                    margin: 10px;
                                    margin-top: 0;
                                    margin-bottom: 0;
@@ -2162,8 +2161,8 @@ class QSettingsTitle(QWidget):
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft YaHei UI\";")
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft YaHei UI\";")
         else:
-            self.label.setStyleSheet(f"font-size: 10pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
-            self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
+            self.label.setStyleSheet(f"font-size: 10pt;background: none;font-family: \"Segoe UI Variable Text\";")
+            self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Text\";")
 
         self.image = QLabel(self)
         self.image.setStyleSheet(f"padding: 1px;background: transparent;")
