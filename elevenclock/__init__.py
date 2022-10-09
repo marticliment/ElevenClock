@@ -1417,7 +1417,8 @@ try:
                     hideClock = True
                 if not ENABLE_HIDE_ON_FULLSCREEN:
                     if isFullScreen:
-                        self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
+                        if IGNORE_MOUSECLICKS_WHEN_FS:
+                            self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
                     else:
                         self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
@@ -1542,23 +1543,26 @@ try:
             return super().closeEvent(event)
 
         def close(self) -> bool:
-            self.deleteLater()
-            self.rightFast.pause()            
-            self.rightFast.stop()
-            self.rightSlow.pause()            
-            self.rightSlow.stop()
-            self.leftFast.pause()           
-            self.leftFast.stop()
-            self.leftSlow.pause()           
-            self.leftSlow.stop()
-            self.rightFast.finished.disconnect()
-            self.rightSlow.finished.disconnect()
-            self.leftFast.finished.disconnect()
-            self.leftSlow.finished.disconnect()
-            self.rightFast.valueChanged.disconnect()
-            self.rightSlow.valueChanged.disconnect()
-            self.leftFast.valueChanged.disconnect()
-            self.leftSlow.valueChanged.disconnect()
+            try:
+                self.rightFast.pause()            
+                self.rightFast.stop()
+                self.rightSlow.pause()            
+                self.rightSlow.stop()
+                self.leftFast.pause()           
+                self.leftFast.stop()
+                self.leftSlow.pause()           
+                self.leftSlow.stop()
+                self.rightFast.finished.disconnect()
+                self.rightSlow.finished.disconnect()
+                self.leftFast.finished.disconnect()
+                self.leftSlow.finished.disconnect()
+                self.rightFast.valueChanged.disconnect()
+                self.rightSlow.valueChanged.disconnect()
+                self.leftFast.valueChanged.disconnect()
+                self.leftSlow.valueChanged.disconnect()
+            except AttributeError:
+                self.deleteLater()
+                pass
             try:
                 self.clockCover.close()
             except AttributeError:
