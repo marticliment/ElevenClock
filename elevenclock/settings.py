@@ -1050,7 +1050,7 @@ class SettingsWindow(QMainWindow):
             self.setStyleSheet(f"""
                                #backgroundWindow {{
 
-                                   background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.DARK) == 0x1 else "#262626"};
+                                   background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.DARK) == 0x0 else "#262626"};
                                }}
                                #titlebarButton {{
                                    border-radius: 0;
