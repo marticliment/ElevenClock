@@ -1542,6 +1542,23 @@ try:
             return super().closeEvent(event)
 
         def close(self) -> bool:
+            self.deleteLater()
+            self.rightFast.pause()            
+            self.rightFast.stop()
+            self.rightSlow.pause()            
+            self.rightSlow.stop()
+            self.leftFast.pause()           
+            self.leftFast.stop()
+            self.leftSlow.pause()           
+            self.leftSlow.stop()
+            self.rightFast.finished.disconnect()
+            self.rightSlow.finished.disconnect()
+            self.leftFast.finished.disconnect()
+            self.leftSlow.finished.disconnect()
+            self.rightFast.valueChanged.disconnect()
+            self.rightSlow.valueChanged.disconnect()
+            self.leftFast.valueChanged.disconnect()
+            self.leftSlow.valueChanged.disconnect()
             try:
                 self.clockCover.close()
             except AttributeError:
