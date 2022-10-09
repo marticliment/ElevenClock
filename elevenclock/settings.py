@@ -913,6 +913,7 @@ class SettingsWindow(QMainWindow):
                     w.toggleChilds()
 
     def showEvent(self, event: QShowEvent) -> None:
+        self.applyStyleSheet()
         Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
         return super().showEvent(event)
 
@@ -2097,7 +2098,6 @@ class SettingsWindow(QMainWindow):
     def mouseReleaseEvent(self, event) -> None:
         if(self.updateSize):
             self.settingsWidget.resize(self.width()-(17), self.settingsWidget.height())
-            self.applyStyleSheet()
             if not self.isMaximized():
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 4px;border-bottom-right-radius: 4px;}}")
             self.updateSize = False
@@ -2105,10 +2105,12 @@ class SettingsWindow(QMainWindow):
 
 
     def show(self) -> None:
-        self.applyStyleSheet()
         self.raise_()
+        self.applyStyleSheet()
         self.activateWindow()
         return super().show()
+
+    
 
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
         if event.type() == event.WindowStateChange:
@@ -2164,7 +2166,7 @@ class QSettingsTitle(QWidget):
             self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Display {semib}\";")
 
         self.image = QLabel(self)
-        self.image.setStyleSheet(f"padding: 1px;background: none;")
+        self.image.setStyleSheet(f"padding: 1px;background: transparent;")
         self.setAttribute(Qt.WA_StyledBackground)
         self.compressibleWidget = QWidget(self)
         self.compressibleWidget.show()
@@ -2270,11 +2272,11 @@ class QSettingsTitle(QWidget):
         if self.childsVisible:
             self.childsVisible = False
             self.invertNotAnimated()
-            self.showHideButton.setIcon(QIcon(getPath(f"expand_{self.iconMode}.png")))
+            self.showHideButton.setIcon(QIcon(getPath(f"expand_{getAppIconMode()}.png")))
             Thread(target=lambda: (time.sleep(0.2),self.button.setStyleSheet(f"border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;"),self.bg70.setStyleSheet(f"border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;")), daemon=True).start()
             Thread(target=self.hideChildren).start()
         else:
-            self.showHideButton.setIcon(QIcon(getPath(f"collapse_{self.iconMode}.png")))
+            self.showHideButton.setIcon(QIcon(getPath(f"collapse_{getAppIconMode()}.png")))
             self.button.setStyleSheet(f"border-bottom-left-radius: 0;border-bottom-right-radius: 0;")
             self.bg70.setStyleSheet(f"border-bottom-left-radius: 0;border-bottom-right-radius: 0;")
             self.invertNotAnimated()
@@ -2296,10 +2298,8 @@ class QSettingsTitle(QWidget):
             self.image.show()
             self.showHideButton.show()
             self.button.show()
-            self.image.show()
             self.label.show()
             self.descLabel.show()
-            self.image.setPixmap(QIcon(self.icon).pixmap(QSize((24), (24))))
             self.button.move(0, 0)
             self.button.resize(self.width(), (70))
             self.showHideButton.setIconSize(QSize((12), (12)))
@@ -2349,6 +2349,17 @@ class QSettingsTitle(QWidget):
 
     def getChildren(self) -> list:
         return self.childrenw
+
+    def showEvent(self, event) -> None:
+        if isWindowDark():
+            self.setIcon(self.icon.replace("black", "white"))
+        else:
+            self.setIcon(self.icon.replace("white", "black"))
+        if self.childsVisible:
+            self.showHideButton.setIcon(QIcon(getPath(f"collapse_{getAppIconMode()}.png")))
+        else:
+            self.showHideButton.setIcon(QIcon(getPath(f"expand_{getAppIconMode()}.png")))
+        return super().showEvent(event)
 
 class QSettingsButton(QWidget):
     clicked = Signal()
