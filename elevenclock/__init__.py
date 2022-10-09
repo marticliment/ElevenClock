@@ -654,6 +654,7 @@ try:
         tempMakeClockTransparent = False
         clockCover = None
         previousFullscreenHwnd = None
+        isIgnoringClicks = False
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -1349,6 +1350,7 @@ try:
             LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
             ADVANCED_FULLSCREEN_METHOD = getSettings("NewFullScreenMethod")
             LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
+            IGNORE_MOUSECLICKS_WHEN_FS = getSettings("MouseEventTransparentFS")
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not getSettings("DisableHideOnFullScreen")
                 DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
@@ -1415,8 +1417,10 @@ try:
                     hideClock = True
                 if not ENABLE_HIDE_ON_FULLSCREEN:
                     if isFullScreen:
+                        self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
                     else:
+                        self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
                         self.tempMakeClockTransparent = False
                 else:
                     self.tempMakeClockTransparent = False
@@ -1429,6 +1433,23 @@ try:
                 else:
                     loopCount = 0
                 time.sleep(self.WAITLOOPTIME)
+
+        def makeclockIngoreMouseClicks(self):
+            if not self.isIgnoringClicks:
+                self.isIgnoringClicks = True
+                print("🟠 Start ignoring mouse events")
+                for w in (self, self.label, self.desktopButton, self.backgroundTexture):
+                    self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_TransparentForMouseEvents, True))
+                    self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_NoSystemBackground, True))
+
+            
+        def makeclockRegiesterMouseClicks(self):
+            if self.isIgnoringClicks:
+                self.isIgnoringClicks = False
+                print("🟡 Stop ignoring mouse events")
+                for w in (self, self.label, self.desktopButton, self.backgroundTexture):
+                    self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_TransparentForMouseEvents, False))
+            
 
         def updateTextLoop(self) -> None:
             global timeStr
@@ -1464,24 +1485,27 @@ try:
                 self.doClickAction(self.middleClickAction)
 
         def doClickAction(self, actions):
-            print("Action:", actions)
-            try:
-                match len(actions):
-                    case 1:
-                        if actions[0] == "trashcan":
-                            winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
-                        elif actions[0] == "trashcan_noconfirm":
-                            winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
-                        elif actions[0] == "copy_datetime":
-                            textToClipboard(self.label.text())
-                        else:
-                            pyautogui.hotkey(actions[0])
-                    case 2:
-                        pyautogui.hotkey(actions[0], actions[1])
-                    case 3:
-                        pyautogui.hotkey(actions[0], actions[1], actions[2])
-            except Exception as e:
-                report(e)
+            if self.isIgnoringClicks:
+                print("🟡 User is ignoring mouse events")
+            else:
+                print("Action:", actions)
+                try:
+                    match len(actions):
+                        case 1:
+                            if actions[0] == "trashcan":
+                                winshell.recycle_bin().empty(confirm=True, show_progress=True, sound=True)
+                            elif actions[0] == "trashcan_noconfirm":
+                                winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
+                            elif actions[0] == "copy_datetime":
+                                textToClipboard(self.label.text())
+                            else:
+                                pyautogui.hotkey(actions[0])
+                        case 2:
+                            pyautogui.hotkey(actions[0], actions[1])
+                        case 3:
+                            pyautogui.hotkey(actions[0], actions[1], actions[2])
+                except Exception as e:
+                    report(e)
 
         def showDesktop(self):
             pyautogui.hotkey("win", "d")
