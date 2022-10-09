@@ -267,20 +267,20 @@ try:
         """
         try:
             geometry = screen.geometry()
-            g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+            g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.devicePixelRatio())
             return g
         except Exception as e:
             report(e)
             geometry = QGuiApplication.primaryScreen().geometry()
-            g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.logicalDotsPerInch(), win32api.EnumDisplayMonitors())
+            g = (geometry.width(), geometry.height(), geometry.x(), geometry.y(), screen.devicePixelRatio())
             return g
 
     def theyMatch(oldscreens, newscreens):
-        if len(oldscreens) != len(newscreens) or len(app.screens()) != len(win32api.EnumDisplayMonitors()):
+        if len(oldscreens) != len(newscreens):
+            cprint(newscreens)
             return False  # The number of displays has changed
+        return all(old == getGeometry(new) for old, new in zip(oldscreens, newscreens)) # Check that all screen dimensions and dpi are the same as before
 
-        # Check that all screen dimensions and dpi are the same as before
-        return all(old == getGeometry(new) for old, new in zip(oldscreens, newscreens))
 
     def wnfDataThread():
         global isFocusAssist, numOfNotifs
@@ -294,6 +294,7 @@ try:
     def screenCheckThread():
         while theyMatch(oldScreens, app.screens()):
             time.sleep(1)
+        cprint(oldScreens, app.screens())
         signal.restartSignal.emit()
         pass
 
@@ -1837,7 +1838,8 @@ try:
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     KillableThread(target=loadAtomicClockOffset, daemon=True, name="Main: Atomic clock sync thread").start()
     KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
-    if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
+    if getSettings("PreventSleepFailure"):
+        if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
     print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
 

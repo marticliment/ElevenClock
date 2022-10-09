@@ -3,7 +3,7 @@ import json
 import os
 import time
 
-sys.path.append('../');
+sys.path.append('../')
 from lang_tools import *
 
 isAutoCommit = False
