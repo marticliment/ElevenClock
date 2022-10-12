@@ -29,6 +29,8 @@ from urllib.request import urlopen
 
 from win32con import *
 
+import pywintypes
+
 
 try:
     winver = int(platform.version().split('.')[2])
@@ -737,8 +739,22 @@ def appendWindowList(hwnd, _):
 def loadWindowsInfoThread():
     while True:
         globals.newWindowList = []
+        globals.windowTexts = {}
+        globals.windowRects = {}
+        globals.windowVisible = {}
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
         win32gui.EnumWindows(appendWindowList, 0)
+        if globals.foregroundHwnd not in globals.newWindowList:
+            try:
+                appendWindowList(globals.foregroundHwnd, _)
+            except pywintypes.error:
+                pass
+        for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
+            if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
+                try:
+                    appendWindowList(previousFullscreenHwnd, _)
+                except pywintypes.error:
+                    globals.previousFullscreenHwnd[i] = 0
         globals.windowList = globals.newWindowList
         time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
 

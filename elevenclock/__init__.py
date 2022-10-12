@@ -653,7 +653,6 @@ try:
         INTLOOPTIME = 2
         tempMakeClockTransparent = False
         clockCover = None
-        previousFullscreenHwnd = None
         isIgnoringClicks = False
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
@@ -1113,6 +1112,8 @@ try:
                 self.fullScreenRect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
                 print("🔵 Full screen rect: ", self.fullScreenRect)
 
+                globals.previousFullscreenHwnd[self.index] = 0
+
 
                 self.forceDarkTheme = getSettings("ForceDarkTheme")
                 self.forceLightTheme = getSettings("ForceLightTheme")
@@ -1317,28 +1318,28 @@ try:
                                         fullscreen = True
                 else:
                     hwnd = globals.foregroundHwnd
+                    if hwnd == 0:
+                        return False
+                    previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
                     previousFullscreenRect = None
-                    if self.previousFullscreenHwnd != None:
-                        try:
-                            previousFullscreenRect = globals.windowRects[self.previousFullscreenHwnd]
-                        except Exception as e:
+                    if previousFullscreenHwnd != 0:
+                        previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
+                        if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                            if(globals.windowTexts[previousFullscreenHwnd] not in blacklistedFullscreenApps):
+                                print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                if LOG_FULLSCREEN_WINDOW_TITLE:
+                                    print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
+                                fullscreen = True
+                        else:
                             self.previousFullscreenHwnd = None
-                    if (self.previousFullscreenHwnd is not None and compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                        if(globals.windowTexts[self.previousFullscreenHwnd] not in blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                            if LOG_FULLSCREEN_WINDOW_TITLE:
-                                print("🟡 Fullscreen window title:", globals.windowTexts[self.previousFullscreenHwnd])
-                            fullscreen = True
-                    else:
-                        if self.previousFullscreenHwnd is not None:
-                            self.previousFullscreenHwnd = None
-                    if(compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                            globals.previousFullscreenHwnd[self.index] = 0
+                    if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
                         if(globals.windowTexts[hwnd] not in blacklistedFullscreenApps):
                             print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                             if LOG_FULLSCREEN_WINDOW_TITLE:
                                 print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
                             fullscreen = True
-                            self.previousFullscreenHwnd = hwnd
+                            globals.previousFullscreenHwnd[self.index] = hwnd
                 return fullscreen
             except Exception as e:
                 report(e)
