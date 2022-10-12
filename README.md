@@ -145,22 +145,26 @@ ElevenClock's promo media
 
 **Q: The clock shows over fullscreen**  
 A: Enable fullscreen hiding in settings
-
+#
 **Q: The clock shows over RDP sessions**  
 A: Enable RDP hiding in settings (it may consume more CPU)
-
+#
 **Q: Can ElevenClock be in my language?**  
 A: Yes, just take a look at [TRANSLATION.md][translating link]
-
+#
 **Q: My antivirus is telling me that ElevenClock is a virus/My antivirus is uninstalling ElevenClock/My browser is blocking ElevenClock download**  
-A: Just whitelist ElevenClock on the antivirus quarantine box/antivirus settings
+A: A common reason apps (i.e., executables) get blocked and/or detected as a virus — even when there's nothing malicious about them, like in the case of ElevenClock — is because they're not being used by a relatively large amount of people.
 
+Combine that with the fact that you might be downloading something that was recently released, and simply blocking unknown apps is in many cases a good precaution to take in order to prevent actual malware.
+
+Since ElevenClock is open source and safe to use, simply whitelist the app in the settings of your antivirus/browser.
+#
 **Q: The clock shows seconds when the "Show Seconds" settings is disabled**  
 A: Check that you don't have seconds set in your regional settings and disable seconds following this [article's instructions](https://www.howtogeek.com/325096/how-to-make-windows-10s-taskbar-clock-display-seconds/) (Other guides might not work)
-
+#
 **Q: ElevenClock does not show the correct time zone when time zone is changed**  
 A: Just restart ElevenClock (Right-click clock -> Restart ElevenClock)
-
+#
 **Q: The main clock does not get modified when enabling seconds, etc.**  
 A: ElevenClock can't modify or update  the main clock due to Windows 11's restrictions.
 
