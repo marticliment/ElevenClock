@@ -286,7 +286,6 @@ try:
         global isFocusAssist, numOfNotifs
         while True:
             isFocusAssist = isFocusAssistEnabled()
-            time.sleep(0.3)
             numOfNotifs = getNotificationNumber()
             time.sleep(0.3)
 
@@ -321,6 +320,7 @@ try:
         loadClocks()
         loadTimeFormat()
         setSettings("ReloadInternetTime", True, thread=True)
+        globals.doCacheHost = True
 
         try:
             rdpThread.kill()
@@ -649,7 +649,6 @@ try:
         shouldBeVisible = True
         isRDPRunning = True
         clockOnTheLeft = False
-        textInputHostHWND = 0
         INTLOOPTIME = 2
         tempMakeClockTransparent = False
         clockCover = None
@@ -1291,27 +1290,10 @@ try:
                 
                 if not LEGACY_FULLSCREEN_METHOD:
                     for hwnd in globals.windowList:
-                        if globals.windowVisible[hwnd]:
-                            if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):
-                                if CLOCK_ON_FIRST_MONITOR and self.textInputHostHWND == 0:
-                                        pythoncom.CoInitialize()
-                                        _, pid = win32process.GetWindowThreadProcessId(hwnd)
-                                        _wmi = win32com.client.GetObject('winmgmts:')
-
-                                        # collect all the running processes
-                                        processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
-                                        for p in processes:
-                                            if p.Name != "TextInputHost.exe":
-                                                if(globals.windowTexts[hwnd] not in blacklistedFullscreenApps):
-                                                    print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                                    if LOG_FULLSCREEN_WINDOW_TITLE:
-                                                        print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                                    fullscreen = True
-                                            else:
-                                                print("🟢 Cached text input host hwnd:", hwnd)
-                                                self.textInputHostHWND = hwnd
-                                else:
-                                    if globals.windowTexts[hwnd] not in blacklistedFullscreenApps and hwnd != self.textInputHostHWND:
+                        if hwnd in globals.windowVisible.keys():
+                            if globals.windowVisible[hwnd]:
+                                if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
+                                    if globals.windowTexts[hwnd] not in blacklistedFullscreenApps:
                                         print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                                         if LOG_FULLSCREEN_WINDOW_TITLE:
                                             print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
@@ -1370,7 +1352,7 @@ try:
             if self.IS_LOW_CPU_MODE:
                 self.WAITLOOPTIME = 0.8
             else:
-                self.WAITLOOPTIME = 0.2
+                self.WAITLOOPTIME = 0.1
             loopCount = 0
             while True:
                 self.isRDPRunning = isRDPRunning

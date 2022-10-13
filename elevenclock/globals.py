@@ -52,4 +52,5 @@ windowVisible: dict[int, bool] = {}
 windowList: list[int] = []
 newWindowList: list[int] = []
 foregroundHwnd: int = 0
+doCacheHost: bool = False
 previousFullscreenHwnd: dict[int, int] = {}

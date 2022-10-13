@@ -726,24 +726,58 @@ def drawVerticalLine(canvas: QSize, lineHeight: int, alpha = 255):
     qP.end()
     return pixmap
 
+cachedInputHosts =[]
+
 def appendWindowList(hwnd, _):
+    global cachedInputHosts
     rect = win32gui.GetWindowRect(hwnd)
-    if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
-        text = win32gui.GetWindowText(hwnd)
-        isVisible = win32gui.IsWindowVisible(hwnd)
-        globals.newWindowList.append(hwnd)
-        globals.windowTexts[hwnd] = text
-        globals.windowRects[hwnd] = rect
-        globals.windowVisible[hwnd] = isVisible
+    import pythoncom
+    import win32process
+    import win32com
+
+    if globals.doCacheHost:
+        pythoncom.CoInitialize()
+        _, pid = win32process.GetWindowThreadProcessId(hwnd)
+        _wmi = win32com.client.GetObject('winmgmts:')
+
+        # collect all the running processes
+        processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
+        for p in processes:
+            if p.Name != "TextInputHost.exe":
+                if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
+                    text = win32gui.GetWindowText(hwnd)
+                    isVisible = win32gui.IsWindowVisible(hwnd)
+                    globals.newWindowList.append(hwnd)
+                    globals.windowTexts[hwnd] = text
+                    globals.windowRects[hwnd] = rect
+                    globals.windowVisible[hwnd] = isVisible
+            else:
+                print("🟢 Cached text input host hwnd:", hwnd)
+                cachedInputHosts.append(hwnd)
+    else:
+        if hwnd not in cachedInputHosts:
+            if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
+                text = win32gui.GetWindowText(hwnd)
+                isVisible = win32gui.IsWindowVisible(hwnd)
+                globals.newWindowList.append(hwnd)
+                globals.windowTexts[hwnd] = text
+                globals.windowRects[hwnd] = rect
+                globals.windowVisible[hwnd] = isVisible
+
 
 def loadWindowsInfoThread():
+    global cachedInputHosts
+    globals.doCacheHost = True
     while True:
         globals.newWindowList = []
         globals.windowTexts = {}
         globals.windowRects = {}
         globals.windowVisible = {}
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
+        if globals.doCacheHost:
+            cachedInputHosts = []
         win32gui.EnumWindows(appendWindowList, 0)
+        globals.doCacheHost = False
         if globals.foregroundHwnd not in globals.newWindowList:
             try:
                 appendWindowList(globals.foregroundHwnd, _)
@@ -756,7 +790,7 @@ def loadWindowsInfoThread():
                 except pywintypes.error:
                     globals.previousFullscreenHwnd[i] = 0
         globals.windowList = globals.newWindowList
-        time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
+        time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.1)
 
 
 def updateLangFile(file: str):
