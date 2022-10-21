@@ -6,7 +6,6 @@ untranslatedPercentage = {
   "bg": "18%",
   "bs": "6%",
   "da": "99%",
-  "de": "95%",
   "el": "19%",
   "et": "93%",
   "fa": "5%",
