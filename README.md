@@ -71,44 +71,44 @@ In order to translate ElevenClock to other languages or to update an old transla
 | Bosnian - Bosanski | 6% | <img src='https://flagcdn.com/ba.svg' width=20> |
 | Bulgarian - български | 18% | <img src='https://flagcdn.com/bg.svg' width=20> |
 | Catalan - Català | 100% | <img src='https://flagcdn.com/ad.svg' width=20> |
-| Czech - Čeština | 100% | <img src='https://flagcdn.com/cz.svg' width=20> |
-| Danish - Dansk | 99% | <img src='https://flagcdn.com/dk.svg' width=20> |
-| German - Deutsch | 100% | <img src='https://flagcdn.com/de.svg' width=20> |
-| Greek - Ελληνικά | 19% | <img src='https://flagcdn.com/gr.svg' width=20> |
+| Czech - Čeština | 99% | <img src='https://flagcdn.com/cz.svg' width=20> |
+| Danish - Dansk | 98% | <img src='https://flagcdn.com/dk.svg' width=20> |
+| German - Deutsch | 99% | <img src='https://flagcdn.com/de.svg' width=20> |
+| Greek - Ελληνικά | 18% | <img src='https://flagcdn.com/gr.svg' width=20> |
 | English - English | 100% | <img src='https://flagcdn.com/gb.svg' width=20> |
-| Spanish - Español | 100% | <img src='https://flagcdn.com/es.svg' width=20> |
-| Estonian - eesti | 93% | <img src='https://flagcdn.com/ee.svg' width=20> |
+| Spanish - Español | 99% | <img src='https://flagcdn.com/es.svg' width=20> |
+| Estonian - eesti | 92% | <img src='https://flagcdn.com/ee.svg' width=20> |
 | Persian - فارسی‎ | 5% | <img src='https://flagcdn.com/ir.svg' width=20> |
 | Finnish - Suomi | 63% | <img src='https://flagcdn.com/fi.svg' width=20> |
-| French - Français | 100% | <img src='https://flagcdn.com/fr.svg' width=20> |
-| Hebrew - עִבְרִית‎ | 93% | <img src='https://flagcdn.com/il.svg' width=20> |
+| French - Français | 99% | <img src='https://flagcdn.com/fr.svg' width=20> |
+| Hebrew - עִבְרִית‎ | 92% | <img src='https://flagcdn.com/il.svg' width=20> |
 | Croatian - Hrvatski | 11% | <img src='https://flagcdn.com/hr.svg' width=20> |
-| Hungarian - Magyar | 92% | <img src='https://flagcdn.com/hu.svg' width=20> |
-| Indonesian - Bahasa Indonesia | 93% | <img src='https://flagcdn.com/id.svg' width=20> |
-| Italian - Italiano | 66% | <img src='https://flagcdn.com/it.svg' width=20> |
-| Japanese - 日本語 | 94% | <img src='https://flagcdn.com/jp.svg' width=20> |
-| Korean - 한국어 | 100% | <img src='https://flagcdn.com/kr.svg' width=20> |
+| Hungarian - Magyar | 91% | <img src='https://flagcdn.com/hu.svg' width=20> |
+| Indonesian - Bahasa Indonesia | 92% | <img src='https://flagcdn.com/id.svg' width=20> |
+| Italian - Italiano | 65% | <img src='https://flagcdn.com/it.svg' width=20> |
+| Japanese - 日本語 | 93% | <img src='https://flagcdn.com/jp.svg' width=20> |
+| Korean - 한국어 | 99% | <img src='https://flagcdn.com/kr.svg' width=20> |
 | Lithuanian - Lietuvių | 22% | <img src='https://flagcdn.com/lt.svg' width=20> |
 | Latvian - Latviski | 61% | <img src='https://flagcdn.com/lv.svg' width=20> |
-| Norwegian (bokmål) | 93% | <img src='https://flagcdn.com/no.svg' width=20> |
-| Dutch - Nederlands | 81% | <img src='https://flagcdn.com/nl.svg' width=20> |
-| Norwegian (nynorsk) | 68% | <img src='https://flagcdn.com/no.svg' width=20> |
-| Polish - Polski | 97% | <img src='https://flagcdn.com/pl.svg' width=20> |
-| Portuguese (Brazil) | 100% | <img src='https://flagcdn.com/br.svg' width=20> |
-| Portuguese (Portugal) | 100% | <img src='https://flagcdn.com/pt.svg' width=20> |
-| Romanian - Română | 93% | <img src='https://flagcdn.com/ro.svg' width=20> |
-| Russian - Русский | 93% | <img src='https://flagcdn.com/ru.svg' width=20> |
+| Norwegian (bokmål) | 92% | <img src='https://flagcdn.com/no.svg' width=20> |
+| Dutch - Nederlands | 80% | <img src='https://flagcdn.com/nl.svg' width=20> |
+| Norwegian (nynorsk) | 67% | <img src='https://flagcdn.com/no.svg' width=20> |
+| Polish - Polski | 96% | <img src='https://flagcdn.com/pl.svg' width=20> |
+| Portuguese (Brazil) | 99% | <img src='https://flagcdn.com/br.svg' width=20> |
+| Portuguese (Portugal) | 99% | <img src='https://flagcdn.com/pt.svg' width=20> |
+| Romanian - Română | 92% | <img src='https://flagcdn.com/ro.svg' width=20> |
+| Russian - Русский | 92% | <img src='https://flagcdn.com/ru.svg' width=20> |
 | Slovak - Slovenčina | 30% | <img src='https://flagcdn.com/sk.svg' width=20> |
 | Serbian - Srpski | 22% | <img src='https://flagcdn.com/rs.svg' width=20> |
-| Swedish - Svenska | 79% | <img src='https://flagcdn.com/se.svg' width=20> |
+| Swedish - Svenska | 78% | <img src='https://flagcdn.com/se.svg' width=20> |
 | Thai - ภาษาไทย | 82% | <img src='https://flagcdn.com/th.svg' width=20> |
-| Turkish - Türkçe | 100% | <img src='https://flagcdn.com/tr.svg' width=20> |
-| Ukranian - Yкраї́нська | 94% | <img src='https://flagcdn.com/ua.svg' width=20> |
+| Turkish - Türkçe | 99% | <img src='https://flagcdn.com/tr.svg' width=20> |
+| Ukranian - Yкраї́нська | 93% | <img src='https://flagcdn.com/ua.svg' width=20> |
 | Vietnamese - Tiếng Việt | 38% | <img src='https://flagcdn.com/vn.svg' width=20> |
-| Simplified Chinese (China) | 100% | <img src='https://flagcdn.com/cn.svg' width=20> |
-| Traditional Chinese (Taiwan) | 100% | <img src='https://flagcdn.com/tw.svg' width=20> |
+| Simplified Chinese (China) | 99% | <img src='https://flagcdn.com/cn.svg' width=20> |
+| Traditional Chinese (Taiwan) | 99% | <img src='https://flagcdn.com/tw.svg' width=20> |
 
-Last updated: Fri Oct 21 01:21:28 2022
+Last updated: Sat Oct 22 20:55:16 2022
 <!-- END Autogenerated translations -->
 
 
