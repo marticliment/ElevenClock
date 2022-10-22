@@ -179,7 +179,7 @@ class SettingsWindow(QMainWindow):
         self.generalSettingsTitle.addWidget(self.startupButton)
 
 
-        self.clockSettingsTitle = QSettingsTitle(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"), _("Fullscreen behaviour, clock position, 1st monitor clock, other miscellanious settings"))
+        self.clockSettingsTitle = QSettingsTitle(_("Clock Settings:"), getPath(f"clock_{self.iconMode}.png"), _("Fullscreen behaviour, low cpu mode, other miscellaneous preferences"))
         layout.addWidget(self.clockSettingsTitle)
         self.addSecondClock = QSettingsCheckBox(_("Show a second clock on the other end of the taskbar"))
         self.addSecondClock.setChecked(getSettings("EnableSecondClock"))
@@ -205,6 +205,34 @@ class SettingsWindow(QMainWindow):
         self.forceClockToShow.setChecked(getSettings("DisableHideWithTaskbar"))
         self.forceClockToShow.stateChanged.connect(lambda i: setSettings("DisableHideWithTaskbar", bool(i)))
         self.clockSettingsTitle.addWidget(self.forceClockToShow)
+        self.hideClockWhenClicked = QSettingsCheckBox(_("Hide the clock during 10 seconds when clicked"))
+        self.hideClockWhenClicked.setChecked(getSettings("HideClockWhenClicked"))
+        self.hideClockWhenClicked.stateChanged.connect(lambda i: setSettings("HideClockWhenClicked", bool(i)))
+        self.clockSettingsTitle.addWidget(self.hideClockWhenClicked)
+        self.enableLowCpuMode = QSettingsCheckBoxWithWarning(_("Enable low-cpu mode"), _("You might lose functionalities, like the notification counter or the dynamic background"))
+        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
+        self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
+        self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
+        self.clockSettingsTitle.addWidget(self.enableLowCpuMode)
+
+        self.clockFeaturesTitle = QSettingsTitle(_("Clock features:"), getPath(f"plugin_{self.iconMode}.png"), _("Notification badge, clicked action, show desktop button, etc."))
+        layout.addWidget(self.clockFeaturesTitle)
+        self.disableNotificationBadge = QSettingsCheckBox(_("Disable the notification badge"))
+        self.disableNotificationBadge.setChecked(getSettings("DisableNotifications"))
+        self.disableNotificationBadge.stateChanged.connect(lambda i: setSettings("DisableNotifications", bool(i)))
+        self.clockFeaturesTitle.addWidget(self.disableNotificationBadge)
+        self.disableTooltip = QSettingsCheckBox(_("Disable the tooltip shown when the clock is hovered"))
+        self.disableTooltip.setChecked(getSettings("DisableToolTip"))
+        self.disableTooltip.stateChanged.connect(lambda i: setSettings("DisableToolTip", bool(i)))
+        self.clockFeaturesTitle.addWidget(self.disableTooltip)
+        self.primaryScreen = QSettingsCheckBox(_("Show the clock on the primary screen"))
+        self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
+        self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
+        self.clockFeaturesTitle.addWidget(self.primaryScreen)
+        self.onlyPrimaryScreen = QSettingsCheckBox(_("Do not show the clock on secondary monitors"))
+        self.onlyPrimaryScreen.setChecked(getSettings("HideClockOnSecondaryMonitors"))
+        self.onlyPrimaryScreen.stateChanged.connect(lambda i: setSettings("HideClockOnSecondaryMonitors", bool(i)))
+        self.clockFeaturesTitle.addWidget(self.onlyPrimaryScreen)
         self.customClockAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is clicked"))
         clkactions = {
             _("Show calendar"): "Win+N",
@@ -226,7 +254,7 @@ class SettingsWindow(QMainWindow):
             pass
         self.customClockAction.stateChanged.connect(lambda i: setSettings("CustomClockClickAction", bool(i)))
         self.customClockAction.valueChanged.connect(lambda v: (setSettingsValue("CustomClockClickAction", clkactions[str(v)])))
-        self.clockSettingsTitle.addWidget(self.customClockAction)
+        self.clockFeaturesTitle.addWidget(self.customClockAction)
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is double-clicked"))
         dblactions = {
             _("Show calendar"): "Win+N",
@@ -250,7 +278,7 @@ class SettingsWindow(QMainWindow):
             pass
         self.customDoubleClickAction.stateChanged.connect(lambda i: setSettings("CustomClockDoubleClickAction", bool(i)))
         self.customDoubleClickAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockDoubleClickAction", dblactions[v]))
-        self.clockSettingsTitle.addWidget(self.customDoubleClickAction)
+        self.clockFeaturesTitle.addWidget(self.customDoubleClickAction)
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is middle-clicked"))
         dblactions = {
             _("Show calendar"): "Win+N",
@@ -274,38 +302,14 @@ class SettingsWindow(QMainWindow):
             pass
         self.customDoubleClickAction.stateChanged.connect(lambda i: setSettings("CustomClockMiddleClickAction", bool(i)))
         self.customDoubleClickAction.valueChanged.connect(lambda v: setSettingsValue("CustomClockMiddleClickAction", dblactions[v]))
-        self.clockSettingsTitle.addWidget(self.customDoubleClickAction)
-        self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
-        self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
-        self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
-        self.primaryScreen = QSettingsCheckBox(_("Show the clock on the primary screen"))
-        self.primaryScreen.setChecked(getSettings("ForceClockOnFirstMonitor"))
-        self.primaryScreen.stateChanged.connect(lambda i: setSettings("ForceClockOnFirstMonitor", bool(i)))
-        self.clockSettingsTitle.addWidget(self.primaryScreen)
-        self.onlyPrimaryScreen = QSettingsCheckBox(_("Do not show the clock on secondary monitors"))
-        self.onlyPrimaryScreen.setChecked(getSettings("HideClockOnSecondaryMonitors"))
-        self.onlyPrimaryScreen.stateChanged.connect(lambda i: setSettings("HideClockOnSecondaryMonitors", bool(i)))
-        self.clockSettingsTitle.addWidget(self.onlyPrimaryScreen)
-        self.hideClockWhenClicked = QSettingsCheckBox(_("Hide the clock during 10 seconds when clicked"))
-        self.hideClockWhenClicked.setChecked(getSettings("HideClockWhenClicked"))
-        self.hideClockWhenClicked.stateChanged.connect(lambda i: setSettings("HideClockWhenClicked", bool(i)))
-        self.clockSettingsTitle.addWidget(self.hideClockWhenClicked)
-        self.disableTooltip = QSettingsCheckBox(_("Disable the tooltip shown when the clock is hovered"))
-        self.disableTooltip.setChecked(getSettings("DisableToolTip"))
-        self.disableTooltip.stateChanged.connect(lambda i: setSettings("DisableToolTip", bool(i)))
-        self.clockSettingsTitle.addWidget(self.disableTooltip)
-        self.enableLowCpuMode = QSettingsCheckBoxWithWarning(_("Enable low-cpu mode"), _("You might lose functionalities, like the notification counter or the dynamic background"))
-        self.enableLowCpuMode.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
-        self.enableLowCpuMode.setChecked(getSettings("EnableLowCpuMode"))
-        self.enableLowCpuMode.stateChanged.connect(lambda i: setSettings("EnableLowCpuMode", bool(i)))
-        self.disableNotificationBadge = QSettingsCheckBox(_("Disable the notification badge"))
-        self.disableNotificationBadge.setChecked(getSettings("DisableNotifications"))
-        self.disableNotificationBadge.stateChanged.connect(lambda i: setSettings("DisableNotifications", bool(i)))
-        self.clockSettingsTitle.addWidget(self.disableNotificationBadge)
-        self.clockSettingsTitle.addWidget(self.enableLowCpuMode)
+        self.clockFeaturesTitle.addWidget(self.customDoubleClickAction)
+
 
         self.clockPosTitle = QSettingsTitle(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
         layout.addWidget(self.clockPosTitle)
+        self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
+        self.showDesktopButton.setChecked(getSettings("ShowDesktopButton"))
+        self.showDesktopButton.stateChanged.connect(lambda i: setSettings("ShowDesktopButton", bool(i)))
         self.clockPosTitle.addWidget(self.showDesktopButton)
         self.clockAtLeft = QSettingsCheckBox(_("Show the clock at the left of the screen"))
         self.clockAtLeft.setChecked(getSettings("ClockOnTheLeft"))
@@ -873,6 +877,7 @@ class SettingsWindow(QMainWindow):
         widgets: list[QSettingsTitle] = (
             self.generalSettingsTitle,
             self.clockSettingsTitle,
+            self.clockFeaturesTitle,
             self.clockPosTitle,
             self.clockAppearanceTitle,
             self.dateTimeTitle,
@@ -1038,6 +1043,7 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
         self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
         self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
+        self.clockFeaturesTitle.setIcon(getPath(f"plugin_{self.iconMode}.png"))
         self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
         self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
         self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
