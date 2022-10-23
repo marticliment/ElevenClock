@@ -35,6 +35,7 @@ SetupIconFile=elevenclock\resources\icon.ico
 UninstallDisplayIcon={app}\ElevenClock.exe
 Compression=lzma
 SolidCompression=yes
+UsePreviousAppDir=no
 WizardStyle=classic
 WizardImageStretch=yes 
 WizardImageFile=INSTALLER.BMP
@@ -68,6 +69,14 @@ Name: "Ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 [UninstallRun]
 Filename: "{cmd}"; Parameters: "/C ""taskkill /im ElevenClock.exe /f /t"
 
+[InstallDelete]
+Type: filesandordirs; Name: "{autopf}\ElevenClock\*"; BeforeInstall: TaskKill('ElevenClock.exe');
+
+[UninstallDelete]  
+Type: filesandordirs; Name: "{autopf}\ElevenClock\*"
+Type: filesandordirs; Name: "{autopf}\ElevenClock392\*"
+
+
 [Code]
 procedure InitializeWizard;
 begin
@@ -98,11 +107,22 @@ begin
      ewWaitUntilTerminated, ResultCode);
 end;
 
+procedure RunUninstaller(Path: String);
+var
+  ResultCode: Integer;
+begin
+    Exec(ExpandConstant('{app}')+'\'+Path, ' /verysilent /SUPPRESSMSGBOXES', '', SW_HIDE,
+     ewWaitUntilTerminated, ResultCode);
+end;
+
+
+
 [Registry]
 Root: HKCU; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: "elevenClock"; ValueData: """{app}\ElevenClock.exe"""; Flags: uninsdeletevalue
 
 [Files]
-Source: "ElevenClockBin/ElevenClock.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit ; BeforeInstall: TaskKill('ElevenClock.exe')
+Source: "ElevenClockBin/base_library.zip"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit ; BeforeInstall: RunUninstaller('unins.exe');
+Source: "ElevenClockBin/ElevenClock.exe"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit ; BeforeInstall: TaskKill('ElevenClock.exe');
 Source: "ElevenClockBin/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs 64bit;
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

@@ -23,6 +23,7 @@ set option
 python -m pip install -r requirements.txt
 python -m pip install setuptools==49.1.3
 python -m pip install packaging
+python %localappdata%/Programs/Python/Python310/Scripts/pywin32_postinstall.py -install
 if defined option--only-requirements (
     goto :end
 )
@@ -44,8 +45,7 @@ rmdir /Q /S external\__pycache__
 rmdir /Q /S lang\__pycache__
 rmdir /Q /S build
 rmdir /Q /S dist
-del lang/APIKEY.txt
-python -m PyInstaller ../elevenclock/__init__.py --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --exclude-module PySide2 --windowed --version-file ../elevenclock-version-info --name ElevenClock
+python -m PyInstaller ../elevenclock/__init__.py --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --exclude-module PySide2 --exclude-module numpy --windowed --version-file ../elevenclock-version-info --name ElevenClock
 cd dist
 rename ElevenClock ElevenClockBin
 cd ..
@@ -68,6 +68,7 @@ cd lang
 del APIKEY.txt
 del download_translations.pyc
 cd ..
+copy "%localappdata%\Programs\Python\Python310\pythoncom*.dll" .\
 del opengl32sw.dll
 del Qt6Quick.dll
 del Qt6Qml.dll
