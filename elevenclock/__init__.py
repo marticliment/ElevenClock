@@ -1356,7 +1356,7 @@ try:
                 self.WAITLOOPTIME = 0.8
             else:
                 self.WAITLOOPTIME = 0.1
-            loopCount = 0
+            loopCount = 1
             while True:
                 self.isRDPRunning = isRDPRunning
                 isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)

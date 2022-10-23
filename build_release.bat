@@ -1,1 +1,1 @@
-start /b build.bat --release
+start build.bat --release

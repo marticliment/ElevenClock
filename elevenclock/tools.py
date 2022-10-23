@@ -736,6 +736,7 @@ def appendWindowList(hwnd, _):
     import win32com
 
     if globals.doCacheHost:
+        globals.blockFullscreenCheck = False
         pythoncom.CoInitialize()
         _, pid = win32process.GetWindowThreadProcessId(hwnd)
         _wmi = win32com.client.GetObject('winmgmts:')
@@ -754,6 +755,7 @@ def appendWindowList(hwnd, _):
             else:
                 print("🟢 Cached text input host hwnd:", hwnd)
                 cachedInputHosts.append(hwnd)
+        globals.blockFullscreenCheck = True
     else:
         if hwnd not in cachedInputHosts:
             if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
