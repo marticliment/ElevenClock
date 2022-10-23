@@ -769,6 +769,7 @@ def loadWindowsInfoThread():
     global cachedInputHosts
     globals.doCacheHost = True
     while True:
+        globals.blockFullscreenCheck = True
         globals.newWindowList = []
         globals.windowTexts = {}
         globals.windowRects = {}
@@ -790,6 +791,7 @@ def loadWindowsInfoThread():
                 except pywintypes.error:
                     globals.previousFullscreenHwnd[i] = 0
         globals.windowList = globals.newWindowList
+        globals.blockFullscreenCheck = False
         time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.1)
 
 

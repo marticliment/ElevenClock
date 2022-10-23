@@ -54,3 +54,4 @@ newWindowList: list[int] = []
 foregroundHwnd: int = 0
 doCacheHost: bool = False
 previousFullscreenHwnd: dict[int, int] = {}
+blockFullscreenCheck: bool = False
