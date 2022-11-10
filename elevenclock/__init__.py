@@ -1308,16 +1308,20 @@ try:
                     previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
                     previousFullscreenRect = None
                     if previousFullscreenHwnd != 0:
-                        previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
-                        if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                            if(globals.windowTexts[previousFullscreenHwnd] not in blacklistedFullscreenApps):
-                                print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                if LOG_FULLSCREEN_WINDOW_TITLE:
-                                    print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
-                                fullscreen = True
-                        else:
+                        if previousFullscreenHwnd not in globals.windowRects.keys():
                             self.previousFullscreenHwnd = None
                             globals.previousFullscreenHwnd[self.index] = 0
+                        else:
+                            previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
+                            if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                                if(globals.windowTexts[previousFullscreenHwnd] not in blacklistedFullscreenApps):
+                                    print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                    if LOG_FULLSCREEN_WINDOW_TITLE:
+                                        print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
+                                    fullscreen = True
+                            else:
+                                self.previousFullscreenHwnd = None
+                                globals.previousFullscreenHwnd[self.index] = 0
                     if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
                         if(globals.windowTexts[hwnd] not in blacklistedFullscreenApps):
                             print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
