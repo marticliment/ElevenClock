@@ -962,11 +962,11 @@ try:
                 customFont = getSettingsValue("UseCustomFont")
                 if customFont == "":
                     if lang["locale"] == "ko":
-                        self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable", "sans-serif"]
+                        self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable Text", "sans-serif"]
                     elif lang["locale"] == "zh_TW":
-                        self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable", "sans-serif"]
+                        self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable Text", "sans-serif"]
                     elif lang["locale"] == "zh_CN":
-                        self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable", "sans-serif"]
+                        self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable Text", "sans-serif"]
                     else:
                         self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
                     self.customFont = ""
@@ -974,19 +974,19 @@ try:
                 else:
                     self.fontfamilies = []
                     self.customFont = customFont
-                self.font.setStyleStrategy(QFont.PreferOutline)
-                self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
-                self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
+                #self.font.setStyleStrategy(QFont.PreferOutline)
+                self.font.setLetterSpacing(QFont.PercentageSpacing, 95)
+                #self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
                 if self.fontfamilies == []:
                     self.font.fromString(self.customFont)
                 customSize = getSettingsValue("UseCustomFontSize")
                 if customSize == "" or self.isCover:
-                    self.font.setPixelSize(ptToPx(9.3, self.screen()))
+                    self.font.setPointSize(9)
                 else:
                     try:
-                        self.font.setPixelSize(ptToPx(float(customSize), self.screen()))
+                        self.font.setPointSize(int(customSize))
                     except Exception as e:
-                        self.font.setPixelSize(ptToPx(9.3, self.screen()))
+                        self.font.setPointSize(9)
                         report(e)
                 print(f"🔵 Font families   : {self.fontfamilies}")
                 print(f"🔵 Custom font     : {self.customFont}")

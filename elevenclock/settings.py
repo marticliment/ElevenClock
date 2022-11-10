@@ -2118,7 +2118,7 @@ class SettingsWindow(QMainWindow):
     
 
     def eventFilter(self, watched: QObject, event: QEvent) -> bool:
-        if event.type() == event.WindowStateChange:
+        if event.type() == QWindowStateChangeEvent:
             if self.isMaximized():
                 self.scrollArea.setStyleSheet(f"QScrollArea{{border-bottom-left-radius: 0;border-bottom-right-radius: 0;}}")
             else:
@@ -2167,7 +2167,7 @@ class QSettingsTitle(QWidget):
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft YaHei UI\";")
             self.descLabel.setStyleSheet("font-size: 8pt;background: none;font-family: \"Microsoft YaHei UI\";")
         else:
-            self.label.setStyleSheet(f"font-size: 10pt;background: none;font-family: \"Segoe UI Variable Text\";")
+            self.label.setStyleSheet(f"font-size: 10pt;background: none;font-family: \"Segoe UI Variable Display Semib\";")
             self.descLabel.setStyleSheet(f"font-size: 8pt;background: none;font-family: \"Segoe UI Variable Text\";")
 
         self.image = QLabel(self)
