@@ -1490,6 +1490,9 @@ try:
                             else:
                                 pyautogui.hotkey(actions[0])
                         case 2:
+                            if (actions[0], actions[1]) == ("win", "n"):
+                                if getSettings("FixCyrillicKeyboards"):
+                                    pyautogui.hotkey("win", "т")
                             pyautogui.hotkey(actions[0], actions[1])
                         case 3:
                             pyautogui.hotkey(actions[0], actions[1], actions[2])
