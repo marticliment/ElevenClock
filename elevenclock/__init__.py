@@ -974,9 +974,7 @@ try:
                 else:
                     self.fontfamilies = []
                     self.customFont = customFont
-                #self.font.setStyleStrategy(QFont.PreferOutline)
                 self.font.setLetterSpacing(QFont.PercentageSpacing, 95)
-                #self.font.setHintingPreference(QFont.HintingPreference.PreferNoHinting)
                 if self.fontfamilies == []:
                     self.font.fromString(self.customFont)
                 customSize = getSettingsValue("UseCustomFontSize")
