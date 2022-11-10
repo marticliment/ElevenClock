@@ -733,18 +733,22 @@ def appendWindowList(hwnd, _):
     rect = win32gui.GetWindowRect(hwnd)
     import pythoncom
     import win32process
-    import win32com
+    import win32api
+    import win32con
+    
 
     if globals.doCacheHost:
         globals.blockFullscreenCheck = False
         pythoncom.CoInitialize()
         _, pid = win32process.GetWindowThreadProcessId(hwnd)
-        _wmi = win32com.client.GetObject('winmgmts:')
-
-        # collect all the running processes
-        processes = _wmi.ExecQuery(f'Select Name from win32_process where ProcessId = {pid}')
-        for p in processes:
-            if p.Name != "TextInputHost.exe":
+        pHandle = 0
+        try:
+            pHandle = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION or win32con.PROCESS_VM_READ, False, pid)
+        except pywintypes.error:
+            pass
+        if pHandle != 0:
+            pname = win32process.GetModuleFileNameEx(pHandle, 0)
+            if not pname.endswith("\\TextInputHost.exe"):
                 if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
                     text = win32gui.GetWindowText(hwnd)
                     isVisible = win32gui.IsWindowVisible(hwnd)
