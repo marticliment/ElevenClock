@@ -1295,10 +1295,17 @@ try:
                             if globals.windowVisible[hwnd]:
                                 if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
                                     if globals.windowTexts[hwnd] not in blacklistedFullscreenApps:
-                                        print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                        if LOG_FULLSCREEN_WINDOW_TITLE:
-                                            print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                        fullscreen = True
+                                        if hwnd not in globals.cachedInputHosts:
+                                            if hwnd not in globals.notTextInputHost:
+                                                print(f"🟡 Verifying unverified hwnd {hwnd}")
+                                                Thread(target=verifyHwndValidity, args=(hwnd,)).start()
+                                            print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                            if LOG_FULLSCREEN_WINDOW_TITLE:
+                                                print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                            fullscreen = True
+                                        else:
+                                            cprint("input host messing around!!!!!")
+                                            pass # Input host messing around!
                 else:
                     hwnd = globals.foregroundHwnd
                     if hwnd == 0:

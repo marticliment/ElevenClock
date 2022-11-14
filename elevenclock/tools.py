@@ -30,6 +30,10 @@ from urllib.request import urlopen
 from win32con import *
 
 import pywintypes
+import pythoncom
+import win32process
+import win32api
+import win32con
 
 
 try:
@@ -726,54 +730,40 @@ def drawVerticalLine(canvas: QSize, lineHeight: int, alpha = 255):
     qP.end()
     return pixmap
 
-cachedInputHosts =[]
+def verifyHwndValidity(hwnd):
+    """
+    This function checks if the given hwnd is not part of the *TextInputHost.exe process family. This function should be called as an individual thread
+    """ 
+    rect = win32gui.GetWindowRect(hwnd)
+    pythoncom.CoInitialize()
+    _, pid = win32process.GetWindowThreadProcessId(hwnd)
+    pHandle = 0
+    try:
+        pHandle = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION or win32con.PROCESS_VM_READ, False, pid)
+    except pywintypes.error:
+        pass
+    if pHandle != 0:
+        pname = win32process.GetModuleFileNameEx(pHandle, 0)
+        if pname.endswith("\\TextInputHost.exe"):
+            globals.cachedInputHosts.append(hwnd)
+            print(f"🟡 Blacklisted hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)}")
+        else:
+            globals.notTextInputHost.append(hwnd)
+            print(f"🟢 Hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} was verified as a valid window")
 
 def appendWindowList(hwnd, _):
-    global cachedInputHosts
     rect = win32gui.GetWindowRect(hwnd)
-    import pythoncom
-    import win32process
-    import win32api
-    import win32con
-    
-
-    if globals.doCacheHost:
-        globals.blockFullscreenCheck = False
-        pythoncom.CoInitialize()
-        _, pid = win32process.GetWindowThreadProcessId(hwnd)
-        pHandle = 0
-        try:
-            pHandle = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION or win32con.PROCESS_VM_READ, False, pid)
-        except pywintypes.error:
-            pass
-        if pHandle != 0:
-            pname = win32process.GetModuleFileNameEx(pHandle, 0)
-            if not pname.endswith("\\TextInputHost.exe"):
-                if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
-                    text = win32gui.GetWindowText(hwnd)
-                    isVisible = win32gui.IsWindowVisible(hwnd)
-                    globals.newWindowList.append(hwnd)
-                    globals.windowTexts[hwnd] = text
-                    globals.windowRects[hwnd] = rect
-                    globals.windowVisible[hwnd] = isVisible
-            else:
-                print("🟢 Cached text input host hwnd:", hwnd)
-                cachedInputHosts.append(hwnd)
-        globals.blockFullscreenCheck = True
-    else:
-        if hwnd not in cachedInputHosts:
-            if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
-                text = win32gui.GetWindowText(hwnd)
-                isVisible = win32gui.IsWindowVisible(hwnd)
-                globals.newWindowList.append(hwnd)
-                globals.windowTexts[hwnd] = text
-                globals.windowRects[hwnd] = rect
-                globals.windowVisible[hwnd] = isVisible
+    if hwnd not in globals.cachedInputHosts:
+        if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
+            text = win32gui.GetWindowText(hwnd)
+            isVisible = win32gui.IsWindowVisible(hwnd)
+            globals.newWindowList.append(hwnd)
+            globals.windowTexts[hwnd] = text
+            globals.windowRects[hwnd] = rect
+            globals.windowVisible[hwnd] = isVisible
 
 
 def loadWindowsInfoThread():
-    global cachedInputHosts
-    globals.doCacheHost = True
     while True:
         globals.blockFullscreenCheck = True
         globals.newWindowList = []
@@ -781,10 +771,7 @@ def loadWindowsInfoThread():
         globals.windowRects = {}
         globals.windowVisible = {}
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
-        if globals.doCacheHost:
-            cachedInputHosts = []
         win32gui.EnumWindows(appendWindowList, 0)
-        globals.doCacheHost = False
         if globals.foregroundHwnd not in globals.newWindowList:
             try:
                 appendWindowList(globals.foregroundHwnd, _)
