@@ -39,6 +39,7 @@ try:
     from PySide6.QtCore import *
     from PySide6.QtWidgets import *
     import pyautogui
+    import keyboard
     pyautogui.FAILSAFE = False # Prevent pyautogui from blocking the bottom-right corner click.
     from external.FramelessWindow import QFramelessDialog
     from external.timezones import win_tz
@@ -888,7 +889,7 @@ try:
                         r = []
                         for piece in act.split("+"):
                             piece = piece.lower()
-                            if piece in pyautogui.KEYBOARD_KEYS:
+                            if True:#if piece in pyautogui.KEYBOARD_KEYS or True:
                                 r.append(piece)
                             else:
                                 print("🟠 Invalid clock custom action piece:", piece)
@@ -906,7 +907,7 @@ try:
                         r = []
                         for piece in doubleAction.split("+"):
                             piece = piece.lower()
-                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"]:
+                            if True:#if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"] or True:
                                 r.append(piece)
                             else:
                                 print("🟠 Invalid double click action piece:", piece)
@@ -925,7 +926,7 @@ try:
                         r = []
                         for piece in middleAction.split("+"):
                             piece = piece.lower()
-                            if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"]:
+                            if True:#if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"] or True:
                                 r.append(piece)
                             else:
                                 print("🟠 Invalid middle click action piece:", piece)
@@ -1494,19 +1495,24 @@ try:
                             elif actions[0] == "copy_datetime":
                                 textToClipboard(self.label.text())
                             else:
-                                pyautogui.hotkey(actions[0])
+                                #pyautogui.hotkey(actions[0])
+                                keyboard.press_and_release(actions[0])
                         case 2:
                             if (actions[0], actions[1]) == ("win", "n"):
                                 if getSettings("FixCyrillicKeyboards"):
-                                    pyautogui.hotkey("win", "т")
-                            pyautogui.hotkey(actions[0], actions[1])
+                                    #pyautogui.hotkey("win", "т")
+                                    keyboard.press_and_release("win+т")
+                                else:                    
+                                    #pyautogui.hotkey(actions[0], actions[1])
+                                    keyboard.press_and_release("+".join(actions[0:2]))
                         case 3:
-                            pyautogui.hotkey(actions[0], actions[1], actions[2])
+                            #pyautogui.hotkey(actions[0], actions[1], actions[2])
+                            keyboard.press_and_release("+".join(actions[0:3]))
                 except Exception as e:
                     report(e)
 
         def showDesktop(self):
-            pyautogui.hotkey("win", "d")
+            keyboard.press_and_release("win+d")
 
         def focusOutEvent(self, event: QFocusEvent) -> None:
             self.refresh.emit()

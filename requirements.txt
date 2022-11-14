@@ -6,3 +6,4 @@ PyInstaller
 win32mica
 python-dateutil
 winshell
+keyboard
