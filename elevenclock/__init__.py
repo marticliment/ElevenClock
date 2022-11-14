@@ -1304,8 +1304,7 @@ try:
                                                 print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
                                             fullscreen = True
                                         else:
-                                            cprint("input host messing around!!!!!")
-                                            pass # Input host messing around!
+                                            print("🟠 Input host messing around!!!!!")
                 else:
                     hwnd = globals.foregroundHwnd
                     if hwnd == 0:
