@@ -2960,7 +2960,8 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.preview.setText(_("Nothing to preview"))
         else:
             try:
-                self.preview.setText(datetime.datetime.now().strftime(self.edit.toPlainText().replace("\u200a", "hairsec")).replace("hairsec", "\u200a"))
+                currtext = self.edit.toPlainText()
+                self.preview.setText(datetime.datetime.now().strftime(currtext.replace("\u200a", "hairsec")).replace("hairsec", "\u200a"))
             except Exception as e:
                 self.preview.setText(_("Invalid time format\nPlease follow the\nC 1989 Standards"))
                 report(e)

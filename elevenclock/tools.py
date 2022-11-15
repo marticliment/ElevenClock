@@ -1,7 +1,6 @@
 from ctypes import c_int, windll
 import json
 import time
-from turtle import isvisible
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
 from versions import *
@@ -744,12 +743,12 @@ def verifyHwndValidity(hwnd):
         pass
     if pHandle != 0:
         pname = win32process.GetModuleFileNameEx(pHandle, 0)
-        if pname.endswith("\\TextInputHost.exe"):
+        if str(pname).lower().endswith("textinputhost.exe"):
             globals.cachedInputHosts.append(hwnd)
-            print(f"🟡 Blacklisted hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)}")
+            print(f"🟡 Blacklisted hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} (Process name is {str(pname).lower()})")
         else:
             globals.notTextInputHost.append(hwnd)
-            print(f"🟢 Hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} was verified as a valid window")
+            print(f"🟢 Hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} was verified as a valid window (Process name is {str(pname).lower()})")
 
 def appendWindowList(hwnd, _):
     rect = win32gui.GetWindowRect(hwnd)

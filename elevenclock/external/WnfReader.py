@@ -21,6 +21,7 @@ https://blog.quarkslab.com/author/gwaby.html
 import ctypes
 
 ZwQueryWnfStateData = ctypes.windll.ntdll.ZwQueryWnfStateData
+ZwUpdateWnfStateData = ctypes.windll.ntdll.ZwUpdateWnfStateData
 
 changeStamp = ctypes.c_ulong(0)
 dataBuffer = ctypes.create_string_buffer(4096)
@@ -47,12 +48,25 @@ def DoRead(StateName) -> bytes:
     return dataBuffer.raw[0:bufferSize]
 
 
+
+def DoWrite(StateName, Data):
+    StateName = ctypes.c_longlong(int(StateName, 16))
+    dataBuffer = ctypes.c_char_p(Data)
+    bufferSize = len(Data)
+    status = ZwUpdateWnfStateData(ctypes.byref(StateName), dataBuffer, bufferSize, 0, 0, 0, 0)
+    status = ctypes.c_ulong(status).value
+
+    if status == 0:
+        return True
+    else:
+        print('[Error] Could not write for this statename: 0x{:x}'.format(status))
+        return False
+
 #
 #   End of https://github.com/ionescu007/wnfun code
 #
 #
 #   The following parts are simple definitions
-#
 #
 
 def isFocusAssistEnabled() -> bool:
@@ -71,3 +85,4 @@ def getNotificationNumber() -> int:
     except Exception as e:
         print(e)
         return 0
+    
