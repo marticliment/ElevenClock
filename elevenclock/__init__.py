@@ -1498,13 +1498,17 @@ try:
                                 #pyautogui.hotkey(actions[0])
                                 keyboard.press_and_release(actions[0])
                         case 2:
-                            if (actions[0], actions[1]) == ("win", "n"):
-                                if getSettings("FixCyrillicKeyboards"):
+                            #if (actions[0], actions[1]) == ("win", "n"):
+                                #if getSettings("FixCyrillicKeyboards"):
                                     #pyautogui.hotkey("win", "т")
-                                    keyboard.press_and_release("win+т")
-                                else:                    
+                                    #keyboard.press_and_release("win+т")
+                                #else:                    
                                     #pyautogui.hotkey(actions[0], actions[1])
-                                    keyboard.press_and_release("+".join(actions[0:2]))
+                                #    cprint("+".join(actions[0:2]))
+                                #    keyboard.press_and_release("+".join(actions[0:2]))
+                            #else:
+                            keyboard.press_and_release("+".join(actions[0:2]))
+
                         case 3:
                             #pyautogui.hotkey(actions[0], actions[1], actions[2])
                             keyboard.press_and_release("+".join(actions[0:3]))
