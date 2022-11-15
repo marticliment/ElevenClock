@@ -62,8 +62,6 @@ def DoWrite(StateName, Data):
         print('[Error] Could not write for this statename: 0x{:x}'.format(status))
         return False
 
-DoWrite("0xd83063ea3bf1c75", b"\x00\x00\x00\x00")
-
 #
 #   End of https://github.com/ionescu007/wnfun code
 #
@@ -73,7 +71,6 @@ DoWrite("0xd83063ea3bf1c75", b"\x00\x00\x00\x00")
 
 def isFocusAssistEnabled() -> bool:
     try:
-        print(DoRead("0xd83063ea3bf1c75"))
         return not DoRead("0xd83063ea3bf1c75") == b'\x00\x00\x00\x00'
     except Exception as e:
         print(e)

@@ -983,7 +983,7 @@ try:
                     self.font.setPointSize(9)
                 else:
                     try:
-                        self.font.setPointSize(int(customSize))
+                        self.font.setPointSize(int(float(customSize)))
                     except Exception as e:
                         self.font.setPointSize(9)
                         report(e)
