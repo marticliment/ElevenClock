@@ -1,1 +1,1 @@
-start /b build.bat --no-installer
+start build.bat --no-installer
