@@ -239,7 +239,7 @@ class SettingsWindow(QMainWindow):
             _("Copy date/time"): "copy_datetime",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
-            _("Show desktop"): "Win+D",
+            _("Show desktop"): "Win+в",
             _("Open run dialog"): "Win+R",
             _("Open task manager"): "Ctrl+Shift+Esc",
             _("Open start menu"): "Win",

@@ -1516,7 +1516,7 @@ try:
                     report(e)
 
         def showDesktop(self):
-            keyboard.press_and_release("win+d")
+            keyboard.press_and_release("Win+в") # The latin d letter might interfiere with the volume control, so it has been switched to the cyrillic one (it just happens to work on latin-based keyboard layouts)
 
         def focusOutEvent(self, event: QFocusEvent) -> None:
             self.refresh.emit()
