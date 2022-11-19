@@ -416,6 +416,24 @@ class SettingsWindow(QMainWindow):
         self.fontSize.stateChanged.connect(lambda i: setSettings("UseCustomFontSize", bool(i)))
         self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
         self.clockAppearanceTitle.addWidget(self.fontSize)
+        
+        self.lineHeight = QSettingsSizeBoxComboBox(_("Use a custom line height"))
+        self.lineHeight.setChecked(getSettings("CustomLineHeight"))
+        self.lineHeight.loadItems(["0.5", "0.6", "0.7", "0.8", "0.85", "0.9", "0.95", "1", "1.05", "1.1", "1.15", "1.2", "1.3", "1.4", "1.5", "1.7", "1.85", "2", "2.5", "3"])
+        if self.lineHeight.isChecked():
+            try:
+                customlineHeight = getSettingsValue("CustomLineHeight")
+                cprint(customlineHeight)
+                if customlineHeight == "":
+                    customlineHeight = "1"
+            except Exception as e:
+                customlineHeight = "1"
+            self.lineHeight.combobox.setCurrentText(customlineHeight)
+        else:
+            self.lineHeight.combobox.setCurrentText("1")
+        self.lineHeight.stateChanged.connect(lambda i: setSettings("CustomLineHeight", bool(i)))
+        self.lineHeight.valueChanged.connect(lambda v: setSettingsValue("CustomLineHeight", v))
+        self.clockAppearanceTitle.addWidget(self.lineHeight)
 
         self.disableAutoTextColor = QSettingsCheckBox(_("Automatically generate the text color based on the current background color"))
         self.disableAutoTextColor.setChecked(not getSettings("DisableAutomaticTextColor"))

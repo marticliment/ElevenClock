@@ -484,8 +484,16 @@ try:
                     timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
                     timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
 
-
                 dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
+                
+                try:
+                    if getSettings("CustomLineHeight") and getSettingsValue("CustomLineHeight") != "":
+                        customLineHeight = float(getSettingsValue("CustomLineHeight"))
+                        cprint("🟢 Loaded date time format:", dateTimeFormat)
+                        dateTimeFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+dateTimeFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
+                except Exception as e:
+                    report(e)
+
                 print("🔵 Loaded date time format:", dateTimeFormat)
                 globals.dateTimeFormat = dateTimeFormat
 
