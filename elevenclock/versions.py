@@ -1,2 +1,2 @@
-version = 3.939
-versionName = "3.9.4-beta"
+version = 3.94
+versionName = "3.9.4"
