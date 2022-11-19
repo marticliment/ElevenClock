@@ -417,11 +417,16 @@ class SettingsWindow(QMainWindow):
         self.fontSize.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontSize", v))
         self.clockAppearanceTitle.addWidget(self.fontSize)
 
+        self.disableAutoTextColor = QSettingsCheckBox(_("Automatically generate the text color based on the current background color"))
+        self.disableAutoTextColor.setChecked(not getSettings("DisableAutomaticTextColor"))
+        self.disableAutoTextColor.stateChanged.connect(lambda i: (setSettings("DisableAutomaticTextColor", not bool(i)), self.fontColor.setChecked(False) if i else None))
+        self.clockAppearanceTitle.addWidget(self.disableAutoTextColor)
+
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
             self.fontColor.button.setStyleSheet(f"color: rgb({getSettingsValue('UseCustomFontColor')})")
-        self.fontColor.stateChanged.connect(lambda i: setSettings("UseCustomFontColor", bool(i)))
+        self.fontColor.stateChanged.connect(lambda i: (setSettings("UseCustomFontColor", bool(i)), self.disableAutoTextColor.setChecked(False) if i == True else None))
         self.fontColor.valueChanged.connect(lambda v: setSettingsValue("UseCustomFontColor", v))
         self.clockAppearanceTitle.addWidget(self.fontColor)
         self.disableSystemTrayColor = QSettingsCheckBox(_("Disable clock taskbar background color (make clock transparent)"))
@@ -580,10 +585,6 @@ class SettingsWindow(QMainWindow):
 
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
-        self.fixDir = QSettingsCheckBox(_("Fix Win+N clock click action on non-latin keyboards"))
-        self.fixDir.setChecked(getSettings("FixCyrillicKeyboards"))
-        self.fixDir.stateChanged.connect(lambda i: setSettings("FixCyrillicKeyboards", bool(i)))
-        self.experimentalTitle.addWidget(self.fixDir)
         self.fixDash = QSettingsCheckBox(_("Reload clocks right after exiting from sleep"))
         self.fixDash.setChecked(getSettings("PreventSleepFailure"))
         self.fixDash.stateChanged.connect(lambda i: setSettings("PreventSleepFailure", bool(i)))

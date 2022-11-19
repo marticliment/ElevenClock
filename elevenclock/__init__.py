@@ -1,6 +1,6 @@
 try:
     _globals = globals
-
+    from functools import partial
     from ctypes import c_int, windll
     windll.shcore.SetProcessDpiAwareness(c_int(2))
 
@@ -654,6 +654,7 @@ try:
         tempMakeClockTransparent = False
         clockCover = None
         isIgnoringClicks = False
+        oldTextColor: str = ""
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -993,10 +994,6 @@ try:
                 self.label.setFont(self.font)
 
                 accColors = getColors()
-                def makeLabelStyleSheet(padding, rightPadding, rightMargin, leftPadding, color):
-                    bg = 1 if isTaskbarDark() else 4
-                    fg = 6 if isTaskbarDark() else 1
-                    return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};background-color: transparent;}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
 
                 self.progressbar = QProgressBar(self)
@@ -1041,7 +1038,7 @@ try:
                     if getSettings("UseCustomFontColor"):
                         print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
                         self.lastTheme = -1
-                        styleSheetString = makeLabelStyleSheet(0, 3, 9, 5, f"rgb({getSettingsValue('UseCustomFontColor')})")
+                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, f"rgb({getSettingsValue('UseCustomFontColor')})")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1057,7 +1054,7 @@ try:
                     elif isTaskbarDark():
                         print("🟢 Using white text (dark mode)")
                         self.lastTheme = 0
-                        styleSheetString = makeLabelStyleSheet(0, 3, 9, 5, "white")
+                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, "white")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1073,7 +1070,7 @@ try:
                     else:
                         print("🟢 Using black text (light mode)")
                         self.lastTheme = 1
-                        styleSheetString = makeLabelStyleSheet(0, 3, 9, 5, "black")
+                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, "black")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .5
                         self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
@@ -1085,7 +1082,7 @@ try:
                     self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
                     self.label.middleClicked.connect(lambda: self.doMiddleClickAction())
                 else:
-                    styleSheetString = makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
+                    styleSheetString = self.makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
                     self.fontfamilies = ["Segoe UI Variable Display"]
                     if self.fontfamilies != []:
                         self.font.setFamilies(self.fontfamilies)
@@ -1184,6 +1181,13 @@ try:
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
                         self.setFixedHeight(self.preferedHeight)
 
+        def makeLabelStyleSheet(self, padding, rightPadding, rightMargin, leftPadding, color):
+            accColors = getColors()
+            bg = 1 if isTaskbarDark() else 4
+            fg = 6 if isTaskbarDark() else 1
+            return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};background-color: transparent;}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
+
+
         def updateToolTipStatus(self, mouseIn: bool =False) -> None:
             if mouseIn:
                 self.isHovered = True
@@ -1217,6 +1221,7 @@ try:
             if not self.isCover: 
                 alphaUpdated = False
                 shouldBeTransparent = False
+                self.oldTextColor = ""
                 try:
                     if self.UseTaskbarBackgroundColor and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
@@ -1232,7 +1237,7 @@ try:
                                     self.callInMainSignal.emit(lambda: self.backgroundTexture.hide())
                                 shouldBeTransparent = True
                                 if not alphaUpdated:
-                                    intColor  = self.oldBgColor + 1
+                                    intColor = self.oldBgColor + 1
                                     alphaUpdated = True
                                 else:
                                     intColor = self.oldBgColor
@@ -1240,6 +1245,21 @@ try:
                                 self.oldBgColor = intColor
                                 color = QColor(intColor)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
+                            if not getSettings("DisableAutomaticTextColor"):
+                                g = self.screen().geometry()
+                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                                self.oldBgColor = intColor
+                                color = QColor(intColor)
+                                alphaUpdated = False
+                                shouldBeTransparent = False
+                                avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
+                                textcolor = "black" if (avgColorValue>=127) else "white"
+                                cprint(avgColorValue)
+                                if textcolor != self.oldTextColor:
+                                    self.oldTextColor = textcolor
+                                    styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
+                                    self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
+                
                 except AttributeError:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
             else:
