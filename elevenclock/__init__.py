@@ -1254,7 +1254,6 @@ try:
                                 shouldBeTransparent = False
                                 avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
                                 textcolor = "black" if (avgColorValue>=127) else "white"
-                                cprint(avgColorValue)
                                 if textcolor != self.oldTextColor:
                                     self.oldTextColor = textcolor
                                     styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
