@@ -1543,7 +1543,7 @@ try:
                     report(e)
 
         def showDesktop(self):
-            keyboard.press_and_release("Win+в") # The latin d letter might interfiere with the volume control, so it has been switched to the cyrillic one (it just happens to work on latin-based keyboard layouts)
+            keyboard.press_and_release("Win+d")
 
         def focusOutEvent(self, event: QFocusEvent) -> None:
             self.refresh.emit()
@@ -1874,7 +1874,6 @@ try:
     # Start of main script
     timeOffset = 0
 
-    #QApplication.setAttribute(Qt.AA_DisableHighDpiScaling)
     if "zh" in langName:
         sys.argv.append("-platform")
         sys.argv.append("windows:fontengine=freetype")
