@@ -660,17 +660,18 @@ class SettingsWindow(QMainWindow):
                 <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
                 <style> a {{color: rgb({colors[2 if isWindowDark() else 4]})}}</style>
                 <ul>
-                <li> <b>Python 3.10</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
-                <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
-                <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
-                <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
-                <li> <b>PySide6 (Qt6)</b>: <a href="https://www.qt.io/download-open-source">GPL-v3</a></li>
-                <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
-                <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
-                <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
-                <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a></li>
-                <li> <b>TzLocal</b>: <a href="https://github.com/regebro/tzlocal/blob/master/LICENSE.txt">MIT License</a></li>
                 <li> <b>Dateutil</b>: <a href="https://github.com/dateutil/dateutil/blob/master/LICENSE">Apache 2 License</a></li>
+                <li> <b>Frameless Window</b>: <a href="https://github.com/mustafaahci/FramelessWindow/blob/master/LICENSE">The Unlicense</a></li>
+                <li> <b>Keyboard</b>: <a href="https://github.com/boppreh/keyboard/blob/master/LICENSE.txt">MIT License</a></li>
+                <li> <b>Psutil</b>: <a href="https://github.com/giampaolo/psutil/blob/master/LICENSE">BSD 3-Clause</a></li>
+                <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
+                <li> <b>PyInstaller</b>: <a href="https://www.pyinstaller.org/license.html">Custom GPL</a></li>
+                <li> <b>PySide6 (Qt6)</b>: <a href="https://www.qt.io/download-open-source">GPL-v3</a></li>
+                <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
+                <li> <b>Python 3</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
+                <li> <b>TzLocal</b>: <a href="https://github.com/regebro/tzlocal/blob/master/LICENSE.txt">MIT License</a></li>
+                <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a></li>
+                <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>WinShell</b>: <a href="https://github.com/tjguk/winshell/blob/master/LICENSE.txt">MIT License</a></li>
                 </ul>    """)
             msg.addButton(_("Ok"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())

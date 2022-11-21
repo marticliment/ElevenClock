@@ -30,7 +30,7 @@ if defined option--only-requirements (
     goto :end
 )
 
-python check_python_version.py --min-version "3.10.7"
+python check_python_version.py --min-version "3.11.0"
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
