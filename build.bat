@@ -71,6 +71,7 @@ del APIKEY.txt
 del download_translations.pyc
 cd ..
 copy "%localappdata%\Programs\Python\Python310\pythoncom*.dll" .\
+cd PySide6
 del opengl32sw.dll
 del Qt6Quick.dll
 del Qt6Qml.dll
@@ -79,7 +80,6 @@ del Qt6QmlModels.dll
 del Qt6Network.dll
 del Qt6DataVisualization.dll
 del Qt6VirtualKeyboard.dll
-cd PySide6
 del QtDataVisualization.pyd
 del QtOpenGL.pyd
 cd ..
