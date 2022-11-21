@@ -660,7 +660,7 @@ class SettingsWindow(QMainWindow):
                 <p>{_("ElevenClock is an Open-Source application made with the help of other libraries made by the community:")}</p><br>
                 <style> a {{color: rgb({colors[2 if isWindowDark() else 4]})}}</style>
                 <ul>
-                <li> <b>Python 3.10</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
+                <li> <b>Python 3.11</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
                 <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>PyAutoGui</b>: <a href="https://github.com/asweigart/pyautogui/">BSD-3 Clause New</a></li>
                 <li> <b>PyWin32</b>: <a href="https://pypi.org/project/pywin32/">PSF-2.0</a></li>
