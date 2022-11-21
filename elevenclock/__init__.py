@@ -1251,13 +1251,33 @@ try:
                                     intColor = self.oldBgColor
                             if intColor != self.oldBgColor:
                                 self.oldBgColor = intColor
-                                color = QColor(intColor)
+                                cprint(intColor)
+                                try:
+                                    color = QColor(intColor)
+                                except OverflowError as e:
+                                    print("🟣 Expected AttributeError on bgcolor function (line 1258)")
+                                    try:
+                                        color = QColor(intColor-10)
+                                    except OverflowError as e:
+                                        color = QColor(Qt.GlobalColor.white)
+                                        print(intColor)
+                                        report(e)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
                             if not getSettings("DisableAutomaticTextColor"):
                                 g = self.screen().geometry()
                                 intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 self.oldBgColor = intColor
-                                color = QColor(intColor)
+                                try:
+                                    color = QColor(intColor)
+                                except OverflowError as e:
+                                    print("🟣 Expected AttributeError on bgcolor function (line 1273)")
+                                    try:
+                                        color = QColor(intColor-1)
+                                    except OverflowError as e:
+                                        color = QColor(Qt.GlobalColor.white)
+                                        cprint(intColor)
+                                        intColor = 0
+                                        report(e)
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                                 avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
@@ -1269,6 +1289,8 @@ try:
                 
                 except AttributeError:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
+                except Exception as e:
+                    report(e)
             else:
                 alphaUpdated = False
                 shouldBeTransparent = False
