@@ -1,9 +1,9 @@
+PyInstaller
+PySide6
+keyboard
+psutil
 pyautogui
 pypiwin32
-PySide6
-psutil
-PyInstaller
-win32mica
 python-dateutil
+win32mica
 winshell
-keyboard
