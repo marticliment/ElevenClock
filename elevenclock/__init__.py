@@ -1229,15 +1229,17 @@ try:
             if not self.isCover: 
                 alphaUpdated = False
                 shouldBeTransparent = False
-                self.oldTextColor = ""
                 try:
                     if self.UseTaskbarBackgroundColor and not globals.trayIcon.contextMenu().isVisible():
                         if self.isVisible():
+                            gotColor = False
+                            intColor = 0
                             if not self.tempMakeClockTransparent:
                                 if self.showBlurryBackground:
                                     self.callInMainSignal.emit(lambda: self.backgroundTexture.show())
                                 g = self.screen().geometry()
                                 intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                                gotColor = True
                                 alphaUpdated = False
                                 shouldBeTransparent = False
                             else:
@@ -1251,7 +1253,6 @@ try:
                                     intColor = self.oldBgColor
                             if intColor != self.oldBgColor:
                                 self.oldBgColor = intColor
-                                cprint(intColor)
                                 try:
                                     color = QColor(intColor)
                                 except OverflowError as e:
@@ -1260,16 +1261,15 @@ try:
                                         color = QColor(intColor-10)
                                     except OverflowError as e:
                                         color = QColor(Qt.GlobalColor.white)
-                                        print(intColor)
                                         report(e)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
                             if not getSettings("DisableAutomaticTextColor"):
                                 g = self.screen().geometry()
-                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                                self.oldBgColor = intColor
+                                if not gotColor: # If it was not already calculated                                
+                                    intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                 try:
                                     color = QColor(intColor)
-                                except OverflowError as e:
+                                except OverflowError:
                                     print("🟣 Expected AttributeError on bgcolor function (line 1273)")
                                     try:
                                         color = QColor(intColor-1)
@@ -1278,12 +1278,11 @@ try:
                                         cprint(intColor)
                                         intColor = 0
                                         report(e)
-                                alphaUpdated = False
-                                shouldBeTransparent = False
                                 avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
                                 textcolor = "black" if (avgColorValue>=127) else "white"
                                 if textcolor != self.oldTextColor:
                                     self.oldTextColor = textcolor
+                                    cprint("Changing color!")
                                     styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
                                     self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
                 
