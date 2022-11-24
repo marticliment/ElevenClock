@@ -1731,13 +1731,25 @@ try:
 
         def enableFocusAssistant(self):
             if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
-                if winver < 22581:
-                    self.focusAssitantLabel.setIcon(self.moonIconWhite if isTaskbarDark() else self.moonIconBlack)
-                else:
-                    if numOfNotifs == 0:
-                        self.focusAssitantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                if getSettings("DisableAutomaticTextColor"):
+                    if winver < 22581:
+                        self.focusAssitantLabel.setIcon(self.moonIconWhite if isTaskbarDark() else self.moonIconBlack)
                     else:
-                        self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+                        if numOfNotifs == 0:
+                            self.focusAssitantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                        else:
+                            self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+                else:
+                    if winver < 22581:
+                        self.focusAssitantLabel.setIcon(self.moonIconWhite if self.window().oldTextColor == "white" else self.moonIconBlack)
+                    else:
+                        if self.window().oldTextColor == "black":
+                            self.focusAssitantLabel.setIcon(self.emptyBellBlack if numOfNotifs == 0 else self.filledBellBlack)
+                        elif self.window().oldTextColor == "white":
+                            self.focusAssitantLabel.setIcon(self.emptyBellWhite if numOfNotifs == 0 else self.filledBellWhite)
+                        else:
+                            self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+
             if not self.focusassitant:
                 if self.notifdot:
                     self.disableClockIndicators()
