@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ElevenClock"
-#define MyAppVersion "3.9.6"
+#define MyAppVersion "3.9.7-beta"
 #define MyAppPublisher "Martí Climent"
 #define MyAppURL "https://github.com/martinet101/ElevenClock"
 #define MyAppExeName "ElevenClock.exe"
