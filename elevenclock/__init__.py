@@ -1318,9 +1318,9 @@ try:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
         def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
-            if globals.blockFullscreenCheck:
+            while globals.blockFullscreenCheck:
                 time.sleep(0.01)
-                return self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
+                #return self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
             try:
                 fullscreen = False
 

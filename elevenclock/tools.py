@@ -732,10 +732,10 @@ def verifyHwndValidity(hwnd):
 
 def appendWindowList(hwnd, _):
     if hwnd not in globals.cachedInputHosts:
-        isVisible = win32gui.IsWindowVisible(hwnd)
-        if isVisible:
-            text = win32gui.GetWindowText(hwnd)
-            if text not in globals.blacklistedFullscreenApps:
+        text = win32gui.GetWindowText(hwnd)
+        if text not in globals.blacklistedFullscreenApps:
+            isVisible = win32gui.IsWindowVisible(hwnd)
+            if isVisible:
                 rect = win32gui.GetWindowRect(hwnd)
                 if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
                     globals.newWindowList.append(hwnd)
@@ -746,30 +746,30 @@ def appendWindowList(hwnd, _):
 
 def loadWindowsInfoThread():
     while True:
+        LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
         globals.blockFullscreenCheck = True
         globals.newWindowList = []
         globals.windowTexts = {}
         globals.windowRects = {}
         globals.windowVisible = {}
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
-        if not getSettings("legacyFullScreenMethod"):
+        if not LEGACY_FULLSCREEN_METHOD:
             win32gui.EnumWindows(appendWindowList, 0)
         if globals.foregroundHwnd not in globals.newWindowList:
             try:
                 appendWindowList(globals.foregroundHwnd, _)
             except pywintypes.error:
                 pass
-        
-        doAnalyzeOldFullScreenWindows = True
-        if doAnalyzeOldFullScreenWindows:
+        if LEGACY_FULLSCREEN_METHOD:
             for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
                 if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
+                    cprint("actuallyDoingSomething")
                     try:
                         appendWindowList(previousFullscreenHwnd, _)
                     except pywintypes.error:
                         globals.previousFullscreenHwnd[i] = 0
         
-        globals.windowList = globals.newWindowList
+        globals.windowList = globals.newWindowList.copy()
         globals.blockFullscreenCheck = False
         time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
 
