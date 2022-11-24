@@ -983,7 +983,10 @@ try:
                 else:
                     self.fontfamilies = []
                     self.customFont = customFont
-                self.font.setLetterSpacing(QFont.PercentageSpacing, 95)
+                if isTaskbarDark():
+                    self.font.setLetterSpacing(QFont.PercentageSpacing, 95)
+                else:
+                    self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
                 if self.fontfamilies == []:
                     self.font.fromString(self.customFont)
                 customSize = getSettingsValue("UseCustomFontSize")
