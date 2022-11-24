@@ -15,7 +15,7 @@ untranslatedPercentage = {
   "he": "92%",
   "hr": "11%",
   "id": "92%",
-  "it": "81%",
+  "it": "96%",
   "lt": "22%",
   "lv": "61%",
   "nb": "92%",
@@ -28,6 +28,5 @@ untranslatedPercentage = {
   "sr": "22%",
   "sv": "78%",
   "th": "82%",
-  "tr": "99%",
   "vi": "49%"
 }
