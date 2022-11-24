@@ -235,26 +235,6 @@ def getMousePos() -> QPoint:
         report(e)
         return QPoint(0, 0)
 
-"""def clearTmpDir():
-    while not globals.canEraseTempDirs:
-        time.sleep(0.1)
-    print("🟢 Green lignt to erase temp dirs")
-    if hasattr(sys, 'frozen'):
-        base_path = sys._MEIPASS
-        try:
-            temp_path = os.path.abspath(os.path.join(base_path, '..'))
-            mei_folders = glob.glob(os.path.join(temp_path, '_MEI*'), recursive=False)
-            for item in mei_folders:
-                if (item == base_path): continue
-                try:
-                    if not globals.newInstanceLaunched:
-                        os.rename(item, item.replace("_MEI", "_OLDMEI")) # If some files are being used, the function will fail and code dirs won't be partially removed
-                        shutil.rmtree(item.replace("_MEI", "_OLDMEI"))
-                except Exception as e:
-                    report(e)
-        except Exception as e:
-            report(e)"""
-
 def isDark():
     try:
         raise DeprecationWarning("This function has been deprecated and must be replaced with isWindowDark or isTaskbarDark!")
@@ -751,15 +731,17 @@ def verifyHwndValidity(hwnd):
             print(f"🟢 Hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} was verified as a valid window (Process name is {str(pname).lower()})")
 
 def appendWindowList(hwnd, _):
-    rect = win32gui.GetWindowRect(hwnd)
     if hwnd not in globals.cachedInputHosts:
-        if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
+        isVisible = win32gui.IsWindowVisible(hwnd)
+        if isVisible:
             text = win32gui.GetWindowText(hwnd)
-            isVisible = win32gui.IsWindowVisible(hwnd)
-            globals.newWindowList.append(hwnd)
-            globals.windowTexts[hwnd] = text
-            globals.windowRects[hwnd] = rect
-            globals.windowVisible[hwnd] = isVisible
+            if text not in globals.blacklistedFullscreenApps:
+                rect = win32gui.GetWindowRect(hwnd)
+                if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
+                    globals.newWindowList.append(hwnd)
+                    globals.windowTexts[hwnd] = text
+                    globals.windowRects[hwnd] = rect
+                    globals.windowVisible[hwnd] = isVisible
 
 
 def loadWindowsInfoThread():
@@ -770,21 +752,26 @@ def loadWindowsInfoThread():
         globals.windowRects = {}
         globals.windowVisible = {}
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
-        win32gui.EnumWindows(appendWindowList, 0)
+        if not getSettings("legacyFullScreenMethod"):
+            win32gui.EnumWindows(appendWindowList, 0)
         if globals.foregroundHwnd not in globals.newWindowList:
             try:
                 appendWindowList(globals.foregroundHwnd, _)
             except pywintypes.error:
                 pass
-        for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
-            if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
-                try:
-                    appendWindowList(previousFullscreenHwnd, _)
-                except pywintypes.error:
-                    globals.previousFullscreenHwnd[i] = 0
+        
+        doAnalyzeOldFullScreenWindows = True
+        if doAnalyzeOldFullScreenWindows:
+            for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
+                if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
+                    try:
+                        appendWindowList(previousFullscreenHwnd, _)
+                    except pywintypes.error:
+                        globals.previousFullscreenHwnd[i] = 0
+        
         globals.windowList = globals.newWindowList
         globals.blockFullscreenCheck = False
-        time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.1)
+        time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
 
 
 def updateLangFile(file: str):

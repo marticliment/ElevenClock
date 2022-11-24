@@ -57,3 +57,5 @@ notTextInputHost: list[int] = []
 cachedInputHosts: list[int] = []
 previousFullscreenHwnd: dict[int, int] = {}
 blockFullscreenCheck: bool = False
+
+blacklistedFullscreenApps: tuple = ("", "Program Manager", "NVIDIA GeForce Overlay", "NVIDIA GeForce Overlay DT", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows

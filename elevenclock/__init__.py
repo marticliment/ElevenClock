@@ -60,7 +60,6 @@ try:
     from external.blurwindow import ExtendFrameIntoClientArea
 
     blacklistedProcesses = ["msrdc.exe", "mstsc.exe", "CDViewer.exe", "wfica32.exe", "vmware-view.exe", "vmware.exe"]
-    blacklistedFullscreenApps = ("", "Program Manager", "NVIDIA GeForce Overlay", "NVIDIA GeForce Overlay DT", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
 
     seconddoubleclick = False
     isRDPRunning = False
@@ -1343,7 +1342,7 @@ try:
                         if hwnd in globals.windowVisible.keys():
                             if globals.windowVisible[hwnd]:
                                 if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
-                                    if globals.windowTexts[hwnd] not in blacklistedFullscreenApps:
+                                    if globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps:
                                         if hwnd not in globals.cachedInputHosts:
                                             if hwnd not in globals.notTextInputHost:
                                                 print(f"🟡 Verifying unverified hwnd {hwnd}")
@@ -1367,7 +1366,7 @@ try:
                         else:
                             previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
                             if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                                if(globals.windowTexts[previousFullscreenHwnd] not in blacklistedFullscreenApps):
+                                if(globals.windowTexts[previousFullscreenHwnd] not in globals.blacklistedFullscreenApps):
                                     print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                                     if LOG_FULLSCREEN_WINDOW_TITLE:
                                         print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
@@ -1376,7 +1375,7 @@ try:
                                 self.previousFullscreenHwnd = None
                                 globals.previousFullscreenHwnd[self.index] = 0
                     if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                        if(globals.windowTexts[hwnd] not in blacklistedFullscreenApps):
+                        if(globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps):
                             print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
                             if LOG_FULLSCREEN_WINDOW_TITLE:
                                 print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
@@ -1954,7 +1953,6 @@ try:
     globals.app = app # Register global variables
     globals.sw = sw # Register global variables
     globals.trayIcon = i # Register global variables
-    #globals.mController = mController
     globals.loadTimeFormat = loadTimeFormat # Register global functions
     globals.updateIfPossible = updateIfPossible # Register global functions
     globals.restartClocks = restartClocks # Register global functions
@@ -1988,9 +1986,6 @@ try:
         globals.ww = ww
 
     print(f"🟢 Loaded everything in {time.time()-FirstTime}")
-
-    #if not getSettings("DisableDirRemovingThread"):
-    #    Thread(target=clearTmpDir, daemon=True).start() # Clear old temp folders
 
     if "--quit-on-loaded" in sys.argv: # This is a testing feature to test if the script can load successfully
         app.quit()
