@@ -781,7 +781,7 @@ def updateLangFile(file: str):
             oldlang = open(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file), "rb").read()
         except FileNotFoundError:
             oldlang = ""
-        newlang = urlopen("https://raw.githubusercontent.com/martinet101/ElevenClock/main/elevenclock/lang/"+file)
+        newlang = urlopen("https://raw.githubusercontent.com/marticliment/ElevenClock/main/elevenclock/lang/"+file)
         if newlang.status == 200:
             langdata: bytes = newlang.read()
             if not os.path.isdir(os.path.join(os.path.expanduser("~"), ".elevenclock/lang/")):

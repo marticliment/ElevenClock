@@ -700,7 +700,7 @@ class LastSlide(BasicNavWidget):
              <h3>{_("View ElevenClock on GitHub")}</h3>
              {_("View ElevenClock's source code. From there, you can report bugs or suggest features, or even contribute direcly to The ElevenClock Project")}""")
         report.setButtonText(_("Open GitHub"))
-        report.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock"))
+        report.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock"))
 
         vl.addWidget(label1)
         vl.addStretch()

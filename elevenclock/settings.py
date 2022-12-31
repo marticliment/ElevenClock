@@ -644,7 +644,7 @@ class SettingsWindow(QMainWindow):
         self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.languageSettingsTitle.addWidget(self.PackInfoButton)
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
-        self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki/#translating-elevenclock"))
+        self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/wiki/#translating-elevenclock"))
         self.languageSettingsTitle.addWidget(self.openTranslateButton)
 
         def thirdPartyLicenses():
@@ -671,11 +671,11 @@ class SettingsWindow(QMainWindow):
                 <li> <b>Python 3</b>: <a href="https://docs.python.org/3/license.html">PSF License Agreement</a></li>
                 <li> <b>TzLocal</b>: <a href="https://github.com/regebro/tzlocal/blob/master/LICENSE.txt">MIT License</a></li>
                 <li> <b>WNFUN</b>: <a href="https://github.com/ionescu007/wnfun/blob/master/LICENSE">BSD 2-Clause</a></li>
-                <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/martinet101/pymica/blob/master/LICENSE">MIT License</a></li>
+                <li> <b>Win32mica</b> (Also made by me): <a href="https://github.com/marticliment/pymica/blob/master/LICENSE">MIT License</a></li>
                 <li> <b>WinShell</b>: <a href="https://github.com/tjguk/winshell/blob/master/LICENSE.txt">MIT License</a></li>
                 </ul>    """)
             msg.addButton(_("Ok"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: msg.close())
-            msg.addButton(_("More Info"), QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#third-party-libraries"))
+            msg.addButton(_("More Info"), QDialogButtonBox.ButtonRole.ResetRole, lambda: os.startfile("https://github.com/marticliment/ElevenClock/wiki#third-party-libraries"))
             def closeAndQt():
                 msg.close()
                 QMessageBox.aboutQt(self, "ElevenClock - "+_("About Qt"))
@@ -752,7 +752,7 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
-        self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/"))
+        self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/"))
         self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.WebPageButton)
         self.ThirdParty = QSettingsButton(_("Third party licenses"), _("View"))
@@ -760,7 +760,7 @@ class SettingsWindow(QMainWindow):
         self.ThirdParty.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.ThirdParty)
         self.IssueButton = QSettingsButton(_("Report an issue/request a feature"), _("Report"))
-        self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/issues/new/choose"))
+        self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/issues/new/choose"))
         self.IssueButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.IssueButton)
         self.CofeeButton = QSettingsButton(_("Support the dev: Give me a coffee☕"), _("Open page"))
@@ -788,7 +788,7 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.debbuggingTitle)
         self.helpButton = QSettingsButton(_("Open online help to troubleshoot problems"), _("Open"))
         self.helpButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
-        self.helpButton.clicked.connect(lambda: os.startfile("https://github.com/martinet101/ElevenClock/wiki#Troubleshooting"))
+        self.helpButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/wiki#Troubleshooting"))
         self.debbuggingTitle.addWidget(self.helpButton)
         self.logButton = QSettingsButton(_("Open ElevenClock's log"), _("Open"))
         self.logButton.clicked.connect(lambda: self.openLogWindow())

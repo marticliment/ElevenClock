@@ -148,7 +148,7 @@ try:
                         except Exception as e:
                             report(e)
                         if(integrityPass):
-                            url = "https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
+                            url = "https://github.com/marticliment/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
                             filedata = urlopen(url)
                             datatowrite = filedata.read()
                             filename = ""
@@ -376,7 +376,7 @@ try:
 
     def wanrUserAboutUpdates(a, b):
         if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
-            os.startfile("https://github.com/martinet101/ElevenClock/releases/latest")
+            os.startfile("https://github.com/marticliment/ElevenClock/releases/latest")
 
     def checkIfWokeUpThread():
         while True:
