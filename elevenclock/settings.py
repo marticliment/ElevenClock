@@ -3086,6 +3086,16 @@ class QAnnouncements(QLabel):
 
     def setText(self, a: str) -> None:
         raise Exception("This member should not be used under any circumstances")
+    
+    
+class CustomSettings(SettingsWindow):
+    def __init__(self, id, name):
+        super().__init__()
+        self.clockName = name
+        self.clockId = id
+        
+globals.CustomSettings = CustomSettings
+
 
 if __name__ == "__main__":
     from ctypes import c_int, windll

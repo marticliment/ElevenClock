@@ -663,6 +663,8 @@ try:
         isIgnoringClicks = False
         oldTextColor: str = ""
         shownBackgroundOnSolidColor: bool = False
+        clockId: str = ""
+        clockNumber: bool = 0
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -1171,7 +1173,6 @@ try:
             fg = 6 if isTaskbarDark() else 1
             return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};background-color: transparent;}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
 
-
         def updateToolTipStatus(self, mouseIn: bool =False) -> None:
             if mouseIn:
                 self.isHovered = True
@@ -1200,6 +1201,11 @@ try:
 
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
+        
+        def getClockID(self):
+            isSecondary = int(self.isSecondary)
+            clockMonitor = self.screen().name()
+            return (f"clock{isSecondary}_mon{clockMonitor}", _("Clock number {0} on {1}").format(isSecondary, clockMonitor))
 
         def checkAndUpdateBackground(self):
             if not self.isCover: 
@@ -1486,8 +1492,7 @@ try:
                 for w in (self, self.label, self.desktopButton, self.backgroundTexture):
                     self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_TransparentForMouseEvents, True))
                     self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_NoSystemBackground, True))
-
-            
+         
         def makeclockRegiesterMouseClicks(self):
             if self.isIgnoringClicks:
                 self.isIgnoringClicks = False
@@ -1495,7 +1500,6 @@ try:
                 for w in (self, self.label, self.desktopButton, self.backgroundTexture):
                     self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_TransparentForMouseEvents, False))
             
-
         def updateTextLoop(self) -> None:
             global timeStr
             self.callInMainSignal.emit(lambda: self.label.setText("00:00 AM\n00/00/0000"))

@@ -1,4 +1,5 @@
 from ctypes import c_int, windll
+from functools import partial
 import json
 import time
 windll.shcore.SetProcessDpiAwareness(c_int(2))
@@ -267,6 +268,19 @@ class Menu(QMenu):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
 
+specificSettings = {}
+
+def openClockSettings(clockInstance):
+    try:
+        id, name = clockInstance.getClockID()
+        try:
+            specificSettings[id].show()
+        except KeyError:
+            print(f"🟢 Specific clock settings for clock {id} missing, generating one...")
+            specificSettings[id] = globals.CustomSettings(id, name)
+            specificSettings[id].show()
+    except Exception as e:
+        report(e)
 
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -335,11 +349,16 @@ class TaskbarIconTray(QSystemTrayIcon):
             msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, globals.sw.styleSheet())
             msg.setWindowTitle("ElevenClock was updated!")
             msg.show()
-
+        
         self.monitorInfoAction = QAction(_("Clock on monitor {0}"), app)
         self.monitorInfoAction.setEnabled(False)
         self.toolsMenu.addAction(self.monitorInfoAction)
         self.toolsMenu.setEnabled(False)
+        self.toolsMenu.addSeparator()
+        
+        self.individualSettings = QAction(_("This clock settings"))
+        self.toolsMenu.addAction(self.individualSettings)
+        
         self.toolsMenu.addSeparator()
 
         self.blacklistAction = QAction(_("Blacklist this monitor"), app)
@@ -445,10 +464,10 @@ class TaskbarIconTray(QSystemTrayIcon):
         else:
             pos.setY(clock.screen().geometry().y()+clock.screen().geometry().height()-clock.height()-(5)-menuHeight)
 
-        self.execMenu(pos)
+        self.execMenu(pos, clockInstance=clock)
 
 
-    def execMenu(self, pos: QPoint):
+    def execMenu(self, pos: QPoint, clockInstance: 'Clock'):
         try:
             self.toolsMenu.setEnabled(True)
             try:
@@ -481,6 +500,8 @@ class TaskbarIconTray(QSystemTrayIcon):
                 else:
                     self.moveToTopAction.setText(_("Move this clock to the top"))
             self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screenName.replace("_", "\\")))
+            self.individualSettings.triggered.disconnect()
+            self.individualSettings.triggered.connect(partial(openClockSettings, clockInstance))
             self.contextMenu().exec(pos)
             self.applyStyleSheet()
         except Exception as e:
