@@ -419,7 +419,7 @@ class SettingsWindow(QMainWindow):
         
         self.lineHeight = QSettingsSizeBoxComboBox(_("Use a custom line height"))
         self.lineHeight.setChecked(getSettings("CustomLineHeight"))
-        self.lineHeight.loadItems(["0.5", "0.6", "0.7", "0.8", "0.85", "0.9", "0.95", "1", "1.05", "1.1", "1.15", "1.2", "1.3", "1.4", "1.5", "1.7", "1.85", "2", "2.5", "3"])
+        self.lineHeight.loadItems([i/100 for i in range(5, 300, 5)])
         if self.lineHeight.isChecked():
             try:
                 customlineHeight = getSettingsValue("CustomLineHeight")
