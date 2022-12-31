@@ -56,6 +56,7 @@ class SettingsWindow(QMainWindow):
         self.vlayout.setContentsMargins(0, 0, 0, 0)
         self.vlayout.setSpacing(0)
         layout = QVBoxLayout()
+        self.mainLayout = layout
         self.updateSize = True
         self.scrollArea.setWidgetResizable(True)
         self.setObjectName("backgroundWindow")
@@ -64,14 +65,14 @@ class SettingsWindow(QMainWindow):
         self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
         layout.addSpacing(0)
-        title = QLabel("\u200e"+_("ElevenClock Settings"))
-        title.setObjectName("title")
+        self.title = QLabel("\u200e"+_("ElevenClock Settings"))
+        self.title.setObjectName("title")
         if lang["locale"] == "zh_TW":
-            title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
+            self.title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
         elif lang["locale"] == "zh_CN":
-            title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
+            self.title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft YaHei UI\";font-weight: 600;")
         else:
-            title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 700;")
+            self.title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 700;")
         layout.setSpacing(5)
         layout.setContentsMargins(10, 0, 0, 0)
         layout.addSpacing(0)
@@ -843,7 +844,7 @@ class SettingsWindow(QMainWindow):
         titleLayout = QHBoxLayout()
         titleLayout.setContentsMargins(0, 0, 0, 0)
         titleLayout.setSpacing(0)
-        titleLayout.addWidget(title, stretch=1)
+        titleLayout.addWidget(self.title, stretch=1)
         titleLayout.addWidget(self.searchBox)
 
         svl = QVBoxLayout()
@@ -1074,6 +1075,9 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
         if isWindowDark():
             self.setStyleSheet(f"""
+                               *::disabled {{
+                                   color: grey;
+                               }}
                                #backgroundWindow {{
 
                                    background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.DARK) == 0x0 else "#262626"};
@@ -1550,6 +1554,9 @@ class SettingsWindow(QMainWindow):
                                """)
         else:
             self.setStyleSheet(f"""
+                               *::disabled {{
+                                   color: grey;
+                               }}
                                #backgroundWindow {{
                                    background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.LIGHT) == 0x0 else "#ffffff"};
                                }}
@@ -3089,10 +3096,33 @@ class QAnnouncements(QLabel):
     
     
 class CustomSettings(SettingsWindow):
-    def __init__(self, id, name):
+    def __init__(self, id, data):
         super().__init__()
-        self.clockName = name
+        self.data = data
         self.clockId = id
+        self.title.setText(_("Modifying Clock {0} on the monitor {1}").format(data[0], data[1]))
+        self.generalSettingsTitle.hide()
+        self.aboutTitle.hide()
+        self.languageSettingsTitle.hide()
+        self.debbuggingTitle.hide()
+        self.enableCustomStyle = QSettingsCheckBox(_("Set clock {0} on monitor {1} to have a different style that the other clocks."))
+        self.enableCustomStyle.setChecked(getSettings(f"Indidivualize{id}"))
+        self.enableCustomStyle.stateChanged.connect(lambda v: (setSettings(f"Indidivualize{id}", v), self.changeState()))
+        self.enableCustomStyle.setStyleSheet(f"QWidget#stChkBg{{border-radius: 8px;border-width: 1px;}}"+("border-color: #202020" if isWindowDark() else ""))
+        self.mainLayout.insertWidget(3, self.enableCustomStyle)
+        self.changeState()
+        
+    def changeState(self):
+        v = self.enableCustomStyle.isChecked()
+        self.clockSettingsTitle.setEnabled(v)
+        self.clockFeaturesTitle.setEnabled(v)
+        self.clockPosTitle.setEnabled(v)
+        self.clockAppearanceTitle.setEnabled(v)
+        self.dateTimeTitle.setEnabled(v)
+        self.internetTimeTitle.setEnabled(v)
+        self.toolTipAppearanceTitle.setEnabled(v)
+        self.experimentalTitle.setEnabled(v)
+        
         
 globals.CustomSettings = CustomSettings
 

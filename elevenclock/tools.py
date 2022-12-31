@@ -272,12 +272,12 @@ specificSettings = {}
 
 def openClockSettings(clockInstance):
     try:
-        id, name = clockInstance.getClockID()
+        id, data = clockInstance.getClockID()
         try:
             specificSettings[id].show()
         except KeyError:
             print(f"🟢 Specific clock settings for clock {id} missing, generating one...")
-            specificSettings[id] = globals.CustomSettings(id, name)
+            specificSettings[id] = globals.CustomSettings(id, data)
             specificSettings[id].show()
     except Exception as e:
         report(e)
@@ -356,7 +356,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.toolsMenu.setEnabled(False)
         self.toolsMenu.addSeparator()
         
-        self.individualSettings = QAction(_("This clock settings"))
+        self.individualSettings = QAction(_("Settings for this clock"))
         self.toolsMenu.addAction(self.individualSettings)
         
         self.toolsMenu.addSeparator()
@@ -663,6 +663,7 @@ class TaskbarIconTray(QSystemTrayIcon):
                 }}
                 """)
         self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
+        self.individualSettings.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
         self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
         self.takmgr.setIcon(QIcon(getPath(f"taskmgr_{self.iconMode}.png")))
         self.settingsAction.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))

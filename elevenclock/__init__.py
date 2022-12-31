@@ -1204,8 +1204,8 @@ try:
         
         def getClockID(self):
             isSecondary = int(self.isSecondary)
-            clockMonitor = self.screen().name()
-            return (f"clock{isSecondary}_mon{clockMonitor}", _("Clock number {0} on {1}").format(isSecondary, clockMonitor))
+            clockMonitor = self.screen().name().replace(" ", "_").replace(".", "_")
+            return (f"clock{isSecondary}_mon{clockMonitor}", (isSecondary, clockMonitor))
 
         def checkAndUpdateBackground(self):
             if not self.isCover: 
