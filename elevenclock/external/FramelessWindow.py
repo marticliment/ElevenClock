@@ -7,10 +7,8 @@ windll.shcore.SetProcessDpiAwareness(c_int(2))
 #
 #
 
-
-import ctypes
-import win32api
-import win32gui
+import winreg
+from win32mica import ApplyMica, MICAMODE
 
 from ctypes.wintypes import DWORD, LONG, LPCVOID
 
@@ -24,6 +22,30 @@ from PySide6.QtGui import *
 from PySide6.QtWidgets import *
 from external.blurwindow import ExtendFrameIntoClientArea
 
+def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
+    registry = winreg.ConnectRegistry(None, storage)
+    reg_keypath = aKey
+    try:
+        reg_key = winreg.OpenKey(registry, reg_keypath)
+    except FileNotFoundError as e:
+        return default
+    except Exception as e:
+        print(e)
+        return default
+
+    for i in range(1024):
+        try:
+            value_name, value, _ = winreg.EnumValue(reg_key, i)
+            if value_name == sKey:
+                return value
+        except OSError as e:
+            return default
+        except Exception as e:
+            print(e)
+            return default
+
+def isWindowDark() -> bool:
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
 
 
 class QFramelessWindow(QMainWindow):
@@ -35,8 +57,9 @@ class QFramelessWindow(QMainWindow):
         super().__init__(parent=parent)
         self.hwnd = self.winId().__int__()
         self.setObjectName("QFramelessWindow")
-        window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
-        win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX)
+        self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.CustomizeWindowHint)
+        #window_style = win32gui.GetWindowLong(self.hwnd, GWL_STYLE)
+        #win32gui.SetWindowLong(self.hwnd, GWL_STYLE, window_style | WS_POPUP | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_MAXIMIZEBOX | WS_MINIMIZEBOX)
 
         ExtendFrameIntoClientArea(self.winId().__int__())
 
@@ -64,68 +87,11 @@ class QFramelessWindow(QMainWindow):
         self._layout.addWidget(self.mainWidget)
         self.setLayout(self._layout)
 
-    def changeEvent(self, event):
-        if event.type() == event.WindowStateChange:
-            if self.windowState() & Qt.WindowMaximized:
-                margin = abs(self.mapToGlobal(self.rect().topLeft()).y())
-                self.setContentsMargins(margin, margin, margin, margin)
-            else:
-                self.setContentsMargins(0, 0, 0, 0)
-
         return super(QFramelessWindow, self).changeEvent(event)
-
-    def nativeEvent(self, event, message):
-        return_value, result = super().nativeEvent(event, message)
-
-        # if you use Windows OS
-        if event == b'windows_generic_MSG':
-            msg = ctypes.wintypes.MSG.from_address(message.__int__())
-            # Get the coordinates when the mouse moves.
-            x = win32api.LOWORD(LONG(msg.lParam).value)
-            # converted an unsigned int to int (for dual monitor issue)
-            if x & 32768: x = x | -65536
-            y = win32api.HIWORD(LONG(msg.lParam).value)
-            if y & 32768: y = y | -65536
-
-            x -= self.frameGeometry().x()
-            y -= self.frameGeometry().y()
-
-            # Determine whether there are other controls(i.e. widgets etc.) at the mouse position.
-            if self.childAt(x, y) is not None and self.childAt(x, y) is not self.findChild(QWidget, "ControlWidget"):
-                # passing
-                if self.width() - self.BORDER_WIDTH > x > self.BORDER_WIDTH and y < self.height() - self.BORDER_WIDTH:
-                    return return_value, result
-
-            if msg.message == WM_NCCALCSIZE:
-                # Remove system title
-                return True, 0
-
-            if msg.message == WM_NCHITTEST:
-                w, h = self.width(), self.height()
-                lx = x < self.BORDER_WIDTH
-                rx = x > w - self.BORDER_WIDTH
-                ty = y < self.BORDER_WIDTH
-                by = y > h - self.BORDER_WIDTH
-                if lx and ty:
-                    return True, HTTOPLEFT
-                if rx and by:
-                    return True, HTBOTTOMRIGHT
-                if rx and ty:
-                    return True, HTTOPRIGHT
-                if lx and by:
-                    return True, HTBOTTOMLEFT
-                if ty:
-                    return True, HTTOP
-                if by:
-                    return True, HTBOTTOM
-                if lx:
-                    return True, HTLEFT
-                if rx:
-                    return True, HTRIGHT
-                # Title
-                return True, HTCAPTION
-
-        return return_value, result
+    
+    def showEvent(self, event) -> None:
+        ApplyMica(self.winId(), MICAMODE.DARK if isWindowDark() else MICAMODE.LIGHT)
+        return super().showEvent(event)
 
     def moveEvent(self, event) -> None:
         self.repaint()
