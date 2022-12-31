@@ -124,14 +124,14 @@ try:
             if(not(getSettings("DisableAutoCheckForUpdates")) or force):
                 print("🔵 Starting update check")
                 integrityPass = False
-                dmname = socket.gethostbyname_ex("versions.somepythonthings.tk")[0]
+                dmname = socket.gethostbyname_ex("versions.marticliment.com")[0]
                 if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
                     integrityPass = True
                 try:
-                    response = urlopen("https://versions.somepythonthings.tk/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "http://www.somepythonthings.tk/versions/elevenclock.ver")
+                    response = urlopen("https://versions.marticliment.com/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "http://www.marticliment.com/versions/elevenclock.ver")
                 except Exception as e:
                     report(e)
-                    response = urlopen("http://www.somepythonthings.tk/versions/elevenclock.ver")
+                    response = urlopen("http://www.marticliment.com/versions/elevenclock.ver")
                     integrityPass = True
                 print("🔵 Version URL:", response.url)
                 response = response.read().decode("utf8")
@@ -2034,6 +2034,6 @@ except Exception as e:
     traceback_info += str(type(e))
     traceback_info += ": "
     traceback_info += str(e)
-    webbrowser.open(("https://www.somepythonthings.tk/error-report/?appName=ElevenClock&errorBody="+os_info.replace('\n', '{l}').replace(' ', '{s}')+"{l}{l}{l}{l}ElevenClock Log:{l}"+str("\n\n\n\n"+traceback_info).replace('\n', '{l}').replace(' ', '{s}')).replace("#", "|=|"))
+    webbrowser.open(("https://www.marticliment.com/error-report/?appName=ElevenClock&errorBody="+os_info.replace('\n', '{l}').replace(' ', '{s}')+"{l}{l}{l}{l}ElevenClock Log:{l}"+str("\n\n\n\n"+traceback_info).replace('\n', '{l}').replace(' ', '{s}')).replace("#", "|=|"))
     print(traceback_info)
 

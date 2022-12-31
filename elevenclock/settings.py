@@ -524,7 +524,7 @@ class SettingsWindow(QMainWindow):
         self.internetTime.stateChanged.connect(lambda e: setSettings("EnableInternetTime", e))
         self.internetTimeTitle.addWidget(self.internetTime)
 
-        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Set a custom network time provider"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.somepythonthings.tk/redirect?ECNetworkTime\">{_('Help')}</a>")
+        self.internetTimeURL = QSettingsCheckBoxTextBox(_("Set a custom network time provider"), None, f"<a style='color:rgb({getColors()[2 if isWindowDark() else 4]})' href=\"https://www.marticliment.com/redirect?ECNetworkTime\">{_('Help')}</a>")
         self.internetTimeURL.setPlaceholderText(_("Paste a URL from the world clock api or equivalent"))
         self.internetTimeURL.setText(getSettingsValue("AtomicClockURL"))
         self.internetTimeURL.setChecked(getSettings("AtomicClockURL"))
@@ -3039,13 +3039,13 @@ class QAnnouncements(QLabel):
 
     def loadAnnouncements(self, useHttps: bool = True):
         try:
-            response = urlopen(f"http{'s' if useHttps else ''}://www.somepythonthings.tk/resources/elevenclock.announcement")
+            response = urlopen(f"http{'s' if useHttps else ''}://www.marticliment.com/resources/elevenclock.announcement")
             print("🔵 Announcement URL:", response.url)
             response = response.read().decode("utf8")
             self.callInMain.emit(lambda: self.setTtext(""))
             rawbody = str(response.split("////")[0]).strip()
             rawbody = '\n'.join([_(line) for line in rawbody.replace("\r", "").split("\n")])
-            announcement_body = rawbody.replace("http://", "ignore:").replace("https://", "ignoreSecure:").replace("linkId", "http://somepythonthings.tk/redirect/").replace("linkColor", f"rgb({getColors()[2 if isWindowDark() else 4]})")
+            announcement_body = rawbody.replace("http://", "ignore:").replace("https://", "ignoreSecure:").replace("linkId", "http://marticliment.com/redirect/").replace("linkColor", f"rgb({getColors()[2 if isWindowDark() else 4]})")
             self.callInMain.emit(lambda: self.textLabel.setText(announcement_body))
             self.callInMain.emit(lambda: self.pictureLabel.setText("Loading media..."))
             announcement_image_url = response.split("////")[1].strip()
