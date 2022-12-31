@@ -86,8 +86,6 @@ class QFramelessWindow(QMainWindow):
 
         self._layout.addWidget(self.mainWidget)
         self.setLayout(self._layout)
-
-        return super(QFramelessWindow, self).changeEvent(event)
     
     def showEvent(self, event) -> None:
         ApplyMica(self.winId(), MICAMODE.DARK if isWindowDark() else MICAMODE.LIGHT)

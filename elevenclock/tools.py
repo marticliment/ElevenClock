@@ -755,19 +755,18 @@ def loadWindowsInfoThread():
         globals.foregroundHwnd = win32gui.GetForegroundWindow()
         if not LEGACY_FULLSCREEN_METHOD:
             win32gui.EnumWindows(appendWindowList, 0)
+        else:
+            for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
+                if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
+                    try:
+                        appendWindowList(previousFullscreenHwnd, _)
+                    except pywintypes.error:
+                        globals.previousFullscreenHwnd[i] = 0
         if globals.foregroundHwnd not in globals.newWindowList:
             try:
                 appendWindowList(globals.foregroundHwnd, _)
             except pywintypes.error:
                 pass
-        if LEGACY_FULLSCREEN_METHOD:
-            for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
-                if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
-                    cprint("actuallyDoingSomething")
-                    try:
-                        appendWindowList(previousFullscreenHwnd, _)
-                    except pywintypes.error:
-                        globals.previousFullscreenHwnd[i] = 0
         
         globals.windowList = globals.newWindowList.copy()
         globals.blockFullscreenCheck = False

@@ -662,6 +662,7 @@ try:
         clockCover = None
         isIgnoringClicks = False
         oldTextColor: str = ""
+        shownBackgroundOnSolidColor: bool = False
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -737,23 +738,8 @@ try:
                         self.coverPreferedHeight = int(getSettingsValue("ClockFixedHeight"))
                     except ValueError as e:
                         report(e)
-
-                #self.win32screen = {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}
-                #for win32screen in win32api.EnumDisplayMonitors():
-                #    try:
-                #        if win32api.GetMonitorInfo(win32screen[0].handle)["Device"] == screen.name():
-                #            self.win32screen = win32api.GetMonitorInfo(win32screen[0].handle)
-                #    except Exception as e:
-                #        report(e)
-
-                #if self.win32screen == {"Device": None, "Work": (0, 0, 0, 0), "Flags": 0, "Monitor": (0, 0, 0, 0)}: #If no display is matching
-                #    os.startfile(sys.executable) # Restart elevenclock
-                #    app.quit()
-
-                #self.screenGeometry = QRect(self.win32screen["Monitor"][0], self.win32screen["Monitor"][1], self.win32screen["Monitor"][2]-self.win32screen["Monitor"][0], self.win32screen["Monitor"][3]-self.win32screen["Monitor"][1])
-                #print("🔵 Monitor geometry:", self.screenGeometry)
+                        
                 self.screenGeometry = screen.geometry()
-
 
                 self.refresh.connect(self.refreshAndShow)
                 self.hideSignal.connect(self.hide)
@@ -897,12 +883,8 @@ try:
                         r = []
                         for piece in act.split("+"):
                             piece = piece.lower()
-                            if True:#if piece in pyautogui.KEYBOARD_KEYS or True:
-                                r.append(piece)
-                            else:
-                                print("🟠 Invalid clock custom action piece:", piece)
-                                r = ("win", "n")
-                                break
+                            r.append(piece)
+                            
                         self.clickAction = r
                         print("🟢 Custom valid shortcut specified:", self.clickAction)
 
@@ -915,12 +897,8 @@ try:
                         r = []
                         for piece in doubleAction.split("+"):
                             piece = piece.lower()
-                            if True:#if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"] or True:
-                                r.append(piece)
-                            else:
-                                print("🟠 Invalid double click action piece:", piece)
-                                r = ("win", "n")
-                                break
+                            r.append(piece)
+                            
                         self.doubleClickAction = r
                         print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
 
@@ -934,12 +912,8 @@ try:
                         r = []
                         for piece in middleAction.split("+"):
                             piece = piece.lower()
-                            if True:#if piece in pyautogui.KEYBOARD_KEYS + ["trashcan", "trashcan_noconfirm", "copy_datetime"] or True:
-                                r.append(piece)
-                            else:
-                                print("🟠 Invalid middle click action piece:", piece)
-                                r = ("win", "n")
-                                break
+                            r.append(piece)
+                            
                         self.middleClickAction = r
                         print("🟢 Custom valid shortcut specified (for middle click):", self.middleClickAction)
 
@@ -1287,6 +1261,31 @@ try:
                                     cprint("Changing color!")
                                     styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
                                     self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
+                    elif self.UseTaskbarBackgroundColor == False:
+                        if self.isVisible():
+                            intColor = 0
+                            if self.tempMakeClockTransparent:
+                                if self.shownBackgroundOnSolidColor:
+                                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", "0, 0, 0, 0"))
+                                    self.callInMainSignal.emit(self.backgroundTexture.hide)
+                                    self.shownBackgroundOnSolidColor = False
+                                if not getSettings("DisableAutomaticTextColor"):
+                                        g = self.screen().geometry()
+                                        intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                                        color = QColor(intColor)
+                                        avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
+                                        textcolor = "black" if (avgColorValue>=127) else "white"
+                                        if textcolor != self.oldTextColor:
+                                            self.oldTextColor = textcolor
+                                            cprint("Changing color!")
+                                            styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
+                                            self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
+                            else:
+                                if not self.shownBackgroundOnSolidColor:
+                                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
+                                    self.callInMainSignal.emit(self.backgroundTexture.show)
+                                    self.shownBackgroundOnSolidColor = True
+                                
                 
                 except AttributeError:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
