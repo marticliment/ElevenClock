@@ -960,7 +960,7 @@ try:
                     self.fontfamilies = []
                     self.customFont = customFont
                 if isTaskbarDark():
-                    self.font.setLetterSpacing(QFont.PercentageSpacing, 95)
+                    self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
                 else:
                     self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
                 if self.fontfamilies == []:
