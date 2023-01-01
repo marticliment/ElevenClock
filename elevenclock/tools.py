@@ -90,7 +90,6 @@ def getint(s: str, fallback: int) -> int:
     try:
         return int(s)
     except:
-        cprint("can't parse \""+s+"\"")
         return fallback
 
 def report(exception) -> None: # Exception reporter
@@ -133,25 +132,29 @@ def getColors() -> list:
         i += 4
     return colors
 
-def getSettings(s: str):
+def getSettings(s: str, env: str = ""):
+    if s == "DisableTime":
+        cprint("env:", env) 
+    settingsName = env+s
     try:
         try:
-            return globals.settingsCache[s]
+            return globals.settingsCache[settingsName]
         except KeyError:
-            v = os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+            v = os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName))
             globals.settingsCache[s] = v
             return v
     except Exception as e:
         report(e)
 
-def setSettings(s: str, v: bool, r: bool = True, thread = False):
+def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
+    settingsName = env+s
     try:
         globals.settingsCache = {}
         if(v):
-            open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w").close()
+            open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "w").close()
         else:
             try:
-                os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s))
+                os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName))
             except FileNotFoundError:
                 pass
         try:
@@ -169,14 +172,15 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False):
     except Exception as e:
         report(e)
 
-def getSettingsValue(s: str):
+def getSettingsValue(s: str, env: str = ""):
+    settingsName = env+s
     try:
         try:
-            return globals.settingsCache[s+"Value"]
+            return globals.settingsCache[settingsName+"Value"]
         except KeyError:
-            with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "r") as sf:
+            with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "r") as sf:
                 v = sf.read()
-                globals.settingsCache[s+"Value"] = v
+                globals.settingsCache[settingsName+"Value"] = v
                 return v
     except FileNotFoundError:
         return ""
@@ -184,10 +188,11 @@ def getSettingsValue(s: str):
         report(e)
         return ""
 
-def setSettingsValue(s: str, v: str, r: bool = True):
+def setSettingsValue(s: str, v: str, r: bool = True, env: str = ""):
+    settingsName = env+s
     try:
         globals.settingsCache = {}
-        with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), s), "w") as sf:
+        with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "w") as sf:
             sf.write(v)
         globals.loadTimeFormat()
         if(r):

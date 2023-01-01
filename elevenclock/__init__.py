@@ -553,7 +553,8 @@ try:
             super().__init__()
 
     class CustomToolTip(QLabel):
-        def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0)):
+        def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0), clockId: str = ""):
+            self.settingsEnvironment = clockId
             super().__init__(text)
             self.scr = screen
             self.setFixedHeight(60)
@@ -563,9 +564,9 @@ try:
             self.setWindowFlag(Qt.WindowStaysOnTopHint)
             self.setWindowFlag(Qt.FramelessWindowHint)
             self.setWindowFlag(Qt.Tool)
-            cFont = getSettingsValue("TooltipUseCustomFont")
-            fColor = getSettingsValue("TooltipUseCustomFontColor")
-            bgColor = getSettingsValue("TooltipUseCustomBgColor")
+            cFont = getSettingsValue("TooltipUseCustomFont", env=self.settingsEnvironment)
+            fColor = getSettingsValue("TooltipUseCustomFontColor", env=self.settingsEnvironment)
+            bgColor = getSettingsValue("TooltipUseCustomBgColor", env=self.settingsEnvironment)
             if cFont == "":
                 if "zh_TW" in lang["locale"]:
                     fontStr = "font-family: \"Microsoft Jhenghei UI\""
@@ -577,9 +578,9 @@ try:
                 f = QFont()
                 f.fromString(cFont)
                 fontStr = f"font-family: \"{f.family()}\""
-            self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize'), 9)}pt;{fontStr}; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({('255,255,255' if isTaskbarDark() else '0,0,0') if fColor == '' else fColor})}}")
+            self.setStyleSheet(f"*{{font-size:{getint(getSettingsValue('TooltipUseCustomFontSize', env=self.settingsEnvironment), 9)}pt;{fontStr}; background-color: rgba({'0,0,0,0' if bgColor == '' else bgColor});color: rgb({('255,255,255' if isTaskbarDark() else '0,0,0') if fColor == '' else fColor})}}")
             self.move(pos[0], pos[1])
-            if not getSettings("TooltipDisableTaskbarBackgroundColor"):
+            if not getSettings("TooltipDisableTaskbarBackgroundColor", env=self.settingsEnvironment):
                 ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
             else:
                 ExtendFrameIntoClientArea(self.winId().__int__())
@@ -587,7 +588,7 @@ try:
         def show(self):
             additionalClocks = ""
             height = 30
-            if not getSettings("TooltipDisableTaskbarBackgroundColor"):
+            if not getSettings("TooltipDisableTaskbarBackgroundColor", env=self.settingsEnvironment):
                 ApplyMenuBlur(self.winId().__int__(), self, smallCorners=True, avoidOverrideStyleSheet = True, shadow=False, useTaskbarModeCheck = True)
             else:
                 ExtendFrameIntoClientArea(self.winId().__int__())
@@ -668,11 +669,15 @@ try:
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
+            
 
             self.shouldCoverWindowsClock = False
             self.isCover = isCover
             self.isSecondary = isSecondary
 
+            self.clockId = self.getClockID(screen)[0]
+            self.isCustomClock = getSettings(f"Indidivualize{self.clockId}")
+            
             if isCover:
                 self.shouldAddSecondaryClock = False
             else:
@@ -688,34 +693,34 @@ try:
             else:
 
                 self.index = index
-                self.tooltipEnabled = not getSettings("DisableToolTip")
+                self.tooltipEnabled = not self.getSettings("DisableToolTip")
 
                 print(f"🔵 Initializing clock {index}...")
                 self.callInMainSignal.connect(lambda f: f())
                 self.styler.connect(self.setStyleSheet)
 
-                self.UseTaskbarBackgroundColor = not getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
-                self.transparentBackground = getSettings("DisableTaskbarBackgroundColor") and not (getSettings("UseCustomBgColor") or getSettings("AccentBackgroundcolor"))
+                self.UseTaskbarBackgroundColor = not self.getSettings("DisableTaskbarBackgroundColor") and not (self.getSettings("UseCustomBgColor") or self.getSettings("AccentBackgroundcolor"))
+                self.transparentBackground = self.getSettings("DisableTaskbarBackgroundColor") and not (self.getSettings("UseCustomBgColor") or self.getSettings("AccentBackgroundcolor"))
 
                 if self.UseTaskbarBackgroundColor:
                     print("🔵 Using taskbar background color")
                     self.bgcolor = "0, 0, 0, 0"
                 else:
                     print("🟡 Not using taskbar background color")
-                    if getSettings("AccentBackgroundcolor"):
+                    if self.getSettings("AccentBackgroundcolor"):
                         self.bgcolor = f"{getColors()[5 if isTaskbarDark() else 1]},100"
                     else:
-                        self.bgcolor = getSettingsValue("UseCustomBgColor") if getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
+                        self.bgcolor = self.getSettingsValue("UseCustomBgColor") if self.getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
                     print("🔵 Using bg color:", self.bgcolor)
 
 
                 self.prefMargins = 0
 
                 try:
-                    if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
+                    if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not self.getSettings("DisableTime") and not self.getSettings("DisableDate") and self.getSettings("EnableWeekDay")):
                         self.prefMargins = 1
                         self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: 0;margin-top: 0;margin-bottom: 0; border-radius: 4px;"
-                        if not(not getSettings("DisableTime") and not getSettings("DisableDate") and getSettings("EnableWeekDay")):
+                        if not(not self.getSettings("DisableTime") and not self.getSettings("DisableDate") and self.getSettings("EnableWeekDay")):
                             print("🟡 Small sized taskbar")
                             self.preferedHeight = 32
                             self.coverPreferedHeight = 32
@@ -733,11 +738,11 @@ try:
 
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
-                if getSettings("ClockFixedHeight"):
+                if self.getSettings("ClockFixedHeight"):
                     print("🟡 Custom height being used!")
                     try:
-                        self.preferedHeight = int(getSettingsValue("ClockFixedHeight"))
-                        self.coverPreferedHeight = int(getSettingsValue("ClockFixedHeight"))
+                        self.preferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
+                        self.coverPreferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
                     except ValueError as e:
                         report(e)
                         
@@ -745,7 +750,7 @@ try:
 
                 self.refresh.connect(self.refreshAndShow)
                 self.hideSignal.connect(self.hide)
-                if not(getSettings("PinClockToTheDesktop")) or self.isCover:
+                if not(self.getSettings("PinClockToTheDesktop")) or self.isCover:
                     self.setWindowFlag(Qt.WindowStaysOnTopHint)
                 else:
                     print("🟡 Clock pinned to desktop")
@@ -768,21 +773,21 @@ try:
                 if self.autoHide:
                     print("🟡 ElevenClock set to hide with the taskbar")
 
-                self.clockOnTheLeft = getSettings("ClockOnTheLeft")
+                self.clockOnTheLeft = self.getSettings("ClockOnTheLeft")
                 screenName = screen.name().replace("\\", "_")
                 self.setScreen(screen)
                 if not self.clockOnTheLeft:
-                    if getSettings(f"SpecificClockOnTheLeft{screenName}"):
+                    if self.getSettings(f"SpecificClockOnTheLeft{screenName}"):
                         self.clockOnTheLeft = True
                         print(f"🟡 Clock {screenName} on the left (forced)")
 
-                        if not getSettings("DisableSystemClockCover"):
+                        if not self.getSettings("DisableSystemClockCover"):
                             print("🟠 Showing Cover on the right!")
                             self.shouldCoverWindowsClock = True
                             if self.isCover:
                                 self.clockOnTheLeft = False
                 else:
-                    if getSettings(f"SpecificClockOnTheRight{screenName}"):
+                    if self.getSettings(f"SpecificClockOnTheRight{screenName}"):
                         self.clockOnTheLeft = False
                         print(f"🟡 Clock {screenName} on the right (forced)")
                     else:
@@ -796,7 +801,7 @@ try:
                 coverX = 0
                 coverY = 0
                 try:
-                    if (registryReadResult[12] == 1 and not getSettings("ForceOnBottom")) or (getSettings("ForceOnTop") and not getSettings(f"SpecificClockOnTheBottom{screenName}")) or getSettings(f"SpecificClockOnTheTop{screenName}"):
+                    if (registryReadResult[12] == 1 and not self.getSettings("ForceOnBottom")) or (self.getSettings("ForceOnTop") and not self.getSettings(f"SpecificClockOnTheBottom{screenName}")) or self.getSettings(f"SpecificClockOnTheTop{screenName}"):
                         h = self.screenGeometry.y()
                         self.clockOnTop = True
                         print("🟡 Clock on the top")
@@ -825,7 +830,7 @@ try:
                 self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
                 self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0;")
                 self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
-                if(not getSettings("DisableTaskbarBackgroundColor") and not getSettings("UseCustomBgColor")) and not getSettings("DisableBlurryTexture"):
+                if(not self.getSettings("DisableTaskbarBackgroundColor") and not self.getSettings("UseCustomBgColor")) and not self.getSettings("DisableBlurryTexture"):
                     if(isTaskbarDark()):
                         self.showBlurryBackground = True
                         self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_black.png")))
@@ -849,23 +854,23 @@ try:
                     w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
                     coverX = w
 
-                if getSettings("CenterAlignment"):
+                if self.getSettings("CenterAlignment"):
                     self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
                 xoff = 0
                 yoff = 2
 
-                if getSettings("ClockXOffset"):
+                if self.getSettings("ClockXOffset"):
                     print("🟡 X offset being used!")
                     try:
-                        xoff = int(getSettingsValue("ClockXOffset"))
+                        xoff = int(self.getSettingsValue("ClockXOffset"))
                     except ValueError as e:
                         report(e)
 
-                if getSettings("ClockYOffset"):
+                if self.getSettings("ClockYOffset"):
                     print("🟡 Y offset being used!")
                     try:
-                        yoff = int(getSettingsValue("ClockYOffset"))
+                        yoff = int(self.getSettingsValue("ClockYOffset"))
                     except ValueError as e:
                         report(e)
 
@@ -877,7 +882,7 @@ try:
                 self.dpiy = dpiy
 
                 self.clickAction = ("win", "n")
-                act = getSettingsValue("CustomClockClickAction")
+                act = self.getSettingsValue("CustomClockClickAction")
                 if act != "":
                     if len(act.split("+")) > 3 or len(act.split("+")) < 1:
                         print("🟠 Invalid clock custom action")
@@ -891,7 +896,7 @@ try:
                         print("🟢 Custom valid shortcut specified:", self.clickAction)
 
                 self.doubleClickAction = ("f20")
-                doubleAction = getSettingsValue("CustomClockDoubleClickAction")
+                doubleAction = self.getSettingsValue("CustomClockDoubleClickAction")
                 if doubleAction != "":
                     if len(doubleAction.split("+")) > 3 or len(doubleAction.split("+")) < 1:
                         print("🟠 Invalid double click action piece")
@@ -906,7 +911,7 @@ try:
 
                 
                 self.middleClickAction = ("f20")
-                middleAction = getSettingsValue("CustomClockMiddleClickAction")
+                middleAction = self.getSettingsValue("CustomClockMiddleClickAction")
                 if middleAction != "":
                     if len(middleAction.split("+")) > 3 or len(middleAction.split("+")) < 1:
                         print("🟠 Invalid double click action piece")
@@ -921,7 +926,7 @@ try:
 
 
                 if self.isCover:
-                    if not(getSettings("EnableWin32API")):
+                    if not(self.getSettings("EnableWin32API")):
                         print("🟢 Using qt's default positioning system")
                         self.move(self.coverX, self.coverY)
                         self.resize(int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2)
@@ -932,7 +937,7 @@ try:
                         win32gui.SetWindowPos(self.winId(), 0, int(coverX), int(coverY), int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2, False)
                     print("🔵 Clock cover geometry:", self.geometry())
                 else:
-                    if not(getSettings("EnableWin32API")):
+                    if not(self.getSettings("EnableWin32API")):
                         print("🟢 Using qt's default positioning system")
                         self.move(self.X, self.Y)
                         self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2)
@@ -944,7 +949,7 @@ try:
                     print("🔵 Clock geometry:", self.geometry())
 
                 self.font: QFont = QFont()
-                customFont = getSettingsValue("UseCustomFont")
+                customFont = self.getSettingsValue("UseCustomFont")
                 if customFont == "":
                     if lang["locale"] == "ko":
                         self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable Text", "sans-serif"]
@@ -965,7 +970,7 @@ try:
                     self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
                 if self.fontfamilies == []:
                     self.font.fromString(self.customFont)
-                customSize = getSettingsValue("UseCustomFontSize")
+                customSize = self.getSettingsValue("UseCustomFontSize")
                 if customSize == "" or self.isCover:
                     self.font.setPointSize(9)
                 else:
@@ -1021,10 +1026,10 @@ try:
                     self.leftSlow.start()
 
                 if not self.isCover:
-                    if getSettings("UseCustomFontColor"):
-                        print("🟡 Using custom text color:", getSettingsValue('UseCustomFontColor'))
+                    if self.getSettings("UseCustomFontColor"):
+                        print("🟡 Using custom text color:", self.getSettingsValue('UseCustomFontColor'))
                         self.lastTheme = -1
-                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, f"rgb({getSettingsValue('UseCustomFontColor')})")
+                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, f"rgb({self.getSettingsValue('UseCustomFontColor')})")
                         self.label.setStyleSheet(styleSheetString)
                         self.label.bgopacity = .1
                         self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
@@ -1096,10 +1101,10 @@ try:
                 globals.previousFullscreenHwnd[self.index] = 0
 
 
-                self.forceDarkTheme = getSettings("ForceDarkTheme")
-                self.forceLightTheme = getSettings("ForceLightTheme")
-                self.hideClockWhenClicked = getSettings("HideClockWhenClicked")
-                self.IS_LOW_CPU_MODE = getSettings("EnableLowCpuMode")
+                self.forceDarkTheme = self.getSettings("ForceDarkTheme")
+                self.forceLightTheme = self.getSettings("ForceLightTheme")
+                self.hideClockWhenClicked = self.getSettings("HideClockWhenClicked")
+                self.IS_LOW_CPU_MODE = self.getSettings("EnableLowCpuMode")
                 self.primaryScreen = QGuiApplication.primaryScreen()
                 self.oldBgColor = 0
 
@@ -1124,7 +1129,7 @@ try:
 
                 self.setMouseTracking(True)
 
-                self.tooltip = CustomToolTip(screen, "placeholder")
+                self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
 
                 class QHoverButton(QPushButton):
                     hovered = Signal()
@@ -1151,7 +1156,7 @@ try:
                         self.unpressed.emit()
                         return super().mouseReleaseEvent(e)
 
-                if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or getSettings("ShowDesktopButton"):
+                if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or self.getSettings("ShowDesktopButton"):
                     if not self.isCover:
                         print("🟡 Desktop button enabled")
                         self.desktopButton = QHoverButton(parent=self)
@@ -1202,9 +1207,9 @@ try:
         def get6px(self, i: int) -> int:
             return round(i*self.screen().devicePixelRatio())
         
-        def getClockID(self):
+        def getClockID(self, screen: QScreen = None):
             isSecondary = int(self.isSecondary)
-            clockMonitor = self.screen().name().replace(" ", "_").replace(".", "_")
+            clockMonitor = (screen if screen else self.screen()).name().replace(" ", "_").replace(".", "_")
             return (f"clock{isSecondary}_mon{clockMonitor}", (isSecondary, clockMonitor))
 
         def checkAndUpdateBackground(self):
@@ -1245,7 +1250,7 @@ try:
                                         color = QColor(Qt.GlobalColor.white)
                                         report(e)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                            if not getSettings("DisableAutomaticTextColor"):
+                            if not self.getSettings("DisableAutomaticTextColor"):
                                 g = self.screen().geometry()
                                 if not gotColor: # If it was not already calculated                                
                                     intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
@@ -1264,7 +1269,6 @@ try:
                                 textcolor = "black" if (avgColorValue>=127) else "white"
                                 if textcolor != self.oldTextColor:
                                     self.oldTextColor = textcolor
-                                    cprint("Changing color!")
                                     styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
                                     self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
                     elif self.UseTaskbarBackgroundColor == False:
@@ -1275,7 +1279,7 @@ try:
                                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", "0, 0, 0, 0"))
                                     self.callInMainSignal.emit(self.backgroundTexture.hide)
                                     self.shownBackgroundOnSolidColor = False
-                                if not getSettings("DisableAutomaticTextColor"):
+                                if not self.getSettings("DisableAutomaticTextColor"):
                                         g = self.screen().geometry()
                                         intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                         color = QColor(intColor)
@@ -1283,7 +1287,6 @@ try:
                                         textcolor = "black" if (avgColorValue>=127) else "white"
                                         if textcolor != self.oldTextColor:
                                             self.oldTextColor = textcolor
-                                            cprint("Changing color!")
                                             styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
                                             self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
                             else:
@@ -1396,21 +1399,21 @@ try:
 
         def mainClockLoop(self):
             global isRDPRunning, numOfNotifs
-            CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnFirstMonitor")
-            LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
-            ADVANCED_FULLSCREEN_METHOD = getSettings("NewFullScreenMethod")
-            LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
-            IGNORE_MOUSECLICKS_WHEN_FS = getSettings("MouseEventTransparentFS")
+            CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
+            LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
+            ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
+            LOG_FULLSCREEN_WINDOW_TITLE = self.getSettings("LogFullScreenAppTitle")
+            IGNORE_MOUSECLICKS_WHEN_FS = self.getSettings("MouseEventTransparentFS")
             if not self.isCover:
-                ENABLE_HIDE_ON_FULLSCREEN = not getSettings("DisableHideOnFullScreen")
-                DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
-                ENABLE_HIDE_FROM_RDP = getSettings("EnableHideOnRDP")
-                SHOW_NOTIFICATIONS = not getSettings("DisableNotifications")
-                LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
-                MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = getSettings("TransparentClockWhenInFullscreen")
+                ENABLE_HIDE_ON_FULLSCREEN = not self.getSettings("DisableHideOnFullScreen")
+                DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
+                ENABLE_HIDE_FROM_RDP = self.getSettings("EnableHideOnRDP")
+                SHOW_NOTIFICATIONS = not self.getSettings("DisableNotifications")
+                LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
+                MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = self.getSettings("TransparentClockWhenInFullscreen")
             else:
                 ENABLE_HIDE_ON_FULLSCREEN = True
-                DISABLE_HIDE_WITH_TASKBAR = getSettings("DisableHideWithTaskbar")
+                DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
                 ENABLE_HIDE_FROM_RDP = True
                 SHOW_NOTIFICATIONS = True
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
@@ -1552,7 +1555,7 @@ try:
                                 keyboard.press_and_release(actions[0])
                         case 2:
                             #if (actions[0], actions[1]) == ("win", "n"):
-                                #if getSettings("FixCyrillicKeyboards"):
+                                #if self.getSettings("FixCyrillicKeyboards"):
                                     #pyautogui.hotkey("win", "т")
                                     #keyboard.press_and_release("win+т")
                                 #else:                    
@@ -1646,6 +1649,18 @@ try:
                 print("🟣 Expected AttributteError on resizeEvent")
             if event:
                 return super().resizeEvent(event)
+
+        def setSettings(self, s: str, v: bool, r: bool = True, thread = False):
+            setSettings(s, v, r, thread, env = (self.clockId if self.isCustomClock else ""))
+            
+        def setSettingsValue(self, s: str, v: bool, r: bool = True):
+            setSettingsValue(s, v, r, env = (self.clockId if self.isCustomClock else ""))
+            
+        def getSettings(self, s: str):
+            return getSettings(s, env = (self.clockId if self.isCustomClock else ""))
+        
+        def getSettingsValue(self, s: str):
+            return getSettingsValue(s, env = (self.clockId if self.isCustomClock else ""))
 
     class Label(QLabel):
         clicked = Signal()
