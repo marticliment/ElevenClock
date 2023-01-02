@@ -31,6 +31,7 @@ from languages import *
 from lang.translated_percentage import *
 from tools import *
 from tools import _
+import tools
 import welcome
 
 import win32gui
@@ -3115,6 +3116,7 @@ class CustomSettings(SettingsWindow):
         super().__init__()
         print(f"🔵 Loading settings window with ID={self.clockId}")
         self.title.setText(_("Modifying Clock {0} on the monitor {1}").format(data[0], data[1]))
+        self.setWindowTitle(_("Settings for clock {0} on the monitor {1} - ElevenClock Settings").format(data[0], data[1]))
         self.generalSettingsTitle.hide()
         self.aboutTitle.hide()
         self.languageSettingsTitle.hide()
@@ -3130,20 +3132,27 @@ class CustomSettings(SettingsWindow):
         self.openGeneralSettings = QSettingsButton(_("Do you want to open the global settings instead?"), _("Open global settings"))
         self.openGeneralSettings.button.setObjectName("AccentButton")
         self.openGeneralSettings.clicked.connect(lambda: (globals.sw.setGeometry(self.geometry()), self.hide(), globals.sw.show()))
+
         self.importPrefs = QSettingsComboBox(_("Clone style from another clock"))
         self.importPrefs.restartButton.setText(_("Import"))
+        self.importPrefs.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.dummyTitle.addWidget(self.importPrefs)
         
         def importPreferences():
+            nonlocal self
             oldenv = self.clocks[self.importPrefs.combobox.currentText()]
             newenv = self.clockId
             for setting in globals.settingsList:
                 setSettings(setting, getSettings(setting, env=oldenv), env=newenv, r=False)
                 if getSettingsValue(setting, env=oldenv) != "":
                     setSettingsValue(setting, getSettingsValue(setting, env=oldenv), env=newenv, r=False)
+            globals.restartClocks()
+            self.close()
+            tools.specificSettings[id] = globals.CustomSettings(id, data)
+            tools.specificSettings[id].show()
+
                 
             
-            globals.restartClocks()
             
         self.importPrefs.restartButton.clicked.connect(importPreferences)
         self.importPrefs.restartButton.show()

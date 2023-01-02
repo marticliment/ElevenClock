@@ -59,7 +59,7 @@ previousFullscreenHwnd: dict[int, int] = {}
 blockFullscreenCheck: bool = False
 clocks: list[QWidget] = []
 
-CustomSettings: type = None
+CustomSettings: type = None # This will be used then from the tools module to load CustomSettings instances (see function tools.py>openClockSettings())
 
 blacklistedFullscreenApps: tuple = ("", "Program Manager", "NVIDIA GeForce Overlay", "NVIDIA GeForce Overlay DT", "ElenenClock_IgnoreFullscreenEvent") # The "" codes for titleless windows
 
