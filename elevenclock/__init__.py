@@ -215,12 +215,12 @@ try:
 
 
     def loadClocks():
-        global clocks, oldScreens, st, restartCount, st, shouldFixSeconds
+        global clocks, oldScreens, st, restartCount, st
         try:
             st.kill()
         except AttributeError:
             pass
-        shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
+        #shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
         CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnfirstMonitor")
         HIDE_CLOCK_ON_SECONDARY_DISPLAY = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
@@ -318,7 +318,7 @@ try:
 
         closeClocks()
         loadClocks()
-        loadTimeFormat()
+        #loadTimeFormat()
         setSettings("ReloadInternetTime", True, thread=True)
         globals.doCacheHost = True
 
@@ -386,7 +386,7 @@ try:
                 os.startfile(sys.executable)
 
 
-    def loadAtomicClockOffset():
+    """def loadAtomicClockOffset():
         global timeOffset
         while True:
             if getSettings("EnableInternetTime"): # This settings value will be cached, so no CPU/HDD overload ;)
@@ -412,9 +412,9 @@ try:
                         break
             else:
                 timeOffset = 0
-                time.sleep(5)
+                time.sleep(5)"""
 
-    def loadTimeFormat():
+    """def loadTimeFormat():
         global dateTimeFormat
         try:
             locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
@@ -497,10 +497,10 @@ try:
                 globals.dateTimeFormat = dateTimeFormat
 
         except Exception as e:
-            report(e)
+            report(e)"""
 
 
-    def timeStrThread():
+    """def timeStrThread():
         global timeStr, dateTimeFormat
         #fixHyphen = getSettings("EnableHyphenFix")
         adverted = False
@@ -535,7 +535,7 @@ try:
                     report(e)
                 except Exception as e:
                     report(e)
-                time.sleep(0.2)
+                time.sleep(0.2)"""
 
 
     class RestartSignal(QObject):
@@ -645,7 +645,6 @@ try:
         hideSignal = Signal()
         callInMainSignal = Signal(object)
         styler = Signal(str)
-
         preferedwidth = 200
         coverPreferedWidth = 200
         isHovered = False
@@ -666,35 +665,35 @@ try:
         shownBackgroundOnSolidColor: bool = False
         clockId: str = ""
         clockNumber: bool = 0
+        internetTimeOffset: int = 0
+        clockFormat: str = ""
+        settingsEnvironment: str = ""
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
-            
-
             self.shouldCoverWindowsClock = False
             self.isCover = isCover
             self.isSecondary = isSecondary
-
             self.clockId = self.getClockID(screen)[0]
             self.isCustomClock = getSettings(f"Indidivualize{self.clockId}")
-            
+            if self.isCustomClock:
+                self.settingsEnvironment = self.clockId
+            cprint(self.clockId, self.isCustomClock)
             if isCover:
                 self.shouldAddSecondaryClock = False
             else:
                 self.shouldAddSecondaryClock = getSettings("EnableSecondClock")
 
-
             if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
                 print("🟠 Monitor blacklisted!")
                 self.hide()
+                self.close()
             elif isCover and getSettings("DisableSystemClockCover"):
                 self.hide()
                 self.close()
             else:
-
                 self.index = index
                 self.tooltipEnabled = not self.getSettings("DisableToolTip")
-
                 print(f"🔵 Initializing clock {index}...")
                 self.callInMainSignal.connect(lambda f: f())
                 self.styler.connect(self.setStyleSheet)
@@ -713,9 +712,7 @@ try:
                         self.bgcolor = self.getSettingsValue("UseCustomBgColor") if self.getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
                     print("🔵 Using bg color:", self.bgcolor)
 
-
                 self.prefMargins = 0
-
                 try:
                     if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not self.getSettings("DisableTime") and not self.getSettings("DisableDate") and self.getSettings("EnableWeekDay")):
                         self.prefMargins = 1
@@ -735,7 +732,6 @@ try:
                     report(e)
                     self.prefMargins = 1
                     self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: 0;border-radius: 6px;padding: 2px;"
-
                 self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
                 if self.getSettings("ClockFixedHeight"):
@@ -745,9 +741,9 @@ try:
                         self.coverPreferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
                     except ValueError as e:
                         report(e)
-                        
+                                
                 self.screenGeometry = screen.geometry()
-
+                
                 self.refresh.connect(self.refreshAndShow)
                 self.hideSignal.connect(self.hide)
                 if not(self.getSettings("PinClockToTheDesktop")) or self.isCover:
@@ -780,7 +776,6 @@ try:
                     if self.getSettings(f"SpecificClockOnTheLeft{screenName}"):
                         self.clockOnTheLeft = True
                         print(f"🟡 Clock {screenName} on the left (forced)")
-
                         if not self.getSettings("DisableSystemClockCover"):
                             print("🟠 Showing Cover on the right!")
                             self.shouldCoverWindowsClock = True
@@ -840,8 +835,7 @@ try:
                 else:
                     self.showBlurryBackground = False
 
-                self.label = Label(timeStr, self, self.isCover)
-
+                self.label = Label(timeStr, self, self.isCover, self.settingsEnvironment)
 
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
@@ -890,8 +884,7 @@ try:
                         r = []
                         for piece in act.split("+"):
                             piece = piece.lower()
-                            r.append(piece)
-                            
+                            r.append(piece)     
                         self.clickAction = r
                         print("🟢 Custom valid shortcut specified:", self.clickAction)
 
@@ -905,11 +898,9 @@ try:
                         for piece in doubleAction.split("+"):
                             piece = piece.lower()
                             r.append(piece)
-                            
                         self.doubleClickAction = r
                         print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
 
-                
                 self.middleClickAction = ("f20")
                 middleAction = self.getSettingsValue("CustomClockMiddleClickAction")
                 if middleAction != "":
@@ -920,10 +911,8 @@ try:
                         for piece in middleAction.split("+"):
                             piece = piece.lower()
                             r.append(piece)
-                            
                         self.middleClickAction = r
                         print("🟢 Custom valid shortcut specified (for middle click):", self.middleClickAction)
-
 
                 if self.isCover:
                     if not(self.getSettings("EnableWin32API")):
@@ -985,7 +974,6 @@ try:
                 self.label.setFont(self.font)
 
                 accColors = getColors()
-
 
                 self.progressbar = QProgressBar(self)
                 self.progressbar.setFixedHeight(2)
@@ -1089,36 +1077,24 @@ try:
                 self.label.setFixedHeight(self.height())
                 self.label.resize(self.width()-8, self.height()-1)
                 self.label.show()
-                loadTimeFormat()
+                self.loadTimeFormat()
                 self.show()
                 self.raise_()
                 self.setFocus()
-
-
                 self.fullScreenRect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
                 print("🔵 Full screen rect: ", self.fullScreenRect)
-
                 globals.previousFullscreenHwnd[self.index] = 0
-
 
                 self.forceDarkTheme = self.getSettings("ForceDarkTheme")
                 self.forceLightTheme = self.getSettings("ForceLightTheme")
                 self.hideClockWhenClicked = self.getSettings("HideClockWhenClicked")
                 self.IS_LOW_CPU_MODE = self.getSettings("EnableLowCpuMode")
+                self.DISABLE_AUTOMATIC_TEXT_COLOR = self.getSettings("DisableAutomaticTextColor")
                 self.primaryScreen = QGuiApplication.primaryScreen()
                 self.oldBgColor = 0
 
-                self.user32 = windll.user32
-                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-                self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
-                self.loop1 = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
-                self.loop0.start()
-                self.loop1.start()
-
-                    
                 if self.shouldAddSecondaryClock:
                     self.shouldCoverWindowsClock = False
-
                 if self.shouldCoverWindowsClock:
                     if not self.isCover:
                         self.clockCover = Clock(dpix, dpiy, screen, index, isCover=True)
@@ -1126,36 +1102,9 @@ try:
                     if not self.isSecondary:
                         self.clockCover = Clock(dpix, dpiy, screen, index, isSecondary=True)
 
-
                 self.setMouseTracking(True)
-
                 self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
-
-                class QHoverButton(QPushButton):
-                    hovered = Signal()
-                    unhovered = Signal()
-                    pressed = Signal()
-                    unpressed = Signal()
-
-                    def __init__(self, text: str = "", parent: QObject = None) -> None:
-                        super().__init__(text=text, parent=parent)
-
-                    def enterEvent(self, event: QEvent) -> None:
-                        self.hovered.emit()
-                        return super().enterEvent(event)
-
-                    def leaveEvent(self, event: QEvent) -> None:
-                        self.unhovered.emit()
-                        return super().leaveEvent(event)
-
-                    def mousePressEvent(self, e: QMouseEvent) -> None:
-                        self.pressed.emit()
-                        return super().mousePressEvent(e)
-
-                    def mouseReleaseEvent(self, e: QMouseEvent) -> None:
-                        self.unpressed.emit()
-                        return super().mouseReleaseEvent(e)
-
+                
                 if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or self.getSettings("ShowDesktopButton"):
                     if not self.isCover:
                         print("🟡 Desktop button enabled")
@@ -1171,6 +1120,92 @@ try:
                         self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
                         self.setFixedHeight(self.preferedHeight)
+                        
+                self.user32 = windll.user32
+                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
+                self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
+                self.loop1 = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
+                self.loop2 = KillableThread(target=self.loadInternetTimeOffset, daemon=True, name=f"Clock[{index}]: Atomic clock sync thread")
+                self.loop0.start()
+                self.loop1.start()
+                self.loop2.start()
+        
+        def loadTimeFormat(self):
+            try:
+                locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
+                if self.getSettingsValue("CustomClockStrings") != "":
+                    clockFormat = self.getSettingsValue("CustomClockStrings")
+                    print(f"🟡 Custom loaded date time format (clock {self.index}):", clockFormat.replace("\n", "\\n"))
+                    self.clockFormat = clockFormat
+                else:
+                    showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or self.getSettings("EnableSeconds")
+                    clockFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
+
+                    if self.getSettings("DisableTime"):
+                        clockFormat = clockFormat.replace("%HH:%M\n", "")
+                    if self.getSettings("DisableDate"):
+                        if("\n" in clockFormat):
+                            clockFormat = clockFormat.replace("\n(W%W) %d/%m/%Y", "")
+                        else:
+                            clockFormat = clockFormat.replace("(W%W) %d/%m/%Y", "")
+                    elif not self.getSettings("EnableWeekNumber"):
+                        clockFormat = clockFormat.replace("(W%W) ", "")
+                    else:
+                        if not lang["locale"] in ("zh_CN", "zh_TW"):
+                            clockFormat = clockFormat.replace("(W%W) ", f"({_('W')}%W) ")
+                        else:
+                            clockFormat = clockFormat.replace("(W%W) ", f"(第%W{_('W')}) ")
+                    if not self.getSettings("EnableWeekDay"):
+                        try:
+                            clockFormat = clockFormat.replace("%A", "").replace("\n\n", "\n")
+                            if clockFormat[-1] == "\n":
+                                clockFormat = clockFormat[0:-1]
+                            if clockFormat[0] == "\n":
+                                clockFormat = clockFormat[1:]
+                        except IndexError as e:
+                            print("🟠 Date/Time string looks to be empty!")
+                        except Exception as e:
+                            report(e)
+
+                    tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
+                    dateMode = ""
+                    for i, ministr in enumerate(tDateMode.split("'")):
+                        if i%2==0:
+                            dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
+                        else:
+                            dateMode += ministr
+                    
+                    tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
+                    timeMode = ""
+                    for i, ministr in enumerate(tTimeMode.split("'")):
+                        if i%2==0:
+                            timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
+                            if not("S" in timeMode) and showSeconds == 1:
+                                for separator in ":.-/_":
+                                    if(separator in timeMode):
+                                        timeMode += f"{separator}%S"
+                        else:
+                            timeMode += ministr
+
+                    for separator in ":.-/_":
+                        timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
+                        timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
+
+                    clockFormat = clockFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
+                    
+                    try:
+                        if self.getSettings("CustomLineHeight") and self.getSettingsValue("CustomLineHeight") != "":
+                            customLineHeight = float(self.getSettingsValue("CustomLineHeight"))
+                            cprint("🟢 Loaded date time format:", clockFormat)
+                            clockFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+clockFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
+                    except Exception as e:
+                        report(e)
+
+                    print("🔵 Loaded date time format:", clockFormat.replace("\n", "\\n"), f" (clock {self.index}")
+                    self.clockFormat = clockFormat
+            except Exception as e:
+                report(e)
+                self.clockFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
 
         def makeLabelStyleSheet(self, padding, rightPadding, rightMargin, leftPadding, color):
             accColors = getColors()
@@ -1213,6 +1248,8 @@ try:
             return (f"clock{isSecondary}_mon{clockMonitor}", (isSecondary, clockMonitor))
 
         def checkAndUpdateBackground(self):
+            DISABLE_AUTOMATIC_TEXT_COLOR = self.DISABLE_AUTOMATIC_TEXT_COLOR
+
             if not self.isCover: 
                 alphaUpdated = False
                 shouldBeTransparent = False
@@ -1250,7 +1287,7 @@ try:
                                         color = QColor(Qt.GlobalColor.white)
                                         report(e)
                                 self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                            if not self.getSettings("DisableAutomaticTextColor"):
+                            if not DISABLE_AUTOMATIC_TEXT_COLOR:
                                 g = self.screen().geometry()
                                 if not gotColor: # If it was not already calculated                                
                                     intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
@@ -1279,7 +1316,7 @@ try:
                                     self.styler.emit(self.widgetStyleSheet.replace("bgColor", "0, 0, 0, 0"))
                                     self.callInMainSignal.emit(self.backgroundTexture.hide)
                                     self.shownBackgroundOnSolidColor = False
-                                if not self.getSettings("DisableAutomaticTextColor"):
+                                if not DISABLE_AUTOMATIC_TEXT_COLOR:
                                         g = self.screen().geometry()
                                         intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                                         color = QColor(intColor)
@@ -1329,25 +1366,23 @@ try:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
         def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
+            def screenGeometryToPixel(screen):
+                return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
+
+            def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
+                screenInPixel = screenGeometryToPixel(screen)
+                try:
+                    if(ADVANCED_FULLSCREEN_METHOD):
+                        return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
+                    else:
+                        return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
+                except Exception as e:
+                    report(e)
+                    
             while globals.blockFullscreenCheck:
                 time.sleep(0.01)
-                #return self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
             try:
                 fullscreen = False
-
-                def screenGeometryToPixel(screen):
-                    return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
-
-                def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
-                    screenInPixel = screenGeometryToPixel(screen)
-                    try:
-                        if(ADVANCED_FULLSCREEN_METHOD):
-                            return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
-                        else:
-                            return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
-                    except Exception as e:
-                        report(e)
-                
                 if not LEGACY_FULLSCREEN_METHOD:
                     for hwnd in globals.windowList:
                         if hwnd in globals.windowVisible.keys():
@@ -1400,7 +1435,6 @@ try:
         def mainClockLoop(self):
             global isRDPRunning, numOfNotifs
             CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
-            LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
             ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
             LOG_FULLSCREEN_WINDOW_TITLE = self.getSettings("LogFullScreenAppTitle")
             IGNORE_MOUSECLICKS_WHEN_FS = self.getSettings("MouseEventTransparentFS")
@@ -1417,9 +1451,10 @@ try:
                 ENABLE_HIDE_FROM_RDP = True
                 SHOW_NOTIFICATIONS = True
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
+            LOW_CPU_MODE = getSettings("EnableLowCpuMode")
             oldNotifNumber = 0
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{ADVANCED_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
-            if self.IS_LOW_CPU_MODE:
+            if LOW_CPU_MODE:
                 self.WAITLOOPTIME = 0.8
             else:
                 self.WAITLOOPTIME = 0.1
@@ -1504,12 +1539,29 @@ try:
                     self.callInMainSignal.emit(lambda: w.setAttribute(Qt.WA_TransparentForMouseEvents, False))
             
         def updateTextLoop(self) -> None:
-            global timeStr
             self.callInMainSignal.emit(lambda: self.label.setText("00:00 AM\n00/00/0000"))
-            if not self.isCover:
-                while True:
-                    self.callInMainSignal.emit(lambda: self.label.setText(timeStr))
-                    time.sleep(0.1)
+            SHOULD_FIX_SECONDS = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
+            HAIRSEC_VAR = " " if SHOULD_FIX_SECONDS else ""
+            LOW_CPU_MODE = getSettings("EnableLowCpuMode")            
+            if self.isCover:
+                return
+            
+            while True:
+                try:
+                    timeStr = datetime.datetime.fromtimestamp(time.time()-self.internetTimeOffset).strftime(self.clockFormat.replace("\u200a", "hairsec")).replace("hairsec", HAIRSEC_VAR)
+                    if SHOULD_FIX_SECONDS:
+                        try:
+                            secs = datetime.datetime.fromtimestamp(time.time()-self.internetTimeOffset).strftime("%S")
+                            if secs[-1] == "1" and SHOULD_FIX_SECONDS:
+                                timeStr = timeStr.replace(" ", " \u200e")
+                            else:
+                                timeStr = timeStr.replace(" ", "")
+                        except IndexError as e:
+                            pass
+                except ValueError as e:
+                    timeStr = "Invalid time format\nPlease modify it\nin the settings"
+                self.callInMainSignal.emit(lambda: self.label.setText(timeStr))
+                time.sleep(0.1 if LOW_CPU_MODE else 0.25)
 
         def singleClickAction(self):
             if not self.isCover:
@@ -1551,22 +1603,11 @@ try:
                             elif actions[0] == "copy_datetime":
                                 textToClipboard(self.label.text())
                             else:
-                                #pyautogui.hotkey(actions[0])
                                 keyboard.press_and_release(actions[0])
                         case 2:
-                            #if (actions[0], actions[1]) == ("win", "n"):
-                                #if self.getSettings("FixCyrillicKeyboards"):
-                                    #pyautogui.hotkey("win", "т")
-                                    #keyboard.press_and_release("win+т")
-                                #else:                    
-                                    #pyautogui.hotkey(actions[0], actions[1])
-                                #    cprint("+".join(actions[0:2]))
-                                #    keyboard.press_and_release("+".join(actions[0:2]))
-                            #else:
                             keyboard.press_and_release("+".join(actions[0:2]))
 
                         case 3:
-                            #pyautogui.hotkey(actions[0], actions[1], actions[2])
                             keyboard.press_and_release("+".join(actions[0:3]))
                 except Exception as e:
                     report(e)
@@ -1600,6 +1641,7 @@ try:
             try:
                 self.loop0.kill()
                 self.loop1.kill()
+                self.loop2.kill()
             except AttributeError:
                 pass
             event.accept()
@@ -1650,28 +1692,54 @@ try:
             if event:
                 return super().resizeEvent(event)
 
+        def loadInternetTimeOffset(self):
+            while True:
+                if self.getSettings("EnableInternetTime"): # This settings value will be cached, so no CPU/HDD overload ;)
+                    try:
+                        dict = json.loads(urlopen(self.getSettingsValue("AtomicClockURL") if self.getSettingsValue("AtomicClockURL") else "http://worldtimeapi.org/api/ip").read().decode("utf-8"))
+                        if "datetime" in dict.keys(): # worldtimeapi.org
+                            self.internetTimeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["datetime"] else "+"}'.join(dict["datetime"].split("-" if not "+" in dict["datetime"] else "+")[0:-1])).timestamp()
+                            print("🔵 (worldtimeapi.org) Time offset set to", self.internetTimeOffset)
+                        elif "currentDateTime" in dict.keys(): # worldclockapi.com
+                            self.internetTimeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["currentDateTime"] else "+"}'.join(dict["currentDateTime"].split("-" if not "+" in dict["currentDateTime"] else "+")[0:-1])).timestamp()
+                            print("🔵 (worldclockapi.com) Time offset set to", self.internetTimeOffset)
+                        else:
+                            print("🟠 (Failed) Time offset set to", self.internetTimeOffset)
+                            showNotif.infoSignal.emit("Invalid Internet clock URL", "Supported internet clock APIs are from worldtimeapi.com and worldclockapi.com")
+                    except Exception as e:
+                        report(e)
+                    for i in range(getint(self.getSettingsValue("AtomicClockSyncInterval"), 3600)):
+                        time.sleep(1)
+                        if getSettings("ReloadInternetTime"):
+                            setSettings("ReloadInternetTime", False, thread=True)
+                            break
+                else:
+                    self.internetTimeOffset = 0
+                    time.sleep(5)
+
         def setSettings(self, s: str, v: bool, r: bool = True, thread = False):
-            setSettings(s, v, r, thread, env = (self.clockId if self.isCustomClock else ""))
+            setSettings(s, v, r, thread, env=self.settingsEnvironment)
             
         def setSettingsValue(self, s: str, v: bool, r: bool = True):
-            setSettingsValue(s, v, r, env = (self.clockId if self.isCustomClock else ""))
+            setSettingsValue(s, v, r, env=self.settingsEnvironment)
             
         def getSettings(self, s: str):
-            return getSettings(s, env = (self.clockId if self.isCustomClock else ""))
+            return getSettings(s, env=self.settingsEnvironment)
         
         def getSettingsValue(self, s: str):
-            return getSettingsValue(s, env = (self.clockId if self.isCustomClock else ""))
+            return getSettingsValue(s, env=self.settingsEnvironment)
 
     class Label(QLabel):
         clicked = Signal()
         doubleClicked = Signal()
         middleClicked = Signal()
         outline = True
-        def __init__(self, text, parent, isCover: bool = False):
+        def __init__(self, text, parent, isCover: bool = False, settingsEnvironment: str = ""):
+            self.settingsEnvironment = settingsEnvironment
             super().__init__(text, parent=parent)
             self.isCover = isCover
             try:
-                self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth"))
+                self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth", env=self.settingsEnvironment))
             except ValueError:
                 self.specifiedMinimumWidth = 0
             except Exception as e:
@@ -1680,7 +1748,7 @@ try:
 
             self.mouseButtonTimer = QTimer()
             self.mouseButtonTimer.setSingleShot(True)
-            self.mouseButtonTimer.setInterval(150 if getSettings("CustomClockDoubleClickAction") else 0)
+            self.mouseButtonTimer.setInterval(150 if getSettings("CustomClockDoubleClickAction", env=self.settingsEnvironment) else 0)
             self.mouseButtonTimer.timeout.connect(self.mouseButtonTimeout)
 
             self.isMouseButtonDouble = False
@@ -1749,7 +1817,7 @@ try:
 
         def enableFocusAssistant(self):
             if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
-                if getSettings("DisableAutomaticTextColor"):
+                if getSettings("DisableAutomaticTextColor", env=self.settingsEnvironment):
                     if winver < 22581:
                         self.focusAssitantLabel.setIcon(self.moonIconWhite if isTaskbarDark() else self.moonIconBlack)
                     else:
@@ -1939,7 +2007,7 @@ try:
     shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
-    KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
+    #KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
 
     loadClocks()
 
@@ -1967,7 +2035,7 @@ try:
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
-    KillableThread(target=loadAtomicClockOffset, daemon=True, name="Main: Atomic clock sync thread").start()
+    #KillableThread(target=loadAtomicClockOffset, daemon=True, name="Main: Atomic clock sync thread").start()
     KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
     if getSettings("PreventSleepFailure"):
         if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
@@ -1986,7 +2054,7 @@ try:
     globals.app = app # Register global variables
     globals.sw = sw # Register global variables
     globals.trayIcon = i # Register global variables
-    globals.loadTimeFormat = loadTimeFormat # Register global functions
+    #globals.loadTimeFormat = loadTimeFormat # Register global functions
     globals.updateIfPossible = updateIfPossible # Register global functions
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions

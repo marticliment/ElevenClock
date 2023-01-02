@@ -14,7 +14,7 @@ from PySide6.QtWidgets import *
 
 
 def loadTimeFormat():
-    raise NotImplementedError("loadTimeFormat function has not been defined!")
+    print(NotImplementedError("loadTimeFormat function has not been defined!"))
 
 def updateIfPossible():
     raise NotImplementedError("updateIfPossible function has not been defined!")

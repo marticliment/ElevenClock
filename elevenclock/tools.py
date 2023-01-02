@@ -35,6 +35,7 @@ import win32process
 import win32api
 import win32con
 
+specificSettings = {}
 
 try:
     winver = int(platform.version().split('.')[2])
@@ -133,15 +134,13 @@ def getColors() -> list:
     return colors
 
 def getSettings(s: str, env: str = ""):
-    if s == "DisableTime":
-        cprint("env:", env) 
     settingsName = env+s
     try:
         try:
             return globals.settingsCache[settingsName]
         except KeyError:
             v = os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName))
-            globals.settingsCache[s] = v
+            globals.settingsCache[settingsName] = v
             return v
     except Exception as e:
         report(e)
@@ -159,8 +158,10 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
                 pass
         try:
             if not thread:
-                globals.loadTimeFormat()
+                #globals.loadTimeFormat()
                 globals.sw.updateCheckBoxesStatus()
+                for sw in specificSettings.values():
+                    sw.updateCheckBoxesStatus()
         except (NotImplementedError, AttributeError):
             pass
         if r and not thread:
@@ -273,7 +274,7 @@ class Menu(QMenu):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
 
-specificSettings = {}
+
 
 def openClockSettings(clockInstance):
     try:
@@ -287,6 +288,31 @@ def openClockSettings(clockInstance):
     except Exception as e:
         report(e)
 
+class QHoverButton(QPushButton):
+    hovered = Signal()
+    unhovered = Signal()
+    pressed = Signal()
+    unpressed = Signal()
+
+    def __init__(self, text: str = "", parent: QObject = None) -> None:
+        super().__init__(text=text, parent=parent)
+
+    def enterEvent(self, event: QEvent) -> None:
+        self.hovered.emit()
+        return super().enterEvent(event)
+
+    def leaveEvent(self, event: QEvent) -> None:
+        self.unhovered.emit()
+        return super().leaveEvent(event)
+
+    def mousePressEvent(self, e: QMouseEvent) -> None:
+        self.pressed.emit()
+        return super().mousePressEvent(e)
+
+    def mouseReleaseEvent(self, e: QMouseEvent) -> None:
+        self.unpressed.emit()
+        return super().mouseReleaseEvent(e)
+                    
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
         super().__init__(app)
