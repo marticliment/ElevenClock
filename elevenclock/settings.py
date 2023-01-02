@@ -328,7 +328,7 @@ class SettingsWindow(QMainWindow):
         self.PinClockToDesktop.setChecked(self.getSettings("PinClockToTheDesktop"))
         self.PinClockToDesktop.stateChanged.connect(lambda i: self.setSettings("PinClockToTheDesktop", bool(i)))
         self.clockPosTitle.addWidget(self.PinClockToDesktop)
-        self.clockFixedHeight = QSettingsSliderWithCheckBox(_("Override clock default height"), self, 20, 105)
+        self.clockFixedHeight = QSettingsSliderWithCheckBox(_("Override clock default height"), self, 20, 105, 48)
         self.clockFixedHeight.setChecked(self.getSettings("ClockFixedHeight"))
         if self.clockFixedHeight.isChecked():
             try:
@@ -338,7 +338,7 @@ class SettingsWindow(QMainWindow):
         self.clockFixedHeight.stateChanged.connect(lambda v: self.setSettings("ClockFixedHeight", bool(v)))
         self.clockFixedHeight.valueChanged.connect(lambda v: self.setSettingsValue("ClockFixedHeight", str(v)))
         self.clockPosTitle.addWidget(self.clockFixedHeight)
-        self.ClockFixedWidth = QSettingsSliderWithCheckBox(_("Specify a minimum width for the clock"), self, 30, 200)
+        self.ClockFixedWidth = QSettingsSliderWithCheckBox(_("Specify a minimum width for the clock"), self, 30, 200, 48)
         self.ClockFixedWidth.setChecked(self.getSettings("ClockFixedWidth"))
         if self.ClockFixedWidth.isChecked():
             try:
@@ -349,7 +349,7 @@ class SettingsWindow(QMainWindow):
         self.ClockFixedWidth.valueChanged.connect(lambda v: self.setSettingsValue("ClockFixedWidth", str(v)))
         self.clockPosTitle.addWidget(self.ClockFixedWidth)
 
-        self.clockXOffset = QSettingsSliderWithCheckBox(_("Adjust horizontal clock position"), self, -200, 200)
+        self.clockXOffset = QSettingsSliderWithCheckBox(_("Adjust horizontal clock position"), self, -200, 200, 0)
         self.clockXOffset.setChecked(self.getSettings("ClockXOffset"))
         if self.clockXOffset.isChecked():
             try:
@@ -360,7 +360,7 @@ class SettingsWindow(QMainWindow):
         self.clockXOffset.valueChanged.connect(lambda v: self.setSettingsValue("ClockXOffset", str(v)))
         self.clockPosTitle.addWidget(self.clockXOffset)
 
-        self.clockYOffset = QSettingsSliderWithCheckBox(_("Adjust vertical clock position"), self, -200, 200)
+        self.clockYOffset = QSettingsSliderWithCheckBox(_("Adjust vertical clock position"), self, -200, 200, 0)
         self.clockYOffset.setChecked(self.getSettings("ClockYOffset"))
         if self.clockYOffset.isChecked():
             try:
@@ -560,7 +560,7 @@ class SettingsWindow(QMainWindow):
             customFont = self.getSettingsValue("TooltipUseCustomFont")
             if customFont:
                 f = QFont()
-                f.fromString(self.getSettingsValue("UseCustomFont"))
+                f.fromString(self.getSettingsValue("TooltipUseCustomFont"))
                 self.fontPrefs.fontPicker.setCurrentFont(f)
                 self.fontPrefs.button.setFont(f)
         self.toolTipFontPrefs.stateChanged.connect(lambda i: self.setSettings("TooltipUseCustomFont", bool(i)))
@@ -2714,11 +2714,12 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
     valueChanged = Signal(int)
 
-    def __init__(self, text: str, parent=None, min: int = 10, max: int = 100):
+    def __init__(self, text: str, parent=None, min: int = 10, max: int = 100, value: int = 0):
         super().__init__(text=text, parent=parent)
         self.setAttribute(Qt.WA_StyledBackground)
         self.slider = QSlider(self)
         self.slider.setRange(min, max)
+        self.slider.setValue(value)
         self.slider.setOrientation(Qt.Horizontal)
         self.slider.setObjectName("slider")
         self.slider.sliderReleased.connect(self.valuechangedEvent)

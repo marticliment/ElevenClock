@@ -1439,7 +1439,7 @@ try:
             global isRDPRunning, numOfNotifs
             CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
             ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
-            LOG_FULLSCREEN_WINDOW_TITLE = self.getSettings("LogFullScreenAppTitle")
+            LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
             IGNORE_MOUSECLICKS_WHEN_FS = self.getSettings("MouseEventTransparentFS")
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not self.getSettings("DisableHideOnFullScreen")

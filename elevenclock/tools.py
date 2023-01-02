@@ -390,7 +390,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             msg.setWindowTitle("ElevenClock was updated!")
             msg.show()
         
-        self.monitorInfoAction = QAction(_("Clock on monitor {0}"), app)
+        self.monitorInfoAction = QAction(_("Clock {0} on monitor {1}"), app)
         self.monitorInfoAction.setEnabled(False)
         self.toolsMenu.addAction(self.monitorInfoAction)
         self.toolsMenu.setEnabled(False)
@@ -539,7 +539,11 @@ class TaskbarIconTray(QSystemTrayIcon):
                     self.moveToTopAction.setText(_("Restore vertical position"))
                 else:
                     self.moveToTopAction.setText(_("Move this clock to the top"))
-            self.monitorInfoAction.setText(_("Clock on monitor {0}").format(screenName.replace("_", "\\")))
+            if clockInstance:
+                self.monitorInfoAction.setText(_("Clock {0} on monitor {1}").format(clockInstance.getClockID()[1][0], clockInstance.getClockID()[1][1]))
+                self.toolsMenu.setEnabled(True)
+            else:
+                self.toolsMenu.setEnabled(False)
             self.individualSettings.triggered.disconnect()
             self.individualSettings.triggered.connect(partial(openClockSettings, clockInstance))
             self.contextMenu().exec(pos)
