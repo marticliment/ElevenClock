@@ -67,7 +67,7 @@ try:
     tempDir = ""
     timeStr = ""
     dateTimeFormat = ""
-    clocks = []
+    globals.clocks = []
     oldScreens = []
     isFocusAssist = False
     shouldFixSeconds = False
@@ -143,7 +143,7 @@ try:
                         if not getSettings("EnableSilentUpdates"):
                             showNotif.infoSignal.emit(_("ElevenClock Updater"), _("ElevenClock is downloading updates"))
                         try:
-                            for clock in clocks:
+                            for clock in globals.clocks:
                                 clock.callInMainSignal.emit(clock.progressbar.show)
                         except Exception as e:
                             report(e)
@@ -170,7 +170,7 @@ try:
                                     subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                             else:
                                 try:
-                                    for clock in clocks:
+                                    for clock in globals.clocks:
                                         clock.progressbar.hide()
                                 except Exception as e:
                                     report(e)
@@ -181,7 +181,7 @@ try:
 
                         else:
                             try:
-                                for clock in clocks:
+                                for clock in globals.clocks:
                                     clock.progressbar.hide()
                             except Exception as e:
                                 report(e)
@@ -200,7 +200,7 @@ try:
         except Exception as e:
             report(e)
             try:
-                for clock in clocks:
+                for clock in globals.clocks:
                     clock.progressbar.hide()
             except Exception as e:
                 report(e)
@@ -215,7 +215,7 @@ try:
 
 
     def loadClocks():
-        global clocks, oldScreens, st, restartCount, st
+        global oldScreens, st, restartCount, st
         try:
             st.kill()
         except AttributeError:
@@ -224,7 +224,7 @@ try:
         CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnfirstMonitor")
         HIDE_CLOCK_ON_SECONDARY_DISPLAY = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
-        clocks = []
+        globals.clocks = []
         if importedPsutil:
             process = psutil.Process(os.getpid())
             memOk = (process.memory_info().rss/1048576) <= 150
@@ -247,7 +247,7 @@ try:
                 oldScreens.append(getGeometry(screen))
                 if not screen == QGuiApplication.primaryScreen() or CLOCK_ON_FIRST_MONITOR: # Check if we are not on the primary screen
                     if not HIDE_CLOCK_ON_SECONDARY_DISPLAY or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
-                        clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
+                        globals.clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
                         i += 1
                     else:
                         print("🟠 This is a secondary screen and is set to be skipped")
@@ -298,7 +298,7 @@ try:
         pass
 
     def closeClocks():
-        for clock in clocks:
+        for clock in globals.clocks:
             clock.hide()
             clock.close()
 
@@ -314,7 +314,7 @@ try:
         i.setVisible(lastState)
 
     def restartClocks(caller: str = ""):
-        global clocks, st, rdpThread
+        global st, rdpThread
 
         closeClocks()
         loadClocks()
@@ -554,7 +554,7 @@ try:
 
     class CustomToolTip(QLabel):
         def __init__(self, screen: QScreen, text: str = "", pos: tuple[int, int] = (0, 0), clockId: str = ""):
-            self.settingsEnvironment = clockId
+            self.settingsEnvironment = clockId if getSettings(f"Individualize{clockId}") else ""
             super().__init__(text)
             self.scr = screen
             self.setFixedHeight(60)
@@ -675,7 +675,8 @@ try:
             self.isCover = isCover
             self.isSecondary = isSecondary
             self.clockId = self.getClockID(screen)[0]
-            self.isCustomClock = getSettings(f"Indidivualize{self.clockId}")
+            self.clockName = _("Clock {0} on {1}").format(self.getClockID(screen)[1][0], self.getClockID(screen)[1][1])
+            self.isCustomClock = getSettings(f"Individualize{self.clockId}")
             if self.isCustomClock:
                 self.settingsEnvironment = self.clockId
             cprint(self.clockId, self.isCustomClock)
@@ -1098,9 +1099,11 @@ try:
                 if self.shouldCoverWindowsClock:
                     if not self.isCover:
                         self.clockCover = Clock(dpix, dpiy, screen, index, isCover=True)
+                        globals.clocks.append(self.clockCover)
                 if self.shouldAddSecondaryClock:
                     if not self.isSecondary:
                         self.clockCover = Clock(dpix, dpiy, screen, index, isSecondary=True)
+                        globals.clocks.append(self.clockCover)
 
                 self.setMouseTracking(True)
                 self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
@@ -1657,14 +1660,12 @@ try:
                 self.leftFast.stop()
                 self.leftSlow.pause()           
                 self.leftSlow.stop()
-                self.rightFast.finished.disconnect()
-                self.rightSlow.finished.disconnect()
-                self.leftFast.finished.disconnect()
-                self.leftSlow.finished.disconnect()
-                self.rightFast.valueChanged.disconnect()
-                self.rightSlow.valueChanged.disconnect()
-                self.leftFast.valueChanged.disconnect()
-                self.leftSlow.valueChanged.disconnect()
+                for signal in (self.rightFast.finished, self.rightFast.valueChanged, self.rightSlow.finished, self.rightSlow.valueChanged, self.leftFast.finished, self.leftFast.valueChanged, 
+                               self.leftSlow.finished, self.leftSlow.valueChanged):
+                    try:
+                        signal.disconnect()
+                    except RuntimeError:
+                        print("🟠 Can't disconnect signal!")
             except AttributeError:
                 self.deleteLater()
                 pass

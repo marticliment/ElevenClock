@@ -1282,6 +1282,11 @@ class SettingsWindow(QMainWindow):
                                     border-color: rgb({colors[1]});
                                     border-bottom-color: rgb({colors[2]});
                                 }}
+                                #AccentButton:disabled{{
+                                    color: lightgrey;
+                                    background-color: #303030;
+                                    border-color: #222222;
+                                }}
                                 #AccentButton:hover{{
                                     background-color: rgba({colors[1]}, 80%);
                                     border-color: rgb({colors[2]});
@@ -2180,7 +2185,8 @@ class QSettingsTitle(QWidget):
     searchMode = False
     childrenw = []
     callInMain = Signal(object)
-    def __init__(self, text: str, icon: str, descText: str = "No description provided"):
+    def __init__(self, text: str, icon: str, descText: str = "No description provided", dummy: bool = False):
+        self.dummy = dummy
         if isWindowDark():
             self.iconMode = "white"
             semib = "Semib"
@@ -2298,12 +2304,6 @@ class QSettingsTitle(QWidget):
         self.callInMain.emit(lambda: self.compressibleWidget.show())
         self.callInMain.emit(self.newShowAnim.start)
         time.sleep(0.2)
-        #if globals.sw.scrollArea.geometry().height() < self.geometry().y()+self.geometry().height()-globals.sw.scrollbar.value():
-        #    self.scrollAnim.setStartValue(globals.sw.scrollbar.value())
-        #    val = self.geometry().y()+self.geometry().height()+abs(globals.sw.settingsWidget.geometry().y())-globals.sw.scrollArea.geometry().height()+5
-        #    self.scrollAnim.setEndValue(val if val <= globals.sw.scrollbar.maximum() else globals.sw.scrollbar.maximum())
-        #    self.callInMain.emit(lambda: self.scrollAnim.start())
-
 
     def setChildFixedHeight(self, h: int) -> None:
         self.compressibleWidget.setFixedHeight(h)
@@ -2314,7 +2314,7 @@ class QSettingsTitle(QWidget):
 
     def toggleChilds(self):
         self.iconMode = getAppIconMode()
-        if self.childsVisible:
+        if self.childsVisible and not self.dummy:
             self.childsVisible = False
             self.invertNotAnimated()
             self.showHideButton.setIcon(QIcon(getPath(f"expand_{getAppIconMode()}.png")))
@@ -2330,7 +2330,6 @@ class QSettingsTitle(QWidget):
 
     def window(self) -> 'SettingsWindow':
         return super().window()
-    
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -2339,7 +2338,7 @@ class QSettingsTitle(QWidget):
         self.image.setPixmap(QIcon(icon).pixmap(QSize((24), (24))))
 
     def resizeEvent(self, event: QResizeEvent = None) -> None:
-        if not self.searchMode:
+        if not self.searchMode and not self.dummy:
             self.image.show()
             self.showHideButton.show()
             self.button.show()
@@ -3119,13 +3118,56 @@ class CustomSettings(SettingsWindow):
         self.aboutTitle.hide()
         self.languageSettingsTitle.hide()
         self.debbuggingTitle.hide()
-        self.enableCustomStyle = QSettingsCheckBox(_("Set clock {0} on monitor {1} to have a different style that the other clocks.").format(data[0], data[1]))
-        self.enableCustomStyle.setChecked(getSettings(f"Indidivualize{id}"))
-        self.enableCustomStyle.stateChanged.connect(lambda v: (setSettings(f"Indidivualize{id}", v), self.changeState()))
-        self.enableCustomStyle.setStyleSheet(f"QWidget#stChkBg{{border-radius: 8px;border-width: 1px;}}"+("border-color: #202020" if isWindowDark() else ""))
-        self.mainLayout.insertWidget(3, self.enableCustomStyle)
-        self.changeState()
+        self.dummyTitle = QSettingsTitle("", "", "")
+        self.mainLayout.insertWidget(3, self.dummyTitle)
         
+        self.enableCustomStyle = QSettingsCheckBox(_("Set clock {0} on monitor {1} to have a different style that the other clocks.").format(data[0], data[1]))
+        self.enableCustomStyle.setChecked(getSettings(f"Individualize{id}"))
+        self.enableCustomStyle.stateChanged.connect(lambda v: (setSettings(f"Individualize{id}", v), self.changeState()))
+        self.enableCustomStyle.setStyleSheet(f"QWidget#stChkBg{{border-top-left-radius: 8px;border-top-right-radius: 8px;border-width: 1px;}}"+("border-color: #000000" if isWindowDark() else ""))
+        self.dummyTitle.addWidget(self.enableCustomStyle)
+        self.openGeneralSettings = QSettingsButton(_("Do you want to open the global settings instead?"), _("Open global settings"))
+        self.openGeneralSettings.button.setObjectName("AccentButton")
+        self.openGeneralSettings.clicked.connect(lambda: (globals.sw.setGeometry(self.geometry()), self.hide(), globals.sw.show()))
+        self.importPrefs = QSettingsComboBox(_("Clone style from another clock"))
+        self.importPrefs.restartButton.setText(_("Import"))
+        self.dummyTitle.addWidget(self.importPrefs)
+        
+        def importPreferences():
+            oldenv = self.clocks[self.importPrefs.combobox.currentText()]
+            newenv = self.clockId
+            for setting in globals.settingsList:
+                setSettings(setting, getSettings(setting, env=oldenv), env=newenv, r=False)
+                if getSettingsValue(setting, env=oldenv) != "":
+                    setSettingsValue(setting, getSettingsValue(setting, env=oldenv), env=newenv, r=False)
+                
+            
+            globals.restartClocks()
+            
+        self.importPrefs.restartButton.clicked.connect(importPreferences)
+        self.importPrefs.restartButton.show()
+        
+        self.changeState()
+        self.dummyTitle.addWidget(self.openGeneralSettings)
+        
+    def showEvent(self, event: QShowEvent) -> None:
+        self.dummyTitle.searchMode = True
+        self.dummyTitle.resizeEvent(QResizeEvent(self.dummyTitle.size(), self.dummyTitle.size()))
+        self.dummyTitle.childrenOpacity.setOpacity(1)
+        
+        self.clocks = {
+            "Global preferences": "",
+        }
+        for clock in globals.clocks:
+            cprint(clock.clockId)
+            if clock.isCustomClock and clock.clockId != self.clockId:
+                self.clocks[clock.clockName] = clock.clockId
+        for i in range(self.importPrefs.combobox.count()):
+            self.importPrefs.combobox.removeItem(0)
+        self.importPrefs.combobox.addItems(self.clocks.keys())
+        
+        return super().showEvent(event)
+
     def changeState(self):
         v = self.enableCustomStyle.isChecked()
         self.clockSettingsTitle.setEnabled(v)
@@ -3136,6 +3178,7 @@ class CustomSettings(SettingsWindow):
         self.internetTimeTitle.setEnabled(v)
         self.toolTipAppearanceTitle.setEnabled(v)
         self.experimentalTitle.setEnabled(v)
+        self.importPrefs.setEnabled(v)
         
     def setSettings(self, s: str, v: bool, r: bool = True, thread = False):
         setSettings(s, v, r, thread, env = self.clockId)

@@ -57,6 +57,7 @@ notTextInputHost: list[int] = []
 cachedInputHosts: list[int] = []
 previousFullscreenHwnd: dict[int, int] = {}
 blockFullscreenCheck: bool = False
+clocks: list[QWidget] = []
 
 CustomSettings: type = None
 

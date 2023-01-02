@@ -46,6 +46,13 @@ except Exception as e:
 def ptToPx(value: float, screen: QScreen) -> float:
     return value/72*screen.logicalDotsPerInch()
 
+def touch(f):
+    try:
+        f = open(f, "w")
+        f.close()
+    except FileExistsError:
+        pass
+    
 
 def _(s): # Translate function
     global lang
@@ -149,6 +156,7 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
     settingsName = env+s
     try:
         globals.settingsCache = {}
+        globals.settingsCache[settingsName] = v
         if(v):
             open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "w").close()
         else:
@@ -193,6 +201,7 @@ def setSettingsValue(s: str, v: str, r: bool = True, env: str = ""):
     settingsName = env+s
     try:
         globals.settingsCache = {}
+        globals.settingsCache[settingsName+"Value"] = v
         with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "w") as sf:
             sf.write(v)
         globals.loadTimeFormat()
