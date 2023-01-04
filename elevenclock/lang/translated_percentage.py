@@ -22,7 +22,6 @@ untranslatedPercentage = {
   "nn": "74%",
   "pl": "98%",
   "ro": "92%",
-  "ru": "92%",
   "sk": "30%",
   "sr": "22%",
   "sv": "78%",
