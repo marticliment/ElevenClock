@@ -32,7 +32,6 @@ from lang.translated_percentage import *
 from tools import *
 from tools import _
 import tools
-import welcome
 
 import win32gui
 
@@ -145,9 +144,11 @@ class SettingsWindow(QMainWindow):
         self.wizardButton = QSettingsButton(_("Open the welcome wizard"), _("Open"))
 
         def ww():
-            global welcomewindow
-            welcomewindow = welcome.WelcomeWindow()
+            subprocess.run(str("start /B \"\" \""+sys.executable)+"\" --welcome", shell=True)
+            globals.app.quit()
 
+
+            
         self.wizardButton.clicked.connect(ww)
         self.wizardButton.button.setObjectName("AccentButton")
         self.wizardButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
