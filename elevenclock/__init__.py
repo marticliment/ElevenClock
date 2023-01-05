@@ -1606,12 +1606,12 @@ try:
                             elif actions[0] == "copy_datetime":
                                 textToClipboard(self.label.text())
                             else:
-                                keyboard.press_and_release(actions[0])
+                                keyboard.press_and_release(actions[0].lower().replace("altright", "alt gr"))
                         case 2:
-                            keyboard.press_and_release("+".join(actions[0:2]))
+                            keyboard.press_and_release("+".join(actions[0:2]).lower().replace("altright", "alt gr"))
 
                         case 3:
-                            keyboard.press_and_release("+".join(actions[0:3]))
+                            keyboard.press_and_release("+".join(actions[0:3]).lower().replace("altright", "alt gr"))
                 except Exception as e:
                     report(e)
 
