@@ -737,9 +737,6 @@ except FileNotFoundError:
     os.mkdir(".elevenclock")
 
 
-if getSettingsValue("PreferredLanguage") == "":
-    setSettingsValue("PreferredLanguage", "default", False)
-
 def loadLangFile(file: str, bundled: bool = False) -> dict:
     try:
         path = os.path.join(os.path.expanduser("~"), ".elevenclock/lang/"+file)
@@ -876,6 +873,29 @@ def textToClipboard(text: str):
 t0 = time.time()
 
 langName = getSettingsValue("PreferredLanguage")
+cprint("langname: '"+langName+"'")
+if langName == "":
+    if not QApplication.instance():
+        a = QApplication(sys.argv)
+    else:
+        a = QApplication.instance()
+    w = QWidget()
+    w.setWindowIcon(QIcon(getPath("icon.png")))
+    ans = QInputDialog.getItem(w, "Welcome to ElevenClock", "Please select the language you want ElevenClock to use:", languageReference.values(), editable=False)
+    w.deleteLater()
+    w.close()
+    if ans[1] == False:
+        setSettingsValue("PreferredLanguage", "default", r=False)
+    else:
+        value = ans[0]
+        for key in languageReference.keys():
+            if languageReference[key] == value:
+                langName = key
+                break
+        if langName == "":
+            langName = "default"
+        setSettingsValue("PreferredLanguage", langName, r=False)
+        
 try:
     if (langName == "default"):
         langName = locale.getdefaultlocale()[0]

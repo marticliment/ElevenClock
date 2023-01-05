@@ -1999,7 +1999,10 @@ try:
     if "zh" in langName:
         sys.argv.append("-platform")
         sys.argv.append("windows:fontengine=freetype")
-    app = QApplication(sys.argv)
+    if not QApplication.instance():
+        app = QApplication(sys.argv)
+    else:
+        app = QApplication.instance()
     app.setQuitOnLastWindowClosed(False)
 
     sw: SettingsWindow = None
