@@ -24,7 +24,7 @@ except FileNotFoundError:
     if (apikey == ""):
         apikey = input("Write api key and press enter: ")
 
-apiurl = f"https://app.tolgee.io/v2/projects/688/export?format=JSON&splitByScope=false&splitByScopeDelimiter=~&splitByScopeDepth=0&filterState=UNTRANSLATED&filterState=TRANSLATED&filterState=REVIEWED&zip=true&ak={apikey}"
+apiurl = f"https://app.tolgee.io/v2/projects/688/export?format=JSON&structureDelimiter=&filterState=UNTRANSLATED&filterState=TRANSLATED&filterState=REVIEWED&zip=true"
 
 import os
 try:
@@ -41,7 +41,7 @@ print()
 print("  Downloading updated translations...")
 
 
-response = requests.get(apiurl)
+response = requests.get(apiurl, headers={"X-API-Key": apikey})
 if (not response.ok):
     statusCode = response.status_code
     print(f"  Error {statusCode}: {response.text}")
