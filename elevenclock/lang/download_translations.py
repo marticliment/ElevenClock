@@ -24,7 +24,7 @@ except FileNotFoundError:
     if (apikey == ""):
         apikey = input("Write api key and press enter: ")
 
-apiurl = f"https://app.tolgee.io/v2/projects/688/export?format=JSON&splitByScope=false&splitByScopeDelimiter=~&splitByScopeDepth=0&filterState=UNTRANSLATED&filterState=TRANSLATED&filterState=REVIEWED&zip=true"
+apiurl = f"https://app.tolgee.io/v2/projects/688/export?format=JSON&structureDelimiter=&filterState=UNTRANSLATED&filterState=TRANSLATED&filterState=REVIEWED&zip=true"
 
 import os
 try:
