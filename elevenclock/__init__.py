@@ -220,7 +220,6 @@ try:
             st.kill()
         except AttributeError:
             pass
-        #shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
         CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnfirstMonitor")
         HIDE_CLOCK_ON_SECONDARY_DISPLAY = getSettings("HideClockOnSecondaryMonitors")
         oldScreens = []
@@ -253,7 +252,7 @@ try:
                         print("🟠 This is a secondary screen and is set to be skipped")
                 else: # Skip the primary display, as it has already the clock
                     print("🟡 This is the primary screen and is set to be skipped")
-            st = KillableThread(target=screenCheckThread, daemon=True, name="Main [loaded]: Screen listener")
+            st = KillableThread(target=screenCheckThread, daemon=True, name="Main [not from start]: Screen listener")
             st.start()
         else:
             os.startfile(sys.executable)
@@ -2039,7 +2038,6 @@ try:
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
-    #KillableThread(target=loadAtomicClockOffset, daemon=True, name="Main: Atomic clock sync thread").start()
     KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
     if getSettings("PreventSleepFailure"):
         if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
@@ -2058,7 +2056,6 @@ try:
     globals.app = app # Register global variables
     globals.sw = sw # Register global variables
     globals.trayIcon = i # Register global variables
-    #globals.loadTimeFormat = loadTimeFormat # Register global functions
     globals.updateIfPossible = updateIfPossible # Register global functions
     globals.restartClocks = restartClocks # Register global functions
     globals.closeClocks = closeClocks  # Register global functions
