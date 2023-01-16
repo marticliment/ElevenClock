@@ -33,7 +33,7 @@ Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more
 
 ## Microsoft store installation:
 
-[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://somepythonthings.tk/redirect/?elevenclockstore)  
+[<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://marticliment.com/redirect/?elevenclockstore)  
 (See the [WIKI](https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation) for more information)
 
 
