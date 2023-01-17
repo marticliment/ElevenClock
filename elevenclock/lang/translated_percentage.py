@@ -40,4 +40,5 @@ untranslatedPercentage = {
   "vi": "83%",
   "zh_CN": "96%",
   "zh_TW": "96%"
+
 }
