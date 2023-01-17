@@ -25,5 +25,5 @@ untranslatedPercentage = {
   "sr": "22%",
   "sv": "78%",
   "th": "82%",
-  "vi": "53%"
+  "vi": "86%"
 }
