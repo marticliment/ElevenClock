@@ -5,11 +5,9 @@ untranslatedPercentage = {
   "ar": "65%",
   "bg": "17%",
   "bs": "6%",
-  "cs": "96%",
   "da": "95%",
   "de": "96%",
   "el": "18%",
-  "es": "95%",
   "et": "88%",
   "fa": "5%",
   "fi": "60%",
@@ -20,7 +18,6 @@ untranslatedPercentage = {
   "id": "88%",
   "it": "92%",
   "ja": "96%",
-  "ko": "96%",
   "lt": "21%",
   "lv": "58%",
   "nb": "96%",
@@ -40,5 +37,4 @@ untranslatedPercentage = {
   "vi": "83%",
   "zh_CN": "96%",
   "zh_TW": "96%"
-
 }
