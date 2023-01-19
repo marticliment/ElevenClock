@@ -141,7 +141,7 @@ def getColors() -> list:
     return colors
 
 def getSettings(s: str, env: str = ""):
-    settingsName = env+s
+    settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
         try:
             return globals.settingsCache[settingsName]
@@ -153,7 +153,7 @@ def getSettings(s: str, env: str = ""):
         report(e)
 
 def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
-    settingsName = env+s
+    settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
         globals.settingsCache = {}
         globals.settingsCache[settingsName] = v
@@ -182,7 +182,7 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
         report(e)
 
 def getSettingsValue(s: str, env: str = ""):
-    settingsName = env+s
+    settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
         try:
             return globals.settingsCache[settingsName+"Value"]
@@ -198,7 +198,7 @@ def getSettingsValue(s: str, env: str = ""):
         return ""
 
 def setSettingsValue(s: str, v: str, r: bool = True, env: str = ""):
-    settingsName = env+s
+    settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
         globals.settingsCache = {}
         globals.settingsCache[settingsName+"Value"] = v
