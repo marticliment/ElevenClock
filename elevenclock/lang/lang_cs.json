@@ -218,7 +218,7 @@
   "Set a custom network time provider" : "Nastavit vlastní časový server",
   "Set clock {0} on monitor {1} to have a different style that the other clocks." : "Použít jiný styl {0} hodin na monitoru {1}",
   "Settings for clock {0} on the monitor {1} - ElevenClock Settings" : "Nastavení pro hodiny {0} na monitoru {1} - Nastavení ElevenClock",
-  "Settings for this clock" : "Nastavení těchno hodin",
+  "Settings for this clock" : "Nastavení těchto hodin",
   "Show a second clock on the other end of the taskbar" : "Zobrazit další hodiny na druhé straně hlavního panelu",
   "Show calendar" : "Zobrazit kalendář",
   "Show date on the clock" : "Zobrazit datum na hodinách",
