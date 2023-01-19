@@ -360,7 +360,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         menu.addAction(self.quitAction)
         menu.addSeparator()
 
-        self.toolsMenu = menu.addMenu(_("Monitor tools"))
+        self.toolsMenu = menu.addMenu(_("Clock tools"))
         self.toolsMenu.setParent(menu)
         self.toolsMenu.setWindowFlag(Qt.WindowStaysOnTopHint)
         self.toolsMenu.setWindowFlags(menu.windowFlags() | Qt.FramelessWindowHint)

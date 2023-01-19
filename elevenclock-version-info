@@ -32,8 +32,8 @@ StringFileInfo(
     [
       StringStruct(u'CompanyName', u'Martí Climent'),
       StringStruct(u'FileDescription', u'ElevenClock'),
-      StringStruct(u'FileVersion', u'4.0.0'),
-      StringStruct(u'ProductVersion', u'4.0.0'),
+      StringStruct(u'FileVersion', u'4.0.1-beta'),
+      StringStruct(u'ProductVersion', u'4.0.1-beta'),
       StringStruct(u'InternalName', u'ElevenClock'),
       StringStruct(u'LegalCopyright', u'Martí Climent'),
       StringStruct(u'OriginalFilename', u'elevenclock.exe'),
