@@ -21,11 +21,7 @@ for %%a in (%*) do (
 set option
 
 python -m pip install -r requirements.txt
-python -m pip install setuptools==49.1.3
 python -m pip install packaging
-python -m pip uninstall python-dateutil -y
-python -m easy_install python-dateutil
-python %localappdata%/Programs/Python/Python310/Scripts/pywin32_postinstall.py -install
 if defined option--only-requirements (
     goto :end
 )

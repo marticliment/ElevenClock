@@ -3,7 +3,6 @@ PySide6
 keyboard
 psutil
 pyautogui
-pypiwin32
-python-dateutil
+pytz
 win32mica
 winshell

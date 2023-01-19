@@ -21,7 +21,7 @@ try:
     import datetime
     import winshell
     import subprocess
-    import dateutil.tz as tz
+    import pytz
     from threading import Thread
     from urllib.request import urlopen
 
@@ -31,9 +31,7 @@ try:
     except ImportError:
         importedPsutil = False
     import win32gui
-    import win32api
     import pythoncom
-    import win32process
     import win32com.client
     from PySide6.QtGui import *
     from PySide6.QtCore import *
@@ -609,7 +607,7 @@ try:
                         else:
                             dateMode += ministr
                     timezoneName = win_tz[readRegedit(regKey, "TzRegKeyName", "UTC")]
-                    tzInfo = tz.gettz(timezoneName)
+                    tzInfo = pytz.timezone(timezoneName)
                     print(f"🔵 TZ {additionalClockNum} is", tzInfo)
                     additionalClocks += str(datetime.datetime.now(tz=tzInfo).strftime("%a "+dateMode))
                     additionalClockName = str(readRegedit(regKey, "DisplayName", "")).strip()
