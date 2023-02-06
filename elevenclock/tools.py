@@ -786,7 +786,7 @@ def verifyHwndValidity(hwnd):
         pass
     if pHandle != 0:
         pname = win32process.GetModuleFileNameEx(pHandle, 0)
-        if str(pname).lower().endswith("textinputhost.exe"):
+        if str(pname).lower().endswith("textinputhost.exe") or str(pname).lower().endswith("lockapp.exe"):
             globals.cachedInputHosts.append(hwnd)
             print(f"🟡 Blacklisted hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} (Process name is {str(pname).lower()})")
         else:
