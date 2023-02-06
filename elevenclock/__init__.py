@@ -2060,8 +2060,12 @@ try:
 
     if not(getSettings(f"Updated{versionName}Already")) and not(getSettings("EnableSilentUpdates")):
         setSettings(f"Updated{versionName}Already", True, False)
+        if versionName == "4.0.1":
+            if not getSettings("AtomicClockURL"):
+                setSettings("EnableInternetTime", False)
         if getSettings("DefaultPrefsLoaded"):
             showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
+
 
     showSettings = False
     if "--settings" in sys.argv or showSettings:

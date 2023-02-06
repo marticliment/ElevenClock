@@ -780,7 +780,7 @@ class SelectModeSlide(BasicNavWidget):
 
     def showEvent(self, event) -> None:
         if not self.defaultSelected:
-            self.toggleClockMode("format")
+            self.toggleClockMode("secondary")
         return super().showEvent(event)
 
     def moveSelector(self, w: QWidget) -> None:
