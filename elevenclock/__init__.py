@@ -2066,7 +2066,6 @@ try:
         if getSettings("DefaultPrefsLoaded"):
             showMessage(_("ElevenClock Updater"), _("ElevenClock has updated to version {0} successfully\nPlease see GitHub for the changelog").format(versionName), False)
 
-
     showSettings = False
     if "--settings" in sys.argv or showSettings:
         sw.show()
