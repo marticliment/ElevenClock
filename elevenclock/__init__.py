@@ -1997,7 +1997,10 @@ try:
         sys.argv.append("-platform")
         sys.argv.append("windows:fontengine=freetype")
     if not QApplication.instance():
+        translator = QTranslator()
+        translator.load(f"qtbase_{langName}.qm", QLibraryInfo.location(QLibraryInfo.TranslationsPath))
         app = QApplication(sys.argv)
+        app.installTranslator(translator)
     else:
         app = QApplication.instance()
     app.setQuitOnLastWindowClosed(False)
