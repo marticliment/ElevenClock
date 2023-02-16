@@ -2010,6 +2010,11 @@ class SettingsWindow(QMainWindow):
                 a.triggered.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
                 menu.addAction(a)
 
+                a4 = QAction()
+                a4.setText(_("Show missing translation strings"))
+                a4.triggered.connect(lambda: self.setPlainText('\n'.join(missingTranslationList)))
+                menu.addAction(a4)
+
                 a2 = QAction()
                 a2.setText(_("Export log as a file"))
                 a2.triggered.connect(lambda: saveLog())

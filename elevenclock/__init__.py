@@ -52,7 +52,7 @@ try:
 
     from settings import *
     from tools import *
-    import tools
+    from tools import _
 
     from external.WnfReader import isFocusAssistEnabled, getNotificationNumber
     from external.blurwindow import ExtendFrameIntoClientArea
@@ -87,9 +87,6 @@ try:
     print(" 🔴: Unhandled unexpected exception")
     print(" 🟣: Handled expected exception")
     print("")
-
-    def _(s) -> str:
-        return tools._(s)
 
     def checkRDP():
         def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
