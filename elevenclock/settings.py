@@ -31,7 +31,6 @@ from languages import *
 from lang.translated_percentage import *
 from tools import *
 from tools import _
-import tools
 
 import win32gui
 
@@ -2010,6 +2009,11 @@ class SettingsWindow(QMainWindow):
                 a.triggered.connect(lambda: textEdit.setPlainText(globals.buffer.getvalue()))
                 menu.addAction(a)
 
+                a4 = QAction()
+                a4.setText(_("Show missing translation strings"))
+                a4.triggered.connect(lambda: self.setPlainText('\n'.join(missingTranslationList)))
+                menu.addAction(a4)
+
                 a2 = QAction()
                 a2.setText(_("Export log as a file"))
                 a2.triggered.connect(lambda: saveLog())
@@ -2647,8 +2651,8 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         if not self.checkbox.isChecked():
             self.lineedit.setEnabled(False)
             self.oldtext = self.lineedit.placeholderText()
-            self.lineedit.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
-            self.lineedit.setPlaceholderText(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())).replace("<b>", "\"").replace("</b>", "\""))
+            self.lineedit.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
+            self.lineedit.setPlaceholderText(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()).replace("<b>", "\"").replace("</b>", "\""))
             self.stateChanged.emit(v)
         else:
             self.stateChanged.emit(v)
@@ -2696,7 +2700,7 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.combobox.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
             self.combobox.setEnabled(False)
-            self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.combobox.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
             self.stateChanged.emit(v)
         else:
             self.stateChanged.emit(v)
@@ -2745,7 +2749,7 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         self.slider.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
             self.slider.setEnabled(False)
-            self.slider.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.slider.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
             self.stateChanged.emit(v)
         else:
             self.stateChanged.emit(v)
@@ -2826,7 +2830,7 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
             self.button.setEnabled(False)
             self.button.setStyleSheet("")
             self.stateChanged.emit(v)
-            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
         else:
             self.stateChanged.emit(v)
             self.button.setEnabled(True)
@@ -2852,7 +2856,7 @@ class QSettingsBgBoxColorDialog(QSettingsCheckboxColorDialog):
             self.button.setEnabled(False)
             self.button.setStyleSheet("")
             self.stateChanged.emit(v)
-            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
         else:
             self.stateChanged.emit(v)
             self.button.setEnabled(True)
@@ -2908,7 +2912,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.button.setEnabled(self.checkbox.isChecked())
         if not self.checkbox.isChecked():
             self.button.setEnabled(False)
-            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_(self.checkbox.text())))
+            self.button.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
             self.stateChanged.emit(v)
         else:
             self.stateChanged.emit(v)
