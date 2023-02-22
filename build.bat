@@ -34,52 +34,62 @@ if %errorlevel% neq 0 (
 @echo on
 
 python apply_version.py
+
+rmdir /Q /S ElevenClockBin
 xcopy elevenclock elevenclock_bin /E /H /C /I /Y
-cd elevenclock_bin
+pushd elevenclock_bin
+
 python -m compileall -b .
+if %errorlevel% neq 0 goto:error
+
 del /S *.py
 rmdir /Q /S __pycache__
 rmdir /Q /S external\__pycache__
 rmdir /Q /S lang\__pycache__
 rmdir /Q /S build
 rmdir /Q /S dist
-python -m PyInstaller ../elevenclock/__init__.py --icon "resources/icon.ico" --add-binary "*.pyc;." --add-data "resources;resources" --add-data "lang;lang" --clean --exclude-module PySide2 --exclude-module numpy --windowed --version-file ../elevenclock-version-info --name ElevenClock
-cd dist
-rename ElevenClock ElevenClockBin
-cd ..
-cd ..
-rmdir /Q /S ElevenClockBin
-cd elevenclock_bin
-cd dist
-move ElevenClockBin ../../
-cd ..
-rmdir /Q /S build
-rmdir /Q /S dist
-del ElevenClock.spec
-cd ..
+
+python -m PyInstaller ../elevenclock/__init__.py ^
+    --icon "resources/icon.ico" ^
+    --add-binary "*.pyc;." ^
+    --add-data "resources;resources" ^
+    --add-data "lang;lang" ^
+    --clean ^
+    --exclude-module numpy ^
+    --windowed ^
+    --version-file ../elevenclock-version-info ^
+    --name ElevenClock
+if %errorlevel% neq 0 goto:error
+
+timeout 2
+
+move dist\ElevenClock ..\ElevenClockBin
+if %errorlevel% neq 0 goto:error
+popd
+
 rmdir /Q /S elevenclock_bin
-cd ElevenClockBin
-cd tcl
-rmdir /Q /S tzdata
-cd ..
-cd lang
-del APIKEY.txt
-del download_translations.pyc
-cd ..
-copy "%localappdata%\Programs\Python\Python310\pythoncom*.dll" .\
-cd PySide6
+
+pushd ElevenClockBin\PySide6
 del opengl32sw.dll
 del Qt6Quick.dll
 del Qt6Qml.dll
 del Qt6OpenGL.dll
 del Qt6QmlModels.dll
 del Qt6Network.dll
-del Qt6DataVisualization.dll
 del Qt6VirtualKeyboard.dll
-del QtDataVisualization.pyd
-del QtOpenGL.pyd
-cd ..
-cd ..
+popd
+
+pushd ElevenClockBin\tcl
+rmdir /Q /S tzdata
+popd
+
+pushd ElevenClockBin\lang
+del APIKEY.txt
+del download_translations.pyc
+popd
+
+rem ? Is still necessary ? 
+rem copy "%localappdata%\Programs\Python\Python310\pythoncom*.dll" .\
 
 if defined option--no-installer (
     goto :skip-installer
@@ -99,6 +109,11 @@ if exist %INSTALLATOR% (
 if defined option--release (
     python generate_release.py
 )
+
+goto:end
+
+:error
+echo "Error!"
 
 :end
 pause

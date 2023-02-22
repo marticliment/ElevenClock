@@ -36,6 +36,7 @@ import win32api
 import win32con
 
 specificSettings = {}
+missingTranslationList = []
 
 try:
     winver = int(platform.version().split('.')[2])
@@ -61,6 +62,8 @@ def _(s): # Translate function
         return (t+"✅[Found]✅" if debugLang else t) if t else f"{s}⚠️[UntranslatedString]⚠️" if debugLang else eng_(s)
     except KeyError:
         if debugLang: print(s)
+        if not s in missingTranslationList:
+            missingTranslationList.append(s)
         return f"{eng_(s)}🔴[MissingString]🔴" if debugLang else eng_(s)
 
 def eng_(s): # English translate function
