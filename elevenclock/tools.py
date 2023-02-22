@@ -262,21 +262,24 @@ def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidO
     hwnd = int(hwnd)
     #window.setAttribute(Qt.WA_TranslucentBackground)
     #window.setAttribute(Qt.WA_NoSystemBackground)
+    try:
 
-    if not useTaskbarModeCheck:
-        mode = isWindowDark()
-    else:
-        mode = isTaskbarDark()
+        if not useTaskbarModeCheck:
+            mode = isWindowDark()
+        else:
+            mode = isTaskbarDark()
 
-    if not avoidOverrideStyleSheet:
-        window.setStyleSheet("background-color: transparent;")
-    if mode:
-        GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True, smallCorners=smallCorners)
-        ExtendFrameIntoClientArea(hwnd)
+        if not avoidOverrideStyleSheet:
+            window.setStyleSheet("background-color: transparent;")
+        if mode:
+            GlobalBlur(hwnd, Acrylic=True, hexColor="#21212140", Dark=True, smallCorners=smallCorners)
+            ExtendFrameIntoClientArea(hwnd)
 
-    else:
-        GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True, smallCorners=smallCorners)
-        ExtendFrameIntoClientArea(hwnd)
+        else:
+            GlobalBlur(hwnd, Acrylic=True, hexColor="#eeeeee40", Dark=True, smallCorners=smallCorners)
+            ExtendFrameIntoClientArea(hwnd)
+    except Exception as e:
+        report(e)
 
 class Menu(QMenu):
     def __init__(self, title: str):
