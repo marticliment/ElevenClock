@@ -109,7 +109,10 @@ for lang in downloadedLanguages:
         c += 1
         if (value != None):
             a += 1
-    perc = "{:.0%}".format(a / c)
+    percNum = a / c
+    perc = "{:.0%}".format(percNum)
+    if (perc == "100%" and percNum < 1):
+        perc = "99%"
     if (perc == "100%" or lang == "en"):
         continue
     langPerc[lang] = perc
