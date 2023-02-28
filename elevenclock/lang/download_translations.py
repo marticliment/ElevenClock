@@ -6,6 +6,8 @@ import time
 sys.path.append('../')
 from lang_tools import *
 
+countOfChanges = len(os.popen("git status -s").readlines())
+
 isAutoCommit = False
 isSomeChanges = False
 
@@ -119,7 +121,7 @@ for lang in downloadedLanguages:
 
 if (isAutoCommit):
     os.system("git add .")
-countOfChanges = len(os.popen("git status -s").readlines())
+countOfChanges = len(os.popen("git status -s").readlines()) - countOfChanges
 isSomeChanges = True if countOfChanges > 0 else False
 
 outputString = f"""
