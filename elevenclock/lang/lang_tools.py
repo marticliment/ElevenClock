@@ -37,6 +37,7 @@ languageReference = {
     "ru"    : "Russian - Русский",
     "si"    : "Sinhala - සිංහල",
     "sk"    : "Slovak - Slovenčina",
+    "sl"    : "Slovene - Slovenščina",
     "sr"    : "Serbian - Srpski",
     "sv"    : "Swedish - Svenska",
     "th"    : "Thai - ภาษาไทย",
