@@ -1620,15 +1620,18 @@ try:
                         print("🟠 Can't disconnect signal!")
             except AttributeError:
                 pass
-            for widget in (self.clockCover, self.tooltip, self.label):
-                try:
-                    widget.setAttribute(Qt.WA_DeleteOnClose, True) 
-                    widget.deleteLater()
-                    widget.close()
-                except AttributeError:
-                    pass
-                except Exception as e:
-                    report(e)
+            try:
+                for widget in (self.clockCover, self.tooltip, self.label):
+                    try:
+                        widget.setAttribute(Qt.WA_DeleteOnClose, True) 
+                        widget.deleteLater()
+                        widget.close()
+                    except AttributeError:
+                        pass
+                    except Exception as e:
+                        report(e)
+            except AttributeError:
+                pass
             widget.setAttribute(Qt.WA_DeleteOnClose, True) 
             self.deleteLater()
             return super().close()
