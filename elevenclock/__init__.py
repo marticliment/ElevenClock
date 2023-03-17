@@ -88,25 +88,6 @@ try:
     print(" 🟣: Handled expected exception")
     print("")
 
-    def checkRDP():
-        def checkIfElevenClockRunning(processess, blacklistedProcess) -> bool:
-            for p_name in processess:
-                if p_name in blacklistedProcess:
-                    print(f"🟡 Blacklisted procName {p_name} detected, hiding...")
-                    return True
-            return False
-
-        global isRDPRunning
-        print("🔵 Starting RDP thread")
-        while True:
-            pythoncom.CoInitialize()
-            _wmi = win32com.client.GetObject('winmgmts:')
-            processes = _wmi.ExecQuery('Select Name from win32_process')
-            procs = [p.Name for p in processes]
-            isRDPRunning = checkIfElevenClockRunning(procs, blacklistedProcesses)
-            time.sleep(5)
-
-
     def updateChecker():
         updateIfPossible()
         time.sleep(60)
@@ -225,14 +206,12 @@ try:
         else:
             print("🟠 Psutil couldn't be imported!")
             memOk = True
-        try:
-            isPrefsWinOpen = globals.sw.isVisible()
-        except AttributeError:
-            isPrefsWinOpen = True
-        try:
-            isWizardOpen = globals.ww.isVisible()
-        except AttributeError:
-            isWizardOpen = True
+        
+        if globals.ww: isPrefsWinOpen = globals.sw.isVisible()
+        else: isPrefsWinOpen = False
+        if globals.ww: isWizardOpen = globals.ww.isVisible()
+        else: isWizardOpen = False
+        
         if (restartCount<20 and memOk) or isPrefsWinOpen or isWizardOpen:
             restartCount += 1
             i = 0
@@ -293,8 +272,10 @@ try:
 
     def closeClocks():
         for clock in globals.clocks:
-            clock.hide()
             clock.close()
+            globals.clocks.remove(clock)
+            del clock
+        globals.clocks = []
 
     def showMessage(title: str, body: str, uBtn: bool = True) -> None:
         """
@@ -308,21 +289,13 @@ try:
         i.setVisible(lastState)
 
     def restartClocks(caller: str = ""):
-        global st, rdpThread
-
+        global st
         closeClocks()
         loadClocks()
-        #loadTimeFormat()
         setSettings("ReloadInternetTime", True, thread=True)
         globals.doCacheHost = True
 
-        try:
-            rdpThread.kill()
-        except AttributeError:
-            pass
-        rdpThread = KillableThread(target=checkRDP, daemon=True)
-        if(getSettings("EnableHideOnRDP")):
-            rdpThread.start()
+
 
 
     def isElevenClockRunningThread():
@@ -673,7 +646,6 @@ try:
             self.isCustomClock = getSettings(f"Individualize{self.clockId}")
             if self.isCustomClock:
                 self.settingsEnvironment = self.clockId
-            cprint(self.clockId, self.isCustomClock)
             if isCover:
                 self.shouldAddSecondaryClock = False
             else:
@@ -1625,50 +1597,37 @@ try:
                         if(theme != self.lastTheme):
                             self.callInMainSignal.emit(restartClocks)
 
-        def closeEvent(self, event: QCloseEvent) -> None:
+        def close(self) -> bool:
             self.shouldBeVisible = False
-            try:
-                print(f"🟡 Closing clock on {self.win32screen}")
-                if not self.isCover:
-                    if self.shouldCoverWindowsClock:
-                        if self.clockCover:
-                            self.clockCover.close()
-            except AttributeError:
-                pass
             try:
                 self.loop0.kill()
                 self.loop1.kill()
                 self.loop2.kill()
             except AttributeError:
                 pass
-            event.accept()
-            return super().closeEvent(event)
-
-        def close(self) -> bool:
             try:
-                self.rightFast.pause()            
                 self.rightFast.stop()
-                self.rightSlow.pause()            
                 self.rightSlow.stop()
-                self.leftFast.pause()           
                 self.leftFast.stop()
-                self.leftSlow.pause()           
                 self.leftSlow.stop()
-                for signal in (self.rightFast.finished, self.rightFast.valueChanged, self.rightSlow.finished, self.rightSlow.valueChanged, self.leftFast.finished, self.leftFast.valueChanged, 
-                               self.leftSlow.finished, self.leftSlow.valueChanged):
+                for signal in (self.rightFast.finished, self.rightFast.valueChanged, self.rightSlow.finished, self.rightSlow.valueChanged, self.leftFast.finished, self.leftFast.valueChanged, self.leftSlow.finished, self.leftSlow.valueChanged):
                     try:
                         signal.disconnect()
                     except RuntimeError:
                         print("🟠 Can't disconnect signal!")
             except AttributeError:
-                self.deleteLater()
                 pass
-            try:
-                self.clockCover.close()
-            except AttributeError:
-                pass
-            except Exception as e:
-                report(e)
+            for widget in (self.clockCover, self.tooltip, self.label):
+                try:
+                    widget.setAttribute(Qt.WA_DeleteOnClose, True) 
+                    widget.deleteLater()
+                    widget.close()
+                except AttributeError:
+                    pass
+                except Exception as e:
+                    report(e)
+            widget.setAttribute(Qt.WA_DeleteOnClose, True) 
+            self.deleteLater()
             return super().close()
 
         def resizeEvent(self, event: QResizeEvent = None):
@@ -2041,11 +2000,6 @@ try:
         if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
     print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
-
-    rdpThread = KillableThread(target=checkRDP, daemon=True, name="Main: Remote desktop controller")
-    if getSettings("EnableHideOnRDP"):
-        pass
-        rdpThread.start()
 
 
     globals.tempDir = tempDir # Register global variables

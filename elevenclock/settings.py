@@ -621,10 +621,10 @@ class SettingsWindow(QMainWindow):
         self.win32alignment.setChecked(self.getSettings("EnableWin32API"))
         self.win32alignment.stateChanged.connect(lambda i: self.setSettings("EnableWin32API", bool(i)))
         self.experimentalTitle.addWidget(self.win32alignment)
-        self.legacyRDPHide = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+" (Old method)".replace("RDP", "RDP, VMWare Horizon"))
-        self.legacyRDPHide.setChecked(self.getSettings("EnableHideOnRDP"))
-        self.legacyRDPHide.stateChanged.connect(lambda i: self.setSettings("EnableHideOnRDP", bool(i)))
-        self.experimentalTitle.addWidget(self.legacyRDPHide)
+        #self.legacyRDPHide = QSettingsCheckBox(_("Hide the clock when RDP Client or Citrix Workspace are running")+" (Old method)".replace("RDP", "RDP, VMWare Horizon"))
+        #self.legacyRDPHide.setChecked(self.getSettings("EnableHideOnRDP"))
+        #self.legacyRDPHide.stateChanged.connect(lambda i: self.setSettings("EnableHideOnRDP", bool(i)))
+        #self.experimentalTitle.addWidget(self.legacyRDPHide)
         self.legacyFullScreenHide = QSettingsCheckBox(_("Check only the focused window on the fullscreen check")+". "+_("(It might help to solve issues with Netflix)"))
         self.legacyFullScreenHide.setChecked(self.getSettings("legacyFullScreenMethod"))
         self.legacyFullScreenHide.stateChanged.connect(lambda i: self.setSettings("legacyFullScreenMethod", bool(i)))
@@ -1013,15 +1013,15 @@ class SettingsWindow(QMainWindow):
             self.disableSystemTrayColor.setEnabled(False)
             self.disableNotificationBadge.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
             self.disableNotificationBadge.setEnabled(False)
-            self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            self.legacyRDPHide.setEnabled(False)
+            #self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
+            #self.legacyRDPHide.setEnabled(False)
         else:
             self.disableSystemTrayColor.setToolTip("")
             self.disableSystemTrayColor.setEnabled(True)
             self.disableNotificationBadge.setToolTip("")
             self.disableNotificationBadge.setEnabled(True)
-            self.legacyRDPHide.setToolTip("")
-            self.legacyRDPHide.setEnabled(True)
+            #self.legacyRDPHide.setToolTip("")
+            #self.legacyRDPHide.setEnabled(True)
 
         if self.backgroundcolor.isChecked():
             self.disableSystemTrayColor.setEnabled(False)
@@ -2127,15 +2127,7 @@ class SettingsWindow(QMainWindow):
         win.setWindowIcon(QIcon(getPath("icon.png")))
 
     def moveEvent(self, event: QMoveEvent) -> None:
-        if(self.updateSize):
-            pass
-        else:
-            def enableUpdateSize(self: SettingsWindow):
-                time.sleep(1)
-                self.updateSize = True
-
-            self.updateSize = False
-            KillableThread(target=enableUpdateSize, args=(self,)).start()
+        self.updateSize = True
         super().moveEvent(event)
 
     def mouseReleaseEvent(self, event) -> None:

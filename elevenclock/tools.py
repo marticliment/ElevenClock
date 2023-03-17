@@ -156,6 +156,9 @@ def getSettings(s: str, env: str = ""):
         report(e)
 
 def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
+    """
+    if thread is set to true, effecs of r are eliminated
+    """
     settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
         globals.settingsCache = {}
