@@ -754,7 +754,7 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle = QSettingsTitle(_("About ElevenClock version {0}:").format(versionName), getPath(f"about_{self.iconMode}.png"), _("Info, report a bug, submit a feature request, donate, about"))
         layout.addWidget(self.aboutTitle)
         self.WebPageButton = QSettingsButton(_("View ElevenClock's homepage"), _("Open"))
-        self.WebPageButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/"))
+        self.WebPageButton.clicked.connect(lambda: os.startfile("https://marticliment.com/elevenclock/"))
         self.WebPageButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.WebPageButton)
         self.ThirdParty = QSettingsButton(_("Third party licenses"), _("View"))
