@@ -1682,6 +1682,22 @@ try:
         
         def getSettingsValue(self, s: str):
             return getSettingsValue(s, env=self.settingsEnvironment)
+        
+        def enterEvent(self, event):
+            if self.getSettings("HideClockWhenHovered"):
+                print("🟡 Hiding clock because clicked!")
+                self.clockShouldBeHidden = True
+
+                def showClockOn10s(self: Clock):
+                    time.sleep(5)
+                    print("🟢 Showing clock because 5s passed!")
+                    self.clockShouldBeHidden = False
+
+                KillableThread(target=showClockOn10s, args=(self,), name=f"Temporary: 5s thread").start()
+
+            super().enterEvent(event)
+        
+        
 
     class Label(QLabel):
         clicked = Signal()
