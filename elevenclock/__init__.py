@@ -1721,7 +1721,7 @@ try:
 
             self.mouseButtonTimer = QTimer()
             self.mouseButtonTimer.setSingleShot(True)
-            self.mouseButtonTimer.setInterval(150 if getSettings("CustomClockDoubleClickAction", env=self.settingsEnvironment) else 0)
+            self.mouseButtonTimer.setInterval((300 if getSettings("DoubleClickLongerPeriod") else 150) if getSettings("CustomClockDoubleClickAction", env=self.settingsEnvironment) else 0)
             self.mouseButtonTimer.timeout.connect(self.mouseButtonTimeout)
 
             self.isMouseButtonDouble = False
