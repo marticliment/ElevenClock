@@ -228,6 +228,9 @@ try:
                     print("🟡 This is the primary screen and is set to be skipped")
             st = KillableThread(target=screenCheckThread, daemon=True, name="Main [not from start]: Screen listener")
             st.start()
+            
+            if getSettings("AutoReloadClocks"):
+               Thread(target=lambda: (time.sleep(5*60), restartClocksSignal.restartSignal.emit())).start()
         else:
             os.startfile(sys.executable)
             print("🔴 Overloading system, killing!")
