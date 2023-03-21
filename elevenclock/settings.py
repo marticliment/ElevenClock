@@ -31,6 +31,7 @@ from languages import *
 from lang.translated_percentage import *
 from tools import *
 from tools import _
+import tools
 
 import win32gui
 
@@ -191,10 +192,10 @@ class SettingsWindow(QMainWindow):
         self.legacyHideOnFullScreen.setChecked(not self.getSettings("DisableHideOnFullScreen"))
         self.legacyHideOnFullScreen.stateChanged.connect(lambda i: (self.setSettings("DisableHideOnFullScreen", not bool(i)), self.updateCheckBoxesStatus()))
         self.clockSettingsTitle.addWidget(self.legacyHideOnFullScreen)
-        self.newFullScreenHide = QSettingsCheckBox(_("Hide the clock when a program occupies all screens"))
-        self.newFullScreenHide.setChecked(self.getSettings("NewFullScreenMethod"))
-        self.newFullScreenHide.stateChanged.connect(lambda i: self.setSettings("NewFullScreenMethod", bool(i)))
-        self.clockSettingsTitle.addWidget(self.newFullScreenHide)
+        #self.newFullScreenHide = QSettingsCheckBox(_("Hide the clock when a program occupies all screens"))
+        #self.newFullScreenHide.setChecked(self.getSettings("NewFullScreenMethod"))
+        #self.newFullScreenHide.stateChanged.connect(lambda i: self.setSettings("NewFullScreenMethod", bool(i)))
+        #self.clockSettingsTitle.addWidget(self.newFullScreenHide)
         self.TransparentClockWhenInFullscreen = QSettingsCheckBox(_("Force the clock to be transparent if any window shows in fullscreen"))
         self.TransparentClockWhenInFullscreen.setChecked(self.getSettings("TransparentClockWhenInFullscreen"))
         self.TransparentClockWhenInFullscreen.stateChanged.connect(lambda i: self.setSettings("TransparentClockWhenInFullscreen", bool(i)))
@@ -621,10 +622,10 @@ class SettingsWindow(QMainWindow):
         self.disableLang.setChecked(self.getSettings("DisableLangAutoUpdater"))
         self.disableLang.stateChanged.connect(lambda i: self.setSettings("DisableLangAutoUpdater", bool(i)))
         self.experimentalTitle.addWidget(self.disableLang)
-        self.showFullScreenTitle = QSettingsCheckBox(_("Show the title of the fullscreened apps on the log"))
-        self.showFullScreenTitle.setChecked(self.getSettings("LogFullScreenAppTitle"))
-        self.showFullScreenTitle.stateChanged.connect(lambda i: self.setSettings("LogFullScreenAppTitle", bool(i)))
-        self.experimentalTitle.addWidget(self.showFullScreenTitle)
+        #self.showFullScreenTitle = QSettingsCheckBox(_("Show the title of the fullscreened apps on the log"))
+        #self.showFullScreenTitle.setChecked(self.getSettings("LogFullScreenAppTitle"))
+        #self.showFullScreenTitle.stateChanged.connect(lambda i: self.setSettings("LogFullScreenAppTitle", bool(i)))
+        #self.experimentalTitle.addWidget(self.showFullScreenTitle)
         self.win32alignment = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
         self.win32alignment.setChecked(self.getSettings("EnableWin32API"))
         self.win32alignment.stateChanged.connect(lambda i: self.setSettings("EnableWin32API", bool(i)))
@@ -633,10 +634,10 @@ class SettingsWindow(QMainWindow):
         self.longerDoubleClickPeriod.setChecked(self.getSettings("DoubleClickLongerPeriod"))
         self.longerDoubleClickPeriod.stateChanged.connect(lambda i: self.setSettings("DoubleClickLongerPeriod", bool(i)))
         self.experimentalTitle.addWidget(self.longerDoubleClickPeriod)
-        self.legacyFullScreenHide = QSettingsCheckBox(_("Check only the focused window on the fullscreen check")+". "+_("(It might help to solve issues with Netflix)"))
-        self.legacyFullScreenHide.setChecked(self.getSettings("legacyFullScreenMethod"))
-        self.legacyFullScreenHide.stateChanged.connect(lambda i: self.setSettings("legacyFullScreenMethod", bool(i)))
-        self.experimentalTitle.addWidget(self.legacyFullScreenHide)
+        #self.legacyFullScreenHide = QSettingsCheckBox(_("Check only the focused window on the fullscreen check")+". "+_("(It might help to solve issues with Netflix)"))
+        #self.legacyFullScreenHide.setChecked(self.getSettings("legacyFullScreenMethod"))
+        #self.legacyFullScreenHide.stateChanged.connect(lambda i: self.setSettings("legacyFullScreenMethod", bool(i)))
+        #self.experimentalTitle.addWidget(self.legacyFullScreenHide)
         self.disableClockCover = QSettingsCheckBox(_("Disable hiding the default windows clock"))
         self.disableClockCover.setChecked(self.getSettings("DisableSystemClockCover"))
         self.disableClockCover.stateChanged.connect(lambda i: self.setSettings("DisableSystemClockCover", bool(i)))
@@ -998,13 +999,13 @@ class SettingsWindow(QMainWindow):
         self.dateTimeTitle.resizeEvent()
 
         if not self.legacyHideOnFullScreen.isChecked():
-            self.newFullScreenHide.setEnabled(False)
-            self.newFullScreenHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Hide the clock in fullscreen mode")))
+            #self.newFullScreenHide.setEnabled(False)
+            #self.newFullScreenHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Hide the clock in fullscreen mode")))
             self.TransparentClockWhenInFullscreen.setEnabled(True)
             self.TransparentClockWhenInFullscreen.setToolTip("")
         else:
-            self.newFullScreenHide.setEnabled(True)
-            self.newFullScreenHide.setToolTip("")
+            #self.newFullScreenHide.setEnabled(True)
+            #self.newFullScreenHide.setToolTip("")
             self.TransparentClockWhenInFullscreen.setEnabled(False)
             self.TransparentClockWhenInFullscreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Hide the clock in fullscreen mode")))
 

@@ -253,7 +253,6 @@ try:
 
     def theyMatch(oldscreens, newscreens):
         if len(oldscreens) != len(newscreens):
-            cprint(newscreens)
             return False  # The number of displays has changed
         return all(old == getGeometry(new) for old, new in zip(oldscreens, newscreens)) # Check that all screen dimensions and dpi are the same as before
 
@@ -269,15 +268,17 @@ try:
     def screenCheckThread():
         while theyMatch(oldScreens, app.screens()):
             time.sleep(1)
-        cprint(oldScreens, app.screens())
         signal.restartSignal.emit()
         pass
 
     def closeClocks():
         for clock in globals.clocks:
             clock.close()
+            
+        for clock in globals.clocks.copy():
             globals.clocks.remove(clock)
             del clock
+
         globals.clocks = []
 
     def showMessage(title: str, body: str, uBtn: bool = True) -> None:
@@ -354,159 +355,6 @@ try:
             time.sleep(3)
             if((lastTime+6) < time.time()):
                 os.startfile(sys.executable)
-
-
-    """def loadAtomicClockOffset():
-        global timeOffset
-        while True:
-            if getSettings("EnableInternetTime"): # This settings value will be cached, so no CPU/HDD overload ;)
-                try:
-                    import urllib
-                    import json
-                    dict = json.loads(urllib.request.urlopen(getSettingsValue("AtomicClockURL") if getSettingsValue("AtomicClockURL") else "http://worldtimeapi.org/api/ip").read().decode("utf-8"))
-                    if "datetime" in dict.keys(): # worldtimeapi.org
-                        timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["datetime"] else "+"}'.join(dict["datetime"].split("-" if not "+" in dict["datetime"] else "+")[0:-1])).timestamp()
-                        print("🔵 (worldtimeapi.org) Time offset set to", timeOffset)
-                    elif "currentDateTime" in dict.keys(): # worldclockapi.com
-                        timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["currentDateTime"] else "+"}'.join(dict["currentDateTime"].split("-" if not "+" in dict["currentDateTime"] else "+")[0:-1])).timestamp()
-                        print("🔵 (worldclockapi.com) Time offset set to", timeOffset)
-                    else:
-                        print("🟠 (Failed) Time offset set to", timeOffset)
-                        showNotif.infoSignal.emit("Invalid Internet clock URL", "Supported internet clock APIs are from worldtimeapi.com and worldclockapi.com")
-                except Exception as e:
-                    report(e)
-                for i in range(getint(getSettingsValue("AtomicClockSyncInterval"), 3600)):
-                    time.sleep(1)
-                    if getSettings("ReloadInternetTime"):
-                        setSettings("ReloadInternetTime", False, thread=True)
-                        break
-            else:
-                timeOffset = 0
-                time.sleep(5)"""
-
-    """def loadTimeFormat():
-        global dateTimeFormat
-        try:
-            locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-            if getSettingsValue("CustomClockStrings") != "":
-                dateTimeFormat = getSettingsValue("CustomClockStrings")
-                print("🟡 Custom loaded date time format:", dateTimeFormat)
-                globals.dateTimeFormat = dateTimeFormat
-            else:
-                showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
-                dateTimeFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
-
-
-                if getSettings("DisableTime"):
-                    dateTimeFormat = dateTimeFormat.replace("%HH:%M\n", "")
-
-                if getSettings("DisableDate"):
-                    if("\n" in dateTimeFormat):
-                        dateTimeFormat = dateTimeFormat.replace("\n(W%W) %d/%m/%Y", "")
-                    else:
-                        dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
-                elif not getSettings("EnableWeekNumber"):
-                    dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
-                else:
-                    if not lang["locale"] in ("zh_CN", "zh_TW"):
-                        dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
-                    else:
-                        dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"(第%W{_('W')}) ")
-
-                if not getSettings("EnableWeekDay"):
-                    try:
-                        dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
-                        if dateTimeFormat[-1] == "\n":
-                            dateTimeFormat = dateTimeFormat[0:-1]
-                        if dateTimeFormat[0] == "\n":
-                            dateTimeFormat = dateTimeFormat[1:]
-                    except IndexError as e:
-                        print("🟠 Date/Time string looks to be empty!")
-                    except Exception as e:
-                        report(e)
-
-
-                tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-                print("🔵 tDateMode:", tDateMode)
-                dateMode = ""
-                for i, ministr in enumerate(tDateMode.split("'")):
-                    if i%2==0:
-                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-                    else:
-                        dateMode += ministr
-
-                tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-                print("🔵 tTimeMode:", tTimeMode)
-                timeMode = ""
-
-                for i, ministr in enumerate(tTimeMode.split("'")):
-                    if i%2==0:
-                        timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-                        if not("S" in timeMode) and showSeconds == 1:
-                            for separator in ":.-/_":
-                                if(separator in timeMode):
-                                    timeMode += f"{separator}%S"
-                    else:
-                        timeMode += ministr
-
-                for separator in ":.-/_":
-                    timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
-                    timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-
-                dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
-                
-                try:
-                    if getSettings("CustomLineHeight") and getSettingsValue("CustomLineHeight") != "":
-                        customLineHeight = float(getSettingsValue("CustomLineHeight"))
-                        cprint("🟢 Loaded date time format:", dateTimeFormat)
-                        dateTimeFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+dateTimeFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
-                except Exception as e:
-                    report(e)
-
-                print("🔵 Loaded date time format:", dateTimeFormat)
-                globals.dateTimeFormat = dateTimeFormat
-
-        except Exception as e:
-            report(e)"""
-
-
-    """def timeStrThread():
-        global timeStr, dateTimeFormat
-        #fixHyphen = getSettings("EnableHyphenFix")
-        adverted = False
-        while True:
-            for integer in range(36000):
-                try:
-                    timeStr = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
-                    adverted = False
-                    #if fixHyphen:
-                    #    timeStr = timeStr.replace("t-", "t -")
-                    try:
-                        secs = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime("%S")
-                        if secs[-1] == "1" and shouldFixSeconds:
-                            timeStr = timeStr.replace(" ", " \u200e")
-                        else:
-                            timeStr = timeStr.replace(" ", "")
-                    except IndexError as e:
-                        report(e)
-                except ValueError as e:
-                    try:
-                        timeStr = _("Invalid time format\nPlease modify it\nin the settings")
-                    except:
-                        timeStr = "Invalid time format\nPlease modify it\nin the settings"
-                    if not adverted:
-                        try:
-                            showNotif.infoSignal.emit("Format error", "The specified date and time format is invalid. Please check your preferences")
-                            adverted = True
-                            report(e)
-                        except NameError:
-                            adverted = True
-                            print("🟣 Expected NameError on timeStrThread")
-                    report(e)
-                except Exception as e:
-                    report(e)
-                time.sleep(0.2)"""
-
 
     class RestartSignal(QObject):
 
@@ -638,6 +486,7 @@ try:
         internetTimeOffset: int = 0
         clockFormat: str = ""
         settingsEnvironment: str = ""
+        currentTaskbarHwnd: int = 0
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -658,10 +507,20 @@ try:
                 print("🟠 Monitor blacklisted!")
                 self.hide()
                 self.close()
+                
             elif isCover and getSettings("DisableSystemClockCover"):
                 self.hide()
                 self.close()
+                
             else:
+                self.taskbarHwnds = getWindowHwnds("Shell_SecondaryTrayWnd") + getWindowHwnds("Shell_TrayWnd")
+                for taskbar in self.taskbarHwnds:
+                    tbPoint = win32gui.GetWindowRect(taskbar)
+                    g = QRect(screen.geometry().x(), screen.geometry().y(), screen.size().width()*screen.devicePixelRatio(), screen.size().height()*screen.devicePixelRatio())
+                    if g.contains(QPoint(tbPoint[0], tbPoint[1])):
+                        self.currentTaskbarHwnd = taskbar
+                        break
+                    
                 self.index = index
                 self.tooltipEnabled = not self.getSettings("DisableToolTip")
                 print(f"🔵 Initializing clock {index}...")
@@ -727,7 +586,7 @@ try:
                 self.setWindowFlag(Qt.Tool)
                 hexBlob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
                 registryReadResult = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hexBlob)
-                self.autoHide = registryReadResult[8] == 123
+                self.TASKBAR_DOES_AUTOHIDE = registryReadResult[8] == 123
 
                 if self.isCover:
                     print("🟠 Clock is cover!!!")
@@ -736,7 +595,7 @@ try:
                     self.bgcolor = "0, 0, 0, 0"
                     self.tooltipEnabled = False
 
-                if self.autoHide:
+                if self.TASKBAR_DOES_AUTOHIDE:
                     print("🟡 ElevenClock set to hide with the taskbar")
 
                 self.clockOnTheLeft = self.getSettings("ClockOnTheLeft")
@@ -1092,7 +951,9 @@ try:
                         self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
                         self.setFixedHeight(self.preferedHeight)
-                        
+
+
+
                 self.user32 = windll.user32
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
                 self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
@@ -1101,6 +962,10 @@ try:
                 self.loop0.start()
                 self.loop1.start()
                 self.loop2.start()
+                
+                
+                
+                
         
         def loadTimeFormat(self):
             try:
@@ -1168,7 +1033,7 @@ try:
                     try:
                         if self.getSettings("CustomLineHeight") and self.getSettingsValue("CustomLineHeight") != "":
                             customLineHeight = float(self.getSettingsValue("CustomLineHeight"))
-                            cprint("🟢 Loaded date time format:", clockFormat)
+                            print("🟢 Loaded date time format:", clockFormat)
                             clockFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+clockFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
                     except Exception as e:
                         report(e)
@@ -1271,7 +1136,6 @@ try:
                                         color = QColor(intColor-1)
                                     except OverflowError as e:
                                         color = QColor(Qt.GlobalColor.white)
-                                        cprint(intColor)
                                         intColor = 0
                                         report(e)
                                 avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
@@ -1337,162 +1201,177 @@ try:
                 except AttributeError:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
-        def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
-            def screenGeometryToPixel(screen):
-                return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
+        def TheresAWindowInFullscreen(self) -> bool:
+                
+            windowStyle = windll.user32.GetWindowLongA(self.currentTaskbarHwnd, -20)
+            for otherVal in [134217728, 33554432, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 16384, 8192, 4096, 1024, 512, 256, 128, 64, 32, 16]:
+                if otherVal<=windowStyle:
+                    windowStyle -= otherVal
+            if windowStyle>=0x8:
+                return False # The taskbar is topmost
+            else:
+                return True # The taskbar is a regular window
+                
+            """
+                def screenGeometryToPixel(screen):
+                    return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
 
-            def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
-                screenInPixel = screenGeometryToPixel(screen)
-                try:
-                    if(ADVANCED_FULLSCREEN_METHOD):
-                        return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
-                    else:
-                        return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
-                except Exception as e:
-                    report(e)
-                    
-            while globals.blockFullscreenCheck:
-                time.sleep(0.01)
-            try:
-                fullscreen = False
-                if not LEGACY_FULLSCREEN_METHOD:
-                    for hwnd in globals.windowList:
-                        if hwnd in globals.windowVisible.keys():
-                            if globals.windowVisible[hwnd]:
-                                if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
-                                    if globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps:
-                                        if hwnd not in globals.cachedInputHosts:
-                                            if hwnd not in globals.notTextInputHost:
-                                                print(f"🟡 Verifying unverified hwnd {hwnd}")
-                                                Thread(target=verifyHwndValidity, args=(hwnd,)).start()
-                                            print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                            if LOG_FULLSCREEN_WINDOW_TITLE:
-                                                print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                            fullscreen = True
-                                        else:
-                                            print("🟠 Input host messing around!!!!!")
-                else:
-                    hwnd = globals.foregroundHwnd
-                    if hwnd == 0:
-                        return False
-                    previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
-                    previousFullscreenRect = None
-                    if previousFullscreenHwnd != 0:
-                        if previousFullscreenHwnd not in globals.windowRects.keys():
-                            self.previousFullscreenHwnd = None
-                            globals.previousFullscreenHwnd[self.index] = 0
+                def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
+                    screenInPixel = screenGeometryToPixel(screen)
+                    try:
+                        if(ADVANCED_FULLSCREEN_METHOD):
+                            return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
                         else:
-                            previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
-                            if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                                if(globals.windowTexts[previousFullscreenHwnd] not in globals.blacklistedFullscreenApps):
-                                    print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                    if LOG_FULLSCREEN_WINDOW_TITLE:
-                                        print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
-                                    fullscreen = True
-                            else:
+                            return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
+                    except Exception as e:
+                        report(e)
+                        
+                while globals.blockFullscreenCheck:
+                    time.sleep(0.01)
+                try:
+                    fullscreen = False
+                    if not LEGACY_FULLSCREEN_METHOD:
+                        for hwnd in globals.windowList:
+                            if hwnd in globals.windowVisible.keys():
+                                if globals.windowVisible[hwnd]:
+                                    if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
+                                        if globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps:
+                                            if hwnd not in globals.cachedInputHosts:
+                                                if hwnd not in globals.notTextInputHost:
+                                                    print(f"🟡 Verifying unverified hwnd {hwnd}")
+                                                    Thread(target=verifyHwndValidity, args=(hwnd,)).start()
+                                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                                if LOG_FULLSCREEN_WINDOW_TITLE:
+                                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                                fullscreen = True
+                                            else:
+                                                print("🟠 Input host messing around!!!!!")
+                    else:
+                        hwnd = globals.foregroundHwnd
+                        if hwnd == 0:
+                            return False
+                        previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
+                        previousFullscreenRect = None
+                        if previousFullscreenHwnd != 0:
+                            if previousFullscreenHwnd not in globals.windowRects.keys():
                                 self.previousFullscreenHwnd = None
                                 globals.previousFullscreenHwnd[self.index] = 0
-                    if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                        if(globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                            if LOG_FULLSCREEN_WINDOW_TITLE:
-                                print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                            fullscreen = True
-                            globals.previousFullscreenHwnd[self.index] = hwnd
-                return fullscreen
-            except Exception as e:
-                report(e)
-                return False
+                            else:
+                                previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
+                                if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                                    if(globals.windowTexts[previousFullscreenHwnd] not in globals.blacklistedFullscreenApps):
+                                        print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                        if LOG_FULLSCREEN_WINDOW_TITLE:
+                                            print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
+                                        fullscreen = True
+                                else:
+                                    self.previousFullscreenHwnd = None
+                                    globals.previousFullscreenHwnd[self.index] = 0
+                        if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                            if(globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps):
+                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                if LOG_FULLSCREEN_WINDOW_TITLE:
+                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                fullscreen = True
+                                globals.previousFullscreenHwnd[self.index] = hwnd
+                    return fullscreen
+                except Exception as e:
+                    report(e)
+                    return False
+            """
 
         def mainClockLoop(self):
-            global isRDPRunning, numOfNotifs
-            CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
-            ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
-            LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
+            global numOfNotifs
+            
+            IgnoringMouseClicks = False
+            BackgroundUpdatesCounter = 1
+
             IGNORE_MOUSECLICKS_WHEN_FS = self.getSettings("MouseEventTransparentFS")
+            LOW_CPU_MODE = getSettings("EnableLowCpuMode")
+            self.WAITLOOPTIME = 0.4 if LOW_CPU_MODE else 0.1
+
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not self.getSettings("DisableHideOnFullScreen")
                 DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
-                ENABLE_HIDE_FROM_RDP = self.getSettings("EnableHideOnRDP")
                 SHOW_NOTIFICATIONS = not self.getSettings("DisableNotifications")
-                LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = self.getSettings("TransparentClockWhenInFullscreen")
             else:
                 ENABLE_HIDE_ON_FULLSCREEN = True
-                DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
-                ENABLE_HIDE_FROM_RDP = True
+                DISABLE_HIDE_WITH_TASKBAR = False
                 SHOW_NOTIFICATIONS = True
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
-            LOW_CPU_MODE = getSettings("EnableLowCpuMode")
-            oldNotifNumber = 0
-            print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{ADVANCED_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
-            if LOW_CPU_MODE:
-                self.WAITLOOPTIME = 0.8
-            else:
-                self.WAITLOOPTIME = 0.1
-            loopCount = 1
+            
+            print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, DisableNotifications:{SHOW_NOTIFICATIONS}")
+            
             while True:
-                self.isRDPRunning = isRDPRunning
-                isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
-                hideClock = False
-                if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
-                    if SHOW_NOTIFICATIONS:
-                        if isFocusAssist:
-                            self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        if numOfNotifs > 0:
-                            if oldNotifNumber != numOfNotifs:
-                                if isFocusAssist:
-                                    self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                                else:
-                                    self.callInMainSignal.emit(self.label.enableNotifDot)
-                        else:
-                            if not isFocusAssist:
-                                self.callInMainSignal.emit(self.label.disableClockIndicators)
-                    oldNotifNumber = numOfNotifs
-                    if self.autoHide and not(DISABLE_HIDE_WITH_TASKBAR):
-                        mousePos = getMousePos()
-                        if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
-                            if self.isHidden():
-                                time.sleep(0.22)
-                            self.refresh.emit()
-                        elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
-                            if globals.trayIcon != None:
-                                menu = globals.trayIcon.contextMenu()
-                                if menu.isVisible():
-                                    self.refresh.emit()
-                                else:
-                                    self.hideSignal.emit()
-                                    hideClock = True
+                TheresAFullScreenWindow = self.TheresAWindowInFullscreen()
+                HideClock = False
+                
+                if self.clockShouldBeHidden:
+                    HideClock = True
+                elif not ENABLE_HIDE_ON_FULLSCREEN:
+                    HideClock = False
+                else:
+                    HideClock = TheresAFullScreenWindow
+                    
+                if not HideClock and not DISABLE_HIDE_WITH_TASKBAR and self.TASKBAR_DOES_AUTOHIDE:
+                    mousePos = getMousePos()
+                    if (mousePos.y() + 1 == self.screenGeometry.y() + self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
+                        if self.isHidden():
+                            time.sleep(0.22)
+                        HideClock = False
+                    elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
+                        if globals.trayIcon != None:
+                            menu = globals.trayIcon.contextMenu()
+                            if menu.isVisible():
+                                HideClock = False
                             else:
-                                self.hideSignal.emit()
-                                hideClock = True
-                    else:
-                        if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
-                            self.hideSignal.emit()
-                            hideClock = True
+                                HideClock = True
                         else:
-                            self.refresh.emit()
-                else:
+                            HideClock = True
+                    
+                if HideClock:
                     self.hideSignal.emit()
-                    hideClock = True
-                if not ENABLE_HIDE_ON_FULLSCREEN:
-                    if isFullScreen:
-                        if IGNORE_MOUSECLICKS_WHEN_FS:
-                            self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
+                    BackgroundUpdatesCounter = 0
+                else:
+                    if SHOW_NOTIFICATIONS:
+                        if numOfNotifs > 0:
+                            if isFocusAssist:
+                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                            else:
+                                self.callInMainSignal.emit(self.label.enableNotifDot)                            
+                        else:
+                            if isFocusAssist:
+                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                            else:
+                                self.callInMainSignal.emit(self.label.disableClockIndicators)
+                        
+                    if TheresAFullScreenWindow:
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
+                        
+                        if IGNORE_MOUSECLICKS_WHEN_FS:
+                            if not IgnoringMouseClicks:
+                                IgnoringMouseClicks = True
+                                self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
+                        else:
+                            if IgnoringMouseClicks:
+                                IgnoringMouseClicks = False
+                                self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
                     else:
-                        self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
+                        if IgnoringMouseClicks:
+                            IgnoringMouseClicks = False
+                            self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
+                            
                         self.tempMakeClockTransparent = False
-                else:
-                    self.tempMakeClockTransparent = False
-                if not hideClock:
-                    if loopCount >= 2:
+
+                    self.refresh.emit()
+
+                    if BackgroundUpdatesCounter >= 2:
                         self.checkAndUpdateBackground()
-                        loopCount = 0
+                        BackgroundUpdatesCounter = 0
                     else:
-                        loopCount += 1
-                else:
-                    loopCount = 0
+                        BackgroundUpdatesCounter += 1
+
                 time.sleep(self.WAITLOOPTIME)
 
         def makeclockIngoreMouseClicks(self):
@@ -1601,7 +1480,7 @@ try:
                             self.callInMainSignal.emit(restartClocks)
 
         def close(self) -> bool:
-            self.shouldBeVisible = False
+            self.clockShouldBeHidden = True
             try:
                 self.loop0.kill()
                 self.loop1.kill()
@@ -1634,6 +1513,7 @@ try:
                 pass
             self.setAttribute(Qt.WA_DeleteOnClose, True) 
             self.deleteLater()
+            self.destroy(True, True)
             return super().close()
 
         def resizeEvent(self, event: QResizeEvent = None):
@@ -1792,6 +1672,9 @@ try:
             self.disableClockIndicators()
 
         def enableFocusAssistant(self):
+            if self.notifdot:
+                self.disableClockIndicators()
+                    
             if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
                 if getSettings("DisableAutomaticTextColor", env=self.settingsEnvironment):
                     if winver < 22581:
@@ -1813,8 +1696,6 @@ try:
                             self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
 
             if not self.focusassitant:
-                if self.notifdot:
-                    self.disableClockIndicators()
                 self.focusassitant = True
                 self.setContentsMargins(5, 0, (43), 4)
                 self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), -1)
@@ -1825,6 +1706,9 @@ try:
                     self.focusAssitantLabel.show()
 
         def enableNotifDot(self):
+            if self.focusassitant:
+                self.disableClockIndicators()
+                
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
@@ -2017,7 +1901,7 @@ try:
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
-    KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
+    # KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
     if getSettings("PreventSleepFailure"):
         if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
