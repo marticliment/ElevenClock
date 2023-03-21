@@ -2057,7 +2057,7 @@ try:
 
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
-    KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
+    # KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
     if getSettings("PreventSleepFailure"):
         if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()

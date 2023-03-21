@@ -807,6 +807,7 @@ def verifyHwndValidity(hwnd):
             globals.notTextInputHost.append(hwnd)
             print(f"🟢 Hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} was verified as a valid window (Process name is {str(pname).lower()})")
 
+"""
 def appendWindowList(hwnd, _):
     if hwnd not in globals.cachedInputHosts:
         text = win32gui.GetWindowText(hwnd)
@@ -848,7 +849,7 @@ def loadWindowsInfoThread():
         globals.windowList = globals.newWindowList.copy()
         globals.blockFullscreenCheck = False
         time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
-
+"""
 
 def updateLangFile(file: str):
     global lang
