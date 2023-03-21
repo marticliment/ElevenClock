@@ -737,7 +737,7 @@ try:
                 self.setWindowFlag(Qt.Tool)
                 hexBlob = b'0\x00\x00\x00\xfe\xff\xff\xffz\xf4\x00\x00\x03\x00\x00\x00T\x00\x00\x000\x00\x00\x00\x00\x00\x00\x00\x08\x04\x00\x00\x80\x07\x00\x008\x04\x00\x00`\x00\x00\x00\x01\x00\x00\x00'
                 registryReadResult = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hexBlob)
-                self.autoHide = registryReadResult[8] == 123
+                self.TASKBAR_DOES_AUTOHIDE = registryReadResult[8] == 123
 
                 if self.isCover:
                     print("🟠 Clock is cover!!!")
@@ -746,7 +746,7 @@ try:
                     self.bgcolor = "0, 0, 0, 0"
                     self.tooltipEnabled = False
 
-                if self.autoHide:
+                if self.TASKBAR_DOES_AUTOHIDE:
                     print("🟡 ElevenClock set to hide with the taskbar")
 
                 self.clockOnTheLeft = self.getSettings("ClockOnTheLeft")
@@ -1353,7 +1353,7 @@ try:
                 except AttributeError:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
-        def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
+        def TheresAWindowInFullscreen(self) -> bool:
                 
             windowStyle = windll.user32.GetWindowLongA(self.currentTaskbarHwnd, -20)
             for otherVal in [134217728, 33554432, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 16384, 8192, 4096, 1024, 512, 256, 128, 64, 32, 16]:
@@ -1434,93 +1434,103 @@ try:
 
         def mainClockLoop(self):
             global isRDPRunning, numOfNotifs
-            CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
-            ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
-            LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
+            IgnoringMouseClicks = False
+            # CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
+            # ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
+            # LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
             IGNORE_MOUSECLICKS_WHEN_FS = self.getSettings("MouseEventTransparentFS")
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not self.getSettings("DisableHideOnFullScreen")
                 DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
-                ENABLE_HIDE_FROM_RDP = self.getSettings("EnableHideOnRDP")
+                # ENABLE_HIDE_FROM_RDP = self.getSettings("EnableHideOnRDP")
                 SHOW_NOTIFICATIONS = not self.getSettings("DisableNotifications")
-                LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
+                # LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = self.getSettings("TransparentClockWhenInFullscreen")
             else:
                 ENABLE_HIDE_ON_FULLSCREEN = True
                 DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
-                ENABLE_HIDE_FROM_RDP = True
+                # ENABLE_HIDE_FROM_RDP = True
                 SHOW_NOTIFICATIONS = True
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
             LOW_CPU_MODE = getSettings("EnableLowCpuMode")
             oldNotifNumber = 0
-            print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, HideOnRDP:{ENABLE_HIDE_FROM_RDP}, ClockOn1Mon:{CLOCK_ON_FIRST_MONITOR}, NefWSMethod:{ADVANCED_FULLSCREEN_METHOD}, DisableNotifications:{SHOW_NOTIFICATIONS}, legacyFullScreenMethod:{LEGACY_FULLSCREEN_METHOD}")
+            print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, DisableNotifications:{SHOW_NOTIFICATIONS}")
             if LOW_CPU_MODE:
                 self.WAITLOOPTIME = 0.8
             else:
                 self.WAITLOOPTIME = 0.1
-            loopCount = 1
+            BackgroundUpdatesCounter = 1
             while True:
-                self.isRDPRunning = isRDPRunning
-                isFullScreen = self.theresFullScreenWin(CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE)
-                hideClock = False
-                if (not(isFullScreen) or not(ENABLE_HIDE_ON_FULLSCREEN)) and not self.clockShouldBeHidden:
-                    if SHOW_NOTIFICATIONS:
-                        if isFocusAssist:
-                            self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                        if numOfNotifs > 0:
-                            if oldNotifNumber != numOfNotifs:
-                                if isFocusAssist:
-                                    self.callInMainSignal.emit(self.label.enableFocusAssistant)
-                                else:
-                                    self.callInMainSignal.emit(self.label.enableNotifDot)
-                        else:
-                            if not isFocusAssist:
-                                self.callInMainSignal.emit(self.label.disableClockIndicators)
-                    oldNotifNumber = numOfNotifs
-                    if self.autoHide and not(DISABLE_HIDE_WITH_TASKBAR):
-                        mousePos = getMousePos()
-                        if (mousePos.y()+1 == self.screenGeometry.y()+self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
-                            if self.isHidden():
-                                time.sleep(0.22)
-                            self.refresh.emit()
-                        elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
-                            if globals.trayIcon != None:
-                                menu = globals.trayIcon.contextMenu()
-                                if menu.isVisible():
-                                    self.refresh.emit()
-                                else:
-                                    self.hideSignal.emit()
-                                    hideClock = True
+                TheresAFullScreenWindow = self.TheresAWindowInFullscreen()
+                HideClock = False
+                
+                if self.clockShouldBeHidden:
+                    HideClock = True
+                elif not ENABLE_HIDE_ON_FULLSCREEN:
+                    HideClock = False
+                else:
+                    HideClock = TheresAFullScreenWindow
+                    
+                if not HideClock and not DISABLE_HIDE_WITH_TASKBAR and self.TASKBAR_DOES_AUTOHIDE:
+                    mousePos = getMousePos()
+                    if (mousePos.y() + 1 == self.screenGeometry.y() + self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
+                        if self.isHidden():
+                            time.sleep(0.22)
+                        HideClock = False
+                    elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
+                        if globals.trayIcon != None:
+                            menu = globals.trayIcon.contextMenu()
+                            if menu.isVisible():
+                                HideClock = False
                             else:
-                                self.hideSignal.emit()
-                                hideClock = True
-                    else:
-                        if(self.isRDPRunning and ENABLE_HIDE_FROM_RDP):
-                            self.hideSignal.emit()
-                            hideClock = True
+                                HideClock = True
                         else:
-                            self.refresh.emit()
-                else:
+                            HideClock = True
+                    
+                if HideClock:
                     self.hideSignal.emit()
-                    hideClock = True
-                if not ENABLE_HIDE_ON_FULLSCREEN:
-                    if isFullScreen:
-                        if IGNORE_MOUSECLICKS_WHEN_FS:
-                            self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
+                    BackgroundUpdatesCounter = 0
+                else:
+                    if SHOW_NOTIFICATIONS:
+                        if numOfNotifs > 0:
+                            if isFocusAssist:
+                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                            else:
+                                self.callInMainSignal.emit(self.label.enableNotifDot)
+                            
+                        else:
+                            if isFocusAssist:
+                                self.callInMainSignal.emit(self.label.enableFocusAssistant)
+                            else:
+                                self.callInMainSignal.emit(self.label.disableClockIndicators)
+                        oldNotifNumber = numOfNotifs
+                        
+                    if TheresAFullScreenWindow:
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
+                        
+                        if IGNORE_MOUSECLICKS_WHEN_FS:
+                            if not IgnoringMouseClicks:
+                                IgnoringMouseClicks = True
+                                self.callInMainSignal.emit(self.makeclockIngoreMouseClicks)
+                        else:
+                            if IgnoringMouseClicks:
+                                IgnoringMouseClicks = False
+                                self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
                     else:
-                        self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
+                        if IgnoringMouseClicks:
+                            IgnoringMouseClicks = False
+                            self.callInMainSignal.emit(self.makeclockRegiesterMouseClicks)
+                            
                         self.tempMakeClockTransparent = False
-                else:
-                    self.tempMakeClockTransparent = False
-                if not hideClock:
-                    if loopCount >= 2:
+
+                    self.refresh.emit()
+
+                    if BackgroundUpdatesCounter >= 2:
                         self.checkAndUpdateBackground()
-                        loopCount = 0
+                        BackgroundUpdatesCounter = 0
                     else:
-                        loopCount += 1
-                else:
-                    loopCount = 0
+                        BackgroundUpdatesCounter += 1
+
                 time.sleep(self.WAITLOOPTIME)
 
         def makeclockIngoreMouseClicks(self):
@@ -1629,7 +1639,7 @@ try:
                             self.callInMainSignal.emit(restartClocks)
 
         def close(self) -> bool:
-            self.shouldBeVisible = False
+            self.clockShouldBeHidden = True
             try:
                 self.loop0.kill()
                 self.loop1.kill()
@@ -1820,6 +1830,9 @@ try:
             self.disableClockIndicators()
 
         def enableFocusAssistant(self):
+            if self.notifdot:
+                self.disableClockIndicators()
+                    
             if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
                 if getSettings("DisableAutomaticTextColor", env=self.settingsEnvironment):
                     if winver < 22581:
@@ -1841,8 +1854,6 @@ try:
                             self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
 
             if not self.focusassitant:
-                if self.notifdot:
-                    self.disableClockIndicators()
                 self.focusassitant = True
                 self.setContentsMargins(5, 0, (43), 4)
                 self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), -1)
@@ -1853,6 +1864,9 @@ try:
                     self.focusAssitantLabel.show()
 
         def enableNotifDot(self):
+            if self.focusassitant:
+                self.disableClockIndicators()
+                
             self.notifDotLabel.setText(str(numOfNotifs))
             if not self.notifdot:
                 self.notifdot = True
