@@ -274,10 +274,14 @@ try:
         pass
 
     def closeClocks():
+        cprint(globals.clocks)
         for clock in globals.clocks:
             clock.close()
+            
+        for clock in globals.clocks.copy():
             globals.clocks.remove(clock)
             del clock
+
         globals.clocks = []
 
     def showMessage(title: str, body: str, uBtn: bool = True) -> None:
@@ -1433,33 +1437,28 @@ try:
             """
 
         def mainClockLoop(self):
-            global isRDPRunning, numOfNotifs
+            global numOfNotifs
+            
             IgnoringMouseClicks = False
-            # CLOCK_ON_FIRST_MONITOR = self.getSettings("ForceClockOnFirstMonitor")
-            # ADVANCED_FULLSCREEN_METHOD = self.getSettings("NewFullScreenMethod")
-            # LOG_FULLSCREEN_WINDOW_TITLE = getSettings("LogFullScreenAppTitle")
+            BackgroundUpdatesCounter = 1
+
             IGNORE_MOUSECLICKS_WHEN_FS = self.getSettings("MouseEventTransparentFS")
+            LOW_CPU_MODE = getSettings("EnableLowCpuMode")
+            self.WAITLOOPTIME = 0.4 if LOW_CPU_MODE else 0.1
+
             if not self.isCover:
                 ENABLE_HIDE_ON_FULLSCREEN = not self.getSettings("DisableHideOnFullScreen")
                 DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
-                # ENABLE_HIDE_FROM_RDP = self.getSettings("EnableHideOnRDP")
                 SHOW_NOTIFICATIONS = not self.getSettings("DisableNotifications")
-                # LEGACY_FULLSCREEN_METHOD = self.getSettings("legacyFullScreenMethod")
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = self.getSettings("TransparentClockWhenInFullscreen")
             else:
                 ENABLE_HIDE_ON_FULLSCREEN = True
-                DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
-                # ENABLE_HIDE_FROM_RDP = True
+                DISABLE_HIDE_WITH_TASKBAR = False
                 SHOW_NOTIFICATIONS = True
                 MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED = False
-            LOW_CPU_MODE = getSettings("EnableLowCpuMode")
-            oldNotifNumber = 0
+            
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, DisableNotifications:{SHOW_NOTIFICATIONS}")
-            if LOW_CPU_MODE:
-                self.WAITLOOPTIME = 0.8
-            else:
-                self.WAITLOOPTIME = 0.1
-            BackgroundUpdatesCounter = 1
+            
             while True:
                 TheresAFullScreenWindow = self.TheresAWindowInFullscreen()
                 HideClock = False
@@ -1496,14 +1495,12 @@ try:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
                             else:
-                                self.callInMainSignal.emit(self.label.enableNotifDot)
-                            
+                                self.callInMainSignal.emit(self.label.enableNotifDot)                            
                         else:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
                             else:
                                 self.callInMainSignal.emit(self.label.disableClockIndicators)
-                        oldNotifNumber = numOfNotifs
                         
                     if TheresAFullScreenWindow:
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
@@ -1672,6 +1669,7 @@ try:
                 pass
             self.setAttribute(Qt.WA_DeleteOnClose, True) 
             self.deleteLater()
+            self.destroy(True, True)
             return super().close()
 
         def resizeEvent(self, event: QResizeEvent = None):
