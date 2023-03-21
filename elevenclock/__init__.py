@@ -1632,7 +1632,7 @@ try:
                         report(e)
             except AttributeError:
                 pass
-            widget.setAttribute(Qt.WA_DeleteOnClose, True) 
+            self.setAttribute(Qt.WA_DeleteOnClose, True) 
             self.deleteLater()
             return super().close()
 
