@@ -292,7 +292,12 @@ class Menu(QMenu):
         self.setAttribute(Qt.WA_StyledBackground)
         super().__init__(title)
 
-
+def getWindowHwnds(wName, prevHwnd = 0):
+    hwnd = win32gui.FindWindowEx(0, prevHwnd, wName, None)
+    if hwnd != 0:
+        return [hwnd] + getWindowHwnds(wName, hwnd)
+    else:
+        return []
 
 def openClockSettings(clockInstance):
     try:

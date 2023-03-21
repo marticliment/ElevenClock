@@ -638,6 +638,7 @@ try:
         internetTimeOffset: int = 0
         clockFormat: str = ""
         settingsEnvironment: str = ""
+        currentTaskbarHwnd: int = 0
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -662,6 +663,15 @@ try:
                 self.hide()
                 self.close()
             else:
+                self.taskbarHwnds = getWindowHwnds("Shell_SecondaryTrayWnd") + getWindowHwnds("Shell_TrayWnd")
+                for taskbar in self.taskbarHwnds:
+                    tbPoint = win32gui.GetWindowRect(taskbar)
+                    g = QRect(screen.geometry().x(), screen.geometry().y(), screen.size().width()*screen.devicePixelRatio(), screen.size().height()*screen.devicePixelRatio())
+                    cprint(g)
+                    if g.contains(QPoint(tbPoint[0], tbPoint[1])):
+                        self.currentTaskbarHwnd = taskbar
+                        break
+                    
                 self.index = index
                 self.tooltipEnabled = not self.getSettings("DisableToolTip")
                 print(f"🔵 Initializing clock {index}...")
@@ -1092,7 +1102,9 @@ try:
                         self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
                         self.setFixedHeight(self.preferedHeight)
-                        
+
+
+
                 self.user32 = windll.user32
                 self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
                 self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
@@ -1101,6 +1113,10 @@ try:
                 self.loop0.start()
                 self.loop1.start()
                 self.loop2.start()
+                
+                
+                
+                
         
         def loadTimeFormat(self):
             try:
@@ -1338,71 +1354,83 @@ try:
                     print("🟣 Expected AttributeError on checkAndUpdateBackground")
 
         def theresFullScreenWin(self, CLOCK_ON_FIRST_MONITOR, ADVANCED_FULLSCREEN_METHOD, LEGACY_FULLSCREEN_METHOD, LOG_FULLSCREEN_WINDOW_TITLE):
-            def screenGeometryToPixel(screen):
-                return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
+                
+            windowStyle = windll.user32.GetWindowLongA(self.currentTaskbarHwnd, -20)
+            for otherVal in [134217728, 33554432, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 16384, 8192, 4096, 1024, 512, 256, 128, 64, 32, 16]:
+                if otherVal<=windowStyle:
+                    windowStyle -= otherVal
+            if windowStyle>=0x8:
+                return False # The taskbar is topmost
+            else:
+                return True # The taskbar is a regular window
+                
+            """
+                def screenGeometryToPixel(screen):
+                    return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
 
-            def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
-                screenInPixel = screenGeometryToPixel(screen)
-                try:
-                    if(ADVANCED_FULLSCREEN_METHOD):
-                        return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
-                    else:
-                        return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
-                except Exception as e:
-                    report(e)
-                    
-            while globals.blockFullscreenCheck:
-                time.sleep(0.01)
-            try:
-                fullscreen = False
-                if not LEGACY_FULLSCREEN_METHOD:
-                    for hwnd in globals.windowList:
-                        if hwnd in globals.windowVisible.keys():
-                            if globals.windowVisible[hwnd]:
-                                if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
-                                    if globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps:
-                                        if hwnd not in globals.cachedInputHosts:
-                                            if hwnd not in globals.notTextInputHost:
-                                                print(f"🟡 Verifying unverified hwnd {hwnd}")
-                                                Thread(target=verifyHwndValidity, args=(hwnd,)).start()
-                                            print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                            if LOG_FULLSCREEN_WINDOW_TITLE:
-                                                print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                            fullscreen = True
-                                        else:
-                                            print("🟠 Input host messing around!!!!!")
-                else:
-                    hwnd = globals.foregroundHwnd
-                    if hwnd == 0:
-                        return False
-                    previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
-                    previousFullscreenRect = None
-                    if previousFullscreenHwnd != 0:
-                        if previousFullscreenHwnd not in globals.windowRects.keys():
-                            self.previousFullscreenHwnd = None
-                            globals.previousFullscreenHwnd[self.index] = 0
+                def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
+                    screenInPixel = screenGeometryToPixel(screen)
+                    try:
+                        if(ADVANCED_FULLSCREEN_METHOD):
+                            return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
                         else:
-                            previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
-                            if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                                if(globals.windowTexts[previousFullscreenHwnd] not in globals.blacklistedFullscreenApps):
-                                    print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                    if LOG_FULLSCREEN_WINDOW_TITLE:
-                                        print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
-                                    fullscreen = True
-                            else:
+                            return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
+                    except Exception as e:
+                        report(e)
+                        
+                while globals.blockFullscreenCheck:
+                    time.sleep(0.01)
+                try:
+                    fullscreen = False
+                    if not LEGACY_FULLSCREEN_METHOD:
+                        for hwnd in globals.windowList:
+                            if hwnd in globals.windowVisible.keys():
+                                if globals.windowVisible[hwnd]:
+                                    if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
+                                        if globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps:
+                                            if hwnd not in globals.cachedInputHosts:
+                                                if hwnd not in globals.notTextInputHost:
+                                                    print(f"🟡 Verifying unverified hwnd {hwnd}")
+                                                    Thread(target=verifyHwndValidity, args=(hwnd,)).start()
+                                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                                if LOG_FULLSCREEN_WINDOW_TITLE:
+                                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                                fullscreen = True
+                                            else:
+                                                print("🟠 Input host messing around!!!!!")
+                    else:
+                        hwnd = globals.foregroundHwnd
+                        if hwnd == 0:
+                            return False
+                        previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
+                        previousFullscreenRect = None
+                        if previousFullscreenHwnd != 0:
+                            if previousFullscreenHwnd not in globals.windowRects.keys():
                                 self.previousFullscreenHwnd = None
                                 globals.previousFullscreenHwnd[self.index] = 0
-                    if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                        if(globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps):
-                            print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                            if LOG_FULLSCREEN_WINDOW_TITLE:
-                                print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                            fullscreen = True
-                            globals.previousFullscreenHwnd[self.index] = hwnd
-                return fullscreen
-            except Exception as e:
-                report(e)
-                return False
+                            else:
+                                previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
+                                if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                                    if(globals.windowTexts[previousFullscreenHwnd] not in globals.blacklistedFullscreenApps):
+                                        print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                        if LOG_FULLSCREEN_WINDOW_TITLE:
+                                            print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
+                                        fullscreen = True
+                                else:
+                                    self.previousFullscreenHwnd = None
+                                    globals.previousFullscreenHwnd[self.index] = 0
+                        if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
+                            if(globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps):
+                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
+                                if LOG_FULLSCREEN_WINDOW_TITLE:
+                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
+                                fullscreen = True
+                                globals.previousFullscreenHwnd[self.index] = hwnd
+                    return fullscreen
+                except Exception as e:
+                    report(e)
+                    return False
+            """
 
         def mainClockLoop(self):
             global isRDPRunning, numOfNotifs
