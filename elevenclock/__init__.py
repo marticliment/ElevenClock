@@ -253,7 +253,6 @@ try:
 
     def theyMatch(oldscreens, newscreens):
         if len(oldscreens) != len(newscreens):
-            cprint(newscreens)
             return False  # The number of displays has changed
         return all(old == getGeometry(new) for old, new in zip(oldscreens, newscreens)) # Check that all screen dimensions and dpi are the same as before
 
@@ -269,12 +268,10 @@ try:
     def screenCheckThread():
         while theyMatch(oldScreens, app.screens()):
             time.sleep(1)
-        cprint(oldScreens, app.screens())
         signal.restartSignal.emit()
         pass
 
     def closeClocks():
-        cprint(globals.clocks)
         for clock in globals.clocks:
             clock.close()
             
@@ -358,159 +355,6 @@ try:
             time.sleep(3)
             if((lastTime+6) < time.time()):
                 os.startfile(sys.executable)
-
-
-    """def loadAtomicClockOffset():
-        global timeOffset
-        while True:
-            if getSettings("EnableInternetTime"): # This settings value will be cached, so no CPU/HDD overload ;)
-                try:
-                    import urllib
-                    import json
-                    dict = json.loads(urllib.request.urlopen(getSettingsValue("AtomicClockURL") if getSettingsValue("AtomicClockURL") else "http://worldtimeapi.org/api/ip").read().decode("utf-8"))
-                    if "datetime" in dict.keys(): # worldtimeapi.org
-                        timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["datetime"] else "+"}'.join(dict["datetime"].split("-" if not "+" in dict["datetime"] else "+")[0:-1])).timestamp()
-                        print("🔵 (worldtimeapi.org) Time offset set to", timeOffset)
-                    elif "currentDateTime" in dict.keys(): # worldclockapi.com
-                        timeOffset = time.time()-datetime.datetime.fromisoformat(f'{"-" if not "+" in dict["currentDateTime"] else "+"}'.join(dict["currentDateTime"].split("-" if not "+" in dict["currentDateTime"] else "+")[0:-1])).timestamp()
-                        print("🔵 (worldclockapi.com) Time offset set to", timeOffset)
-                    else:
-                        print("🟠 (Failed) Time offset set to", timeOffset)
-                        showNotif.infoSignal.emit("Invalid Internet clock URL", "Supported internet clock APIs are from worldtimeapi.com and worldclockapi.com")
-                except Exception as e:
-                    report(e)
-                for i in range(getint(getSettingsValue("AtomicClockSyncInterval"), 3600)):
-                    time.sleep(1)
-                    if getSettings("ReloadInternetTime"):
-                        setSettings("ReloadInternetTime", False, thread=True)
-                        break
-            else:
-                timeOffset = 0
-                time.sleep(5)"""
-
-    """def loadTimeFormat():
-        global dateTimeFormat
-        try:
-            locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-            if getSettingsValue("CustomClockStrings") != "":
-                dateTimeFormat = getSettingsValue("CustomClockStrings")
-                print("🟡 Custom loaded date time format:", dateTimeFormat)
-                globals.dateTimeFormat = dateTimeFormat
-            else:
-                showSeconds = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowSecondsInSystemClock", 0) or getSettings("EnableSeconds")
-                dateTimeFormat = "%HH:%M\n%A\n(W%W) %d/%m/%Y"
-
-
-                if getSettings("DisableTime"):
-                    dateTimeFormat = dateTimeFormat.replace("%HH:%M\n", "")
-
-                if getSettings("DisableDate"):
-                    if("\n" in dateTimeFormat):
-                        dateTimeFormat = dateTimeFormat.replace("\n(W%W) %d/%m/%Y", "")
-                    else:
-                        dateTimeFormat = dateTimeFormat.replace("(W%W) %d/%m/%Y", "")
-                elif not getSettings("EnableWeekNumber"):
-                    dateTimeFormat = dateTimeFormat.replace("(W%W) ", "")
-                else:
-                    if not lang["locale"] in ("zh_CN", "zh_TW"):
-                        dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"({_('W')}%W) ")
-                    else:
-                        dateTimeFormat = dateTimeFormat.replace("(W%W) ", f"(第%W{_('W')}) ")
-
-                if not getSettings("EnableWeekDay"):
-                    try:
-                        dateTimeFormat = dateTimeFormat.replace("%A", "").replace("\n\n", "\n")
-                        if dateTimeFormat[-1] == "\n":
-                            dateTimeFormat = dateTimeFormat[0:-1]
-                        if dateTimeFormat[0] == "\n":
-                            dateTimeFormat = dateTimeFormat[1:]
-                    except IndexError as e:
-                        print("🟠 Date/Time string looks to be empty!")
-                    except Exception as e:
-                        report(e)
-
-
-                tDateMode = readRegedit(r"Control Panel\International", "sShortDate", "dd/MM/yyyy")
-                print("🔵 tDateMode:", tDateMode)
-                dateMode = ""
-                for i, ministr in enumerate(tDateMode.split("'")):
-                    if i%2==0:
-                        dateMode += ministr.replace("dddd", "%A").replace("ddd", "%a").replace("dd", "%$").replace("d", "%#d").replace("$", "d").replace("MMMM", "%B").replace("MMM", "%b").replace("MM", "%m").replace("M", "%#m").replace("yyyy", "%Y").replace("yy", "%y")
-                    else:
-                        dateMode += ministr
-
-                tTimeMode = readRegedit(r"Control Panel\International", "sShortTime", "H:mm")
-                print("🔵 tTimeMode:", tTimeMode)
-                timeMode = ""
-
-                for i, ministr in enumerate(tTimeMode.split("'")):
-                    if i%2==0:
-                        timeMode += ministr.replace("HH", "%$").replace("H", "%#H").replace("$", "H").replace("hh", "%I").replace("h", "%#I").replace("mm", "%M").replace("m", "%#M").replace("tt", "%p").replace("t", "%p").replace("ss", "%S").replace("s", "%#S")
-                        if not("S" in timeMode) and showSeconds == 1:
-                            for separator in ":.-/_":
-                                if(separator in timeMode):
-                                    timeMode += f"{separator}%S"
-                    else:
-                        timeMode += ministr
-
-                for separator in ":.-/_":
-                    timeMode = timeMode.replace(f" %p{separator}%S", f"{separator}%S %p")
-                    timeMode = timeMode.replace(f" %p{separator}%#S", f"{separator}%#S %p")
-
-                dateTimeFormat = dateTimeFormat.replace("%d/%m/%Y", dateMode).replace("%HH:%M", timeMode).replace("%S", "%S ").replace("%#S", "%#S ")
-                
-                try:
-                    if getSettings("CustomLineHeight") and getSettingsValue("CustomLineHeight") != "":
-                        customLineHeight = float(getSettingsValue("CustomLineHeight"))
-                        cprint("🟢 Loaded date time format:", dateTimeFormat)
-                        dateTimeFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+dateTimeFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
-                except Exception as e:
-                    report(e)
-
-                print("🔵 Loaded date time format:", dateTimeFormat)
-                globals.dateTimeFormat = dateTimeFormat
-
-        except Exception as e:
-            report(e)"""
-
-
-    """def timeStrThread():
-        global timeStr, dateTimeFormat
-        #fixHyphen = getSettings("EnableHyphenFix")
-        adverted = False
-        while True:
-            for integer in range(36000):
-                try:
-                    timeStr = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime(dateTimeFormat.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
-                    adverted = False
-                    #if fixHyphen:
-                    #    timeStr = timeStr.replace("t-", "t -")
-                    try:
-                        secs = datetime.datetime.fromtimestamp(time.time()-timeOffset).strftime("%S")
-                        if secs[-1] == "1" and shouldFixSeconds:
-                            timeStr = timeStr.replace(" ", " \u200e")
-                        else:
-                            timeStr = timeStr.replace(" ", "")
-                    except IndexError as e:
-                        report(e)
-                except ValueError as e:
-                    try:
-                        timeStr = _("Invalid time format\nPlease modify it\nin the settings")
-                    except:
-                        timeStr = "Invalid time format\nPlease modify it\nin the settings"
-                    if not adverted:
-                        try:
-                            showNotif.infoSignal.emit("Format error", "The specified date and time format is invalid. Please check your preferences")
-                            adverted = True
-                            report(e)
-                        except NameError:
-                            adverted = True
-                            print("🟣 Expected NameError on timeStrThread")
-                    report(e)
-                except Exception as e:
-                    report(e)
-                time.sleep(0.2)"""
-
 
     class RestartSignal(QObject):
 
@@ -663,15 +507,16 @@ try:
                 print("🟠 Monitor blacklisted!")
                 self.hide()
                 self.close()
+                
             elif isCover and getSettings("DisableSystemClockCover"):
                 self.hide()
                 self.close()
+                
             else:
                 self.taskbarHwnds = getWindowHwnds("Shell_SecondaryTrayWnd") + getWindowHwnds("Shell_TrayWnd")
                 for taskbar in self.taskbarHwnds:
                     tbPoint = win32gui.GetWindowRect(taskbar)
                     g = QRect(screen.geometry().x(), screen.geometry().y(), screen.size().width()*screen.devicePixelRatio(), screen.size().height()*screen.devicePixelRatio())
-                    cprint(g)
                     if g.contains(QPoint(tbPoint[0], tbPoint[1])):
                         self.currentTaskbarHwnd = taskbar
                         break
@@ -1188,7 +1033,7 @@ try:
                     try:
                         if self.getSettings("CustomLineHeight") and self.getSettingsValue("CustomLineHeight") != "":
                             customLineHeight = float(self.getSettingsValue("CustomLineHeight"))
-                            cprint("🟢 Loaded date time format:", clockFormat)
+                            print("🟢 Loaded date time format:", clockFormat)
                             clockFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+clockFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
                     except Exception as e:
                         report(e)
@@ -1291,7 +1136,6 @@ try:
                                         color = QColor(intColor-1)
                                     except OverflowError as e:
                                         color = QColor(Qt.GlobalColor.white)
-                                        cprint(intColor)
                                         intColor = 0
                                         report(e)
                                 avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
