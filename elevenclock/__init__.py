@@ -478,6 +478,7 @@ try:
         clockOnTheLeft = False
         INTLOOPTIME = 2
         tempMakeClockTransparent = False
+        AWindowIsInFullScreen: bool = False
         clockCover = None
         isIgnoringClicks = False
         oldTextColor: str = ""
@@ -488,6 +489,9 @@ try:
         clockFormat: str = ""
         settingsEnvironment: str = ""
         currentTaskbarHwnd: int = 0
+        
+        LastCapturedBackgroundColor: int = -1
+        LastCapturedForegroundColor: str = ""
 
         def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
             super().__init__()
@@ -921,7 +925,6 @@ try:
                 self.IS_LOW_CPU_MODE = self.getSettings("EnableLowCpuMode")
                 self.DISABLE_AUTOMATIC_TEXT_COLOR = self.getSettings("DisableAutomaticTextColor")
                 self.primaryScreen = QGuiApplication.primaryScreen()
-                self.oldBgColor = 0
 
                 if self.shouldAddSecondaryClock:
                     self.shouldCoverWindowsClock = False
@@ -962,11 +965,7 @@ try:
                 self.loop2 = KillableThread(target=self.loadInternetTimeOffset, daemon=True, name=f"Clock[{index}]: Atomic clock sync thread")
                 self.loop0.start()
                 self.loop1.start()
-                self.loop2.start()
-                
-                
-                
-                
+                self.loop2.start() 
         
         def loadTimeFormat(self):
             try:
@@ -1085,201 +1084,83 @@ try:
             clockMonitor = (screen if screen else self.screen()).name().replace(" ", "_").replace(".", "_")
             return (f"clock{isSecondary}_mon{clockMonitor}", (isSecondary, clockMonitor))
 
-        def checkAndUpdateBackground(self):
-            DISABLE_AUTOMATIC_TEXT_COLOR = self.DISABLE_AUTOMATIC_TEXT_COLOR
-
-            if not self.isCover: 
-                alphaUpdated = False
-                shouldBeTransparent = False
-                try:
-                    if self.UseTaskbarBackgroundColor and not globals.trayIcon.contextMenu().isVisible():
-                        if self.isVisible():
-                            gotColor = False
-                            intColor = 0
-                            if not self.tempMakeClockTransparent:
-                                if self.showBlurryBackground:
-                                    self.callInMainSignal.emit(lambda: self.backgroundTexture.show())
-                                g = self.screen().geometry()
-                                intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                                gotColor = True
-                                alphaUpdated = False
-                                shouldBeTransparent = False
-                            else:
-                                if self.showBlurryBackground:
-                                    self.callInMainSignal.emit(lambda: self.backgroundTexture.hide())
-                                shouldBeTransparent = True
-                                if not alphaUpdated:
-                                    intColor = self.oldBgColor + 1
-                                    alphaUpdated = True
-                                else:
-                                    intColor = self.oldBgColor
-                            if intColor != self.oldBgColor:
-                                self.oldBgColor = intColor
-                                try:
-                                    color = QColor(intColor)
-                                except OverflowError as e:
-                                    print("🟣 Expected AttributeError on bgcolor function (line 1258)")
-                                    try:
-                                        color = QColor(intColor-10)
-                                    except OverflowError as e:
-                                        color = QColor(Qt.GlobalColor.white)
-                                        report(e)
-                                self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                            if not DISABLE_AUTOMATIC_TEXT_COLOR:
-                                g = self.screen().geometry()
-                                if not gotColor: # If it was not already calculated                                
-                                    intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                                try:
-                                    color = QColor(intColor)
-                                except OverflowError:
-                                    print("🟣 Expected AttributeError on bgcolor function (line 1273)")
-                                    try:
-                                        color = QColor(intColor-1)
-                                    except OverflowError as e:
-                                        color = QColor(Qt.GlobalColor.white)
-                                        intColor = 0
-                                        report(e)
-                                avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
-                                textcolor = "black" if (avgColorValue>=127) else "white"
-                                if textcolor != self.oldTextColor:
-                                    self.oldTextColor = textcolor
-                                    styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
-                                    self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
-                    elif self.UseTaskbarBackgroundColor == False:
-                        if self.isVisible():
-                            intColor = 0
-                            if self.tempMakeClockTransparent:
-                                if self.shownBackgroundOnSolidColor:
-                                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", "0, 0, 0, 0"))
-                                    self.callInMainSignal.emit(self.backgroundTexture.hide)
-                                    self.shownBackgroundOnSolidColor = False
-                                if not DISABLE_AUTOMATIC_TEXT_COLOR:
-                                        g = self.screen().geometry()
-                                        intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                                        color = QColor(intColor)
-                                        avgColorValue = color.red()/3 + color.green()/3 + color.blue()/3
-                                        textcolor = "black" if (avgColorValue>=127) else "white"
-                                        if textcolor != self.oldTextColor:
-                                            self.oldTextColor = textcolor
-                                            styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, textcolor)
-                                            self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
-                            else:
-                                if not self.shownBackgroundOnSolidColor:
-                                    self.styler.emit(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
-                                    self.callInMainSignal.emit(self.backgroundTexture.show)
-                                    self.shownBackgroundOnSolidColor = True
-                                
+        def checkAndUpdateBackground(self) -> None:
+            try:
+                CLOCK_IS_TEMPORARILY_TRANSPARENT = self.tempMakeClockTransparent
+                if self.isCover:
+                    ENABLE_AUTOMATIC_TEXT_COLOR = False
+                    ENABLE_AUTOMATIC_BACKGROUND_COLOR = True
+                    FALSE_BLUR_TEXTURE_ENABLED = True
+                else:
+                    ENABLE_AUTOMATIC_TEXT_COLOR = not self.DISABLE_AUTOMATIC_TEXT_COLOR and self.isVisible()
+                    ENABLE_AUTOMATIC_BACKGROUND_COLOR = self.UseTaskbarBackgroundColor and self.isVisible()
+                    FALSE_BLUR_TEXTURE_ENABLED = self.showBlurryBackground
+                BackgroundIntegerColor = 0
+                ForceUpdateBackgroundColor: bool = False
+                ContextMenuIsVisible = False
                 
-                except AttributeError:
-                    print("🟣 Expected AttributeError on checkAndUpdateBackground")
-                except Exception as e:
-                    report(e)
-            else:
-                alphaUpdated = False
-                shouldBeTransparent = False
-                try:
-                    if self.isVisible():
-                        if not self.tempMakeClockTransparent:
-                            if self.showBlurryBackground:
-                                self.callInMainSignal.emit(lambda: self.backgroundTexture.show())
-                            g = self.screen().geometry()
-                            intColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x(), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
-                            alphaUpdated = False
-                            shouldBeTransparent = False
-                        else:
-                            if self.showBlurryBackground:
-                                self.callInMainSignal.emit(lambda: self.backgroundTexture.hide())
-                            shouldBeTransparent = True
-                            if not alphaUpdated:
-                                intColor  = self.oldBgColor + 1
-                                alphaUpdated = True
-                            else:
-                                intColor = self.oldBgColor
-                        if intColor != self.oldBgColor:
-                            self.oldBgColor = intColor
-                            color = QColor(intColor)
-                            self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {100 if not shouldBeTransparent else 0}"))
-                except AttributeError:
-                    print("🟣 Expected AttributeError on checkAndUpdateBackground")
+                if CLOCK_IS_TEMPORARILY_TRANSPARENT:
+                    if self.LastCapturedBackgroundColor > -1 and ENABLE_AUTOMATIC_BACKGROUND_COLOR:
+                        ForceUpdateBackgroundColor = True
+                    self.LastCapturedBackgroundColor = -1
+                    
+                if FALSE_BLUR_TEXTURE_ENABLED:
+                    if CLOCK_IS_TEMPORARILY_TRANSPARENT or self.AWindowIsInFullScreen:
+                        self.callInMainSignal.emit(self.backgroundTexture.hide)
+                    else:
+                        self.callInMainSignal.emit(self.backgroundTexture.show)
+
+                if ENABLE_AUTOMATIC_BACKGROUND_COLOR or ENABLE_AUTOMATIC_TEXT_COLOR:
+                    g = self.screen().geometry()
+                    BackgroundIntegerColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                
+                
+                if globals.trayIcon:
+                    ContextMenuIsVisible = globals.trayIcon.contextMenu().isVisible()
+                
+                if (ENABLE_AUTOMATIC_BACKGROUND_COLOR and not ContextMenuIsVisible and not CLOCK_IS_TEMPORARILY_TRANSPARENT) or ForceUpdateBackgroundColor:
+                    try:
+                        color = QColor(BackgroundIntegerColor)
+                    except OverflowError as e:
+                        print("🟣 Invalid BackgroundIntegerColor (background function) (OverflowError)")
+                        try:
+                            color = QColor(BackgroundIntegerColor-10)
+                        except OverflowError:
+                            color = QColor(Qt.GlobalColor.white)
+                    if BackgroundIntegerColor != self.LastCapturedBackgroundColor:
+                        self.LastCapturedBackgroundColor = BackgroundIntegerColor
+                        self.styler.emit(self.widgetStyleSheet.replace("bgColor", f"{color.red()}, {color.green()}, {color.blue()}, {0 if CLOCK_IS_TEMPORARILY_TRANSPARENT else 100}"))
+                
+                if ENABLE_AUTOMATIC_TEXT_COLOR:
+                    try:
+                        color = QColor(BackgroundIntegerColor)
+                    except OverflowError as e:
+                        print("🟣 Invalid BackgroundIntegerColor (text function) (OverflowError)")
+                        try:
+                            color = QColor(BackgroundIntegerColor-10)
+                        except OverflowError:
+                            color = QColor(Qt.GlobalColor.white)
+                    AverageColorValue = color.red()/3 + color.green()/3 + color.blue()/3
+                    FinalTextColor = "black" if (AverageColorValue>=127) else "white"
+                    if FinalTextColor != self.LastCapturedForegroundColor:
+                        self.LastCapturedForegroundColor = FinalTextColor
+                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, FinalTextColor)
+                        self.callInMainSignal.emit(partial(self.label.setStyleSheet, styleSheetString))
+            except Exception as e:
+                report(e)
 
         def TheresAWindowInFullscreen(self) -> bool:
-                
-            windowStyle = windll.user32.GetWindowLongA(self.currentTaskbarHwnd, -20)
-            for otherVal in [134217728, 33554432, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 16384, 8192, 4096, 1024, 512, 256, 128, 64, 32, 16]:
-                if otherVal<=windowStyle:
-                    windowStyle -= otherVal
-            if windowStyle>=0x8:
-                return False # The taskbar is topmost
-            else:
-                return True # The taskbar is a regular window
-                
-            """
-                def screenGeometryToPixel(screen):
-                    return [screen[0], screen[1], self.get6px(screen[2] - screen[0]) + screen[0], self.get6px(screen[3] - screen[1]) + screen[1]]
-
-                def compareFullScreenRects(window, screen, ADVANCED_FULLSCREEN_METHOD):
-                    screenInPixel = screenGeometryToPixel(screen)
-                    try:
-                        if(ADVANCED_FULLSCREEN_METHOD):
-                            return  window[0] <= screenInPixel[0] and window[1] <= screenInPixel[1] and window[2] >= screenInPixel[2] and window[3] >= screenInPixel[3] and window[0]+8 != screenInPixel[0] and window[1]+8 != screenInPixel[1]
-                        else:
-                            return  window[0] == screenInPixel[0] and window[1] == screenInPixel[1] and window[2] == screenInPixel[2] and window[3] == screenInPixel[3]
-                    except Exception as e:
-                        report(e)
-                        
-                while globals.blockFullscreenCheck:
-                    time.sleep(0.01)
-                try:
-                    fullscreen = False
-                    if not LEGACY_FULLSCREEN_METHOD:
-                        for hwnd in globals.windowList:
-                            if hwnd in globals.windowVisible.keys():
-                                if globals.windowVisible[hwnd]:
-                                    if compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD):                                            
-                                        if globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps:
-                                            if hwnd not in globals.cachedInputHosts:
-                                                if hwnd not in globals.notTextInputHost:
-                                                    print(f"🟡 Verifying unverified hwnd {hwnd}")
-                                                    Thread(target=verifyHwndValidity, args=(hwnd,)).start()
-                                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                                if LOG_FULLSCREEN_WINDOW_TITLE:
-                                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                                fullscreen = True
-                                            else:
-                                                print("🟠 Input host messing around!!!!!")
-                    else:
-                        hwnd = globals.foregroundHwnd
-                        if hwnd == 0:
-                            return False
-                        previousFullscreenHwnd = globals.previousFullscreenHwnd[self.index]
-                        previousFullscreenRect = None
-                        if previousFullscreenHwnd != 0:
-                            if previousFullscreenHwnd not in globals.windowRects.keys():
-                                self.previousFullscreenHwnd = None
-                                globals.previousFullscreenHwnd[self.index] = 0
-                            else:
-                                previousFullscreenRect = globals.windowRects[previousFullscreenHwnd]
-                                if (compareFullScreenRects(previousFullscreenRect, self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                                    if(globals.windowTexts[previousFullscreenHwnd] not in globals.blacklistedFullscreenApps):
-                                        print("🟡 Fullscreen window detected!", previousFullscreenRect, "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                        if LOG_FULLSCREEN_WINDOW_TITLE:
-                                            print("🟡 Fullscreen window title:", globals.windowTexts[previousFullscreenHwnd])
-                                        fullscreen = True
-                                else:
-                                    self.previousFullscreenHwnd = None
-                                    globals.previousFullscreenHwnd[self.index] = 0
-                        if(hwnd in globals.windowRects.keys() and compareFullScreenRects(globals.windowRects[hwnd], self.fullScreenRect, ADVANCED_FULLSCREEN_METHOD)):
-                            if(globals.windowTexts[hwnd] not in globals.blacklistedFullscreenApps):
-                                print("🟡 Fullscreen window detected!", globals.windowRects[hwnd], "Fullscreen rect:", screenGeometryToPixel(self.fullScreenRect))
-                                if LOG_FULLSCREEN_WINDOW_TITLE:
-                                    print("🟡 Fullscreen window title:", globals.windowTexts[hwnd])
-                                fullscreen = True
-                                globals.previousFullscreenHwnd[self.index] = hwnd
-                    return fullscreen
-                except Exception as e:
-                    report(e)
-                    return False
-            """
+            try:
+                windowStyle = windll.user32.GetWindowLongA(self.currentTaskbarHwnd, -20)
+                for otherVal in [134217728, 33554432, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 16384, 8192, 4096, 1024, 512, 256, 128, 64, 32, 16]:
+                    if otherVal<=windowStyle:
+                        windowStyle -= otherVal
+                if windowStyle>=0x8:
+                    return False # The taskbar is topmost
+                else:
+                    return True # The taskbar is a regular window
+            except Exception as e:
+                report(e)
 
         def mainClockLoop(self):
             global numOfNotifs
@@ -1305,7 +1186,7 @@ try:
             print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, DisableNotifications:{SHOW_NOTIFICATIONS}")
             
             while True:
-                TheresAFullScreenWindow = self.TheresAWindowInFullscreen()
+                self.AWindowIsInFullScreen = self.TheresAWindowInFullscreen()
                 HideClock = False
                 
                 if self.clockShouldBeHidden:
@@ -1313,7 +1194,7 @@ try:
                 elif not ENABLE_HIDE_ON_FULLSCREEN:
                     HideClock = False
                 else:
-                    HideClock = TheresAFullScreenWindow
+                    HideClock = self.AWindowIsInFullScreen
                     
                 if not HideClock and not DISABLE_HIDE_WITH_TASKBAR and self.TASKBAR_DOES_AUTOHIDE:
                     mousePos = getMousePos()
@@ -1347,7 +1228,7 @@ try:
                             else:
                                 self.callInMainSignal.emit(self.label.disableClockIndicators)
                         
-                    if TheresAFullScreenWindow:
+                    if self.AWindowIsInFullScreen:
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
                         
                         if IGNORE_MOUSECLICKS_WHEN_FS:
