@@ -626,10 +626,10 @@ class SettingsWindow(QMainWindow):
         #self.showFullScreenTitle.setChecked(self.getSettings("LogFullScreenAppTitle"))
         #self.showFullScreenTitle.stateChanged.connect(lambda i: self.setSettings("LogFullScreenAppTitle", bool(i)))
         #self.experimentalTitle.addWidget(self.showFullScreenTitle)
-        self.win32alignment = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
-        self.win32alignment.setChecked(self.getSettings("EnableWin32API"))
-        self.win32alignment.stateChanged.connect(lambda i: self.setSettings("EnableWin32API", bool(i)))
-        self.experimentalTitle.addWidget(self.win32alignment)
+        #self.win32alignment = QSettingsCheckBox(_("Alternative clock alignment (may not work)"))
+        #self.win32alignment.setChecked(self.getSettings("EnableWin32API"))
+        #self.win32alignment.stateChanged.connect(lambda i: self.setSettings("EnableWin32API", bool(i)))
+        #self.experimentalTitle.addWidget(self.win32alignment)
         self.longerDoubleClickPeriod = QSettingsCheckBox(_("Increase the length of the double-click period"))
         self.longerDoubleClickPeriod.setChecked(self.getSettings("DoubleClickLongerPeriod"))
         self.longerDoubleClickPeriod.stateChanged.connect(lambda i: self.setSettings("DoubleClickLongerPeriod", bool(i)))
@@ -727,6 +727,7 @@ class SettingsWindow(QMainWindow):
                             if pairValue[1] != "":
                                 setSettingsValue(pairValue[0], pairValue[1], r=False)
                     os.startfile(sys.executable)
+                    globals.app.quit()
             except Exception as e:
                 report(e)
 
@@ -788,7 +789,7 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle.addWidget(self.exportSettings)
         self.resetButton = QSettingsButton(_("Reset ElevenClock preferences to defaults"), _("Reset"))
         self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
-        self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable)))
+        self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable), globals.app.quit()))
         self.aboutTitle.addWidget(self.resetButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: self.hide())

@@ -364,7 +364,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         menu.addAction(self.nameAction)
         menu.addSeparator()
         self.restartAction = QAction(_("Restart ElevenClock"), app)
-        self.restartAction.triggered.connect(lambda: os.startfile(sys.executable))
+        self.restartAction.triggered.connect(lambda: (os.startfile(sys.executable), globals.app.quit()))
         menu.addAction(self.restartAction)
         self.hideAction = QAction(_("Hide ElevenClock"), app)
         self.hideAction.triggered.connect(lambda: globals.closeClocks())

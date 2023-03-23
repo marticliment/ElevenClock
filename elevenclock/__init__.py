@@ -355,6 +355,7 @@ try:
             time.sleep(3)
             if((lastTime+6) < time.time()):
                 os.startfile(sys.executable)
+                app.quit()
 
     class RestartSignal(QObject):
 
@@ -744,27 +745,27 @@ try:
                         print("🟢 Custom valid shortcut specified (for middle click):", self.middleClickAction)
 
                 if self.isCover:
-                    if not(self.getSettings("EnableWin32API")):
-                        print("🟢 Using qt's default positioning system")
+                    #if not(self.getSettings("EnableWin32API")):
+                        #print("🟢 Using qt's default positioning system")
                         self.move(self.coverX, self.coverY)
                         self.resize(int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2)
-                    else:
-                        print("🟡 Using win32 API positioning system")
-                        self.user32 = windll.user32
-                        self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                        win32gui.SetWindowPos(self.winId(), 0, int(coverX), int(coverY), int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2, False)
-                    print("🔵 Clock cover geometry:", self.geometry())
+                    #else:
+                    #    print("🟡 Using win32 API positioning system")
+                    #    self.user32 = windll.user32
+                    #    self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
+                    #    win32gui.SetWindowPos(self.winId(), 0, int(coverX), int(coverY), int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2, False)
+                        print("🔵 Clock cover geometry:", self.geometry())
                 else:
-                    if not(self.getSettings("EnableWin32API")):
-                        print("🟢 Using qt's default positioning system")
+                    #if not(self.getSettings("EnableWin32API")):
+                    #    print("🟢 Using qt's default positioning system")
                         self.move(self.X, self.Y)
                         self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2)
-                    else:
-                        print("🟡 Using win32 API positioning system")
-                        self.user32 = windll.user32
-                        self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
-                        win32gui.SetWindowPos(self.winId(), 0, int(self.X), int(self.Y), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2, False)
-                    print("🔵 Clock geometry:", self.geometry())
+                    #else:
+                    #    print("🟡 Using win32 API positioning system")
+                    #    self.user32 = windll.user32
+                    #    self.user32.SetProcessDPIAware() # forces functions to return real pixel numbers instead of scaled values
+                    #    win32gui.SetWindowPos(self.winId(), 0, int(self.X), int(self.Y), int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2, False)
+                        print("🔵 Clock geometry:", self.geometry())
 
                 self.font: QFont = QFont()
                 customFont = self.getSettingsValue("UseCustomFont")
@@ -1885,9 +1886,9 @@ try:
     i = TaskbarIconTray(app)
     #mController = MouseController()
 
-    app.primaryScreenChanged.connect(lambda: os.startfile(sys.executable))
-    app.screenAdded.connect(lambda: os.startfile(sys.executable))
-    app.screenRemoved.connect(lambda: os.startfile(sys.executable))
+    app.primaryScreenChanged.connect(lambda: (os.startfile(sys.executable), app.quit()))
+    app.screenAdded.connect(lambda: (os.startfile(sys.executable), app.quit()))
+    app.screenRemoved.connect(lambda: (os.startfile(sys.executable), app.quit()))
     signal = RestartSignal()
     showNotif = InfoSignal()
     showWarn = InfoSignal()
@@ -1903,7 +1904,7 @@ try:
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     # KillableThread(target=loadWindowsInfoThread, daemon=True, name="Main: load windows list, hwnds, geometry and text").start()
     if getSettings("PreventSleepFailure"):
-        if not getSettings("EnableLowCpuMode"): KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
+        KillableThread(target=checkIfWokeUpThread, daemon=True, name="Main: Sleep listener").start()
     if not getSettings("EnableLowCpuMode"): KillableThread(target=wnfDataThread, daemon=True, name="Main: WNF Data listener").start()
     print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
 
