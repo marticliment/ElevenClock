@@ -1812,14 +1812,19 @@ try:
     if "--settings" in sys.argv or showSettings:
         sw.show()
 
+    if getSettings("DefaultPrefsLoaded") and not getSettings("NewWizardLaunchingMechanism"):
+        setSettings("AlreadyDoneWelcomeWizard", True)
 
     if not getSettings("DefaultPrefsLoaded"):
         setSettings("AlreadyInstalled", True)
+        setSettings("NewWizardLaunchingMechanism", True)
         setSettings("NewFullScreenMethod", True)
         setSettings("ForceClockOnfirstMonitor", True)
         showMessage("Welcome to ElevenClock", "You can customize ElevenClock from the ElevenClock Settings. You can search them on the start menu or right-clicking on any clock -> ElevenClock Settings", uBtn=False)
         print("🟢 Default settings loaded")
         setSettings("DefaultPrefsLoaded", True)
+        
+    if not getSettings("AlreadyDoneWelcomeWizard"):
         import welcome
         ww = welcome.WelcomeWindow()
         globals.ww = ww

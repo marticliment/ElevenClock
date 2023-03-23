@@ -714,7 +714,11 @@ class LastSlide(BasicNavWidget):
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
-
+    
+    def showEvent(self, event: QShowEvent) -> None:
+        setSettings("AlreadyDoneWelcomeWizard", True)
+        return super().showEvent(event)
+    
 class SelectModeSlide(BasicNavWidget):
     def __init__(self, parent=None) -> None:
         super().__init__(parent=parent, nextGreyed=True)
