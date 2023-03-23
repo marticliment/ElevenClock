@@ -652,25 +652,10 @@ try:
                     self.clockOnTop = False
                     self.shouldCoverWindowsClock = False
                     print("🟠 Clock on the bottom (by exception)")
-
-                self.colorWidget = QWidget(self)
-                self.colorWidget.setStyleSheet("border: 0; margin: 0;")
-
-                self.backgroundTexture = QLabel(self)
-                self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
-                self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0;")
-                self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
-                if(not self.getSettings("DisableTaskbarBackgroundColor") and not self.getSettings("UseCustomBgColor")) and not self.getSettings("DisableBlurryTexture"):
-                    if(isTaskbarDark()):
-                        self.showBlurryBackground = True
-                        self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_black.png")))
-                    else:
-                        self.showBlurryBackground = True
-                        self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_white.png")))
+                    
+                    
                 else:
                     self.showBlurryBackground = False
-
-                
 
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
@@ -680,7 +665,6 @@ try:
                     print("🟢 Clock on the right")
                     w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
                     coverX = w
-
 
                 xoff = 0
                 yoff = 2
@@ -753,8 +737,7 @@ try:
                     self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 else:
                     self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-                
-                            
+                       
                 # Load clock click actions
 
                 if not self.isCover:
@@ -871,7 +854,24 @@ try:
                     print(f"🔵 Custom font     : {self.customFont}")
                     print(f"🔵 Font size: {self.font.pointSizeF()}")
                     
-                # Load tooltip, desktop button and progressbar
+                # Load tooltip, desktop button and other widgets
+                
+                self.colorWidget = QWidget(self)
+                self.colorWidget.setStyleSheet("border: 0; margin: 0;")
+
+                self.backgroundTexture = QLabel(self)
+                self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
+                self.backgroundTexture.setStyleSheet("background-color: transparent; margin: -2px; border: 0;")
+                self.backgroundTexture.setContentsMargins(-1, -1, -1, -1)
+                if(not self.getSettings("DisableTaskbarBackgroundColor") and not self.getSettings("UseCustomBgColor")) and not self.getSettings("DisableBlurryTexture"):
+                    if(isTaskbarDark()):
+                        self.showBlurryBackground = True
+                        self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_black.png")))
+                    else:
+                        self.showBlurryBackground = True
+                        self.backgroundTexture.setPixmap(QPixmap(getPath("taskbarbg_white.png")))
+                        
+                self.label.raise_()
 
                 self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
                 
