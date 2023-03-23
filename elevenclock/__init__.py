@@ -464,6 +464,7 @@ try:
         hideSignal = Signal()
         callInMainSignal = Signal(object)
         styler = Signal(str)
+        font: QFont = QFont()
         preferedwidth = 200
         coverPreferedWidth = 200
         isHovered = False
@@ -669,21 +670,17 @@ try:
                 else:
                     self.showBlurryBackground = False
 
-                self.label = Label(timeStr, self, self.isCover, self.settingsEnvironment)
+                
 
                 if self.clockOnTheLeft:
                     print("🟡 Clock on the left")
                     coverX = self.screenGeometry.x()+self.screenGeometry.width()-((self.coverPreferedWidth)*dpix) # Windows clock position
                     w = self.screenGeometry.x()
-                    self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                 else:
-                    self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                     print("🟢 Clock on the right")
                     w = self.screenGeometry.x()+self.screenGeometry.width()-((self.preferedwidth)*dpix)
                     coverX = w
 
-                if self.getSettings("CenterAlignment"):
-                    self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
 
                 xoff = 0
                 yoff = 2
@@ -708,46 +705,7 @@ try:
                 self.coverY = coverY + yoff
                 self.dpix = dpix
                 self.dpiy = dpiy
-
-                self.clickAction = ("win", "n")
-                act = self.getSettingsValue("CustomClockClickAction")
-                if act != "":
-                    if len(act.split("+")) > 3 or len(act.split("+")) < 1:
-                        print("🟠 Invalid clock custom action")
-                    else:
-                        r = []
-                        for piece in act.split("+"):
-                            piece = piece.lower()
-                            r.append(piece)     
-                        self.clickAction = r
-                        print("🟢 Custom valid shortcut specified:", self.clickAction)
-
-                self.doubleClickAction = ("f20")
-                doubleAction = self.getSettingsValue("CustomClockDoubleClickAction")
-                if doubleAction != "":
-                    if len(doubleAction.split("+")) > 3 or len(doubleAction.split("+")) < 1:
-                        print("🟠 Invalid double click action piece")
-                    else:
-                        r = []
-                        for piece in doubleAction.split("+"):
-                            piece = piece.lower()
-                            r.append(piece)
-                        self.doubleClickAction = r
-                        print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
-
-                self.middleClickAction = ("f20")
-                middleAction = self.getSettingsValue("CustomClockMiddleClickAction")
-                if middleAction != "":
-                    if len(middleAction.split("+")) > 3 or len(middleAction.split("+")) < 1:
-                        print("🟠 Invalid double click action piece")
-                    else:
-                        r = []
-                        for piece in middleAction.split("+"):
-                            piece = piece.lower()
-                            r.append(piece)
-                        self.middleClickAction = r
-                        print("🟢 Custom valid shortcut specified (for middle click):", self.middleClickAction)
-
+                
                 if self.isCover:
                     self.move(self.coverX, self.coverY)
                     self.resize(int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2)
@@ -756,43 +714,182 @@ try:
                     self.move(self.X, self.Y)
                     self.resize(int(self.preferedwidth*dpix), int(self.preferedHeight*dpiy)-2)
                     print("🔵 Clock geometry:", self.geometry())
+                
+                self.forceDarkTheme = self.getSettings("ForceDarkTheme")
+                self.forceLightTheme = self.getSettings("ForceLightTheme")
+                self.hideClockWhenClicked = self.getSettings("HideClockWhenClicked")
+                self.IS_LOW_CPU_MODE = self.getSettings("EnableLowCpuMode")
+                self.DISABLE_AUTOMATIC_TEXT_COLOR = self.getSettings("UseCustomFontColor")
+                self.primaryScreen = QGuiApplication.primaryScreen()
+                
+                self.user32 = windll.user32
+                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
 
-                self.font: QFont = QFont()
-                customFont = self.getSettingsValue("UseCustomFont")
-                if customFont == "":
-                    if lang["locale"] == "ko":
-                        self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable Text", "sans-serif"]
-                    elif lang["locale"] == "zh_TW":
-                        self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable Text", "sans-serif"]
-                    elif lang["locale"] == "zh_CN":
-                        self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable Text", "sans-serif"]
+                self.fullScreenRect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
+                print("🔵 Full screen rect: ", self.fullScreenRect)
+                globals.previousFullscreenHwnd[self.index] = 0
+                
+                self.setMouseTracking(True)
+                
+                if self.shouldAddSecondaryClock:
+                    self.shouldCoverWindowsClock = False
+                    if not self.isSecondary:
+                        self.clockCover = Clock(dpix, dpiy, screen, index, isSecondary=True)
+                        globals.clocks.append(self.clockCover)
+                elif self.shouldCoverWindowsClock:
+                    if not self.isCover:
+                        self.clockCover = Clock(dpix, dpiy, screen, index, isCover=True)
+                        globals.clocks.append(self.clockCover)
+                        
+                self.label = Label(timeStr, self, self.isCover, self.settingsEnvironment)
+                self.label.move(0, 2)
+                self.label.setFixedHeight(self.height())
+                self.label.resize(self.width()-8, self.height()-1)
+                self.label.show()
+                
+                if self.getSettings("CenterAlignment"):
+                    self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                elif self.clockOnTheLeft:
+                    self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                else:
+                    self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                
+                            
+                # Load clock click actions
+
+                if not self.isCover:
+                    self.clickAction = ("win", "n")
+                    act = self.getSettingsValue("CustomClockClickAction")
+                    if act != "":
+                        if len(act.split("+")) > 3 or len(act.split("+")) < 1:
+                            print("🟠 Invalid clock custom action")
+                        else:
+                            r = []
+                            for piece in act.split("+"):
+                                piece = piece.lower()
+                                r.append(piece)     
+                            self.clickAction = r
+                            print("🟢 Custom valid shortcut specified:", self.clickAction)
+
+                    self.doubleClickAction = ("f20")
+                    doubleAction = self.getSettingsValue("CustomClockDoubleClickAction")
+                    if doubleAction != "":
+                        if len(doubleAction.split("+")) > 3 or len(doubleAction.split("+")) < 1:
+                            print("🟠 Invalid double click action piece")
+                        else:
+                            r = []
+                            for piece in doubleAction.split("+"):
+                                piece = piece.lower()
+                                r.append(piece)
+                            self.doubleClickAction = r
+                            print("🟢 Custom valid shortcut specified (for double click):", self.doubleClickAction)
+
+                    self.middleClickAction = ("f20")
+                    middleAction = self.getSettingsValue("CustomClockMiddleClickAction")
+                    if middleAction != "":
+                        if len(middleAction.split("+")) > 3 or len(middleAction.split("+")) < 1:
+                            print("🟠 Invalid double click action piece")
+                        else:
+                            r = []
+                            for piece in middleAction.split("+"):
+                                piece = piece.lower()
+                                r.append(piece)
+                            self.middleClickAction = r
+                            print("🟢 Custom valid shortcut specified (for middle click):", self.middleClickAction)
+
+                    self.label.clicked.connect(lambda: self.singleClickAction())
+                    self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
+                    self.label.middleClicked.connect(lambda: self.doMiddleClickAction())
+
+                # Load label styles (only on non-cover clocks)
+
+                if self.isCover:
+                    styleSheetString = self.makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
+                    self.label.setStyleSheet(styleSheetString)
+                else:
+                    customFont = self.getSettingsValue("UseCustomFont")
+                    if customFont == "":
+                        if lang["locale"] == "ko":
+                            self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable Text", "sans-serif"]
+                        elif lang["locale"] == "zh_TW":
+                            self.fontfamilies = ["Microsoft JhengHei UI", "Segoe UI Variable Text", "sans-serif"]
+                        elif lang["locale"] == "zh_CN":
+                            self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable Text", "sans-serif"]
+                        else:
+                            self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
+                        self.font.setPointSizeF(9.3)
                     else:
-                        self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
-                    self.customFont = ""
-                    self.font.setPointSizeF(9.3)
-                else:
-                    self.fontfamilies = []
+                        self.fontfamilies = []
                     self.customFont = customFont
-                if isTaskbarDark():
-                    self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
-                else:
-                    self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
-                if self.fontfamilies == []:
-                    self.font.fromString(self.customFont)
-                customSize = self.getSettingsValue("UseCustomFontSize")
-                if customSize == "" or self.isCover:
-                    self.font.setPointSize(9)
-                else:
-                    try:
-                        self.font.setPointSize(int(float(customSize)))
-                    except Exception as e:
+                        
+                    customSize = self.getSettingsValue("UseCustomFontSize")
+                    if customSize == "":
                         self.font.setPointSize(9)
-                        report(e)
-                print(f"🔵 Font families   : {self.fontfamilies}")
-                print(f"🔵 Custom font     : {self.customFont}")
-                print(f"🔵 Font size: {self.font.pointSizeF()}")
-                self.label.setFont(self.font)
+                    else:
+                        try:
+                            self.font.setPointSize(int(float(customSize)))
+                        except ValueError:
+                            self.font.setPointSize(9)
+                        except Exception as e:
+                            self.font.setPointSize(9)
+                            report(e)
+                    
+                    if isTaskbarDark():
+                        self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
+                        if self.fontfamilies != []:
+                            self.font.setFamilies(self.fontfamilies)
+                            if lang["locale"] in ("zh_TW", "zh_CN", "ko"):
+                                self.font.setWeight(QFont.Weight.Normal)
+                            else:
+                                self.font.setWeight(QFont.Weight.DemiBold)
+                        else:
+                            self.font.fromString(self.customFont)
+                        self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
+                        self.label.setFont(self.font)
+                        self.label.bgopacity = .1
+                    else:
+                        self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
+                        if self.fontfamilies != []:
+                            self.font.setFamilies(self.fontfamilies)
+                        else:
+                            self.font.fromString(self.customFont)
+                        self.font.setWeight(QFont.Weight.ExtraLight)
+                        self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
+                        self.label.setFont(self.font)
+                        self.label.bgopacity = .5
+                        
+                    if self.getSettings("UseCustomFontColor"):
+                        print("🟡 Using custom font color:", self.getSettingsValue('UseCustomFontColor'))
+                        self.lastTheme = -1
+                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, f"rgb({self.getSettingsValue('UseCustomFontColor')})")
+                        self.label.setStyleSheet(styleSheetString)
+                    else:
+                        print("🔵 Using automatic font color")
+                        self.lastTheme = 0 if isTaskbarDark() else 1
+                                
+                    print(f"🔵 Font families   : {self.fontfamilies}")
+                    print(f"🔵 Custom font     : {self.customFont}")
+                    print(f"🔵 Font size: {self.font.pointSizeF()}")
+                    
+                # Load tooltip, desktop button and progressbar
 
+                self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
+                
+                if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1 or self.getSettings("ShowDesktopButton")) and not self.isCover:
+                    print("🟡 Desktop button enabled")
+                    self.desktopButton = QHoverButton(parent=self)
+                    self.desktopButton.clicked.connect(lambda: self.showDesktop())
+                    self.desktopButton.show()
+                    self.desktopButton.setFixedWidth(8)
+                    self.desktopButton.setIconSize(QSize(8, 48))
+                    hoverIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 128)
+                    pressIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 70)
+                    self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(hoverIcon))
+                    self.desktopButton.pressed.connect(lambda: self.desktopButton.setIcon(pressIcon))
+                    self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
+                    self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
+                    self.setFixedHeight(self.preferedHeight)
+                
                 accColors = getColors()
 
                 self.progressbar = QProgressBar(self)
@@ -832,126 +929,21 @@ try:
                 
                 if not self.isCover:
                     self.leftSlow.start()
-
-                if not self.isCover:
-                    if self.getSettings("UseCustomFontColor"):
-                        print("🟡 Using custom text color:", self.getSettingsValue('UseCustomFontColor'))
-                        self.lastTheme = -1
-                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, f"rgb({self.getSettingsValue('UseCustomFontColor')})")
-                        self.label.setStyleSheet(styleSheetString)
-                        self.label.bgopacity = .1
-                        self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                        if self.fontfamilies != []:
-                            self.font.setFamilies(self.fontfamilies)
-                        if lang["locale"] == "ko":
-                            self.font.setWeight(QFont.Weight.Normal)
-                        elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
-                            self.font.setWeight(QFont.Weight.Normal)
-                        else:
-                            self.font.setWeight(QFont.Weight.DemiBold)
-                        self.label.setFont(self.font)
-                    elif isTaskbarDark():
-                        print("🟢 Using white text (dark mode)")
-                        self.lastTheme = 0
-                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, "white")
-                        self.label.setStyleSheet(styleSheetString)
-                        self.label.bgopacity = .1
-                        self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                        if self.fontfamilies != []:
-                            self.font.setFamilies(self.fontfamilies)
-                        if lang["locale"] == "ko":
-                            self.font.setWeight(QFont.Weight.Normal)
-                        elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
-                            self.font.setWeight(QFont.Weight.Normal)
-                        else:
-                            self.font.setWeight(QFont.Weight.DemiBold)
-                        self.label.setFont(self.font)
-                    else:
-                        print("🟢 Using black text (light mode)")
-                        self.lastTheme = 1
-                        styleSheetString = self.makeLabelStyleSheet(0, 3, 9, 5, "black")
-                        self.label.setStyleSheet(styleSheetString)
-                        self.label.bgopacity = .5
-                        self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                        if self.fontfamilies != []:
-                            self.font.setFamilies(self.fontfamilies)
-                        self.font.setWeight(QFont.Weight.ExtraLight)
-                        self.label.setFont(self.font)
-                    self.label.clicked.connect(lambda: self.singleClickAction())
-                    self.label.doubleClicked.connect(lambda: self.doDoubleClickAction())
-                    self.label.middleClicked.connect(lambda: self.doMiddleClickAction())
-                else:
-                    styleSheetString = self.makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
-                    self.fontfamilies = ["Segoe UI Variable Display"]
-                    if self.fontfamilies != []:
-                        self.font.setFamilies(self.fontfamilies)
-                    if lang["locale"] == "ko":
-                        self.font.setWeight(QFont.Weight.Normal)
-                    elif lang["locale"] == "zh_TW" or lang["locale"] == "zh_CN":
-                        self.font.setWeight(QFont.Weight.Normal)
-                    else:
-                        self.font.setWeight(QFont.Weight.DemiBold)
-                    self.label.setFont(self.font)
-                    self.label.setStyleSheet(styleSheetString)
-                self.label.move(0, 2)
-                self.label.setFixedHeight(self.height())
-                self.label.resize(self.width()-8, self.height()-1)
-                self.label.show()
+                    
+                # Final initialize procedure
+                    
                 self.loadTimeFormat()
+                
+                self.TextUpdaterLoop = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
+                self.MainLoop = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
+                self.InternetTimeLoop = KillableThread(target=self.loadInternetTimeOffset, daemon=True, name=f"Clock[{index}]: Atomic clock sync thread")
+                self.TextUpdaterLoop.start()
+                self.MainLoop.start()
+                self.InternetTimeLoop.start()
+                
                 self.show()
                 self.raise_()
                 self.setFocus()
-                self.fullScreenRect = (self.screenGeometry.x(), self.screenGeometry.y(), self.screenGeometry.x()+self.screenGeometry.width(), self.screenGeometry.y()+self.screenGeometry.height())
-                print("🔵 Full screen rect: ", self.fullScreenRect)
-                globals.previousFullscreenHwnd[self.index] = 0
-
-                self.forceDarkTheme = self.getSettings("ForceDarkTheme")
-                self.forceLightTheme = self.getSettings("ForceLightTheme")
-                self.hideClockWhenClicked = self.getSettings("HideClockWhenClicked")
-                self.IS_LOW_CPU_MODE = self.getSettings("EnableLowCpuMode")
-                self.DISABLE_AUTOMATIC_TEXT_COLOR = self.getSettings("DisableAutomaticTextColor")
-                self.primaryScreen = QGuiApplication.primaryScreen()
-
-                if self.shouldAddSecondaryClock:
-                    self.shouldCoverWindowsClock = False
-                if self.shouldCoverWindowsClock:
-                    if not self.isCover:
-                        self.clockCover = Clock(dpix, dpiy, screen, index, isCover=True)
-                        globals.clocks.append(self.clockCover)
-                if self.shouldAddSecondaryClock:
-                    if not self.isSecondary:
-                        self.clockCover = Clock(dpix, dpiy, screen, index, isSecondary=True)
-                        globals.clocks.append(self.clockCover)
-
-                self.setMouseTracking(True)
-                self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
-                
-                if(readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1) or self.getSettings("ShowDesktopButton"):
-                    if not self.isCover:
-                        print("🟡 Desktop button enabled")
-                        self.desktopButton = QHoverButton(parent=self)
-                        self.desktopButton.clicked.connect(lambda: self.showDesktop())
-                        self.desktopButton.show()
-                        self.desktopButton.setFixedWidth(8)
-                        self.desktopButton.setIconSize(QSize(8, 48))
-                        hoverIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 128)
-                        pressIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 70)
-                        self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(hoverIcon))
-                        self.desktopButton.pressed.connect(lambda: self.desktopButton.setIcon(pressIcon))
-                        self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
-                        self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
-                        self.setFixedHeight(self.preferedHeight)
-
-
-
-                self.user32 = windll.user32
-                self.user32.SetProcessDPIAware() # optional, makes functions return real pixel numbers instead of scaled values
-                self.loop0 = KillableThread(target=self.updateTextLoop, daemon=True, name=f"Clock[{index}]: Time updater loop")
-                self.loop1 = KillableThread(target=self.mainClockLoop, daemon=True, name=f"Clock[{index}]: Main clock loop")
-                self.loop2 = KillableThread(target=self.loadInternetTimeOffset, daemon=True, name=f"Clock[{index}]: Atomic clock sync thread")
-                self.loop0.start()
-                self.loop1.start()
-                self.loop2.start() 
         
         def loadTimeFormat(self):
             try:
@@ -1350,9 +1342,9 @@ try:
         def close(self) -> bool:
             self.clockShouldBeHidden = True
             try:
-                self.loop0.kill()
-                self.loop1.kill()
-                self.loop2.kill()
+                self.TextUpdaterLoop.kill()
+                self.MainLoop.kill()
+                self.InternetTimeLoop.kill()
             except AttributeError:
                 pass
             try:

@@ -442,22 +442,22 @@ class SettingsWindow(QMainWindow):
         self.lineHeight.valueChanged.connect(lambda v: self.setSettingsValue("CustomLineHeight", v))
         self.clockAppearanceTitle.addWidget(self.lineHeight)
 
-        self.disableAutoTextColor = QSettingsCheckBox(_("Automatically generate the text color based on the current background color"))
-        self.disableAutoTextColor.setChecked(not self.getSettings("DisableAutomaticTextColor"))
-        self.disableAutoTextColor.stateChanged.connect(lambda i: (self.setSettings("DisableAutomaticTextColor", not bool(i)), self.fontColor.setChecked(False) if i else None))
-        self.clockAppearanceTitle.addWidget(self.disableAutoTextColor)
+        #self.disableAutoTextColor = QSettingsCheckBox(_("Automatically generate the text color based on the current background color"))
+        ##self.disableAutoTextColor.setChecked(not self.getSettings("DisableAutomaticTextColor"))
+        #self.disableAutoTextColor.stateChanged.connect(lambda i: (self.setSettings("DisableAutomaticTextColor", not bool(i)), self.fontColor.setChecked(False) if i else None))
+        #self.clockAppearanceTitle.addWidget(self.disableAutoTextColor)
 
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
         self.fontColor.setChecked(self.getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
             self.fontColor.button.setStyleSheet(f"color: rgb({self.getSettingsValue('UseCustomFontColor')})")
-        self.fontColor.stateChanged.connect(lambda i: (self.setSettings("UseCustomFontColor", bool(i)), self.disableAutoTextColor.setChecked(False) if i == True else None))
+        self.fontColor.stateChanged.connect(lambda i: (self.setSettings("UseCustomFontColor", bool(i))))
         self.fontColor.valueChanged.connect(lambda v: self.setSettingsValue("UseCustomFontColor", v))
         self.clockAppearanceTitle.addWidget(self.fontColor)
-        self.disableSystemTrayColor = QSettingsCheckBox(_("Disable clock taskbar background color (make clock transparent)"))
-        self.disableSystemTrayColor.setChecked(self.getSettings("DisableTaskbarBackgroundColor"))
-        self.disableSystemTrayColor.stateChanged.connect(lambda i: self.setSettings("DisableTaskbarBackgroundColor", bool(i)))
-        self.clockAppearanceTitle.addWidget(self.disableSystemTrayColor)
+        #self.disableSystemTrayColor = QSettingsCheckBox(_("Disable clock taskbar background color (make clock transparent)"))
+        #self.disableSystemTrayColor.setChecked(self.getSettings("DisableTaskbarBackgroundColor"))
+        #self.disableSystemTrayColor.stateChanged.connect(lambda i: self.setSettings("DisableTaskbarBackgroundColor", bool(i)))
+        #self.clockAppearanceTitle.addWidget(self.disableSystemTrayColor)
         self.backgroundcolor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
         self.backgroundcolor.setChecked(self.getSettings("UseCustomBgColor"))
         self.backgroundcolor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
@@ -466,10 +466,10 @@ class SettingsWindow(QMainWindow):
         self.backgroundcolor.stateChanged.connect(lambda i: self.setSettings("UseCustomBgColor", bool(i)))
         self.backgroundcolor.valueChanged.connect(lambda v: self.setSettingsValue("UseCustomBgColor", v))
         self.clockAppearanceTitle.addWidget(self.backgroundcolor)
-        self.accentBgColor = QSettingsCheckBox(_("Use system accent color as background color"))
-        self.accentBgColor.setChecked(self.getSettings("AccentBackgroundcolor"))
-        self.accentBgColor.stateChanged.connect(lambda i: self.setSettings("AccentBackgroundcolor", bool(i)))
-        self.clockAppearanceTitle.addWidget(self.accentBgColor)
+        #self.accentBgColor = QSettingsCheckBox(_("Use system accent color as background color"))
+        #self.accentBgColor.setChecked(self.getSettings("AccentBackgroundcolor"))
+        #self.accentBgColor.stateChanged.connect(lambda i: self.setSettings("AccentBackgroundcolor", bool(i)))
+        #self.clockAppearanceTitle.addWidget(self.accentBgColor)
         
         self.disableClocckBlurryBackgound = QSettingsCheckBox(_("Disable clock blurry texture"))
         self.disableClocckBlurryBackgound.setChecked(self.getSettings("DisableBlurryTexture"))
@@ -999,41 +999,41 @@ class SettingsWindow(QMainWindow):
             self.onlyPrimaryScreen.setEnabled(True)
 
         if self.enableLowCpuMode.isChecked():
-            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            self.disableSystemTrayColor.setEnabled(False)
+            #self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
+            #self.disableSystemTrayColor.setEnabled(False)
             self.disableNotificationBadge.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
             self.disableNotificationBadge.setEnabled(False)
             #self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
             #self.legacyRDPHide.setEnabled(False)
         else:
-            self.disableSystemTrayColor.setToolTip("")
-            self.disableSystemTrayColor.setEnabled(True)
+            #self.disableSystemTrayColor.setToolTip("")
+            #self.disableSystemTrayColor.setEnabled(True)
             self.disableNotificationBadge.setToolTip("")
             self.disableNotificationBadge.setEnabled(True)
             #self.legacyRDPHide.setToolTip("")
             #self.legacyRDPHide.setEnabled(True)
 
-        if self.backgroundcolor.isChecked():
-            self.disableSystemTrayColor.setEnabled(False)
-            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
-            self.accentBgColor.setEnabled(False)
-            self.accentBgColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
-        else:
-            self.disableSystemTrayColor.setEnabled(True)
-            self.disableSystemTrayColor.setToolTip("")
-            self.accentBgColor.setEnabled(True)
-            self.accentBgColor.setToolTip("")
+        #if self.backgroundcolor.isChecked():
+        #    self.disableSystemTrayColor.setEnabled(False)
+        #    self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+        #    self.accentBgColor.setEnabled(False)
+        #    self.accentBgColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
+        #else:
+        #    self.disableSystemTrayColor.setEnabled(True)
+        #    self.disableSystemTrayColor.setToolTip("")
+        #    self.accentBgColor.setEnabled(True)
+        #    self.accentBgColor.setToolTip("")
 
-        if self.accentBgColor.isChecked():
-            self.disableSystemTrayColor.setEnabled(False)
-            self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
-            self.backgroundcolor.setEnabled(False)
-            self.backgroundcolor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
-        else:
-            self.disableSystemTrayColor.setEnabled(True)
-            self.disableSystemTrayColor.setToolTip("")
-            self.backgroundcolor.setEnabled(True)
-            self.backgroundcolor.setToolTip("")
+        #if self.accentBgColor.isChecked():
+        #    self.disableSystemTrayColor.setEnabled(False)
+        #    self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
+        #    self.backgroundcolor.setEnabled(False)
+        #    self.backgroundcolor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
+        #else:
+        #    self.disableSystemTrayColor.setEnabled(True)
+        #    self.disableSystemTrayColor.setToolTip("")
+        #    self.backgroundcolor.setEnabled(True)
+        #    self.backgroundcolor.setToolTip("")
 
         if self.internetTime.isChecked():
             self.internetSyncTime.setEnabled(True)
