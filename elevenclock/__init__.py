@@ -207,7 +207,7 @@ try:
             print("🟠 Psutil couldn't be imported!")
             memOk = True
         
-        if globals.ww: isPrefsWinOpen = globals.sw.isVisible()
+        if globals.sw: isPrefsWinOpen = globals.sw.isVisible()
         else: isPrefsWinOpen = False
         if globals.ww: isWizardOpen = globals.ww.isVisible()
         else: isWizardOpen = False
@@ -572,8 +572,9 @@ try:
                 if self.getSettings("ClockFixedHeight"):
                     print("🟡 Custom height being used!")
                     try:
-                        self.preferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
-                        self.coverPreferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
+                        if self.getSettingsValue("ClockFixedHeight") != "":
+                            self.preferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
+                            self.coverPreferedHeight = int(self.getSettingsValue("ClockFixedHeight"))
                     except ValueError as e:
                         report(e)
                                 
@@ -669,14 +670,14 @@ try:
                 xoff = 0
                 yoff = 2
 
-                if self.getSettings("ClockXOffset"):
+                if self.getSettingsValue("ClockXOffset") != "":
                     print("🟡 X offset being used!")
                     try:
                         xoff = int(self.getSettingsValue("ClockXOffset"))
                     except ValueError as e:
                         report(e)
 
-                if self.getSettings("ClockYOffset"):
+                if self.getSettingsValue("ClockYOffset") != "":
                     print("🟡 Y offset being used!")
                     try:
                         yoff = int(self.getSettingsValue("ClockYOffset"))
@@ -1668,7 +1669,6 @@ try:
         def mousePressEvent(self, ev: QMouseEvent) -> None:
             if not self.isCover:
                 self.setWindowOpacity(0.7)
-                self.setWindowOpacity(0.7)
                 self.opacity.setOpacity(0.60)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
                 return super().mousePressEvent(ev)
@@ -1676,16 +1676,15 @@ try:
         def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
             if not self.isCover:
                 self.setWindowOpacity(1)
-                self.setWindowOpacity(1)
                 self.opacity.setOpacity(1)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
                 return super().mouseReleaseEvent(ev)
 
         def paintEvent(self, event: QPaintEvent) -> None:
-            w = self.minimumSizeHint().width()
-            mw = self.specifiedMinimumWidth
-            if mw > w:
-                w = mw
+            if self.specifiedMinimumWidth > 0:
+                w = self.specifiedMinimumWidth
+            else:
+                w = self.minimumSizeHint().width()
             if w<(self.window().preferedwidth) and not self.window().clockOnTheLeft:
                 self.move((self.window().preferedwidth)-w+2, 0)
                 self.resize(w, self.height()-1)
