@@ -266,8 +266,6 @@ def isDark():
 
 def ApplyMenuBlur(hwnd: int, window: QWidget, smallCorners: bool = False, avoidOverrideStyleSheet: bool = False, shadow: bool = True, useTaskbarModeCheck: bool = False):
     hwnd = int(hwnd)
-    #window.setAttribute(Qt.WA_TranslucentBackground)
-    #window.setAttribute(Qt.WA_NoSystemBackground)
     try:
 
         if not useTaskbarModeCheck:
