@@ -1365,16 +1365,19 @@ try:
             return super().close()
 
         def resizeEvent(self, event: QResizeEvent = None):
-            self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
-            self.progressbar.setFixedWidth(self.label.width())
-            self.colorWidget.setGeometry(self.label.geometry())
-            self.backgroundTexture.setGeometry(self.colorWidget.geometry())
-            if self.desktopButton:
-                if self.clockOnTheLeft:
-                    self.desktopButton.move(0, 0)
-                else:
-                    self.desktopButton.move(self.width()-self.desktopButton.width(), 0)
-                self.desktopButton.setFixedSize(self.desktopButton.width(), self.height())
+            try:
+                self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
+                self.progressbar.setFixedWidth(self.label.width())
+                self.colorWidget.setGeometry(self.label.geometry())
+                self.backgroundTexture.setGeometry(self.colorWidget.geometry())
+                if self.desktopButton:
+                    if self.clockOnTheLeft:
+                        self.desktopButton.move(0, 0)
+                    else:
+                        self.desktopButton.move(self.width()-self.desktopButton.width(), 0)
+                    self.desktopButton.setFixedSize(self.desktopButton.width(), self.height())
+            except Exception as e:
+                report(e)
             if event:
                 return super().resizeEvent(event)
 

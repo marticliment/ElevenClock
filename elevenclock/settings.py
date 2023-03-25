@@ -411,7 +411,17 @@ class SettingsWindow(QMainWindow):
         else:
                 self.fontSize.combobox.setCurrentText("9")
         self.fontSize.stateChanged.connect(lambda i: self.setSettings("UseCustomFontSize", bool(i)))
-        self.fontSize.valueChanged.connect(lambda v: self.setSettingsValue("UseCustomFontSize", v))
+        
+        def setCustomFont(v):
+            self.setSettingsValue("UseCustomFontSize", v, r=not(self.fontPrefs.isChecked()))
+            if self.fontPrefs.isChecked():
+                f = self.fontPrefs.fontPicker.currentFont()
+                f.setPointSizeF(float(v))
+                self.fontPrefs.fontPicker.setCurrentFont(f)
+                self.fontPrefs.valuechangedEvent(f)
+                self.fontPrefs.button.setFont(f)
+                
+        self.fontSize.valueChanged.connect(lambda v: setCustomFont(v))
         self.clockAppearanceTitle.addWidget(self.fontSize)
     
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
