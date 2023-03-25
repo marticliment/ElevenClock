@@ -428,7 +428,6 @@ class SettingsWindow(QMainWindow):
         if self.lineHeight.isChecked():
             try:
                 customlineHeight = self.getSettingsValue("CustomLineHeight")
-                cprint(customlineHeight)
                 if customlineHeight == "":
                     customlineHeight = "1"
             except Exception as e:
@@ -2809,7 +2808,6 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
 
             def showEvent(self, arg__1: QShowEvent) -> None:
                 ApplyMica(self.winId().__int__(), isWindowDark())
-                cprint(self.layout().widget())
                 return super().showEvent(arg__1)
 
         self.fontPicker = QFluentFontDialog(self)

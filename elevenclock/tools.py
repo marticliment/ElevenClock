@@ -886,7 +886,6 @@ def textToClipboard(text: str):
 t0 = time.time()
 
 langName = getSettingsValue("PreferredLanguage")
-cprint("langname: '"+langName+"'")
 if langName == "":
     if not QApplication.instance():
         a = QApplication(sys.argv)
