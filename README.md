@@ -29,6 +29,8 @@ ElevenClock was an app designed to return this functionality back, but it has ev
 ## Microsoft store installation:
 
 [<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://marticliment.com/redirect/?elevenclockstore)  
+<br>
+You can also download ElevenClock from its [homepage](https://www.marticliment.com/elevenclock/) or from [GitHub releases](https://github.com/marticliment/ElevenClock/releases/tag/4.1.0-beta2)
 (See the [WIKI](https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation) for more information)
 
 # Support the developer
