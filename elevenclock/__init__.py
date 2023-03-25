@@ -299,27 +299,26 @@ try:
         setSettings("ReloadInternetTime", True, thread=True)
         globals.doCacheHost = True
 
-
-
-
     def isElevenClockRunningThread():
         nowTime = time.time()
-        name = f"ElevenClockRunning{nowTime}"
-        setSettings(name, True, False)
+        LockFile = f"ElevenClockRunning{nowTime}"
+        LockFilePath = os.path.join(os.path.expanduser("~"), ".elevenclock", LockFile)
+        LockFileLocation = os.path.join(os.path.expanduser("~"), ".elevenclock")
+        setSettings(LockFile, True, False)
         while True:
             try:
-                if os.path.isfile(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ReloadClocks")):
+                if os.path.isfile(os.path.join(LockFileLocation, "ReloadClocks")):
                     try:
                         print("🟠 Restart clocks block file found!")
                         restartClocksSignal.restartSignal.emit()
-                        os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ReloadClocks"))
+                        os.remove(os.path.join(LockFileLocation, "ReloadClocks"))
                     except Exception as e:
                         report(e)
-                for file in glob.glob(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning*")):
-                    if(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), name) == file):
+                for file in glob.glob(os.path.join(LockFileLocation, "ElevenClockRunning*")):
+                    if(LockFilePath == file):
                         pass
                     else:
-                        if(float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
+                        if(float(file.replace(os.path.join(LockFileLocation, "ElevenClockRunning"), "")) < nowTime): # If lockfile is older
                             try:
                                 os.remove(file)
                             except FileNotFoundError:
@@ -330,12 +329,11 @@ try:
                                     except Exception as e:
                                         print("🟠 Can't delete, tried again")
                                         report(e)
-                        elif float(file.replace(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), "ElevenClockRunning"), "")) > nowTime:
+                        elif float(file.replace(os.path.join(LockFileLocation, "ElevenClockRunning"), "")) > nowTime:
                             globals.newInstanceLaunched = True
-                            if not getSettings("DisableNewInstanceChecker"):
-                                print("🟠 KILLING, NEWER VERSION RUNNING")
-                                killSignal.infoSignal.emit("", "")
-                if not(getSettings(name)):
+                            print("🟠 KILLING, NEWER VERSION RUNNING")
+                            killSignal.infoSignal.emit("", "")
+                if not os.path.exists(LockFilePath):
                     globals.newInstanceLaunched = True
                     print("🟠 KILLING, NEWER VERSION RUNNING")
                     killSignal.infoSignal.emit("", "")
