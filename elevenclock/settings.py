@@ -82,6 +82,12 @@ class SettingsWindow(QMainWindow):
 
         self.announcements = QAnnouncements()
         layout.addWidget(self.announcements)
+        
+        self.MessageLabel = QLabel()
+        self.MessageLabel.setObjectName("greyishLabel")
+        self.MessageLabel.setStyleSheet("font-size: 22pt;")
+        layout.addWidget(self.MessageLabel)
+        self.MessageLabel.hide()
 
 
         self.updateButton = QSettingsButton(_("<b>Update to the latest version!</b>"), _("Install update"))
@@ -120,7 +126,6 @@ class SettingsWindow(QMainWindow):
                 langDictWithPercentage[key] = value
                 langListWithPercentage.append(value)
         try:
-            cprint(invertedLangDict)
             self.selectedLanguage.setItems(langListWithPercentage, langListWithPercentage.index(langDictWithPercentage[langName]))
         except Exception as e:
             report(e)
@@ -130,7 +135,6 @@ class SettingsWindow(QMainWindow):
             self.selectedLanguage.restartButton.setVisible(True)
             i = self.selectedLanguage.combobox.currentIndex()
             selectedLang = invertedLangDict[self.selectedLanguage.combobox.currentText()] # list(languageReference.keys())[i]
-            cprint(invertedLangDict[self.selectedLanguage.combobox.currentText()])
             self.selectedLanguage.toggleRestartButton(selectedLang != langName)
             self.setSettingsValue("PreferredLanguage", selectedLang, r=False)
 
@@ -146,8 +150,6 @@ class SettingsWindow(QMainWindow):
         def ww():
             subprocess.run(str("start /B \"\" \""+sys.executable)+"\" --welcome", shell=True)
             globals.app.quit()
-
-
             
         self.wizardButton.clicked.connect(ww)
         self.wizardButton.button.setObjectName("AccentButton")
@@ -228,14 +230,6 @@ class SettingsWindow(QMainWindow):
         self.disableTooltip.setChecked(self.getSettings("DisableToolTip"))
         self.disableTooltip.stateChanged.connect(lambda i: self.setSettings("DisableToolTip", bool(i)))
         self.clockFeaturesTitle.addWidget(self.disableTooltip)
-        self.primaryScreen = QSettingsCheckBox(_("Show the clock on the primary screen"))
-        self.primaryScreen.setChecked(self.getSettings("ForceClockOnFirstMonitor"))
-        self.primaryScreen.stateChanged.connect(lambda i: self.setSettings("ForceClockOnFirstMonitor", bool(i)))
-        self.clockFeaturesTitle.addWidget(self.primaryScreen)
-        self.onlyPrimaryScreen = QSettingsCheckBox(_("Do not show the clock on secondary monitors"))
-        self.onlyPrimaryScreen.setChecked(self.getSettings("HideClockOnSecondaryMonitors"))
-        self.onlyPrimaryScreen.stateChanged.connect(lambda i: self.setSettings("HideClockOnSecondaryMonitors", bool(i)))
-        self.clockFeaturesTitle.addWidget(self.onlyPrimaryScreen)
         self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
         self.showDesktopButton.setChecked(self.getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: self.setSettings("ShowDesktopButton", bool(i)))
@@ -966,60 +960,18 @@ class SettingsWindow(QMainWindow):
         self.dateTimeTitle.resizeEvent()
 
         if not self.legacyHideOnFullScreen.isChecked():
-            #self.newFullScreenHide.setEnabled(False)
-            #self.newFullScreenHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Hide the clock in fullscreen mode")))
             self.TransparentClockWhenInFullscreen.setEnabled(True)
             self.TransparentClockWhenInFullscreen.setToolTip("")
         else:
-            #self.newFullScreenHide.setEnabled(True)
-            #self.newFullScreenHide.setToolTip("")
             self.TransparentClockWhenInFullscreen.setEnabled(False)
             self.TransparentClockWhenInFullscreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Hide the clock in fullscreen mode")))
 
-        if not self.primaryScreen.isChecked(): # Clock is set to be in primary monitor
-            self.onlyPrimaryScreen.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Show the clock on the primary screen")))
-            self.onlyPrimaryScreen.setEnabled(False)
-            self.onlyPrimaryScreen.setChecked(False)
-        else:
-            self.onlyPrimaryScreen.setToolTip("")
-            self.onlyPrimaryScreen.setEnabled(True)
-
         if self.enableLowCpuMode.isChecked():
-            #self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            #self.disableSystemTrayColor.setEnabled(False)
             self.disableNotificationBadge.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
             self.disableNotificationBadge.setEnabled(False)
-            #self.legacyRDPHide.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Enable low-cpu mode")))
-            #self.legacyRDPHide.setEnabled(False)
         else:
-            #self.disableSystemTrayColor.setToolTip("")
-            #self.disableSystemTrayColor.setEnabled(True)
             self.disableNotificationBadge.setToolTip("")
             self.disableNotificationBadge.setEnabled(True)
-            #self.legacyRDPHide.setToolTip("")
-            #self.legacyRDPHide.setEnabled(True)
-
-        #if self.backgroundcolor.isChecked():
-        #    self.disableSystemTrayColor.setEnabled(False)
-        #    self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
-        #    self.accentBgColor.setEnabled(False)
-        #    self.accentBgColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use a custom background color")))
-        #else:
-        #    self.disableSystemTrayColor.setEnabled(True)
-        #    self.disableSystemTrayColor.setToolTip("")
-        #    self.accentBgColor.setEnabled(True)
-        #    self.accentBgColor.setToolTip("")
-
-        #if self.accentBgColor.isChecked():
-        #    self.disableSystemTrayColor.setEnabled(False)
-        #    self.disableSystemTrayColor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
-        #    self.backgroundcolor.setEnabled(False)
-        #    self.backgroundcolor.setToolTip(_("<b>{0}</b> needs to be disabled to change this setting").format(_("Use system accent color as background color")))
-        #else:
-        #    self.disableSystemTrayColor.setEnabled(True)
-        #    self.disableSystemTrayColor.setToolTip("")
-        #    self.backgroundcolor.setEnabled(True)
-        #    self.backgroundcolor.setToolTip("")
 
         if self.internetTime.isChecked():
             self.internetSyncTime.setEnabled(True)
@@ -3104,7 +3056,8 @@ class CustomSettings(SettingsWindow):
         self.debbuggingTitle.hide()
         self.dummyTitle = QSettingsTitle("", "", "")
         self.mainLayout.insertWidget(3, self.dummyTitle)
-        
+        self.MessageLabel.setText("\n"+_("You need to enable the checkbox above\nin order to change those settings")+"\n")
+        self.MessageLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.enableCustomStyle = QSettingsCheckBox(_("Set clock {0} on monitor {1} to have a different style that the other clocks.").format(data[0], data[1]))
         self.enableCustomStyle.setChecked(getSettings(f"Individualize{id}"))
         self.enableCustomStyle.stateChanged.connect(lambda v: (setSettings(f"Individualize{id}", v), self.changeState()))
@@ -3170,6 +3123,7 @@ class CustomSettings(SettingsWindow):
         self.toolTipAppearanceTitle.setEnabled(v)
         self.experimentalTitle.setEnabled(v)
         self.importPrefs.setEnabled(v)
+        self.MessageLabel.setVisible(not v)
         
     def setSettings(self, s: str, v: bool, r: bool = True, thread = False):
         setSettings(s, v, r, thread, env = self.clockId)

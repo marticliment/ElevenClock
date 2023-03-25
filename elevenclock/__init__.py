@@ -191,18 +191,11 @@ try:
 
 
     def loadClocks():
-        global oldScreens, st, restartCount, st
-        try:
-            st.kill()
-        except AttributeError:
-            pass
-        CLOCK_ON_FIRST_MONITOR = getSettings("ForceClockOnfirstMonitor")
-        HIDE_CLOCK_ON_SECONDARY_DISPLAY = getSettings("HideClockOnSecondaryMonitors")
-        oldScreens = []
+        global restartCount
         globals.clocks = []
         if importedPsutil:
             process = psutil.Process(os.getpid())
-            memOk = (process.memory_info().rss/1048576) <= 150
+            memOk = (process.memory_info().rss/1048576) <= 250
         else:
             print("🟠 Psutil couldn't be imported!")
             memOk = True
@@ -217,23 +210,14 @@ try:
             i = 0
             for screen in app.screens():
                 screen: QScreen
-                oldScreens.append(getGeometry(screen))
-                if not screen == QGuiApplication.primaryScreen() or CLOCK_ON_FIRST_MONITOR: # Check if we are not on the primary screen
-                    if not HIDE_CLOCK_ON_SECONDARY_DISPLAY or screen == QGuiApplication.primaryScreen(): # First monitor is not affected by HideClockOnSecondaryMonitors
-                        globals.clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
-                        i += 1
-                    else:
-                        print("🟠 This is a secondary screen and is set to be skipped")
-                else: # Skip the primary display, as it has already the clock
-                    print("🟡 This is the primary screen and is set to be skipped")
-            st = KillableThread(target=screenCheckThread, daemon=True, name="Main [not from start]: Screen listener")
-            st.start()
+                globals.clocks.append(Clock(screen.logicalDotsPerInchX()/96, screen.logicalDotsPerInchY()/96, screen, i))
+                i += 1
             
             if getSettings("AutoReloadClocks"):
                Thread(target=lambda: (time.sleep(5*60), restartClocksSignal.restartSignal.emit())).start()
         else:
+            cprint("🔴 Overloading system, killing!")
             os.startfile(sys.executable)
-            print("🔴 Overloading system, killing!")
             app.quit()
             sys.exit(1)
 
@@ -266,10 +250,14 @@ try:
 
 
     def screenCheckThread():
-        while theyMatch(oldScreens, app.screens()):
+        global oldScreens
+        while True:
+            if not theyMatch(oldScreens, app.screens()):
+                oldScreens = []
+                for screen in app.screens():
+                    oldScreens.append(getGeometry(screen))
+                restartClocksSignal.restartSignal.emit()
             time.sleep(1)
-        signal.restartSignal.emit()
-        pass
 
     def closeClocks():
         for clock in globals.clocks:
@@ -874,6 +862,8 @@ try:
 
                 self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
                 
+                self.desktopButton: QHoverButton = None
+                
                 if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1 or self.getSettings("ShowDesktopButton")) and not self.isCover:
                     print("🟡 Desktop button enabled")
                     self.desktopButton = QHoverButton(parent=self)
@@ -1380,14 +1370,12 @@ try:
             self.progressbar.setFixedWidth(self.label.width())
             self.colorWidget.setGeometry(self.label.geometry())
             self.backgroundTexture.setGeometry(self.colorWidget.geometry())
-            try:
+            if self.desktopButton:
                 if self.clockOnTheLeft:
                     self.desktopButton.move(0, 0)
                 else:
                     self.desktopButton.move(self.width()-self.desktopButton.width(), 0)
                 self.desktopButton.setFixedSize(self.desktopButton.width(), self.height())
-            except AttributeError:
-                print("🟣 Expected AttributteError on resizeEvent")
             if event:
                 return super().resizeEvent(event)
 
@@ -1730,7 +1718,7 @@ try:
     shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
-    #KillableThread(target=timeStrThread, daemon=True, name="Main: Locale string loader").start()
+    KillableThread(target=screenCheckThread, daemon=True, name="Main [not from start]: Screen listener")
 
     loadClocks()
 
