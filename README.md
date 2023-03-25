@@ -1,24 +1,21 @@
+ <h1><img height=40 src="https://github.com/marticliment/ElevenClock/blob/main/elevenclock/resources/icon.png?raw=true"> ElevenClock</h1>
+
 [![Downloads@latest](https://img.shields.io/github/downloads/marticliment/elevenclock/3.6.0/total?label=downloads&style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases/latest/download/ElevenClock.Installer.exe)
 [![Release Version Badge](https://img.shields.io/github/v/release/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/releases)
 [![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
 [![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
 
-# ElevenClock
 
 The whole point of ElevenClock is to have a customizable clock on your Windows 11 taskbars. When Microsoft's engineers were creating Windows 11, they forgot to add a clock on the secondary screen taskbar. So I did that. 
-ElevenClock was an app designed to return this functionality back, but it has evolved and it can now replace your system clock in order to let you customize it, adding seconds, moving it around, changing its color and much more, like in the good old days.  
+ElevenClock was an app designed to return this functionality back, but it has evolved and it can now replace your system clock in order to let you customize it, adding seconds, moving it around, changing its color and much more, like in the good old days.
 
-Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more info about ElevenClock's main capabilities. Thanks to [@NXTWindows](https://twitter.com/nxtwindows) for this nice video!
+**This is ElevenClock's official repository. If you are searching ElevenClock's homepage, please refer to [https://www.marticliment.com/elevenclock/](https://www.marticliment.com/elevenclock/)**
 
 [![Status](https://img.shields.io/badge/Project%20current%20development%20status-Active-brightgreen?style=for-the-badge)]()
 
-![Eleven Clock demo](https://raw.githubusercontent.com/martinet101/ElevenClock/master/media/banner.png)
-
-# Support me :)
-<a href='https://ko-fi.com/martinet101' target='_blank'><img style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
- 
  
 ## Table of contents
+ - **[ElevenClock Homepage](https://www.marticliment.com/elevenclock/)**
  - [Table of contents](#table-of-contents)
  - [Installation](#microsoft-store-installation)
  - [Support the developer](#support-the-developer)
@@ -26,7 +23,6 @@ Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more
  - [Translating ElevenClock][translating link]
    - [Currently supported languages](#currently-supported-languages)
  - [Screenshots](#screenshots)
-   - [Settings window screenshots](#settings-window-screenshots)
  - [Frequently Asked Questions](#frequently-asked-questions)
  - [Legacy installation](#legacy-installation)
 
@@ -35,8 +31,9 @@ Check out [this review](https://www.youtube.com/watch?v=d-h4Pf4uZ6c) to get more
 [<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://marticliment.com/redirect/?elevenclockstore)  
 (See the [WIKI](https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation) for more information)
 
-
-
+# Support the developer
+<a href='https://ko-fi.com/martinet101' target='_blank'><img style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+ 
 ## Features
 
 TL;DR: ElevenClock does everything that Windows 11 clock can't do.
@@ -125,6 +122,7 @@ ElevenClock's icon is a collaboration with [Xavier Delugo](https://www.instagram
 
 ElevenClock's promo media
 
+![](https://github.com/martinet101/ElevenClock/blob/main/media/img1.webp?raw=true)
 ![](https://github.com/martinet101/ElevenClock/blob/main/media/img2.webp?raw=true)
 ![](https://github.com/martinet101/ElevenClock/blob/main/media/img3.webp?raw=true)
 ![](https://github.com/martinet101/ElevenClock/blob/main/media/img4.webp?raw=true)
