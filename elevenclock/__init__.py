@@ -468,7 +468,6 @@ try:
         AWindowIsInFullScreen: bool = False
         clockCover = None
         isIgnoringClicks = False
-        oldTextColor: str = ""
         shownBackgroundOnSolidColor: bool = False
         clockId: str = ""
         clockNumber: bool = 0
@@ -1533,11 +1532,11 @@ try:
                             self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
                 else:
                     if winver < 22581:
-                        self.focusAssitantLabel.setIcon(self.moonIconWhite if self.window().oldTextColor == "white" else self.moonIconBlack)
+                        self.focusAssitantLabel.setIcon(self.moonIconWhite if self.window().LastCapturedForegroundColor == "white" else self.moonIconBlack)
                     else:
-                        if self.window().oldTextColor == "black":
+                        if self.window().LastCapturedForegroundColor == "black":
                             self.focusAssitantLabel.setIcon(self.emptyBellBlack if numOfNotifs == 0 else self.filledBellBlack)
-                        elif self.window().oldTextColor == "white":
+                        elif self.window().LastCapturedForegroundColor == "white":
                             self.focusAssitantLabel.setIcon(self.emptyBellWhite if numOfNotifs == 0 else self.filledBellWhite)
                         else:
                             self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
