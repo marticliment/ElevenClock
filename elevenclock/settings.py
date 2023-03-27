@@ -1572,6 +1572,7 @@ class SettingsWindow(QMainWindow):
                         background-color: rgba(196, 43, 28, 1);
                     }}
                     QSlider {{
+                        background-color: transparent;
                         height: 20px;
                         margin-left: 10px;
                         margin-right: 10px;
@@ -1579,29 +1580,36 @@ class SettingsWindow(QMainWindow):
                     }}
                     QSlider::groove {{
                         height: 4px;
-                        border: 1px solid rgba(196, 196, 196, 25%);
-                        background: #303030;
+                        border-radius: 2px;
+                        border: 1px solid rgba(150, 150, 150, 100%);
+                        background: transparent;
                     }}
+                    QSlider::groove:disabled {{
+                        height: 4px;
+                        border-radius: 2px;
+                        background: transparent;
+                    }}
+                    
                     QSlider::handle {{
-                        border: 4px solid #eeeeee;
+                        border: 4px solid #cccccc;
                         margin: -8px -10px;
                         height: 8px;
                         border-radius: 9px;
-                        background: rgb({colors[4]});
+                        background: rgb({colors[3]});
                     }}
                     QSlider::handle:hover {{
-                        border: 1px solid #eeeeee;
+                        border: 3px solid #cccccc;
                         margin: -8px -10px;
                         height: 8px;
                         border-radius: 9px;
-                        background: rgb({colors[4]});
+                        background: rgb({colors[3]});
                     }}
                     QSlider::handle:disabled {{
-                        border: 4px solid #eeeeee;
+                        border: 4px solid #cccccc;
                         margin: -8px -10px;
                         height: 8px;
                         border-radius: 9px;
-                        background: rgba(106, 106, 106, 25%);
+                        background: rgba(106, 106, 106, 100%);
                     }}
                     QSlider::add-page {{
                         border-radius: 3px;
@@ -1741,19 +1749,17 @@ class SettingsWindow(QMainWindow):
                         border-bottom-color: rgb({colors[3]});
                     }}
                     #title{{
-                        /*background-color: rgba(255, 255, 255, 10%);
-                        */margin: 2px;
+                        margin: 2px;
                         margin-bottom: 0;
                         padding-left: 20px;
                         padding-top: 15px;
                         padding-bottom: 15px;
-                        font-family: "Segoe UI Variable Display";
-                        font-weight: bold;
+                        font-family: "Segoe UI Variable Display semib";
                         font-size: 13pt;
                         border-radius: 8px;
                     }}
                     #subtitleLabel{{
-                        background-color: white;
+                        background-color: rgba(255, 255, 255, 50%);
                         margin: 10px;
                         margin-bottom: 0;
                         margin-top: 0;
@@ -1761,7 +1767,7 @@ class SettingsWindow(QMainWindow):
                         padding-top: 15px;
                         padding-bottom: 15px;
                         border-radius: 8px;
-                        border: 1 solid rgba(222, 222, 222, 50%);
+                        border: 1px solid rgba(220, 220, 220, 50%);
                         font-size: 13pt;
                         border-top-left-radius: 8px;
                         border-top-right-radius: 8px;
@@ -1777,31 +1783,32 @@ class SettingsWindow(QMainWindow):
                         border: 1px solid transparent;
                     }}
                     #subtitleLabelHover:hover{{
-                        background-color: rgba(0, 0, 0, 3%);
+                        background-color: rgba(0, 0, 0, 2%);
                         margin: 10px;
                         margin-top: 0;
                         margin-bottom: 0;
                         padding-left: 20px;
                         padding-top: 15px;
                         padding-bottom: 15px;
-                        border: 1px solid rgba(196, 196, 196, 25%);
+                        border: 1px solid rgba(220, 220, 220, 50%);
+                        border-bottom: 1px solid rgba(200, 200, 200, 50%);
                         font-size: 13pt;
                         border-top-left-radius: 8px;
                         border-top-right-radius: 8px;
                     }}
                     #StLbl{{
                         padding: 0;
-                        background-color: rgba(255, 255, 255, 10%);
+                        background-color: rgba(255, 255, 255,0%);
                         margin: 0;
                         border:none;
                         font-size: 11px;
                     }}
                     #stBtn{{
-                        background-color: rgba(255, 255, 255, 10%);
+                        background-color: rgba(255, 255, 255, 0%);
                         margin: 10px;
                         margin-bottom: 0;
                         margin-top: 0;
-                        border: 1px solid rgba(196, 196, 196, 25%);
+                        border: 1px solid rgba(196, 196, 196, 15%);
                         border-bottom: 0;
                         border-bottom-left-radius: 0;
                         border-bottom-right-radius: 0;
@@ -1814,11 +1821,11 @@ class SettingsWindow(QMainWindow):
                     #stChkBg{{
                         padding: 15px;
                         padding-left: 45px;
-                        background-color: rgba(255, 255, 255, 10%);
+                        background-color: rgba(255, 255, 255, 0%);
                         margin: 10px;
                         margin-bottom: 0;
                         margin-top: 0;
-                        border: 1px solid rgba(196, 196, 196, 25%);
+                        border: 1px solid rgba(196, 196, 196, 15%);
                         border-bottom: 0;
                     }}
                     QCheckBox::indicator{{
@@ -1843,13 +1850,13 @@ class SettingsWindow(QMainWindow):
                     }}
                     QCheckBox::indicator:checked {{
                         border: 0 solid rgba(136, 136, 136, 25%);
-                        background-color: rgb({colors[4]});
+                        background-color: rgb({colors[3]});
                         border-radius: 5px;
                         image: url("{getPath("tick_black.png")}");
                     }}
                     QCheckBox::indicator:checked:hover {{
                         border: 0 solid rgba(136, 136, 136, 25%);
-                        background-color: rgb({colors[3]});
+                        background-color: rgb({colors[2]});
                         border-radius: 5px;
                         image: url("{getPath("tick_black.png")}");
                     }}
@@ -1860,7 +1867,7 @@ class SettingsWindow(QMainWindow):
                         border-radius: 6px;
                         image: url("{getPath("tick_white.png")}");
                     }}
-                    #stCmbbx {{
+                    QComboBox {{
                         width: 100px;
                         background-color: rgba(255, 255, 255, 10%);
                         border-radius: 8px;
@@ -1869,24 +1876,24 @@ class SettingsWindow(QMainWindow):
                         padding-left: 10px;
                         border-bottom: 1px solid rgba(204, 204, 204, 25%);
                     }}
-                    #stCmbbx:disabled {{
+                    QComboBox:disabled {{
                         width: 100px;
                         background-color: #eeeeee;
                         border-radius: 8px;
                         border: 1px solid rgba(196, 196, 196, 25%);
-                        height: 25px;
+                        height: 30px;
                         padding-left: 10px;
                         border-top: 1px solid rgba(196, 196, 196, 25%);
                     }}
-                    #stCmbbx:hover {{
+                    QComboBox:hover {{
                         background-color: rgba(238, 238, 238, 25%);
                         border-radius: 8px;
                         border: 1px solid rgba(196, 196, 196, 25%);
-                        height: 25px;
+                        height: 30px;
                         padding-left: 10px;
                         border-bottom: 1px solid rgba(204, 204, 204, 25%);
                     }}
-                    #stCmbbx::drop-down {{
+                    QComboBox::drop-down {{
                         subcontrol-origin: padding;
                         subcontrol-position: top right;
                         padding: 5px;
@@ -1894,31 +1901,31 @@ class SettingsWindow(QMainWindow):
                         border: none;
                         width: 30px;
                     }}
-                    #stCmbbx::down-arrow {{
+                    QComboBox::down-arrow {{
                         image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
                         height: 8px;
                         width: 8px;
                     }}
-                    #stCmbbx::down-arrow:disabled {{
+                    QComboBox::down-arrow:disabled {{
                         image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                        height: 2px;
-                        width: 2px;
+                        height: 8px;
+                        width: 8px;
                     }}
-                    #stCmbbx QAbstractItemView {{
+                    QAbstractItemView {{
                         border: 1px solid rgba(196, 196, 196, 25%);
                         padding: 4px;
-                        outline: 0;
-                        background-color: rgba(255, 255, 255, 10%);
+                        outline: 0px;
+                        background-color: rgba(255, 255, 255, 100%);
                         border-radius: 8px;
                     }}
-                    #stCmbbx QAbstractItemView::item{{
+                    QAbstractItemView::item{{
                         height: 30px;
                         border: none;
                         padding-left: 10px;
                         border-radius: 4px;
                     }}
-                    #stCmbbx QAbstractItemView::item:selected{{
-                        background: rgba(0, 0, 0, 6%);
+                    QAbstractItemView::item:selected{{
+                        background: rgba(240, 240, 240, 90%);
                         height: 30px;
                         outline: none;
                         color: black;
@@ -1926,6 +1933,16 @@ class SettingsWindow(QMainWindow):
                         padding-left: 10px;
                         border-radius: 4px;
                     }}
+                    QAbstractItemView::item:focus{{
+                        background: rgba(240, 240, 240, 80%);
+                        color: rgb({colors[4]});
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+
                     QSCrollArea,QVBoxLayout{{
                         border: none;
                         margin: none;
@@ -1933,7 +1950,7 @@ class SettingsWindow(QMainWindow):
                         outline: none;
                     }}
                     QScrollBar:vertical {{
-                        background: rgba(255, 255, 255, 10%);
+                        background: rgba(255, 255, 255, 0%);
                         margin: 4px;
                         width: 20px;
                         border: none;
@@ -1943,12 +1960,12 @@ class SettingsWindow(QMainWindow):
                         margin: 3px;
                         border-radius: 3px;
                         min-height: 20px;
-                        background: rgba(196, 196, 196, 25%);
+                        background: rgba(90, 90, 90, 25%);
                     }}
                     QScrollBar::handle:vertical:hover {{
                         margin: 3px;
                         border-radius: 3px;
-                        background: rgba(136, 136, 136, 25%);
+                        background: rgba(90, 90, 90, 35%);
                     }}
                     QScrollBar::add-line:vertical {{
                         height: 0;
