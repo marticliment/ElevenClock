@@ -19,8 +19,6 @@ import win32gui
 from external.blurwindow import GlobalBlur, ExtendFrameIntoClientArea
 import pyautogui
 
-
-
 import globals
 from languages import *
 from external.FramelessWindow import QFramelessDialog
@@ -37,6 +35,7 @@ import win32con
 
 specificSettings = {}
 missingTranslationList = []
+lastMenuTheme = -1
 
 try:
     winver = int(platform.version().split('.')[2])
@@ -53,7 +52,7 @@ def touch(f):
         f.close()
     except FileExistsError:
         pass
-    
+
 
 def _(s): # Translate function
     global lang
@@ -567,157 +566,162 @@ class TaskbarIconTray(QSystemTrayIcon):
         return round(i*self.screen().devicePixelRatio())
 
     def applyStyleSheet(self) -> None:
+        global lastMenuTheme
         if isTaskbarDark():
-            self.iconMode = "white"
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#21212140", Dark=True)
             ExtendFrameIntoClientArea(self.toolsMenu.winId())
             ExtendFrameIntoClientArea(self.contextMenu().winId())
+            if lastMenuTheme != 0:
+                lastMenuTheme = 0
+                self.iconMode = "white"
 
-            if "zh_TW" in lang["locale"]:
-                fontStr = "font-family: \"Microsoft Jhenghei UI\""
-            elif "zh_CN" in lang["locale"]:
-                fontStr = "font-family: \"Microsoft YaHei UI\""
-            else:
-                fontStr = "font-family: \"Segoe UI Variable Text\""
-            
-            self.contextMenu().setStyleSheet(f"""
-                * {{
-                    border-radius: 8px;
-                    background-color: transparent;
-                    font-size: 9pt;
-                    {fontStr};
-                }}
-                QWidget{{
-                    background-color: transparent;
-                    border-radius: 8px;
-                }}
-                QMenu {{
-                    border: 1px solid #111111;
-                    padding: 2px;
-                    outline: 0;
-                    color: white;
-                    icon-size: {(32)}px;
-                    background: rgba(0, 0, 0, 0.01%);
-                    border-radius: 8px;
-                }}
-                QMenu::separator {{
-                    margin: {(-2)}px;
-                    margin-top: 2px;
-                    margin-bottom: 2px;
-                    height: 1px;
-                    background-color: rgba(255, 255, 255, 20%);
-                }}
-                QMenu::icon {{
-                    padding-left: 10px;
-                    padding-left: 10px;
-                }}
-                QMenu::item {{
-                    height: 30px;
-                    border: none;
-                    background: transparent;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                    margin: 2px;
-                }}
-                QMenu::item:selected {{
-                    background: rgba(255, 255, 255, 6%);
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                }}
-                QMenu::item:disabled {{
-                    background: transparent;
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    color: grey;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                }}
-                QMenu::item:selected:disabled {{
-                    background: transparent;
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                }}
-                """)
+                if "zh_TW" in lang["locale"]:
+                    fontStr = "font-family: \"Microsoft Jhenghei UI\""
+                elif "zh_CN" in lang["locale"]:
+                    fontStr = "font-family: \"Microsoft YaHei UI\""
+                else:
+                    fontStr = "font-family: \"Segoe UI Variable Text\""
+                
+                self.contextMenu().setStyleSheet(f"""
+                    * {{
+                        border-radius: 8px;
+                        background-color: transparent;
+                        font-size: 9pt;
+                        {fontStr};
+                    }}
+                    QWidget{{
+                        background-color: transparent;
+                        border-radius: 8px;
+                    }}
+                    QMenu {{
+                        border: 1px solid #111111;
+                        padding: 2px;
+                        outline: 0;
+                        color: white;
+                        icon-size: {(32)}px;
+                        background: rgba(0, 0, 0, 0.01%);
+                        border-radius: 8px;
+                    }}
+                    QMenu::separator {{
+                        margin: {(-2)}px;
+                        margin-top: 2px;
+                        margin-bottom: 2px;
+                        height: 1px;
+                        background-color: rgba(255, 255, 255, 20%);
+                    }}
+                    QMenu::icon {{
+                        padding-left: 10px;
+                        padding-left: 10px;
+                    }}
+                    QMenu::item {{
+                        height: 30px;
+                        border: none;
+                        background: transparent;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                        margin: 2px;
+                    }}
+                    QMenu::item:selected {{
+                        background: rgba(255, 255, 255, 6%);
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                    }}
+                    QMenu::item:disabled {{
+                        background: transparent;
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        color: grey;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                    }}
+                    QMenu::item:selected:disabled {{
+                        background: transparent;
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                    }}
+                    """)
         else:
-            self.iconMode = "black"
             GlobalBlur(self.contextMenu().winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             GlobalBlur(self.toolsMenu.winId(), Acrylic=True, hexColor="#eeeeee40", Dark=False)
             ExtendFrameIntoClientArea(self.toolsMenu.winId())
             ExtendFrameIntoClientArea(self.contextMenu().winId())
-            
-            if "zh_TW" in lang["locale"]:
-                fontStr = "font-family: \"Microsoft Jhenghei UI\""
-            elif "zh_CN" in lang["locale"]:
-                fontStr = "font-family: \"Microsoft YaHei UI\""
-            else:
-                fontStr = "font-family: \"Segoe UI Variable Text\""
-            
-            self.contextMenu().setStyleSheet(f"""
-                * {{
-                    {fontStr};
-                }}
-                QWidget{{
-                    background-color: transparent;
-                }}
-                QMenu {{
-                    border: 1px solid rgb(200, 200, 200);
-                    padding: 2px;
-                    outline: 0;
-                    color: black;
-                    icon-size: {(32)}px;
-                    background: rgba(220, 220, 220, 1%)/*#262626*/;
-                    border-radius: 8px;
-                }}
-                QMenu::separator {{
-                    margin: {(-2)}px;
-                    margin-top: 2px;
-                    margin-bottom: 2px;
-                    height: 1px;
-                    background-color: rgba(0, 0, 0, 20%);
-                }}
-                QMenu::icon{{
-                    padding-left: 10px;
-                }}
-                QMenu::item{{
-                    height: 30px;
-                    border: none;
-                    background: transparent;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                    margin: 2px;
-                }}
-                QMenu::item:selected{{
-                    background: rgba(0, 0, 0, 10%);
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                }}
-                QMenu::item:selected:disabled{{
-                    background: transparent;
-                    height: 30px;
-                    outline: none;
-                    border: none;
-                    padding-right: {(20)}px;
-                    padding-left: 0;
-                    border-radius: 4px;
-                }}
-                """)
+            if lastMenuTheme != 1:
+                lastMenuTheme = 1
+                self.iconMode = "black"
+                
+                if "zh_TW" in lang["locale"]:
+                    fontStr = "font-family: \"Microsoft Jhenghei UI\""
+                elif "zh_CN" in lang["locale"]:
+                    fontStr = "font-family: \"Microsoft YaHei UI\""
+                else:
+                    fontStr = "font-family: \"Segoe UI Variable Text\""
+                
+                self.contextMenu().setStyleSheet(f"""
+                    * {{
+                        {fontStr};
+                    }}
+                    QWidget{{
+                        background-color: transparent;
+                    }}
+                    QMenu {{
+                        border: 1px solid rgb(200, 200, 200);
+                        padding: 2px;
+                        outline: 0;
+                        color: black;
+                        icon-size: {(32)}px;
+                        background: rgba(220, 220, 220, 1%)/*#262626*/;
+                        border-radius: 8px;
+                    }}
+                    QMenu::separator {{
+                        margin: {(-2)}px;
+                        margin-top: 2px;
+                        margin-bottom: 2px;
+                        height: 1px;
+                        background-color: rgba(0, 0, 0, 20%);
+                    }}
+                    QMenu::icon{{
+                        padding-left: 10px;
+                    }}
+                    QMenu::item{{
+                        height: 30px;
+                        border: none;
+                        background: transparent;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                        margin: 2px;
+                    }}
+                    QMenu::item:selected{{
+                        background: rgba(0, 0, 0, 10%);
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                    }}
+                    QMenu::item:selected:disabled{{
+                        background: transparent;
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: {(20)}px;
+                        padding-left: 0;
+                        border-radius: 4px;
+                    }}
+                    """)
         self.datetimeprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
         self.individualSettings.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
         self.notifprefs.setIcon(QIcon(getPath(f"settings_{self.iconMode}.png")))
