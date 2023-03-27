@@ -37,6 +37,8 @@
   "Change the action done when the clock is clicked" : "Az órára kattintva végrehajtott művelet módosítása",
   "Change the action done when the clock is double-clicked" : "Módosítsa az órára dupla kattintással végrehajtott műveletet",
   "Change the action done when the clock is middle-clicked" : "Az órára görgővel való kattintás módosítása",
+  "Change the height of the clock" : null,
+  "Change the width of the clock" : null,
   "Click on Apply to apply and preview the format" : "Kattintson az \"Alkalmaz\" gombra a formátum megtekintéséhez",
   "Clock {0} on {1}" : null,
   "Clock {0} on monitor {1}" : null,
@@ -108,6 +110,7 @@
   "Hide extended options from the clock right-click menu (needs a restart to be applied)" : "Kiterjesztett beállítások elrejtése az óra helyi menüjében",
   "Hide the clock, as the default windows clock would do." : "Az óra elrejtése, ahogy a Windows alapértelmezett órája tenné.",
   "Hide the clock during 10 seconds when clicked" : "Kattintás után az óra elrejtése 10 másodpercre",
+  "Hide the clock during 5 seconds when hoveredwith the mouse" : null,
   "Hide the clock in fullscreen mode" : "Óra elrejtése teljes képernyős módban",
   "Hide the clock (<i>Recommended</i>)" : "Az óra elrejtése (<i>ajánlott</i>)",
   "If you already know how does this work, or you want to skip the welcome wizard, please click on the bottom-left <i>Skip</i> button." : "Ha már tudja, hogyan működik ez, vagy ki szeretné hagyni az üdvözlő varázslót, kattintson a bal alsó <i>Kihagyás</i> gombra.",
@@ -116,6 +119,7 @@
   "Ignore mouse clicks when on fullscreen" : "Teljes képernyőn hagyja figyelmen kívül az egérkattintásokat",
   "Import" : "Import",
   "Import settings from a local file" : "Beállítások importálása egy helyi fájlból",
+  "Increase the length of the double-click period" : null,
   "Info, report a bug, submit a feature request, donate, about" : "Információk, hibajelentés, új funkció kérelmezése, anyagi támogatás, névjegy",
   "Install update" : "Frissítés telepítése",
   "Internet date and time" : "Internetes dátum és idő",
@@ -169,6 +173,7 @@
   "Quit ElevenClock" : "Kilépés az ElevenClock-ból",
   "Regional settings" : "Területi beállítások",
   "Reload Clocks" : "Órák újratöltése",
+  "Reload clocks automatically every 5 minutes" : null,
   "Reload clocks right after exiting from sleep" : "Töltse újra az órákat közvetlenül az alvásból való kilépés után",
   "Reload log" : "Napló újratöltése",
   "Remember that this wizard can be run at any time from the Settings Window" : "Ne feledje, hogy ez a varázsló bármikor futtatható a Beállítások ablakból",
@@ -247,5 +252,6 @@
   "White&Black" : "Fehér&Fekete",
   "Yes" : "Igen",
   "You are now ready to go!" : "Most készen áll a kezdésre!",
-  "You might lose functionalities, like the notification counter or the dynamic background" : "Olyan funkciókat veszíthet el, mint pl. az értesítések számlálója vagy a dinamikus háttér"
+  "You might lose functionalities, like the notification counter or the dynamic background" : "Olyan funkciókat veszíthet el, mint pl. az értesítések számlálója vagy a dinamikus háttér",
+  "You need to enable the checkbox above\nin order to change those settings" : null
 }

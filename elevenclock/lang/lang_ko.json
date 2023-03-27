@@ -37,6 +37,8 @@
   "Change the action done when the clock is clicked" : "시계를 클릭할 때 수행된 작업 변경",
   "Change the action done when the clock is double-clicked" : "시계가 두 번 클릭될 때 수행된 작업 변경",
   "Change the action done when the clock is middle-clicked" : "시계를 가운데로 클릭할 때 수행되는 작업 변경",
+  "Change the height of the clock" : null,
+  "Change the width of the clock" : null,
   "Click on Apply to apply and preview the format" : "양식을 적용하고 미리 보려면 적용을 클릭하십시오",
   "Clock {0} on {1}" : "{1}의 {0} 시계",
   "Clock {0} on monitor {1}" : "{1} 모니터의 {0} 시계",
@@ -108,6 +110,7 @@
   "Hide extended options from the clock right-click menu (needs a restart to be applied)" : "시계 오른쪽 버튼 메뉴에서 확장 옵션 숨기기 (적용하려면 재시작 필요)",
   "Hide the clock, as the default windows clock would do." : "기본 창 시계처럼 시계를 숨깁니다.",
   "Hide the clock during 10 seconds when clicked" : "클릭하면 10초 동안 시계 숨기기",
+  "Hide the clock during 5 seconds when hoveredwith the mouse" : null,
   "Hide the clock in fullscreen mode" : "전체 화면 모드에서 시계 숨기기",
   "Hide the clock (<i>Recommended</i>)" : "시계 숨기기 (<i>권장</i>)",
   "If you already know how does this work, or you want to skip the welcome wizard, please click on the bottom-left <i>Skip</i> button." : "이 작업의 작동 방식을 이미 알고 있거나 환영 마법사를 건너뛰려면 왼쪽 하단 <i>건너뛰기</i> 버튼을 클릭하십시오.",
@@ -116,6 +119,7 @@
   "Ignore mouse clicks when on fullscreen" : "전체 화면에 있을 때 마우스 클릭 무시",
   "Import" : "가져오기",
   "Import settings from a local file" : "로컬 파일에서 설정 가져오기",
+  "Increase the length of the double-click period" : null,
   "Info, report a bug, submit a feature request, donate, about" : "정보, 버그 보고, 기능 요청 제출, 기부, 정보",
   "Install update" : "업데이트 설치",
   "Internet date and time" : "인터넷 날짜 및 시간",
@@ -169,6 +173,7 @@
   "Quit ElevenClock" : "ElevenClock 끝내기",
   "Regional settings" : "지역 설정",
   "Reload Clocks" : "시계 다시 불러오기",
+  "Reload clocks automatically every 5 minutes" : null,
   "Reload clocks right after exiting from sleep" : "절전 모드를 종료한 후 바로 시계 다시 로드",
   "Reload log" : "로그 새로 고침",
   "Remember that this wizard can be run at any time from the Settings Window" : "이 마법사는 설정 창에서 언제든지 실행할 수 있습니다",
@@ -247,5 +252,6 @@
   "White&Black" : "흑백",
   "Yes" : "예",
   "You are now ready to go!" : "이제 갈 준비가 되었습니다!",
-  "You might lose functionalities, like the notification counter or the dynamic background" : "알림 카운터 또는 동적 배경과 같은 기능을 잃을 수 있습니다."
+  "You might lose functionalities, like the notification counter or the dynamic background" : "알림 카운터 또는 동적 배경과 같은 기능을 잃을 수 있습니다.",
+  "You need to enable the checkbox above\nin order to change those settings" : null
 }
