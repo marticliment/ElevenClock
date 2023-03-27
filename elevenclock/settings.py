@@ -1219,6 +1219,12 @@ class SettingsWindow(QMainWindow):
                         height: 30px;
                         border-top: 1px solid rgba(107, 107, 107, 25%);
                     }}
+                    QPushButton:disabled {{
+                        background-color:rgba(86, 86, 86, 10%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(100, 100, 100, 10%);
+                        height: 30px;
+                    }}
                     #AccentButton{{
                         color: black;
                         background-color: rgb({colors[1]});
@@ -1390,6 +1396,12 @@ class SettingsWindow(QMainWindow):
                         border: 1px solid rgba(100, 100, 100, 15%);
                         height: 30px;
                         border-top: 1px solid rgba(107, 107, 107, 15%);
+                    }}
+                    QComboBox:disabled {{
+                        background-color:rgba(86, 86, 86, 10%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(100, 100, 100, 10%);
+                        height: 30px;
                     }}
                     QComboBox::drop-down {{
                         subcontrol-origin: padding;
@@ -2731,7 +2743,7 @@ class QCustomColorDialog(QColorDialog):
     def __init__(self, parent = ...) -> None:
         super().__init__(parent=parent)
         self.setWindowModality(Qt.WindowModality.WindowModal)
-        self.setStyleSheet(f"*{{border-radius: 4px;}}  QColorLuminancePicker {{background-color: transparent; border: 4px solid black;margin: none; border: none; padding: none;}} ")
+        self.setStyleSheet(f"*{{border-radius: 8px;}}  QColorLuminancePicker {{background-color: transparent; border: 4px solid black;margin: none; border: none; padding: none;}} ")
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
         self.setWindowTitle("‎")
