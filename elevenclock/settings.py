@@ -1588,8 +1588,7 @@ class SettingsWindow(QMainWindow):
                         height: 4px;
                         border-radius: 2px;
                         background: transparent;
-                    }}
-                    
+                    }} 
                     QSlider::handle {{
                         border: 4px solid #cccccc;
                         margin: -8px -10px;
