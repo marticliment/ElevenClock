@@ -42,6 +42,7 @@ from external.blurwindow import ExtendFrameIntoClientArea, GlobalBlur
 
 class SettingsWindow(QMainWindow):
     callInMain = Signal(object)
+    lastTheme: int = -1
     def __init__(self):
         super().__init__()
         self.callInMain.connect(lambda f: f())
@@ -999,936 +1000,967 @@ class SettingsWindow(QMainWindow):
         self.staticVerticalWidget.setMaximumWidth(1000)
         colors = getColors()
         self.iconMode = getAppIconMode()
-        self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
-        self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
-        self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
-        self.clockFeaturesTitle.setIcon(getPath(f"plugin_{self.iconMode}.png"))
-        self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
-        self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
-        self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
-        self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
-        self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
-        self.toolTipAppearanceTitle.setIcon(QIcon(getPath(f"tooltip_{self.iconMode}.png")))
-        self.internetTimeTitle.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
-        self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
         if isWindowDark():
-            self.setStyleSheet(f"""
-                               *::disabled {{
-                                   color: grey;
-                               }}
-                               #backgroundWindow {{
+            micar = ApplyMica(self.winId().__int__(), MICAMODE.DARK)
+            if self.lastTheme != 0:
+                self.lastTheme = 0
+                self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
+                self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
+                self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
+                self.clockFeaturesTitle.setIcon(getPath(f"plugin_{self.iconMode}.png"))
+                self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
+                self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
+                self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
+                self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
+                self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+                self.toolTipAppearanceTitle.setIcon(QIcon(getPath(f"tooltip_{self.iconMode}.png")))
+                self.internetTimeTitle.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
+                self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
+                self.setStyleSheet(f"""
+                    *::disabled {{
+                        color: grey;
+                    }}
+                    #backgroundWindow {{
 
-                                   background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.DARK) == 0x0 else "#262626"};
-                               }}
-                               #titlebarButton {{
-                                   border-radius: 0;
-                                   border:none;
-                                   background-color: rgba(0, 0, 0, 0.01);
-                               }}
-                               #titlebarButton:hover {{
-                                   border-radius: 0;
-                                   background-color: rgba(80, 80, 80, 25%);
-                               }}
-                               #closeButton {{
-                                   border-radius: 0;
-                                   border:none;
-                                   background-color: rgba(0, 0, 0, 0.01);
-                               }}
-                               #closeButton:hover {{
-                                   border-radius: 0;
-                                   background-color: rgba(196, 43, 28, 25%);
-                               }}
-
-                                QSlider {{
-                                    background: transparent;
-                                    height: {(20)}px;
-                                    margin-left: 10px;
-                                    margin-right: 10px;
-                                    border-radius: 2px;
-                                }}
-                                QSlider::groove {{
-                                    height: 4px;
-                                    border: 1px solid #212121;
-                                    background: #212121;
-                                    border-radius: 2px;
-                                }}
-                                QSlider::handle {{
-                                    border: 4px solid #404040;
-                                    margin: {(-8)}px {(-10)}px;
-                                    height: 8px;
-                                    border-radius: 9px;
-                                    background: rgb({colors[0]});
-                                }}
-                                QSlider::handle:hover {{
-                                    border: 3px solid #404040;
-                                    margin: {(-8)}px {(-10)}px;
-                                    height: 7px;
-                                    border-radius: 9px;
-                                    background: rgb({colors[0]});
-                                }}
-                                QSlider::handle:disabled {{
-                                    border: 4px solid #404040;
-                                    margin: {(-8)}px {(-10)}px;
-                                    height: 8px;
-                                    border-radius: 9px;
-                                    background: #212121;
-                                }}
-                                QSlider::add-page {{
-                                    border-radius: 3px;
-                                    background: #303030;
-                                }}
-                                QSlider::sub-page {{
-                                    border-radius: 3px;
-                                    background: rgb({colors[0]});
-                                }}
-                                QSlider::add-page:disabled {{
-                                    border-radius: 2px;
-                                    background: #212121;
-                                }}
-                                QSlider::sub-page:disabled {{
-                                    border-radius: 2px;
-                                    background: #212121;
-                                }}
-                                QToolTip {{
-                                    border: 1px solid #222222;
-                                    padding: 4px;
-                                    border-radius: 8px;
-                                    background-color: #262626;
-                                }}
-                                QMenu {{
-                                    border: 1px solid rgb(60, 60, 60);
-                                    padding: 2px;
-                                    outline: 0;
-                                    color: white;
-                                    background: #262626;
-                                    border-radius: 8px;
-                                }}
-                                QMenu::separator {{
-                                    margin: 2px;
-                                    height: 1px;
-                                    background: rgb(60, 60, 60);
-                                }}
-                                QMenu::icon{{
-                                    padding-left: 10px;
-                                }}
-                                QMenu::item{{
-                                    height: 30px;
-                                    border: none;
-                                    background: transparent;
-                                    padding-right: 10px;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                    margin: 2px;
-                                }}
-                                QMenu::item:selected{{
-                                    background: rgba(255, 255, 255, 10%);
-                                    height: 30px;
-                                    outline: none;
-                                    border: none;
-                                    padding-right: 10px;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                QMenu::item:selected:disabled{{
-                                    background: transparent;
-                                    height: 30px;
-                                    outline: none;
-                                    border: none;
-                                    padding-right: 10px;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                QColorDialog {{
-                                    background-color: transparent;
-                                    border: none;
-                                }}
-                                QLineEdit {{
-                                    background-color: #212121;
-                                    font-family: "Segoe UI Variable Text";
-                                    font-size: 9pt;
-                                    width: {(300)}px;
-                                    padding: 5px;
-                                    border-radius: 8px;
-                                    border: 0.6px solid #262626;
-                                    border-bottom: 2px solid rgb({colors[1]});
-                                }}
-                                QLineEdit:disabled {{
-                                    background-color: #303030;
-                                    font-family: "Segoe UI Variable Text";
-                                    font-size: 9pt;
-                                    width: {(300)}px;
-                                    padding: 5px;
-                                    border-radius: 8px;
-                                    border: 0.6px solid #262626;
-                                }}
-                                #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
-                                   color: white;
-                                   /*background-color: #212121;*/
-                                   background: transparent;
-                                }}
-                                QScrollArea {{
-                                   color: white;
-                                   /*background-color: #212121;*/
-                                   background: transparent;
-                                }}
-                                QLabel {{
-                                    font-weight: medium;
-                                }}
-                                * {{
-                                   color: white;
-                                   font-size: 9pt;
-                                    font-family: "Segoe UI Variable Text";
-                                }}
-                                #greyishLabel {{
-                                    color: #aaaaaa;
-                                }}
-                                #warningLabel {{
-                                    color: #bdba00;
-                                }}
-                                QPlainTextEdit{{
-                                    font-family: "Cascadia Mono";
-                                    background-color: #212121;
-                                    border-radius: 6px;
-                                    border: 1px solid #161616;
-                                    selection-background-color: rgb({colors[4]});
-                                }}
-                                QSpinBox {{
-                                   background-color: rgba(81, 81, 81, 25%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(86, 86, 86, 25%);
-                                   height: {(25)}px;
-                                   border-top: 1px solid rgba(99, 99, 99, 25%);
-                                }}
-                                QPushButton,#FocusLabel {{
-                                   width: {(100)}px;
-                                   background-color:rgba(81, 81, 81, 25%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(86, 86, 86, 25%);
-                                   height: {(25)}px;
-                                   border-top: 1px solid rgba(99, 99, 99, 25%);
-                                }}
-                                QPushButton:hover {{
-                                   background-color:rgba(86, 86, 86, 25%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(100, 100, 100, 25%);
-                                   height: {(25)}px;
-                                   border-top: 1px solid rgba(107, 107, 107, 25%);
-                                }}
-                                #AccentButton{{
-                                    color: black;
-                                    background-color: rgb({colors[1]});
-                                    border-color: rgb({colors[1]});
-                                    border-bottom-color: rgb({colors[2]});
-                                }}
-                                #AccentButton:disabled{{
-                                    color: lightgrey;
-                                    background-color: #303030;
-                                    border-color: #222222;
-                                }}
-                                #AccentButton:hover{{
-                                    background-color: rgba({colors[1]}, 80%);
-                                    border-color: rgb({colors[2]});
-                                    border-bottom-color: rgb({colors[2]});
-                                }}
-                                #AccentButton:pressed{{
-                                    color: #555555;
-                                    background-color: rgba({colors[1]}, 80%);
-                                    border-color: rgb({colors[2]});
-                                    border-bottom-color: rgb({colors[2]});
-                                }}
-                                #title{{
-                                   margin: 2px;
-                                   margin-bottom: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: {(15)}px;
-                                   padding-bottom: {(15)}px;
-                                   font-size: 13pt;
-                                   border-radius: 4px;
-                                   font-family: "Segoe UI Variable Display";
-                                   font-weight: bold;
-                                }}
-                                #subtitleLabelHover {{
-                                   background-color: rgba(20, 20, 20, 0.01);
-                                   margin: 10px;
-                                   margin-top: 0;
-                                   margin-bottom: 0;
-                                   border-radius: 4px;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                   border: 1px solid transparent;
-                                }}
-                                #subtitleLabelHover:hover{{
-                                   background-color: rgba(255, 255, 255, 3%);
-                                   margin: 10px;
-                                   margin-top: 0;
-                                   margin-bottom: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: 0;
-                                   padding-bottom: 0;
-                                   border: 1px solid rgba(255, 255, 255, 7%);
-                                   font-size: 13pt;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                }}
-                                #subtitleLabelHover:pressed{{
-                                   background-color: rgba(0, 0, 0, 12%);
-                                   margin: 10px;
-                                   margin-top: 0;
-                                   margin-bottom: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: 0;
-                                   padding-bottom: 0;
-                                   border: 1px solid rgba(255, 255, 255, 7%);
-                                   font-size: 13pt;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                }}
-                                #micaRegularBackground {{
-                                    border: 0 solid transparent;
-                                    margin: 1px;
-                                   background-color: rgba(255, 255, 255, 5%);
-                                   border-radius: 8px;
-                                }}
-                                #subtitleLabel{{
-                                   margin: 10px;
-                                   margin-bottom: 0;
-                                   margin-top: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: {(15)}px;
-                                   padding-bottom: {(15)}px;
-                                   border: 1px solid rgba(25, 25, 25, 50%);
-                                   font-size: 13pt;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                }}
-                                #StLbl{{
-                                   padding: 0;
-                                   background-color: rgba(71, 71, 71, 0%);
-                                   margin: 0;
-                                   border:none;
-                                   font-size: {(11)}px;
-                                }}
-                                #stBtn{{
-                                   background-color: rgba(255, 255, 255, 5%);
-                                   margin: 10px;
-                                   margin-bottom: 0;
-                                   margin-top: 0;
-                                   border: 1px solid rgba(25, 25, 25, 50%);
-                                   border-bottom-left-radius: 8px;
-                                   border-bottom-right-radius: 8px;
-                                }}
-                                #lastWidget{{
-                                   border-bottom-left-radius: 4px;
-                                   border-bottom-right-radius: 4px;
-                                }}
-                                #stChkBg{{
-                                   padding: {(15)}px;
-                                   padding-left: {(45)}px;
-                                   background-color: rgba(255, 255, 255, 5%);
-                                   margin: 10px;
-                                   margin-bottom: 0;
-                                   margin-top: 0;
-                                   border: 1px solid rgba(25, 25, 25, 50%);
-                                   border-bottom: 0;
-                                }}
-                                #stChk::indicator{{
-                                   height: {(20)}px;
-                                   width: {(20)}px;
-                                }}
-                                #stChk::indicator:unchecked {{
-                                    background-color: rgba(30, 30, 30, 25%);
-                                    border: 1px solid #444444;
-                                    border-radius: 6px;
-                                }}
-                                #stChk::indicator:disabled {{
-                                    background-color: rgba(71, 71, 71, 0%);
-                                    color: #bbbbbb;
-                                    border: 1px solid #444444;
-                                    border-radius: 6px;
-                                }}
-                                #stChk::indicator:unchecked:hover {{
-                                    background-color: #2a2a2a;
-                                    border: 1px solid #444444;
-                                    border-radius: 6px;
-                                }}
-                                #stChk::indicator:checked {{
-                                    border: 1px solid #444444;
-                                    background-color: rgb({colors[1]});
-                                    border-radius: 6px;
-                                    image: url("{getPath("tick_white.png")}");
-                                }}
-                                #stChk::indicator:checked:disabled {{
-                                    border: 1px solid #444444;
-                                    background-color: #303030;
-                                    color: #bbbbbb;
-                                    border-radius: 6px;
-                                    image: url("{getPath("tick_black.png")}");
-                                }}
-                                #stChk::indicator:checked:hover {{
-                                    border: 1px solid #444444;
-                                    background-color: rgb({colors[2]});
-                                    border-radius: 6px;
-                                    image: url("{getPath("tick_white.png")}");
-                                }}
-                                #stCmbbx {{
-                                   width: {(100)}px;
-                                   background-color:rgba(81, 81, 81, 25%);
-                                   border-radius: 8px;
-                                   border: 1px solidrgba(86, 86, 86, 25%);
-                                   height: {(25)}px;
-                                   padding-left: 10px;
-                                   border-top: 1px solidrgba(99, 99, 99, 25%);
-                                }}
-                                #stCmbbx:disabled {{
-                                   width: {(100)}px;
-                                   background-color: #303030;
-                                   color: #bbbbbb;
-                                   border-radius: 8px;
-                                   border: 0.6px solid #262626;
-                                   height: {(25)}px;
-                                   padding-left: 10px;
-                                }}
-                                #stCmbbx:hover {{
-                                   background-color:rgba(86, 86, 86, 25%);
-                                   border-radius: 8px;
-                                   border: 1px solidrgba(100, 100, 100, 25%);
-                                   height: {(25)}px;
-                                   padding-left: 10px;
-                                   border-top: 1px solid rgba(107, 107, 107, 25%);
-                                }}
-                                #stCmbbx::drop-down {{
-                                    subcontrol-origin: padding;
-                                    subcontrol-position: top right;
-                                    padding: 5px;
-                                    border-radius: 8px;
-                                    border: none;
-                                    width: 30px;
-                                }}
-                                #stCmbbx::down-arrow {{
-                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: 8px;
-                                    width: 8px;
-                                }}
-                                #stCmbbx::down-arrow:disabled {{
-                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: 2px;
-                                    width: 2px;
-                                }}
-                                #stCmbbx QAbstractItemView {{
-                                    border: 1px solid rgba(36, 36, 36, 50%);
-                                    padding: 4px;
-                                    outline: 0;
-                                    padding-right: 0;
-                                    background-color: #303030;
-                                    border-radius: 8px;
-                                }}
-                                #stCmbbx QAbstractItemView::item{{
-                                    height: 30px;
-                                    border: none;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                #stCmbbx QAbstractItemView::item:selected{{
-                                    background: rgba(255, 255, 255, 6%);
-                                    height: 30px;
-                                    outline: none;
-                                    border: none;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                QSCrollArea, QVBoxLayout{{
-                                    border: none;
-                                    margin: none;
-                                    padding: none;
-                                    outline: none;
-                                }}
-                                QScrollBar {{
-                                    background: rgba(71, 71, 71, 25%);
-                                    margin: 4px;
-                                    margin-left: 0;
-                                    width: 16px;
-                                    height: {(20)}px;
-                                    border: none;
-                                    border-radius: 5px;
-                                }}
-                                QScrollBar:horizontal {{
-                                    margin-bottom: 0;
-                                    padding-bottom: 0;
-                                    height: {(12)}px;
-                                }}
-                                QScrollBar::handle {{
-                                    margin: 3px;
-                                    min-height: {(20)}px;
-                                    min-width: {(20)}px;
-                                    border-radius: 3px;
-                                    background: rgba(80, 80, 80, 25%);
-                                }}
-                                QScrollBar::handle:hover {{
-                                    margin: 3px;
-                                    border-radius: 3px;
-                                    background: rgba(112, 112, 112, 25%);
-                                }}
-                                QScrollBar::add-line {{
-                                    height: 0;
-                                    width: 0;
-                                    subcontrol-position: bottom;
-                                    subcontrol-origin: margin;
-                                }}
-                                QScrollBar::sub-line {{
-                                    height: 0;
-                                    width: 0;
-                                    subcontrol-position: top;
-                                    subcontrol-origin: margin;
-                                }}
-                                QScrollBar::up-arrow, QScrollBar::down-arrow {{
-                                    background: none;
-                                }}
-                                QScrollBar::add-page, QScrollBar::sub-page {{
-                                    background: none;
-                                }}
-                                #titlebarLabel {{
-                                    color: red;
-                                    background: transparent;
-                                    font-size: 10pt;
-                                }}
-                                #dialogButtonWidget{{
-                                    background-color: #1d1d1d;
-                                }}
-                               """)
+                        background-color: {"transparent" if micar == 0x0 else "#262626"};
+                    }}
+                    #titlebarButton {{
+                        border-radius: 0;
+                        border:none;
+                        background-color: rgba(0, 0, 0, 0.01);
+                    }}
+                    #titlebarButton:hover {{
+                        border-radius: 0;
+                        background-color: rgba(80, 80, 80, 25%);
+                    }}
+                    #closeButton {{
+                        border-radius: 0;
+                        border:none;
+                        background-color: rgba(0, 0, 0, 0.01);
+                    }}
+                    #closeButton:hover {{
+                        border-radius: 0;
+                        background-color: rgba(196, 43, 28, 25%);
+                    }}
+                    QSlider {{
+                        background: transparent;
+                        height: 20px;
+                        margin-left: 10px;
+                        margin-right: 10px;
+                        border-radius: 2px;
+                    }}
+                    QSlider::groove {{
+                        height: 4px;
+                        border: 1px solid #212121;
+                        background: #212121;
+                        border-radius: 2px;
+                    }}
+                    QSlider::handle {{
+                        border: 4px solid #404040;
+                        margin: -8px -10px;
+                        height: 8px;
+                        border-radius: 9px;
+                        background: rgb({colors[0]});
+                    }}
+                    QSlider::handle:hover {{
+                        border: 3px solid #404040;
+                        margin: -8px -10px;
+                        height: 7px;
+                        border-radius: 9px;
+                        background: rgb({colors[0]});
+                    }}
+                    QSlider::handle:disabled {{
+                        border: 4px solid #404040;
+                        margin: -8px -10px;
+                        height: 8px;
+                        border-radius: 9px;
+                        background: #212121;
+                    }}
+                    QSlider::add-page {{
+                        border-radius: 3px;
+                        background: #303030;
+                    }}
+                    QSlider::sub-page {{
+                        border-radius: 3px;
+                        background: rgb({colors[0]});
+                    }}
+                    QSlider::add-page:disabled {{
+                        border-radius: 2px;
+                        background: #212121;
+                    }}
+                    QSlider::sub-page:disabled {{
+                        border-radius: 2px;
+                        background: #212121;
+                    }}
+                    QToolTip {{
+                        border: 1px solid #222222;
+                        padding: 4px;
+                        border-radius: 8px;
+                        background-color: #262626;
+                    }}
+                    QMenu {{
+                        border: 1px solid rgb(60, 60, 60);
+                        padding: 2px;
+                        outline: 0;
+                        color: white;
+                        background: #262626;
+                        border-radius: 8px;
+                    }}
+                    QMenu::separator {{
+                        margin: 2px;
+                        height: 1px;
+                        background: rgb(60, 60, 60);
+                    }}
+                    QMenu::icon{{
+                        padding-left: 10px;
+                    }}
+                    QMenu::item{{
+                        height: 30px;
+                        border: none;
+                        background: transparent;
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                        margin: 2px;
+                    }}
+                    QMenu::item:selected{{
+                        background: rgba(255, 255, 255, 10%);
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QMenu::item:selected:disabled{{
+                        background: transparent;
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QColorDialog {{
+                        background-color: transparent;
+                        border: none;
+                    }}
+                    QLineEdit {{
+                        background-color: #212121;
+                        font-family: "Segoe UI Variable Text";
+                        selection-background-color: rgb({colors[4]});
+                        font-size: 9pt;
+                        width: 300px;
+                        padding: 5px;
+                        margin-bottom: 5px;
+                        border-radius: 8px;
+                        border: 0.6px solid #262626;
+                        border-bottom: 2px solid rgb({colors[1]});
+                    }}
+                    QLineEdit:disabled {{
+                        background-color: #303030;
+                        font-family: "Segoe UI Variable Text";
+                        font-size: 9pt;
+                        width: 300px;
+                        padding: 5px;
+                        border-radius: 8px;
+                        border: 0.6px solid #262626;
+                    }}
+                    #background,QMessageBox,QDialog,QSlider,#ControlWidget{{
+                        color: white;
+                        /*background-color: #212121;*/
+                        background: transparent;
+                    }}
+                    QScrollArea {{
+                        color: white;
+                        /*background-color: #212121;*/
+                        background: transparent;
+                    }}
+                    QLabel {{
+                        font-weight: medium;
+                    }}
+                    * {{
+                        color: white;
+                        font-size: 9pt;
+                        font-family: "Segoe UI Variable Text";
+                    }}
+                    #greyishLabel {{
+                        color: #aaaaaa;
+                    }}
+                    #warningLabel {{
+                        color: #bdba00;
+                    }}
+                    QPlainTextEdit{{
+                        font-family: "Cascadia Mono";
+                        background-color: #212121;
+                        border-radius: 6px;
+                        border: 1px solid #161616;
+                        selection-background-color: rgb({colors[4]});
+                    }}
+                    QSpinBox {{
+                        background-color: rgba(81, 81, 81, 25%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(86, 86, 86, 25%);
+                        height: 25px;
+                        border-top: 1px solid rgba(99, 99, 99, 25%);
+                    }}
+                    QPushButton,#FocusLabel {{
+                        width: 200px;
+                        background-color:rgba(81, 81, 81, 25%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(86, 86, 86, 25%);
+                        height: 30px;
+                        border-top: 1px solid rgba(99, 99, 99, 25%);
+                    }}
+                    QPushButton:hover {{
+                        background-color:rgba(86, 86, 86, 25%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(100, 100, 100, 25%);
+                        height: 30px;
+                        border-top: 1px solid rgba(107, 107, 107, 25%);
+                    }}
+                    #AccentButton{{
+                        color: black;
+                        background-color: rgb({colors[1]});
+                        border-color: rgb({colors[1]});
+                        border-bottom-color: rgb({colors[2]});
+                    }}
+                    #AccentButton:disabled{{
+                        color: lightgrey;
+                        background-color: #303030;
+                        border-color: #222222;
+                    }}
+                    #AccentButton:hover{{
+                        background-color: rgba({colors[1]}, 80%);
+                        border-color: rgb({colors[2]});
+                        border-bottom-color: rgb({colors[2]});
+                    }}
+                    #AccentButton:pressed{{
+                        color: #555555;
+                        background-color: rgba({colors[1]}, 80%);
+                        border-color: rgb({colors[2]});
+                        border-bottom-color: rgb({colors[2]});
+                    }}
+                    #title{{
+                        margin: 2px;
+                        margin-bottom: 0;
+                        padding-left: 20px;
+                        padding-top: 15px;
+                        padding-bottom: 15px;
+                        font-size: 13pt;
+                        border-radius: 4px;
+                        font-family: "Segoe UI Variable Display";
+                        font-weight: bold;
+                    }}
+                    #subtitleLabelHover {{
+                        background-color: rgba(20, 20, 20, 0.01);
+                        margin: 10px;
+                        margin-top: 0;
+                        margin-bottom: 0;
+                        border-radius: 4px;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                        border: 1px solid transparent;
+                    }}
+                    #subtitleLabelHover:hover{{
+                        background-color: rgba(255, 255, 255, 3%);
+                        margin: 10px;
+                        margin-top: 0;
+                        margin-bottom: 0;
+                        padding-left: 20px;
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        border: 1px solid rgba(255, 255, 255, 7%);
+                        font-size: 13pt;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                    }}
+                    #subtitleLabelHover:pressed{{
+                        background-color: rgba(0, 0, 0, 12%);
+                        margin: 10px;
+                        margin-top: 0;
+                        margin-bottom: 0;
+                        padding-left: 20px;
+                        padding-top: 0;
+                        padding-bottom: 0;
+                        border: 1px solid rgba(255, 255, 255, 7%);
+                        font-size: 13pt;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                    }}
+                    #micaRegularBackground {{
+                        border: 0 solid transparent;
+                        margin: 1px;
+                        background-color: rgba(255, 255, 255, 5%);
+                        border-radius: 8px;
+                    }}
+                    #subtitleLabel{{
+                        margin: 10px;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        padding-left: 20px;
+                        padding-top: 15px;
+                        padding-bottom: 15px;
+                        border: 1px solid rgba(25, 25, 25, 50%);
+                        font-size: 13pt;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                    }}
+                    #StLbl{{
+                        padding: 0;
+                        background-color: rgba(71, 71, 71, 0%);
+                        margin: 0;
+                        border:none;
+                        font-size: 11px;
+                    }}
+                    #stBtn{{
+                        background-color: rgba(255, 255, 255, 5%);
+                        margin: 10px;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        border: 1px solid rgba(25, 25, 25, 50%);
+                        border-bottom-left-radius: 8px;
+                        border-bottom-right-radius: 8px;
+                    }}
+                    #lastWidget{{
+                        border-bottom-left-radius: 4px;
+                        border-bottom-right-radius: 4px;
+                    }}
+                    #stChkBg{{
+                        padding: 15px;
+                        padding-left: 45px;
+                        background-color: rgba(255, 255, 255, 5%);
+                        margin: 10px;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        border: 1px solid rgba(25, 25, 25, 50%);
+                        border-bottom: 0;
+                    }}
+                    QCheckBox::indicator{{
+                        height: 20px;
+                        width: 20px;
+                    }}
+                    QCheckBox::indicator:unchecked {{
+                        background-color: rgba(30, 30, 30, 25%);
+                        border: 1px solid #444444;
+                        border-radius: 6px;
+                    }}
+                    QCheckBox::indicator:disabled {{
+                        background-color: rgba(71, 71, 71, 0%);
+                        color: #bbbbbb;
+                        border: 1px solid #444444;
+                        border-radius: 6px;
+                    }}
+                    QCheckBox::indicator:unchecked:hover {{
+                        background-color: #2a2a2a;
+                        border: 1px solid #444444;
+                        border-radius: 6px;
+                    }}
+                    QCheckBox::indicator:checked {{
+                        border: 1px solid #444444;
+                        background-color: rgb({colors[1]});
+                        border-radius: 6px;
+                        image: url("{getPath("tick_white.png")}");
+                    }}
+                    QCheckBox::indicator:checked:disabled {{
+                        border: 1px solid #444444;
+                        background-color: #303030;
+                        color: #bbbbbb;
+                        border-radius: 6px;
+                        image: url("{getPath("tick_black.png")}");
+                    }}
+                    QCheckBox::indicator:checked:hover {{
+                        border: 1px solid #444444;
+                        background-color: rgb({colors[2]});
+                        border-radius: 6px;
+                        image: url("{getPath("tick_white.png")}");
+                    }}
+                    QComboBox {{
+                        width: 200px;
+                        background-color:rgba(81, 81, 81, 15%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(86, 86, 86, 15%);
+                        height: 30px;
+                        border-top: 1px solid rgba(99, 99, 99, 15%);
+                        padding-left: 10px;
+                    }}
+                    QComboBox:hover {{
+                        background-color:rgba(86, 86, 86, 25%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(100, 100, 100, 15%);
+                        height: 30px;
+                        border-top: 1px solid rgba(107, 107, 107, 15%);
+                    }}
+                    QComboBox::drop-down {{
+                        subcontrol-origin: padding;
+                        subcontrol-position: top right;
+                        padding: 5px;
+                        border-radius: 8px;
+                        border: none;
+                        width: 30px;
+                    }}
+                    QComboBox::down-arrow {{
+                        image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                        height: 8px;
+                        width: 8px;
+                    }}
+                    QComboBox::down-arrow:disabled {{
+                        image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                        height: 8px;
+                        width: 8px;
+                    }}
+                    QAbstractItemView {{
+                        border: 1px solid rgba(90, 90, 90, 25%);
+                        padding: 4px;
+                        outline: 0;
+                        padding-right: 0;
+                        background-color: rgba(71, 71, 71, 25%);
+                        border-radius: 8px;
+                    }}
+                    QAbstractItemView::item{{
+                        height: 30px;
+                        border: none;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QAbstractItemView::item:selected{{
+                        background: rgba(255, 255, 255, 6%);
+                        color: white;
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QAbstractItemView::item:focus{{
+                        background: rgba(255, 255, 255, 6%);
+                        color: rgb({colors[2]});
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QSCrollArea, QVBoxLayout{{
+                        border: none;
+                        margin: none;
+                        padding: none;
+                        outline: none;
+                    }}
+                    QScrollBar {{
+                        background: transparent;
+                        margin: 4px;
+                        margin-left: 0;
+                        width: 16px;
+                        height: 20px;
+                        border: none;
+                        border-radius: 5px;
+                    }}
+                    QScrollBar:horizontal {{
+                        margin-bottom: 0;
+                        padding-bottom: 0;
+                        height: 12px;
+                    }}
+                    QScrollBar::handle {{
+                        margin: 3px;
+                        min-height: 20px;
+                        min-width: 20px;
+                        border-radius: 3px;
+                        background: rgba(80, 80, 80, 40%);
+                    }}
+                    QScrollBar::handle:hover {{
+                        margin: 3px;
+                        border-radius: 3px;
+                        background: rgba(112, 112, 112, 35%);
+                    }}
+                    QScrollBar::add-line {{
+                        height: 0;
+                        width: 0;
+                        subcontrol-position: bottom;
+                        subcontrol-origin: margin;
+                    }}
+                    QScrollBar::sub-line {{
+                        height: 0;
+                        width: 0;
+                        subcontrol-position: top;
+                        subcontrol-origin: margin;
+                    }}
+                    QScrollBar::up-arrow, QScrollBar::down-arrow {{
+                        background: none;
+                    }}
+                    QScrollBar::add-page, QScrollBar::sub-page {{
+                        background: none;
+                    }}
+                    #titlebarLabel {{
+                        color: red;
+                        background: transparent;
+                        font-size: 10pt;
+                    }}
+                    #dialogButtonWidget{{
+                        background-color: #1d1d1d;
+                    }}
+                    QGroupBox {{
+                        background-color: rgba(80, 80, 80, 25%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        border-bottom: 1px solid rgba(204, 204, 204, 25%);
+                        padding-top: 20px;
+                    }}
+                    QGroupBox::title {{
+                        subcontrol-origin: margin;
+                        padding: 5px;
+                        border: none;
+                    }}
+                    """)
         else:
-            self.setStyleSheet(f"""
-                               *::disabled {{
-                                   color: grey;
-                               }}
-                               #backgroundWindow {{
-                                   background-color: {"transparent" if ApplyMica(self.winId().__int__(), MICAMODE.LIGHT) == 0x0 else "#ffffff"};
-                               }}
-                               #titlebarButton {{
-                                   border-radius: 0;
-                                   border:none;
-                                   background-color: rgba(0, 0, 0, 0.01);
-                               }}
-                                #micaRegularBackground {{
-                                    border: 0 solid #dddddd;
-                                    margin: 1px;
-                                   background-color: rgba(0, 0, 0, 0%);
-                                   border-radius: 8px;
-                                }}
-                               #titlebarButton:hover {{
-                                   border-radius: 0;
-                                   background-color: rgba({colors[4]}, 1);
-                               }}
-                               #closeButton {{
-                                   border-radius: 0;
-                                   border:none;
-                                   background-color: rgba(0, 0, 0, 0.01);
-                               }}
-                               #closeButton:hover {{
-                                   border-radius: 0;
-                                   background-color: rgba(196, 43, 28, 1);
-                               }}
-                                QSlider {{
-                                    height: {(20)}px;
-                                    margin-left: 10px;
-                                    margin-right: 10px;
-                                    border-radius: 2px;
-                                }}
-                                QSlider::groove {{
-                                    height: 4px;
-                                    border: 1px solid rgba(196, 196, 196, 25%);
-                                    background: #303030;
-                                }}
-                                QSlider::handle {{
-                                    border: 4px solid #eeeeee;
-                                    margin: -8px -10px;
-                                    height: 8px;
-                                    border-radius: 9px;
-                                    background: rgb({colors[4]});
-                                }}
-                                QSlider::handle:hover {{
-                                    border: 1px solid #eeeeee;
-                                    margin: -8px -10px;
-                                    height: 8px;
-                                    border-radius: 9px;
-                                    background: rgb({colors[4]});
-                                }}
-                                QSlider::handle:disabled {{
-                                    border: 4px solid #eeeeee;
-                                    margin: -8px -10px;
-                                    height: 8px;
-                                    border-radius: 9px;
-                                    background: rgba(106, 106, 106, 25%);
-                                }}
-                                QSlider::add-page {{
-                                    border-radius: 3px;
-                                    background: #eeeeee;
-                                }}
-                                QSlider::sub-page {{
-                                    border-radius: 3px;
-                                    background: rgb({colors[4]});
-                                }}
-                                QSlider::add-page:disabled {{
-                                    border-radius: 3px;
-                                    background: #eeeeee;
-                                }}
-                                QSlider::sub-page:disabled {{
-                                    border-radius: 3px;
-                                    background: #eeeeee;
-                                }}
-                                QToolTip{{
-                                    border: 1px solid rgba(196, 196, 196, 25%);
-                                    padding: 4px;
-                                    border-radius: 8px;
-                                    background-color: #eeeeee;
-                                }}
-                                QPlainTextEdit{{
-                                    font-family: "Cascadia Mono";
-                                    background-color: rgba(255, 255, 255, 100%);
-                                    border-radius: 6px;
-                                    border: 1px solid #dddddd;
-                                    selection-background-color: rgb({colors[3]});
-                                }}
-                                QMenu {{
-                                    border: 1px solid rgb(200, 200, 200);
-                                    padding: 2px;
-                                    outline: 0;
-                                    color: black;
-                                    background: #eeeeee;
-                                    border-radius: 8px;
-                                }}
-                                QMenu::separator {{
-                                    margin: 2px;
-                                    height: 1px;
-                                    background: rgb(200, 200, 200);
-                                }}
-                                QMenu::icon{{
-                                    padding-left: 10px;
-                                }}
-                                QMenu::item{{
-                                    height: 30px;
-                                    border: none;
-                                    background: transparent;
-                                    padding-right: 10px;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                    margin: 2px;
-                                }}
-                                QMenu::item:selected{{
-                                    background: rgba(0, 0, 0, 10%);
-                                    height: 30px;
-                                    outline: none;
-                                    border: none;
-                                    padding-right: 10px;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                QMenu::item:selected:disabled{{
-                                    background: transparent;
-                                    height: 30px;
-                                    outline: none;
-                                    border: none;
-                                    padding-right: 10px;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                QColorDialog {{
-                                    background-color: transparent;
-                                    border: none;
-                                }}
-                                QLineEdit {{
-                                    background-color: #fefefe;
-                                    font-family: "Segoe UI Variable Text";
-                                    font-size: 9pt;
-                                    width: {(300)}px;
-                                    padding: 5px;
-                                    border-radius: 8px;
-                                    border: 0.6px solid #eeeeee;
-                                    border-bottom: 2px solid rgb({colors[4]});
-                                }}
-                                QLineEdit:disabled {{
-                                    background-color: #f5f5f5;
-                                    font-family: "Segoe UI Variable Text";
-                                    font-size: 9pt;
-                                    width: {(300)}px;
-                                    padding: 5px;
-                                    border-radius: 8px;
-                                    border: 0.6px solid #eeeeee;
-                                    /*border-bottom: 2px solid rgb({colors[4]});*/
-                                }}
-                                #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
-                                   color: white;
-                                   background-color: transparent;
-                                }}
-                                * {{
-                                   background-color: transparent;
-                                   color: black;
-                                   font-size: 9pt;
-                                   font-family: "Segoe UI Variable Text";
-                                }}
-                                #warningLabel {{
-                                    color: #bd0000;
-                                    background-color: transparent;
-                                }}
-                                QPushButton,#FocusLabel {{
-                                   width: {(100)}px;
-                                   background-color: rgba(255, 255, 255, 70%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   height: {(25)}px;
-                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
-                                }}
-                                QPushButton:hover {{
-                                   background-color: rgba(238, 238, 238, 100%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   height: {(25)}px;
-                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
-                                }}
-                                #AccentButton{{
-                                    background-color: rgb({colors[3]});
-                                    border-color: rgb({colors[4]});
-                                    border-bottom-color: rgb({colors[5]});
-                                    color: white;
-                                }}
-                                #AccentButton:hover{{
-                                    background-color: rgb({colors[2]});
-                                    border-color: rgb({colors[3]});
-                                    color: white;
-                                    border-bottom-color: rgb({colors[3]});
-                                }}
-                                #title{{
-                                   /*background-color: rgba(255, 255, 255, 10%);
-                                   */margin: 2px;
-                                   margin-bottom: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: {(15)}px;
-                                   padding-bottom: {(15)}px;
-                                   font-family: "Segoe UI Variable Display";
-                                   font-weight: bold;
-                                   font-size: 13pt;
-                                   border-radius: 8px;
-                                }}
-                                #subtitleLabel{{
-                                   background-color: white;
-                                   margin: 10px;
-                                   margin-bottom: 0;
-                                   margin-top: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: {(15)}px;
-                                   padding-bottom: {(15)}px;
-                                   border-radius: 8px;
-                                   border: 1 solid rgba(222, 222, 222, 50%);
-                                   font-size: 13pt;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                }}
-                                #subtitleLabelHover {{
-                                   background-color: rgba(255, 255, 255, 1%);
-                                   margin: 10px;
-                                   margin-top: 0;
-                                   margin-bottom: 0;
-                                   border-radius: 8px;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                   border: 1px solid transparent;
-                                }}
-                                #subtitleLabelHover:hover{{
-                                   background-color: rgba(0, 0, 0, 3%);
-                                   margin: 10px;
-                                   margin-top: 0;
-                                   margin-bottom: 0;
-                                   padding-left: {(20)}px;
-                                   padding-top: {(15)}px;
-                                   padding-bottom: {(15)}px;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   font-size: 13pt;
-                                   border-top-left-radius: 8px;
-                                   border-top-right-radius: 8px;
-                                }}
-                                #StLbl{{
-                                   padding: 0;
-                                   background-color: rgba(255, 255, 255, 10%);
-                                   margin: 0;
-                                   border:none;
-                                   font-size: {(11)}px;
-                                }}
-                                #stBtn{{
-                                   background-color: rgba(255, 255, 255, 10%);
-                                   margin: 10px;
-                                   margin-bottom: 0;
-                                   margin-top: 0;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   border-bottom: 0;
-                                   border-bottom-left-radius: 0;
-                                   border-bottom-right-radius: 0;
-                                }}
-                                #lastWidget{{
-                                   border-bottom-left-radius: 4px;
-                                   border-bottom-right-radius: 4px;
-                                   border-bottom: 1px;
-                                }}
-                                #stChkBg{{
-                                   padding: {(15)}px;
-                                   padding-left: {(45)}px;
-                                   background-color: rgba(255, 255, 255, 10%);
-                                   margin: 10px;
-                                   margin-bottom: 0;
-                                   margin-top: 0;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   border-bottom: 0;
-                                }}
-                                #stChk::indicator{{
-                                   height: {(20)}px;
-                                   width: {(20)}px;
-                                }}
-                                #stChk::indicator:unchecked {{
-                                    background-color: rgba(255, 255, 255, 10%);
-                                    border: 1px solid rgba(136, 136, 136, 25%);
-                                    border-radius: 6px;
-                                }}
-                                #stChk::indicator:disabled {{
-                                    background-color: #eeeeee;
-                                    color: rgba(136, 136, 136, 25%);
-                                    border: 1px solid rgba(136, 136, 136, 25%);
-                                    border-radius: 6px;
-                                }}
-                                #stChk::indicator:unchecked:hover {{
-                                    background-color: #eeeeee;
-                                    border: 1px solid rgba(136, 136, 136, 25%);
-                                    border-radius: 6px;
-                                }}
-                                #stChk::indicator:checked {{
-                                    border: 0 solid rgba(136, 136, 136, 25%);
-                                    background-color: rgb({colors[4]});
-                                    border-radius: 5px;
-                                    image: url("{getPath("tick_black.png")}");
-                                }}
-                                #stChk::indicator:checked:hover {{
-                                    border: 0 solid rgba(136, 136, 136, 25%);
-                                    background-color: rgb({colors[3]});
-                                    border-radius: 5px;
-                                    image: url("{getPath("tick_black.png")}");
-                                }}
-                                #stChk::indicator:checked:disabled {{
-                                    border: 1px solid rgba(136, 136, 136, 25%);
-                                    background-color: #eeeeee;
-                                    color: rgba(136, 136, 136, 25%);
-                                    border-radius: 6px;
-                                    image: url("{getPath("tick_white.png")}");
-                                }}
-                                #stCmbbx {{
-                                   width: {(100)}px;
-                                   background-color: rgba(255, 255, 255, 10%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   height: {(25)}px;
-                                   padding-left: 10px;
-                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
-                                }}
-                                #stCmbbx:disabled {{
-                                   width: {(100)}px;
-                                   background-color: #eeeeee;
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   height: {(25)}px;
-                                   padding-left: 10px;
-                                   border-top: 1px solid rgba(196, 196, 196, 25%);
-                                }}
-                                #stCmbbx:hover {{
-                                   background-color: rgba(238, 238, 238, 25%);
-                                   border-radius: 8px;
-                                   border: 1px solid rgba(196, 196, 196, 25%);
-                                   height: {(25)}px;
-                                   padding-left: 10px;
-                                   border-bottom: 1px solid rgba(204, 204, 204, 25%);
-                                }}
-                                #stCmbbx::drop-down {{
-                                    subcontrol-origin: padding;
-                                    subcontrol-position: top right;
-                                    padding: 5px;
-                                    border-radius: 8px;
-                                    border: none;
-                                    width: 30px;
-                                }}
-                                #stCmbbx::down-arrow {{
-                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: 8px;
-                                    width: 8px;
-                                }}
-                                #stCmbbx::down-arrow:disabled {{
-                                    image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
-                                    height: 2px;
-                                    width: 2px;
-                                }}
-                                #stCmbbx QAbstractItemView {{
-                                    border: 1px solid rgba(196, 196, 196, 25%);
-                                    padding: 4px;
-                                    outline: 0;
-                                    background-color: rgba(255, 255, 255, 10%);
-                                    border-radius: 8px;
-                                }}
-                                #stCmbbx QAbstractItemView::item{{
-                                    height: 30px;
-                                    border: none;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                #stCmbbx QAbstractItemView::item:selected{{
-                                    background: rgba(0, 0, 0, 6%);
-                                    height: 30px;
-                                    outline: none;
-                                    color: black;
-                                    border: none;
-                                    padding-left: 10px;
-                                    border-radius: 4px;
-                                }}
-                                QSCrollArea,QVBoxLayout{{
-                                    border: none;
-                                    margin: none;
-                                    padding: none;
-                                    outline: none;
-                                }}
-                                QScrollBar:vertical {{
-                                    background: rgba(255, 255, 255, 10%);
-                                    margin: 4px;
-                                    width: {(20)}px;
-                                    border: none;
-                                    border-radius: 5px;
-                                }}
-                                QScrollBar::handle:vertical {{
-                                    margin: 3px;
-                                    border-radius: 3px;
-                                    min-height: {(20)}px;
-                                    background: rgba(196, 196, 196, 25%);
-                                }}
-                                QScrollBar::handle:vertical:hover {{
-                                    margin: 3px;
-                                    border-radius: 3px;
-                                    background: rgba(136, 136, 136, 25%);
-                                }}
-                                QScrollBar::add-line:vertical {{
-                                    height: 0;
-                                    subcontrol-position: bottom;
-                                    subcontrol-origin: margin;
-                                }}
-                                QScrollBar::sub-line:vertical {{
-                                    height: 0;
-                                    subcontrol-position: top;
-                                    subcontrol-origin: margin;
-                                }}
-                                QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {{
-                                    background: none;
-                                }}
-                                QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
-                                    background: none;
-                                }}
-                                #greyishLabel {{
-                                    color: #888888;
-                                }}
-                                #dialogButtonWidget{{
-                                    background-color: #eeeeee;
-                                }}
-                               """)
+            micar = ApplyMica(self.winId().__int__(), MICAMODE.LIGHT)
+            if self.lastTheme != 1:
+                self.lastTheme = 1
+                self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
+                self.dateTimeTitle.setIcon(getPath(f"datetime_{self.iconMode}.png"))
+                self.clockSettingsTitle.setIcon(getPath(f"clock_{self.iconMode}.png"))
+                self.clockFeaturesTitle.setIcon(getPath(f"plugin_{self.iconMode}.png"))
+                self.languageSettingsTitle.setIcon(getPath(f"lang_{self.iconMode}.png"))
+                self.generalSettingsTitle.setIcon(getPath(f"settings_{self.iconMode}.png"))
+                self.experimentalTitle.setIcon(getPath(f"experiment_{self.iconMode}.png"))
+                self.clockPosTitle.setIcon(getPath(f"size_{self.iconMode}.png"))
+                self.debbuggingTitle.setIcon(QIcon(getPath(f"bug_{self.iconMode}.png")))
+                self.toolTipAppearanceTitle.setIcon(QIcon(getPath(f"tooltip_{self.iconMode}.png")))
+                self.internetTimeTitle.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
+                self.clockAppearanceTitle.setIcon(QIcon(getPath(f"appearance_{self.iconMode}.png")))
+                self.setStyleSheet(f"""
+                    *::disabled {{
+                        color: grey;
+                    }}
+                    #backgroundWindow {{
+                        background-color: {"transparent" if micar == 0x0 else "#ffffff"};
+                    }}
+                    #titlebarButton {{
+                        border-radius: 0;
+                        border:none;
+                        background-color: rgba(0, 0, 0, 0.01);
+                    }}
+                    #micaRegularBackground {{
+                        border: 0 solid #dddddd;
+                        margin: 1px;
+                        background-color: rgba(0, 0, 0, 0%);
+                        border-radius: 8px;
+                    }}
+                    #titlebarButton:hover {{
+                        border-radius: 0;
+                        background-color: rgba({colors[4]}, 1);
+                    }}
+                    #closeButton {{
+                        border-radius: 0;
+                        border:none;
+                        background-color: rgba(0, 0, 0, 0.01);
+                    }}
+                    #closeButton:hover {{
+                        border-radius: 0;
+                        background-color: rgba(196, 43, 28, 1);
+                    }}
+                    QSlider {{
+                        height: 20px;
+                        margin-left: 10px;
+                        margin-right: 10px;
+                        border-radius: 2px;
+                    }}
+                    QSlider::groove {{
+                        height: 4px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        background: #303030;
+                    }}
+                    QSlider::handle {{
+                        border: 4px solid #eeeeee;
+                        margin: -8px -10px;
+                        height: 8px;
+                        border-radius: 9px;
+                        background: rgb({colors[4]});
+                    }}
+                    QSlider::handle:hover {{
+                        border: 1px solid #eeeeee;
+                        margin: -8px -10px;
+                        height: 8px;
+                        border-radius: 9px;
+                        background: rgb({colors[4]});
+                    }}
+                    QSlider::handle:disabled {{
+                        border: 4px solid #eeeeee;
+                        margin: -8px -10px;
+                        height: 8px;
+                        border-radius: 9px;
+                        background: rgba(106, 106, 106, 25%);
+                    }}
+                    QSlider::add-page {{
+                        border-radius: 3px;
+                        background: #eeeeee;
+                    }}
+                    QSlider::sub-page {{
+                        border-radius: 3px;
+                        background: rgb({colors[4]});
+                    }}
+                    QSlider::add-page:disabled {{
+                        border-radius: 3px;
+                        background: #eeeeee;
+                    }}
+                    QSlider::sub-page:disabled {{
+                        border-radius: 3px;
+                        background: #eeeeee;
+                    }}
+                    QToolTip{{
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        padding: 4px;
+                        border-radius: 8px;
+                        background-color: #eeeeee;
+                    }}
+                    QPlainTextEdit{{
+                        font-family: "Cascadia Mono";
+                        background-color: rgba(255, 255, 255, 100%);
+                        border-radius: 6px;
+                        border: 1px solid #dddddd;
+                        selection-background-color: rgb({colors[3]});
+                    }}
+                    QMenu {{
+                        border: 1px solid rgb(200, 200, 200);
+                        padding: 2px;
+                        outline: 0;
+                        color: black;
+                        background: #eeeeee;
+                        border-radius: 8px;
+                    }}
+                    QMenu::separator {{
+                        margin: 2px;
+                        height: 1px;
+                        background: rgb(200, 200, 200);
+                    }}
+                    QMenu::icon{{
+                        padding-left: 10px;
+                    }}
+                    QMenu::item{{
+                        height: 30px;
+                        border: none;
+                        background: transparent;
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                        margin: 2px;
+                    }}
+                    QMenu::item:selected{{
+                        background: rgba(0, 0, 0, 10%);
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QMenu::item:selected:disabled{{
+                        background: transparent;
+                        height: 30px;
+                        outline: none;
+                        border: none;
+                        padding-right: 10px;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QColorDialog {{
+                        background-color: transparent;
+                        border: none;
+                    }}
+                    QLineEdit {{
+                        background-color: #fefefe;
+                        font-family: "Segoe UI Variable Text";
+                        font-size: 9pt;
+                        width: 300px;
+                        padding: 5px;
+                        border-radius: 8px;
+                        border: 0.6px solid #eeeeee;
+                        border-bottom: 2px solid rgb({colors[4]});
+                    }}
+                    QLineEdit:disabled {{
+                        background-color: #f5f5f5;
+                        font-family: "Segoe UI Variable Text";
+                        font-size: 9pt;
+                        width: 300px;
+                        padding: 5px;
+                        border-radius: 8px;
+                        border: 0.6px solid #eeeeee;
+                        /*border-bottom: 2px solid rgb({colors[4]});*/
+                    }}
+                    #background,QScrollArea,QMessageBox,QDialog,QSlider,#ControlWidget{{
+                        color: white;
+                        background-color: transparent;
+                    }}
+                    * {{
+                        background-color: transparent;
+                        color: black;
+                        font-size: 9pt;
+                        font-family: "Segoe UI Variable Text";
+                    }}
+                    #warningLabel {{
+                        color: #bd0000;
+                        background-color: transparent;
+                    }}
+                    QPushButton,#FocusLabel {{
+                        width: 200px;
+                        background-color: rgba(255, 255, 255, 70%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        height: 30px;
+                        border-bottom: 1px solid rgba(204, 204, 204, 25%);
+                    }}
+                    QPushButton:hover {{
+                        background-color: rgba(238, 238, 238, 100%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        height: 30px;
+                        border-bottom: 1px solid rgba(204, 204, 204, 25%);
+                    }}
+                    #AccentButton{{
+                        background-color: rgb({colors[3]});
+                        border-color: rgb({colors[4]});
+                        border-bottom-color: rgb({colors[5]});
+                        color: white;
+                    }}
+                    #AccentButton:hover{{
+                        background-color: rgb({colors[2]});
+                        border-color: rgb({colors[3]});
+                        color: white;
+                        border-bottom-color: rgb({colors[3]});
+                    }}
+                    #title{{
+                        /*background-color: rgba(255, 255, 255, 10%);
+                        */margin: 2px;
+                        margin-bottom: 0;
+                        padding-left: 20px;
+                        padding-top: 15px;
+                        padding-bottom: 15px;
+                        font-family: "Segoe UI Variable Display";
+                        font-weight: bold;
+                        font-size: 13pt;
+                        border-radius: 8px;
+                    }}
+                    #subtitleLabel{{
+                        background-color: white;
+                        margin: 10px;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        padding-left: 20px;
+                        padding-top: 15px;
+                        padding-bottom: 15px;
+                        border-radius: 8px;
+                        border: 1 solid rgba(222, 222, 222, 50%);
+                        font-size: 13pt;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                    }}
+                    #subtitleLabelHover {{
+                        background-color: rgba(255, 255, 255, 1%);
+                        margin: 10px;
+                        margin-top: 0;
+                        margin-bottom: 0;
+                        border-radius: 8px;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                        border: 1px solid transparent;
+                    }}
+                    #subtitleLabelHover:hover{{
+                        background-color: rgba(0, 0, 0, 3%);
+                        margin: 10px;
+                        margin-top: 0;
+                        margin-bottom: 0;
+                        padding-left: 20px;
+                        padding-top: 15px;
+                        padding-bottom: 15px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        font-size: 13pt;
+                        border-top-left-radius: 8px;
+                        border-top-right-radius: 8px;
+                    }}
+                    #StLbl{{
+                        padding: 0;
+                        background-color: rgba(255, 255, 255, 10%);
+                        margin: 0;
+                        border:none;
+                        font-size: 11px;
+                    }}
+                    #stBtn{{
+                        background-color: rgba(255, 255, 255, 10%);
+                        margin: 10px;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        border-bottom: 0;
+                        border-bottom-left-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }}
+                    #lastWidget{{
+                        border-bottom-left-radius: 4px;
+                        border-bottom-right-radius: 4px;
+                        border-bottom: 1px;
+                    }}
+                    #stChkBg{{
+                        padding: 15px;
+                        padding-left: 45px;
+                        background-color: rgba(255, 255, 255, 10%);
+                        margin: 10px;
+                        margin-bottom: 0;
+                        margin-top: 0;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        border-bottom: 0;
+                    }}
+                    QCheckBox::indicator{{
+                        height: 20px;
+                        width: 20px;
+                    }}
+                    QCheckBox::indicator:unchecked {{
+                        background-color: rgba(255, 255, 255, 10%);
+                        border: 1px solid rgba(136, 136, 136, 25%);
+                        border-radius: 6px;
+                    }}
+                    QCheckBox::indicator:disabled {{
+                        background-color: #eeeeee;
+                        color: rgba(136, 136, 136, 25%);
+                        border: 1px solid rgba(136, 136, 136, 25%);
+                        border-radius: 6px;
+                    }}
+                    QCheckBox::indicator:unchecked:hover {{
+                        background-color: #eeeeee;
+                        border: 1px solid rgba(136, 136, 136, 25%);
+                        border-radius: 6px;
+                    }}
+                    QCheckBox::indicator:checked {{
+                        border: 0 solid rgba(136, 136, 136, 25%);
+                        background-color: rgb({colors[4]});
+                        border-radius: 5px;
+                        image: url("{getPath("tick_black.png")}");
+                    }}
+                    QCheckBox::indicator:checked:hover {{
+                        border: 0 solid rgba(136, 136, 136, 25%);
+                        background-color: rgb({colors[3]});
+                        border-radius: 5px;
+                        image: url("{getPath("tick_black.png")}");
+                    }}
+                    QCheckBox::indicator:checked:disabled {{
+                        border: 1px solid rgba(136, 136, 136, 25%);
+                        background-color: #eeeeee;
+                        color: rgba(136, 136, 136, 25%);
+                        border-radius: 6px;
+                        image: url("{getPath("tick_white.png")}");
+                    }}
+                    #stCmbbx {{
+                        width: 100px;
+                        background-color: rgba(255, 255, 255, 10%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        height: 25px;
+                        padding-left: 10px;
+                        border-bottom: 1px solid rgba(204, 204, 204, 25%);
+                    }}
+                    #stCmbbx:disabled {{
+                        width: 100px;
+                        background-color: #eeeeee;
+                        border-radius: 8px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        height: 25px;
+                        padding-left: 10px;
+                        border-top: 1px solid rgba(196, 196, 196, 25%);
+                    }}
+                    #stCmbbx:hover {{
+                        background-color: rgba(238, 238, 238, 25%);
+                        border-radius: 8px;
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        height: 25px;
+                        padding-left: 10px;
+                        border-bottom: 1px solid rgba(204, 204, 204, 25%);
+                    }}
+                    #stCmbbx::drop-down {{
+                        subcontrol-origin: padding;
+                        subcontrol-position: top right;
+                        padding: 5px;
+                        border-radius: 8px;
+                        border: none;
+                        width: 30px;
+                    }}
+                    #stCmbbx::down-arrow {{
+                        image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                        height: 8px;
+                        width: 8px;
+                    }}
+                    #stCmbbx::down-arrow:disabled {{
+                        image: url("{getPath(f"down-arrow_{self.iconMode}.png")}");
+                        height: 2px;
+                        width: 2px;
+                    }}
+                    #stCmbbx QAbstractItemView {{
+                        border: 1px solid rgba(196, 196, 196, 25%);
+                        padding: 4px;
+                        outline: 0;
+                        background-color: rgba(255, 255, 255, 10%);
+                        border-radius: 8px;
+                    }}
+                    #stCmbbx QAbstractItemView::item{{
+                        height: 30px;
+                        border: none;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    #stCmbbx QAbstractItemView::item:selected{{
+                        background: rgba(0, 0, 0, 6%);
+                        height: 30px;
+                        outline: none;
+                        color: black;
+                        border: none;
+                        padding-left: 10px;
+                        border-radius: 4px;
+                    }}
+                    QSCrollArea,QVBoxLayout{{
+                        border: none;
+                        margin: none;
+                        padding: none;
+                        outline: none;
+                    }}
+                    QScrollBar:vertical {{
+                        background: rgba(255, 255, 255, 10%);
+                        margin: 4px;
+                        width: 20px;
+                        border: none;
+                        border-radius: 5px;
+                    }}
+                    QScrollBar::handle:vertical {{
+                        margin: 3px;
+                        border-radius: 3px;
+                        min-height: 20px;
+                        background: rgba(196, 196, 196, 25%);
+                    }}
+                    QScrollBar::handle:vertical:hover {{
+                        margin: 3px;
+                        border-radius: 3px;
+                        background: rgba(136, 136, 136, 25%);
+                    }}
+                    QScrollBar::add-line:vertical {{
+                        height: 0;
+                        subcontrol-position: bottom;
+                        subcontrol-origin: margin;
+                    }}
+                    QScrollBar::sub-line:vertical {{
+                        height: 0;
+                        subcontrol-position: top;
+                        subcontrol-origin: margin;
+                    }}
+                    QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical {{
+                        background: none;
+                    }}
+                    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+                        background: none;
+                    }}
+                    #greyishLabel {{
+                        color: #888888;
+                    }}
+                    #dialogButtonWidget{{
+                        background-color: #eeeeee;
+                    }}
+                    """)
 
     def openLogWindow(self):
         global old_stdout, buffer
@@ -2365,14 +2397,14 @@ class QSettingsButton(QWidget):
         self.label.setFixedHeight((self.fh))
         self.setFixedHeight((50+(self.fh-30)))
         self.button.setFixedHeight((self.fh))
-        self.button.setFixedWidth(150)
+        self.button.setFixedWidth(250)
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
 
     def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-(170), 10)
-        self.label.setFixedWidth(self.width()-(250))
+        self.button.move(self.width()-(270), 10)
+        self.label.setFixedWidth(self.width()-(350))
         return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
@@ -2396,7 +2428,6 @@ class QSettingsComboBox(QWidget):
 
         self.setAttribute(Qt.WA_StyledBackground)
         self.combobox = QComboBoxWithFluentMenu(self)
-        self.combobox.setObjectName("stCmbbx")
         self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.setObjectName("stBtn")
         self.restartButton = QPushButton("Restart ElevenClock", self)
@@ -2602,17 +2633,18 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         class QComboBoxWithFluentMenu(QComboBox):
             def __init__(self, parent) -> None:
                 super().__init__(parent)
+                self.setAutoFillBackground(True)
+                self.setAttribute(Qt.WA_StyledBackground)
                 v = self.view().window()
                 ApplyMenuBlur(v.winId().__int__(), v)
 
+        self.setAutoFillBackground(True)
         self.setAttribute(Qt.WA_StyledBackground)
         self.combobox = QComboBoxWithFluentMenu(self)
-        self.combobox.setObjectName("stCmbbx")
         self.combobox.setItemDelegate(QStyledItemDelegate(self.combobox))
         self.combobox.currentIndexChanged.connect(self.valuechangedEvent)
         self.checkbox.stateChanged.connect(self.stateChangedEvent)
         self.stateChangedEvent(self.checkbox.isChecked())
-        self.checkbox.setFixedHeight(30)
         self.setFixedHeight(50)
         self.combobox.setFixedHeight(30)
         self.combobox.setFixedWidth(250)
@@ -2813,8 +2845,7 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         class QFluentFontDialog(QFontDialog):
             def __init__(self, parent) -> None:
                 super().__init__(parent)
-                self.setAutoFillBackground(True)
-                self.setAttribute(Qt.WA_StyledBackground)
+                self.setAutoFillBackground(False)
 
             def showEvent(self, arg__1: QShowEvent) -> None:
                 ApplyMica(self.winId().__int__(), isWindowDark())
