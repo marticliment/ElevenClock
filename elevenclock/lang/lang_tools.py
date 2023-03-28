@@ -77,6 +77,7 @@ languageFlagsRemap = {
     "pt_BR": "br",
     "pt_PT": "pt",
     "si": "lk",
+    "sl": "si",
     "zh_CN": "cn",
     "zh_TW": "tw",
     "vi": "vn",
