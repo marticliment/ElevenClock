@@ -231,7 +231,7 @@ class SettingsWindow(QMainWindow):
         self.disableTooltip.setChecked(self.getSettings("DisableToolTip"))
         self.disableTooltip.stateChanged.connect(lambda i: self.setSettings("DisableToolTip", bool(i)))
         self.clockFeaturesTitle.addWidget(self.disableTooltip)
-        self.showDesktopButton = QSettingsCheckBox(_("Add the \"Show Desktop\" button on the left corner of every clock"))
+        self.showDesktopButton = QSettingsCheckBox(_("Add the \"{button}\" button on the left corner of every clock").format(button = _("Show Desktop")))
         self.showDesktopButton.setChecked(self.getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: self.setSettings("ShowDesktopButton", bool(i)))
         self.clockFeaturesTitle.addWidget(self.showDesktopButton)
