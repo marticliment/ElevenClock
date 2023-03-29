@@ -110,7 +110,7 @@
   "Hide extended options from the clock right-click menu (needs a restart to be applied)" : "Hide extended options from the clock right-click menu (needs a restart to be applied)",
   "Hide the clock, as the default windows clock would do." : null,
   "Hide the clock during 10 seconds when clicked" : null,
-  "Hide the clock during 5 seconds when hoveredwith the mouse" : "Hide the clock during 5 seconds when hovered with the mouse\n",
+  "Hide the clock during 5 seconds when hoveredwith the mouse" : "Hide the clock during 5 seconds when hovered with the mouse",
   "Hide the clock in fullscreen mode" : null,
   "Hide the clock (<i>Recommended</i>)" : null,
   "If you already know how does this work, or you want to skip the welcome wizard, please click on the bottom-left <i>Skip</i> button." : null,
