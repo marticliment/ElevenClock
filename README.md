@@ -33,29 +33,19 @@ ElevenClock was an app designed to return this functionality back, but it has ev
 You can also download ElevenClock from its [homepage](https://www.marticliment.com/elevenclock/) or from [GitHub releases](https://github.com/marticliment/ElevenClock/releases/tag/4.1.0-beta2)
 (See the [WIKI](https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation) for more information)
 
-# Support the developer
+## Support the developer
 <a href='https://ko-fi.com/martinet101' target='_blank'><img style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
  
 ## Features
 
-TL;DR: ElevenClock does everything that Windows 11 clock can't do.
-
- - Replace all system clocks: seamless experience
- - The clock starts automatically: You won't have to bother enabling it
- - Customize date and time format with presets and/or user custom presets (Add seconds, weekday, etc.)
- - Customize clock look: change font family, font size, font color, background color and text alignment
- - Customize clock size: change clock height and width, and set also position offsets
- - Move the clock around: Move the clock to the top and/or to the left.
- - Hide the clock: Show or hide the clock on specific displays
- - Show Desktop button: The "Show Desktop" button is present on any screen where ElevenClock is shown
- - Sync time with the internet: always accurate time, everywhere
- 
- ### Other available features:
- - Show the clock over fullscreen
- - Hide the clock when clicked
- - Show a task manager shortcut on the clock context menu
- - Disable the notifications badge
- - More stuff can be found on ElevenClock Settings
+ - **Customize your date and time format:** Add seconds and weekday, or hide the date and show only the time. ElevenClock gives you the tools to easily choose between common presets, as well as the ability to easily specify your own custom format
+ - **Customize your clock's appearance:** Change the background color of the clock and its font family, style, color or size. ElevenClock mimics Windows clock, but can be extensively customized.
+ - **Change the position:** ElevenClock can be moved across your monitor, bringing the clock to the left side of the screen. ElevenClock can also show one clock on each side of the taskbar, as well as it can be manually resized.
+ - **Change the clock's behaviour:** ElevenClock can show itself over fullscreen windows, letting you know what time is it whenever you want. You can also change the action done when the clock is clicked, double-clicked and middle-clicked.
+ - **Internet time:** Sync the time with the internet, havving a millisecond-exact internet time on each display.
+ - **Multi-monior support:** Of course, ElevenClock supports secondary displays, and yes, on Windows 11
+ - **Individual customization:** If the features above are not enough for you, they can be changed individually for every shown clock, because yes, you can create individual profiles for specific clocks.
+ - **Other features:** ElevenClock also has some features that aren't listed here, such as the ability to hide the clock when hovered (useful when the clock is set to be out of the taskbar) or the abiility to make the clock transparent when an app enters fullscreen mode
  
 ## Translating ElevenClock to other languages
 In order to translate ElevenClock to other languages or to update an old translation, please see [Translating ElevenClock - ElevenClock Wiki][translating link] for more info.
