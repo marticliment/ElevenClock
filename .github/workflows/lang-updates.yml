@@ -17,7 +17,7 @@ jobs:
           cd elevenclock/lang
           python download_translations.py --autocommit
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
+        uses: peter-evans/create-pull-request@v5
         with:
           delete-branch: true
           base: main
