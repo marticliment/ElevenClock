@@ -298,7 +298,14 @@ try:
         LockFile = f"ElevenClockRunning{nowTime}"
         LockFilePath = os.path.join(os.path.expanduser("~"), ".elevenclock", LockFile)
         LockFileLocation = os.path.join(os.path.expanduser("~"), ".elevenclock")
-        setSettings(LockFile, True, False)
+        try:
+            # try to create lockfile, exit if it already exists since this means another process started at the same time
+            open(LockFilePath, "x").close()
+        except FileExistsError as e:
+            globals.newInstanceLaunched = True
+            print("🟠 KILLING, LOCKFILE ALREADY EXISTS")
+            killSignal.infoSignal.emit("", "")
+            return
         while True:
             try:
                 if os.path.isfile(os.path.join(LockFileLocation, "ReloadClocks")):
