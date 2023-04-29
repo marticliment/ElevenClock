@@ -19,6 +19,7 @@ AppPublisher="Martí Climent"
 AppPublisherURL="https://marticliment.com/"
 AppSupportURL="https://marticliment.com/#contact"
 AppUpdatesURL="https://github.com/marticliment/ElevenClock/releases"
+VersionInfoVersion=4.1.0.0
 DefaultDirName={autopf}\ElevenClock
 DisableDirPage=yes
 ChangesAssociations=yes

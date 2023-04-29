@@ -26,14 +26,14 @@ if defined option--only-requirements (
     goto :end
 )
 
-python check_python_version.py --min-version "3.11.0"
+python scripts/check_python_version.py --min-version "3.11.0"
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
 @echo on
 
-python apply_version.py
+python scripts/apply_version.py
 
 rmdir /Q /S ElevenClockBin
 xcopy elevenclock elevenclock_bin /E /H /C /I /Y
@@ -107,7 +107,7 @@ if exist %INSTALLATOR% (
 :skip-installer
 
 if defined option--release (
-    python generate_release.py
+    python scripts/generate_release.py
 )
 
 goto:end

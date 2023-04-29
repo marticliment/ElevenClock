@@ -1,6 +1,9 @@
 import sys
 import hashlib
+import os
 from os.path import exists
+
+os.chdir(os.path.dirname(__file__) + "/..") # move to root project
 
 sys.path.append("elevenclock")
 sys.path.append("elevenclock/lang")
