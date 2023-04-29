@@ -91,7 +91,7 @@ def getTaskbarIconMode() -> str:
     return "white" if isTaskbarDark() else "black"
 
 def isWindowDark() -> bool:
-    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==0
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "AppsUseLightTheme", 1)==1
 
 def isTaskbarDark() -> bool:
     return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)==0

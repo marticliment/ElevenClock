@@ -66,7 +66,7 @@ class SettingsWindow(QMainWindow):
         self.settingsWidget.setObjectName("background")
         self.setWindowIcon(QIcon(getPath("icon.ico")))
         layout.addSpacing(0)
-        self.title = QLabel("\u200e"+_("ElevenClock Settings"))
+        self.title = QLabel(_("ElevenClock Settings"))
         self.title.setObjectName("title")
         if lang["locale"] == "zh_TW":
             self.title.setStyleSheet("font-size: 20pt;font-family: \"Microsoft JhengHei UI\";font-weight: 600;")
@@ -75,7 +75,7 @@ class SettingsWindow(QMainWindow):
         else:
             self.title.setStyleSheet("font-size: 20pt;font-family: \"Segoe UI Variable Text\";font-weight: 700;")
         layout.setSpacing(5)
-        layout.setContentsMargins(10, 0, 0, 0)
+        layout.setContentsMargins(10, 0, 10, 0)
         layout.addSpacing(0)
         self.resize(900, 600)
         self.setMinimumWidth(540)
@@ -879,12 +879,12 @@ class SettingsWindow(QMainWindow):
         ExtendFrameIntoClientArea(self.winId().__int__())
         self.installEventFilter(self)
         if winver < 22581:
-            self.setWindowTitle("‎")
+            self.setWindowTitle("")
             pixmap = QPixmap(32, 32)
             pixmap.fill(Qt.transparent)
             self.setWindowIcon(QIcon(pixmap))
         else:
-            self.setWindowTitle("‎"+_("ElevenClock Settings"))
+            self.setWindowTitle(""+_("ElevenClock Settings"))
             self.setWindowIcon(QIcon(getPath("icon.ico")))
 
     def filter(self, query: str):
@@ -1263,6 +1263,7 @@ class SettingsWindow(QMainWindow):
                         margin: 2px;
                         margin-bottom: 0;
                         padding-left: 20px;
+                        padding-right: 20px;
                         padding-top: 15px;
                         padding-bottom: 15px;
                         font-size: 13pt;
@@ -1299,6 +1300,7 @@ class SettingsWindow(QMainWindow):
                         margin-top: 0;
                         margin-bottom: 0;
                         padding-left: 20px;
+                        padding-right: 20px;
                         padding-top: 0;
                         padding-bottom: 0;
                         border: 1px solid rgba(255, 255, 255, 7%);
@@ -1317,6 +1319,7 @@ class SettingsWindow(QMainWindow):
                         margin-bottom: 0;
                         margin-top: 0;
                         padding-left: 20px;
+                        padding-right: 20px;
                         padding-top: 15px;
                         padding-bottom: 15px;
                         border: 1px solid rgba(25, 25, 25, 50%);
@@ -1347,6 +1350,7 @@ class SettingsWindow(QMainWindow):
                     #stChkBg{{
                         padding: 15px;
                         padding-left: 45px;
+                        padding-right: 45px;
                         background-color: rgba(255, 255, 255, 5%);
                         margin: 10px;
                         margin-bottom: 0;
@@ -1401,6 +1405,7 @@ class SettingsWindow(QMainWindow):
                         height: 30px;
                         border-top: 1px solid rgba(99, 99, 99, 15%);
                         padding-left: 10px;
+                        padding-right: 10px;
                     }}
                     QComboBox:hover {{
                         background-color:rgba(86, 86, 86, 25%);
@@ -1885,6 +1890,7 @@ class SettingsWindow(QMainWindow):
                         border: 1px solid rgba(196, 196, 196, 25%);
                         height: 25px;
                         padding-left: 10px;
+                        padding-right: 10px;
                         border-bottom: 1px solid rgba(204, 204, 204, 25%);
                     }}
                     QComboBox:disabled {{
@@ -2196,22 +2202,18 @@ class QSettingsTitle(QWidget):
         self.dummy = dummy
         if isWindowDark():
             self.iconMode = "white"
-            semib = "Semib"
         else:
             self.iconMode = "black"
-            semib = ""
         super().__init__()
         self.callInMain.connect(lambda f: f())
         self.icon = icon
         self.setObjectName("subtitleLabel")
-        self.label = QLabel("\u200e"+text, self)
-        self.label.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
+        self.label = QLabel(text, self)
         self.label.setAlignment(Qt.AlignLeft)
         self.setMaximumWidth(1000)
         self.descLabel = QLabel(descText, self)
         self.bg70 = QWidget(self)
         self.bg70.setObjectName("micaRegularBackground")
-        self.descLabel.setLayoutDirection(Qt.LayoutDirection.LeftToRight)
         self.descLabel.setObjectName("greyishLabel")
         if lang["locale"] == "zh_TW":
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";")
@@ -2419,9 +2421,8 @@ class QSettingsButton(QWidget):
         self.fh = h
         self.setAttribute(Qt.WA_StyledBackground)
         self.button = QPushButton(btntext+" ", self)
-        self.button.setLayoutDirection(Qt.RightToLeft)
         self.setObjectName("stBtn")
-        self.label = QLabel("\u200e"+text, self)
+        self.label = QLabel(text, self)
         if lang["locale"] == "zh_TW":
             self.label.setStyleSheet("font-size: 10pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
             self.button.setStyleSheet("font-size: 10pt;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
@@ -2437,15 +2438,14 @@ class QSettingsButton(QWidget):
         self.label.setFixedHeight((self.fh))
         self.setFixedHeight((50+(self.fh-30)))
         self.button.setFixedHeight((self.fh))
-        self.button.setFixedWidth(250)
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.label)
+        self.layout().addStretch()
+        self.layout().addWidget(self.button)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-(270), 10)
-        self.label.setFixedWidth(self.width()-(350))
-        return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
         self.button.setIcon(icon)
@@ -2473,7 +2473,7 @@ class QSettingsComboBox(QWidget):
         self.restartButton = QPushButton("Restart ElevenClock", self)
         self.restartButton.hide()
         self.restartButton.setObjectName("AccentButton")
-        self.label = QLabel("\u200e"+text, self)
+        self.label = QLabel(text, self)
 
         if lang["locale"] == "zh_TW":
             self.label.setStyleSheet("font-size: 11pt;background: none;font-family: \"Microsoft JhengHei UI\";font-weight: 450;")
@@ -2490,11 +2490,16 @@ class QSettingsComboBox(QWidget):
         self.label.setObjectName("StLbl")
         self.label.move((70), 10)
         self.label.setFixedHeight(30)
-        self.restartButton.setFixedWidth(150)
         self.restartButton.setFixedHeight(30)
         self.setFixedHeight(50)
         self.combobox.setFixedHeight(30)
-        self.combobox.setFixedWidth(250)
+        
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.label)
+        self.layout().addStretch()
+        self.layout().addWidget(self.restartButton)
+        self.layout().addWidget(self.combobox)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -2512,13 +2517,6 @@ class QSettingsComboBox(QWidget):
             self.combobox.setCurrentIndex(0)
         self.combobox.currentTextChanged.connect(self.textChanged.emit)
         self.combobox.currentTextChanged.connect(self.valueChanged.emit)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-(270), 10)
-        self.label.setFixedWidth(self.width()-(480))
-        if self.buttonOn:
-            self.restartButton.move(self.width()-(430), 10)
-        return super().resizeEvent(event)
 
     def setIcon(self, icon: QIcon) -> None:
         pass
@@ -2553,6 +2551,10 @@ class QSettingsCheckBox(QWidget):
         self.checkbox.stateChanged.connect(self.stateChanged.emit)
         self.checkbox.move((70), 10)
         self.checkbox.setFixedHeight(30)
+        self.setFixedHeight(50)
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def setChecked(self, checked: bool) -> None:
         self.checkbox.setChecked(checked)
@@ -2562,11 +2564,6 @@ class QSettingsCheckBox(QWidget):
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.checkbox.setFixedWidth(self.width()-(70))
-        self.setFixedHeight(50)
-        return super().resizeEvent(event)
 
     def text(self) -> str:
         return self.checkbox.text()
@@ -2587,15 +2584,16 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
         self.infolabel.move((150), 10)
         self.infolabel.setFixedHeight(30)
         self.setFixedHeight(50)
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().addStretch()
+        self.layout().addWidget(self.infolabel)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def stateChangedFun(self, checked: bool) -> bool:
         self.infolabel.setVisible(checked)
         self.stateChanged.emit(checked)
 
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.checkbox.setFixedWidth(self.width()-(70))
-        self.infolabel.setFixedWidth(self.width()-(70)-(150))
-        return super().resizeEvent(event)
 
 class QSettingsCheckBoxTextBox(QSettingsCheckBox):
     stateChanged = Signal(bool)
@@ -2626,16 +2624,14 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.checkbox.setFixedHeight(30)
         self.setFixedHeight(50)
         self.lineedit.setFixedHeight(30)
-        self.lineedit.setFixedWidth(450)
         self.helplabel.setFixedHeight(30)
-        self.helplabel.setFixedWidth(100)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.lineedit.move(self.width()-(470), 10)
-        self.helplabel.move(self.width()-(580), 10)
-        self.checkbox.setFixedWidth(self.width()-(480))
-
-        return super().resizeEvent(event)
+        
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().addStretch()
+        self.layout().addWidget(self.helplabel)
+        self.layout().addWidget(self.lineedit)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def valuechangedEvent(self, text: str):
         self.valueChanged.emit(text)
@@ -2687,13 +2683,12 @@ class QSettingsSizeBoxComboBox(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
         self.setFixedHeight(50)
         self.combobox.setFixedHeight(30)
-        self.combobox.setFixedWidth(250)
         self.checkbox.move((70), 10)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.combobox.move(self.width()-(270), 10)
-        self.checkbox.setFixedWidth(self.width()-(280))
-        return super().resizeEvent(event)
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().addStretch()
+        self.layout().addWidget(self.combobox)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def valuechangedEvent(self, i: int):
         self.valueChanged.emit(self.combobox.itemText(i))
@@ -2740,16 +2735,15 @@ class QSettingsSliderWithCheckBox(QSettingsCheckBox):
         self.checkbox.setFixedHeight(30)
         self.setFixedHeight(50)
         self.slider.setFixedHeight(30)
-        self.slider.setFixedWidth(250)
         self.intLabel.setText(str(self.slider.value()))
         self.checkbox.move(70, 10)
-
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.slider.move(self.width()-300, 10)
-        self.intLabel.move(self.width()-50, 10)
-        self.checkbox.setFixedWidth(self.width()-280)
-        return super().resizeEvent(event)
+        
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().addStretch()
+        self.layout().addWidget(self.slider)
+        self.layout().addWidget(self.intLabel)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def valuechangedEvent(self):
         self.intLabel.setText(str(self.slider.value()))
@@ -2774,7 +2768,7 @@ class QCustomColorDialog(QColorDialog):
         self.setStyleSheet(f"*{{border-radius: 8px;}}  QColorLuminancePicker {{background-color: transparent; border: 4px solid black;margin: none; border: none; padding: none;}} ")
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.setAutoFillBackground(True)
-        self.setWindowTitle("‎")
+        self.setWindowTitle("")
         pixmap = QPixmap(32, 32)
         pixmap.fill(Qt.transparent)
         self.setWindowIcon(QIcon(pixmap))
@@ -2817,14 +2811,14 @@ class QSettingsCheckboxColorDialog(QSettingsCheckBox):
         self.stateChangedEvent(self.checkbox.isChecked())
         self.checkbox.setFixedHeight(30)
         self.button.setFixedHeight(30)
-        self.button.setFixedWidth(250)
         self.setFixedHeight(50)
         self.checkbox.move((70), 10)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-(270), 10)
-        self.checkbox.setFixedWidth(self.width()-(280))
-        return super().resizeEvent(event)
+        
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().addStretch()
+        self.layout().addWidget(self.button)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def valuechangedEvent(self, c: QColor):
         r = c.red()
@@ -2904,13 +2898,13 @@ class QSettingsFontBoxComboBox(QSettingsCheckBox):
         self.checkbox.setFixedHeight(30)
         self.setFixedHeight(50)
         self.button.setFixedHeight(30)
-        self.button.setFixedWidth(250)
         self.checkbox.move((70), 10)
-
-    def resizeEvent(self, event: QResizeEvent) -> None:
-        self.button.move(self.width()-(270), 10)
-        self.checkbox.setFixedWidth(self.width()-(280))
-        return super().resizeEvent(event)
+        
+        self.setLayout(QHBoxLayout())
+        self.layout().addWidget(self.checkbox)
+        self.layout().addStretch()
+        self.layout().addWidget(self.button)
+        self.layout().setContentsMargins(70, 0, 20, 0)
 
     def valuechangedEvent(self, font: QFont):
         self.valueChanged.emit(font.key())
@@ -2976,6 +2970,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         self.preview.setFixedHeight(80)
         self.preview.setFixedWidth(150)
         self.rulesLabel.setFixedHeight(100)
+        self.layout().removeWidget(self.checkbox)
 
 
     def resizeEvent(self, event: QResizeEvent = None) -> None:
