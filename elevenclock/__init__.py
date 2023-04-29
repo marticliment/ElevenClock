@@ -215,6 +215,12 @@ try:
             
             if getSettings("AutoReloadClocks"):
                Thread(target=lambda: (time.sleep(5*60), restartClocksSignal.restartSignal.emit())).start()
+            
+            if globals.trayIcon:
+                if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
+                    globals.trayIcon.hide()
+                else:
+                    globals.trayIcon.show()
         else:
             cprint("🔴 Overloading system, killing!")
             os.startfile(sys.executable)
@@ -498,10 +504,14 @@ try:
                 print("🟠 Monitor blacklisted!")
                 self.hide()
                 self.close()
+                if self in globals.clocks:
+                    globals.clocks.remove(self)
                 
             elif isCover and getSettings("DisableSystemClockCover"):
                 self.hide()
                 self.close()
+                if self in globals.clocks:
+                    globals.clocks.remove(self)
                 
             else:
                 self.taskbarHwnds = getWindowHwnds("Shell_SecondaryTrayWnd") + getWindowHwnds("Shell_TrayWnd")
@@ -1707,7 +1717,7 @@ try:
         sys.argv.append("windows:fontengine=freetype")
     if not QApplication.instance():
         translator = QTranslator()
-        translator.load(f"qtbase_{langName}.qm", QLibraryInfo.location(QLibraryInfo.TranslationsPath))
+        translator.load(f"qtbase_{langName}.qm", QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath))
         app = QApplication(sys.argv)
         app.installTranslator(translator)
     else:
@@ -1731,6 +1741,11 @@ try:
     sw = SettingsWindow() # Declare settings window
     i = TaskbarIconTray(app)
     #mController = MouseController()
+    
+    if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
+        i.hide()
+    else:
+        i.show()
 
     app.primaryScreenChanged.connect(lambda: (os.startfile(sys.executable), app.quit()))
     app.screenAdded.connect(lambda: (os.startfile(sys.executable), app.quit()))

@@ -179,7 +179,7 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
             pass
         if r and not thread:
             globals.restartClocks()
-            if(getSettings("DisableSystemTray")):
+            if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
                 globals.trayIcon.hide()
             else:
                 globals.trayIcon.show()
@@ -479,12 +479,7 @@ class TaskbarIconTray(QSystemTrayIcon):
 
         self.activated.connect(lambda r: activationHandler(r))
 
-        if(getSettings("DisableSystemTray")):
-            self.hide()
-            print("🟡 System tray icon disabled")
-        else:
-            self.show()
-            print("🔵 System tray icon enabled")
+        
         self.applyStyleSheet()
 
 
