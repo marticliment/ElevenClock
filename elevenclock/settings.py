@@ -46,7 +46,7 @@ class SettingsWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.callInMain.connect(lambda f: f())
-        self.scrollArea = QScrollArea()
+        self.scrollArea = SmoothScrollArea()
         sp = QScrollerProperties()
         sp.setScrollMetric( QScrollerProperties.DragVelocitySmoothingFactor,   1 )
         sp.setScrollMetric( QScrollerProperties.ScrollingCurve, QEasingCurve.InOutCubic )
@@ -3019,6 +3019,98 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
                 self.preview.setText(_("Invalid time format\nPlease follow the\nC 1989 Standards"))
                 report(e)
 
+class SmoothScrollArea(QScrollArea):
+    missingScroll = 0
+    buttonVisible = False
+    def __init__(self, parent = None):
+        super().__init__(parent)
+        self.setAutoFillBackground(True)
+        self.smoothScrollAnimation = QVariantAnimation(self)
+        self.smoothScrollAnimation.setDuration(300)
+        self.smoothScrollAnimation.setEasingCurve(QEasingCurve.OutQuart)
+        self.smoothScrollAnimation.valueChanged.connect(lambda v: self.verticalScrollBar().setValue(v))
+        self.goTopButton = QPushButton(self)
+        self.goTopButton.setIcon(QIcon(getPath(f"gotop_{getAppIconMode()}.png")))
+        self.goTopButton.setToolTip(_("Return to top"))
+        self.goTopButton.setAccessibleDescription(_("Return to top"))
+        self.goTopButton.setFixedSize(24, 32)
+        self.buttonOpacity = QGraphicsOpacityEffect()
+        self.goTopButton.clicked.connect(lambda: (self.smoothScrollAnimation.setStartValue(self.verticalScrollBar().value()), self.smoothScrollAnimation.setEndValue(0), self.smoothScrollAnimation.start(), self.hideTopButton()))
+        self.goTopButton.setGraphicsEffect(self.buttonOpacity)
+        self.buttonOpacity.setOpacity(0)
+        self.buttonAnimation = QVariantAnimation(self)
+        self.buttonAnimation.setDuration(100)
+        self.buttonAnimation.valueChanged.connect(lambda v: self.buttonOpacity.setOpacity(v/100))
+        self.verticalScrollBar().setFixedWidth(15)
+        
+    def wheelEvent(self, e: QWheelEvent) -> None:
+        currentPos = self.verticalScrollBar().value()
+        finalPos = currentPos - e.angleDelta().y()
+        self.doSmoothScroll(currentPos, finalPos)
+        e.ignore()
+        
+    def doSmoothScroll(self, currentPos: int, finalPos: int):
+        if self.smoothScrollAnimation.state() == QAbstractAnimation.Running:
+            self.smoothScrollAnimation.stop()
+            self.missingScroll = self.smoothScrollAnimation.endValue() - self.smoothScrollAnimation.currentValue()
+        else:
+            self.missingScroll = 0
+        finalPos += self.missingScroll
+        self.showTopButton() if finalPos>20 else self.hideTopButton()
+        if finalPos < 0:
+            finalPos = 0
+        elif finalPos > self.verticalScrollBar().maximum():
+            finalPos = self.verticalScrollBar().maximum()
+        self.smoothScrollAnimation.setStartValue(currentPos)
+        self.smoothScrollAnimation.setEndValue(finalPos)
+        self.smoothScrollAnimation.start()
+        
+    def keyPressEvent(self, event: QKeyEvent) -> None:
+        match event.key():
+            case Qt.Key.Key_PageDown:
+                currentPos = self.verticalScrollBar().value()
+                finalPos = self.verticalScrollBar().value() + self.height()
+                self.doSmoothScroll(currentPos, finalPos)
+                event.ignore()
+                return
+            case Qt.Key.Key_PageUp:
+                currentPos = self.verticalScrollBar().value()
+                finalPos = self.verticalScrollBar().value() - self.height()
+                self.doSmoothScroll(currentPos, finalPos)
+                event.ignore()
+                return
+            case Qt.Key.Key_End:
+                currentPos = self.verticalScrollBar().value()
+                finalPos = self.verticalScrollBar().maximum()
+                self.doSmoothScroll(currentPos, finalPos)
+                event.ignore()
+                return
+            case Qt.Key.Key_Home:
+                currentPos = self.verticalScrollBar().value()
+                finalPos = 0
+                self.doSmoothScroll(currentPos, finalPos)
+                event.ignore()
+                return
+        return super().keyPressEvent(event)
+    
+    def showTopButton(self):
+        if not self.buttonVisible:
+            self.buttonVisible = True
+            self.goTopButton.raise_()
+            self.buttonAnimation.setStartValue(int(self.buttonOpacity.opacity()*100))
+            self.buttonAnimation.setEndValue(100)
+            self.buttonAnimation.start()
+        
+    def hideTopButton(self):
+        if self.buttonVisible:
+            self.buttonVisible = False
+            self.buttonAnimation.setStartValue(int(self.buttonOpacity.opacity()*100))
+            self.buttonAnimation.setEndValue(0)
+            self.buttonAnimation.start()
+            
+    def resizeEvent(self, event: QResizeEvent) -> None:
+        self.goTopButton.move(self.width()-48, self.height()-48)
+        return super().resizeEvent(event)
 
 
 class QAnnouncements(QLabel):
@@ -3026,7 +3118,7 @@ class QAnnouncements(QLabel):
 
     def __init__(self):
         super().__init__()
-        self.area = QScrollArea()
+        self.area = SmoothScrollArea()
         self.setMaximumWidth(1000)
         self.callInMain.connect(lambda f: f())
         self.setFixedHeight(110)
