@@ -164,18 +164,16 @@ class SettingsWindow(QMainWindow):
         self.installUpdates.setChecked(not self.getSettings("DisableAutoInstallUpdates"))
         self.installUpdates.stateChanged.connect(lambda i: self.setSettings("DisableAutoInstallUpdates", not bool(i), r = False))
         self.generalSettingsTitle.addWidget(self.installUpdates)
+        self.installUpdates.setStyleSheet("border-top: 0px solid transparent;")
         self.silentUpdates = QSettingsCheckBox(_("Enable really silent updates"))
         self.silentUpdates.setChecked(self.getSettings("EnableSilentUpdates"))
         self.silentUpdates.stateChanged.connect(lambda i: self.setSettings("EnableSilentUpdates", bool(i), r = False))
+        self.silentUpdates.setStyleSheet("border-top: 0px solid transparent;")
         self.generalSettingsTitle.addWidget(self.silentUpdates)
         self.enableSystemTray = QSettingsCheckBox(_("Show ElevenClock on system tray"))
         self.enableSystemTray.setChecked(not self.getSettings("DisableSystemTray"))
         self.enableSystemTray.stateChanged.connect(lambda i: self.setSettings("DisableSystemTray", not bool(i)))
         self.generalSettingsTitle.addWidget(self.enableSystemTray)
-        self.disableTaskMgr = QSettingsCheckBox(_("Hide extended options from the clock right-click menu (needs a restart to be applied)"))
-        self.disableTaskMgr.setChecked(self.getSettings("HideTaskManagerButton"))
-        self.disableTaskMgr.stateChanged.connect(lambda i: self.setSettings("HideTaskManagerButton", bool(i)))
-        self.generalSettingsTitle.addWidget(self.disableTaskMgr)
         self.startupButton = QSettingsButton(_("Change startup behaviour"), _("Change"))
         self.startupButton.clicked.connect(lambda: os.startfile("ms-settings:startupapps"))
         self.generalSettingsTitle.addWidget(self.startupButton)
@@ -194,10 +192,12 @@ class SettingsWindow(QMainWindow):
         self.TransparentClockWhenInFullscreen = QSettingsCheckBox(_("Force the clock to be transparent if any window shows in fullscreen"))
         self.TransparentClockWhenInFullscreen.setChecked(self.getSettings("TransparentClockWhenInFullscreen"))
         self.TransparentClockWhenInFullscreen.stateChanged.connect(lambda i: self.setSettings("TransparentClockWhenInFullscreen", bool(i)))
+        self.TransparentClockWhenInFullscreen.setStyleSheet("border-top: 0px solid transparent;")
         self.clockSettingsTitle.addWidget(self.TransparentClockWhenInFullscreen)
         self.transparentclickEventFS = QSettingsCheckBox(_("Ignore mouse clicks when on fullscreen"))
         self.transparentclickEventFS.setChecked(self.getSettings("MouseEventTransparentFS"))
         self.transparentclickEventFS.stateChanged.connect(lambda i: self.setSettings("MouseEventTransparentFS", bool(i)))
+        self.transparentclickEventFS.setStyleSheet("border-top: 0px solid transparent;")
         self.clockSettingsTitle.addWidget(self.transparentclickEventFS)
         self.forceClockToShow = QSettingsCheckBox(_("Show the clock when the taskbar is set to hide automatically"))
         self.forceClockToShow.setChecked(self.getSettings("DisableHideWithTaskbar"))
@@ -210,6 +210,7 @@ class SettingsWindow(QMainWindow):
         self.hideClockWhenHovered = QSettingsCheckBox(_("Hide the clock during 5 seconds when hoveredwith the mouse"))
         self.hideClockWhenHovered.setChecked(self.getSettings("HideClockWhenHovered"))
         self.hideClockWhenHovered.stateChanged.connect(lambda i: self.setSettings("HideClockWhenHovered", bool(i)))
+        self.hideClockWhenHovered.setStyleSheet("border-top: 0px solid transparent;")
         self.clockSettingsTitle.addWidget(self.hideClockWhenHovered)
         self.autoreloadclocks = QSettingsCheckBox(_("Reload clocks automatically every 5 minutes"))
         self.autoreloadclocks.setChecked(self.getSettings("AutoReloadClocks"))
@@ -258,6 +259,7 @@ class SettingsWindow(QMainWindow):
         self.customClockAction.valueChanged.connect(lambda v: (self.setSettingsValue("CustomClockClickAction", clkactions[str(v)])))
         self.clockFeaturesTitle.addWidget(self.customClockAction)
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is double-clicked"))
+        self.customDoubleClickAction.setStyleSheet("border-top: 0px solid transparent;")
         dblactions = {
             _("Show calendar"): "Win+N",
             _("Copy date/time"): "copy_datetime",
@@ -282,6 +284,7 @@ class SettingsWindow(QMainWindow):
         self.customDoubleClickAction.valueChanged.connect(lambda v: self.setSettingsValue("CustomClockDoubleClickAction", dblactions[v]))
         self.clockFeaturesTitle.addWidget(self.customDoubleClickAction)
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is middle-clicked"))
+        self.customDoubleClickAction.setStyleSheet("border-top: 0px solid transparent;")
         dblactions = {
             _("Show calendar"): "Win+N",
             _("Copy date/time"): "copy_datetime",
@@ -321,6 +324,7 @@ class SettingsWindow(QMainWindow):
         self.clockAtTop.setChecked(self.getSettings("ForceOnTop"))
         self.clockAtTop.stateChanged.connect(lambda i: self.setSettings("ForceOnTop", bool(i)))
         self.clockPosTitle.addWidget(self.clockAtTop)
+        self.clockAtTop.setStyleSheet("border-top: 0px solid transparent;")
         self.PinClockToDesktop = QSettingsCheckBox(_("Pin the clock to the desktop"))
         self.PinClockToDesktop.setChecked(self.getSettings("PinClockToTheDesktop"))
         self.PinClockToDesktop.stateChanged.connect(lambda i: self.setSettings("PinClockToTheDesktop", bool(i)))
@@ -336,6 +340,7 @@ class SettingsWindow(QMainWindow):
         self.clockFixedHeight.valueChanged.connect(lambda v: self.setSettingsValue("ClockFixedHeight", str(v)))
         self.clockPosTitle.addWidget(self.clockFixedHeight)
         self.ClockFixedWidth = QSettingsSliderWithCheckBox(_("Change the width of the clock"), self, 30, 200, 48)
+        self.ClockFixedWidth.setStyleSheet("border-top: 0px solid transparent;")
         self.ClockFixedWidth.setChecked(self.getSettings("ClockFixedWidth"))
         if self.ClockFixedWidth.isChecked():
             try:
@@ -358,6 +363,7 @@ class SettingsWindow(QMainWindow):
         self.clockPosTitle.addWidget(self.clockXOffset)
 
         self.clockYOffset = QSettingsSliderWithCheckBox(_("Adjust vertical clock position"), self, -200, 200, 0)
+        self.clockYOffset.setStyleSheet("border-top: 0px solid transparent;")
         self.clockYOffset.setChecked(self.getSettings("ClockYOffset"))
         if self.clockYOffset.isChecked():
             try:
@@ -403,6 +409,7 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.addWidget(self.fontPrefs)
 
         self.fontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
+        self.fontSize.setStyleSheet("border-top: 0px solid transparent;")
         self.fontSize.setChecked(self.getSettings("UseCustomFontSize"))
         self.fontSize.loadItems()
         if self.fontSize.isChecked():
@@ -426,6 +433,7 @@ class SettingsWindow(QMainWindow):
         self.clockAppearanceTitle.addWidget(self.fontSize)
     
         self.fontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
+        self.fontColor.setStyleSheet("border-top: 0px solid transparent;")
         self.fontColor.setChecked(self.getSettings("UseCustomFontColor"))
         if self.fontColor.isChecked():
             self.fontColor.button.setStyleSheet(f"color: rgb({self.getSettingsValue('UseCustomFontColor')})")
@@ -462,6 +470,7 @@ class SettingsWindow(QMainWindow):
         self.backgroundcolor.valueChanged.connect(lambda v: self.setSettingsValue("UseCustomBgColor", v))
         self.clockAppearanceTitle.addWidget(self.backgroundcolor)        
         self.disableClocckBlurryBackgound = QSettingsCheckBox(_("Disable clock blurry texture"))
+        self.disableClocckBlurryBackgound.setStyleSheet("border-top: 0px solid transparent;")
         self.disableClocckBlurryBackgound.setChecked(self.getSettings("DisableBlurryTexture"))
         self.disableClocckBlurryBackgound.stateChanged.connect(lambda i: self.setSettings("DisableBlurryTexture", bool(i)))
         self.disableClocckBlurryBackgound.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
@@ -560,6 +569,7 @@ class SettingsWindow(QMainWindow):
         self.toolTipAppearanceTitle.addWidget(self.toolTipFontPrefs)
 
         self.toolTipFontSize = QSettingsSizeBoxComboBox(_("Use a custom font size"))
+        self.toolTipFontSize.setStyleSheet("border-top: 0px solid transparent;")
         self.toolTipFontSize.setChecked(self.getSettings("TooltipUseCustomFontSize"))
         self.toolTipFontSize.loadItems()
         if self.toolTipFontSize.isChecked():
@@ -573,6 +583,7 @@ class SettingsWindow(QMainWindow):
         self.toolTipAppearanceTitle.addWidget(self.toolTipFontSize)
 
         self.toolTipFontColor = QSettingsCheckboxColorDialog(_("Use a custom font color"))
+        self.toolTipFontColor.setStyleSheet("border-top: 0px solid transparent;")
         self.toolTipFontColor.setChecked(self.getSettings("TooltipUseCustomFontColor"))
         if self.toolTipFontColor.isChecked():
             self.toolTipFontColor.button.setStyleSheet(f"color: rgb({self.getSettingsValue('TooltipUseCustomFontColor')})")
@@ -583,15 +594,16 @@ class SettingsWindow(QMainWindow):
         self.disableBlurryBackground.setChecked(self.getSettings("TooltipDisableTaskbarBackgroundColor"))
         self.disableBlurryBackground.stateChanged.connect(lambda i: self.setSettings("TooltipDisableTaskbarBackgroundColor", bool(i)))
         self.toolTipAppearanceTitle.addWidget(self.disableBlurryBackground)
-        self.tooltipbackgroundcolor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
-        self.tooltipbackgroundcolor.setChecked(self.getSettings("TooltipUseCustomBgColor"))
-        self.tooltipbackgroundcolor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
-        if self.tooltipbackgroundcolor.isChecked():
-            self.tooltipbackgroundcolor.button.setStyleSheet(f"background-color: rgba({self.getSettingsValue('TooltipUseCustomBgColor')})")
-        self.tooltipbackgroundcolor.stateChanged.connect(lambda i: self.setSettings("TooltipUseCustomBgColor", bool(i)))
-        self.tooltipbackgroundcolor.valueChanged.connect(lambda v: self.setSettingsValue("TooltipUseCustomBgColor", v))
-        self.tooltipbackgroundcolor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
-        self.toolTipAppearanceTitle.addWidget(self.tooltipbackgroundcolor)
+        self.toolTipBackgroundColor = QSettingsBgBoxColorDialog(_("Use a custom background color"))
+        self.toolTipBackgroundColor.setChecked(self.getSettings("TooltipUseCustomBgColor"))
+        self.toolTipBackgroundColor.colorDialog.setOption(QColorDialog.ShowAlphaChannel, True)
+        if self.toolTipBackgroundColor.isChecked():
+            self.toolTipBackgroundColor.button.setStyleSheet(f"background-color: rgba({self.getSettingsValue('TooltipUseCustomBgColor')})")
+        self.toolTipBackgroundColor.stateChanged.connect(lambda i: self.setSettings("TooltipUseCustomBgColor", bool(i)))
+        self.toolTipBackgroundColor.valueChanged.connect(lambda v: self.setSettingsValue("TooltipUseCustomBgColor", v))
+        self.toolTipBackgroundColor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
+        self.toolTipAppearanceTitle.addWidget(self.toolTipBackgroundColor)
+        self.toolTipBackgroundColor.setStyleSheet("border-top: 0px solid transparent;")
 
 
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
@@ -739,7 +751,7 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle.addWidget(self.WebPageButton)
         self.ThirdParty = QSettingsButton(_("Third party licenses"), _("View"))
         self.ThirdParty.clicked.connect(lambda: thirdPartyLicenses())
-        self.ThirdParty.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
+        self.ThirdParty.setStyleSheet("QWidget#stBtn{border-top: 0px solid transparent;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.ThirdParty)
         self.IssueButton = QSettingsButton(_("Report an issue/request a feature"), _("Report"))
         self.IssueButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/issues/new/choose"))
@@ -755,10 +767,10 @@ class SettingsWindow(QMainWindow):
         self.aboutTitle.addWidget(self.importSettings)
         self.exportSettings = QSettingsButton(_("Export settings to a local file"), _("Export"))
         self.exportSettings.clicked.connect(lambda: exportSettings())
-        self.exportSettings.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
+        self.exportSettings.setStyleSheet("QWidget#stBtn{border-top: 0px solid transparent;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.aboutTitle.addWidget(self.exportSettings)
         self.resetButton = QSettingsButton(_("Reset ElevenClock preferences to defaults"), _("Reset"))
-        self.resetButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
+        self.resetButton.setStyleSheet("QWidget#stBtn{border-top: 0px solid transparent;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable), globals.app.quit()))
         self.aboutTitle.addWidget(self.resetButton)
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
