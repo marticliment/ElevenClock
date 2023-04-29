@@ -132,4 +132,4 @@ Name: "{autoprograms}\{#MyAppName} Settings"; Filename: "{app}\{#MyAppExeName}";
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}";
 
 [Run]
-Filename: "{app}\ElevenClock.exe"; Flags: dontlogparameters nowait postinstall;
+Filename: "{app}\ElevenClock.exe"; Flags: runasoriginaluser dontlogparameters nowait postinstall;
