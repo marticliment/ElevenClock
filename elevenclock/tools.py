@@ -32,6 +32,7 @@ import pythoncom
 import win32process
 import win32api
 import win32con
+import re
 
 specificSettings = {}
 missingTranslationList = []
@@ -130,6 +131,32 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
         except Exception as e:
             report(e)
             return default
+
+def evaluate_simple_expression(expression: str):  # supported expressions are of form x +/- y
+        tokens = re.split(r'(\+|\-)', expression)
+        result = int(tokens[0].strip())
+
+        for i in range(1, len(tokens), 2):
+            operator = tokens[i].strip()
+            operand = int(tokens[i + 1].strip())
+
+            if operator == "+":
+                result += operand
+            elif operator == "-":
+                result -= operand
+
+        return result
+
+def evaluate_expression_string(s: str):
+    def evaluate_match(match):
+        expression = match.group(1)
+        if re.fullmatch(r'\d+(\s*[\+\-]\s*\d+)*', expression): # a valid expression is of form x +/- y
+            return str(evaluate_simple_expression(expression))
+        else:
+            return match.group(0)  # Return the original text if not a valid expression
+
+    return re.sub(r'\{([^}]*)\}', evaluate_match, s) # search for expressions of form  {****} and replace using evaluate_match
+
 
 def getColors() -> list:
     colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']
