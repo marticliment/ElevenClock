@@ -6,3 +6,4 @@ pyautogui
 pytz
 win32mica
 winshell
+pypiwin32
