@@ -236,10 +236,23 @@ class SettingsWindow(QMainWindow):
         self.showDesktopButton.setChecked(self.getSettings("ShowDesktopButton"))
         self.showDesktopButton.stateChanged.connect(lambda i: self.setSettings("ShowDesktopButton", bool(i)))
         self.clockFeaturesTitle.addWidget(self.showDesktopButton)
+
+        toggleactions = {
+            _("No action"): "",
+            _("Set a custom date and time format"): "CustomClockStringsDisabled",
+            _("Show seconds on the clock"): "EnableSeconds",
+            _("Show time on the clock"): "DisableTime",
+            _("Show date on the clock"): "DisableDate",
+            _("Show week number on the clock"): "EnableWeekNumber",
+            _("Show weekday on the clock"): "EnableWeekDay",
+            _("Enable internet time sync"): "EnableInternetTime",
+        }
+        #region Clock click actions
         self.customClockAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is clicked"))
-        clkactions = {
+        clickActions = {
             _("Show calendar"): "Win+N",
             _("Copy date/time"): "copy_datetime",
+            _("Toggle ElevenClock setting"): "toggle_setting_click",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
             _("Show desktop"): "Win+d",
@@ -249,22 +262,42 @@ class SettingsWindow(QMainWindow):
             _("Open search menu"): "Win+S",
             _("Change task"): "AltRight+Tab",
         }
-        self.customClockAction.loadItems(clkactions.keys())
+        self.customClockAction.loadItems(clickActions.keys())
         self.customClockAction.setChecked(self.getSettings("CustomClockClickAction"))
+        #region Extra option for the "toggle_setting_click" action (customClockClickToggleAction)
+        self.customClockClickToggleAction = QSettingsComboBox(_("Choose the setting to toggle when clock is clicked"))
+        self.customClockClickToggleAction.setStyleSheet("border-top: 0px solid transparent;")
+        self.customClockClickToggleAction.loadItems(toggleactions.keys())
+        self.customClockClickToggleAction.setEnabled(True)
         try:
-            self.customClockAction.combobox.setCurrentIndex(list(clkactions.values()).index(self.getSettingsValue("CustomClockClickAction")))
+            self.customClockClickToggleAction.combobox.setCurrentIndex(list(toggleactions.values()).index(self.getSettingsValue("ClockClickToggleSetting")))
+        except ValueError:
+            pass
+        self.customClockClickToggleAction.valueChanged.connect(lambda v: self.setSettingsValue("ClockClickToggleSetting", toggleactions[v]))
+        #endregion
+
+        def customClickActionValueChanged(v):
+            self.setSettingsValue("CustomClockClickAction", clickActions[v])
+            self.customClockClickToggleAction.setEnabled(clickActions[v] == "toggle_setting_click")
+        try:
+            self.customClockAction.combobox.setCurrentIndex(list(clickActions.values()).index(self.getSettingsValue("CustomClockClickAction")))
         except ValueError:
             pass
         self.customClockAction.stateChanged.connect(lambda i: self.setSettings("CustomClockClickAction", bool(i)))
-        self.customClockAction.valueChanged.connect(lambda v: (self.setSettingsValue("CustomClockClickAction", clkactions[str(v)])))
+        self.customClockAction.valueChanged.connect(customClickActionValueChanged)
         self.clockFeaturesTitle.addWidget(self.customClockAction)
+        self.clockFeaturesTitle.addWidget(self.customClockClickToggleAction)
+        #endregion
+
+        #region Clock double-click actions
         self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is double-clicked"))
         self.customDoubleClickAction.setStyleSheet("border-top: 0px solid transparent;")
-        dblactions = {
+        doubleActions = {
             _("Show calendar"): "Win+N",
             _("Copy date/time"): "copy_datetime",
             _("Empty the recycle bin"): "trashcan",
             _("Empty the recycle bin (Without confirmation)"): "trashcan_noconfirm",
+            _("Toggle ElevenClock setting"): "toggle_setting_dblclick",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
             _("Show desktop"): "Win+d",
@@ -274,22 +307,42 @@ class SettingsWindow(QMainWindow):
             _("Open search menu"): "Win+S",
             _("Change task"): "AltRight+Tab",
         }
-        self.customDoubleClickAction.loadItems(dblactions.keys())
+        self.customDoubleClickAction.loadItems(doubleActions.keys())
         self.customDoubleClickAction.setChecked(self.getSettings("CustomClockDoubleClickAction"))
+        #region Extra option for the "toggle_setting_dblclick" action (customDoubleClickToggleAction)
+        self.customDoubleClickToggleAction = QSettingsComboBox(_("Choose the setting to toggle when double-clicked"))
+        self.customDoubleClickToggleAction.setStyleSheet("border-top: 0px solid transparent;")
+        self.customDoubleClickToggleAction.loadItems(toggleactions.keys())
+        self.customDoubleClickToggleAction.setEnabled(True)
         try:
-            self.customDoubleClickAction.combobox.setCurrentIndex(list(dblactions.values()).index(self.getSettingsValue("CustomClockDoubleClickAction")))
+            self.customDoubleClickToggleAction.combobox.setCurrentIndex(list(toggleactions.values()).index(self.getSettingsValue("DoubleClickToggleSetting")))
         except ValueError:
             pass
+        self.customDoubleClickToggleAction.valueChanged.connect(lambda v: self.setSettingsValue("DoubleClickToggleSetting", toggleactions[v]))
+        #endregion
+
+        def customDoubleClickActionValueChanged(v):
+            self.setSettingsValue("CustomClockDoubleClickAction", doubleActions[v])
+            self.customDoubleClickToggleAction.setEnabled(doubleActions[v] == "toggle_setting_dblclick")
         self.customDoubleClickAction.stateChanged.connect(lambda i: self.setSettings("CustomClockDoubleClickAction", bool(i)))
-        self.customDoubleClickAction.valueChanged.connect(lambda v: self.setSettingsValue("CustomClockDoubleClickAction", dblactions[v]))
+        self.customDoubleClickAction.valueChanged.connect(customDoubleClickActionValueChanged)
+        try:
+            self.customDoubleClickAction.combobox.setCurrentIndex(list(doubleActions.values()).index(self.getSettingsValue("CustomClockDoubleClickAction")))
+        except ValueError:
+            pass
         self.clockFeaturesTitle.addWidget(self.customDoubleClickAction)
-        self.customDoubleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is middle-clicked"))
-        self.customDoubleClickAction.setStyleSheet("border-top: 0px solid transparent;")
-        dblactions = {
+        self.clockFeaturesTitle.addWidget(self.customDoubleClickToggleAction)
+        #endregion
+
+        #region Clock middle-click actions
+        self.customMiddleClickAction = QSettingsSizeBoxComboBox(_("Change the action done when the clock is middle-clicked"))
+        self.customMiddleClickAction.setStyleSheet("border-top: 0px solid transparent;")
+        middleActions = {
             _("Show calendar"): "Win+N",
             _("Copy date/time"): "copy_datetime",
             _("Empty the recycle bin"): "trashcan",
             _("Empty the recycle bin (Without confirmation)"): "trashcan_noconfirm",
+            #_("Toggle ElevenClock setting"): "toggle_setting_mdlclick",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
             _("Show desktop"): "Win+d",
@@ -299,16 +352,32 @@ class SettingsWindow(QMainWindow):
             _("Open search menu"): "Win+S",
             _("Change task"): "AltRight+Tab",
         }
-        self.customDoubleClickAction.loadItems(dblactions.keys())
-        self.customDoubleClickAction.setChecked(self.getSettings("CustomClockMiddleClickAction"))
+        self.customMiddleClickAction.loadItems(middleActions.keys())
+        self.customMiddleClickAction.setChecked(self.getSettings("CustomClockMiddleClickAction"))
+        #region Extra option for the "toggle_setting_mdlclick" action (customMiddleClickToggleAction)
+        self.customMiddleClickToggleAction = QSettingsComboBox(_("Choose the setting to toggle when middle-clicked"))
+        self.customMiddleClickToggleAction.setStyleSheet("border-top: 0px solid transparent;")
+        self.customMiddleClickToggleAction.loadItems(toggleactions.keys())
+        self.customMiddleClickToggleAction.setEnabled(True)
         try:
-            self.customDoubleClickAction.combobox.setCurrentIndex(list(dblactions.values()).index(self.getSettingsValue("CustomClockMiddleClickAction")))
+            self.customMiddleClickToggleAction.combobox.setCurrentIndex(list(toggleactions.values()).index(self.getSettingsValue("MiddleClickToggleSetting")))
         except ValueError:
             pass
-        self.customDoubleClickAction.stateChanged.connect(lambda i: self.setSettings("CustomClockMiddleClickAction", bool(i)))
-        self.customDoubleClickAction.valueChanged.connect(lambda v: self.setSettingsValue("CustomClockMiddleClickAction", dblactions[v]))
-        self.clockFeaturesTitle.addWidget(self.customDoubleClickAction)
+        self.customMiddleClickToggleAction.valueChanged.connect(lambda v: self.setSettingsValue("MiddleClickToggleSetting", toggleactions[v]))
+        #endregion
 
+        def customMiddleClickActionValueChanged(v):
+            self.setSettingsValue("CustomClockMiddleClickAction", middleActions[v])
+            self.customMiddleClickToggleAction.setEnabled(middleActions[v] == "toggle_setting_mdlclick")
+        try:
+            self.customMiddleClickAction.combobox.setCurrentIndex(list(middleActions.values()).index(self.getSettingsValue("CustomClockMiddleClickAction")))
+        except ValueError:
+            pass
+        self.customMiddleClickAction.stateChanged.connect(lambda i: self.setSettings("CustomClockMiddleClickAction", bool(i)))
+        self.customMiddleClickAction.valueChanged.connect(customMiddleClickActionValueChanged)
+        self.clockFeaturesTitle.addWidget(self.customMiddleClickAction)
+        #self.clockFeaturesTitle.addWidget(self.customMiddleClickToggleAction) # There is a bug where middle-clicking causes infinte loop that runs the action multiple times, so I'll disable it now
+        #endregion
 
         self.clockPosTitle = QSettingsTitle(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
         layout.addWidget(self.clockPosTitle)
@@ -488,29 +557,23 @@ class SettingsWindow(QMainWindow):
         """
         self.customDateTimeFormat = QSettingsLineEditCheckBox(_("Set a custom date and time format")+" "+_("(for advanced users only)"))
         self.customDateTimeFormat.edit.setPlainText(self.getSettingsValue("CustomClockStrings"))
-        self.customDateTimeFormat.setChecked(self.getSettings("CustomClockStrings"))
         self.customDateTimeFormat.setLabelText(rulesText)
-        self.customDateTimeFormat.stateChanged.connect(lambda i: (self.setSettings("CustomClockStrings", bool(i)), self.dateTimeTitle.resizeEvent()))
+        self.customDateTimeFormat.stateChanged.connect(lambda i: (self.setSettings("CustomClockStringsDisabled", not bool(i)), self.dateTimeTitle.resizeEvent()))
         self.customDateTimeFormat.valueChanged.connect(lambda v: self.setSettingsValue("CustomClockStrings", v))
         self.dateTimeTitle.addWidget(self.customDateTimeFormat)
         self.showTime = QSettingsCheckBox(_("Show time on the clock"))
-        self.showTime.setChecked(not self.getSettings("DisableTime"))
         self.showTime.stateChanged.connect(lambda i: self.setSettings("DisableTime", not bool(i)))
         self.dateTimeTitle.addWidget(self.showTime)
         self.showSeconds = QSettingsCheckBox(_("Show seconds on the clock"))
-        self.showSeconds.setChecked(self.getSettings("EnableSeconds"))
         self.showSeconds.stateChanged.connect(lambda i: self.setSettings("EnableSeconds", bool(i)))
         self.dateTimeTitle.addWidget(self.showSeconds)
         self.showDate = QSettingsCheckBox(_("Show date on the clock"))
-        self.showDate.setChecked(not self.getSettings("DisableDate"))
         self.showDate.stateChanged.connect(lambda i: self.setSettings("DisableDate", not bool(i)))
         self.dateTimeTitle.addWidget(self.showDate)
         self.showWeekCount = QSettingsCheckBox(_("Show week number on the clock"))
-        self.showWeekCount.setChecked(self.getSettings("EnableWeekNumber"))
         self.showWeekCount.stateChanged.connect(lambda i: self.setSettings("EnableWeekNumber", bool(i)))
         self.dateTimeTitle.addWidget(self.showWeekCount)
         self.showWeekday = QSettingsCheckBox(_("Show weekday on the clock"))
-        self.showWeekday.setChecked(self.getSettings("EnableWeekDay"))
         self.showWeekday.stateChanged.connect(lambda i: self.setSettings("EnableWeekDay", bool(i)))
         self.dateTimeTitle.addWidget(self.showWeekday)
         self.RegionButton = QSettingsButton(_("Change date and time format (Regional settings)"), _("Regional settings"))
@@ -1006,6 +1069,22 @@ class SettingsWindow(QMainWindow):
             self.internetTimeURL.setEnabled(False)
             self.internetTimeURL.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(_("Sync time with the internet")))
 
+        # Custom clock click action
+        isExtraOptionEnabled = self.customClockAction.isChecked() and self.getSettingsValue("CustomClockClickAction") == "toggle_setting_click"
+        self.customClockClickToggleAction.setEnabled(isExtraOptionEnabled)
+        isExtraOptionEnabled = self.customDoubleClickAction.isChecked() and self.getSettingsValue("CustomClockDoubleClickAction") == "toggle_setting_dblclick"
+        self.customDoubleClickToggleAction.setEnabled(isExtraOptionEnabled)
+        isExtraOptionEnabled = self.customMiddleClickAction.isChecked() and self.getSettingsValue("CustomClockMiddleClickAction") == "toggle_setting_mdlclick"
+        self.customMiddleClickToggleAction.setEnabled(isExtraOptionEnabled)
+
+        # Following "and" condition is to prevent the checkbox from being disabled when the user had a custom format before the "CustomClockStringsDisabled" setting was added
+        self.customDateTimeFormat.setChecked(not self.getSettings("CustomClockStringsDisabled") and self.getSettingsValue("CustomClockStrings") != False)
+        self.showTime.setChecked(not self.getSettings("DisableTime"))
+        self.showSeconds.setChecked(self.getSettings("EnableSeconds"))
+        self.showDate.setChecked(not self.getSettings("DisableDate"))
+        self.showWeekCount.setChecked(self.getSettings("EnableWeekNumber"))
+        self.showWeekday.setChecked(self.getSettings("EnableWeekDay"))
+        self.dateTimeTitle.resizeEvent()
 
 
     def applyStyleSheet(self):

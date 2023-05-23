@@ -774,7 +774,7 @@ try:
                     middleAction = self.getSettingsValue("CustomClockMiddleClickAction")
                     if middleAction != "":
                         if len(middleAction.split("+")) > 3 or len(middleAction.split("+")) < 1:
-                            print("🟠 Invalid double click action piece")
+                            print("🟠 Invalid middle click action piece")
                         else:
                             r = []
                             for piece in middleAction.split("+"):
@@ -953,7 +953,7 @@ try:
         def loadTimeFormat(self):
             try:
                 locale.setlocale(locale.LC_ALL, readRegedit(r"Control Panel\International", "LocaleName", "en_US"))
-                if self.getSettingsValue("CustomClockStrings") != "":
+                if not self.getSettings("CustomClockStringsDisabled") and self.getSettingsValue("CustomClockStrings") != "":
                     clockFormat = self.getSettingsValue("CustomClockStrings")
                     print(f"🟡 Custom loaded date time format (clock {self.index}):", clockFormat.replace("\n", "\\n"))
                     self.clockFormat = clockFormat
@@ -1318,6 +1318,21 @@ try:
                                 winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
                             elif actions[0] == "copy_datetime":
                                 textToClipboard(self.label.text())
+                            elif actions[0] == "toggle_setting_click":
+                                settingName = self.getSettingsValue("ClockClickToggleSetting")
+                                if settingName != "":
+                                    cprint(f"🔵 Clock click action toggling setting {settingName}")
+                                    self.setSettings(settingName, not self.getSettings(settingName)) 
+                            elif actions[0] == "toggle_setting_dblclick":
+                                settingName = self.getSettingsValue("DoubleClickToggleSetting")
+                                if settingName != "":
+                                    cprint(f"🔵 Clock double-click action toggling setting {settingName}")
+                                    self.setSettings(settingName, not self.getSettings(settingName))
+                            elif actions[0] == "toggle_setting_mdlclick":
+                                settingName = self.getSettingsValue("MiddleClickToggleSetting")
+                                if settingName != "":
+                                    cprint(f"🔵 Clock middle-click action toggling setting {settingName}")
+                                    self.setSettings(settingName, not self.getSettings(settingName))
                             else:
                                 keyboard.press_and_release(actions[0].lower().replace("altright", "alt gr"))
                         case 2:
