@@ -266,7 +266,7 @@ class SettingsWindow(QMainWindow):
         self.customClockAction.setChecked(self.getSettings("CustomClockClickAction"))
         #region Extra option for the "toggle_setting_click" action (customClockClickToggleAction)
         self.customClockClickToggleAction = QSettingsComboBox(_("Choose the setting to toggle when clock is clicked"))
-        self.customClockClickToggleAction.setStyleSheet("border-top: 0px solid transparent;")
+        self.customClockClickToggleAction.setStyleSheet("#stBtn{border-top: 0px solid transparent;border-radius: 0px;}")
         self.customClockClickToggleAction.loadItems(toggleactions.keys())
         self.customClockClickToggleAction.setEnabled(True)
         try:
@@ -311,7 +311,7 @@ class SettingsWindow(QMainWindow):
         self.customDoubleClickAction.setChecked(self.getSettings("CustomClockDoubleClickAction"))
         #region Extra option for the "toggle_setting_dblclick" action (customDoubleClickToggleAction)
         self.customDoubleClickToggleAction = QSettingsComboBox(_("Choose the setting to toggle when double-clicked"))
-        self.customDoubleClickToggleAction.setStyleSheet("border-top: 0px solid transparent;")
+        self.customDoubleClickToggleAction.setStyleSheet("#stBtn{border-top: 0px solid transparent;border-radius: 0px;}")
         self.customDoubleClickToggleAction.loadItems(toggleactions.keys())
         self.customDoubleClickToggleAction.setEnabled(True)
         try:
