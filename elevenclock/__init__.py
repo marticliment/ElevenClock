@@ -48,7 +48,7 @@ try:
 
     old_stdout = sys.stdout
     buffer = io.StringIO()
-    sys.stdout = buffer = io.StringIO()
+    #sys.stdout = buffer = io.StringIO()
 
     from settings import *
     from tools import *
@@ -1332,7 +1332,9 @@ try:
                                 settingName = self.getSettingsValue("MiddleClickToggleSetting")
                                 if settingName != "":
                                     cprint(f"🔵 Clock middle-click action toggling setting {settingName}")
+                                    self.isIgnoringClicks = True
                                     self.setSettings(settingName, not self.getSettings(settingName))
+                                    
                             else:
                                 keyboard.press_and_release(actions[0].lower().replace("altright", "alt gr"))
                         case 2:
@@ -1728,7 +1730,11 @@ try:
             return super().resizeEvent(event)
 
         def window(self) -> Clock:
-            return super().window()
+            try:
+                return super().window()
+            except RuntimeError:
+                del self
+                
 
 
     # Start of main script

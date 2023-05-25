@@ -342,7 +342,7 @@ class SettingsWindow(QMainWindow):
             _("Copy date/time"): "copy_datetime",
             _("Empty the recycle bin"): "trashcan",
             _("Empty the recycle bin (Without confirmation)"): "trashcan_noconfirm",
-            #_("Toggle ElevenClock setting"): "toggle_setting_mdlclick",
+            _("Toggle ElevenClock setting"): "toggle_setting_mdlclick",
             _("Disabled"): "f20",
             _("Open quick settings"): "Win+A",
             _("Show desktop"): "Win+d",
@@ -376,7 +376,7 @@ class SettingsWindow(QMainWindow):
         self.customMiddleClickAction.stateChanged.connect(lambda i: self.setSettings("CustomClockMiddleClickAction", bool(i)))
         self.customMiddleClickAction.valueChanged.connect(customMiddleClickActionValueChanged)
         self.clockFeaturesTitle.addWidget(self.customMiddleClickAction)
-        #self.clockFeaturesTitle.addWidget(self.customMiddleClickToggleAction) # There is a bug where middle-clicking causes infinte loop that runs the action multiple times, so I'll disable it now
+        self.clockFeaturesTitle.addWidget(self.customMiddleClickToggleAction) # There is a bug where middle-clicking causes infinte loop that runs the action multiple times, so I'll disable it now
         #endregion
 
         self.clockPosTitle = QSettingsTitle(_("Clock position and size:"), getPath(f"size_{self.iconMode}.png"), _("Clock size preferences, position offset, clock at the left, etc."))
