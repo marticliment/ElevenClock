@@ -86,6 +86,9 @@ settingsList: list[str] = [
     "CustomClockClickAction",
     "CustomClockDoubleClickAction",
     "CustomClockMiddleClickAction",
+    "ClockClickToggleSetting",
+    "DoubleClickToggleSetting",
+    "MiddleClickToggleSetting",
     "ShowDesktopButton",
     "ClockOnTheLeft",
     "ForceOnBottom",
@@ -106,6 +109,7 @@ settingsList: list[str] = [
     "AccentBackgroundcolor",
     "DisableBlurryTexture",
     "CenterAlignment",
+    "CustomClockStringsDisabled"
     "CustomClockStrings",
     "DisableTime",
     "EnableSeconds",
