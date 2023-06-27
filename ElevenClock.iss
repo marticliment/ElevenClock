@@ -41,6 +41,7 @@ WizardStyle=classic
 WizardImageStretch=yes 
 WizardImageFile=INSTALLER.BMP
 WizardSmallImageFile=elevenclock\resources\icon.bmp
+UsePreviousTasks=no
 
 [Languages] 
 Name: "English"; MessagesFile: "compiler:Default.isl"    

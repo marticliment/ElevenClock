@@ -1,3 +1,14 @@
+set "py=%cd%\env\Scripts\python.exe"
+
+IF EXIST %py% (
+    echo "Using VENV Python"
+) ELSE (
+    set "py=%py%"
+    echo "Using system Python"
+)
+
+
+
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -20,26 +31,26 @@ for %%a in (%*) do (
 
 set option
 
-python -m pip install -r requirements.txt
-python -m pip install packaging
+%py% -m pip install -r requirements.txt
+%py% -m pip install packaging
 if defined option--only-requirements (
     goto :end
 )
 
-python scripts/check_python_version.py --min-version "3.11.0"
+%py% scripts/check_python_version.py --min-version "3.11.0"
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
 @echo on
 
-python scripts/apply_version.py
+%py% scripts/apply_version.py
 
 rmdir /Q /S ElevenClockBin
 xcopy elevenclock elevenclock_bin /E /H /C /I /Y
 pushd elevenclock_bin
 
-python -m compileall -b .
+%py% -m compileall -b .
 if %errorlevel% neq 0 goto:error
 
 del /S *.py
@@ -48,17 +59,18 @@ rmdir /Q /S external\__pycache__
 rmdir /Q /S lang\__pycache__
 rmdir /Q /S build
 rmdir /Q /S dist
+copy ..\elevenclock\__init__.py .\
 
-python -m PyInstaller ../elevenclock/__init__.py ^
-    --icon "resources/icon.ico" ^
-    --add-binary "*.pyc;." ^
-    --add-data "resources;resources" ^
-    --add-data "lang;lang" ^
-    --clean ^
-    --exclude-module numpy ^
-    --windowed ^
-    --version-file ../elevenclock-version-info ^
-    --name ElevenClock
+%py% -m PyInstaller elevenclock.spec 
+rem    --icon "resources/icon.ico" ^
+rem    --add-binary "*.pyc;." ^
+rem    --add-data "resources;resources" ^
+rem    --add-data "lang;lang" ^
+rem    --clean ^
+rem    --exclude-module numpy ^
+rem    --windowed ^
+rem    --version-file ../elevenclock-version-info ^
+rem    --name ElevenClock
 if %errorlevel% neq 0 goto:error
 
 timeout 2
@@ -73,10 +85,14 @@ pushd ElevenClockBin\PySide6
 del opengl32sw.dll
 del Qt6Quick.dll
 del Qt6Qml.dll
+del Qt6Pdf.dll
 del Qt6OpenGL.dll
 del Qt6QmlModels.dll
 del Qt6Network.dll
+del Qt6DataVisualization.dll
 del Qt6VirtualKeyboard.dll
+del QtDataVisualization.pyd
+del QtOpenGL.pyd
 popd
 
 pushd ElevenClockBin\tcl
@@ -107,7 +123,7 @@ if exist %INSTALLATOR% (
 :skip-installer
 
 if defined option--release (
-    python scripts/generate_release.py
+    %py% scripts/generate_release.py
 )
 
 goto:end
