@@ -1,4 +1,4 @@
-PyInstaller
+PyInstaller==5.9.0
 PySide6
 keyboard
 psutil
