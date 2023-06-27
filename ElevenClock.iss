@@ -78,6 +78,12 @@ Type: filesandordirs; Name: "{autopf}\ElevenClock\*"; BeforeInstall: TaskKill('E
 Type: filesandordirs; Name: "{autopf}\ElevenClock\*"
 Type: filesandordirs; Name: "{autopf}\ElevenClock392\*"
 
+[Tasks]
+Name: "resetelevenclock"; Description: "Clean install (reset settings)"; GroupDescription: "Installation type"; Flags: unchecked
+
+[InstallDelete]
+Type: filesandordirs; Name: "{userdesktop}\..\.elevenclock\*"; Tasks: resetelevenclock
+
 
 [Code]
 procedure InitializeWizard;
