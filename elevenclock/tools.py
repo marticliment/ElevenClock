@@ -540,7 +540,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.execMenu(pos, clockInstance=clock)
 
 
-    def execMenu(self, pos: QPoint, clockInstance: 'Clock'):
+    def execMenu(self, pos: QPoint, clockInstance: '__init__.Clock'):
         try:
             self.toolsMenu.setEnabled(True)
             try:

@@ -1031,7 +1031,24 @@ try:
             accColors = getColors()
             bg = 1 if isTaskbarDark() else 4
             fg = 6 if isTaskbarDark() else 1
-            return f"*{{padding: {padding}px;padding-right: {rightPadding}px;margin-right: {rightMargin}px;padding-left: {leftPadding}px; color: {color};background-color: transparent;}}#notifIndicator{{background-color: rgb({accColors[bg]});color:rgb({accColors[fg]});}}"
+            return f"""*
+                {{
+                    padding: {padding}px;
+                    padding-right: {rightPadding}px;
+                    margin-right: {rightMargin}px;
+                    padding-left: {leftPadding}px;
+                    color: {color};
+                    background-color: transparent;
+                }}
+                #notifIndicator{{
+                    background-color: rgb({accColors[bg]});
+                    color:rgb({accColors[fg]});
+                }}
+                #greyNotifIndicator{{
+                    background-color: {'#9d9d9d' if isTaskbarDark() else '#8a8a8a'};
+                    color: {'black' if isTaskbarDark() else 'white'};
+                }}
+                """
 
         def updateToolTipStatus(self, mouseIn: bool =False) -> None:
             if mouseIn:
@@ -1209,7 +1226,10 @@ try:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
                             else:
-                                self.callInMainSignal.emit(self.label.disableClockIndicators)
+                                if sys.getwindowsversion().build >= 22631:
+                                    self.callInMainSignal.emit(self.label.enableGreyNotifDot)
+                                else:
+                                    self.callInMainSignal.emit(self.label.disableClockIndicators)
                         
                     if self.AWindowIsInFullScreen:
                         self.tempMakeClockTransparent = MAKE_CLOCK_TRANSPARENT_WHEN_FULLSCREENED
@@ -1593,6 +1613,8 @@ try:
                 self.disableClockIndicators()
                 
             self.notifDotLabel.setText(str(numOfNotifs))
+            self.notifDotLabel.setObjectName("notifIndicator")
+
             if not self.notifdot:
                 self.notifdot = True
                 self.setContentsMargins(5, 0, (43), 4)
@@ -1603,6 +1625,24 @@ try:
                 self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
                 if not self.isCover:
                     self.notifDotLabel.show()
+
+        def enableGreyNotifDot(self):
+            if self.focusassitant:
+                self.disableClockIndicators()
+                
+            self.notifDotLabel.setText(str(numOfNotifs))
+            self.notifDotLabel.setObjectName("greyNotifIndicator")
+            if not self.notifdot:
+                self.notifdot = True
+                self.setContentsMargins(5, 0, (43), 4)
+                topBottomPadding = (self.height()-16)/2 # top-bottom margin
+                leftRightPadding = (30-16)/2 # left-right margin
+                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
+                self.notifDotLabel.resize(16, 16)
+                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
+                if not self.isCover:
+                    self.notifDotLabel.show()
+
 
         def disableClockIndicators(self):
             if self.focusassitant:
