@@ -552,7 +552,7 @@ class SettingsWindow(QMainWindow):
         <ul>
         <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes on the following link:")} <a href="https://strftime.org" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
         <li>{_("To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>        
-        <li>{_("Use the nonation {%H+1} to specify offsets. Replace %H with the desired value and +1 for a positive or negative number, representing the offset.")}</li>
+        <li>{_("Use the nonation {%H+1} to specify offsets. Replace %H with the desired value and +1 for a positive or negative number (+n or -n, respectively, for a <i>n</i> offset), representing the offset.")}</li>
         <li>{_("Click on Apply to apply and preview the format")}</li></ul>
         {_("If you don't understand what is happening, please uncheck the checkbox over the text area")}
         """
@@ -3049,7 +3049,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         self.checkbox.move(70, 10)
         self.preview.setFixedHeight(80)
         self.preview.setFixedWidth(150)
-        self.rulesLabel.setFixedHeight(100)
+        self.rulesLabel.setFixedHeight(150)
         self.layout().removeWidget(self.checkbox)
 
 
