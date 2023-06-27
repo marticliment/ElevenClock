@@ -14,16 +14,16 @@ from PySide6.QtWidgets import *
 
 
 def loadTimeFormat():
-    print(NotImplementedError("loadTimeFormat function has not been defined!"))
+    print("🟡 loadTimeFormat function has not been defined yet!")
 
 def updateIfPossible():
-    raise NotImplementedError("updateIfPossible function has not been defined!")
+    print("🟡 updateIfPossible function has not been defined yet!")
 
 def restartClocks():
-    raise NotImplementedError("restartClocks function has not been defined!")
+    print("🟡 restartClocks function has not been defined yet!")
 
 def closeClocks():
-    raise NotImplementedError("closeClocks function has not been defined!")
+    print("🟡 closeClocks function has not been defined yet!")
 
 def _(a):
     try:

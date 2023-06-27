@@ -95,8 +95,8 @@ class WelcomeWindow(QMainWindow):
                     background-color: rgba(80, 80, 80, 15%);
                     padding: 20px;
                     border-radius: 8px;
-                    border: 1px solid rgba(100, 100, 100, 25%);
-                    border-top: 1px solid rgba(100, 100, 100, 25%);
+                    border: 0px solid rgba(100, 100, 100, 25%);
+                    border-top: 0px solid rgba(100, 100, 100, 25%);
                     height: 25px;
                 }}
                 #FramelessSampleItem {{
@@ -115,7 +115,7 @@ class WelcomeWindow(QMainWindow):
                     background-color: rgba(60, 60, 60, 25%);
                     border: 1px solid rgba(100, 100, 100, 25%);
                     border-top: 1px solid rgba(100, 100, 100, 25%);
-                    border-radius: 4px;
+                    border-radius: 8px;
                     height: 25px;
                 }}
                 QPushButton:hover {{
@@ -147,9 +147,9 @@ class WelcomeWindow(QMainWindow):
                     border-bottom-color: #363636;
                 }}
                 #FocusSelector {{
-                    border: 5px solid rgb({colors[1]});
-                    border-radius: 5px;
-                    background-color: rgb({colors[1]});
+                    border: 4px solid rgb({colors[1]});
+                    border-radius: 16px;
+                    background-color: transparent;
                 }}
                 QLabel {{
                     border: none;
@@ -184,9 +184,9 @@ class WelcomeWindow(QMainWindow):
                     background-color: #ffffff;
                     padding: 20px;
                     border-radius: 8px;
-                    border: 1px solid rgba(230, 230, 230, 80%);
+                    border: 0px solid rgba(230, 230, 230, 80%);
                     height: 25px;
-                    border-bottom: 1px solid rgba(220, 220, 220, 100%);
+                    border-bottom: 0px solid rgba(220, 220, 220, 100%);
                 }}
                 #FramelessSampleItem {{
                     font-family: "Segoe UI Variable Text";
@@ -202,7 +202,7 @@ class WelcomeWindow(QMainWindow):
                     font-size: 9pt;
                     width: 100px;
                     background-color: #ffffff;
-                    border-radius: 4px;
+                    border-radius: 8px;
                     border: 1px solid rgba(230, 230, 230, 80%);
                     height: 25px;
                     border-bottom: 1px solid rgba(220, 220, 220, 100%);
@@ -236,9 +236,9 @@ class WelcomeWindow(QMainWindow):
                     border-bottom-color: #363636;
                 }}
                 #FocusSelector {{
-                    border: 5px solid rgb({colors[1]});
-                    border-radius: 5px;
-                    background-color: rgb({colors[1]});
+                    border: 4px solid rgb({colors[1]});
+                    border-radius: 16px;
+                    background-color: transparent;
                 }}
                 QLabel {{
                     border: none;
@@ -294,6 +294,7 @@ class BasicNavWidget(QWidget):
     previous = Signal()
     finished = Signal()
     skipped = Signal()
+    centralWidget: QWidget = None
 
     def __init__(self, parent=None, startEnabled=False, closeEnabled=False, finishEnabled=False, nextGreyed=False) -> None:
         super().__init__(parent=parent)
@@ -352,50 +353,70 @@ class BasicNavWidget(QWidget):
         self.outAnim(self.next.emit)
 
     def setCentralWidget(self, w: QWidget) -> QWidget:
+        self.centralWidget = w
         self.l.addWidget(w, stretch=1)
         self.l.addLayout(self.navLayout, stretch=0)
+        self.opacityEffect = QGraphicsOpacityEffect(self.centralWidget)
+        self.centralWidget.setGraphicsEffect(self.opacityEffect)
+        self.opacityEffect.setOpacity(0)
 
     def inAnim(self) -> None:
-        bgAnim = QPropertyAnimation(self, b"pos", self)
-        pos = self.pos()
-        pos.setX(pos.x()+self.width())
+        anim = QVariantAnimation(self.centralWidget)
+        anim.setStartValue(0)
+        anim.setEndValue(100)
+        anim.valueChanged.connect(lambda v: self.opacityEffect.setOpacity(v/100))
+        anim.setEasingCurve(QEasingCurve.OutQuad)
+        anim.setDuration(200)
+        anim.start()
+
+        bgAnim = QPropertyAnimation(self.centralWidget, b"pos", self.centralWidget)
+        pos = self.centralWidget.pos()
+        pos.setX(pos.x()+(self.centralWidget.width()/20))
         bgAnim.setStartValue(pos)
-        bgAnim.setEndValue(self.pos())
-        bgAnim.setEasingCurve(QEasingCurve.OutQuart)
+        bgAnim.setEasingCurve(QEasingCurve.OutQuad)
+        bgAnim.setEndValue(self.centralWidget.pos())
         bgAnim.setDuration(200)
         bgAnim.start()
 
     def invertedinAnim(self) -> None:
-        bgAnim = QPropertyAnimation(self, b"pos", self)
-        pos = self.pos()
-        pos.setX(pos.x()-self.width())
+        anim = QVariantAnimation(self)
+        anim.setStartValue(0)
+        anim.setEndValue(100)
+        anim.valueChanged.connect(lambda v: self.opacityEffect.setOpacity(v/100))
+        anim.setEasingCurve(QEasingCurve.OutQuad)
+        anim.setDuration(20)
+        anim.start()
+
+        bgAnim = QPropertyAnimation(self.centralWidget, b"pos", self.centralWidget)
+        pos = self.centralWidget.pos()
+        pos.setX(self.centralWidget.x()-(self.centralWidget.width()/20))
         bgAnim.setStartValue(pos)
-        bgAnim.setEndValue(self.pos())
-        bgAnim.setEasingCurve(QEasingCurve.OutQuart)
+        bgAnim.setEndValue(self.centralWidget.pos())
+        bgAnim.setEasingCurve(QEasingCurve.OutQuad)
         bgAnim.setDuration(200)
         bgAnim.start()
 
     def outAnim(self, f) -> None:
-        bgAnim = QPropertyAnimation(self, b"pos", self)
-        bgAnim.setStartValue(self.pos())
-        pos = self.pos()
-        pos.setX(pos.x()-self.width())
-        bgAnim.setEndValue(pos)
-        bgAnim.setEasingCurve(QEasingCurve.InQuart)
-        bgAnim.setDuration(200)
-        bgAnim.start()
-        bgAnim.finished.connect(f)
+        anim = QVariantAnimation(self)
+        anim.setStartValue(100)
+        anim.setEndValue(0)
+        anim.valueChanged.connect(lambda v: self.opacityEffect.setOpacity(v/100))
+        anim.setEasingCurve(QEasingCurve.InQuad)
+        anim.setDuration(100)
+        anim.start()
+        anim.finished.connect(f)
 
     def invertedOutAnim(self, f) -> None:
-        bgAnim = QPropertyAnimation(self, b"pos", self)
-        bgAnim.setStartValue(self.pos())
-        pos = self.pos()
-        pos.setX(pos.x()+self.width())
-        bgAnim.setEndValue(pos)
-        bgAnim.setEasingCurve(QEasingCurve.InQuart)
-        bgAnim.setDuration(200)
-        bgAnim.start()
-        bgAnim.finished.connect(f)
+        anim = QVariantAnimation(self)
+        anim.setStartValue(100)
+        anim.setEndValue(0)
+        anim.valueChanged.connect(lambda v: self.opacityEffect.setOpacity(v/100))
+        anim.setEasingCurve(QEasingCurve.InQuad)
+        anim.setDuration(100)
+        anim.start()
+        anim.finished.connect(f)
+
+
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
@@ -653,6 +674,7 @@ class FirstRunSlide(BasicNavWidget):
         vl.addWidget(label3)
         vl.addStretch()
         self.setCentralWidget(widget)
+        self.opacityEffect.setOpacity(1)
 
     def get6px(self, i: int) -> int:
         return round(i*self.screen().devicePixelRatio())
