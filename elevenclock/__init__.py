@@ -1613,7 +1613,7 @@ try:
                 self.disableClockIndicators()
                 
             self.notifDotLabel.setText(str(numOfNotifs))
-            self.notifDotLabel.setObjectName("notifIndicator")
+            self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
 
             if not self.notifdot:
                 self.notifdot = True
@@ -1627,22 +1627,7 @@ try:
                     self.notifDotLabel.show()
 
         def enableGreyNotifDot(self):
-            if self.focusassitant:
-                self.disableClockIndicators()
-                
-            self.notifDotLabel.setText(str(numOfNotifs))
-            self.notifDotLabel.setObjectName("greyNotifIndicator")
-            if not self.notifdot:
-                self.notifdot = True
-                self.setContentsMargins(5, 0, (43), 4)
-                topBottomPadding = (self.height()-16)/2 # top-bottom margin
-                leftRightPadding = (30-16)/2 # left-right margin
-                self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
-                self.notifDotLabel.resize(16, 16)
-                self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
-                if not self.isCover:
-                    self.notifDotLabel.show()
-
+            self.enableNotifDot()
 
         def disableClockIndicators(self):
             if self.focusassitant:
