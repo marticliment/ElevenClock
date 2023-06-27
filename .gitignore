@@ -29,3 +29,4 @@ ElevenClock.Installer.exe
 __init__.exe
 ElevenClock.Installer.exe.zip
 .vscode/launch.json
+env/*
