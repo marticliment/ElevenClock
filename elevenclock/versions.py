@@ -1,3 +1,3 @@
-version = 4.19
-versionName = "4.2.0-beta"
+version = 4.2
+versionName = "4.2.0"
 versionISS = "4.2.0.0"
