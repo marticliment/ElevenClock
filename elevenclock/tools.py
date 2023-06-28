@@ -360,6 +360,12 @@ class QHoverButton(QPushButton):
     def mouseReleaseEvent(self, e: QMouseEvent) -> None:
         self.unpressed.emit()
         return super().mouseReleaseEvent(e)
+    
+clockToHide: '__init__.Clock' = None
+def hideClockFromMenu():
+    global clockToHide
+    if clockToHide:
+        clockToHide.hide()
                     
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
@@ -391,8 +397,8 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.restartAction = QAction(_("Restart ElevenClock"), app)
         self.restartAction.triggered.connect(lambda: (os.startfile(sys.executable), globals.app.quit()))
         menu.addAction(self.restartAction)
-        self.hideAction = QAction(_("Hide ElevenClock"), app)
-        self.hideAction.triggered.connect(lambda: globals.closeClocks())
+        self.hideAction = QAction(_("Hide this clock"), app)
+        self.hideAction.triggered.connect(hideClockFromMenu)
         menu.addAction(self.hideAction)
         self.quitAction = QAction(_("Quit ElevenClock"), app)
         self.quitAction.triggered.connect(lambda: globals.app.quit())
@@ -542,6 +548,8 @@ class TaskbarIconTray(QSystemTrayIcon):
 
 
     def execMenu(self, pos: QPoint, clockInstance: '__init__.Clock'):
+        global clockToHide
+        clockToHide = clockInstance
         try:
             self.toolsMenu.setEnabled(True)
             try:
