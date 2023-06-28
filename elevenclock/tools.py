@@ -206,10 +206,11 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
             pass
         if r and not thread:
             globals.restartClocks()
-            if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
-                globals.trayIcon.hide()
-            else:
-                globals.trayIcon.show()
+            if globals.trayIcon:
+                if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
+                    globals.trayIcon.hide()
+                else:
+                    globals.trayIcon.show()
     except Exception as e:
         report(e)
 
