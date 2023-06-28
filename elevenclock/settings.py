@@ -665,9 +665,8 @@ class SettingsWindow(QMainWindow):
             self.toolTipBackgroundColor.button.setStyleSheet(f"background-color: rgba({self.getSettingsValue('TooltipUseCustomBgColor')})")
         self.toolTipBackgroundColor.stateChanged.connect(lambda i: self.setSettings("TooltipUseCustomBgColor", bool(i)))
         self.toolTipBackgroundColor.valueChanged.connect(lambda v: self.setSettingsValue("TooltipUseCustomBgColor", v))
-        self.toolTipBackgroundColor.setStyleSheet(f"QWidget#stChkBg{{border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
+        self.toolTipBackgroundColor.setStyleSheet(f"QWidget#stChkBg{{border-top: 0px solid transparent;border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
         self.toolTipAppearanceTitle.addWidget(self.toolTipBackgroundColor)
-        self.toolTipBackgroundColor.setStyleSheet("border-top: 0px solid transparent;")
 
 
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
@@ -1286,7 +1285,7 @@ class SettingsWindow(QMainWindow):
                     QPlainTextEdit{{
                         font-family: "Cascadia Mono";
                         background-color: #212121;
-                        border-radius: 6px;
+                        border-radius: 8px;
                         border: 1px solid #161616;
                         selection-background-color: rgb({colors[4]});
                     }}
@@ -1733,7 +1732,7 @@ class SettingsWindow(QMainWindow):
                     QPlainTextEdit{{
                         font-family: "Cascadia Mono";
                         background-color: rgba(255, 255, 255, 100%);
-                        border-radius: 6px;
+                        border-radius: 8px;
                         border: 1px solid #dddddd;
                         selection-background-color: rgb({colors[3]});
                     }}
