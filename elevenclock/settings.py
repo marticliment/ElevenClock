@@ -997,6 +997,7 @@ class SettingsWindow(QMainWindow):
 
     def showEvent(self, event: QShowEvent) -> None:
         self.applyStyleSheet()
+        self.updateCheckBoxesStatus()
         Thread(target=self.announcements.loadAnnouncements, daemon=True, name="Settings: Announce loader").start()
         return super().showEvent(event)
 
@@ -2518,6 +2519,7 @@ class QSettingsButton(QWidget):
         self.label.setFixedHeight((self.fh))
         self.setFixedHeight((50+(self.fh-30)))
         self.button.setFixedHeight((self.fh))
+        self.button.sizeHint().setWidth(2000)
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(self.label)
         self.layout().addStretch()
@@ -2684,6 +2686,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         class QLineEditWithFluentMenu(QLineEdit):
             def __init__(self, parent) -> None:
                 super().__init__(parent)
+                
             def contextMenuEvent(self, e: QtGui.QContextMenuEvent) -> None:
                 menu = self.createStandardContextMenu()
                 ApplyMenuBlur(menu.winId().__int__(), menu)
@@ -2703,15 +2706,15 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.checkbox.move((70), 10)
         self.checkbox.setFixedHeight(30)
         self.setFixedHeight(50)
-        self.lineedit.setFixedHeight(30)
-        self.helplabel.setFixedHeight(30)
+        #self.lineedit.setFixedHeight(30)
+        #self.helplabel.setFixedHeight(30)
         
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(self.checkbox)
         self.layout().addStretch()
         self.layout().addWidget(self.helplabel)
         self.layout().addWidget(self.lineedit)
-        self.layout().setContentsMargins(70, 0, 20, 0)
+        self.layout().setContentsMargins(70, 5, 20, 0)
 
     def valuechangedEvent(self, text: str):
         self.valueChanged.emit(text)
