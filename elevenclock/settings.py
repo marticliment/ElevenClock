@@ -969,14 +969,15 @@ class SettingsWindow(QMainWindow):
             self.announcements.hide()
             found = False
             for w in widgets:
+                w.searchMode = True
                 for item in w.getChildren():
                     if query.lower() in item.text().lower():
                         item.show()
+                        item.setVisible(True)
                         w.childrenOpacity.setOpacity(1)
                         found = True
                     else:
                         item.hide()
-                w.searchMode = True
                 w.resizeEvent(QResizeEvent(w.size(), w.size()))
                 if not found:
                     self.notFoundLabel.show()
