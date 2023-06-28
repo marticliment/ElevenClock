@@ -37,14 +37,14 @@ if defined option--only-requirements (
     goto :end
 )
 
-%py% scripts/check_python_versions.py --min-version "3.11.0"
+%py% scripts/check_python_version.py --min-version "3.11.0"
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
 @echo on
 
-%py% scripts/apply_version.py
+%py% scripts/apply_versions.py
 
 rmdir /Q /S ElevenClockBin
 xcopy elevenclock elevenclock_bin /E /H /C /I /Y
