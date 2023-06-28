@@ -10,7 +10,7 @@ import importlib, os
 
 a = Analysis(['__init__.py'],
              pathex=['Y:\ElevenClock-Store\elevenclock_bin'],
-             binaries=[('*.pyc', '.')],
+#             binaries=[('*.pyc', '.')],
              datas=[('resources/', 'resources/'), ("lang/", "lang/")],
              hiddenimports=['pkg_resources.py2_warn', "win32gui"],
              hookspath=[],
@@ -48,7 +48,7 @@ exe = EXE(
 coll = COLLECT(
     exe,
     a.binaries,
-    a.zipfiles,
+#    a.zipfiles,
     a.datas,
     strip=False,
     upx=True,

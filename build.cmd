@@ -37,7 +37,7 @@ if defined option--only-requirements (
     goto :end
 )
 
-%py% scripts/check_python_version.py --min-version "3.11.0"
+%py% scripts/check_python_versions.py --min-version "3.11.0"
 if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
@@ -93,6 +93,7 @@ del Qt6DataVisualization.dll
 del Qt6VirtualKeyboard.dll
 del QtDataVisualization.pyd
 del QtOpenGL.pyd
+del QtNetwork.pyd
 popd
 
 pushd ElevenClockBin\tcl
@@ -103,6 +104,27 @@ pushd ElevenClockBin\lang
 del APIKEY.txt
 del download_translations.pyc
 popd
+
+pushd ElevenClockBin
+del Qt6Core.dll
+del Qt6Gui.dll
+del Qt6Network.dll
+del Qt6Widgets.dll
+del MSVCP140.dll
+del MSVCP140_1.dll
+del MSVCP140_2.dll
+del pythoncom311.dll
+del pywintypes311.dll
+del shiboken6.abi3.dll
+rmdir /Q /S PIL
+popd
+
+pushd ElevenClockBin\PySide6\plugins\imageformats
+move qico.dll filetomaintain
+del *.dll
+move filetomaintain qico.dll
+popd
+
 
 rem ? Is still necessary ? 
 rem copy "%localappdata%\Programs\Python\Python310\pythoncom*.dll" .\
