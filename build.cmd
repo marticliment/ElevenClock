@@ -7,8 +7,6 @@ IF EXIST %py% (
     echo "Using system Python"
 )
 
-
-
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -62,15 +60,6 @@ rmdir /Q /S dist
 copy ..\elevenclock\__init__.py .\
 
 %py% -m PyInstaller elevenclock.spec 
-rem    --icon "resources/icon.ico" ^
-rem    --add-binary "*.pyc;." ^
-rem    --add-data "resources;resources" ^
-rem    --add-data "lang;lang" ^
-rem    --clean ^
-rem    --exclude-module numpy ^
-rem    --windowed ^
-rem    --version-file ../elevenclock-version-info ^
-rem    --name ElevenClock
 if %errorlevel% neq 0 goto:error
 
 timeout 2
@@ -106,16 +95,12 @@ del download_translations.pyc
 popd
 
 pushd ElevenClockBin
-rem del Qt6Core.dll
-rem del Qt6Gui.dll
 del Qt6Network.dll
-rem del Qt6Widgets.dll
 del MSVCP140.dll
 del MSVCP140_1.dll
 del MSVCP140_2.dll
 del pythoncom311.dll
 del pywintypes311.dll
-rem del shiboken6.abi3.dll
 rmdir /Q /S PIL
 popd
 
@@ -125,9 +110,6 @@ del *.dll
 move filetomaintain qico.dll
 popd
 
-
-rem ? Is still necessary ? 
-rem copy "%localappdata%\Programs\Python\Python310\pythoncom*.dll" .\
 
 if defined option--no-installer (
     goto :skip-installer
