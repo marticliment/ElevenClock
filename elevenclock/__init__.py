@@ -1788,7 +1788,6 @@ try:
     shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
 
     KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
-    KillableThread(target=screenCheckThread, daemon=True, name="Main [not from start]: Screen listener")
 
     loadClocks()
 
@@ -1819,6 +1818,7 @@ try:
     signal.restartSignal.connect(lambda: restartClocks("checkLoop"))
     restartClocksSignal.restartSignal.connect(lambda: restartClocks())
 
+    KillableThread(target=screenCheckThread, daemon=True, name="Main: Screen changes listener").start()
     KillableThread(target=updateChecker, daemon=True, name="Main: Updater").start()
     KillableThread(target=isElevenClockRunningThread, daemon=True, name="Main: Instance controller").start()
     if getSettings("PreventSleepFailure"):
