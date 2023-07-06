@@ -24,7 +24,7 @@ try:
     import pytz
     from threading import Thread
     from urllib.request import urlopen
-
+    
     try:
         import psutil
         importedPsutil = True
@@ -254,7 +254,6 @@ try:
             isFocusAssist = isFocusAssistEnabled()
             numOfNotifs = getNotificationNumber()
             time.sleep(0.3)
-
 
     def screenCheckThread():
         global oldScreens
@@ -1494,6 +1493,7 @@ try:
         doubleClicked = Signal()
         middleClicked = Signal()
         outline = True
+        lastNumOfNotifs = -1
         def __init__(self, text, parent, isCover: bool = False, settingsEnvironment: str = ""):
             self.settingsEnvironment = settingsEnvironment
             super().__init__(text, parent=parent)
@@ -1612,11 +1612,13 @@ try:
         def enableNotifDot(self):
             if self.focusassitant:
                 self.disableClockIndicators()
-                
-            self.notifDotLabel.setText(str(numOfNotifs))
-            self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
-            styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor)
-            self.window().callInMainSignal.emit(partial(self.setStyleSheet, styleSheetString))
+            
+            if self.lastNumOfNotifs != numOfNotifs:
+                self.lastNumOfNotifs = numOfNotifs
+                self.notifDotLabel.setText(str(numOfNotifs))
+                self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
+                styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor)
+                self.setStyleSheet(styleSheetString)
 
             if not self.notifdot:
                 self.notifdot = True
