@@ -488,6 +488,7 @@ try:
         clockFormat: str = ""
         settingsEnvironment: str = ""
         currentTaskbarHwnd: int = 0
+        baseHtmlFontTag: str = ""
         
         LastCapturedBackgroundColor: int = -1
         LastCapturedForegroundColor: str = ""
@@ -819,31 +820,21 @@ try:
                         except Exception as e:
                             self.font.setPointSize(9)
                             report(e)
-                    
+                
+                    DISABLE_SEMIBOLD = not self.getSettings("CustomClockStringsDisabled") and "<b>" in self.getSettingsValue("CustomClockStrings")
                     if isTaskbarDark():
-                        self.fontfamilies = [element.replace("Segoe UI Variable Display", "Segoe UI Variable Display Semib") for element in self.fontfamilies]
-                        if self.fontfamilies != []:
-                            self.font.setFamilies(self.fontfamilies)
-                            if lang["locale"] in ("zh_TW", "zh_CN", "ko"):
-                                self.font.setWeight(QFont.Weight.Normal)
-                            else:
-                                self.font.setWeight(QFont.Weight.DemiBold)
-                        else:
-                            self.font.fromString(self.customFont)
-                        self.font.setLetterSpacing(QFont.PercentageSpacing, 100)
-                        self.label.setFont(self.font)
+                        self.fontfamilies = [element.replace("Segoe UI Variable Display", f"Segoe UI Variable Display{'' if DISABLE_SEMIBOLD else ' Semib'}") for element in self.fontfamilies]
+                        self.font.setFamilies(self.fontfamilies if self.fontfamilies != [] else self.customFont)
+                        self.font.setLetterSpacing(QFont.PercentageSpacing, 110 if DISABLE_SEMIBOLD else 100)
                         self.label.bgopacity = .1
                     else:
                         self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                        if self.fontfamilies != []:
-                            self.font.setFamilies(self.fontfamilies)
-                        else:
-                            self.font.fromString(self.customFont)
+                        self.font.setFamilies(self.fontfamilies if self.fontfamilies != [] else self.customFont)
                         self.font.setWeight(QFont.Weight.ExtraLight)
                         self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
-                        self.label.setFont(self.font)
                         self.label.bgopacity = .5
-                        
+                    self.label.setFont(self.font)
+
                     if self.getSettings("UseCustomFontColor"):
                         print("🟡 Using custom font color:", self.getSettingsValue('UseCustomFontColor'))
                         self.lastTheme = -1
@@ -1020,7 +1011,7 @@ try:
                             clockFormat = f"<p style=\"line-height:{customLineHeight}\"><span>"+clockFormat.replace("\n", "<br>").replace(" ", "")+"</span></p>"
                     except Exception as e:
                         report(e)
-
+                        
                     print("🔵 Loaded date time format:", clockFormat.replace("\n", "\\n"), f" (clock {self.index}")
                     self.clockFormat = clockFormat
             except Exception as e:
