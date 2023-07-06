@@ -19,7 +19,7 @@ ElevenClock is millisecond-accurate, auto-synced with Internet Time... You can e
 ## Table of contents
  - **[ElevenClock Homepage](https://www.marticliment.com/elevenclock/)**
  - [Table of contents](#table-of-contents)
- - [Installation](#microsoft-store-installation)
+ - [Installation](#fast-installation)
  - [Support the developer](#support-the-developer)
  - [Features](#features)
  - [Translating ElevenClock][translating link]
@@ -32,8 +32,17 @@ ElevenClock is millisecond-accurate, auto-synced with Internet Time... You can e
 
 [<img alt="alt_text" width="240px" src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Get_it_from_Microsoft_Badge.svg" href=""/>](https://marticliment.com/redirect/?elevenclockstore)  
 <br>
-You can also download ElevenClock from its [homepage](https://www.marticliment.com/elevenclock/) or from [GitHub releases](https://github.com/marticliment/ElevenClock/releases/tag/4.1.0-beta2)
-(See the [WIKI](https://github.com/martinet101/ElevenClock/wiki#elevenclock-installation) for more information)
+Alternatively, you can install ElevenClock from Winget or Chocolatey:
+```powershell
+winget install ElevenClock --source winget
+```
+```powershell
+choco install elevenclock
+```
+<br>
+
+You can also download ElevenClock from its [homepage](https://www.marticliment.com/elevenclock/) or from [GitHub releases](https://github.com/marticliment/ElevenClock/releases/latest)
+(See the [WIKI](https://github.com/marticliment/ElevenClock/wiki#elevenclock-installation) for more information)
 
 ## Support the developer
 <a href='https://ko-fi.com/martinet101' target='_blank'><img style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
