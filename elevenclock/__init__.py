@@ -1227,7 +1227,7 @@ try:
                             if isFocusAssist:
                                 self.callInMainSignal.emit(self.label.enableFocusAssistant)
                             else:
-                                if sys.getwindowsversion().build >= 22621:
+                                if sys.getwindowsversion().build >= 22631 and not self.getSettings("DisableNewZeroNotificationCounter"):
                                     self.callInMainSignal.emit(self.label.enableGreyNotifDot)
                                 else:
                                     self.callInMainSignal.emit(self.label.disableClockIndicators)
