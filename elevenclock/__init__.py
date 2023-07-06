@@ -1615,6 +1615,8 @@ try:
                 
             self.notifDotLabel.setText(str(numOfNotifs))
             self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
+            styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor)
+            self.window().callInMainSignal.emit(partial(self.setStyleSheet, styleSheetString))
 
             if not self.notifdot:
                 self.notifdot = True
