@@ -24,7 +24,7 @@ try:
     import pytz
     from threading import Thread
     from urllib.request import urlopen
-    
+        
     try:
         import psutil
         importedPsutil = True
@@ -1878,9 +1878,15 @@ try:
         app.quit()
     app.exec()
     app.quit()
-
 except FileNotFoundError as e:
     sys.exit(402)
+except (ModuleNotFoundError, ImportError) as e:
+    import traceback
+    import win32api
+    tb = traceback.format_exception(*sys.exc_info())
+    tracebacc = ""
+    for line in tb: tracebacc += line+"\n"
+    win32api.MessageBox(None, "Your ElevenClock installation appears to have missing or corrupt components. Please reinstall ElevenClock.\n\n"+tracebacc, "ElevenClock Crash handler", 0x00000010)
 except Exception as e:
     import webbrowser, traceback, platform
     if not "versionName" in locals() and not "versionName" in _globals():
