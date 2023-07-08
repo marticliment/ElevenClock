@@ -794,8 +794,9 @@ try:
                     styleSheetString = self.makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
                     self.label.setStyleSheet(styleSheetString)
                 else:
-                    customFont = self.getSettingsValue("UseCustomFont")
-                    if customFont == "":
+                    self.customFont = self.getSettingsValue("UseCustomFont")
+                    
+                    if self.customFont == "":
                         if lang["locale"] == "ko":
                             self.fontfamilies = ["Malgun Gothic", "Segoe UI Variable Text", "sans-serif"]
                         elif lang["locale"] == "zh_TW":
@@ -804,11 +805,24 @@ try:
                             self.fontfamilies = ["Microsoft YaHei UI", "Segoe UI Variable Text", "sans-serif"]
                         else:
                             self.fontfamilies = ["Segoe UI Variable Display", "sans-serif"]
-                        self.font.setPointSizeF(9.3)
+                        
+                        DISABLE_SEMIBOLD = not self.getSettings("CustomClockStringsDisabled") and "<b>" in self.getSettingsValue("CustomClockStrings")
+                        if isTaskbarDark():
+                            self.fontfamilies = [element.replace("Segoe UI Variable Display", f"Segoe UI Variable Display{'' if DISABLE_SEMIBOLD else ' Semib'}") for element in self.fontfamilies]
+                            self.font.setFamilies(self.fontfamilies if self.fontfamilies != [] else self.customFont)
+                            self.font.setLetterSpacing(QFont.PercentageSpacing, 110 if DISABLE_SEMIBOLD else 100)
+                            self.label.bgopacity = .1
+                        else:
+                            self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
+                            self.font.setFamilies(self.fontfamilies if self.fontfamilies != [] else self.customFont)
+                            self.font.setWeight(QFont.Weight.ExtraLight)
+                            self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
+                            self.label.bgopacity = .5
                     else:
                         self.fontfamilies = []
-                    self.customFont = customFont
+                        self.font.fromString(self.customFont)
                         
+                    self.label.setFont(self.font)
                     customSize = self.getSettingsValue("UseCustomFontSize")
                     if customSize == "":
                         self.font.setPointSize(9)
@@ -820,20 +834,6 @@ try:
                         except Exception as e:
                             self.font.setPointSize(9)
                             report(e)
-                
-                    DISABLE_SEMIBOLD = not self.getSettings("CustomClockStringsDisabled") and "<b>" in self.getSettingsValue("CustomClockStrings")
-                    if isTaskbarDark():
-                        self.fontfamilies = [element.replace("Segoe UI Variable Display", f"Segoe UI Variable Display{'' if DISABLE_SEMIBOLD else ' Semib'}") for element in self.fontfamilies]
-                        self.font.setFamilies(self.fontfamilies if self.fontfamilies != [] else self.customFont)
-                        self.font.setLetterSpacing(QFont.PercentageSpacing, 110 if DISABLE_SEMIBOLD else 100)
-                        self.label.bgopacity = .1
-                    else:
-                        self.fontfamilies = [element.replace("Segoe UI Variable Display Semib", "Segoe UI Variable Display") for element in self.fontfamilies]
-                        self.font.setFamilies(self.fontfamilies if self.fontfamilies != [] else self.customFont)
-                        self.font.setWeight(QFont.Weight.ExtraLight)
-                        self.font.setLetterSpacing(QFont.PercentageSpacing, 110)
-                        self.label.bgopacity = .5
-                    self.label.setFont(self.font)
 
                     if self.getSettings("UseCustomFontColor"):
                         print("🟡 Using custom font color:", self.getSettingsValue('UseCustomFontColor'))

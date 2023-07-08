@@ -214,11 +214,11 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
     except Exception as e:
         report(e)
 
-def getSettingsValue(s: str, env: str = ""):
+def getSettingsValue(s: str, env: str = "") -> str:
     settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
         try:
-            return globals.settingsCache[settingsName+"Value"]
+            return str(globals.settingsCache[settingsName+"Value"])
         except KeyError:
             with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "r") as sf:
                 v = sf.read()
