@@ -1,14 +1,14 @@
+@echo off
+setlocal EnableDelayedExpansion
+
 set "py=%cd%\env\Scripts\python.exe"
 
 IF EXIST %py% (
-    echo "Using VENV Python"
+    echo Using VENV Python
 ) ELSE (
-    set "py=%py%"
-    echo "Using system Python"
+    set "py=python"
+    echo Using system Python
 )
-
-@echo off
-setlocal EnableDelayedExpansion
 
 set "option="
 for %%a in (%*) do (
@@ -120,8 +120,8 @@ if exist %INSTALLATOR% (
     %INSTALLATOR% "ElevenClock.iss"
     ElevenClock.Installer.exe
 ) else (
-    echo "Make installer is skipped, because installator missing."
-    echo "Running app..."
+    echo Make installer is skipped, because installator missing.
+    echo Running app...
     start /b ElevenClockBin/ElevenClock.exe
 )
 :skip-installer
@@ -133,7 +133,7 @@ if defined option--release (
 goto:end
 
 :error
-echo "Error!"
+echo Error!
 
 :end
 pause
