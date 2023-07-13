@@ -53,10 +53,10 @@ if %errorlevel% neq 0 goto:error
 
 del /S *.py
 rmdir /Q /S __pycache__
-rmdir /Q /S external\__pycache__
-rmdir /Q /S lang\__pycache__
 rmdir /Q /S build
 rmdir /Q /S dist
+rmdir /Q /S external\__pycache__
+rmdir /Q /S lang\__pycache__
 copy ..\elevenclock\__init__.py .\
 
 %py% -m PyInstaller elevenclock.spec 
@@ -72,16 +72,13 @@ rmdir /Q /S elevenclock_bin
 
 pushd ElevenClockBin\PySide6
 del opengl32sw.dll
-del Qt6Quick.dll
-del Qt6Qml.dll
-del Qt6Pdf.dll
-del Qt6OpenGL.dll
-del Qt6QmlModels.dll
 del Qt6Network.dll
-del Qt6DataVisualization.dll
+del Qt6OpenGL.dll
+del Qt6Pdf.dll
+del Qt6Qml.dll
+del Qt6QmlModels.dll
+del Qt6Quick.dll
 del Qt6VirtualKeyboard.dll
-del QtDataVisualization.pyd
-del QtOpenGL.pyd
 del QtNetwork.pyd
 popd
 
@@ -92,16 +89,6 @@ popd
 pushd ElevenClockBin\lang
 del APIKEY.txt
 del download_translations.pyc
-popd
-
-pushd ElevenClockBin
-del Qt6Network.dll
-del MSVCP140.dll
-del MSVCP140_1.dll
-del MSVCP140_2.dll
-del pythoncom311.dll
-del pywintypes311.dll
-rmdir /Q /S PIL
 popd
 
 pushd ElevenClockBin\PySide6\plugins\imageformats
