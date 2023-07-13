@@ -20,7 +20,7 @@ from external.blurwindow import GlobalBlur, ExtendFrameIntoClientArea
 import pyautogui
 
 import globals
-from languages import *
+from lang.languages import *
 from external.FramelessWindow import QFramelessDialog
 from threading import Thread
 from urllib.request import urlopen

@@ -27,11 +27,10 @@ from PySide6.QtWidgets import *
 import globals
 from win32mica import ApplyMica, MICAMODE
 
-from languages import *
-from lang.translated_percentage import *
+from data.contributors import contributorsInfo
+from data.translations import languageCredits, untranslatedPercentage
 from tools import *
 from tools import _
-import tools
 
 import win32gui
 
