@@ -35,7 +35,5 @@ untranslatedPercentage = {
   "th": "73%",
   "tr": "97%",
   "ua": "90%",
-  "vi": "91%",
-  "zh_CN": "97%",
-  "zh_TW": "97%"
+  "vi": "91%"
 }
