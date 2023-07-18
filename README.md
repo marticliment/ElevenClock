@@ -13,7 +13,7 @@ ElevenClock is millisecond-accurate, auto-synced with Internet Time... You can e
 
 **This is ElevenClock's official repository. If you are searching ElevenClock's homepage, please refer to [https://www.marticliment.com/elevenclock/](https://www.marticliment.com/elevenclock/)**
 
-[![Status](https://img.shields.io/badge/Project%20current%20development%20status-Active-brightgreen?style=for-the-badge)]()
+![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fmarticliment.com%2Fresources%2Fbadges%2Fdev-status.json)
 
  
 ## Table of contents
