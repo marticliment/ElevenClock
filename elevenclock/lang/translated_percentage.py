@@ -5,7 +5,7 @@ untranslatedPercentage = {
   "ar": "69%",
   "bg": "16%",
   "bs": "5%",
-  "cs": "97%",
+  "cs": "98%",
   "da": "97%",
   "de": "97%",
   "el": "17%",
@@ -14,7 +14,7 @@ untranslatedPercentage = {
   "fa": "5%",
   "fi": "95%",
   "he": "83%",
-  "hr": "70%",
+  "hr": "79%",
   "hu": "90%",
   "id": "83%",
   "it": "97%",
@@ -26,9 +26,8 @@ untranslatedPercentage = {
   "nn": "97%",
   "pl": "97%",
   "pt_BR": "97%",
-  "pt_PT": "97%",
   "ro": "83%",
-  "ru": "97%",
+  "ru": "98%",
   "sk": "28%",
   "sl": "97%",
   "sr": "18%",
@@ -36,7 +35,5 @@ untranslatedPercentage = {
   "th": "73%",
   "tr": "97%",
   "ua": "90%",
-  "vi": "91%",
-  "zh_CN": "97%",
-  "zh_TW": "97%"
+  "vi": "91%"
 }
