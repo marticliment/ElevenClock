@@ -1,7 +1,7 @@
 {
   "10 hours" : "١٠ ساعات",
   "10 minutes" : "١٠ دقائق",
-  "1 hour" : "ساعة واحدة",
+  "1 hour" : "ساعة",
   "24 hours" : "٢٤ ساعة",
   "2 hours" : "ساعتان",
   "30 minutes" : "٣٠ دقيقة",
@@ -10,7 +10,7 @@
   "About ElevenClock version {0}:" : "حول إصدار ElevenClock {0}:",
   "About Qt" : "عن Qt",
   "About the language pack:" : "حول حزمة اللغة:",
-  "Accent" : null,
+  "Accent" : "اللهجة",
   "Add the \"Show Desktop\" button on the left corner of every clock" : "أضف زر \"إظهار سطح المكتب\" في الزاوية اليسرى من كل ساعة",
   "Adjust horizontal clock position" : "ضبط وضع الساعة الأفقي",
   "Adjust vertical clock position" : "ضبط وضع الساعة الرأسي",
