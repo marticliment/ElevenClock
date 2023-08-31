@@ -1533,19 +1533,19 @@ try:
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
 
                 self.focusassitant = True
-                self.focusAssitantLabel = QPushButton(self)
-                self.focusAssitantLabel.move(self.width(), -1)
-                self.focusAssitantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
-                self.focusAssitantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
-                self.focusAssitantLabel.resize(30, self.height())
+                self.focusAssistantLabel = QPushButton(self)
+                self.focusAssistantLabel.move(self.width(), -1)
+                self.focusAssistantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
+                self.focusAssistantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
+                self.focusAssistantLabel.resize(30, self.height())
                 if winver < 22581:
-                    self.focusAssitantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
+                    self.focusAssistantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
                 else:
                     if numOfNotifs == 0:
-                        self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_empty_{getTaskbarIconMode()}.png")))
+                        self.focusAssistantLabel.setIcon(QIcon(getPath(f"notif_assist_empty_{getTaskbarIconMode()}.png")))
                     else:
-                        self.focusAssitantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
-                self.focusAssitantLabel.setIconSize(QSize(16, 16))
+                        self.focusAssistantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
+                self.focusAssistantLabel.setIconSize(QSize(16, 16))
 
                 self.notifdot = True
                 self.notifDotLabel = QLabel("", self)
@@ -1553,12 +1553,22 @@ try:
                 self.notifDotLabel.setObjectName("notifIndicator")
                 self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
 
-                self.moonIconBlack = QIcon(getPath("moon_black.png"))
-                self.moonIconWhite = QIcon(getPath("moon_white.png"))
-                self.emptyBellBlack = QIcon(getPath("notif_assist_empty_black.png"))
-                self.emptyBellWhite = QIcon(getPath("notif_assist_empty_white.png"))
-                self.filledBellBlack = QIcon(getPath(f"notif_assist_filled_black.png"))
-                self.filledBellWhite = QIcon(getPath(f"notif_assist_filled_white.png"))
+                self.focusMoonIconBlack = QIcon(getPath("moon_black.png"))
+                self.focusMoonIconWhite = QIcon(getPath("moon_white.png"))
+                self.focusEmptyBellBlack = QIcon(getPath("notif_assist_empty_black.png"))
+                self.focusEmptyBellWhite = QIcon(getPath("notif_assist_empty_white.png"))
+                self.focusFilledBellBlack = QIcon(getPath(f"notif_assist_filled_black.png"))
+                self.focusFilledBellWhite = QIcon(getPath(f"notif_assist_filled_white.png"))
+                
+                self.emptyBellWhite = QIcon(getPath("empty_bell_white.png"))
+                self.emptyBellBlack = QIcon(getPath("empty_bell_black.png"))
+                
+                
+                whiteBell = QPixmap(getPath("filled_bell_white.png"))
+                self.filledBellWhite = QIcon(whiteBell)
+                
+                blackBell = QPixmap(getPath("filled_bell_black.png"))
+                self.filledBellBlack = QIcon(blackBell)
 
                 self.lastFocusAssistIcon = None
 
@@ -1568,66 +1578,112 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                         
-                if self.lastFocusAssistIcon != self.focusAssitantLabel.icon():
+                if self.lastFocusAssistIcon != self.focusAssistantLabel.icon():
                     if getSettings("DisableAutomaticTextColor", env=self.settingsEnvironment):
                         if winver < 22581:
-                            self.focusAssitantLabel.setIcon(self.moonIconWhite if isTaskbarDark() else self.moonIconBlack)
+                            self.focusAssistantLabel.setIcon(self.focusMoonIconWhite if isTaskbarDark() else self.focusMoonIconBlack)
                         else:
                             if numOfNotifs == 0:
-                                self.focusAssitantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                                self.focusAssistantLabel.setIcon(self.focusEmptyBellWhite if isTaskbarDark() else self.focusEmptyBellBlack)
                             else:
-                                self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+                                self.focusAssistantLabel.setIcon(self.focusFilledBellWhite if isTaskbarDark() else self.focusFilledBellBlack)
                     else:
                         if winver < 22581:
-                            self.focusAssitantLabel.setIcon(self.moonIconWhite if self.window().LastCapturedForegroundColor == "white" else self.moonIconBlack)
+                            self.focusAssistantLabel.setIcon(self.focusMoonIconWhite if self.window().LastCapturedForegroundColor == "white" else self.focusMoonIconBlack)
                         else:
                             if self.window().LastCapturedForegroundColor == "black":
-                                self.focusAssitantLabel.setIcon(self.emptyBellBlack if numOfNotifs == 0 else self.filledBellBlack)
+                                self.focusAssistantLabel.setIcon(self.focusEmptyBellBlack if numOfNotifs == 0 else self.focusFilledBellBlack)
                             elif self.window().LastCapturedForegroundColor == "white":
-                                self.focusAssitantLabel.setIcon(self.emptyBellWhite if numOfNotifs == 0 else self.filledBellWhite)
+                                self.focusAssistantLabel.setIcon(self.focusEmptyBellWhite if numOfNotifs == 0 else self.focusFilledBellWhite)
                             else:
-                                self.focusAssitantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+                                if numOfNotifs == 0:
+                                    self.focusAssistantLabel.setIcon(self.focusEmptyBellWhite if isTaskbarDark() else self.focusEmptyBellBlack)
+                                else:
+                                    self.focusAssistantLabel.setIcon(self.focusFilledBellWhite if isTaskbarDark() else self.focusFilledBellBlack)
 
                 if not self.focusassitant:
                     self.focusassitant = True
                     self.setContentsMargins(5, 0, (43), 4)
-                    self.focusAssitantLabel.move(self.width()-self.contentsMargins().right(), -1)
-                    self.focusAssitantLabel.setFixedWidth(30)
-                    self.focusAssitantLabel.setFixedHeight(self.height())
-                    self.focusAssitantLabel.setIconSize(QSize(16, 16))
+                    self.focusAssistantLabel.move(self.width()-self.contentsMargins().right(), -1)
+                    self.focusAssistantLabel.setFixedWidth(30)
+                    self.focusAssistantLabel.setFixedHeight(self.height())
+                    self.focusAssistantLabel.setIconSize(QSize(16, 16))
                     if not self.isCover:
-                        self.focusAssitantLabel.show()
+                        self.focusAssistantLabel.show()
 
             def enableNotifDot(self):
                 if self.focusassitant:
                     self.disableClockIndicators()
-                
+                                
                 if self.lastNumOfNotifs != numOfNotifs:
                     self.lastNumOfNotifs = numOfNotifs
-                    self.notifDotLabel.setText(str(numOfNotifs))
-                    self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
-                    styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor if not self.window().getSettings("UseCustomFontColor") else f"rgb({self.window().getSettingsValue('UseCustomFontColor')})")
-                    self.setStyleSheet(styleSheetString)
+                    if winver < 22631:
+                        self.notifDotLabel.setText(str(numOfNotifs))
+                        self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
+                        styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor if not self.window().getSettings("UseCustomFontColor") else f"rgb({self.window().getSettingsValue('UseCustomFontColor')})")
+                        self.setStyleSheet(styleSheetString)
+                    else:
+                        whiteBell = QPixmap(getPath("filled_bell_white.png"))
+                        mask = whiteBell.createMaskFromColor(QColor('white'), Qt.MaskMode.MaskOutColor)
+                        r, g, b = getColors()[0].split(",")
+                        whiteBell.fill(QColor(int(r),int(g),int(b)))
+                        whiteBell.setMask(mask)
+                        self.filledBellWhite = QIcon(whiteBell)
+                        
+                        blackBell = QPixmap(getPath("filled_bell_black.png"))
+                        mask = blackBell.createMaskFromColor(QColor('black'), Qt.MaskMode.MaskOutColor)
+                        r, g, b = getColors()[5].split(",")
+                        blackBell.fill(QColor(int(r),int(g),int(b)))
+                        blackBell.setMask(mask)
+                        self.filledBellBlack = QIcon(blackBell)
+                        self.lastFocusAssistIcon = None
+                        
+                        if getSettings("DisableAutomaticTextColor", env=self.settingsEnvironment):
+                            if numOfNotifs == 0:
+                                self.focusAssistantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                            else:
+                                self.focusAssistantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+                        else:
+                            if self.window().LastCapturedForegroundColor == "black":
+                                self.focusAssistantLabel.setIcon(self.emptyBellBlack if numOfNotifs == 0 else self.filledBellBlack)
+                            elif self.window().LastCapturedForegroundColor == "white":
+                                self.focusAssistantLabel.setIcon(self.emptyBellWhite if numOfNotifs == 0 else self.filledBellWhite)
+                            else:
+                                if numOfNotifs == 0:
+                                    self.focusAssistantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                                else:
+                                    self.focusAssistantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+
 
                 if not self.notifdot:
                     self.notifdot = True
-                    self.setContentsMargins(5, 0, (43), 4)
-                    topBottomPadding = (self.height()-16)/2 # top-bottom margin
-                    leftRightPadding = (30-16)/2 # left-right margin
-                    self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
-                    self.notifDotLabel.resize(16, 16)
-                    self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")
                     if not self.isCover:
-                        self.notifDotLabel.show()
+                        if winver < 22631:
+                            self.setContentsMargins(5, 0, (43), 4)
+                            topBottomPadding = (self.height()-16)/2 # top-bottom margin
+                            leftRightPadding = (30-16)/2 # left-right margin
+                            self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
+                            self.notifDotLabel.resize(16, 16)
+                            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")                      
+                            self.notifDotLabel.show()
+                        else:
+                            self.focusAssistantLabel.show()
+                            self.setContentsMargins(5, 0, (43), 4)
+                            self.focusAssistantLabel.move(self.width()-self.contentsMargins().right(), -1)
+                            self.focusAssistantLabel.setFixedWidth(30)
+                            self.focusAssistantLabel.setFixedHeight(self.height())
+                            self.focusAssistantLabel.setIconSize(QSize(16, 16))
+
 
             def enableGreyNotifDot(self):
                 self.enableNotifDot()
 
             def disableClockIndicators(self):
                 if self.focusassitant:
+                    self.lastNumOfNotifs = -1
                     self.focusassitant = False
                     self.setContentsMargins(6, 0, 13, 4)
-                    self.focusAssitantLabel.hide()
+                    self.focusAssistantLabel.hide()
                 if self.notifdot:
                     self.notifdot = False
                     self.setContentsMargins(6, 0, 13, 4)
