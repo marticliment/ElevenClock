@@ -1606,7 +1606,7 @@ try:
                     self.lastNumOfNotifs = numOfNotifs
                     self.notifDotLabel.setText(str(numOfNotifs))
                     self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
-                    styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor)
+                    styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor if not self.window().getSettings("UseCustomFontColor") else f"rgb({self.window().getSettingsValue('UseCustomFontColor')})")
                     self.setStyleSheet(styleSheetString)
 
                 if not self.notifdot:
