@@ -318,12 +318,16 @@ class Menu(QMenu):
         super().__init__(title)
 
 def getWindowHwnds(wName, prevHwnd = 0):
-    hwnd = win32gui.FindWindowEx(0, prevHwnd, wName, None)
-    if hwnd != 0:
-        return [hwnd] + getWindowHwnds(wName, hwnd)
-    else:
+    try:
+        hwnd = win32gui.FindWindowEx(0, prevHwnd, wName, None)
+        if hwnd != 0:
+            return [hwnd] + getWindowHwnds(wName, hwnd)
+        else:
+            return []
+    except Exception as e:
+        report(e)
         return []
-
+    
 def openClockSettings(clockInstance):
     try:
         id, data = clockInstance.getClockID()
