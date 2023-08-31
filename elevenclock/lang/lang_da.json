@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Sebblich, Carsten Kristoffersen",
+  "{0} {0} {0} temp" : "Oversat til dansk af Sebblich og Carsten Kristoffersen",
   "10 hours" : "10 timer",
   "10 minutes" : "10 minutter",
   "1 hour" : "1 time",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Tooltip udseende:",
   "Tooltip's font, font size, font color and background" : "Tooltip's font, font størrelse, font farve og baggrund",
   "Total RAM:" : "Total RAM:",
-  "Translated to English by martinet101" : "Oversat til dansk af Sebblich og Carsten Kristoffersen",
   "Translate ElevenClock to your language" : "Oversæt ElevenClock til dit sprog",
   "Updates, icon tray, language" : "Opdateringer, ikonbakke, sprog",
   "Use a custom background color" : "Brug en brugerdefineret farve",

@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@metmanik",
+  "{0} {0} {0} temp" : "Preložené do slovenčiny užívateľom metmanik",
   "10 hours" : "10 hodín",
   "10 minutes" : "10 minút",
   "1 hour" : "1 hodina",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Preložené do slovenčiny užívateľom metmanik",
   "Translate ElevenClock to your language" : "Preložte ElevenClock do vášho jazyku",
   "Updates, icon tray, language" : null,
   "Use a custom background color" : null,

@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@marticliment",
+  "{0} {0} {0} temp" : "Traduït al Català per @marticliment",
   "10 hours" : "10 hores",
   "10 minutes" : "10 minuts",
   "1 hour" : "1 hora",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Aparença de l'etiqueta",
   "Tooltip's font, font size, font color and background" : "Tipus de font de l'etiqueta, mida de la font, color de la font i color de fons",
   "Total RAM:" : "RAM total:",
-  "Translated to English by martinet101" : "Traduït al Català per @marticliment",
   "Translate ElevenClock to your language" : "Tradueix l'ElevenClock al teu idioma",
   "Updates, icon tray, language" : "Actualitzacions, safata del sistema, idioma",
   "Use a custom background color" : "Utilitza un color de fons concret",

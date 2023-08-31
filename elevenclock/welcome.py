@@ -18,7 +18,7 @@ import external.FramelessWindow as FramelessWindow
 
 import globals
 
-from languages import *
+from lang.languages import *
 from tools import *
 from tools import _
 

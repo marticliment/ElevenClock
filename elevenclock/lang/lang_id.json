@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@adinugrahasatya, FahrulID",
+  "{0} {0} {0} temp" : "Terjemahan oleh Adi Nugraha @adinugrahasatya dan FahrulID | ig:@fahrulrputra",
   "10 hours" : "10 jam",
   "10 minutes" : "10 menit",
   "1 hour" : "1 jam",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Penampilan Tooltip",
   "Tooltip's font, font size, font color and background" : "Font Tooltip, ukuran font, warna font, dan latar belakang",
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Terjemahan oleh Adi Nugraha @adinugrahasatya dan FahrulID | ig:@fahrulrputra",
   "Translate ElevenClock to your language" : "Terjemahkan ElevenClock ke bahasamu",
   "Updates, icon tray, language" : "Pembaruan, baki ikon, bahasa",
   "Use a custom background color" : "Gunakan warna latar belakang kustom",

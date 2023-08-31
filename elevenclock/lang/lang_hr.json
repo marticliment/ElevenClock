@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@DMNz3",
+  "{0} {0} {0} temp" : "Na Hrvatski preveo DMNz3",
   "10 hours" : "10 sati",
   "10 minutes" : "10 minuta",
   "1 hour" : "1 sat",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : "Ukupan RAM:",
-  "Translated to English by martinet101" : "Na Hrvatski preveo DMNz3",
   "Translate ElevenClock to your language" : "Prevedite ElevenClock na Vaš jezik :)",
   "Updates, icon tray, language" : "Nadogradnje, icon tray, jezik",
   "Use a custom background color" : "Koristi prilagođenu pozadinsku boju",
