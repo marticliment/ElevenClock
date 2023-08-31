@@ -80,37 +80,37 @@ In order to translate ElevenClock to other languages or to update an old transla
 | <img src='https://flagcdn.com/es.svg' width=20> &nbsp; Spanish - Español | 97% | [marticliment](https://github.com/marticliment) |
 | <img src='https://flagcdn.com/ee.svg' width=20> &nbsp; Estonian - eesti | 83% |  |
 | <img src='https://flagcdn.com/ir.svg' width=20> &nbsp; Persian - فارسی‎ | 5% |  |
-| <img src='https://flagcdn.com/fi.svg' width=20> &nbsp; Finnish - Suomi | 94% |  |
-| <img src='https://flagcdn.com/fr.svg' width=20> &nbsp; French - Français | 99% |  |
-| <img src='https://flagcdn.com/il.svg' width=20> &nbsp; Hebrew - עִבְרִית‎ | 83% |  |
-| <img src='https://flagcdn.com/hr.svg' width=20> &nbsp; Croatian - Hrvatski | 78% |  |
-| <img src='https://flagcdn.com/hu.svg' width=20> &nbsp; Hungarian - Magyar | 89% |  |
-| <img src='https://flagcdn.com/id.svg' width=20> &nbsp; Indonesian - Bahasa Indonesia | 83% |  |
-| <img src='https://flagcdn.com/it.svg' width=20> &nbsp; Italian - Italiano | 97% |  |
-| <img src='https://flagcdn.com/jp.svg' width=20> &nbsp; Japanese - 日本語 | 90% |  |
-| <img src='https://flagcdn.com/kr.svg' width=20> &nbsp; Korean - 한국어 | 99% |  |
-| <img src='https://flagcdn.com/lt.svg' width=20> &nbsp; Lithuanian - Lietuvių | 18% |  |
-| <img src='https://flagcdn.com/lv.svg' width=20> &nbsp; Latvian - Latviski | 55% |  |
-| <img src='https://flagcdn.com/no.svg' width=20> &nbsp; Norwegian (bokmål) | 99% |  |
-| <img src='https://flagcdn.com/nl.svg' width=20> &nbsp; Dutch - Nederlands | 83% |  |
-| <img src='https://flagcdn.com/no.svg' width=20> &nbsp; Norwegian (nynorsk) | 99% |  |
-| <img src='https://flagcdn.com/pl.svg' width=20> &nbsp; Polish - Polski | 97% |  |
-| <img src='https://flagcdn.com/br.svg' width=20> &nbsp; Portuguese (Brazil) | 97% |  |
-| <img src='https://flagcdn.com/pt.svg' width=20> &nbsp; Portuguese (Portugal) | 99% |  |
+| <img src='https://flagcdn.com/fi.svg' width=20> &nbsp; Finnish - Suomi | 95% | [npsand](https://github.com/npsand) |
+| <img src='https://flagcdn.com/fr.svg' width=20> &nbsp; French - Français | 100% | [Lilobast](https://github.com/Lilobast), [scrocquesel](https://github.com/scrocquesel) |
+| <img src='https://flagcdn.com/il.svg' width=20> &nbsp; Hebrew - עִבְרִית‎ | 83% | xRLx |
+| <img src='https://flagcdn.com/hr.svg' width=20> &nbsp; Croatian - Hrvatski | 79% | [DMNz3](https://github.com/DMNz3) |
+| <img src='https://flagcdn.com/hu.svg' width=20> &nbsp; Hungarian - Magyar | 90% | [gidano](https://github.com/gidano), [jstmrby](https://github.com/jstmrby), sympda.blog.hu, viktak.com |
+| <img src='https://flagcdn.com/id.svg' width=20> &nbsp; Indonesian - Bahasa Indonesia | 83% | [adinugrahasatya](https://github.com/adinugrahasatya), FahrulID |
+| <img src='https://flagcdn.com/it.svg' width=20> &nbsp; Italian - Italiano | 97% | [Parapongo](https://github.com/Parapongo), [zuidstroopwafel](https://github.com/zuidstroopwafel) |
+| <img src='https://flagcdn.com/jp.svg' width=20> &nbsp; Japanese - 日本語 | 91% | [Robot-Inventor](https://github.com/Robot-Inventor), [ShintakuNobuhiro](https://github.com/ShintakuNobuhiro) |
+| <img src='https://flagcdn.com/kr.svg' width=20> &nbsp; Korean - 한국어 | 100% | [sinusinu](https://github.com/sinusinu), [VenusGirl](https://github.com/VenusGirl) |
+| <img src='https://flagcdn.com/lt.svg' width=20> &nbsp; Lithuanian - Lietuvių | 19% | generic pleb |
+| <img src='https://flagcdn.com/lv.svg' width=20> &nbsp; Latvian - Latviski | 55% | [dejelnieks](https://github.com/dejelnieks), [shadow118](https://github.com/shadow118) |
+| <img src='https://flagcdn.com/no.svg' width=20> &nbsp; Norwegian (bokmål) | 100% | [norway-yv](https://github.com/norway-yv) |
+| <img src='https://flagcdn.com/nl.svg' width=20> &nbsp; Dutch - Nederlands | 83% | Bugs, [joosthoi1](https://github.com/joosthoi1) |
+| <img src='https://flagcdn.com/no.svg' width=20> &nbsp; Norwegian (nynorsk) | 100% | [norway-yv](https://github.com/norway-yv) |
+| <img src='https://flagcdn.com/pl.svg' width=20> &nbsp; Polish - Polski | 97% | [PabloMat](https://github.com/PabloMat) |
+| <img src='https://flagcdn.com/br.svg' width=20> &nbsp; Portuguese (Brazil) | 97% | Gustavo Mauricio de Barros, Wanderlei Hüttel |
+| <img src='https://flagcdn.com/pt.svg' width=20> &nbsp; Portuguese (Portugal) | 100% | [jmlcoliveira](https://github.com/jmlcoliveira), Miguel Couto |
 | <img src='https://flagcdn.com/ro.svg' width=20> &nbsp; Romanian - Română | 83% |  |
-| <img src='https://flagcdn.com/ru.svg' width=20> &nbsp; Russian - Русский | 97% |  |
-| <img src='https://flagcdn.com/sk.svg' width=20> &nbsp; Slovak - Slovenčina | 28% |  |
-| <img src='https://flagcdn.com/si.svg' width=20> &nbsp; Slovene - Slovenščina | 99% |  |
-| <img src='https://flagcdn.com/rs.svg' width=20> &nbsp; Serbian - Srpski | 18% |  |
-| <img src='https://flagcdn.com/se.svg' width=20> &nbsp; Swedish - Svenska | 69% |  |
-| <img src='https://flagcdn.com/th.svg' width=20> &nbsp; Thai - ภาษาไทย | 72% |  |
-| <img src='https://flagcdn.com/tr.svg' width=20> &nbsp; Turkish - Türkçe | 97% |  |
-| <img src='https://flagcdn.com/ua.svg' width=20> &nbsp; Ukranian - Yкраї́нська | 89% |  |
-| <img src='https://flagcdn.com/vn.svg' width=20> &nbsp; Vietnamese - Tiếng Việt | 91% |  |
-| <img src='https://flagcdn.com/cn.svg' width=20> &nbsp; Simplified Chinese (China) | 99% |  |
-| <img src='https://flagcdn.com/tw.svg' width=20> &nbsp; Traditional Chinese (Taiwan) | 99% |  |
+| <img src='https://flagcdn.com/ru.svg' width=20> &nbsp; Russian - Русский | 98% | [kira-lappo](https://github.com/kira-lappo), Risen |
+| <img src='https://flagcdn.com/sk.svg' width=20> &nbsp; Slovak - Slovenčina | 28% | [metmanik](https://github.com/metmanik) |
+| <img src='https://flagcdn.com/si.svg' width=20> &nbsp; Slovene - Slovenščina | 100% | [rumplin](https://github.com/rumplin) |
+| <img src='https://flagcdn.com/rs.svg' width=20> &nbsp; Serbian - Srpski | 19% | Stefan Marjanov |
+| <img src='https://flagcdn.com/se.svg' width=20> &nbsp; Swedish - Svenska | 69% | [cjal95](https://github.com/cjal95), Noffe |
+| <img src='https://flagcdn.com/th.svg' width=20> &nbsp; Thai - ภาษาไทย | 73% | [richeyphu](https://github.com/richeyphu) |
+| <img src='https://flagcdn.com/tr.svg' width=20> &nbsp; Turkish - Türkçe | 97% | Mahmut Sözen |
+| <img src='https://flagcdn.com/ua.svg' width=20> &nbsp; Ukranian - Yкраї́нська | 90% | [p4rzivalll](https://github.com/p4rzivalll) |
+| <img src='https://flagcdn.com/vn.svg' width=20> &nbsp; Vietnamese - Tiếng Việt | 91% | [Leoodz](https://github.com/Leoodz), [lequan81](https://github.com/lequan81), [Quochieu0211](https://github.com/Quochieu0211), [tnhung2011](https://github.com/tnhung2011) |
+| <img src='https://flagcdn.com/cn.svg' width=20> &nbsp; Simplified Chinese (China) | 100% | [BoyceLig](https://github.com/BoyceLig), CnYeSheng, [hlgsdx](https://github.com/hlgsdx), Jason.Y, [jmlcoliveira](https://github.com/jmlcoliveira) |
+| <img src='https://flagcdn.com/tw.svg' width=20> &nbsp; Traditional Chinese (Taiwan) | 100% | [BoyceLig](https://github.com/BoyceLig), CnYeSheng, [mmis1000](https://github.com/mmis1000), [SiderealArt](https://github.com/SiderealArt) |
 
-Last updated: Thu Aug 31 12:54:02 2023
+Last updated: Thu Aug 31 14:55:23 2023
 <!-- END Autogenerated translations -->
 
 
