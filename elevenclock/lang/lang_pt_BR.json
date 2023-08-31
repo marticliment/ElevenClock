@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Wanderlei Hüttel,Gustavo Mauricio de Barros",
+  "{0} {0} {0} temp" : "Traduzido para Português do Brasil por Wanderlei Hüttel e Gustavo Mauricio de Barros",
   "10 hours" : "10 horas",
   "10 minutes" : "10 minutos",
   "1 hour" : "1 hora",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Aparência da dica de ferramenta:",
   "Tooltip's font, font size, font color and background" : "Fonte da dica de ferramenta, tamanho da fonte, cor da fonte e plano de fundo",
   "Total RAM:" : "RAM total:",
-  "Translated to English by martinet101" : "Traduzido para Português do Brasil por Wanderlei Hüttel e Gustavo Mauricio de Barros",
   "Translate ElevenClock to your language" : "Traduzir o ElevenClock para o seu idioma",
   "Updates, icon tray, language" : "Atualizações, bandeja de ícones, idioma",
   "Use a custom background color" : "Use uma cor de fundo personalizada",

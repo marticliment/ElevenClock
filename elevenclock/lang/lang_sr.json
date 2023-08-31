@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Stefan Marjanov",
+  "{0} {0} {0} temp" : "Preveli na srpski jezik: Stefan Marjanov",
   "10 hours" : null,
   "10 minutes" : null,
   "1 hour" : null,
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Preveli na srpski jezik: Stefan Marjanov",
   "Translate ElevenClock to your language" : "Prevedi ElevenClock na tvoj jezik",
   "Updates, icon tray, language" : null,
   "Use a custom background color" : null,

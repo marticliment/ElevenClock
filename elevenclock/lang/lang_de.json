@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@Seeloewen, Bikholf, @XenoKeks, @tsloms",
+  "{0} {0} {0} temp" : "Auf Deutsch übersetzt von Seeloewen, Bikholf, XenoKeks und tsloms",
   "10 hours" : "10 Stunden",
   "10 minutes" : "10 Minuten",
   "1 hour" : "1 Stunde",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Tooltip-Erscheinungsbild",
   "Tooltip's font, font size, font color and background" : "Schriftart, Schriftgröße, Schriftfarbe und Hintergrund des Tooltips.",
   "Total RAM:" : "Total verbauter Arbeitsspeicher:",
-  "Translated to English by martinet101" : "Auf Deutsch übersetzt von Seeloewen, Bikholf, XenoKeks und tsloms",
   "Translate ElevenClock to your language" : "ElevenClock in deine Sprache übersetzen",
   "Updates, icon tray, language" : "Updates, Tray-Icon, Sprache",
   "Use a custom background color" : "Eine benutzerdefinierte Hintergrundfarbe verwenden",

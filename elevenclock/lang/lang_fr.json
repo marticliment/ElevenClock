@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@Lilobast,@scrocquesel",
+  "{0} {0} {0} temp" : "Traduit en français par Lilobast et scrocquesel",
   "10 hours" : "10 heures",
   "10 minutes" : "10 minutes",
   "1 hour" : "1 heure",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Apparence de l'info-bulle :",
   "Tooltip's font, font size, font color and background" : "Police, taille de police, couleur de police et arrière-plan de l'info-bulle",
   "Total RAM:" : "RAM totale :",
-  "Translated to English by martinet101" : "Traduit en français par Lilobast et scrocquesel",
   "Translate ElevenClock to your language" : "Traduire ElevenClock dans votre langue",
   "Updates, icon tray, language" : "Mise à jour, icône de l'angle de la barre des tâches, langue",
   "Use a custom background color" : "Utiliser une couleur de fond personnalisée",

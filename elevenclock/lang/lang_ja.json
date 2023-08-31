@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@Robot-Inventor, ShintakuNobuhiro",
+  "{0} {0} {0} temp" : "Robot-Inventor, ShintakuNobuhiro によって日本語に翻訳されました",
   "10 hours" : "10 時間毎",
   "10 minutes" : "10 分毎",
   "1 hour" : "1 時間毎",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "ツール チップの外観",
   "Tooltip's font, font size, font color and background" : "ツール チップのフォント、フォント サイズ、フォントの色と背景",
   "Total RAM:" : "合計メモリ (RAM) 容量:",
-  "Translated to English by martinet101" : "Robot-Inventor, ShintakuNobuhiro によって日本語に翻訳されました",
   "Translate ElevenClock to your language" : "ElevenClockをあなたの言語に翻訳する",
   "Updates, icon tray, language" : "更新、トレイ アイコン、言語",
   "Use a custom background color" : "カスタム背景色を使用する",

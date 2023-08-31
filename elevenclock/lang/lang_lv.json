@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@shadow118,@dejelnieks",
+  "{0} {0} {0} temp" : "Uz Latviešu valodu tulkoja shadow118 un dejelnieks",
   "10 hours" : "10 stundas",
   "10 minutes" : "10 minūtes",
   "1 hour" : "1 stunda",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Rīkpadoma izskats",
   "Tooltip's font, font size, font color and background" : "Rīkpadoma fonts, fonta lielums, fonta krāsa un fons",
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Uz Latviešu valodu tulkoja shadow118 un dejelnieks",
   "Translate ElevenClock to your language" : "Iztulko ElevenClock savā valodā",
   "Updates, icon tray, language" : "Atjauninājumi, ikonjosla, valoda",
   "Use a custom background color" : "Izmantot pielāgotu fona krāsu",

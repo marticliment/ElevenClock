@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@hlgsdx, @jmlcoliveira, @BoyceLig,Jason.Y,CnYeSheng",
+  "{0} {0} {0} temp" : "简体中文翻译由 hlgsdx、jmlcoliveira、BoyceLig、Jason.Y、CnYeSheng 贡献",
   "10 hours" : "每 10 小时",
   "10 minutes" : "每 10 分钟",
   "1 hour" : "1 小时",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "提示样式",
   "Tooltip's font, font size, font color and background" : "提示的字体、字体大小、字体颜色和背景",
   "Total RAM:" : "总内存：",
-  "Translated to English by martinet101" : "简体中文翻译由 hlgsdx、jmlcoliveira、BoyceLig、Jason.Y、CnYeSheng 贡献",
   "Translate ElevenClock to your language" : "把 ElevenClock 翻译成您的语言",
   "Updates, icon tray, language" : "更新、托盘图标、语言",
   "Use a custom background color" : "使用自定义背景颜色",

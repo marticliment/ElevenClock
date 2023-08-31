@@ -31,6 +31,7 @@ from data.contributors import contributorsInfo
 from data.translations import languageCredits, untranslatedPercentage
 from tools import *
 from tools import _
+import tools
 
 import win32gui
 
@@ -699,10 +700,34 @@ class SettingsWindow(QMainWindow):
 
         self.languageSettingsTitle = QSettingsTitle(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"), _("Language pack author(s), help translating ElevenClock"))
         layout.addWidget(self.languageSettingsTitle)
-        self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
-        self.PackInfoButton.button.hide()
-        self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
-        self.languageSettingsTitle.addWidget(self.PackInfoButton)
+
+        translatorsHTMLList = _("ElevenClock has not been machine translated. The following users have been in charge of the translations:")
+        translatorsHTMLList += "<ul>"
+        translatorList = []
+        translatorData: dict[str, str] = {}
+        for key, value in languageCredits.items():
+            langName = languageReference[key] if (key in languageReference) else key
+            for translator in value:
+                link = translator.get("link")
+                name = translator.get("name")
+                translatorLine = name
+                if (link):
+                    translatorLine = f"<a style=\"color: rgb({getColors()[1 if isWindowDark() else 4]})\" href=\"{link}\">{name}</a>"
+                translatorKey = f"{name}{langName}" # for sort
+                translatorList.append(translatorKey)
+                translatorData[translatorKey] = f"{translatorLine} ({langName})"
+        translatorList.sort(key=str.casefold)
+        for translator in translatorList:
+            translatorsHTMLList += f"<li>{translatorData[translator]}</li>"
+        translatorsHTMLList += "</ul>"
+        
+        translators = QLabel(translatorsHTMLList)
+        translators.setOpenExternalLinks(True)
+        translators.setWordWrap(True)
+        translators.setObjectName("stBtn")
+        translators.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;padding: 10px;padding-left: 55px;padding-right: 55px;}")
+        self.languageSettingsTitle.addWidget(translators)
+        
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
         self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/wiki/#translating-elevenclock"))
         self.languageSettingsTitle.addWidget(self.openTranslateButton)

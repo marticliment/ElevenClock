@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@norway-yv",
+  "{0} {0} {0} temp" : "Oversatt til Norsk (Bokmål) av norway-yv",
   "10 hours" : "10 timer ",
   "10 minutes" : "10 minutter",
   "1 hour" : "1 time",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Pekerhintets utseende",
   "Tooltip's font, font size, font color and background" : "Pekerhintets font, fontstørrelse, fontfarge, og bakgrunn",
   "Total RAM:" : "Total mengde RAM:",
-  "Translated to English by martinet101" : "Oversatt til Norsk (Bokmål) av norway-yv",
   "Translate ElevenClock to your language" : "Oversett ElevenClock til ditt språk",
   "Updates, icon tray, language" : "Oppdateringer, ikonboks, språk",
   "Use a custom background color" : "Bruk en annen bakgrunnsfarge",

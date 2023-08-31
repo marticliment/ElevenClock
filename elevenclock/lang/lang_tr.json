@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Mahmut Sözen",
+  "{0} {0} {0} temp" : "Türkçeye Teknoist-(Mahmut Sözen) tarafından çevrildi",
   "10 hours" : "10 saat",
   "10 minutes" : "10 dakika",
   "1 hour" : "1 saat",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Araç İpucu Görünümü:",
   "Tooltip's font, font size, font color and background" : "Araç ipucunun yazı tipi, yazı tipi boyutu, yazı tipi rengi ve arka planı",
   "Total RAM:" : "Toplam RAM:",
-  "Translated to English by martinet101" : "Türkçeye Teknoist-(Mahmut Sözen) tarafından çevrildi",
   "Translate ElevenClock to your language" : "ElevenClock'u kendi diline çevir",
   "Updates, icon tray, language" : "Güncellemeler, simge tepsisi, dil",
   "Use a custom background color" : "Özel bir arka plan rengi kullanın",

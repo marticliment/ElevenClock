@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@kira-lappo,Risen",
+  "{0} {0} {0} temp" : "Перевод на русский: Кирилл (gh://kira-lappo), Иван (Risen)",
   "10 hours" : "10 часов",
   "10 minutes" : "10 минут",
   "1 hour" : "1 час",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Внешний вид всплывающей подсказки",
   "Tooltip's font, font size, font color and background" : "Шрифт, размер, цвет и фон подсказки",
   "Total RAM:" : "Оперативная память:",
-  "Translated to English by martinet101" : "Перевод на русский: Кирилл (gh://kira-lappo), Иван (Risen)",
   "Translate ElevenClock to your language" : "Переведите ElevenClock на свой язык",
   "Updates, icon tray, language" : "Обновления, иконка трея, язык",
   "Use a custom background color" : "Сменить цвет фона",

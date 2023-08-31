@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@jmlcoliveira,Miguel Couto",
+  "{0} {0} {0} temp" : "Traduzido para Português por jmlcoliveira e Miguel Couto",
   "10 hours" : "10 horas",
   "10 minutes" : "10 minutos",
   "1 hour" : "1 hora",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Aparência das Dicas de Ferramentas:",
   "Tooltip's font, font size, font color and background" : "Tipo de letra das Dicas de Ferramentas, tamanho da letra, cor da letra e fundo",
   "Total RAM:" : "RAM total:",
-  "Translated to English by martinet101" : "Traduzido para Português por jmlcoliveira e Miguel Couto",
   "Translate ElevenClock to your language" : "Traduz o ElevenClock para o teu idioma",
   "Updates, icon tray, language" : "Actualizações, bandeja de ícones, idioma",
   "Use a custom background color" : "Mudar cor do fundo do relógio",

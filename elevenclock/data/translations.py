@@ -4,90 +4,370 @@ untranslatedPercentage = {
   "ar": "69%",
   "bg": "16%",
   "bs": "5%",
-  "ca": "99%",
-  "cs": "97%",
+  "cs": "98%",
   "da": "99%",
-  "de": "99%",
   "el": "17%",
   "es": "97%",
   "et": "83%",
   "fa": "5%",
-  "fi": "94%",
-  "fr": "99%",
+  "fi": "95%",
   "he": "83%",
-  "hr": "78%",
-  "hu": "89%",
+  "hr": "79%",
+  "hu": "90%",
   "id": "83%",
   "it": "97%",
-  "ja": "90%",
-  "ko": "99%",
-  "lt": "18%",
+  "ja": "91%",
+  "lt": "19%",
   "lv": "55%",
-  "nb": "99%",
   "nl": "83%",
-  "nn": "99%",
   "pl": "97%",
   "pt_BR": "97%",
-  "pt_PT": "99%",
   "ro": "83%",
-  "ru": "97%",
+  "ru": "98%",
   "sk": "28%",
-  "sl": "99%",
-  "sr": "18%",
+  "sr": "19%",
   "sv": "69%",
-  "th": "72%",
+  "th": "73%",
   "tr": "97%",
-  "ua": "89%",
-  "vi": "91%",
-  "zh_CN": "99%",
-  "zh_TW": "99%"
+  "ua": "90%",
+  "vi": "91%"
 }
 
 languageCredits = {
   "ar": [],
   "bg": [],
   "bs": [],
-  "ca": [],
-  "cs": [],
-  "da": [],
-  "de": [],
-  "el": [],
+  "ca": [
+    {
+      "name": "marticliment",
+      "link": "https://github.com/marticliment"
+    }
+  ],
+  "cs": [
+    {
+      "name": "Adamů",
+      "link": ""
+    },
+    {
+      "name": "panther7",
+      "link": "https://github.com/panther7"
+    },
+    {
+      "name": "SunightMC",
+      "link": "https://github.com/SunightMC"
+    }
+  ],
+  "da": [
+    {
+      "name": "Carsten Kristoffersen",
+      "link": ""
+    },
+    {
+      "name": "Sebblich",
+      "link": ""
+    }
+  ],
+  "de": [
+    {
+      "name": "Bikholf",
+      "link": ""
+    },
+    {
+      "name": "Seeloewen",
+      "link": "https://github.com/Seeloewen"
+    },
+    {
+      "name": "tsloms",
+      "link": "https://github.com/tsloms"
+    },
+    {
+      "name": "XenoKeks",
+      "link": "https://github.com/XenoKeks"
+    }
+  ],
+  "el": [
+    {
+      "name": "panos78",
+      "link": "https://github.com/panos78"
+    }
+  ],
   "en": [
     {
       "name": "marticliment",
       "link": "https://github.com/marticliment"
     }
   ],
-  "es": [],
+  "es": [
+    {
+      "name": "marticliment",
+      "link": "https://github.com/marticliment"
+    }
+  ],
   "et": [],
   "fa": [],
-  "fi": [],
-  "fr": [],
-  "he": [],
-  "hr": [],
-  "hu": [],
-  "id": [],
-  "it": [],
-  "ja": [],
-  "ko": [],
-  "lt": [],
-  "lv": [],
-  "nb": [],
-  "nl": [],
-  "nn": [],
-  "pl": [],
-  "pt_BR": [],
-  "pt_PT": [],
+  "fi": [
+    {
+      "name": "npsand",
+      "link": "https://github.com/npsand"
+    }
+  ],
+  "fr": [
+    {
+      "name": "Lilobast",
+      "link": "https://github.com/Lilobast"
+    },
+    {
+      "name": "scrocquesel",
+      "link": "https://github.com/scrocquesel"
+    }
+  ],
+  "he": [
+    {
+      "name": "xRLx",
+      "link": ""
+    }
+  ],
+  "hr": [
+    {
+      "name": "DMNz3",
+      "link": "https://github.com/DMNz3"
+    }
+  ],
+  "hu": [
+    {
+      "name": "gidano",
+      "link": "https://github.com/gidano"
+    },
+    {
+      "name": "jstmrby",
+      "link": "https://github.com/jstmrby"
+    },
+    {
+      "name": "sympda.blog.hu",
+      "link": ""
+    },
+    {
+      "name": "viktak.com",
+      "link": ""
+    }
+  ],
+  "id": [
+    {
+      "name": "adinugrahasatya",
+      "link": "https://github.com/adinugrahasatya"
+    },
+    {
+      "name": "FahrulID",
+      "link": ""
+    }
+  ],
+  "it": [
+    {
+      "name": "Parapongo",
+      "link": "https://github.com/Parapongo"
+    },
+    {
+      "name": "zuidstroopwafel",
+      "link": "https://github.com/zuidstroopwafel"
+    }
+  ],
+  "ja": [
+    {
+      "name": "Robot-Inventor",
+      "link": "https://github.com/Robot-Inventor"
+    },
+    {
+      "name": "ShintakuNobuhiro",
+      "link": "https://github.com/ShintakuNobuhiro"
+    }
+  ],
+  "ko": [
+    {
+      "name": "sinusinu",
+      "link": "https://github.com/sinusinu"
+    },
+    {
+      "name": "VenusGirl",
+      "link": "https://github.com/VenusGirl"
+    }
+  ],
+  "lt": [
+    {
+      "name": "generic pleb",
+      "link": ""
+    }
+  ],
+  "lv": [
+    {
+      "name": "dejelnieks",
+      "link": "https://github.com/dejelnieks"
+    },
+    {
+      "name": "shadow118",
+      "link": "https://github.com/shadow118"
+    }
+  ],
+  "nb": [
+    {
+      "name": "norway-yv",
+      "link": "https://github.com/norway-yv"
+    }
+  ],
+  "nl": [
+    {
+      "name": "Bugs",
+      "link": ""
+    },
+    {
+      "name": "joosthoi1",
+      "link": "https://github.com/joosthoi1"
+    }
+  ],
+  "nn": [
+    {
+      "name": "norway-yv",
+      "link": "https://github.com/norway-yv"
+    }
+  ],
+  "pl": [
+    {
+      "name": "PabloMat",
+      "link": "https://github.com/PabloMat"
+    }
+  ],
+  "pt_BR": [
+    {
+      "name": "Gustavo Mauricio de Barros",
+      "link": ""
+    },
+    {
+      "name": "Wanderlei Hüttel",
+      "link": ""
+    }
+  ],
+  "pt_PT": [
+    {
+      "name": "jmlcoliveira",
+      "link": "https://github.com/jmlcoliveira"
+    },
+    {
+      "name": "Miguel Couto",
+      "link": ""
+    }
+  ],
   "ro": [],
-  "ru": [],
-  "sk": [],
-  "sl": [],
-  "sr": [],
-  "sv": [],
-  "th": [],
-  "tr": [],
-  "ua": [],
-  "vi": [],
-  "zh_CN": [],
-  "zh_TW": []
+  "ru": [
+    {
+      "name": "kira-lappo",
+      "link": "https://github.com/kira-lappo"
+    },
+    {
+      "name": "Risen",
+      "link": ""
+    }
+  ],
+  "sk": [
+    {
+      "name": "metmanik",
+      "link": "https://github.com/metmanik"
+    }
+  ],
+  "sl": [
+    {
+      "name": "rumplin",
+      "link": "https://github.com/rumplin"
+    }
+  ],
+  "sr": [
+    {
+      "name": "Stefan Marjanov",
+      "link": ""
+    }
+  ],
+  "sv": [
+    {
+      "name": "cjal95",
+      "link": "https://github.com/cjal95"
+    },
+    {
+      "name": "Noffe",
+      "link": ""
+    }
+  ],
+  "th": [
+    {
+      "name": "richeyphu",
+      "link": "https://github.com/richeyphu"
+    }
+  ],
+  "tr": [
+    {
+      "name": "Mahmut Sözen",
+      "link": ""
+    }
+  ],
+  "ua": [
+    {
+      "name": "p4rzivalll",
+      "link": "https://github.com/p4rzivalll"
+    }
+  ],
+  "vi": [
+    {
+      "name": "Leoodz",
+      "link": "https://github.com/Leoodz"
+    },
+    {
+      "name": "lequan81",
+      "link": "https://github.com/lequan81"
+    },
+    {
+      "name": "Quochieu0211",
+      "link": "https://github.com/Quochieu0211"
+    },
+    {
+      "name": "tnhung2011",
+      "link": "https://github.com/tnhung2011"
+    }
+  ],
+  "zh_CN": [
+    {
+      "name": "BoyceLig",
+      "link": "https://github.com/BoyceLig"
+    },
+    {
+      "name": "CnYeSheng",
+      "link": ""
+    },
+    {
+      "name": "hlgsdx",
+      "link": "https://github.com/hlgsdx"
+    },
+    {
+      "name": "Jason.Y",
+      "link": ""
+    },
+    {
+      "name": "jmlcoliveira",
+      "link": "https://github.com/jmlcoliveira"
+    }
+  ],
+  "zh_TW": [
+    {
+      "name": "BoyceLig",
+      "link": "https://github.com/BoyceLig"
+    },
+    {
+      "name": "CnYeSheng",
+      "link": ""
+    },
+    {
+      "name": "mmis1000",
+      "link": "https://github.com/mmis1000"
+    },
+    {
+      "name": "SiderealArt",
+      "link": "https://github.com/SiderealArt"
+    }
+  ]
 }

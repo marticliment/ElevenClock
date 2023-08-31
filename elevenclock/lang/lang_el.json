@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@panos78",
+  "{0} {0} {0} temp" : "Μετάφραση ελληνικών από panos78",
   "10 hours" : "10 ώρες",
   "10 minutes" : "10 λεπτά",
   "1 hour" : "1 ώρα",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Μετάφραση ελληνικών από panos78",
   "Translate ElevenClock to your language" : "Μεταφραση του ElevenClock στη γλώσσα σας",
   "Updates, icon tray, language" : null,
   "Use a custom background color" : null,

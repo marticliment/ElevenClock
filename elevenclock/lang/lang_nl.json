@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Bugs,@joosthoi1",
+  "{0} {0} {0} temp" : "Vertaald naar het Nederlands door Bugs en joosthoi1",
   "10 hours" : "10 uur",
   "10 minutes" : "10 minuten",
   "1 hour" : "1 uur",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Vertaald naar het Nederlands door Bugs en joosthoi1",
   "Translate ElevenClock to your language" : "Vertaal ElevenClock naar jou taal",
   "Updates, icon tray, language" : "Updates, icoon lade, taal",
   "Use a custom background color" : "Gebruik een aangepaste achtergrondkleur",

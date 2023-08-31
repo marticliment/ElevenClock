@@ -1,5 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Noffe, @cjal95",
+  "{0} {0} {0} temp" : "Översatt till Svenska av Noffe och cjal95",
   "10 hours" : "10 timmar",
   "10 minutes" : "10 minuter",
   "1 hour" : "1 timme",
@@ -238,7 +239,6 @@
   "Tooltip Appearance:" : "Utseende för Verktygstips",
   "Tooltip's font, font size, font color and background" : "Font, färg, bakgrund och teckenstorlek för Verktygstips",
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Översatt till Svenska av Noffe och cjal95",
   "Translate ElevenClock to your language" : "Översätt ElevenClock till ditt språk",
   "Updates, icon tray, language" : "Uppdateringar, ikon, språk",
   "Use a custom background color" : "Använd anpassad bakgrundsfärg",
