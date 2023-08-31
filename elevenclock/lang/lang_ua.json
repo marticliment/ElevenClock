@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@p4rzivalll",
+  "{0} {0} {0} temp" : "Переклав українською p4rzivalll",
   "10 hours" : "10 годин",
   "10 minutes" : "10 хвилин",
   "1 hour" : "1 година",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Зовнішній вигляд виринаючої підказки\n",
   "Tooltip's font, font size, font color and background" : "Шрифт підказки, розмір шрифту, колір шрифту та фон",
   "Total RAM:" : "Загальна кількість оперативної пам'яті:",
-  "Translated to English by martinet101" : "Переклав українською p4rzivalll",
   "Translate ElevenClock to your language" : "Перекласти ElevenClock вашою мовою",
   "Updates, icon tray, language" : "Оновлення, іконка трея, мова\n",
   "Use a custom background color" : "Змінити колір фону\n",

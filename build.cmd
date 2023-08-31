@@ -87,7 +87,6 @@ rmdir /Q /S tzdata
 popd
 
 pushd ElevenClockBin\lang
-del APIKEY.txt
 del download_translations.pyc
 popd
 

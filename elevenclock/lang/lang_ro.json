@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} temp" : "Tradus în engleză de martinet101",
   "10 hours" : "10 ore",
   "10 minutes" : "10 minute",
   "1 hour" : "1 oră",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Aparența balonului explicativ:",
   "Tooltip's font, font size, font color and background" : "Fontul, mărimea fontului, culoarea fontului si fundalul pentru balonul explicativ",
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "Tradus în engleză de martinet101",
   "Translate ElevenClock to your language" : "Traduceți ElevenClock in limba dumneavoastră",
   "Updates, icon tray, language" : "Actualizări, bara de notificări, limbă",
   "Use a custom background color" : "Folosiți o culoare de fundal personalizată",

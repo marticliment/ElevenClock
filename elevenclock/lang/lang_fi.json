@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@npsand",
+  "{0} {0} {0} temp" : "Suomentanut: npsand",
   "10 hours" : "10 tuntia",
   "10 minutes" : "10 minuuttia",
   "1 hour" : "1 tunti",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Työkaluvihjeen Ulkonäkö:\n",
   "Tooltip's font, font size, font color and background" : "Työkaluvihjeen fontti, fonttikoko, fontin väri ja tausta\n",
   "Total RAM:" : "RAM-muistia yhteensä:\n",
-  "Translated to English by martinet101" : "Suomentanut: npsand",
   "Translate ElevenClock to your language" : "Käännä ElevenClock omalle kielellesi",
   "Updates, icon tray, language" : "Päivitykset, pikkukuvake, kieli",
   "Use a custom background color" : "Käytä mukautettua taustaväriä",

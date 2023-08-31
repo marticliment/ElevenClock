@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@rumplin",
+  "{0} {0} {0} temp" : "Prevedel v slovenščino rumplin",
   "10 hours" : "10 ur",
   "10 minutes" : "10 minut",
   "1 hour" : "1 ura",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Izgled besedila namiga",
   "Tooltip's font, font size, font color and background" : "Pisava, velikost pisave, barva pisave in ozadje opisa orodja",
   "Total RAM:" : "Skupni RAM:",
-  "Translated to English by martinet101" : "Prevedel v slovenščino rumplin",
   "Translate ElevenClock to your language" : "Prevedite ElevenClock v svoj jezik",
   "Updates, icon tray, language" : "Posodobitve, pladenj z ikonami, jezik",
   "Use a custom background color" : "Uporabite barvo ozadja po meri",

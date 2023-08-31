@@ -27,8 +27,8 @@ from PySide6.QtWidgets import *
 import globals
 from win32mica import ApplyMica, MICAMODE
 
-from languages import *
-from lang.translated_percentage import *
+from data.contributors import contributorsInfo
+from data.translations import languageCredits, untranslatedPercentage
 from tools import *
 from tools import _
 import tools
@@ -700,10 +700,34 @@ class SettingsWindow(QMainWindow):
 
         self.languageSettingsTitle = QSettingsTitle(_("About the language pack:"), getPath(f"lang_{self.iconMode}.png"), _("Language pack author(s), help translating ElevenClock"))
         layout.addWidget(self.languageSettingsTitle)
-        self.PackInfoButton = QSettingsButton(_("Translated to English by martinet101"), "")
-        self.PackInfoButton.button.hide()
-        self.PackInfoButton.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
-        self.languageSettingsTitle.addWidget(self.PackInfoButton)
+
+        translatorsHTMLList = _("ElevenClock has not been machine translated. The following users have been in charge of the translations:")
+        translatorsHTMLList += "<ul>"
+        translatorList = []
+        translatorData: dict[str, str] = {}
+        for key, value in languageCredits.items():
+            langName = languageReference[key] if (key in languageReference) else key
+            for translator in value:
+                link = translator.get("link")
+                name = translator.get("name")
+                translatorLine = name
+                if (link):
+                    translatorLine = f"<a style=\"color: rgb({getColors()[1 if isWindowDark() else 2]})\" href=\"{link}\">{name}</a>"
+                translatorKey = f"{name}{langName}" # for sort
+                translatorList.append(translatorKey)
+                translatorData[translatorKey] = f"{translatorLine} ({langName})"
+        translatorList.sort(key=str.casefold)
+        for translator in translatorList:
+            translatorsHTMLList += f"<li>{translatorData[translator]}</li>"
+        translatorsHTMLList += "</ul>"
+        
+        translators = QLabel(translatorsHTMLList)
+        translators.setOpenExternalLinks(True)
+        translators.setWordWrap(True)
+        translators.setObjectName("stBtn")
+        translators.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;padding: 10px;padding-left: 55px;padding-right: 55px;}")
+        self.languageSettingsTitle.addWidget(translators)
+        
         self.openTranslateButton = QSettingsButton(_("Translate ElevenClock to your language"), _("Get started"))
         self.openTranslateButton.clicked.connect(lambda: os.startfile("https://github.com/marticliment/ElevenClock/wiki/#translating-elevenclock"))
         self.languageSettingsTitle.addWidget(self.openTranslateButton)
@@ -841,6 +865,20 @@ class SettingsWindow(QMainWindow):
         self.resetButton.setStyleSheet("QWidget#stBtn{border-top: 0px solid transparent;border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;}")
         self.resetButton.clicked.connect(lambda: (resetSettings(), os.startfile(sys.executable), globals.app.quit()))
         self.aboutTitle.addWidget(self.resetButton)
+        
+        contributorsHTMLList = _("ElevenClock wouldn't have been possible with the help of our dear contributors:")
+        contributorsHTMLList += "<ul>"
+        for contributor in contributorsInfo:
+            contributorsHTMLList += f"<li><a style=\"color:rgb({getColors()[1 if isWindowDark() else 2]})\" href=\"{contributor.get('link')}\">{contributor.get('name')}</a></li>"
+        contributorsHTMLList += "</ul>"
+        
+        contributors = QLabel(contributorsHTMLList)
+        contributors.setOpenExternalLinks(True)
+        contributors.setWordWrap(True)
+        contributors.setObjectName("stBtn")
+        contributors.setStyleSheet("QWidget#stBtn{border-bottom-left-radius: 0;border-bottom-right-radius: 0;border-bottom: 0;padding: 20px;padding-left: 55px;padding-right: 55px;}")
+        self.aboutTitle.addWidget(contributors)
+
         self.closeButton = QSettingsButton(_("Close settings"), _("Close"))
         self.closeButton.clicked.connect(lambda: self.hide())
         self.aboutTitle.addWidget(self.closeButton)

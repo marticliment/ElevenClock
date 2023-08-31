@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@marticliment",
+  "{0} {0} {0} temp" : "Traducido al Castellano por @marticliment",
   "10 hours" : "10 horas",
   "10 minutes" : "10 minutos",
   "1 hour" : "1 hora",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Apariencia de la etiqueta",
   "Tooltip's font, font size, font color and background" : "Tipo de fuente de la etiqueta, tamaño y color de fuente y fondo de la etiqueta",
   "Total RAM:" : "RAM total:",
-  "Translated to English by martinet101" : "Traducido al Castellano por @marticliment",
   "Translate ElevenClock to your language" : "Traduce ElevenClock a tu idioma",
   "Updates, icon tray, language" : "Actualizaciones, bandeja del sistema, idioma",
   "Use a custom background color" : "Usa un color de fondo específico",

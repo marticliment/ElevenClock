@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@PabloMat",
+  "{0} {0} {0} temp" : "Przetłumaczone na polski przez PabloMat",
   "10 hours" : "10 godzin",
   "10 minutes" : "10 minut",
   "1 hour" : "1 godzina",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Wygląd Okna Podpowiedzi",
   "Tooltip's font, font size, font color and background" : "Czcionka, wielkość i kolor czcionki, tło okna podpowiedzi",
   "Total RAM:" : "Ogółem RAM:",
-  "Translated to English by martinet101" : "Przetłumaczone na polski przez PabloMat",
   "Translate ElevenClock to your language" : "Przetłumacz ElevenClock na swój język",
   "Updates, icon tray, language" : "Aktualizacje, zasobnik ikon, język",
   "Use a custom background color" : "Użyj niestandardowego koloru tła",

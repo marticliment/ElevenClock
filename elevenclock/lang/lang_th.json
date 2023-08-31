@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@richeyphu",
+  "{0} {0} {0} temp" : "แปลเป็นภาษาไทยโดย @richeyphu",
   "10 hours" : "10 ชั่วโมง",
   "10 minutes" : "10 นาที",
   "1 hour" : "1 ชั่วโมง",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "ลักษณะคำแนะนำเครื่องมือ:",
   "Tooltip's font, font size, font color and background" : "ฟอนต์ของคำแนะนำเครื่องมือ, ขนาดฟอนต์, สีฟอนต์และพื้นหลัง",
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "แปลเป็นภาษาไทยโดย @richeyphu",
   "Translate ElevenClock to your language" : "แปล ElevenClock เป็นภาษาของคุณ",
   "Updates, icon tray, language" : "อัปเดต, ถาดไอคอน, ภาษา",
   "Use a custom background color" : "ใช้สีพื้นหลังที่กำหนดเอง",

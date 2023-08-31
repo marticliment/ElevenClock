@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@mmis1000,@BoyceLig,@SiderealArt,CnYeSheng",
+  "{0} {0} {0} temp" : "由 mmis1000、BoyceLig、SiderealArt、CnYeSheng 翻譯為正體中文（台灣）",
   "10 hours" : "每 10 小時",
   "10 minutes" : "每 10 分鐘",
   "1 hour" : "每 1 小時",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "工具提示外觀",
   "Tooltip's font, font size, font color and background" : "工具提示的字型、字型大小、字型顏色及背景",
   "Total RAM:" : "總記憶體:",
-  "Translated to English by martinet101" : "由 mmis1000、BoyceLig、SiderealArt、CnYeSheng 翻譯為正體中文（台灣）",
   "Translate ElevenClock to your language" : "將 ElevenClock 翻譯成你的語言",
   "Updates, icon tray, language" : "更新、系統匣、語言",
   "Use a custom background color" : "使用自訂背景顏色",
