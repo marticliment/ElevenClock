@@ -101,6 +101,9 @@ if defined option--no-installer (
     goto :skip-installer
 )
 
+echo You might want to sign your executable now
+pause
+
 set INSTALLATOR="%SYSTEMDRIVE%\Program Files (x86)\Inno Setup 6\ISCC.exe"
 if exist %INSTALLATOR% (
     %INSTALLATOR% "ElevenClock.iss"
@@ -110,6 +113,10 @@ if exist %INSTALLATOR% (
     echo Running app...
     start /b ElevenClockBin/ElevenClock.exe
 )
+
+echo You might want to sign your installer now
+pause
+
 :skip-installer
 
 if defined option--release (
