@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "Adamů, @panther7, @SunightMC",
+  "{0} {0} {0} temp" : "Do češtiny přeložili Matouš Adamů, panther7 a SunightMC",
   "10 hours" : "10 hodin",
   "10 minutes" : "10 minut",
   "1 hour" : "1 hodina",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Vzhled popisku",
   "Tooltip's font, font size, font color and background" : "Styl, velikost a barva písma, barva pozadí",
   "Total RAM:" : "Celková RAM:",
-  "Translated to English by martinet101" : "Do češtiny přeložili Matouš Adamů, panther7 a SunightMC",
   "Translate ElevenClock to your language" : "Přeložte ElevenClock do svého jazyka",
   "Updates, icon tray, language" : "Aktualizace, lokalizace a ikonka lišty",
   "Use a custom background color" : "Použít vlastní barvu pozadí",

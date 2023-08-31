@@ -1,12 +1,17 @@
-import os, glob, json
+import glob
+import json
+import os
 
 try:
+    root_dir = os.path.join(os.path.dirname(__file__), "..")
+    os.chdir(os.path.normpath(os.path.join(root_dir, "wingetui/lang/")))
+
     contents = ""
 
     with open("lang_en.json", "r") as f:
         engfile = json.load(f)
 
-    os.chdir("../../")
+    os.chdir(root_dir)
     print(f"Working on 📂 {os.getcwd()}")
 
     for codefile in glob.glob("**/*.py", recursive=True):
@@ -18,9 +23,9 @@ try:
         key = key.replace("\n", "\\n")
         if not key in contents:
             if not key.replace("\"", "\\\"") in contents:
-                print("Unused key 😳: "+str(key))
+                print(f"Unused key 😳: {key}")
     print("Job finished succuessfully! 😎")
 except Exception as e:
     print("FAILED:", e)
-        
+
 os.system("pause")

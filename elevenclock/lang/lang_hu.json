@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@jstmrby, viktak.com,@gidano,sympda.blog.hu",
+  "{0} {0} {0} temp" : "Magyarra fordította: jstmrby, viktak.com (2.9 - 3.0)<br>gidano | sympda.blog.hu(3.6.x)",
   "10 hours" : "10 óra",
   "10 minutes" : "10 perc",
   "1 hour" : "1 óra",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "Eszköztipp megjelenése:",
   "Tooltip's font, font size, font color and background" : "Az eszköztipp betűtípusa, betűmérete, betűszíne és háttere",
   "Total RAM:" : "Összes RAM:",
-  "Translated to English by martinet101" : "Magyarra fordította: jstmrby, viktak.com (2.9 - 3.0)<br>gidano | sympda.blog.hu(3.6.x)",
   "Translate ElevenClock to your language" : "Translate ElevenClock to your language",
   "Updates, icon tray, language" : "Frissítések, tálca ikonja, nyelv",
   "Use a custom background color" : "Egyéni háttérszín használata",

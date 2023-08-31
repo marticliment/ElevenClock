@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} temp" : "ترجمت الي الانجيليزية بفضل martinet101",
   "10 hours" : "١٠ ساعات",
   "10 minutes" : "١٠ دقائق",
   "1 hour" : "ساعة",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "ترجمت الي الانجيليزية بفضل martinet101",
   "Translate ElevenClock to your language" : "ترجمت الي لغتك",
   "Updates, icon tray, language" : "تحديثات, منطقة الاشعارات, اللغات",
   "Use a custom background color" : "استخدم لون خلفية مخصص",

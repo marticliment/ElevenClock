@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : null,
+  "{0} {0} {0} temp" : null,
   "10 hours" : "10 часа",
   "10 minutes" : "10 минути",
   "1 hour" : "1 час",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : null,
   "Tooltip's font, font size, font color and background" : null,
   "Total RAM:" : null,
-  "Translated to English by martinet101" : null,
   "Translate ElevenClock to your language" : null,
   "Updates, icon tray, language" : null,
   "Use a custom background color" : null,

@@ -1,4 +1,6 @@
 {
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "xRLx",
+  "{0} {0} {0} temp" : "תורגם לעברית על ידי xRLx",
   "10 hours" : "10 שעות",
   "10 minutes" : "10 דקות",
   "1 hour" : "שעה",
@@ -237,7 +239,6 @@
   "Tooltip Appearance:" : "מראה רמזים:",
   "Tooltip's font, font size, font color and background" : "פונט, גודל הפונט, צבע הפונט והרקע של הרמזים",
   "Total RAM:" : null,
-  "Translated to English by martinet101" : "תורגם לעברית על ידי xRLx",
   "Translate ElevenClock to your language" : "תרגם ElevenClock לשפה שלך ",
   "Updates, icon tray, language" : "עדכונים, סרגל המשימות, שפה",
   "Use a custom background color" : "קביעת צבע לרקע השעון",

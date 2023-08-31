@@ -32,8 +32,6 @@ try:
         except ImportError:
             importedPsutil = False
         import win32gui
-        import pythoncom
-        import win32com.client
         from PySide6.QtGui import *
         from PySide6.QtCore import *
         from PySide6.QtWidgets import *
@@ -43,7 +41,6 @@ try:
         from external.FramelessWindow import QFramelessDialog
         from external.timezones import win_tz
 
-        from languages import *
         from versions import *
         import globals
 
