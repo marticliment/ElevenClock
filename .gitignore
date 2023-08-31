@@ -30,3 +30,4 @@ __init__.exe
 ElevenClock.Installer.exe.zip
 .vscode/launch.json
 env/*
+scripts/APIKEY.txt
