@@ -21,7 +21,6 @@ untranslatedPercentage = {
   "lv": "55%",
   "nl": "83%",
   "pl": "97%",
-  "pt_BR": "97%",
   "ro": "83%",
   "ru": "98%",
   "sk": "28%",
@@ -45,8 +44,8 @@ languageCredits = {
   ],
   "cs": [
     {
-      "name": "Adamů",
-      "link": ""
+      "name": "MatousAdamu",
+      "link": "https://github.com/MatousAdamu"
     },
     {
       "name": "panther7",
@@ -237,12 +236,16 @@ languageCredits = {
   ],
   "pt_BR": [
     {
-      "name": "Gustavo Mauricio de Barros",
-      "link": ""
+      "name": "gumbarros",
+      "link": "https://github.com/gumbarros"
     },
     {
-      "name": "Wanderlei Hüttel",
-      "link": ""
+      "name": "maisondasilva",
+      "link": "https://github.com/maisondasilva"
+    },
+    {
+      "name": "wanderleihuttel",
+      "link": "https://github.com/wanderleihuttel"
     }
   ],
   "pt_PT": [
