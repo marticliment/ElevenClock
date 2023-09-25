@@ -8,6 +8,7 @@ untranslatedPercentage = {
   "el": "17%",
   "es": "97%",
   "et": "83%",
+  "eu": "34%",
   "fa": "5%",
   "fi": "95%",
   "he": "83%",
@@ -102,6 +103,12 @@ languageCredits = {
     }
   ],
   "et": [],
+  "eu": [
+    {
+      "name": "Alexandre",
+      "link": ""
+    }
+  ],
   "fa": [],
   "fi": [
     {
