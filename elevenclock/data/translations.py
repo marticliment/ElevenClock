@@ -8,7 +8,7 @@ untranslatedPercentage = {
   "el": "17%",
   "es": "97%",
   "et": "83%",
-  "eu": "81%",
+  "eu": "84%",
   "fa": "5%",
   "fi": "95%",
   "he": "83%",
@@ -353,8 +353,8 @@ languageCredits = {
       "link": "https://github.com/hlgsdx"
     },
     {
-      "name": "Jason.Y",
-      "link": ""
+      "name": "Jason-Ying",
+      "link": "https://github.com/Jason-Ying"
     },
     {
       "name": "jmlcoliveira",
