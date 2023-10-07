@@ -353,12 +353,12 @@ languageCredits = {
       "link": "https://github.com/hlgsdx"
     },
     {
-      "name": "Jason-Ying",
-      "link": "https://github.com/Jason-Ying"
-    },
-    {
       "name": "jmlcoliveira",
       "link": "https://github.com/jmlcoliveira"
+    },
+    {
+      "name": "strombooli",
+      "link": "https://github.com/strombooli"
     }
   ],
   "zh_TW": [
