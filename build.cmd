@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set "py=%cd%\env\Scripts\python.exe"
+set "py=%cd%\venv\Scripts\python.exe"
 
 IF EXIST %py% (
     echo Using VENV Python
@@ -40,7 +40,7 @@ if %errorlevel% neq 0 (
     exit /b %errorlevel%
 )
 
-@echo on
+@echo off
 
 %py% scripts/apply_versions.py
 
