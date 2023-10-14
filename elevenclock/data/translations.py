@@ -5,10 +5,10 @@ untranslatedPercentage = {
   "bg": "16%",
   "bs": "5%",
   "cs": "98%",
-  "da": "99%",
   "el": "17%",
   "es": "97%",
   "et": "83%",
+  "eu": "84%",
   "fa": "5%",
   "fi": "95%",
   "he": "83%",
@@ -21,14 +21,12 @@ untranslatedPercentage = {
   "lv": "55%",
   "nl": "83%",
   "pl": "97%",
-  "pt_BR": "97%",
   "ro": "83%",
   "ru": "98%",
   "sk": "28%",
   "sr": "19%",
   "sv": "69%",
   "th": "73%",
-  "tr": "97%",
   "ua": "90%",
   "vi": "91%"
 }
@@ -45,8 +43,8 @@ languageCredits = {
   ],
   "cs": [
     {
-      "name": "Adamů",
-      "link": ""
+      "name": "MatousAdamu",
+      "link": "https://github.com/MatousAdamu"
     },
     {
       "name": "panther7",
@@ -104,6 +102,12 @@ languageCredits = {
     }
   ],
   "et": [],
+  "eu": [
+    {
+      "name": "Alexandre",
+      "link": ""
+    }
+  ],
   "fa": [],
   "fi": [
     {
@@ -237,12 +241,16 @@ languageCredits = {
   ],
   "pt_BR": [
     {
-      "name": "Gustavo Mauricio de Barros",
-      "link": ""
+      "name": "gumbarros",
+      "link": "https://github.com/gumbarros"
     },
     {
-      "name": "Wanderlei Hüttel",
-      "link": ""
+      "name": "maisondasilva",
+      "link": "https://github.com/maisondasilva"
+    },
+    {
+      "name": "wanderleihuttel",
+      "link": "https://github.com/wanderleihuttel"
     }
   ],
   "pt_PT": [
@@ -344,12 +352,12 @@ languageCredits = {
       "link": "https://github.com/hlgsdx"
     },
     {
-      "name": "Jason.Y",
-      "link": ""
-    },
-    {
       "name": "jmlcoliveira",
       "link": "https://github.com/jmlcoliveira"
+    },
+    {
+      "name": "strombooli",
+      "link": "https://github.com/strombooli"
     }
   ],
   "zh_TW": [
