@@ -98,16 +98,13 @@ try:
             try:
                 if(not(getSettings("DisableAutoCheckForUpdates")) or force):
                     print("🔵 Starting update check")
-                    integrityPass = False
+                    integrityPass = True
                     dmname = socket.gethostbyname_ex("versions.marticliment.com")[0]
-                    if(dmname == "769432b9-3560-4f94-8f90-01c95844d994.id.repl.co" or getSettings("BypassDomainAuthCheck")): # Check provider IP to prevent exploits
-                        integrityPass = True
                     try:
-                        response = urlopen("https://versions.marticliment.com/versions/elevenclock.ver" if not getSettings("AlternativeUpdateServerProvider") else "http://www.marticliment.com/versions/elevenclock.ver")
+                        response = urlopen("https://www.marticliment.com/versions/elevenclock.ver")
                     except Exception as e:
                         report(e)
-                        response = urlopen("http://www.marticliment.com/versions/elevenclock.ver")
-                        integrityPass = True
+                        response = urlopen("https://versions.marticliment.com/versions/elevenclock.ver")
                     print("🔵 Version URL:", response.url)
                     response = response.read().decode("utf8")
                     new_version_number = response.split("///")[0]
@@ -122,48 +119,37 @@ try:
                                     clock.callInMainSignal.emit(clock.progressbar.show)
                             except Exception as e:
                                 report(e)
-                            if(integrityPass):
-                                url = "https://github.com/marticliment/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
-                                filedata = urlopen(url)
-                                datatowrite = filedata.read()
-                                filename = ""
-                                with open(os.path.join(tempDir, "elevenclock-updater.exe"), 'wb') as f:
-                                    f.write(datatowrite)
-                                    filename = f.name
-                                if(hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash):
-                                    print("🔵 Hash: ", provided_hash)
-                                    print("🟢 Hash ok, starting update")
-                                    if(getSettings("EnableSilentUpdates") and not(force)):
+
+                            url = "https://github.com/marticliment/ElevenClock/releases/latest/download/ElevenClock.Installer.exe"
+                            filedata = urlopen(url)
+                            datatowrite = filedata.read()
+                            filename = ""
+                            with open(os.path.join(tempDir, "elevenclock-updater.exe"), 'wb') as f:
+                                f.write(datatowrite)
+                                filename = f.name
+                            if(hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash):
+                                print("🔵 Hash: ", provided_hash)
+                                print("🟢 Hash ok, starting update")
+                                if(getSettings("EnableSilentUpdates") and not(force)):
+                                    mousePos = getMousePos()
+                                    time.sleep(5)
+                                    while mousePos != getMousePos():
+                                        print("🟡 User is using the mouse, waiting")
                                         mousePos = getMousePos()
                                         time.sleep(5)
-                                        while mousePos != getMousePos():
-                                            print("🟡 User is using the mouse, waiting")
-                                            mousePos = getMousePos()
-                                            time.sleep(5)
-                                        subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
-                                    else:
-                                        subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
+                                    subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                                 else:
-                                    try:
-                                        for clock in globals.clocks:
-                                            clock.progressbar.hide()
-                                    except Exception as e:
-                                        report(e)
-                                    print("🟠 Hash not ok")
-                                    print("🟠 File hash: ", hashlib.sha256(datatowrite).hexdigest())
-                                    print("🟠 Provided hash: ", provided_hash)
-                                    showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
-
+                                    subprocess.run('start /B "" "{0}" /verysilent'.format(filename), shell=True)
                             else:
                                 try:
                                     for clock in globals.clocks:
                                         clock.progressbar.hide()
                                 except Exception as e:
                                     report(e)
-                                print("🟠 Can't verify update server authenticity, aborting")
-                                print("🟠 Provided DmName:", dmname)
-                                print("🟠 Expected DmNane: 769432b9-3560-4f94-8f90-01c95844d994.id.repl.co")
-                                showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the updates server. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
+                                print("🟠 Hash not ok")
+                                print("🟠 File hash: ", hashlib.sha256(datatowrite).hexdigest())
+                                print("🟠 Provided hash: ", provided_hash)
+                                showWarn.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available, but ElevenClock can't verify the authenticity of the package. Please go ElevenClock's homepage and download the latest version from there.\n\nDo you want to open the download page?")
                         else:
                             showNotif.infoSignal.emit(("Updates found!"), f"ElevenClock Version {new_version_number} is available. Go to ElevenClock's Settings to update")
 
