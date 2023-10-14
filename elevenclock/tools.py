@@ -34,6 +34,9 @@ import win32api
 import win32con
 import re
 
+isMoment4 = False
+
+
 specificSettings = {}
 missingTranslationList = []
 lastMenuTheme = -1
@@ -43,6 +46,8 @@ try:
 except Exception as e:
     print(e)
     winver = 22000
+
+
 
 def ptToPx(value: float, screen: QScreen) -> float:
     return value/72*screen.logicalDotsPerInch()
@@ -131,6 +136,11 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
         except Exception as e:
             report(e)
             return default
+
+
+if winver >= 22621:
+    if readRegedit(r"\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "UBR", 0, winreg.HKEY_LOCAL_MACHINE) >= 2361:
+        isMoment4 = True
 
 def evaluate_simple_expression(expression: str):  # supported expressions are of form x +/- y
         tokens = re.split(r'(\+|\-)', expression)

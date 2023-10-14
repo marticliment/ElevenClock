@@ -127,7 +127,7 @@ class SettingsWindow(QMainWindow):
                 langDictWithPercentage[key] = value
                 langListWithPercentage.append(value)
         try:
-            self.selectedLanguage.setItems(langListWithPercentage, langListWithPercentage.index(langDictWithPercentage[langName]))
+            self.selectedLanguage.setItems(langListWithPercentage, langListWithPercentage.index(langDictWithPercentage[tools.langName]))
         except Exception as e:
             report(e)
             self.selectedLanguage.setItems(langListWithPercentage, 0)
