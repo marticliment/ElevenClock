@@ -1617,7 +1617,7 @@ try:
                                 
                 if self.lastNumOfNotifs != numOfNotifs:
                     self.lastNumOfNotifs = numOfNotifs
-                    if isMoment4:
+                    if not isMoment4:
                         self.notifDotLabel.setText(str(numOfNotifs))
                         self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
                         styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor if not self.window().getSettings("UseCustomFontColor") else f"rgb({self.window().getSettingsValue('UseCustomFontColor')})")
@@ -1658,7 +1658,7 @@ try:
                 if not self.notifdot:
                     self.notifdot = True
                     if not self.isCover:
-                        if isMoment4:
+                        if not isMoment4:
                             self.setContentsMargins(5, 0, (43), 4)
                             topBottomPadding = (self.height()-16)/2 # top-bottom margin
                             leftRightPadding = (30-16)/2 # left-right margin
@@ -1728,27 +1728,30 @@ try:
                 return self.fontMetrics().boundingRect(text).width()*mult
 
             def eventFilter(self, obj, event):
-                if obj == self:
-                    match event.type():
-                        case QEvent.MouseButtonPress:
-                            self.isMouseButtonReleased = False
-                            self.isMouseButtonLeftClick = False
-                            self.isMouseButtonDouble = False
-                            if not self.mouseButtonTimer.isActive():
-                                self.mouseButtonTimer.start()
-                            if event.button() == Qt.LeftButton:
-                                self.isMouseButtonLeftClick = True
-                        case QEvent.MouseButtonRelease:
-                            if not self.isMouseButtonDouble and not self.mouseButtonTimer.isActive():
-                                if event.button() == Qt.MiddleButton:
-                                    self.middleClicked.emit()
-                                else:
+                try:
+                    if obj == self:
+                        match event.type():
+                            case QEvent.MouseButtonPress:
+                                self.isMouseButtonReleased = False
+                                self.isMouseButtonLeftClick = False
+                                self.isMouseButtonDouble = False
+                                if not self.mouseButtonTimer.isActive():
                                     self.mouseButtonTimer.start()
-                            self.isMouseButtonReleased = True
-                        case QEvent.MouseButtonDblClick:
-                            self.isMouseButtonDouble = True
-                            return True
-                return False
+                                if event.button() == Qt.LeftButton:
+                                    self.isMouseButtonLeftClick = True
+                            case QEvent.MouseButtonRelease:
+                                if not self.isMouseButtonDouble and not self.mouseButtonTimer.isActive():
+                                    if event.button() == Qt.MiddleButton:
+                                        self.middleClicked.emit()
+                                    else:
+                                        self.mouseButtonTimer.start()
+                                self.isMouseButtonReleased = True
+                            case QEvent.MouseButtonDblClick:
+                                self.isMouseButtonDouble = True
+                                return True
+                    return False
+                except RecursionError:
+                    return super().eventFilter(obj, event)
 
             def mouseButtonTimeout(self):
                 if self.isMouseButtonDouble:
