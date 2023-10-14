@@ -1215,7 +1215,7 @@ try:
                                 if isFocusAssist:
                                     self.callInMainSignal.emit(self.label.enableFocusAssistant)
                                 else:
-                                    if sys.getwindowsversion().build >= 22631 and not self.getSettings("DisableNewZeroNotificationCounter"):
+                                    if isMoment4 and not self.getSettings("DisableNewZeroNotificationCounter"):
                                         self.callInMainSignal.emit(self.label.enableGreyNotifDot)
                                     else:
                                         self.callInMainSignal.emit(self.label.disableClockIndicators)
@@ -1617,7 +1617,7 @@ try:
                                 
                 if self.lastNumOfNotifs != numOfNotifs:
                     self.lastNumOfNotifs = numOfNotifs
-                    if winver < 22631:
+                    if isMoment4:
                         self.notifDotLabel.setText(str(numOfNotifs))
                         self.notifDotLabel.setObjectName("greyNotifIndicator"  if numOfNotifs == 0 else "notifIndicator")
                         styleSheetString = self.window().makeLabelStyleSheet(0, 3, 9, 5, self.window().LastCapturedForegroundColor if not self.window().getSettings("UseCustomFontColor") else f"rgb({self.window().getSettingsValue('UseCustomFontColor')})")
@@ -1658,7 +1658,7 @@ try:
                 if not self.notifdot:
                     self.notifdot = True
                     if not self.isCover:
-                        if winver < 22631:
+                        if isMoment4:
                             self.setContentsMargins(5, 0, (43), 4)
                             topBottomPadding = (self.height()-16)/2 # top-bottom margin
                             leftRightPadding = (30-16)/2 # left-right margin
