@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "ElevenClock"
-#define MyAppVersion "4.3.0"
+#define MyAppVersion "4.3.1"
 #define MyAppPublisher "Martí Climent"
 #define MyAppURL "https://marticliment.com/elevenclock"
 #define MyAppExeName "ElevenClock.exe"
@@ -19,7 +19,7 @@ AppPublisher="Martí Climent"
 AppPublisherURL="https://marticliment.com/"
 AppSupportURL="https://marticliment.com/#contact"
 AppUpdatesURL="https://github.com/marticliment/ElevenClock/releases"
-VersionInfoVersion=4.3.0.0
+VersionInfoVersion=4.3.1.0
 DefaultDirName={autopf}\ElevenClock
 DisableDirPage=yes
 ChangesAssociations=yes
