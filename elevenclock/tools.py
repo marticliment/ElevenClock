@@ -138,9 +138,12 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             return default
 
 
-if winver >= 22621:
+if winver == 22621:
     if readRegedit(r"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "UBR", 0, winreg.HKEY_LOCAL_MACHINE) >= 2361:
         isMoment4 = True
+elif winver > 22621:
+    isMoment4 = True
+
 
 def evaluate_simple_expression(expression: str):  # supported expressions are of form x +/- y
         tokens = re.split(r'(\+|\-)', expression)
