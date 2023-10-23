@@ -35,9 +35,7 @@ try:
         from PySide6.QtGui import *
         from PySide6.QtCore import *
         from PySide6.QtWidgets import *
-        import pyautogui
         import keyboard
-        pyautogui.FAILSAFE = False # Prevent pyautogui from blocking the bottom-right corner click.
         from external.FramelessWindow import QFramelessDialog
         from external.timezones import win_tz
 

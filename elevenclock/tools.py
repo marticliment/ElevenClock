@@ -17,7 +17,6 @@ import platform
 import win32gui
 
 from external.blurwindow import GlobalBlur, ExtendFrameIntoClientArea
-import pyautogui
 
 import globals
 from lang.languages import *
@@ -284,7 +283,7 @@ class KillableThread(Thread):
 
 def getMousePos() -> QPoint:
     try:
-        p = QPoint(pyautogui.position()[0], pyautogui.position()[1])
+        p = QCursor.pos()
         if p.x() == None:
             p.setX(0)
         if p.y() == None:
