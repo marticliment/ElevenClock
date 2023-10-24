@@ -1158,6 +1158,8 @@ try:
                 
                 print(f"🔵 Show/hide loop started with parameters: HideonFS:{ENABLE_HIDE_ON_FULLSCREEN}, NotHideOnTB:{DISABLE_HIDE_WITH_TASKBAR}, DisableNotifications:{SHOW_NOTIFICATIONS}")
                 
+                ClockShownByTaskbarShow: bool = False
+                
                 while True:
                     self.AWindowIsInFullScreen = self.TheresAWindowInFullscreen()
                     HideClock = False
@@ -1170,21 +1172,27 @@ try:
                         HideClock = self.AWindowIsInFullScreen
                         
                     if not HideClock and not DISABLE_HIDE_WITH_TASKBAR and self.TASKBAR_DOES_AUTOHIDE:
+                            
                         mousePos = getMousePos()
-                        if (mousePos.y() + 1 == self.screenGeometry.y() + self.screenGeometry.height()) and self.screenGeometry.x() < mousePos.x() and self.screenGeometry.x()+self.screenGeometry.width() > mousePos.x():
+                        if (mousePos.y() + 1 == self.screenGeometry.y() + self.screenGeometry.height()) and mousePos.x() > self.screenGeometry.x() and mousePos.x() < (self.screenGeometry.x() + self.screenGeometry.width()):
                             if self.isHidden():
-                                time.sleep(0.22)
+                                time.sleep(0.28)
                             HideClock = False
-                        elif (mousePos.y() <= self.screenGeometry.y()+self.screenGeometry.height()-self.preferedHeight):
-                            if globals.trayIcon != None:
+                            ClockShownByTaskbarShow = True
+                        elif mousePos.y() <= (self.screenGeometry.y() + self.screenGeometry.height() - self.preferedHeight - 10) and ClockShownByTaskbarShow:
+                            if globals.trayIcon is not None:
                                 menu = globals.trayIcon.contextMenu()
-                                if menu.isVisible():
-                                    HideClock = False
-                                else:
-                                    HideClock = True
+                                HideClock = not menu.isVisible()
+                                ClockShownByTaskbarShow = menu.isVisible()
                             else:
                                 HideClock = True
-                        
+                                ClockShownByTaskbarShow = False
+                        else:
+                            if not ClockShownByTaskbarShow:
+                                HideClock = True
+                            else:
+                                HideClock = False
+
                     if HideClock:
                         self.hideSignal.emit()
                         BackgroundUpdatesCounter = 0
