@@ -856,49 +856,6 @@ def verifyHwndValidity(hwnd):
             globals.notTextInputHost.append(hwnd)
             print(f"🟢 Hwnd {hwnd} under title {win32gui.GetWindowText(hwnd)} was verified as a valid window (Process name is {str(pname).lower()})")
 
-"""
-def appendWindowList(hwnd, _):
-    if hwnd not in globals.cachedInputHosts:
-        text = win32gui.GetWindowText(hwnd)
-        if text not in globals.blacklistedFullscreenApps:
-            isVisible = win32gui.IsWindowVisible(hwnd)
-            if isVisible:
-                rect = win32gui.GetWindowRect(hwnd)
-                if rect[2]-rect[0] >= 32 and rect[3]-rect[1] >= 32:
-                    globals.newWindowList.append(hwnd)
-                    globals.windowTexts[hwnd] = text
-                    globals.windowRects[hwnd] = rect
-                    globals.windowVisible[hwnd] = isVisible
-
-
-def loadWindowsInfoThread():
-    while True:
-        LEGACY_FULLSCREEN_METHOD = getSettings("legacyFullScreenMethod")
-        globals.blockFullscreenCheck = True
-        globals.newWindowList = []
-        globals.windowTexts = {}
-        globals.windowRects = {}
-        globals.windowVisible = {}
-        globals.foregroundHwnd = win32gui.GetForegroundWindow()
-        if not LEGACY_FULLSCREEN_METHOD:
-            win32gui.EnumWindows(appendWindowList, 0)
-        else:
-            for i, previousFullscreenHwnd in globals.previousFullscreenHwnd.items():
-                if previousFullscreenHwnd != 0 and previousFullscreenHwnd not in globals.newWindowList:
-                    try:
-                        appendWindowList(previousFullscreenHwnd, _)
-                    except pywintypes.error:
-                        globals.previousFullscreenHwnd[i] = 0
-        if globals.foregroundHwnd not in globals.newWindowList:
-            try:
-                appendWindowList(globals.foregroundHwnd, _)
-            except pywintypes.error:
-                pass
-        
-        globals.windowList = globals.newWindowList.copy()
-        globals.blockFullscreenCheck = False
-        time.sleep(0.8 if getSettings("EnableLowCpuMode") else 0.2)
-"""
 
 def updateLangFile(file: str):
     global lang
