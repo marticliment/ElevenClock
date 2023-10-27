@@ -225,6 +225,10 @@ languageCredits = {
     {
       "name": "joosthoi1",
       "link": "https://github.com/joosthoi1"
+    },
+    {
+      "name": "jordyegnl",
+      "link": "https://github.com/jordyegnl"
     }
   ],
   "nn": [
