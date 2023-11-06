@@ -552,7 +552,8 @@ class SettingsWindow(QMainWindow):
         <ul>
         <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes on the following link:")} <a href="https://strftime.org" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
         <li>{_("To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>        
-        <li>{_("Use the nonation {%H+1} to specify offsets. Replace %H with the desired value and +1 for a positive or negative number (+n or -n, respectively, for a <i>n</i> offset), representing the offset.")}</li>
+        <li>{_("Use the notation {%H+1} to specify offsets. Replace %H with the desired value and +1 for a positive or negative number (+n or -n, respectively, for a <i>n</i> offset), representing the offset.")}</li>
+        <li>{_("Use the notation (%H {sec+1}) on the end of string to specify offset in seconds. For example, to add an hour and view in format HH:MM use (%H:%M {sec+3600}), and to decrease an hour use (%H:%M {sec-3600}).")}</li>
         <li>{_('You can use HTML tags to set bold, italics or change the color of a piece of text through the &#60;span style="color: red"&#62;&#60;/span&#62; tag')}</li>
         <li>{_("Click on Apply to apply and preview the format")}</li></ul>
         {_("If you don't understand what is happening, please uncheck the checkbox over the text area")}
@@ -3133,8 +3134,9 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.preview.setText(_("Nothing to preview"))
         else:
             try:
-                currtext = self.edit.toPlainText()
-                self.preview.setText(evaluate_expression_string(datetime.datetime.now().strftime(currtext.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")))
+                curFormatClock = self.edit.toPlainText()
+                newText = evaluate_expression_string(time.time(),curFormatClock.replace("\u200a", "hairsec")).replace("hairsec", "\u200a")
+                self.preview.setText(newText)
             except Exception as e:
                 self.preview.setText(_("Invalid time format\nPlease follow the\nC 1989 Standards"))
                 report(e)
