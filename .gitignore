@@ -29,6 +29,7 @@ ElevenClock.Installer.exe
 __init__.exe
 ElevenClock.Installer.exe.zip
 .vscode/launch.json
+.vs/*
 env/*
 scripts/APIKEY.txt
 sign.cmd.lnk
