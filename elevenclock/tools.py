@@ -2,6 +2,7 @@ from ctypes import c_int, windll
 from functools import partial
 import json
 import time
+import datetime
 windll.shcore.SetProcessDpiAwareness(c_int(2))
 
 from versions import *
@@ -156,19 +157,34 @@ def evaluate_simple_expression(expression: str):  # supported expressions are of
                 result += operand
             elif operator == "-":
                 result -= operand
-
         return result
 
-def evaluate_expression_string(s: str):
+def evaluate_expression_string(d, s: str, offset=0):
+    def evaluate_match_time(match):
+        expression=extract_sec_from_format(match.group(1))
+        return str(datetime.datetime.fromtimestamp(d+int(expression[1])).strftime(expression[0]))
     def evaluate_match(match):
         expression = match.group(1)
-        if re.fullmatch(r'\d+(\s*[\+\-]\s*\d+)*', expression): # a valid expression is of form x +/- y
+        if re.fullmatch(r'\d+(\s*[\+\-]\s*\d+)*', expression):  # a valid expression is of form x +/- y
             return str(evaluate_simple_expression(expression))
         else:
             return match.group(0)  # Return the original text if not a valid expression
 
-    return re.sub(r'\{([^}]*)\}', evaluate_match, s) # search for expressions of form  {****} and replace using evaluate_match
+    time_formated = re.sub(r'\(([^)]*\{sec([+-]\d*)\})\)', evaluate_match_time, s)  # a valid expression is of (*{sec+/-N})
+    time_formated = datetime.datetime.fromtimestamp(d-offset).strftime(time_formated)
+    time_formated = re.sub(r'\{([^}]*)\}', evaluate_match, time_formated)  # a valid expression is of {*}
+    return time_formated
 
+def extract_sec_from_format(expression: str):
+    extract_sec=re.findall(r'(.*)(\{sec([+-]\d*)\})$', expression) # a valid expression is of {sec+/-N} where N is any integer
+    result=[]
+    if extract_sec.__len__()>0 and extract_sec[0][1] != '':
+        result.append(extract_sec[0][0])
+        result.append(extract_sec[0][2])
+    else:
+        result.append(expression)
+        result.append(0)
+    return result
 
 def getColors() -> list:
     colors = ['215,226,228', '160,174,183', '101,116,134', '81,92,107', '69,78,94', '41,47,64', '15,18,36', '239,105,80']

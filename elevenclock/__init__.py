@@ -1265,7 +1265,8 @@ try:
                 
                 while True:
                     try:
-                        timeStr = evaluate_expression_string(datetime.datetime.fromtimestamp(time.time()-self.internetTimeOffset).strftime(self.clockFormat.replace("\u200a", "hairsec")).replace("hairsec", HAIRSEC_VAR))
+                        curFormatClock = self.clockFormat
+                        timeStr = evaluate_expression_string(time.time(),curFormatClock.replace("\u200a", "hairsec"),self.internetTimeOffset).replace("hairsec", HAIRSEC_VAR)
                         if SHOULD_FIX_SECONDS:
                             try:
                                 secs = datetime.datetime.fromtimestamp(time.time()-self.internetTimeOffset).strftime("%S")
