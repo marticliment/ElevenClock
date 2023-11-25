@@ -96,8 +96,6 @@ try:
             try:
                 if(not(getSettings("DisableAutoCheckForUpdates")) or force):
                     print("🔵 Starting update check")
-                    integrityPass = True
-                    dmname = socket.gethostbyname_ex("versions.marticliment.com")[0]
                     try:
                         response = urlopen("https://www.marticliment.com/versions/elevenclock.ver")
                     except Exception as e:
