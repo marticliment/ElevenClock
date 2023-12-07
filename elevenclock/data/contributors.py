@@ -14,7 +14,7 @@ contributors = [
   "xsm1997",
   "wanderleihuttel",
   "mmis1000",
-  "norway-yv",
+  "yrjarv",
   "jameshamm",
   "jmlcoliveira",
   "richeyphu",
@@ -33,7 +33,7 @@ contributorsInfo = [
   {
     "name": "marticliment",
     "link": "https://github.com/marticliment",
-    "contributions": 1747
+    "contributions": 1751
   },
   {
     "name": "panther7",
@@ -96,8 +96,8 @@ contributorsInfo = [
     "contributions": 8
   },
   {
-    "name": "norway-yv",
-    "link": "https://github.com/norway-yv",
+    "name": "yrjarv",
+    "link": "https://github.com/yrjarv",
     "contributions": 8
   },
   {

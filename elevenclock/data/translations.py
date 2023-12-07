@@ -25,8 +25,7 @@ untranslatedPercentage = {
   "sr": "19%",
   "sv": "69%",
   "th": "73%",
-  "ua": "90%",
-  "vi": "91%"
+  "ua": "90%"
 }
 
 languageCredits = {
@@ -212,7 +211,7 @@ languageCredits = {
   "nb": [
     {
       "name": "norway-yv",
-      "link": "https://github.com/norway-yv"
+      "link": ""
     }
   ],
   "nl": [
@@ -232,7 +231,7 @@ languageCredits = {
   "nn": [
     {
       "name": "norway-yv",
-      "link": "https://github.com/norway-yv"
+      "link": ""
     }
   ],
   "pl": [
@@ -323,6 +322,10 @@ languageCredits = {
     }
   ],
   "vi": [
+    {
+      "name": "legendsjoon",
+      "link": "https://github.com/legendsjoon"
+    },
     {
       "name": "Leoodz",
       "link": "https://github.com/Leoodz"
