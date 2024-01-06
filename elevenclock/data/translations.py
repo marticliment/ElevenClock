@@ -23,7 +23,6 @@ untranslatedPercentage = {
   "ro": "83%",
   "sk": "28%",
   "sr": "19%",
-  "sv": "69%",
   "th": "73%",
   "ua": "90%"
 }
@@ -210,8 +209,8 @@ languageCredits = {
   ],
   "nb": [
     {
-      "name": "norway-yv",
-      "link": ""
+      "name": "yrjarv",
+      "link": "https://github.com/yrjarv"
     }
   ],
   "nl": [
@@ -230,8 +229,8 @@ languageCredits = {
   ],
   "nn": [
     {
-      "name": "norway-yv",
-      "link": ""
+      "name": "yrjarv",
+      "link": "https://github.com/yrjarv"
     }
   ],
   "pl": [
@@ -296,11 +295,15 @@ languageCredits = {
   "sv": [
     {
       "name": "cjal95",
-      "link": "https://github.com/cjal95"
+      "link": ""
     },
     {
       "name": "Noffe",
       "link": ""
+    },
+    {
+      "name": "yrjarv",
+      "link": "https://github.com/yrjarv"
     }
   ],
   "th": [

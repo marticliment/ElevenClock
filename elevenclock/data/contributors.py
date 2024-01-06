@@ -17,23 +17,23 @@ contributors = [
   "yrjarv",
   "jameshamm",
   "jmlcoliveira",
-  "richeyphu",
   "viktak",
-  "MatousAdamu",
-  "SkebbZ",
-  "scrocquesel",
-  "domlobo",
-  "harel013",
-  "kinr0k",
+  "richeyphu",
+  "jstmrby",
   "ppvnf",
-  "jstmrby"
+  "kinr0k",
+  "harel013",
+  "domlobo",
+  "scrocquesel",
+  "SkebbZ",
+  "MatousAdamu"
 ]
 
 contributorsInfo = [
   {
     "name": "marticliment",
     "link": "https://github.com/marticliment",
-    "contributions": 1751
+    "contributions": 1753
   },
   {
     "name": "panther7",
@@ -111,43 +111,18 @@ contributorsInfo = [
     "contributions": 6
   },
   {
-    "name": "richeyphu",
-    "link": "https://github.com/richeyphu",
-    "contributions": 4
-  },
-  {
     "name": "viktak",
     "link": "https://github.com/viktak",
     "contributions": 4
   },
   {
-    "name": "MatousAdamu",
-    "link": "https://github.com/MatousAdamu",
-    "contributions": 3
+    "name": "richeyphu",
+    "link": "https://github.com/richeyphu",
+    "contributions": 4
   },
   {
-    "name": "SkebbZ",
-    "link": "https://github.com/SkebbZ",
-    "contributions": 3
-  },
-  {
-    "name": "scrocquesel",
-    "link": "https://github.com/scrocquesel",
-    "contributions": 3
-  },
-  {
-    "name": "domlobo",
-    "link": "https://github.com/domlobo",
-    "contributions": 3
-  },
-  {
-    "name": "harel013",
-    "link": "https://github.com/harel013",
-    "contributions": 3
-  },
-  {
-    "name": "kinr0k",
-    "link": "https://github.com/kinr0k",
+    "name": "jstmrby",
+    "link": "https://github.com/jstmrby",
     "contributions": 3
   },
   {
@@ -156,8 +131,33 @@ contributorsInfo = [
     "contributions": 3
   },
   {
-    "name": "jstmrby",
-    "link": "https://github.com/jstmrby",
+    "name": "kinr0k",
+    "link": "https://github.com/kinr0k",
+    "contributions": 3
+  },
+  {
+    "name": "harel013",
+    "link": "https://github.com/harel013",
+    "contributions": 3
+  },
+  {
+    "name": "domlobo",
+    "link": "https://github.com/domlobo",
+    "contributions": 3
+  },
+  {
+    "name": "scrocquesel",
+    "link": "https://github.com/scrocquesel",
+    "contributions": 3
+  },
+  {
+    "name": "SkebbZ",
+    "link": "https://github.com/SkebbZ",
+    "contributions": 3
+  },
+  {
+    "name": "MatousAdamu",
+    "link": "https://github.com/MatousAdamu",
     "contributions": 3
   }
 ]
