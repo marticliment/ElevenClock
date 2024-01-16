@@ -1,6 +1,6 @@
 {
-  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@Seeloewen, Bikholf, @XenoKeks, @tsloms",
-  "{0} {0} {0} temp" : "Auf Deutsch übersetzt von Seeloewen, Bikholf, XenoKeks und tsloms",
+  "{0} {0} {0} Contributors, please add your names/usernames separated by comas (for credit purposes)" : "@Seeloewen, Bikholf, @XenoKeks, @tsloms, @yrjarv",
+  "{0} {0} {0} temp" : "Auf Deutsch übersetzt von Seeloewen, Bikholf, XenoKeks, tsloms, und YrjarV",
   "10 hours" : "10 Stunden",
   "10 minutes" : "10 Minuten",
   "1 hour" : "1 Stunde",
@@ -12,7 +12,7 @@
   "About ElevenClock version {0}:" : "Über ElevenClock Version {0}:",
   "About Qt" : "Über Qt",
   "About the language pack:" : "Über das Sprachpaket:",
-  "Accent" : "Hervorhebung",
+  "Accent" : "Umlaut",
   "Add the \"Show Desktop\" button on the left corner of every clock" : "Hinzufügen der Schaltfläche \"Desktop anzeigen\" in der linken Ecke jeder Uhr",
   "Adjust horizontal clock position" : "Horizontale Position der Uhr anpassen",
   "Adjust vertical clock position" : "Vertikale Position der Uhr anpassen",

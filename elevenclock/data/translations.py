@@ -77,6 +77,10 @@ languageCredits = {
     {
       "name": "XenoKeks",
       "link": "https://github.com/XenoKeks"
+    },
+    {
+      "name": "yrjarv",
+      "link": "https://github.com/yrjarv"
     }
   ],
   "el": [
