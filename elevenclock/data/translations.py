@@ -187,12 +187,8 @@ languageCredits = {
   ],
   "ko": [
     {
-      "name": "sinusinu",
-      "link": "https://github.com/sinusinu"
-    },
-    {
-      "name": "VenusGirl",
-      "link": "https://github.com/VenusGirl"
+      "name": "한국어 번역: VᴇɴᴜꜱGɪʀʟ (비너스걸) 및 sinusinu",
+      "link": ""
     }
   ],
   "lt": [
