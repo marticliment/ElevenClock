@@ -12,9 +12,9 @@ contributors = [
   "noname-ctrl",
   "ShintakuNobuhiro",
   "xsm1997",
+  "yrjarv",
   "wanderleihuttel",
   "mmis1000",
-  "yrjarv",
   "jameshamm",
   "jmlcoliveira",
   "viktak",
@@ -33,7 +33,7 @@ contributorsInfo = [
   {
     "name": "marticliment",
     "link": "https://github.com/marticliment",
-    "contributions": 1754
+    "contributions": 1756
   },
   {
     "name": "panther7",
@@ -86,6 +86,11 @@ contributorsInfo = [
     "contributions": 9
   },
   {
+    "name": "yrjarv",
+    "link": "https://github.com/yrjarv",
+    "contributions": 9
+  },
+  {
     "name": "wanderleihuttel",
     "link": "https://github.com/wanderleihuttel",
     "contributions": 8
@@ -93,11 +98,6 @@ contributorsInfo = [
   {
     "name": "mmis1000",
     "link": "https://github.com/mmis1000",
-    "contributions": 8
-  },
-  {
-    "name": "yrjarv",
-    "link": "https://github.com/yrjarv",
     "contributions": 8
   },
   {
