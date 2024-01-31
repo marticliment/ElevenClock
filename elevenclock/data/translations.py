@@ -187,7 +187,11 @@ languageCredits = {
   ],
   "ko": [
     {
-      "name": "한국어 번역: VᴇɴᴜꜱGɪʀʟ (비너스걸) 및 sinusinu",
+      "name": "sinusinu",
+      "link": "https://github.com/sinusinu"
+    },
+    {
+      "name": "VᴇɴᴜꜱGɪʀʟ (비너스걸)",
       "link": ""
     }
   ],
