@@ -7,7 +7,7 @@ body:
   - type: checkboxes
     attributes:
       label: Please confirm these before moving forward
-      description: ![Static Badge](https://img.shields.io/badge/unmaintained-unmaintained_yellow?style=for-the-badge&label=Development%20status&color=yellow)
+      description:  ![badge](https://img.shields.io/badge/unmaintained-unmaintained_yellow?style=for-the-badge&label=Development%20status&color=yellow)
       options:
         - label: I have searched for my issue and not found a work-in-progress/duplicate/resolved issue.
           required: true
