@@ -14,7 +14,7 @@ untranslatedPercentage = {
   "hr": "79%",
   "hu": "90%",
   "id": "83%",
-  "it": "97%",
+  "it": "98%",
   "ja": "91%",
   "lt": "19%",
   "lv": "55%",
@@ -168,6 +168,10 @@ languageCredits = {
     {
       "name": "Parapongo",
       "link": "https://github.com/Parapongo"
+    },
+    {
+      "name": "tuniel-xda",
+      "link": ""
     },
     {
       "name": "zuidstroopwafel",
