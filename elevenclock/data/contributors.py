@@ -7,7 +7,6 @@ contributors = [
   "Lilobast",
   "BoyceLig",
   "sinusinu",
-  "Seeloewen",
   "VenusGirl",
   "noname-ctrl",
   "ShintakuNobuhiro",
@@ -26,14 +25,15 @@ contributors = [
   "domlobo",
   "scrocquesel",
   "SkebbZ",
-  "MatousAdamu"
+  "MatousAdamu",
+  "sitiom"
 ]
 
 contributorsInfo = [
   {
     "name": "marticliment",
     "link": "https://github.com/marticliment",
-    "contributions": 1759
+    "contributions": 1768
   },
   {
     "name": "panther7",
@@ -59,11 +59,6 @@ contributorsInfo = [
     "name": "sinusinu",
     "link": "https://github.com/sinusinu",
     "contributions": 15
-  },
-  {
-    "name": "Seeloewen",
-    "link": "https://github.com/Seeloewen",
-    "contributions": 13
   },
   {
     "name": "VenusGirl",
@@ -159,5 +154,10 @@ contributorsInfo = [
     "name": "MatousAdamu",
     "link": "https://github.com/MatousAdamu",
     "contributions": 3
+  },
+  {
+    "name": "sitiom",
+    "link": "https://github.com/sitiom",
+    "contributions": 2
   }
 ]
