@@ -14,7 +14,6 @@ untranslatedPercentage = {
   "hr": "79%",
   "hu": "90%",
   "id": "83%",
-  "it": "98%",
   "ja": "91%",
   "lt": "19%",
   "lv": "55%",
@@ -171,7 +170,7 @@ languageCredits = {
     },
     {
       "name": "tuniel-xda",
-      "link": ""
+      "link": "https://github.com/tuniel-xda"
     },
     {
       "name": "zuidstroopwafel",
