@@ -2,7 +2,7 @@
 
 untranslatedPercentage = {
   "ar": "69%",
-  "bg": "16%",
+  "bg": "43%",
   "bs": "5%",
   "cs": "98%",
   "el": "17%",
@@ -27,7 +27,16 @@ untranslatedPercentage = {
 
 languageCredits = {
   "ar": [],
-  "bg": [],
+  "bg": [
+    {
+      "name": "Hristo Vasilev",
+      "link": ""
+    },
+    {
+      "name": "iconata",
+      "link": "https://github.com/iconata"
+    }
+  ],
   "bs": [],
   "ca": [
     {
