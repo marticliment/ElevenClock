@@ -1,5 +1,5 @@
 name: '🐞 Report an issue or a bug'
-description: Report issues or unexpected behaviours
+description: Report issues or unexpected behaviours.
 title: "[BUG] (Enter your description here)"
 labels: ["bug", "triage"]
 assignees: marticliment
@@ -7,33 +7,33 @@ body:
   - type: checkboxes
     attributes:
       label: Please confirm these before moving forward
-      description:  ![badge](https://img.shields.io/badge/unmaintained-unmaintained_yellow?style=for-the-badge&label=Development%20status&color=yellow)
+      description:  ![badge](https://img.shields.io/badge/unmaintained-unmaintained_yellow?style=for-the-badge&label=Development%20status&color=yellow).
       options:
         - label: I have searched for my issue and not found a work-in-progress/duplicate/resolved issue.
           required: true
         - label: I have tested that this issue has not been fixed in the latest [(beta or stable) release](https://github.com/marticliment/ElevenClock/releases/).
           required: true
-        - label: I have checked the [FAQ](https://github.com/marticliment/ElevenClock#frequently-asked-questions) section for solutions
+        - label: I have checked the [FAQ](https://github.com/marticliment/ElevenClock#frequently-asked-questions) section for solutions.
           required: true
-        - label: This issue is about a bug (if it is not, please use the [correct template](https://github.com/marticliment/ElevenClock/issues/new/choose))
+        - label: This issue is about a bug (if it is not, please use the [correct template](https://github.com/marticliment/ElevenClock/issues/new/choose)).
           required: true
   - type: textarea
     attributes:
       label: Describe your issue
-      placeholder: Explain the issue you are experiencing, providing as much details as possible about it
+      placeholder: Explain the issue you are experiencing, providing as much details as possible about it.
     validations:
       required: true
   - type: textarea
     attributes:
       label: Steps to reproduce the issue
-      placeholder: How can this issue be reproduced? List here, if known, the steps followed before this issue appeared
+      placeholder: How can this issue be reproduced? List here, if known, the steps followed before this issue appeared.
     validations:
       required: false
   - type: textarea
     attributes:
       label: ElevenClock Log
       render: "text"
-      placeholder: Paste here your ElevenClock log. Right-click a clock -> ElevenClock Settinfgs -> Debbuging information -> Show log
+      placeholder: Paste here your ElevenClock log. Right-click a clock -> ElevenClock Settinfgs -> Debbuging information -> Show log.
     validations:
       required: true
   - type: textarea
