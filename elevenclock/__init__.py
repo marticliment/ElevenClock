@@ -483,7 +483,7 @@ try:
                 self.isCustomClock = getSettings(f"Individualize{self.clockId}")
                 if self.isCustomClock:
                     self.settingsEnvironment = self.clockId
-                if isCover:
+                if self.IS_COVER:
                     self.SHOULD_ADD_SECONDARY_CLOCK = False
                 else:
                     self.SHOULD_ADD_SECONDARY_CLOCK = getSettings("EnableSecondClock")
@@ -495,7 +495,7 @@ try:
                     if self in globals.clocks:
                         globals.clocks.remove(self)
                     
-                elif isCover and getSettings("DisableSystemClockCover"):
+                elif self.IS_COVER and getSettings("DisableSystemClockCover"):
                     self.hide()
                     self.close()
                     if self in globals.clocks:
@@ -532,16 +532,11 @@ try:
 
                     self.prefMargins = 1
                     self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: 0px; border-radius: 5px;padding: 2px;"
-                    try:
-                        IS_SMALL_TB = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0
-                        if IS_SMALL_TB:
-                            print("🟡 Small sized taskbar")
-                            self.preferedHeight = 32
-                            self.coverPreferedHeight = 32
-                            self.preferedwidth = 200
-                            self.coverPreferedWidth = 200
-                    except Exception as e:
-                        print(e)
+
+                    if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0:
+                        print("🟡 Small sized taskbar")
+                        self.preferedHeight = 32
+                        self.coverPreferedHeight = 32
 
                     self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
@@ -644,7 +639,7 @@ try:
                         coverX = w
 
                     xoff = 0
-                    yoff = 0 if self.CLOCK_ON_TOP else 1
+                    yoff = 0 if (self.CLOCK_ON_TOP and not self.IS_COVER) else 1
 
                     if self.getSettingsValue("ClockXOffset") != "":
                         print("🟡 X offset being used!")
@@ -718,7 +713,7 @@ try:
                         self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
                     elif self.CLOCK_ON_THE_LEFT:
                         self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-                    else:
+                    else: # Clock text aligned to the right
                         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                         
                     # Load clock click actions
@@ -1020,7 +1015,7 @@ try:
                     {{
                         padding: {padding}px;
                         color: {color};
-                        background-color: transparent;
+                        {"" if self.IS_COVER else "background-color: transparent;"}
                     }}
                     #notifIndicator{{
                         background-color: rgb({accColors[bg]});
@@ -1410,18 +1405,22 @@ try:
                     return False
 
             def resizeEvent(self, event: QResizeEvent = None):
-                try:
-                    self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
-                    self.progressbar.setFixedWidth(self.label.width())
-                    
-                    if self.CLOCK_ON_THE_LEFT:
-                        self.colorWidget.move(self.label.x() - self.label.EXTRA_BG_WIDTH, 0)
-                    else:
-                        self.colorWidget.move(self.label.x(), 0)
-                    self.colorWidget.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.height())
-                    self.backgroundTexture.setGeometry(self.colorWidget.geometry())
-                except Exception as e:
-                    report(e)
+                
+                self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
+                self.progressbar.setFixedWidth(self.label.width())
+                
+                if self.CLOCK_ON_THE_LEFT:
+                    self.colorWidget.move(self.label.x() - self.label.EXTRA_BG_WIDTH, 0)
+                else:
+                    self.colorWidget.move(self.label.x(), 0)
+                self.colorWidget.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.height())
+                
+                if(self.IS_COVER):
+                    print(":", self.label.geometry())
+                    print(" ", self.colorWidget.geometry())
+                
+                self.backgroundTexture.setGeometry(self.colorWidget.geometry())
+            
                 if event:
                     return super().resizeEvent(event)
 
@@ -1532,8 +1531,8 @@ try:
                     del self
                     
             def resizeEvent(self, event: QResizeEvent) -> None:
-                X = max((self.width() - 40)/2, 0)
-                Y = max((self.height() - 40)/2, 0)
+                X = max((self.width() - 42)/2, 0)
+                Y = max((self.height() - 42)/2, 0)
                 self.backgroundwidget.setGeometry(X, Y, self.width() + X*2, self.height() - Y*2)
                 return super().resizeEvent(event)
 
@@ -1564,7 +1563,7 @@ try:
                 self.EXTRA_BG_WIDTH = 0
                 self.settingsEnvironment = settingsEnvironment
                 super().__init__(text, parent=parent)
-                self.isCover = isCover
+                self.IS_COVER = isCover
                 try:
                     self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth", env=self.settingsEnvironment))
                 except ValueError:
@@ -1617,13 +1616,15 @@ try:
                 self.focusAssistantLabel.setAttribute(Qt.WA_TransparentForMouseEvents)
                 self.focusAssistantLabel.setStyleSheet("background: transparent; margin: none; padding: none;")
                 self.focusAssistantLabel.resize(30, self.height())
-                if winver < 22581:
-                    self.focusAssistantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
-                else:
-                    if numOfNotifs == 0:
-                        self.focusAssistantLabel.setIcon(QIcon(getPath(f"notif_assist_empty_{getTaskbarIconMode()}.png")))
+                
+                if not self.IS_COVER:
+                    if winver < 22581:
+                        self.focusAssistantLabel.setIcon(QIcon(getPath(f"moon_{getTaskbarIconMode()}.png")))
                     else:
-                        self.focusAssistantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
+                        if numOfNotifs == 0:
+                            self.focusAssistantLabel.setIcon(QIcon(getPath(f"notif_assist_empty_{getTaskbarIconMode()}.png")))
+                        else:
+                            self.focusAssistantLabel.setIcon(QIcon(getPath(f"notif_assist_filled_{getTaskbarIconMode()}.png")))
                 self.focusAssistantLabel.setIconSize(QSize(16, 16))
 
                 self.notifdot = True
@@ -1658,7 +1659,7 @@ try:
                 if self.notifdot:
                     self.disableClockIndicators()
                         
-                if self.lastFocusAssistIcon != self.focusAssistantLabel.icon():
+                if not self.IS_COVER and self.lastFocusAssistIcon != self.focusAssistantLabel.icon():
                     if getSettings("DisableAutomaticTextColor", env=self.settingsEnvironment):
                         if winver < 22581:
                             self.focusAssistantLabel.setIcon(self.focusMoonIconWhite if isTaskbarDark() else self.focusMoonIconBlack)
@@ -1688,8 +1689,7 @@ try:
                     self.focusAssistantLabel.setFixedWidth(30)
                     self.focusAssistantLabel.setFixedHeight(self.height())
                     self.focusAssistantLabel.setIconSize(QSize(16, 16))
-                    if not self.isCover:
-                        self.focusAssistantLabel.show()
+                    self.focusAssistantLabel.show()
 
             def enableNotifDot(self):
                 WINDOW = self.window()
@@ -1697,7 +1697,7 @@ try:
                 if self.focusassitant:
                     self.disableClockIndicators()
                                 
-                if self.lastNumOfNotifs != numOfNotifs:
+                if not self.IS_COVER and self.lastNumOfNotifs != numOfNotifs:
                     self.lastNumOfNotifs = numOfNotifs
                     if not isMoment4:
                         self.notifDotLabel.setText(str(numOfNotifs))
@@ -1740,21 +1740,20 @@ try:
 
                 if not self.notifdot:
                     self.notifdot = True
-                    if not self.isCover:
-                        self.setContentsMargins(6, 0, 30, 4)
-                        if not isMoment4:
-                            topBottomPadding = (self.height()-16)/2 # top-bottom margin
-                            leftRightPadding = (30-16)/2 # left-right margin
-                            self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
-                            self.notifDotLabel.resize(16, 16)
-                            self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")                      
-                            self.notifDotLabel.show()
-                        else:
-                            self.focusAssistantLabel.show()
-                            self.focusAssistantLabel.move(self.width()-self.contentsMargins().right(), -1)
-                            self.focusAssistantLabel.setFixedWidth(30)
-                            self.focusAssistantLabel.setFixedHeight(self.height())
-                            self.focusAssistantLabel.setIconSize(QSize(16, 16))
+                    self.setContentsMargins(6, 0, 30, 4)
+                    if not isMoment4:
+                        topBottomPadding = (self.height()-16)/2 # top-bottom margin
+                        leftRightPadding = (30-16)/2 # left-right margin
+                        self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
+                        self.notifDotLabel.resize(16, 16)
+                        self.notifDotLabel.setStyleSheet(f"font-size: 8pt;font-family: \"Segoe UI Variable Display\";border-radius: 8px;padding: 0;padding-bottom: 2px;padding-left: 3px;padding-right: 2px;margin: 0;border:0;")                      
+                        self.notifDotLabel.show()
+                    else:
+                        self.focusAssistantLabel.show()
+                        self.focusAssistantLabel.move(self.width()-self.contentsMargins().right(), -1)
+                        self.focusAssistantLabel.setFixedWidth(30)
+                        self.focusAssistantLabel.setFixedHeight(self.height())
+                        self.focusAssistantLabel.setIconSize(QSize(16, 16))
 
 
             def enableGreyNotifDot(self):
@@ -1775,22 +1774,22 @@ try:
                 return round(i*self.screen().devicePixelRatio())
 
             def enterEvent(self, event: QEvent, r=False) -> None:
-                if not self.isCover:
+                if not self.IS_COVER:
                     self.showBackground.setStartValue(.01)
                     self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
                     self.showBackground.start()
                     if not r:
                         self.enterEvent(event, r=True)
                     self.window().updateToolTipStatus(True)
-                    return super().enterEvent(event)
+                return super().enterEvent(event)
 
             def leaveEvent(self, event: QEvent) -> None:
-                if not self.isCover: 
+                if not self.IS_COVER: 
                     self.hideBackground.setStartValue(self.bgopacity)
                     self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
                     self.hideBackground.start()
                     self.window().updateToolTipStatus(False)
-                    return super().leaveEvent(event)
+                return super().leaveEvent(event)
 
             def eventFilter(self, obj, event):
                 try:
@@ -1816,7 +1815,8 @@ try:
                                 return True
                     return False
                 except RecursionError:
-                    return super().eventFilter(obj, event)
+                    pass   
+                return super().eventFilter(obj, event)
 
             def mouseButtonTimeout(self):
                 if self.isMouseButtonDouble:
@@ -1832,18 +1832,18 @@ try:
                         i.showMenu(self.window())
 
             def mousePressEvent(self, ev: QMouseEvent) -> None:
-                if not self.isCover:
+                if not self.IS_COVER:
                     self.setWindowOpacity(0.7)
                     self.opacity.setOpacity(0.60)
                     self.backgroundwidget.setGraphicsEffect(self.opacity)
-                    return super().mousePressEvent(ev)
+                return super().mousePressEvent(ev)
 
             def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
-                if not self.isCover:
+                if not self.IS_COVER:
                     self.setWindowOpacity(1)
                     self.opacity.setOpacity(1)
                     self.backgroundwidget.setGraphicsEffect(self.opacity)
-                    return super().mouseReleaseEvent(ev)
+                return super().mouseReleaseEvent(ev)
 
             def paintEvent(self, event: QPaintEvent) -> None:
                 if self.specifiedMinimumWidth > 0:
@@ -1856,7 +1856,7 @@ try:
                 return super().paintEvent(event)
 
             def resizeEvent(self, event: QResizeEvent) -> None:
-                Y = max((self.height() - 40)/2, 0) if self.text().count("\n") < 2 else 0
+                Y = max((self.height() - 42)/2, 0) if self.text().count("\n") < 2 else 0
                 self.backgroundwidget.setGeometry(0, Y, self.width(), self.height() - Y*2)
 
                 if self.focusassitant:
