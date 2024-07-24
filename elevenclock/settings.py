@@ -550,7 +550,7 @@ class SettingsWindow(QMainWindow):
         layout.addWidget(self.dateTimeTitle)
         rulesText = f"""<b>{_("Custom format rules:")}</b>
         <ul>
-        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes on the following link:")} <a href="https://strftime.org" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
+        <li>{_("Any text can be placed here. To place items such as date and time, please use the 1989 C standard. Check the format codes on the following link:")} <a href="https://docs.python.org/3/library/datetime.html#format-codes" style="color:{f"rgb({getColors()[2 if isWindowDark() else 4]})"}">{_("Python date and time formats")}</a>
         <li>{_("To disable the zero-padding effect, add a # in between the % and the code: non-zero-padded hours would be %#H, and zero-padded hours would be %H")}</li>        
         <li>{_("Use the notation {%H+1} to specify offsets. Replace %H with the desired value and +1 for a positive or negative number (+n or -n, respectively, for a <i>n</i> offset), representing the offset.")}</li>
         <li>{_("Use the notation (%H {sec+1}) on the end of string to specify offset in seconds. For example, to add an hour and view in format HH:MM use (%H:%M {sec+3600}), and to decrease an hour use (%H:%M {sec-3600}).")}</li>
@@ -563,6 +563,8 @@ class SettingsWindow(QMainWindow):
         self.customDateTimeFormat.setLabelText(rulesText)
         self.customDateTimeFormat.stateChanged.connect(lambda i: (self.setSettings("CustomClockStringsDisabled", not bool(i)), self.dateTimeTitle.resizeEvent()))
         self.customDateTimeFormat.valueChanged.connect(lambda v: self.setSettingsValue("CustomClockStrings", v))
+        self.customDateTimeFormat.setStyleSheet(f"QWidget#stChkBg{{border-top: 0px solid transparent;border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
+
         self.dateTimeTitle.addWidget(self.customDateTimeFormat)
         self.showTime = QSettingsCheckBox(_("Show time on the clock"))
         self.showTime.stateChanged.connect(lambda i: self.setSettings("DisableTime", not bool(i)))
@@ -1066,8 +1068,8 @@ class SettingsWindow(QMainWindow):
 
         # Date & time settings
         if not self.customDateTimeFormat.isChecked():
-            for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
-                item: QSettingsCheckBox
+            for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday, self.RegionButton):
+                item: QWidget
                 item.setVisible(True)
 
             if not self.showTime.isChecked(): # Check if time is shown
@@ -1084,7 +1086,7 @@ class SettingsWindow(QMainWindow):
                 self.showWeekCount.setToolTip("")
                 self.showWeekCount.setEnabled(True)
         else:
-            for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday):
+            for item in (self.showTime, self.showSeconds, self.showDate, self.showWeekCount, self.showWeekday, self.RegionButton):
                 item: QSettingsCheckBox
                 item.setVisible(False)
         self.dateTimeTitle.resizeEvent()
@@ -3095,7 +3097,7 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
         self.checkbox.move(70, 10)
         self.preview.setFixedHeight(80)
         self.preview.setFixedWidth(150)
-        self.rulesLabel.setFixedHeight(150)
+        self.rulesLabel.setFixedHeight(200)
         self.layout().removeWidget(self.checkbox)
 
 
@@ -3117,14 +3119,14 @@ class QSettingsLineEditCheckBox(QSettingsCheckBox):
             self.rulesLabel.show()
             self.edit.show()
             self.preview.show()
-            self.checkbox.setFixedWidth(self.width()-(250))
-            self.setFixedHeight(300)
-            self.button.move(self.width()-(170), 10)
-            self.edit.setFixedWidth(self.width()-(90)-(160))
-            self.edit.move((70), (50))
-            self.preview.move(self.width()-(170), (50))
-            self.rulesLabel.move((70), (130))
-            self.rulesLabel.setFixedWidth(self.width()-(90))
+            self.checkbox.setFixedWidth(self.width()-250)
+            self.setFixedHeight(350)
+            self.button.move(self.width()-170, 10)
+            self.edit.setFixedWidth(self.width()-250)
+            self.edit.move(70, 50)
+            self.preview.move(self.width()-170, 50)
+            self.rulesLabel.move(70, 130)
+            self.rulesLabel.setFixedWidth(self.width()-90)
 
     def setLabelText(self, s: str) -> None:
         self.rulesLabel.setText(s)
