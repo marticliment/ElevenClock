@@ -530,26 +530,19 @@ try:
                             self.bgcolor = self.getSettingsValue("UseCustomBgColor") if self.getSettingsValue("UseCustomBgColor") else "0, 0, 0, 0"
                         print("🔵 Using bg color:", self.bgcolor)
 
-                    self.prefMargins = 0
+                    self.prefMargins = 1
+                    self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: 0px; border-radius: 5px;padding: 2px;"
                     try:
-                        if readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0 or (not self.getSettings("DisableTime") and not self.getSettings("DisableDate") and self.getSettings("EnableWeekDay")):
-                            self.prefMargins = 1
-                            self.widgetStyleSheet = f"background-color: rgba(bgColor%); margin: 0;margin-top: 0;margin-bottom: 0; border-radius: 4px;"
-                            if not(not self.getSettings("DisableTime") and not self.getSettings("DisableDate") and self.getSettings("EnableWeekDay")):
-                                print("🟡 Small sized taskbar")
-                                self.preferedHeight = 32
-                                self.coverPreferedHeight = 32
-                                self.preferedwidth = 200
-                                self.coverPreferedWidth = 200
-                        else:
-                            print("🟢 Regular sized taskbar")
-                            self.prefMargins = 1
-                            self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: 0;border-radius: 6px;padding: 2px;"
+                        IS_SMALL_TB = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSi", 1) == 0
+                        if IS_SMALL_TB:
+                            print("🟡 Small sized taskbar")
+                            self.preferedHeight = 32
+                            self.coverPreferedHeight = 32
+                            self.preferedwidth = 200
+                            self.coverPreferedWidth = 200
                     except Exception as e:
-                        print("🟡 Regular sized taskbar")
-                        report(e)
-                        self.prefMargins = 1
-                        self.widgetStyleSheet = f"background-color: rgba(bgColor%);margin: 0;border-radius: 6px;padding: 2px;"
+                        print(e)
+
                     self.setStyleSheet(self.widgetStyleSheet.replace("bgColor", self.bgcolor))
 
                     if self.getSettings("ClockFixedHeight"):
@@ -837,6 +830,7 @@ try:
                     # Load tooltip, desktop button and other widgets
                     
                     self.colorWidget = QWidget(self)
+                    self.colorWidget.show()
                     self.colorWidget.setStyleSheet("border: 0px; margin: 0px;padding: 0px;border-radius: 0px;")
 
                     self.backgroundTexture = QLabel(self)
@@ -1419,12 +1413,12 @@ try:
                 try:
                     self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
                     self.progressbar.setFixedWidth(self.label.width())
-                    self.colorWidget.setGeometry(self.label.geometry())
-                    if not self.CLOCK_ON_THE_LEFT:
-                        self.colorWidget.move(self.label.x(), self.label.y())
+                    
+                    if self.CLOCK_ON_THE_LEFT:
+                        self.colorWidget.move(self.label.x() - self.label.EXTRA_BG_WIDTH, 0)
                     else:
-                        self.colorWidget.move(self.label.x() - self.label.EXTRA_BG_WIDTH, self.label.y())
-                    self.colorWidget.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.label.height())
+                        self.colorWidget.move(self.label.x(), 0)
+                    self.colorWidget.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.height())
                     self.backgroundTexture.setGeometry(self.colorWidget.geometry())
                 except Exception as e:
                     report(e)
@@ -1564,10 +1558,10 @@ try:
             clicked = Signal()
             doubleClicked = Signal()
             middleClicked = Signal()
-            EXTRA_BG_WIDTH = 0
             outline = True
             lastNumOfNotifs = -1
             def __init__(self, text, parent, isCover: bool = False, settingsEnvironment: str = ""):
+                self.EXTRA_BG_WIDTH = 0
                 self.settingsEnvironment = settingsEnvironment
                 super().__init__(text, parent=parent)
                 self.isCover = isCover
@@ -1798,16 +1792,6 @@ try:
                     self.window().updateToolTipStatus(False)
                     return super().leaveEvent(event)
 
-            def getTextUsedSpaceRect(self):
-                text = self.text().strip()
-                if len(text.split("\n"))>=3:
-                    mult = 0.633333333333333333
-                elif len(text.split("\n"))==2:
-                    mult = 1
-                else:
-                    mult = 1.5
-                return self.fontMetrics().boundingRect(text).width()*mult
-
             def eventFilter(self, obj, event):
                 try:
                     if obj == self:
@@ -1872,7 +1856,7 @@ try:
                 return super().paintEvent(event)
 
             def resizeEvent(self, event: QResizeEvent) -> None:
-                Y = max((self.height() - 40)/2, 0)
+                Y = max((self.height() - 40)/2, 0) if self.text().count("\n") < 2 else 0
                 self.backgroundwidget.setGeometry(0, Y, self.width(), self.height() - Y*2)
 
                 if self.focusassitant:
