@@ -124,7 +124,7 @@ try:
                             with open(os.path.join(tempDir, "elevenclock-updater.exe"), 'wb') as f:
                                 f.write(datatowrite)
                                 filename = f.name
-                            if(hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash):
+                            if hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash:
                                 print("🔵 Hash: ", provided_hash)
                                 print("🟢 Hash ok, starting update")
                                 if(getSettings("EnableSilentUpdates") and not(force)):
@@ -908,7 +908,7 @@ try:
                     
                     
                     self.CopilotButton: CopilotButton = None
-                    if(not self.IS_COVER and getSettings("EnableCopilotIcon")):
+                    if not self.IS_COVER and IsCopilotEnabled():
                         self.CopilotButton = CopilotButton(self)
                         self.CopilotButton.setFixedHeight(self.preferedHeight)
                         self.CopilotButton.setFixedWidth(40)
@@ -1127,7 +1127,7 @@ try:
 
                     if ENABLE_AUTOMATIC_BACKGROUND_COLOR or ENABLE_AUTOMATIC_TEXT_COLOR:
                         screen = self.screen().geometry()
-                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x() - screen.x() + self.label.x() + (self.label.width() + 1 if self.CLOCK_ON_THE_LEFT else - 1), self.y()-screen.y(), 1, 1).toImage().pixel(0, 0)
+                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x() - screen.x() + self.label.x() + (self.label.width() + 1 if self.CLOCK_ON_THE_LEFT else - 2), self.y()-screen.y(), 1, 1).toImage().pixel(0, 0)
                     
                     
                     if globals.trayIcon:

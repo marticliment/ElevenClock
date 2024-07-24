@@ -138,6 +138,9 @@ def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
             return default
 
 
+def IsCopilotEnabled():
+    return readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "ShowCopilotButton", 0) == 1 ^ getSettings("EnableCopilotIcon")
+
 if winver == 22621:
     if readRegedit(r"SOFTWARE\Microsoft\Windows NT\CurrentVersion", "UBR", 0, winreg.HKEY_LOCAL_MACHINE) >= 2361:
         isMoment4 = True
@@ -628,7 +631,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             
             if clockInstance:
                 self.enableCopilot.setEnabled(True)
-                self.enableCopilot.setText(_("Enable Copilot button") if not getSettings("EnableCopilotIcon") else _("Disable Copilot button"))
+                self.enableCopilot.setText(_("Enable Copilot button") if not IsCopilotEnabled() else _("Disable Copilot button"))
             else:
                 self.enableCopilot.setEnabled(False)
             
