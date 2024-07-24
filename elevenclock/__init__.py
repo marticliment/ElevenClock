@@ -1123,10 +1123,7 @@ try:
             def TheresAWindowInFullscreen(self) -> bool:
                 try:
                     windowStyle = windll.user32.GetWindowLongA(self.currentTaskbarHwnd, -20)
-                    for otherVal in [134217728, 33554432, 4194304, 2097152, 1048576, 524288, 262144, 131072, 65536, 16384, 8192, 4096, 1024, 512, 256, 128, 64, 32, 16]:
-                        if otherVal<=windowStyle:
-                            windowStyle -= otherVal
-                    if windowStyle>=0x8:
+                    if windowStyle & 0x8 == 0x8:
                         return False # The taskbar is topmost
                     else:
                         return True # The taskbar is a regular window
