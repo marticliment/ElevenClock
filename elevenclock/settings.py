@@ -25,7 +25,7 @@ from PySide6.QtWidgets import *
 
 
 import globals
-from win32mica import ApplyMica, MICAMODE
+from win32mica import ApplyMica, MicaTheme
 
 from data.contributors import contributorsInfo
 from data.translations import languageCredits, untranslatedPercentage
@@ -1137,7 +1137,7 @@ class SettingsWindow(QMainWindow):
         colors = getColors()
         self.iconMode = getAppIconMode()
         if isWindowDark():
-            micar = ApplyMica(self.winId().__int__(), MICAMODE.DARK)
+            micar = ApplyMica(self.winId().__int__(), MicaTheme.DARK)
             if self.lastTheme != 0:
                 self.lastTheme = 0
                 self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
@@ -1666,7 +1666,7 @@ class SettingsWindow(QMainWindow):
                     }}
                     """)
         else:
-            micar = ApplyMica(self.winId().__int__(), MICAMODE.LIGHT)
+            micar = ApplyMica(self.winId().__int__(), MicaTheme.LIGHT)
             if self.lastTheme != 1:
                 self.lastTheme = 1
                 self.aboutTitle.setIcon(getPath(f"about_{self.iconMode}.png"))
