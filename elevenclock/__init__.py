@@ -1484,16 +1484,11 @@ try:
             
         
         class CopilotButton(QPushButton):
-            doubleClicked = Signal()
-            middleClicked = Signal()
-            clickedd = Signal()
             def __init__(self, parent: QWidget = None):
                 super().__init__(parent)
                 self.setIcon(QIcon(getPath(f"copilot_color.png")))
                 self.setIconSize(QSize(30,30))
-                self.clickedd.connect(lambda: keyboard.press_and_release("Win+c"))
-                
-
+                self.clicked.connect(lambda: keyboard.press_and_release("Win+c"))
                 
                 self.setMouseTracking(True)
                 self.color = "255, 255, 255"
@@ -1559,16 +1554,10 @@ try:
                 self.opacity.setOpacity(1)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
                 
-                if ev.button() == Qt.MouseButton.MiddleButton:
-                    self.middleClicked.emit()
-                elif ev.button() == Qt.MouseButton.RightButton:
+                if ev.button() == Qt.MouseButton.RightButton:
                     i.showMenu(self.window())
-                else:
-                    self.clickedd.emit()
                     
                 return super().mouseReleaseEvent(ev)
-
-
 
 
         class Label(QLabel):
