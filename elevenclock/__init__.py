@@ -455,7 +455,7 @@ try:
             clockShouldBeHidden = False
             shouldBeVisible = True
             isRDPRunning = True
-            clockOnTheLeft = False
+            CLOCK_ON_THE_LEFT = False
             INTLOOPTIME = 2
             tempMakeClockTransparent = False
             AWindowIsInFullScreen: bool = False
@@ -475,18 +475,18 @@ try:
 
             def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
                 super().__init__()
-                self.shouldCoverWindowsClock = False
-                self.isCover = isCover
-                self.isSecondary = isSecondary
+                self.SHOULD_COVER_WINDOWS_CLOCK = False
+                self.IS_COVER = isCover
+                self.IS_SECONDARY = isSecondary
                 self.clockId = self.getClockID(screen)[0]
                 self.clockName = _("Clock {0} on {1}").format(self.getClockID(screen)[1][0], self.getClockID(screen)[1][1])
                 self.isCustomClock = getSettings(f"Individualize{self.clockId}")
                 if self.isCustomClock:
                     self.settingsEnvironment = self.clockId
                 if isCover:
-                    self.shouldAddSecondaryClock = False
+                    self.SHOULD_ADD_SECONDARY_CLOCK = False
                 else:
-                    self.shouldAddSecondaryClock = getSettings("EnableSecondClock")
+                    self.SHOULD_ADD_SECONDARY_CLOCK = getSettings("EnableSecondClock")
 
                 if f"_{screen.name()}_" in getSettingsValue("BlacklistedMonitors"):
                     print("🟠 Monitor blacklisted!")
@@ -565,7 +565,7 @@ try:
                     
                     self.refresh.connect(self.refreshAndShow)
                     self.hideSignal.connect(self.hide)
-                    if not(self.getSettings("PinClockToTheDesktop")) or self.isCover:
+                    if not(self.getSettings("PinClockToTheDesktop")) or self.IS_COVER:
                         self.setWindowFlag(Qt.WindowStaysOnTopHint)
                     else:
                         print("🟡 Clock pinned to desktop")
@@ -578,7 +578,7 @@ try:
                     registryReadResult = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3", "Settings", hexBlob)
                     self.TASKBAR_DOES_AUTOHIDE = registryReadResult[8] == 123
 
-                    if self.isCover:
+                    if self.IS_COVER:
                         print("🟠 Clock is cover!!!")
                         self.UseTaskbarBackgroundColor = True
                         self.transparentBackground = False
@@ -588,60 +588,60 @@ try:
                     if self.TASKBAR_DOES_AUTOHIDE:
                         print("🟡 ElevenClock set to hide with the taskbar")
 
-                    self.clockOnTheLeft = self.getSettings("ClockOnTheLeft")
+                    self.CLOCK_ON_THE_LEFT = self.getSettings("ClockOnTheLeft")
                     screenName = screen.name().replace("\\", "_")
                     self.setScreen(screen)
-                    if not self.clockOnTheLeft:
+                    if not self.CLOCK_ON_THE_LEFT:
                         if self.getSettings(f"SpecificClockOnTheLeft{screenName}"):
-                            self.clockOnTheLeft = True
+                            self.CLOCK_ON_THE_LEFT = True
                             print(f"🟡 Clock {screenName} on the left (forced)")
                             if not self.getSettings("DisableSystemClockCover"):
                                 print("🟠 Showing Cover on the right!")
-                                self.shouldCoverWindowsClock = True
-                                if self.isCover:
-                                    self.clockOnTheLeft = False
+                                self.SHOULD_COVER_WINDOWS_CLOCK = True
+                                if self.IS_COVER:
+                                    self.CLOCK_ON_THE_LEFT = False
                     else:
                         if self.getSettings(f"SpecificClockOnTheRight{screenName}"):
-                            self.clockOnTheLeft = False
+                            self.CLOCK_ON_THE_LEFT = False
                             print(f"🟡 Clock {screenName} on the right (forced)")
                         else:
-                            self.shouldCoverWindowsClock = True
-                            if self.isCover:
-                                self.clockOnTheLeft = False
+                            self.SHOULD_COVER_WINDOWS_CLOCK = True
+                            if self.IS_COVER:
+                                self.CLOCK_ON_THE_LEFT = False
                     
-                    if self.isSecondary:
-                        self.clockOnTheLeft = not self.clockOnTheLeft
+                    if self.IS_SECONDARY:
+                        self.CLOCK_ON_THE_LEFT = not self.CLOCK_ON_THE_LEFT
 
                     coverX = 0
                     coverY = 0
                     try:
                         if (registryReadResult[12] == 1 and not self.getSettings("ForceOnBottom")) or (self.getSettings("ForceOnTop") and not self.getSettings(f"SpecificClockOnTheBottom{screenName}")) or self.getSettings(f"SpecificClockOnTheTop{screenName}"):
                             h = self.screenGeometry.y()
-                            self.clockOnTop = True
+                            self.CLOCK_ON_TOP = True
                             print("🟡 Clock on the top")
                         else:
                             h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
-                            self.clockOnTop = False
+                            self.CLOCK_ON_TOP = False
                             print("🟢 Clock on the bottom")
                         if registryReadResult[12] == 1:
                             coverY = self.screenGeometry.y()
                         else:
                             coverY = self.screenGeometry.y()+self.screenGeometry.height()-(self.coverPreferedHeight*dpiy)
                         if h != coverY: # Calculate if clock has been moved vertically and a cover should be applied
-                            self.shouldCoverWindowsClock = True
+                            self.SHOULD_COVER_WINDOWS_CLOCK = True
                     except Exception as e:
                         report(e)
                         h = self.screenGeometry.y()+self.screenGeometry.height()-(self.preferedHeight*dpiy)
                         coverY = h
-                        self.clockOnTop = False
-                        self.shouldCoverWindowsClock = False
+                        self.CLOCK_ON_TOP = False
+                        self.SHOULD_COVER_WINDOWS_CLOCK = False
                         print("🟠 Clock on the bottom (by exception)")
                         
                         
                     else:
                         self.showBlurryBackground = False
 
-                    if self.clockOnTheLeft:
+                    if self.CLOCK_ON_THE_LEFT:
                         print("🟡 Clock on the left")
                         coverX = self.screenGeometry.x()+self.screenGeometry.width()-((self.coverPreferedWidth)*dpix) # Windows clock position
                         w = self.screenGeometry.x()
@@ -651,7 +651,7 @@ try:
                         coverX = w
 
                     xoff = 0
-                    yoff = 2
+                    yoff = 0 if self.CLOCK_ON_TOP else 1
 
                     if self.getSettingsValue("ClockXOffset") != "":
                         print("🟡 X offset being used!")
@@ -674,7 +674,7 @@ try:
                     self.dpix = dpix
                     self.dpiy = dpiy
                     
-                    if self.isCover:
+                    if self.IS_COVER:
                         self.move(self.coverX, self.coverY)
                         self.resize(int(self.coverPreferedWidth*dpix), int(self.coverPreferedHeight*dpiy)-2)
                         print("🔵 Clock cover geometry:", self.geometry())
@@ -699,32 +699,38 @@ try:
                     
                     self.setMouseTracking(True)
                     
-                    if self.shouldAddSecondaryClock:
-                        self.shouldCoverWindowsClock = False
-                        if not self.isSecondary:
+                    if self.SHOULD_ADD_SECONDARY_CLOCK:
+                        self.SHOULD_COVER_WINDOWS_CLOCK = False
+                        if not self.IS_SECONDARY:
                             self.clockCover = Clock(dpix, dpiy, screen, index, isSecondary=True)
                             globals.clocks.append(self.clockCover)
-                    elif self.shouldCoverWindowsClock:
-                        if not self.isCover:
+                    elif self.SHOULD_COVER_WINDOWS_CLOCK:
+                        if not self.IS_COVER:
                             self.clockCover = Clock(dpix, dpiy, screen, index, isCover=True)
                             globals.clocks.append(self.clockCover)
                             
-                    self.label = Label(timeStr, self, self.isCover, self.settingsEnvironment)
-                    self.label.move(0, 2)
+                    self.MainLayout = QHBoxLayout()
+                    self.MainLayout.setSpacing(0)
+                    self.MainLayout.addStretch()
+                    self.MainLayout.setContentsMargins(0, 0, 0, 0)
+                    if self.CLOCK_ON_THE_LEFT: self.MainLayout.setDirection(QBoxLayout.Direction.RightToLeft)
+                    self.setLayout(self.MainLayout)
+                    
+                    self.label = Label(timeStr, self, self.IS_COVER, self.settingsEnvironment)
+                    self.MainLayout.addWidget(self.label)
                     self.label.setFixedHeight(self.height())
-                    self.label.resize(self.width()-8, self.height()-1)
                     self.label.show()
                     
                     if self.getSettings("CenterAlignment"):
                         self.label.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-                    elif self.clockOnTheLeft:
+                    elif self.CLOCK_ON_THE_LEFT:
                         self.label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
                     else:
                         self.label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                         
                     # Load clock click actions
 
-                    if not self.isCover:
+                    if not self.IS_COVER:
                         self.clickAction = ("win", "n")
                         act = self.getSettingsValue("CustomClockClickAction")
                         if act != "":
@@ -770,7 +776,7 @@ try:
 
                     # Load label styles (only on non-cover clocks)
 
-                    if self.isCover:
+                    if self.IS_COVER:
                         styleSheetString = self.makeLabelStyleSheet(0, 0, 0, 0, f"transparent")
                         self.label.setStyleSheet(styleSheetString)
                     else:
@@ -831,7 +837,7 @@ try:
                     # Load tooltip, desktop button and other widgets
                     
                     self.colorWidget = QWidget(self)
-                    self.colorWidget.setStyleSheet("border: 0; margin: 0;")
+                    self.colorWidget.setStyleSheet("border: 0px; margin: 0px;padding: 0px;border-radius: 0px;")
 
                     self.backgroundTexture = QLabel(self)
                     self.backgroundTexture.setAttribute(Qt.WA_TransparentForMouseEvents)
@@ -851,20 +857,31 @@ try:
                     
                     self.desktopButton: QHoverButton = None
                     
-                    if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1 or self.getSettings("ShowDesktopButton")) and not self.isCover:
+                    
+                    if(getSettings("EnableCopilotIcon")):
+                        copilotIcon = CopilotButton()
+                        copilotIcon.setFixedHeight(self.preferedHeight)
+                        copilotIcon.setFixedWidth(40)
+                        self.MainLayout.addWidget(copilotIcon)
+                    
+                    if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1 or self.getSettings("ShowDesktopButton")) and not self.IS_COVER:
                         print("🟡 Desktop button enabled")
                         self.desktopButton = QHoverButton(parent=self)
                         self.desktopButton.clicked.connect(lambda: self.showDesktop())
                         self.desktopButton.show()
-                        self.desktopButton.setFixedWidth(8)
-                        self.desktopButton.setIconSize(QSize(8, 48))
+                        self.desktopButton.setFixedWidth(9)
+                        self.desktopButton.setIconSize(QSize(9, self.preferedHeight))
                         hoverIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 128)
                         pressIcon = drawVerticalLine(self.desktopButton.iconSize(), 16, 70)
                         self.desktopButton.hovered.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.pressed.connect(lambda: self.desktopButton.setIcon(pressIcon))
                         self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
-                        self.setFixedHeight(self.preferedHeight)
+                        self.desktopButton.raise_()
+                        self.desktopButton.setFixedHeight(self.preferedHeight)
+                        self.MainLayout.addWidget(self.desktopButton)
+                    else:
+                        self.MainLayout.addSpacing(8)
                     
                     accColors = getColors()
 
@@ -903,7 +920,7 @@ try:
                     self.rightFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
                     self.rightFast.finished.connect(lambda: (self.leftSlow.start(), self.progressbar.setInvertedAppearance(False)))
                     
-                    if not self.isCover:
+                    if not self.IS_COVER:
                         self.leftSlow.start()
                         
                     # Final initialize procedure
@@ -1005,9 +1022,6 @@ try:
                 return f"""*
                     {{
                         padding: {padding}px;
-                        padding-right: {rightPadding}px;
-                        margin-right: {rightMargin}px;
-                        padding-left: {leftPadding}px;
                         color: {color};
                         background-color: transparent;
                     }}
@@ -1043,22 +1057,22 @@ try:
 
             def showToolTip(self):
                 self.tooltip.show()
-                xPos = self.screen().geometry().x()+self.screen().size().width()-10-self.tooltip.width() if not self.clockOnTheLeft else self.screen().geometry().x()+10
-                yPos = self.pos().y()-5-self.tooltip.height() if not self.clockOnTop else self.pos().y()+5+self.height()
+                xPos = self.screen().geometry().x()+self.screen().size().width()-10-self.tooltip.width() if not self.CLOCK_ON_THE_LEFT else self.screen().geometry().x()+10
+                yPos = self.pos().y()-5-self.tooltip.height() if not self.CLOCK_ON_TOP else self.pos().y()+5+self.height()
                 self.tooltip.move(xPos, yPos)
 
             def get6px(self, i: int) -> int:
                 return round(i*self.screen().devicePixelRatio())
             
             def getClockID(self, screen: QScreen = None):
-                isSecondary = int(self.isSecondary)
+                isSecondary = int(self.IS_SECONDARY)
                 clockMonitor = (screen if screen else self.screen()).name().replace(" ", "_").replace(".", "_")
                 return (f"clock{isSecondary}_mon{clockMonitor}", (isSecondary, clockMonitor))
 
             def checkAndUpdateBackground(self) -> None:
                 try:
                     CLOCK_IS_TEMPORARILY_TRANSPARENT = self.tempMakeClockTransparent
-                    if self.isCover:
+                    if self.IS_COVER:
                         ENABLE_AUTOMATIC_TEXT_COLOR = False
                         ENABLE_AUTOMATIC_BACKGROUND_COLOR = True
                         FALSE_BLUR_TEXTURE_ENABLED = True
@@ -1083,7 +1097,7 @@ try:
 
                     if ENABLE_AUTOMATIC_BACKGROUND_COLOR or ENABLE_AUTOMATIC_TEXT_COLOR:
                         g = self.screen().geometry()
-                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.clockOnTheLeft else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.CLOCK_ON_THE_LEFT else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
                     
                     
                     if globals.trayIcon:
@@ -1140,7 +1154,7 @@ try:
                 LOW_CPU_MODE = getSettings("EnableLowCpuMode")
                 self.WAITLOOPTIME = 0.4 if LOW_CPU_MODE else 0.1
 
-                if not self.isCover:
+                if not self.IS_COVER:
                     ENABLE_HIDE_ON_FULLSCREEN = not self.getSettings("DisableHideOnFullScreen")
                     DISABLE_HIDE_WITH_TASKBAR = self.getSettings("DisableHideWithTaskbar")
                     SHOW_NOTIFICATIONS = not self.getSettings("DisableNotifications")
@@ -1255,7 +1269,7 @@ try:
                 SHOULD_FIX_SECONDS = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
                 HAIRSEC_VAR = " " if SHOULD_FIX_SECONDS else ""
                 LOW_CPU_MODE = getSettings("EnableLowCpuMode")            
-                if self.isCover:
+                if self.IS_COVER:
                     return
                 
                 while True:
@@ -1277,7 +1291,7 @@ try:
                     time.sleep(0.1 if LOW_CPU_MODE else 0.25)
 
             def singleClickAction(self):
-                if not self.isCover:
+                if not self.IS_COVER:
                     self.doClickAction(self.clickAction)
                     try:
                         if self.hideClockWhenClicked:
@@ -1294,11 +1308,11 @@ try:
                         report(e)
 
             def doDoubleClickAction(self):
-                if not self.isCover:
+                if not self.IS_COVER:
                     self.doClickAction(self.doubleClickAction)
 
             def doMiddleClickAction(self):
-                if not self.isCover:
+                if not self.IS_COVER:
                     self.doClickAction(self.middleClickAction)
 
             def doClickAction(self, actions):
@@ -1352,7 +1366,7 @@ try:
                 if(self.shouldBeVisible):
                     self.show()
                     self.raise_()
-                    if not self.isCover:
+                    if not self.IS_COVER:
                         if(self.lastTheme >= 0): # If the color is not customized
                             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
                             if(theme != self.lastTheme):
@@ -1403,13 +1417,10 @@ try:
                     self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
                     self.progressbar.setFixedWidth(self.label.width())
                     self.colorWidget.setGeometry(self.label.geometry())
+                    #self.colorWidget.move(self.label.x() - self.label.contentsMargins().left(), self.label.y() - self.label.contentsMargins().top())
+                    #self.colorWidget.resize(self.label.width() + self.label.contentsMargins().left() + self.label.contentsMargins().right(), 
+                    #                        self.label.height() + self.label.contentsMargins().top() + self.label.contentsMargins().bottom())
                     self.backgroundTexture.setGeometry(self.colorWidget.geometry())
-                    if self.desktopButton:
-                        if self.clockOnTheLeft:
-                            self.desktopButton.move(0, 0)
-                        else:
-                            self.desktopButton.move(self.width()-self.desktopButton.width(), 0)
-                        self.desktopButton.setFixedSize(self.desktopButton.width(), self.height())
                 except Exception as e:
                     report(e)
                 if event:
@@ -1466,7 +1477,16 @@ try:
 
                 super().enterEvent(event)
             
-            
+        
+        class CopilotButton(QPushButton):
+            def __init__(self):
+                super().__init__()
+                self.setIcon(QIcon(getPath(f"copilot_color.png")))
+                self.setIconSize(QSize(30,30))
+                self.clicked.connect(lambda: keyboard.press_and_release("Win+c"))
+                
+                
+        
 
         class Label(QLabel):
             clicked = Signal()
@@ -1485,6 +1505,7 @@ try:
                 except Exception as e:
                     self.specifiedMinimumWidth = 0
                     report(e)
+                    
 
                 self.mouseButtonTimer = QTimer()
                 self.mouseButtonTimer.setSingleShot(True)
@@ -1517,7 +1538,7 @@ try:
                 self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
                 self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
                 self.setAutoFillBackground(True)
-                self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-2)
+                self.backgroundwidget.setGeometry(0, 0, self.width(), self.height()-4)
 
                 self.opacity=QGraphicsOpacityEffect(self)
                 self.opacity.setOpacity(1.00)
@@ -1565,6 +1586,7 @@ try:
 
                 self.disableClockIndicators()
 
+
             def enableFocusAssistant(self):
                 if self.notifdot:
                     self.disableClockIndicators()
@@ -1594,7 +1616,7 @@ try:
 
                 if not self.focusassitant:
                     self.focusassitant = True
-                    self.setContentsMargins(5, 0, (43), 4)
+                    self.setContentsMargins(6, 0, 30, 4)
                     self.focusAssistantLabel.move(self.width()-self.contentsMargins().right(), -1)
                     self.focusAssistantLabel.setFixedWidth(30)
                     self.focusAssistantLabel.setFixedHeight(self.height())
@@ -1652,8 +1674,8 @@ try:
                 if not self.notifdot:
                     self.notifdot = True
                     if not self.isCover:
+                        self.setContentsMargins(6, 0, 30, 4)
                         if not isMoment4:
-                            self.setContentsMargins(5, 0, (43), 4)
                             topBottomPadding = (self.height()-16)/2 # top-bottom margin
                             leftRightPadding = (30-16)/2 # left-right margin
                             self.notifDotLabel.move(int(self.width()-self.contentsMargins().right()+leftRightPadding), int(topBottomPadding)+-1)
@@ -1662,7 +1684,6 @@ try:
                             self.notifDotLabel.show()
                         else:
                             self.focusAssistantLabel.show()
-                            self.setContentsMargins(5, 0, (43), 4)
                             self.focusAssistantLabel.move(self.width()-self.contentsMargins().right(), -1)
                             self.focusAssistantLabel.setFixedWidth(30)
                             self.focusAssistantLabel.setFixedHeight(self.height())
@@ -1676,11 +1697,11 @@ try:
                 if self.focusassitant:
                     self.lastNumOfNotifs = -1
                     self.focusassitant = False
-                    self.setContentsMargins(6, 0, 13, 4)
+                    self.setContentsMargins(6, 0, 6, 4)
                     self.focusAssistantLabel.hide()
                 if self.notifdot:
                     self.notifdot = False
-                    self.setContentsMargins(6, 0, 13, 4)
+                    self.setContentsMargins(6, 0, 6, 4)
                     self.notifDotLabel.hide()
 
             def get6px(self, i: int) -> int:
@@ -1688,15 +1709,8 @@ try:
 
             def enterEvent(self, event: QEvent, r=False) -> None:
                 if not self.isCover:
-                    geometry: QRect = self.width()
                     self.showBackground.setStartValue(.01)
                     self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
-                    if not self.window().clockOnTheLeft:
-                        self.backgroundwidget.move(0, 1)
-                        self.backgroundwidget.resize(geometry, self.height()-3)
-                    else:
-                        self.backgroundwidget.move(0, 1)
-                        self.backgroundwidget.resize(geometry, self.height()-3)
                     self.showBackground.start()
                     if not r:
                         self.enterEvent(event, r=True)
@@ -1779,15 +1793,16 @@ try:
                     w = self.specifiedMinimumWidth
                 else:
                     w = self.minimumSizeHint().width()
-                if w<(self.window().preferedwidth) and not self.window().clockOnTheLeft:
-                    self.move((self.window().preferedwidth)-w+2, 0)
-                    self.resize(w, self.height()-1)
-                else:
-                    self.move(6, 0)
-                    self.resize(w, self.height()-1)
+                
+                self.resize(w, self.height())
+
                 return super().paintEvent(event)
 
             def resizeEvent(self, event: QResizeEvent) -> None:
+                geometry: QRect = self.geometry()
+                self.backgroundwidget.move(0 , 1)
+                self.backgroundwidget.resize(geometry.width(), geometry.height()-2)
+
                 if self.focusassitant:
                     self.focusassitant = False
                     self.enableFocusAssistant()

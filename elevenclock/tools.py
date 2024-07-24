@@ -444,7 +444,15 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.toolsMenu.setAttribute(Qt.WA_TranslucentBackground)
         self.toolsMenu.aboutToShow.connect(self.applyStyleSheet)
         menu.aboutToShow.connect(self.applyStyleSheet)
+        
+        def toggleCopliotMode():
+            setSettings("EnableCopilotIcon", not getSettings("EnableCopilotIcon"))
+            globals.restartClocks()
 
+        self.enableCopilot = QAction("COPILOT_ICON", app)
+        self.enableCopilot.triggered.connect(lambda: toggleCopliotMode())
+        menu.addAction(self.enableCopilot)
+        
         def blacklist():
             setSettingsValue("BlacklistedMonitors", getSettingsValue("BlacklistedMonitors")+f"_{self.toolsMenu.screen().name()}_")
 
@@ -548,8 +556,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         
         self.applyStyleSheet()
 
-
-    def showMenu(self, clock):
+    def showMenu(self, clock: 'Clock'):
         pos = QPoint(0, 0)
         self.menuScreen = clock.screen()
 
@@ -566,12 +573,12 @@ class TaskbarIconTray(QSystemTrayIcon):
         else:
             menuWidth = (225)
 
-        if clock.clockOnTheLeft:
+        if clock.CLOCK_ON_THE_LEFT:
             pos.setX(clock.screen().geometry().x()+(5))
         else:
             pos.setX(clock.screen().geometry().x()+clock.screen().geometry().width()-(5)-menuWidth)
 
-        if clock.clockOnTop:
+        if clock.CLOCK_ON_TOP:
             pos.setY(clock.screen().geometry().y()+(5)+clock.height())
         else:
             pos.setY(clock.screen().geometry().y()+clock.screen().geometry().height()-clock.height()-(5)-menuHeight)
@@ -618,6 +625,13 @@ class TaskbarIconTray(QSystemTrayIcon):
                 self.toolsMenu.setEnabled(True)
             else:
                 self.toolsMenu.setEnabled(False)
+            
+            if clockInstance:
+                self.enableCopilot.setEnabled(True)
+                self.enableCopilot.setText(_("Enable Copilot button") if not getSettings("EnableCopilotIcon") else _("Disable Copilot button"))
+            else:
+                self.enableCopilot.setEnabled(False)
+            
             self.individualSettings.triggered.disconnect()
             self.individualSettings.triggered.connect(partial(openClockSettings, clockInstance))
             self.contextMenu().exec(pos)
@@ -801,6 +815,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         self.toolsMenu.setIcon(QIcon(getPath(f"tools_{self.iconMode}.png")))
         self.reloadInternetAction.setIcon(QIcon(getPath(f"internet_{self.iconMode}.png")))
         self.blacklistAction.setIcon(QIcon(getPath(f"blacklistscreen_{self.iconMode}.png")))
+        self.enableCopilot.setIcon(QIcon(getPath(f"copilot_color.png")))
 
 
 
@@ -838,17 +853,17 @@ def resetSettingsWindow():
     ow.close()
     del ow
 
-def drawVerticalLine(canvas: QSize, lineHeight: int, alpha = 255):
+def drawVerticalLine(canvas: QSize, lineHeight: int, alpha = 255) -> QPixmap:
     width = canvas.width()
     height = canvas.height()
     pixmap = QPixmap(canvas)
     pixmap.fill(Qt.transparent)
-    qP = QPainter(pixmap)
-    qC = QColor(255, 255, 255, alpha) if isTaskbarDark() else QColor(0, 0, 0, alpha)
-    qP.setPen(qC)
+    linePainter = QPainter(pixmap)
+    lineColor = QColor(255, 255, 255, alpha) if isTaskbarDark() else QColor(0, 0, 0, alpha)
     y = (height-lineHeight)/2-1
-    qP.drawLine(width/2, y, width/2, y+lineHeight)
-    qP.end()
+    linePainter.setPen(lineColor)
+    linePainter.drawLine(width/2, y, width/2, y+lineHeight)    
+    linePainter.end()
     return pixmap
 
 def verifyHwndValidity(hwnd):
