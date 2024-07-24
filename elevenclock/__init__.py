@@ -1603,6 +1603,8 @@ try:
                         self.focusAssistantLabel.show()
 
             def enableNotifDot(self):
+                WINDOW = self.window()
+                
                 if self.focusassitant:
                     self.disableClockIndicators()
                                 
@@ -1635,15 +1637,16 @@ try:
                             else:
                                 self.focusAssistantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
                         else:
-                            if self.window().LastCapturedForegroundColor == "black":
-                                self.focusAssistantLabel.setIcon(self.emptyBellBlack if numOfNotifs == 0 else self.filledBellBlack)
-                            elif self.window().LastCapturedForegroundColor == "white":
-                                self.focusAssistantLabel.setIcon(self.emptyBellWhite if numOfNotifs == 0 else self.filledBellWhite)
-                            else:
-                                if numOfNotifs == 0:
-                                    self.focusAssistantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                            if WINDOW and self.focusAssistantLabel:
+                                if WINDOW.LastCapturedForegroundColor == "black":
+                                    self.focusAssistantLabel.setIcon(self.emptyBellBlack if numOfNotifs == 0 else self.filledBellBlack)
+                                elif WINDOW.LastCapturedForegroundColor == "white":
+                                    self.focusAssistantLabel.setIcon(self.emptyBellWhite if numOfNotifs == 0 else self.filledBellWhite)
                                 else:
-                                    self.focusAssistantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
+                                    if numOfNotifs == 0:
+                                        self.focusAssistantLabel.setIcon(self.emptyBellWhite if isTaskbarDark() else self.emptyBellBlack)
+                                    else:
+                                        self.focusAssistantLabel.setIcon(self.filledBellWhite if isTaskbarDark() else self.filledBellBlack)
 
 
                 if not self.notifdot:
