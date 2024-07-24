@@ -112,7 +112,8 @@ try:
                                 showNotif.infoSignal.emit(_("ElevenClock Updater"), _("ElevenClock is downloading updates"))
                             try:
                                 for clock in globals.clocks:
-                                    clock.callInMainSignal.emit(clock.progressbar.show)
+                                    handler: ProgressbarAnimationHandler = clock.AnimationHandler
+                                    if handler != None: clock.callInMainSignal.emit(handler.startAnimation)
                             except Exception as e:
                                 report(e)
 
@@ -139,7 +140,8 @@ try:
                             else:
                                 try:
                                     for clock in globals.clocks:
-                                        clock.progressbar.hide()
+                                        handler: ProgressbarAnimationHandler = clock.AnimationHandler
+                                        if handler != None: clock.callInMainSignal.emit(handler.endAnimation)
                                 except Exception as e:
                                     report(e)
                                 print("🟠 Hash not ok")
@@ -158,7 +160,8 @@ try:
                 report(e)
                 try:
                     for clock in globals.clocks:
-                        clock.progressbar.hide()
+                        handler: ProgressbarAnimationHandler = clock.AnimationHandler
+                        if handler != None: clock.callInMainSignal.emit(handler.endAnimation)
                 except Exception as e:
                     report(e)
 
@@ -436,6 +439,64 @@ try:
 
             def get6px(self, i: int) -> int:
                 return round(i*self.screen().devicePixelRatio())
+
+        class ProgressbarAnimationHandler(QObject):
+            is_running: bool = False
+            def __init__(self, target: QProgressBar):
+                self.target: QProgressBar = target
+                
+                self.leftSlow = QVariantAnimation()
+                self.leftSlow.setStartValue(0)
+                self.leftSlow.setEndValue(200)
+                self.leftSlow.setDuration(500)
+                self.leftSlow.valueChanged.connect(lambda v: target.setValue(v) if self.is_running else None)
+                self.leftSlow.finished.connect(lambda: (self.rightSlow.start(), target.setInvertedAppearance(True)) if self.is_running else None)
+                
+                self.rightSlow = QVariantAnimation()
+                self.rightSlow.setStartValue(200)
+                self.rightSlow.setEndValue(0)
+                self.rightSlow.setDuration(500)
+                self.rightSlow.valueChanged.connect(lambda v: target.setValue(v) if self.is_running else None)
+                self.rightSlow.finished.connect(lambda: (self.leftFast.start(), target.setInvertedAppearance(False)) if self.is_running else None)
+                
+                self.leftFast = QVariantAnimation()
+                self.leftFast.setStartValue(0)
+                self.leftFast.setEndValue(200)
+                self.leftFast.setDuration(200)
+                self.leftFast.valueChanged.connect(lambda v: target.setValue(v) if self.is_running else None)
+                self.leftFast.finished.connect(lambda: (self.rightFast.start(), target.setInvertedAppearance(True)) if self.is_running else None)
+
+                self.rightFast = QVariantAnimation()
+                self.rightFast.setStartValue(200)
+                self.rightFast.setEndValue(0)
+                self.rightFast.setDuration(200)
+                self.rightFast.valueChanged.connect(lambda v: target.setValue(v) if self.is_running else None)
+                self.rightFast.finished.connect(lambda: (self.leftSlow.start(), target.setInvertedAppearance(False)) if self.is_running else None)
+                
+            def startAnimation(self):
+                self.is_running = True
+                self.leftSlow.start()
+                self.target.show()
+                
+            def endAnimation(self):
+                try:
+                    self.is_running = False
+                    for anim in [self.leftFast, self.leftSlow, self.rightFast, self.rightSlow]:
+                        anim.stop()
+                    self.target.hide()
+                except Exception as e:
+                    report(e)
+                
+            def destroy(self):
+                try:
+                    self.endAnimation()
+                    for anim in [self.leftFast, self.leftSlow, self.rightFast, self.rightSlow]:
+                        anim.valueChanged.disconnect()
+                        anim.finished.disconnect()
+                except Exception as e:
+                    report(e)
+
+
 
         class Clock(QWidget):
 
@@ -844,16 +905,18 @@ try:
 
                     self.tooltip = CustomToolTip(screen, "placeholder", clockId=self.clockId)
                     
-                    self.desktopButton: QHoverButton = None
                     
                     
+                    self.CopilotButton: CopilotButton = None
                     if(not self.IS_COVER and getSettings("EnableCopilotIcon")):
-                        copilotIcon = CopilotButton(self)
-                        copilotIcon.setFixedHeight(self.preferedHeight)
-                        copilotIcon.setFixedWidth(40)
-                        self.MainLayout.addWidget(copilotIcon)
+                        self.CopilotButton = CopilotButton(self)
+                        self.CopilotButton.setFixedHeight(self.preferedHeight)
+                        self.CopilotButton.setFixedWidth(40)
+                        self.MainLayout.addWidget(self.CopilotButton)
                         self.label.EXTRA_BG_WIDTH += 40
                     
+                    
+                    self.desktopButton: QHoverButton = None
                     if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1 or self.getSettings("ShowDesktopButton")) and not self.IS_COVER:
                         print("🟡 Desktop button enabled")
                         self.desktopButton = QHoverButton(parent=self)
@@ -877,43 +940,18 @@ try:
                     
                     accColors = getColors()
 
-                    self.progressbar = QProgressBar(self)
-                    self.progressbar.setFixedHeight(2)
-                    self.progressbar.setRange(0, 200)
-                    self.progressbar.setValue(0)
-                    self.progressbar.setStyleSheet(f"*{{border: 0;margin:0;padding:0;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
-                    self.progressbar.hide()
-
-                    self.leftSlow = QVariantAnimation()
-                    self.leftSlow.setStartValue(0)
-                    self.leftSlow.setEndValue(200)
-                    self.leftSlow.setDuration(500)
-                    self.leftSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                    self.leftSlow.finished.connect(lambda: (self.rightSlow.start(), self.progressbar.setInvertedAppearance(True)))
                     
-                    self.rightSlow = QVariantAnimation()
-                    self.rightSlow.setStartValue(200)
-                    self.rightSlow.setEndValue(0)
-                    self.rightSlow.setDuration(500)
-                    self.rightSlow.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                    self.rightSlow.finished.connect(lambda: (self.leftFast.start(), self.progressbar.setInvertedAppearance(False)))
-                    
-                    self.leftFast = QVariantAnimation()
-                    self.leftFast.setStartValue(0)
-                    self.leftFast.setEndValue(200)
-                    self.leftFast.setDuration(200)
-                    self.leftFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                    self.leftFast.finished.connect(lambda: (self.rightFast.start(), self.progressbar.setInvertedAppearance(True)))
-
-                    self.rightFast = QVariantAnimation()
-                    self.rightFast.setStartValue(200)
-                    self.rightFast.setEndValue(0)
-                    self.rightFast.setDuration(200)
-                    self.rightFast.valueChanged.connect(lambda v: self.progressbar.setValue(v))
-                    self.rightFast.finished.connect(lambda: (self.leftSlow.start(), self.progressbar.setInvertedAppearance(False)))
-                    
+                    self.UpdatesProgressBar: QProgressBar = None
+                    self.AnimationHandler: ProgressbarAnimationHandler = None
                     if not self.IS_COVER:
-                        self.leftSlow.start()
+                        self.UpdatesProgressBar = QProgressBar(self)
+                        self.UpdatesProgressBar.setFixedHeight(2)
+                        self.UpdatesProgressBar.setRange(0, 200)
+                        self.UpdatesProgressBar.setValue(0)
+                        self.UpdatesProgressBar.setStyleSheet(f"*{{border: 0;margin:0;padding:0;}}QProgressBar::chunk{{background-color:rgb({accColors[1 if isTaskbarDark() else 4]})}}")
+                        self.UpdatesProgressBar.hide()
+                        
+                        self.AnimationHandler = ProgressbarAnimationHandler(self.UpdatesProgressBar)
                         
                     # Final initialize procedure
                         
@@ -1088,8 +1126,8 @@ try:
                             self.callInMainSignal.emit(self.backgroundTexture.show)
 
                     if ENABLE_AUTOMATIC_BACKGROUND_COLOR or ENABLE_AUTOMATIC_TEXT_COLOR:
-                        g = self.screen().geometry()
-                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x()-g.x()+self.label.x()+(self.label.width() if self.CLOCK_ON_THE_LEFT else 0), self.y()-g.y(), 1, 1).toImage().pixel(0, 0)
+                        screen = self.screen().geometry()
+                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x() - screen.x() + self.label.x() + (self.label.width() + 1 if self.CLOCK_ON_THE_LEFT else - 1), self.y()-screen.y(), 1, 1).toImage().pixel(0, 0)
                     
                     
                     if globals.trayIcon:
@@ -1372,30 +1410,18 @@ try:
                     self.InternetTimeLoop.kill()
                 except AttributeError:
                     pass
-                try:
-                    self.rightFast.stop()
-                    self.rightSlow.stop()
-                    self.leftFast.stop()
-                    self.leftSlow.stop()
-                    for signal in (self.rightFast.finished, self.rightFast.valueChanged, self.rightSlow.finished, self.rightSlow.valueChanged, self.leftFast.finished, self.leftFast.valueChanged, self.leftSlow.finished, self.leftSlow.valueChanged):
-                        try:
-                            signal.disconnect()
-                        except RuntimeError:
-                            print("🟠 Can't disconnect signal!")
-                except AttributeError:
-                    pass
-                try:
-                    for widget in (self.clockCover, self.tooltip, self.label):
+                
+                if self.AnimationHandler != None: self.AnimationHandler.destroy()
+
+                for widget in (self.clockCover, self.tooltip, self.label, self.colorWidget, self.backgroundTexture, self.desktopButton, self.CopilotButton, self.UpdatesProgressBar):
+                    if widget != None:
                         try:
                             widget.setAttribute(Qt.WA_DeleteOnClose, True) 
                             widget.deleteLater()
                             widget.close()
-                        except AttributeError:
-                            pass
                         except Exception as e:
                             report(e)
-                except AttributeError:
-                    pass
+                
                 try:
                     self.setAttribute(Qt.WA_DeleteOnClose, True) 
                     self.deleteLater()
@@ -1406,21 +1432,22 @@ try:
 
             def resizeEvent(self, event: QResizeEvent = None):
                 
-                self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
-                self.progressbar.setFixedWidth(self.label.width())
+                if(self.UpdatesProgressBar):
+                    if self.CLOCK_ON_THE_LEFT:
+                        self.UpdatesProgressBar.move(self.label.x() - self.label.EXTRA_BG_WIDTH, self.height()-self.UpdatesProgressBar.height()-2)
+                    else:
+                        self.UpdatesProgressBar.move(self.label.x(), self.height()-self.UpdatesProgressBar.height()-2)
+                    self.UpdatesProgressBar.setFixedWidth(self.label.width() + self.label.EXTRA_BG_WIDTH)
                 
                 if self.CLOCK_ON_THE_LEFT:
                     self.colorWidget.move(self.label.x() - self.label.EXTRA_BG_WIDTH, 0)
+                    self.backgroundTexture.move(self.label.x() - self.label.EXTRA_BG_WIDTH, 0)
                 else:
                     self.colorWidget.move(self.label.x(), 0)
+                    self.backgroundTexture.move(self.label.x(), 0)
                 self.colorWidget.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.height())
-                
-                if(self.IS_COVER):
-                    print(":", self.label.geometry())
-                    print(" ", self.colorWidget.geometry())
-                
-                self.backgroundTexture.setGeometry(self.colorWidget.geometry())
-            
+                self.backgroundTexture.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.height())
+                                            
                 if event:
                     return super().resizeEvent(event)
 
@@ -1509,6 +1536,7 @@ try:
                 self.opacity=QGraphicsOpacityEffect(self)
                 self.opacity.setOpacity(1.00)
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
+                self.setStyleSheet("background-color: transparent")
 
             def enterEvent(self, event: QEvent, r=False) -> None:
                 self.showBackground.setStartValue(.01)
@@ -1651,7 +1679,6 @@ try:
                 self.filledBellBlack = QIcon(blackBell)
 
                 self.lastFocusAssistIcon = None
-
                 self.disableClockIndicators()
 
 

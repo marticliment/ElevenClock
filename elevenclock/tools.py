@@ -397,7 +397,7 @@ clockToHide: '__init__.Clock' = None
 def hideClockFromMenu():
     global clockToHide
     if clockToHide:
-        clockToHide.hide()
+        clockToHide.close()
                     
 class TaskbarIconTray(QSystemTrayIcon):
     def __init__(self, app=None):
