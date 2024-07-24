@@ -1393,10 +1393,13 @@ try:
                             report(e)
                 except AttributeError:
                     pass
-                self.setAttribute(Qt.WA_DeleteOnClose, True) 
-                self.deleteLater()
-                self.destroy(True, True)
-                return super().close()
+                try:
+                    self.setAttribute(Qt.WA_DeleteOnClose, True) 
+                    self.deleteLater()
+                    self.destroy(True, True)
+                    return super().close()
+                except: 
+                    return False
 
             def resizeEvent(self, event: QResizeEvent = None):
                 try:
