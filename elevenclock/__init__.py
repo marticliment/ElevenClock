@@ -1127,7 +1127,7 @@ try:
 
                     if ENABLE_AUTOMATIC_BACKGROUND_COLOR or ENABLE_AUTOMATIC_TEXT_COLOR:
                         screen = self.screen().geometry()
-                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x() - screen.x() + self.label.x() + (self.label.width() + 1 if self.CLOCK_ON_THE_LEFT else - 2), self.y()-screen.y(), 1, 1).toImage().pixel(0, 0)
+                        BackgroundIntegerColor = self.screen().grabWindow(0, self.x() - screen.x() + self.colorWidget.x() + (self.colorWidget.width() + 1 if self.CLOCK_ON_THE_LEFT else - 5), self.y()-screen.y(), 1, 1).toImage().pixel(0, 0)
                     
                     
                     if globals.trayIcon:
