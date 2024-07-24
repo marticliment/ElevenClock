@@ -858,11 +858,12 @@ try:
                     self.desktopButton: QHoverButton = None
                     
                     
-                    if(getSettings("EnableCopilotIcon")):
-                        copilotIcon = CopilotButton()
+                    if(not self.IS_COVER and getSettings("EnableCopilotIcon")):
+                        copilotIcon = CopilotButton(self)
                         copilotIcon.setFixedHeight(self.preferedHeight)
                         copilotIcon.setFixedWidth(40)
                         self.MainLayout.addWidget(copilotIcon)
+                        self.label.EXTRA_BG_WIDTH += 40
                     
                     if (readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced", "TaskbarSd", 0) == 1 or self.getSettings("ShowDesktopButton")) and not self.IS_COVER:
                         print("🟡 Desktop button enabled")
@@ -878,10 +879,12 @@ try:
                         self.desktopButton.unpressed.connect(lambda: self.desktopButton.setIcon(hoverIcon))
                         self.desktopButton.unhovered.connect(lambda: self.desktopButton.setIcon(QIcon()))
                         self.desktopButton.raise_()
+                        self.label.EXTRA_BG_WIDTH += 9
                         self.desktopButton.setFixedHeight(self.preferedHeight)
                         self.MainLayout.addWidget(self.desktopButton)
                     else:
                         self.MainLayout.addSpacing(8)
+                        self.label.EXTRA_BG_WIDTH += 8
                     
                     accColors = getColors()
 
@@ -1417,9 +1420,11 @@ try:
                     self.progressbar.move(self.label.x(), self.height()-self.progressbar.height()-2)
                     self.progressbar.setFixedWidth(self.label.width())
                     self.colorWidget.setGeometry(self.label.geometry())
-                    #self.colorWidget.move(self.label.x() - self.label.contentsMargins().left(), self.label.y() - self.label.contentsMargins().top())
-                    #self.colorWidget.resize(self.label.width() + self.label.contentsMargins().left() + self.label.contentsMargins().right(), 
-                    #                        self.label.height() + self.label.contentsMargins().top() + self.label.contentsMargins().bottom())
+                    if not self.CLOCK_ON_THE_LEFT:
+                        self.colorWidget.move(self.label.x(), self.label.y())
+                    else:
+                        self.colorWidget.move(self.label.x() - self.label.EXTRA_BG_WIDTH, self.label.y())
+                    self.colorWidget.resize(self.label.width() + self.label.EXTRA_BG_WIDTH, self.label.height())
                     self.backgroundTexture.setGeometry(self.colorWidget.geometry())
                 except Exception as e:
                     report(e)
@@ -1479,19 +1484,98 @@ try:
             
         
         class CopilotButton(QPushButton):
-            def __init__(self):
-                super().__init__()
+            doubleClicked = Signal()
+            middleClicked = Signal()
+            clickedd = Signal()
+            def __init__(self, parent: QWidget = None):
+                super().__init__(parent)
                 self.setIcon(QIcon(getPath(f"copilot_color.png")))
                 self.setIconSize(QSize(30,30))
-                self.clicked.connect(lambda: keyboard.press_and_release("Win+c"))
+                self.clickedd.connect(lambda: keyboard.press_and_release("Win+c"))
                 
+
                 
-        
+                self.setMouseTracking(True)
+                self.color = "255, 255, 255"
+                self.sidesColor = "0, 0, 0" if isTaskbarDark() else "200,200,200"
+                QGuiApplication.instance().installEventFilter(self)
+                self.bgopacity = 0.2
+                self.backgroundwidget = QWidget(self)
+                self.backgroundwidget.setContentsMargins(0, 0, 0, 0)
+                self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: 1px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
+                self.backgroundwidget.show()
+                self.showBackground = QVariantAnimation()
+                self.showBackground.setStartValue(0)
+                self.showBackground.setEndValue(self.bgopacity)
+                self.showBackground.setDuration(100)
+                self.showBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
+                self.showBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border: 1px solid rgba({self.sidesColor}, {opacity});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
+                self.hideBackground = QVariantAnimation()
+                self.hideBackground.setStartValue(self.bgopacity)
+                self.hideBackground.setEndValue(0)
+                self.hideBackground.setDuration(100)
+                self.hideBackground.setEasingCurve(QEasingCurve.InOutQuad) # Not strictly required, just for the aesthetics
+                self.hideBackground.valueChanged.connect(lambda opacity: self.backgroundwidget.setStyleSheet(f"background-color: rgba({self.color}, {opacity/1.5});border-top: 1px solid rgba({self.color}, {opacity});margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};padding-bottom: 6px;"))
+                self.setAutoFillBackground(True)
+
+                self.opacity=QGraphicsOpacityEffect(self)
+                self.opacity.setOpacity(1.00)
+                self.backgroundwidget.setGraphicsEffect(self.opacity)
+
+            def enterEvent(self, event: QEvent, r=False) -> None:
+                self.showBackground.setStartValue(.01)
+                self.showBackground.setEndValue(self.bgopacity) # Not 0 to prevent white flashing on the border
+                self.showBackground.start()
+                if not r:
+                    self.enterEvent(event, r=True)
+                return super().enterEvent(event)
+
+            def leaveEvent(self, event: QEvent) -> None:
+                self.hideBackground.setStartValue(self.bgopacity)
+                self.hideBackground.setEndValue(.01) # Not 0 to prevent white flashing on the border
+                self.hideBackground.start()
+                return super().leaveEvent(event)
+
+            def window(self) -> Clock:
+                try:
+                    return super().window()
+                except RuntimeError:
+                    del self
+                    
+            def resizeEvent(self, event: QResizeEvent) -> None:
+                X = max((self.width() - 40)/2, 0)
+                Y = max((self.height() - 40)/2, 0)
+                self.backgroundwidget.setGeometry(X, Y, self.width() + X*2, self.height() - Y*2)
+                return super().resizeEvent(event)
+
+            def mousePressEvent(self, ev: QMouseEvent) -> None:
+                self.setWindowOpacity(0.7)
+                self.opacity.setOpacity(0.60)
+                self.backgroundwidget.setGraphicsEffect(self.opacity)
+                return super().mousePressEvent(ev)
+
+            def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
+                self.setWindowOpacity(1)
+                self.opacity.setOpacity(1)
+                self.backgroundwidget.setGraphicsEffect(self.opacity)
+                
+                if ev.button() == Qt.MouseButton.MiddleButton:
+                    self.middleClicked.emit()
+                elif ev.button() == Qt.MouseButton.RightButton:
+                    i.showMenu(self.window())
+                else:
+                    self.clickedd.emit()
+                    
+                return super().mouseReleaseEvent(ev)
+
+
+
 
         class Label(QLabel):
             clicked = Signal()
             doubleClicked = Signal()
             middleClicked = Signal()
+            EXTRA_BG_WIDTH = 0
             outline = True
             lastNumOfNotifs = -1
             def __init__(self, text, parent, isCover: bool = False, settingsEnvironment: str = ""):
@@ -1517,11 +1601,11 @@ try:
                 self.isMouseButtonLeftClick = True
 
                 self.setMouseTracking(True)
-                self.backgroundwidget = QWidget(self)
                 self.color = "255, 255, 255"
                 self.sidesColor = "0, 0, 0" if isTaskbarDark() else "200,200,200"
                 QGuiApplication.instance().installEventFilter(self)
                 self.bgopacity = 0.2
+                self.backgroundwidget = QWidget(self)
                 self.backgroundwidget.setContentsMargins(0, self.window().prefMargins, 0, self.window().prefMargins)
                 self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: 1px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
                 self.backgroundwidget.show()
@@ -1799,9 +1883,8 @@ try:
                 return super().paintEvent(event)
 
             def resizeEvent(self, event: QResizeEvent) -> None:
-                geometry: QRect = self.geometry()
-                self.backgroundwidget.move(0 , 1)
-                self.backgroundwidget.resize(geometry.width(), geometry.height()-2)
+                Y = max((self.height() - 40)/2, 0)
+                self.backgroundwidget.setGeometry(0, Y, self.width(), self.height() - Y*2)
 
                 if self.focusassitant:
                     self.focusassitant = False
