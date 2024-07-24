@@ -8,7 +8,7 @@ windll.shcore.SetProcessDpiAwareness(c_int(2))
 #
 
 import winreg
-from win32mica import ApplyMica, MICAMODE
+from win32mica import ApplyMica, MicaTheme
 
 from ctypes.wintypes import DWORD, LONG, LPCVOID
 
@@ -88,7 +88,7 @@ class QFramelessWindow(QMainWindow):
         self.setLayout(self._layout)
     
     def showEvent(self, event) -> None:
-        ApplyMica(self.winId(), MICAMODE.DARK if isWindowDark() else MICAMODE.LIGHT)
+        ApplyMica(self.winId(), MicaTheme.DARK if isWindowDark() else MicaTheme.LIGHT)
         return super().showEvent(event)
 
     def moveEvent(self, event) -> None:
