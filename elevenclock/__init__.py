@@ -1523,7 +1523,7 @@ try:
                 self.color = "255, 255, 255"
                 self.sidesColor = "0, 0, 0" if isTaskbarDark() else "200,200,200"
                 QGuiApplication.instance().installEventFilter(self)
-                self.bgopacity = 0.2
+                self.bgopacity = 0.15
                 self.backgroundwidget = QWidget(self)
                 self.backgroundwidget.setContentsMargins(0, 0, 0, 0)
                 self.backgroundwidget.setStyleSheet(f"background-color: rgba(127, 127, 127, 0.0);border: 1px solid rgba({self.sidesColor},0);border-top: 1px solid rgba({self.color},0);margin-top: {self.window().prefMargins}px; margin-bottom: {self.window().prefMargins};")
