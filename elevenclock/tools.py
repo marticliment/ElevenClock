@@ -450,10 +450,9 @@ class TaskbarIconTray(QSystemTrayIcon):
         
         def toggleCopliotMode():
             setSettings("EnableCopilotIcon", not getSettings("EnableCopilotIcon"))
-            globals.restartClocks()
 
         self.enableCopilot = QAction("COPILOT_ICON", app)
-        self.enableCopilot.triggered.connect(lambda: toggleCopliotMode())
+        self.enableCopilot.triggered.connect(toggleCopliotMode)
         menu.addAction(self.enableCopilot)
         
         def blacklist():
