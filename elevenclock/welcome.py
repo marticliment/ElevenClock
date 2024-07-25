@@ -705,7 +705,7 @@ class LastSlide(BasicNavWidget):
         settings.clicked.connect(lambda: closeAndOpenSettings())
 
         def closeAndOpenSettings():
-            globals.sw.show()
+            globals.SettingsWindow.show()
             self.finished.emit()
 
         donate = ButtonLabel(size=64)

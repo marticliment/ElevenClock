@@ -230,18 +230,18 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
         try:
             if not thread:
                 #globals.loadTimeFormat()
-                globals.sw.updateCheckBoxesStatus()
+                globals.SettingsWindow.updateCheckBoxesStatus()
                 for sw in specificSettings.values():
                     sw.updateCheckBoxesStatus()
         except (NotImplementedError, AttributeError):
             pass
         if r and not thread:
             globals.restartClocks()
-            if globals.trayIcon:
+            if globals.TrayIcon:
                 if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
-                    globals.trayIcon.hide()
+                    globals.TrayIcon.hide()
                 else:
-                    globals.trayIcon.show()
+                    globals.TrayIcon.show()
     except Exception as e:
         report(e)
 
@@ -416,7 +416,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         menu.setAttribute(Qt.WA_TranslucentBackground)
         menu.addSeparator()
         self.settingsAction = QAction(_("ElevenClock Settings"), app)
-        self.settingsAction.triggered.connect(lambda: globals.sw.show())
+        self.settingsAction.triggered.connect(lambda: globals.SettingsWindow.show())
         menu.addAction(self.settingsAction)
         self.reloadAction = QAction(_("Reload Clocks"), app)
         self.reloadAction.triggered.connect(lambda: globals.restartClocks())
@@ -462,7 +462,7 @@ class TaskbarIconTray(QSystemTrayIcon):
             global msg
             msg = QFramelessDialog(parent=None, closeOnClick=True, xoff=self.toolsMenu.screen().geometry().x(), yoff=self.toolsMenu.screen().geometry().y())
             msg.setAutoFillBackground(True)
-            msg.setStyleSheet(globals.sw.styleSheet())
+            msg.setStyleSheet(globals.SettingsWindow.styleSheet())
             msg.setAttribute(Qt.WA_StyledBackground)
             msg.setObjectName("QMessageBox")
             msg.setTitle(_("Blacklist Monitor"))
@@ -473,7 +473,7 @@ class TaskbarIconTray(QSystemTrayIcon):
     """)
             msg.addButton(_("Yes"), QDialogButtonBox.ButtonRole.ApplyRole, lambda: blacklist())
             msg.addButton(_("No"), QDialogButtonBox.ButtonRole.RejectRole)
-            msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, globals.sw.styleSheet())
+            msg.setDefaultButtonRole(QDialogButtonBox.ButtonRole.ApplyRole, globals.SettingsWindow.styleSheet())
             msg.setWindowTitle("ElevenClock was updated!")
             msg.show()
         
@@ -547,7 +547,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         def activationHandler(reason: QSystemTrayIcon.ActivationReason) -> None:
             match reason:
                 case QSystemTrayIcon.ActivationReason.DoubleClick:
-                    globals.sw.show()
+                    globals.SettingsWindow.show()
                 case QSystemTrayIcon.ActivationReason.Context:
                     return
                 case _:
@@ -842,9 +842,9 @@ def loadLangFile(file: str, bundled: bool = False) -> dict:
         return {}
 
 def resetSettingsWindow():
-    ow = globals.sw
-    from settings import SettingsWindow
-    globals.sw = SettingsWindow()
+    ow = globals.SettingsWindow
+    from settings import SettingsUI
+    globals.SettingsWindow = SettingsUI()
     ow.hide()
     ow.close()
     del ow
@@ -902,13 +902,13 @@ def updateLangFile(file: str):
                     f.write(langdata)
                     f.close()
                     lang = loadLangFile(file) | {"locale": lang["locale"] if "locale" in lang.keys() else "en"}
-                    while globals.sw == None:
+                    while globals.SettingsWindow == None:
                         time.sleep(0.1)
                         print("🟠 Waiting for sw to not be null")
-                    while globals.sw.isVisible():
+                    while globals.SettingsWindow.isVisible():
                         time.sleep(0.1)
                         print("🟠 Waiting for sw to be hidden")
-                    globals.sw.callInMain.emit(resetSettingsWindow)
+                    globals.SettingsWindow.callInMain.emit(resetSettingsWindow)
             else:
                 print("🔵 Language file up-to-date")
                 

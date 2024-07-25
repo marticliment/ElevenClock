@@ -58,7 +58,7 @@ try:
         seconddoubleclick = False
         isRDPRunning = False
         restartCount = 0
-        tempDir = ""
+        TemporaryDirectory = ""
         timeStr = ""
         dateTimeFormat = ""
         globals.clocks = []
@@ -120,7 +120,7 @@ try:
                             filedata = urlopen(url)
                             datatowrite = filedata.read()
                             filename = ""
-                            with open(os.path.join(tempDir, "elevenclock-updater.exe"), 'wb') as f:
+                            with open(os.path.join(TemporaryDirectory, "elevenclock-updater.exe"), 'wb') as f:
                                 f.write(datatowrite)
                                 filename = f.name
                             if hashlib.sha256(datatowrite).hexdigest().lower() == provided_hash:
@@ -183,7 +183,7 @@ try:
                 print("🟠 Psutil couldn't be imported!")
                 memOk = True
             
-            if globals.sw: isPrefsWinOpen = globals.sw.isVisible()
+            if globals.SettingsWindow: isPrefsWinOpen = globals.SettingsWindow.isVisible()
             else: isPrefsWinOpen = False
             if globals.ww: isWizardOpen = globals.ww.isVisible()
             else: isWizardOpen = False
@@ -199,11 +199,11 @@ try:
                 if getSettings("AutoReloadClocks"):
                     Thread(target=lambda: (time.sleep(5*60), restartClocksSignal.restartSignal.emit())).start()
                 
-                if globals.trayIcon:
+                if globals.TrayIcon:
                     if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
-                        globals.trayIcon.hide()
+                        globals.TrayIcon.hide()
                     else:
-                        globals.trayIcon.show()
+                        globals.TrayIcon.show()
             else:
                 cprint("🔴 Overloading system, killing!")
                 os.startfile(sys.executable)
@@ -261,15 +261,14 @@ try:
             """
             Shows a Windows Notification
             """
-            lastState = i.isVisible()
-            i.show()
-            i.showMessage(title, body)
+            lastState = TrayIcon.isVisible()
+            TrayIcon.show()
+            TrayIcon.showMessage(title, body)
             if uBtn:
-                sw.updateButton.show()
-            i.setVisible(lastState)
+                SettingsWindow.updateButton.show()
+            TrayIcon.setVisible(lastState)
 
         def restartClocks(caller: str = ""):
-            global st
             closeClocks()
             loadClocks()
             setSettings("ReloadInternetTime", True, thread=True)
@@ -327,7 +326,7 @@ try:
                 time.sleep(2)
 
         def wanrUserAboutUpdates(a, b):
-            if(QMessageBox.question(sw, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
+            if(QMessageBox.question(SettingsWindow, a, b, QMessageBox.Open | QMessageBox.Cancel, QMessageBox.Open) == QMessageBox.Open):
                 os.startfile("https://github.com/marticliment/ElevenClock/releases/latest")
 
         def checkIfWokeUpThread():
@@ -1138,8 +1137,8 @@ try:
                         BackgroundIntegerColor = self.screen().grabWindow(0, self.x() - screenG.x() + self.colorWidget.x() + (self.colorWidget.width() + 1 if self.CLOCK_ON_THE_LEFT else - 5), (self.y() - screenG.y() + 1), 1, 1).toImage().pixel(0, 0)
                     
                     
-                    if globals.trayIcon:
-                        ContextMenuIsVisible = globals.trayIcon.contextMenu().isVisible()
+                    if globals.TrayIcon:
+                        ContextMenuIsVisible = globals.TrayIcon.contextMenu().isVisible()
                     
                     if (ENABLE_AUTOMATIC_BACKGROUND_COLOR and not ContextMenuIsVisible and not CLOCK_IS_TEMPORARILY_TRANSPARENT) or ForceUpdateBackgroundColor:
                         try:
@@ -1227,8 +1226,8 @@ try:
                             HideClock = False
                             ClockShownByTaskbarShow = True
                         elif mousePos.y() <= (self.screenGeometry.y() + self.screenGeometry.height() - self.preferedHeight - 10) and ClockShownByTaskbarShow:
-                            if globals.trayIcon is not None:
-                                menu = globals.trayIcon.contextMenu()
+                            if globals.TrayIcon is not None:
+                                menu = globals.TrayIcon.contextMenu()
                                 HideClock = not menu.isVisible()
                                 ClockShownByTaskbarShow = menu.isVisible()
                             else:
@@ -1403,9 +1402,9 @@ try:
             def refreshAndShow(self):
                 if(self.shouldBeVisible):
                     self.show()
-                    if not i.contextMenu().isVisible(): self.raise_()
+                    if not TrayIcon.contextMenu().isVisible(): self.raise_()
                     if not self.IS_COVER:
-                        if(self.lastTheme >= 0): # If the color is not customized
+                        if self.lastTheme >= 0: # If the color is customized, theme is set to -1
                             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
                             if(theme != self.lastTheme):
                                 self.callInMainSignal.emit(restartClocks)
@@ -1584,7 +1583,7 @@ try:
                 self.backgroundwidget.setGraphicsEffect(self.opacity)
                 
                 if ev.button() == Qt.MouseButton.RightButton:
-                    i.showMenu(self.window())
+                    TrayIcon.showMenu(self.window())
                     
                 return super().mouseReleaseEvent(ev)
 
@@ -1843,7 +1842,7 @@ try:
                     
                     BUTTON = ev.button()
                     if BUTTON == Qt.MouseButton.RightButton:
-                        i.showMenu(self.window()) # Show the context menu
+                        TrayIcon.showMenu(self.window()) # Show the context menu
                     elif BUTTON == Qt.MouseButton.MiddleButton:
                         self.middleClicked.emit()
                     else:
@@ -1895,9 +1894,8 @@ try:
             app = QApplication.instance()
         app.setQuitOnLastWindowClosed(False)
 
-        sw: SettingsWindow = None
-        i: TaskbarIconTray = None
-        st: KillableThread = None # Will be defined on loadClocks
+        SettingsWindow: SettingsUI = None
+        TrayIcon: TaskbarIconTray = None
         shouldFixSeconds = not(getSettings("UseCustomFont")) and not(lang["locale"] in ("zh_CN", "zh_TW"))
 
         KillableThread(target=resetRestartCount, daemon=True, name="Main: Restart counter").start()
@@ -1906,16 +1904,14 @@ try:
 
         print(f"🟢 Loaded clocks in {time.time()-FirstTime}")
 
-        tdir = tempfile.TemporaryDirectory()
-        tempDir = tdir.name
-        sw = SettingsWindow() # Declare settings window
-        i = TaskbarIconTray(app)
-        #mController = MouseController()
+        TemporaryDirectory = tempfile.TemporaryDirectory().name
+        SettingsWindow = SettingsUI() 
+        TrayIcon = TaskbarIconTray(app)
         
         if(getSettings("DisableSystemTray") and len(globals.clocks)>0):
-            i.hide()
+            TrayIcon.hide()
         else:
-            i.show()
+            TrayIcon.show()
 
         app.primaryScreenChanged.connect(lambda: (os.startfile(sys.executable), app.quit()))
         app.screenAdded.connect(lambda: (os.startfile(sys.executable), app.quit()))
@@ -1940,12 +1936,12 @@ try:
         print("🔵 Low cpu mode is set to", str(getSettings("EnableLowCpuMode"))+". DisableNotifications is set to", getSettings("DisableNotifications"))
 
 
-        globals.tempDir = tempDir # Register global variables
+        globals.TemporaryDirectory = TemporaryDirectory # Register global variables
         globals.old_stdout = old_stdout # Register global variables
         globals.buffer = buffer # Register global variables
         globals.app = app # Register global variables
-        globals.sw = sw # Register global variables
-        globals.trayIcon = i # Register global variables
+        globals.SettingsWindow = SettingsWindow # Register global variables
+        globals.TrayIcon = TrayIcon # Register global variables
         globals.updateIfPossible = updateIfPossible # Register global functions
         globals.restartClocks = restartClocks # Register global functions
         globals.closeClocks = closeClocks  # Register global functions
@@ -1960,7 +1956,7 @@ try:
 
         showSettings = False
         if "--settings" in sys.argv or showSettings:
-            sw.show()
+            SettingsWindow.show()
 
         if getSettings("DefaultPrefsLoaded") and not getSettings("NewWizardLaunchingMechanism"):
             setSettings("AlreadyDoneWelcomeWizard", True)

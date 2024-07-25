@@ -40,7 +40,7 @@ from win32con import GWL_STYLE, WS_BORDER, WS_THICKFRAME, WS_CAPTION, WS_SYSMENU
 from external.FramelessWindow import QFramelessWindow, QFramelessDialog
 from external.blurwindow import ExtendFrameIntoClientArea, GlobalBlur
 
-class SettingsWindow(QMainWindow):
+class SettingsUI(QMainWindow):
     callInMain = Signal(object)
     lastTheme: int = -1
     def __init__(self):
@@ -448,7 +448,7 @@ class SettingsWindow(QMainWindow):
             globals.restartClocks()
             msg = QFramelessDialog(parent=self, closeOnClick=True)
             msg.setAutoFillBackground(True)
-            msg.setStyleSheet(globals.sw.styleSheet())
+            msg.setStyleSheet(globals.SettingsWindow.styleSheet())
             msg.setAttribute(Qt.WA_StyledBackground)
             msg.setObjectName("QMessageBox")
             msg.setTitle(_("Success")+"!")
@@ -2463,7 +2463,7 @@ class QSettingsTitle(QWidget):
             self.childsVisible = True
             Thread(target=self.showChildren).start()
 
-    def window(self) -> 'SettingsWindow':
+    def window(self) -> 'SettingsUI':
         return super().window()
 
     def get6px(self, i: int) -> int:
@@ -2908,7 +2908,7 @@ class QCustomColorDialog(QColorDialog):
 
     def showEvent(self, arg__1: QShowEvent) -> None:
         ExtendFrameIntoClientArea(self.winId().__int__())
-        self.setWindowIcon(globals.sw.windowIcon())
+        self.setWindowIcon(globals.SettingsWindow.windowIcon())
         self.hwnd = self.winId().__int__()
         if ApplyMica(self.hwnd, isWindowDark()) != 0x0:
             if isWindowDark():
@@ -3337,7 +3337,7 @@ class QAnnouncements(QLabel):
         raise Exception("This member should not be used under any circumstances")
     
     
-class CustomSettings(SettingsWindow):
+class CustomSettings(SettingsUI):
     def __init__(self, id, data):
         self.data = data
         self.clockId = id
@@ -3360,7 +3360,7 @@ class CustomSettings(SettingsWindow):
         self.dummyTitle.addWidget(self.enableCustomStyle)
         self.openGeneralSettings = QSettingsButton(_("Do you want to open the global settings instead?"), _("Open global settings"))
         self.openGeneralSettings.button.setObjectName("AccentButton")
-        self.openGeneralSettings.clicked.connect(lambda: (globals.sw.setGeometry(self.geometry()), self.hide(), globals.sw.show()))
+        self.openGeneralSettings.clicked.connect(lambda: (globals.SettingsWindow.setGeometry(self.geometry()), self.hide(), globals.SettingsWindow.show()))
 
         self.importPrefs = QSettingsComboBox(_("Clone style from another clock"))
         self.importPrefs.restartButton.setText(_("Import"))
