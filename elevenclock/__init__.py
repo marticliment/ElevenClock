@@ -1606,10 +1606,7 @@ try:
                 self.mouseButtonTimer.setSingleShot(True)
                 self.mouseButtonTimer.setInterval((300 if getSettings("DoubleClickLongerPeriod") else 150) if getSettings("CustomClockDoubleClickAction", env=self.settingsEnvironment) else 0)
                 self.mouseButtonTimer.timeout.connect(self.mouseButtonTimeout)
-
                 self.isMouseButtonDouble = False
-                self.isMouseButtonReleased = False
-                self.isMouseButtonLeftClick = True
 
                 self.setMouseTracking(True)
                 self.color = "255, 255, 255"
@@ -1819,51 +1816,24 @@ try:
                     self.window().updateToolTipStatus(False)
                 return super().leaveEvent(event)
 
-            def eventFilter(self, obj, event):
-                try:
-                    if obj == self:
-                        match event.type():
-                            case QEvent.MouseButtonPress:
-                                self.isMouseButtonReleased = False
-                                self.isMouseButtonLeftClick = False
-                                self.isMouseButtonDouble = False
-                                if not self.mouseButtonTimer.isActive():
-                                    self.mouseButtonTimer.start()
-                                if event.button() == Qt.LeftButton:
-                                    self.isMouseButtonLeftClick = True
-                            case QEvent.MouseButtonRelease:
-                                if not self.isMouseButtonDouble and not self.mouseButtonTimer.isActive():
-                                    if event.button() == Qt.MiddleButton:
-                                        self.middleClicked.emit()
-                                    else:
-                                        self.mouseButtonTimer.start()
-                                self.isMouseButtonReleased = True
-                            case QEvent.MouseButtonDblClick:
-                                self.isMouseButtonDouble = True
-                                return True
-                    return False
-                except RecursionError:
-                    pass   
+            def eventFilter(self, obj, event: QEvent):
+                if obj == self and event.type() == QEvent.Type.MouseButtonDblClick:
+                    self.isMouseButtonDouble = True
+                    return True
                 return super().eventFilter(obj, event)
 
             def mouseButtonTimeout(self):
                 if self.isMouseButtonDouble:
-                    self.doubleClicked.emit()
                     self.mouseButtonTimer.stop()
-                if self.isMouseButtonReleased:
-                    if self.isMouseButtonLeftClick:
-                        if self.isMouseButtonDouble:
-                            pass # The clock was double-clicked
-                        else:
-                            self.clicked.emit()
-                    else:
-                        i.showMenu(self.window())
+                    self.doubleClicked.emit()
+                else:
+                    self.clicked.emit()
 
             def mousePressEvent(self, ev: QMouseEvent) -> None:
                 if not self.IS_COVER:
                     self.setWindowOpacity(0.7)
                     self.opacity.setOpacity(0.60)
-                    self.backgroundwidget.setGraphicsEffect(self.opacity)
+                    self.backgroundwidget.setGraphicsEffect(self.opacity)                
                 return super().mousePressEvent(ev)
 
             def mouseReleaseEvent(self, ev: QMouseEvent) -> None:
@@ -1871,17 +1841,20 @@ try:
                     self.setWindowOpacity(1)
                     self.opacity.setOpacity(1)
                     self.backgroundwidget.setGraphicsEffect(self.opacity)
-                return super().mouseReleaseEvent(ev)
-
-            """def paintEvent(self, event: QPaintEvent) -> None:
-                if self.specifiedMinimumWidth > 0:
-                    w = self.specifiedMinimumWidth
-                else:
-                    w = self.minimumSizeHint().width()
+                    
+                    BUTTON = ev.button()
+                    if BUTTON == Qt.MouseButton.RightButton:
+                        i.showMenu(self.window()) # Show the context menu
+                    elif BUTTON == Qt.MouseButton.MiddleButton:
+                        self.middleClicked.emit()
+                    else:
+                        if not self.mouseButtonTimer.isActive():
+                            self.mouseButtonTimer.start()
+                            self.isMouseButtonDouble = False
+                        else:
+                            self.isMouseButtonDouble = True
                 
-                self.resize(w, self.height())
-
-                return super().paintEvent(event)"""
+                return super().mouseReleaseEvent(ev)
 
             def resizeEvent(self, event: QResizeEvent) -> None:
                 Y = max((self.height() - 42)/2, 0) if self.text().count("\n") < 2 else 0
