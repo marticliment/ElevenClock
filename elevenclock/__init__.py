@@ -1403,7 +1403,7 @@ try:
             def refreshAndShow(self):
                 if(self.shouldBeVisible):
                     self.show()
-                    self.raise_()
+                    if not i.contextMenu().isVisible(): self.raise_()
                     if not self.IS_COVER:
                         if(self.lastTheme >= 0): # If the color is not customized
                             theme = readRegedit(r"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1)
