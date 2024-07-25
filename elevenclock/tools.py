@@ -562,18 +562,12 @@ class TaskbarIconTray(QSystemTrayIcon):
         pos = QPoint(0, 0)
         self.menuScreen = clock.screen()
 
-        if(self.contextMenu().height() != 480):
+        menuHeight = self.contextMenu().height()
+        if menuHeight == 480:
+            self.contextMenu().show() # Force a draw of the window and fetch the data again
             menuHeight = self.contextMenu().height()
-        else:
-            if getSettings("HideTaskManagerButton"):
-                menuHeight = (290)
-            else:
-                menuHeight = (400)
-
-        if(self.contextMenu().width() != 640):
-            menuWidth = self.contextMenu().width()
-        else:
-            menuWidth = (225)
+                        
+        menuWidth = self.contextMenu().width()
 
         if clock.CLOCK_ON_THE_LEFT:
             pos.setX(clock.screen().geometry().x()+(5))
