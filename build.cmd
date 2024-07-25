@@ -59,7 +59,7 @@ rmdir /Q /S external\__pycache__
 rmdir /Q /S lang\__pycache__
 copy ..\elevenclock\__init__.py .\
 
-%py% -m PyInstaller elevenclock.spec 
+%py% -m PyInstaller elevenclock.spec
 if %errorlevel% neq 0 goto:error
 
 timeout 2
