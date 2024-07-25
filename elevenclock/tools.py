@@ -558,7 +558,7 @@ class TaskbarIconTray(QSystemTrayIcon):
         
         self.applyStyleSheet()
 
-    def showMenu(self, clock: 'Clock'):
+    def showMenu(self, clock: '__init__.Clock'):
         pos = QPoint(0, 0)
         self.menuScreen = clock.screen()
 
