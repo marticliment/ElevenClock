@@ -686,7 +686,16 @@ try:
                         self.SHOULD_COVER_WINDOWS_CLOCK = False
                         print("🟠 Clock on the bottom (by exception)")
                         
+                    minWidth = 0
+                    try:
+                        minWidth = int(getSettingsValue("ClockFixedWidth", env=self.settingsEnvironment))
+                    except Exception as e:
+                        print(e)
                         
+                    if(minWidth > 10):
+                        self.setFixedWidth(minWidth)
+                        self.preferedwidth = minWidth
+                     
                     else:
                         self.showBlurryBackground = False
 
@@ -1592,14 +1601,6 @@ try:
                 self.settingsEnvironment = settingsEnvironment
                 super().__init__(text, parent=parent)
                 self.IS_COVER = isCover
-                try:
-                    self.specifiedMinimumWidth = int(getSettingsValue("ClockFixedWidth", env=self.settingsEnvironment))
-                except ValueError:
-                    self.specifiedMinimumWidth = 0
-                except Exception as e:
-                    self.specifiedMinimumWidth = 0
-                    report(e)
-                    
 
                 self.mouseButtonTimer = QTimer()
                 self.mouseButtonTimer.setSingleShot(True)
@@ -1872,7 +1873,7 @@ try:
                     self.backgroundwidget.setGraphicsEffect(self.opacity)
                 return super().mouseReleaseEvent(ev)
 
-            def paintEvent(self, event: QPaintEvent) -> None:
+            """def paintEvent(self, event: QPaintEvent) -> None:
                 if self.specifiedMinimumWidth > 0:
                     w = self.specifiedMinimumWidth
                 else:
@@ -1880,7 +1881,7 @@ try:
                 
                 self.resize(w, self.height())
 
-                return super().paintEvent(event)
+                return super().paintEvent(event)"""
 
             def resizeEvent(self, event: QResizeEvent) -> None:
                 Y = max((self.height() - 42)/2, 0) if self.text().count("\n") < 2 else 0
