@@ -15,7 +15,6 @@ try:
         import sys
         import time
         import glob
-        import socket
         import locale
         import hashlib
         import tempfile
