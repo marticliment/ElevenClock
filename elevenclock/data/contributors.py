@@ -17,6 +17,7 @@ contributors = [
   "mmis1000",
   "jameshamm",
   "jmlcoliveira",
+  "skanda890",
   "viktak",
   "richeyphu",
   "jstmrby",
@@ -25,15 +26,14 @@ contributors = [
   "harel013",
   "domlobo",
   "scrocquesel",
-  "SkebbZ",
-  "MatousAdamu"
+  "SkebbZ"
 ]
 
 contributorsInfo = [
   {
     "name": "marticliment",
     "link": "https://github.com/marticliment",
-    "contributions": 1771
+    "contributions": 1799
   },
   {
     "name": "panther7",
@@ -111,6 +111,11 @@ contributorsInfo = [
     "contributions": 6
   },
   {
+    "name": "skanda890",
+    "link": "https://github.com/skanda890",
+    "contributions": 5
+  },
+  {
     "name": "viktak",
     "link": "https://github.com/viktak",
     "contributions": 4
@@ -153,11 +158,6 @@ contributorsInfo = [
   {
     "name": "SkebbZ",
     "link": "https://github.com/SkebbZ",
-    "contributions": 3
-  },
-  {
-    "name": "MatousAdamu",
-    "link": "https://github.com/MatousAdamu",
     "contributions": 3
   }
 ]
