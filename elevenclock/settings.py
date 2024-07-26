@@ -672,14 +672,13 @@ class SettingsUI(QMainWindow):
         self.toolTipBackgroundColor.setStyleSheet(f"QWidget#stChkBg{{border-top: 0px solid transparent;border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-bottom: 1px;}}")
         self.toolTipAppearanceTitle.addWidget(self.toolTipBackgroundColor)
 
-
         self.experimentalTitle = QSettingsTitle(_("Fixes and other experimental features: (Use ONLY if something is not working)"), getPath(f"experiment_{self.iconMode}.png"), _("Testing features and error-fixing tools"))
         layout.addWidget(self.experimentalTitle)
         self.bypassCNAMECheck = QSettingsCheckBox(_("Bypass update provider authenticity check (NOT RECOMMENDED, AT YOUR OWN RISK)"))
         self.bypassCNAMECheck.setChecked(self.getSettings("BypassDomainAuthCheck"))
         self.bypassCNAMECheck.stateChanged.connect(lambda i: self.setSettings("BypassDomainAuthCheck", bool(i), r = False))
         self.experimentalTitle.addWidget(self.bypassCNAMECheck)
-        self.disableZeroNotifications = QSettingsCheckBox(_("Enable the zero on the notification counter (Windows 11 build 22631 or higher)"))
+        self.disableZeroNotifications = QSettingsCheckBox(_("Enable the new notification indicator (Windows 11 build 22631 or higher)"))
         self.disableZeroNotifications.setChecked(not self.getSettings("DisableNewZeroNotificationCounter"))
         self.disableZeroNotifications.stateChanged.connect(lambda i: self.setSettings("DisableNewZeroNotificationCounter", not bool(i)))
         self.experimentalTitle.addWidget(self.disableZeroNotifications)

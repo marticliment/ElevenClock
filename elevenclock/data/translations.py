@@ -8,7 +8,6 @@ untranslatedPercentage = {
   "da": "97%",
   "de": "97%",
   "el": "17%",
-  "es": "96%",
   "et": "80%",
   "eu": "82%",
   "fa": "5%",
