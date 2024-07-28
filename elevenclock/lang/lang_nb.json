@@ -70,7 +70,7 @@
   "Default" : "Standard",
   "Developing is hard, and this aplication is free. But if you liked the application, you can always <b>buy me a coffee</b> :)" : "Utvikling er vanskelig, og dette programmet er gratis. Men hvis du liker programmet kan du alltid <b>kjøpe meg en kaffe</b> :)",
   "Disable clock blurry texture" : "Deaktiver skurrete klokketekstur",
-  "Disable Copilot button" : null,
+  "Disable Copilot button" : "Deaktiver",
   "Disabled" : "Deaktivert",
   "Disable hiding the default windows clock" : "Deaktiver skjuling av standardklokken i Windows",
   "Disable the notification badge" : "Deaktiver varslingsmerket",
