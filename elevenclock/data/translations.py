@@ -23,7 +23,6 @@ untranslatedPercentage = {
   "lt": "18%",
   "lv": "54%",
   "nl": "84%",
-  "pl": "97%",
   "pt_BR": "97%",
   "pt_PT": "97%",
   "ro": "80%",
@@ -264,6 +263,10 @@ languageCredits = {
     }
   ],
   "pl": [
+    {
+      "name": "Fresta",
+      "link": ""
+    },
     {
       "name": "PabloMat",
       "link": "https://github.com/PabloMat"
