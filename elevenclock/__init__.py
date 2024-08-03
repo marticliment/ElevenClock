@@ -1418,16 +1418,19 @@ try:
                 except AttributeError:
                     pass
                 
-                if self.AnimationHandler != None: self.AnimationHandler.destroy()
+                try:
+                    if self.AnimationHandler != None: self.AnimationHandler.destroy()
 
-                for widget in (self.clockCover, self.tooltip, self.label, self.colorWidget, self.backgroundTexture, self.desktopButton, self.CopilotButton, self.UpdatesProgressBar):
-                    if widget != None:
-                        try:
-                            widget.setAttribute(Qt.WA_DeleteOnClose, True) 
-                            widget.deleteLater()
-                            widget.close()
-                        except Exception as e:
-                            report(e)
+                    for widget in (self.clockCover, self.tooltip, self.label, self.colorWidget, self.backgroundTexture, self.desktopButton, self.CopilotButton, self.UpdatesProgressBar):
+                        if widget != None:
+                            try:
+                                widget.setAttribute(Qt.WA_DeleteOnClose, True) 
+                                widget.deleteLater()
+                                widget.close()
+                            except Exception as e:
+                                report(e)
+                except Exception as e:
+                    print(e)
                 
                 try:
                     self.setAttribute(Qt.WA_DeleteOnClose, True) 
