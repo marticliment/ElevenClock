@@ -111,8 +111,10 @@ def getint(s: str, fallback: int) -> int:
         return fallback
 
 def report(exception) -> None: # Exception reporter
-    cprint(e)
-    cprint(str(traceback.format_exc()))
+    import traceback
+    for line in traceback.format_exception(*sys.exc_info()):
+        print("🔴 "+line)
+        cprint("🔴 "+line)
     print(f"🔴 Note this traceback was caught by reporter and has been added to the log ({exception})")
 
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):

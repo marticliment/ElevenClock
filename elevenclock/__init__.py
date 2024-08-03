@@ -121,6 +121,8 @@ try:
                             filedata = urlopen(url)
                             datatowrite = filedata.read()
                             filename = ""
+                            if not os.path.exists(TemporaryDirectory):
+                                os.mkdir(TemporaryDirectory)
                             with open(os.path.join(TemporaryDirectory, "elevenclock-updater.exe"), 'wb') as f:
                                 f.write(datatowrite)
                                 filename = f.name
