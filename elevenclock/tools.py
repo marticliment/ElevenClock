@@ -5,8 +5,7 @@ import time
 import datetime
 import traceback
 windll.shcore.SetProcessDpiAwareness(c_int(2))
-sys.stdout.reconfigure(encoding='utf-8')
-sys.stderr.reconfigure(encoding='utf-8')
+
 
 from versions import *
 import os
