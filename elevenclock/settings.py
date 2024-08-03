@@ -280,7 +280,9 @@ class SettingsUI(QMainWindow):
             self.setSettingsValue("CustomClockClickAction", clickActions[v])
             self.customClockClickToggleAction.setEnabled(clickActions[v] == "toggle_setting_click")
         try:
-            self.customClockAction.combobox.setCurrentIndex(list(clickActions.values()).index(self.getSettingsValue("CustomClockClickAction")))
+            actions = list(clickActions.values())
+            current = self.getSettingsValue("CustomClockClickAction")
+            self.customClockAction.combobox.setCurrentIndex(actions.index(current) if current in actions else 0)
         except ValueError:
             pass
         self.customClockAction.stateChanged.connect(lambda i: self.setSettings("CustomClockClickAction", bool(i)))
@@ -327,7 +329,9 @@ class SettingsUI(QMainWindow):
         self.customDoubleClickAction.stateChanged.connect(lambda i: self.setSettings("CustomClockDoubleClickAction", bool(i)))
         self.customDoubleClickAction.valueChanged.connect(customDoubleClickActionValueChanged)
         try:
-            self.customDoubleClickAction.combobox.setCurrentIndex(list(doubleActions.values()).index(self.getSettingsValue("CustomClockDoubleClickAction")))
+            actions = list(doubleActions.values())
+            current = self.getSettingsValue("CustomClockDoubleClickAction")
+            self.customDoubleClickAction.combobox.setCurrentIndex(actions.index(current) if current in actions else 0)
         except ValueError:
             pass
         self.clockFeaturesTitle.addWidget(self.customDoubleClickAction)
@@ -370,7 +374,9 @@ class SettingsUI(QMainWindow):
             self.setSettingsValue("CustomClockMiddleClickAction", middleActions[v])
             self.customMiddleClickToggleAction.setEnabled(middleActions[v] == "toggle_setting_mdlclick")
         try:
-            self.customMiddleClickAction.combobox.setCurrentIndex(list(middleActions.values()).index(self.getSettingsValue("CustomClockMiddleClickAction")))
+            actions = list(middleActions.values())
+            current = self.getSettingsValue("CustomClockMiddleClickAction")
+            self.customDoubleClickAction.combobox.setCurrentIndex(actions.index(current) if current in actions else 0)
         except ValueError:
             pass
         self.customMiddleClickAction.stateChanged.connect(lambda i: self.setSettings("CustomClockMiddleClickAction", bool(i)))
@@ -615,7 +621,9 @@ class SettingsUI(QMainWindow):
         self.internetSyncTime.loadItems(actions.keys())
         self.internetSyncTime.setEnabled(True)
         try:
-            self.internetSyncTime.combobox.setCurrentIndex(list(actions.values()).index(self.getSettingsValue("AtomicClockSyncInterval")))
+            actions = list(actions.values())
+            current = self.getSettingsValue("AtomicClockSyncInterval")
+            self.internetSyncTime.combobox.setCurrentIndex(actions.index(current) if current in actions else 0)
         except ValueError:
             pass
         self.internetSyncTime.valueChanged.connect(lambda v: (self.setSettingsValue("AtomicClockSyncInterval", actions[v]), self.setSettings("ReloadInternetTime", True)))
@@ -1124,6 +1132,8 @@ class SettingsUI(QMainWindow):
         self.customMiddleClickToggleAction.setEnabled(isExtraOptionEnabled)
 
         # Following "and" condition is to prevent the checkbox from being disabled when the user had a custom format before the "CustomClockStringsDisabled" setting was added
+        old_Val = globals.BLOCK_RELOAD 
+        globals.BLOCK_RELOAD = True
         self.customDateTimeFormat.setChecked(not self.getSettings("CustomClockStringsDisabled") and self.getSettingsValue("CustomClockStrings") != False)
         self.showTime.setChecked(not self.getSettings("DisableTime"))
         self.showSeconds.setChecked(self.getSettings("EnableSeconds"))
@@ -1131,6 +1141,7 @@ class SettingsUI(QMainWindow):
         self.showWeekCount.setChecked(self.getSettings("EnableWeekNumber"))
         self.showWeekday.setChecked(self.getSettings("EnableWeekDay"))
         self.dateTimeTitle.resizeEvent()
+        globals.BLOCK_RELOAD = old_Val
 
 
     def applyStyleSheet(self):
@@ -2663,6 +2674,7 @@ class QSettingsComboBox(QWidget):
 class QSettingsCheckBox(QWidget):
     stateChanged = Signal(bool)
     def __init__(self, text="", parent=None):
+        self.DISABLE_UPDATES = False
         super().__init__(parent)
         self.setAttribute(Qt.WA_StyledBackground)
         self.setObjectName("stChkBg")
@@ -2674,7 +2686,7 @@ class QSettingsCheckBox(QWidget):
         else:
             self.checkbox.setStyleSheet("font-size: 9pt;background: none;font-family: \"Segoe UI Variable Text\";font-weight: 450;")
         self.checkbox.setObjectName("stChk")
-        self.checkbox.stateChanged.connect(self.stateChanged.emit)
+        self.checkbox.stateChanged.connect(lambda v: self.stateChanged.emit(v) if not self.DISABLE_UPDATES else None)
         self.checkbox.move((70), 10)
         self.checkbox.setFixedHeight(30)
         self.setFixedHeight(50)
@@ -2683,7 +2695,9 @@ class QSettingsCheckBox(QWidget):
         self.layout().setContentsMargins(70, 0, 20, 0)
 
     def setChecked(self, checked: bool) -> None:
+        self.DISABLE_UPDATES = True
         self.checkbox.setChecked(checked)
+        self.DISABLE_UPDATES = False
 
     def isChecked(self) -> bool:
         return self.checkbox.isChecked()
@@ -2718,7 +2732,8 @@ class QSettingsCheckBoxWithWarning(QSettingsCheckBox):
 
     def stateChangedFun(self, checked: bool) -> bool:
         self.infolabel.setVisible(checked)
-        self.stateChanged.emit(checked)
+        if not self.DISABLE_UPDATES: 
+            self.stateChanged.emit(checked)
 
 
 class QSettingsCheckBoxTextBox(QSettingsCheckBox):
@@ -2737,6 +2752,7 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
                 menu.exec(e.globalPos())
 
         super().__init__(text=text, parent=parent)
+        self.DISABLE_UPDATES = False
         self.setAttribute(Qt.WA_StyledBackground)
         self.lineedit = QLineEditWithFluentMenu(self)
         self.oldtext = ""
@@ -2761,14 +2777,17 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
         self.layout().setContentsMargins(70, 5, 20, 0)
 
     def valuechangedEvent(self, text: str):
-        self.valueChanged.emit(text)
+        if not self.DISABLE_UPDATES: 
+            self.valueChanged.emit(text)
 
     def setPlaceholderText(self, text: str):
         self.lineedit.setPlaceholderText(text)
         self.oldtext = text
 
     def setText(self, text: str):
+        self.DISABLE_UPDATES = True
         self.lineedit.setText(text)
+        self.DISABLE_UPDATES = False
 
     def stateChangedEvent(self, v: bool):
         self.lineedit.setEnabled(self.checkbox.isChecked())
@@ -2777,13 +2796,16 @@ class QSettingsCheckBoxTextBox(QSettingsCheckBox):
             self.oldtext = self.lineedit.placeholderText()
             self.lineedit.setToolTip(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()))
             self.lineedit.setPlaceholderText(_("<b>{0}</b> needs to be enabled to change this setting").format(self.checkbox.text()).replace("<b>", "\"").replace("</b>", "\""))
-            self.stateChanged.emit(v)
+            if not self.DISABLE_UPDATES: 
+                self.stateChanged.emit(v)
         else:
-            self.stateChanged.emit(v)
+            if not self.DISABLE_UPDATES: 
+                self.stateChanged.emit(v)
             self.lineedit.setEnabled(True)
             self.lineedit.setToolTip("")
             self.lineedit.setPlaceholderText(self.oldtext)
-            self.valueChanged.emit(self.lineedit.text())
+            if not self.DISABLE_UPDATES: 
+                self.valueChanged.emit(self.lineedit.text())
 
 
 class QSettingsSizeBoxComboBox(QSettingsCheckBox):

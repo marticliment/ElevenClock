@@ -10,8 +10,7 @@ from PySide6.QtGui import *
 from PySide6.QtCore import *
 from PySide6.QtWidgets import *
 
-
-
+BLOCK_RELOAD: bool = False
 
 def loadTimeFormat():
     print("🟡 loadTimeFormat function has not been defined yet!")

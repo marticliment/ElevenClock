@@ -1,9 +1,12 @@
 from ctypes import c_int, windll
 from functools import partial
-import json
+import json, sys
 import time
 import datetime
+import traceback
 windll.shcore.SetProcessDpiAwareness(c_int(2))
+sys.stdout.reconfigure(encoding='utf-8')
+sys.stderr.reconfigure(encoding='utf-8')
 
 from versions import *
 import os
@@ -104,15 +107,13 @@ def isTaskbarDark() -> bool:
 
 def getint(s: str, fallback: int) -> int:
     try:
-        return int(s)
+        return int(s) if s != "" else fallback
     except:
         return fallback
 
 def report(exception) -> None: # Exception reporter
-    import traceback
-    for line in traceback.format_exception(*sys.exc_info()):
-        print("🔴 "+line)
-        cprint("🔴 "+line)
+    cprint(e)
+    cprint(str(traceback.format_exc()))
     print(f"🔴 Note this traceback was caught by reporter and has been added to the log ({exception})")
 
 def readRegedit(aKey, sKey, default, storage=winreg.HKEY_CURRENT_USER):
@@ -203,12 +204,11 @@ def getColors() -> list:
 def getSettings(s: str, env: str = ""):
     settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
-        try:
-            return globals.settingsCache[settingsName]
-        except KeyError:
+        if not settingsName in globals.settingsCache:
             v = os.path.exists(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName))
             globals.settingsCache[settingsName] = v
-            return v
+        return globals.settingsCache[settingsName]
+    
     except Exception as e:
         report(e)
 
@@ -220,16 +220,17 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
     try:
         globals.settingsCache = {}
         globals.settingsCache[settingsName] = v
+        FILE = os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName)
         if(v):
-            open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "w").close()
+            open(FILE, "w").close()
         else:
             try:
-                os.remove(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName))
+                if os.path.exists(FILE):
+                    os.remove(FILE)
             except FileNotFoundError:
                 pass
         try:
-            if not thread:
-                #globals.loadTimeFormat()
+            if not thread and globals.SettingsWindow is not None:
                 globals.SettingsWindow.updateCheckBoxesStatus()
                 for sw in specificSettings.values():
                     sw.updateCheckBoxesStatus()
@@ -248,13 +249,14 @@ def setSettings(s: str, v: bool, r: bool = True, thread = False, env: str = ""):
 def getSettingsValue(s: str, env: str = "") -> str:
     settingsName = (env+s).replace("\\", "").replace("/", "")
     try:
-        try:
-            return str(globals.settingsCache[settingsName+"Value"])
-        except KeyError:
-            with open(os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName), "r") as sf:
+        if settingsName+"Value" not in globals.settingsCache:
+            FILE = os.path.join(os.path.join(os.path.expanduser("~"), ".elevenclock"), settingsName)
+            if not os.path.exists(FILE): 
+                return ""
+            with open(FILE, "r") as sf:
                 v = sf.read()
                 globals.settingsCache[settingsName+"Value"] = v
-                return v
+        return str(globals.settingsCache[settingsName+"Value"])
     except FileNotFoundError:
         return ""
     except Exception as e:
@@ -359,15 +361,16 @@ def getWindowHwnds(wName, prevHwnd = 0):
         report(e)
         return []
     
-def openClockSettings(clockInstance):
+def openClockSettings(clockInstance: 'Clock'):
     try:
+        globals.BLOCK_RELOAD = True
         id, data = clockInstance.getClockID()
-        try:
-            specificSettings[id].show()
-        except KeyError:
+        
+        if not id in specificSettings:
             print(f"🟢 Specific clock settings for clock {id} missing, generating one...")
             specificSettings[id] = globals.CustomSettings(id, data)
-            specificSettings[id].show()
+        specificSettings[id].show()
+        globals.BLOCK_RELOAD = False    
     except Exception as e:
         report(e)
 

@@ -34,6 +34,7 @@ try:
         from PySide6.QtGui import *
         from PySide6.QtCore import *
         from PySide6.QtWidgets import *
+        import shiboken6 as shiboken
         import keyboard
         from external.FramelessWindow import QFramelessDialog
         from external.timezones import win_tz
@@ -174,6 +175,7 @@ try:
 
 
         def loadClocks():
+            globals.BLOCK_RELOAD = True
             global restartCount
             globals.clocks = []
             if importedPsutil:
@@ -209,6 +211,7 @@ try:
                 os.startfile(sys.executable)
                 app.quit()
                 sys.exit(1)
+            globals.BLOCK_RELOAD = False
 
         def getGeometry(screen: QScreen):
             """
@@ -269,6 +272,9 @@ try:
             TrayIcon.setVisible(lastState)
 
         def restartClocks(caller: str = ""):
+            if globals.BLOCK_RELOAD:
+                return
+            
             closeClocks()
             loadClocks()
             setSettings("ReloadInternetTime", True, thread=True)
@@ -502,37 +508,37 @@ try:
             hideSignal = Signal()
             callInMainSignal = Signal(object)
             styler = Signal(str)
-            font: QFont = QFont()
-            preferedwidth = 200
-            coverPreferedWidth = 200
-            isHovered = False
-            isTooltipWaiting = False
-            preferedHeight = 48
-            coverPreferedHeight = 48
-            focusassitant = True
-            lastTheme = 0
-            clockShouldBeHidden = False
-            shouldBeVisible = True
-            isRDPRunning = True
-            CLOCK_ON_THE_LEFT = False
-            INTLOOPTIME = 2
-            tempMakeClockTransparent = False
-            AWindowIsInFullScreen: bool = False
-            clockCover = None
-            isIgnoringClicks = False
-            shownBackgroundOnSolidColor: bool = False
-            clockId: str = ""
-            clockNumber: bool = 0
-            internetTimeOffset: int = 0
-            clockFormat: str = ""
-            settingsEnvironment: str = ""
-            currentTaskbarHwnd: int = 0
-            baseHtmlFontTag: str = ""
-            
-            LastCapturedBackgroundColor: int = -1
-            LastCapturedForegroundColor: str = ""
 
             def __init__(self, dpix: float, dpiy: float, screen: QScreen, index: int, isCover: bool = False, isSecondary: bool = False):
+                self.font: QFont = QFont()
+                self.preferedwidth = 200
+                self.coverPreferedWidth = 200
+                self.isHovered = False
+                self.isTooltipWaiting = False
+                self.preferedHeight = 48
+                self.coverPreferedHeight = 48
+                self.focusassitant = True
+                self.lastTheme = 0
+                self.clockShouldBeHidden = False
+                self.shouldBeVisible = True
+                self.isRDPRunning = True
+                self.CLOCK_ON_THE_LEFT = False
+                self.INTLOOPTIME = 2
+                self.tempMakeClockTransparent = False
+                self.AWindowIsInFullScreen: bool = False
+                self.clockCover = None
+                self.isIgnoringClicks = False
+                self.shownBackgroundOnSolidColor: bool = False
+                self.clockId: str = ""
+                self.clockNumber: bool = 0
+                self.internetTimeOffset: int = 0
+                self.clockFormat: str = ""
+                self.settingsEnvironment: str = ""
+                self.currentTaskbarHwnd: int = 0
+                self.baseHtmlFontTag: str = ""
+                self.LastCapturedBackgroundColor: int = -1
+                self.LastCapturedForegroundColor: str = ""
+                
                 super().__init__()
                 self.SHOULD_COVER_WINDOWS_CLOCK = False
                 self.IS_COVER = isCover
@@ -572,6 +578,7 @@ try:
                     self.index = index
                     self.tooltipEnabled = not self.getSettings("DisableToolTip")
                     print(f"🔵 Initializing clock {index}...")
+
                     self.callInMainSignal.connect(lambda f: f())
                     self.styler.connect(self.setStyleSheet)
 
@@ -686,7 +693,8 @@ try:
                         
                     minWidth = 0
                     try:
-                        minWidth = int(getSettingsValue("ClockFixedWidth", env=self.settingsEnvironment))
+                        val = getSettingsValue("ClockFixedWidth", env=self.settingsEnvironment)
+                        minWidth = int(val if val != "" else 0)
                     except Exception as e:
                         print(e)
                         
@@ -1206,7 +1214,7 @@ try:
                 
                 ClockShownByTaskbarShow: bool = False
                 
-                while True:
+                while shiboken.isValid(self):
                     self.AWindowIsInFullScreen = self.TheresAWindowInFullscreen()
                     HideClock = False
                     
@@ -1309,7 +1317,7 @@ try:
                 if self.IS_COVER:
                     return
                 
-                while True:
+                while shiboken.isValid(self):
                     try:
                         curFormatClock = self.clockFormat
                         timeStr = evaluate_expression_string(time.time(),curFormatClock.replace("\u200a", "hairsec"),self.internetTimeOffset).replace("hairsec", HAIRSEC_VAR)
@@ -1462,7 +1470,7 @@ try:
                     return super().resizeEvent(event)
 
             def loadInternetTimeOffset(self):
-                while True:
+                while shiboken.isValid(self):
                     if self.getSettings("EnableInternetTime"): # This settings value will be cached, so no CPU/HDD overload ;)
                         try:
                             dict = json.loads(urlopen(self.getSettingsValue("AtomicClockURL") if self.getSettingsValue("AtomicClockURL") else "http://worldtimeapi.org/api/ip").read().decode("utf-8"))
@@ -1595,9 +1603,9 @@ try:
             clicked = Signal()
             doubleClicked = Signal()
             middleClicked = Signal()
-            outline = True
-            lastNumOfNotifs = -1
             def __init__(self, text, parent, isCover: bool = False, settingsEnvironment: str = ""):
+                self.outline = True
+                self.lastNumOfNotifs = -1
                 self.EXTRA_BG_WIDTH = 0
                 self.settingsEnvironment = settingsEnvironment
                 super().__init__(text, parent=parent)
