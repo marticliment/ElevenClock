@@ -19,7 +19,6 @@ untranslatedPercentage = {
   "id": "81%",
   "it": "97%",
   "ja": "88%",
-  "ko": "97%",
   "lt": "18%",
   "lv": "54%",
   "nl": "84%",
@@ -217,7 +216,7 @@ languageCredits = {
     },
     {
       "name": "VᴇɴᴜꜱGɪʀʟ (비너스걸)",
-      "link": ""
+      "link": "https://github.com/VᴇɴᴜꜱGɪʀʟ (비너스걸)"
     }
   ],
   "lt": [
