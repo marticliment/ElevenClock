@@ -6,7 +6,6 @@ untranslatedPercentage = {
   "bs": "5%",
   "cs": "95%",
   "da": "97%",
-  "de": "97%",
   "el": "17%",
   "et": "80%",
   "eu": "82%",
@@ -85,6 +84,10 @@ languageCredits = {
     {
       "name": "Bikholf",
       "link": ""
+    },
+    {
+      "name": "schnurlos",
+      "link": "https://github.com/schnurlos"
     },
     {
       "name": "Seeloewen",
