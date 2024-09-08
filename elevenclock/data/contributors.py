@@ -20,6 +20,7 @@ contributors = [
   "skanda890",
   "viktak",
   "richeyphu",
+  "vedantmgoyal9",
   "jstmrby",
   "ppvnf",
   "kinr0k",
@@ -33,7 +34,7 @@ contributorsInfo = [
   {
     "name": "marticliment",
     "link": "https://github.com/marticliment",
-    "contributions": 1813
+    "contributions": 1816
   },
   {
     "name": "panther7",
@@ -124,6 +125,11 @@ contributorsInfo = [
     "name": "richeyphu",
     "link": "https://github.com/richeyphu",
     "contributions": 4
+  },
+  {
+    "name": "vedantmgoyal9",
+    "link": "https://github.com/vedantmgoyal9",
+    "contributions": 3
   },
   {
     "name": "jstmrby",
