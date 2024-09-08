@@ -85,7 +85,7 @@ In order to translate ElevenClock to other languages or to update an old transla
 | <img src='https://flagcdn.com/id.svg' width=20> &nbsp; Indonesian - Bahasa Indonesia | 81% | [adinugrahasatya](https://github.com/adinugrahasatya), FahrulID |
 | <img src='https://flagcdn.com/it.svg' width=20> &nbsp; Italian - Italiano | 97% | [Parapongo](https://github.com/Parapongo), [tuniel-xda](https://github.com/tuniel-xda), [zuidstroopwafel](https://github.com/zuidstroopwafel) |
 | <img src='https://flagcdn.com/jp.svg' width=20> &nbsp; Japanese - 日本語 | 88% | [Robot-Inventor](https://github.com/Robot-Inventor), [ShintakuNobuhiro](https://github.com/ShintakuNobuhiro) |
-| <img src='https://flagcdn.com/kr.svg' width=20> &nbsp; Korean - 한국어 | 100% | [sinusinu](https://github.com/sinusinu), VᴇɴᴜꜱGɪʀʟ (비너스걸) |
+| <img src='https://flagcdn.com/kr.svg' width=20> &nbsp; Korean - 한국어 | 100% | [VᴇɴᴜꜱGɪʀʟ-비너스걸](https://github.com/VenusGirl) |
 | <img src='https://flagcdn.com/lt.svg' width=20> &nbsp; Lithuanian - Lietuvių | 18% | generic pleb |
 | <img src='https://flagcdn.com/lv.svg' width=20> &nbsp; Latvian - Latviski | 54% | [dejelnieks](https://github.com/dejelnieks), [shadow118](https://github.com/shadow118) |
 | <img src='https://flagcdn.com/no.svg' width=20> &nbsp; Norwegian (bokmål) | 100% | [yrjarv](https://github.com/yrjarv) |
