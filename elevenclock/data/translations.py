@@ -32,8 +32,7 @@ untranslatedPercentage = {
   "tr": "97%",
   "ua": "87%",
   "vi": "97%",
-  "zh_CN": "97%",
-  "zh_TW": "97%"
+  "zh_CN": "97%"
 }
 
 languageCredits = {
@@ -409,7 +408,7 @@ languageCredits = {
     },
     {
       "name": "CnYeSheng",
-      "link": ""
+      "link": "https://github.com/CnYeSheng"
     },
     {
       "name": "mmis1000",
