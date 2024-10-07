@@ -5,7 +5,7 @@
 [![Issues Badge](https://img.shields.io/github/issues/martinet101/ElevenClock?style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues)
 [![Closed Issues Badge](https://img.shields.io/github/issues-closed/martinet101/ElevenClock?color=%238256d0&style=for-the-badge)](https://github.com/martinet101/ElevenClock/issues?q=is%3Aissue+is%3Aclosed)
 
-ElevenClock is **free software** (under [Apache License 2.0](https://github.com/marticliment/ElevenClock/blob/main/LICENSE)) that lets you put a **customizable clock on your Windows 11 taskbar(s)**. When Microsoft created the Windows 11 clock, they __forgot__ to make it customizable, and to show it on multiple displays. You can customize ElevenClock however you wish — from adding seconds, to changing its color scheme — __and__ it appears on all the displays
+ElevenClock is **free software** (under [Apache License 2.0](https://github.com/marticliment/ElevenClock/blob/main/LICENSE)) that lets you put a **customizable clock on your Windows 11 taskbar(s)**. When Microsoft created the Windows 11 clock, they removed the ability to make it customizable, and to show it on multiple displays. You can customize ElevenClock however you wish — from adding seconds, to changing its color scheme — __and__ it appears on all the displays
 connected to your PC.
 You can choose to show or hide the clock with full-screen apps, and what happens when you click, double-click or middle-click it.
 Do you want a clock (or two clocks) on each of your displays? You can have them, and **customize them independently**, or leave them looking like the Windows’ clock... It’s your choice.
