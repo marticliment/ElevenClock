@@ -45,7 +45,7 @@
   "Choose the setting to toggle when double-clicked": "選擇雙擊時要切換的設置",
   "Choose the setting to toggle when middle-clicked": "選擇點擊中鍵時要切換的設置",
   "Click on Apply to apply and preview the format": "點擊套用以套用並預覽格式",
-  "Clock {0} on {1}": "時鐘 (0) 在 (1)",
+  "Clock {0} on {1}": "時鐘 {0} 在 {1}",
   "Clock {0} on monitor {1}": "監視器 {1} 上的時鐘 {0}",
   "Clock Appearance:": "時鐘樣式:",
   "Clock features:": "時鐘功能：",

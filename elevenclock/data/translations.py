@@ -31,8 +31,7 @@ untranslatedPercentage = {
   "th": "71%",
   "tr": "97%",
   "ua": "87%",
-  "vi": "97%",
-  "zh_CN": "97%"
+  "vi": "97%"
 }
 
 languageCredits = {
@@ -395,6 +394,10 @@ languageCredits = {
     {
       "name": "jmlcoliveira",
       "link": "https://github.com/jmlcoliveira"
+    },
+    {
+      "name": "sino1641",
+      "link": "https://github.com/sino1641"
     },
     {
       "name": "strombooli",
