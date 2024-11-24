@@ -346,8 +346,8 @@ languageCredits = {
   ],
   "tr": [
     {
-      "name": "Mahmut Sözen",
-      "link": ""
+      "name": "teknoist-(Mahmut Sözen)",
+      "link": "https://github.com/teknoist-(Mahmut Sözen)"
     }
   ],
   "ua": [
