@@ -17,7 +17,7 @@ try:
             for LINE in f.readlines():
                 LINE = LINE.replace('\\"', '\'')
                 
-                if len(LINE) <= 2 or LINE.removesuffix("\n").removesuffix(",").endswith("null"): 
+                if len(LINE) <= 2 or LINE.removesuffix("\n").removesuffix(",").endswith("null") or "{0} {0} {0} " in LINE: 
                     continue
                 
                 results = re.match(r'^ +"([^"]+)" ?: ?"([^"]+)"', LINE)
