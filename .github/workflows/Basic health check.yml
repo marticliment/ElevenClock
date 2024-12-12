@@ -1,6 +1,16 @@
 name: Basic health check (Install dependencies and run the script)
 
-on: [pull_request]
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - '**.py'
+
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - '**.py'
+
 
 jobs:
   build:
