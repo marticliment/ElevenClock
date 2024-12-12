@@ -20,6 +20,7 @@ jobs:
         with:
           delete-branch: true
           base: main
+          labels: tolgee-ci
           title: "Update translations from Tolgee"
           reviewers: "${{ github.repository_owner }}"
           author: "Tolgee Bot <tolgee-bot@users.noreply.github.com>"
