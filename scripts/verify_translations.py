@@ -8,7 +8,7 @@ try:
     Correct = True
     
     os.chdir(os.path.dirname(__file__))
-    os.chdir("../src/UniGetUI.Core.LanguageEngine/Assets/Languages")
+    os.chdir("../elevenclock/lang")
     for FILE in glob.glob("./lang_*.json"):
         with open(FILE, "r", encoding="utf-8") as f:
             
