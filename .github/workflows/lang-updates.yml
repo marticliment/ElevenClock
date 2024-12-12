@@ -20,9 +20,13 @@ jobs:
         with:
           delete-branch: true
           base: main
+          token: "${{ secrets.REPO_SCOPED_TOKEN }}"
           labels: tolgee-ci
-          title: "Update translations from Tolgee"
-          reviewers: "${{ github.repository_owner }}"
-          author: "Tolgee Bot <tolgee-bot@users.noreply.github.com>"
-          commit-message: "Update translations from Tolgee"
+          title: "Load translations from Tolgee"
+          body: ""
+          asignees: marticliment
+          author: "Martí Climent <marticlilop@gmail.com>"
+          commit-message:  |
+            Load updated translations from Tolgee
+            Co-authored-by: Martí Climent from the multiverse <121457539+martinet101@users.noreply.github.com>
           branch: pull-request/update-translation
