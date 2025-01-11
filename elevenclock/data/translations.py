@@ -297,6 +297,10 @@ languageCredits = {
   "ro": [],
   "ru": [
     {
+      "name": "Denisskas",
+      "link": "https://github.com/Denisskas"
+    },
+    {
       "name": "kira-lappo",
       "link": "https://github.com/kira-lappo"
     },
