@@ -18,7 +18,7 @@ untranslatedPercentage = {
   "it": "97%",
   "ja": "88%",
   "lt": "18%",
-  "lv": "54%",
+  "lv": "67%",
   "nl": "84%",
   "pt_BR": "97%",
   "pt_PT": "97%",
@@ -225,6 +225,10 @@ languageCredits = {
     }
   ],
   "lv": [
+    {
+      "name": "Coool",
+      "link": "https://github.com/Coool"
+    },
     {
       "name": "dejelnieks",
       "link": "https://github.com/dejelnieks"
