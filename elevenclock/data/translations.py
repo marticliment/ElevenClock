@@ -12,7 +12,7 @@ untranslatedPercentage = {
   "fa": "5%",
   "fi": "97%",
   "he": "81%",
-  "hr": "77%",
+  "hr": "81%",
   "hu": "87%",
   "id": "81%",
   "it": "97%",
@@ -151,6 +151,10 @@ languageCredits = {
     }
   ],
   "hr": [
+    {
+      "name": "AndrejFeher",
+      "link": "https://github.com/AndrejFeher"
+    },
     {
       "name": "DMNz3",
       "link": "https://github.com/DMNz3"
