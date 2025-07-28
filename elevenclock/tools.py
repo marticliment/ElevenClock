@@ -152,7 +152,9 @@ elif winver > 22621:
 
 def evaluate_simple_expression(expression: str):  # supported expressions are of form x +/- y
         tokens = re.split(r'(\+|\-)', expression)
-        result = int(tokens[0].strip())
+        first_token = tokens[0].strip()
+        padded_with_zero = first_token.startswith("0")
+        result = int(first_token)
 
         for i in range(1, len(tokens), 2):
             operator = tokens[i].strip()
@@ -162,7 +164,11 @@ def evaluate_simple_expression(expression: str):  # supported expressions are of
                 result += operand
             elif operator == "-":
                 result -= operand
-        return result
+        
+        if padded_with_zero:
+            return f'0{result}'
+        else:
+            return result
 
 def evaluate_expression_string(d, s: str, offset=0):
     def evaluate_match_time(match):
