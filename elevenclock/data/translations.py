@@ -219,7 +219,7 @@ languageCredits = {
     },
     {
       "name": "VᴇɴᴜꜱGɪʀʟ (비너스걸)",
-      "link": ""
+      "link": "https://github.com/VᴇɴᴜꜱGɪʀʟ (비너스걸)"
     }
   ],
   "lt": [
